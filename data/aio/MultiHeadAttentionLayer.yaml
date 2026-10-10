@@ -1,0 +1,36 @@
+id: AIO:MultiHeadAttentionLayer
+name: MultiHeadAttention Layer
+definition: An attention layer that allows the model to attend to information from different representation
+  subspaces.
+ontology_iri: https://w3id.org/aio/MultiHeadAttentionLayer
+branches:
+- Layer
+parents:
+- AIO:AttentionLayer
+provenance:
+  source: https://github.com/berkeleybop/artificial-intelligence-ontology
+  source_commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  source_version: https://w3id.org/aio/releases/2026-07-22/aio.json
+  source_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+  source_file: aio.json
+  source_node: https://w3id.org/aio/MultiHeadAttentionLayer
+  imported_at: '2026-10-10T07:34:10Z'
+  license: CC-BY-4.0
+review_status: NOT_REVIEWED
+subsets:
+- https://w3id.org/aio/LayerSubset
+comments:
+- MultiHeadAttention layer. This is an implementation of multi-headed attention as described in the paper
+  "Attention is all you Need" (Vaswani et al., 2017). If query, key, value are the same, then this is
+  self-attention. Each timestep in query attends to the corresponding sequence in key, and returns a fixed-width
+  vector.This layer first projects query, key and value. These are (effectively) a list of tensors of
+  length num_attention_heads, where the corresponding shapes are (batch_size, <query dimensions>, key_dim),
+  (batch_size, <key/value dimensions>, key_dim), (batch_size, <key/value dimensions>, value_dim).Then,
+  the query and key tensors are dot-producted and scaled. These are softmaxed to obtain attention probabilities.
+  The value tensors are then interpolated by these probabilities, then concatenated back to a single tensor.
+  Finally, the result tensor with the last dimension as value_dim can take an linear projection and return.
+  When using MultiHeadAttention inside a custom Layer, the custom Layer must implement build() and call
+  MultiHeadAttention's _build_from_signature(). This enables weights to be restored correctly when the
+  model is loaded.
+definition_sources:
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers/MultiHeadAttention
