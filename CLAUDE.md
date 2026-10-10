@@ -8,6 +8,8 @@ Read `README.md` for scope and `docs/sources.md` for evidence ownership.
   correction, then regenerate through a reviewed source-update process. Never
   promote imported terminology into scientific evidence or model evaluation.
 - Run `just check` before publication. Local and CI gates must stay equivalent.
+- Also run `just vendored-check` before publication; it verifies the immutable
+  public CLAW revision and is required in CI, including merge groups.
 - Review a record with `.claude/skills/review-yaml-record/SKILL.md`, and a cohort
   with `.claude/skills/review-category/SKILL.md`. Save structured timestamped
   outputs even for clean or blocked reviews once a target is identified. Read
