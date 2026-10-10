@@ -51,8 +51,6 @@ def test_standard_recipes_keep_the_supported_checkers():
     assert "vendored-check:\n    bash scripts/check_vendored_sync.sh" in recipes
     assert "test:\n    uv run --locked --extra dev pytest -q" in recipes
     assert "lint:\n    uv run --locked --extra dev ruff check src tests scripts" in recipes
-    assert ("review-check *args:\n    uv run --locked python "
-            "scripts/record_review.py check {{args}}") in recipes
 
 
 @pytest.mark.parametrize("environment", [

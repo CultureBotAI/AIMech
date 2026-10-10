@@ -112,14 +112,13 @@ addition; it does not require paid services or execution of models.
 
 ## History, checks and delivery
 
-Record an actual write session with the helper behind `just new-history`, using
+Record an actual write session with `just new-history`, using
 the real actor, model/tool when applicable, event, outcome, summary and details.
-For free-text arguments, invoke `uv run --locked aimech new-history` directly:
-the current `just` recipe interpolates its arguments and loses shell quoting.
-The target must
-already exist. A single-record addition can target that record; a source update
-should have a session sidecar for its source manifest rather than invented
-scientific curation events for every regenerated term. Use a report target for
+Quote free-text arguments normally; the recipe preserves their boundaries and
+literal contents. The target must already exist. A single-record addition can
+target that record; a source update should have a session sidecar for its source
+manifest rather than invented scientific curation events for every regenerated
+term. Use a report target for
 an actual saved proposal. Keep sidecars append-only and separate from generated
 record bytes. Consult `uv run --locked aimech new-history --help` for arguments.
 
