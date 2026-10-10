@@ -1,0 +1,31 @@
+id: AIO:HashingLayer
+name: Hashing Layer
+definition: A categorical features preprocessing layer which hashes and bins categorical features.
+ontology_iri: https://w3id.org/aio/HashingLayer
+branches:
+- Layer
+parents:
+- AIO:CategoricalFeaturesPreprocessingLayer
+provenance:
+  source: https://github.com/berkeleybop/artificial-intelligence-ontology
+  source_commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  source_version: https://w3id.org/aio/releases/2026-07-22/aio.json
+  source_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+  source_file: aio.json
+  source_node: https://w3id.org/aio/HashingLayer
+  imported_at: '2026-10-10T07:34:10Z'
+  license: CC-BY-4.0
+review_status: NOT_REVIEWED
+subsets:
+- https://w3id.org/aio/LayerSubset
+comments:
+- A preprocessing layer which hashes and bins categorical features. This layer transforms categorical
+  inputs to hashed output. It element-wise converts a ints or strings to ints in a fixed range. The stable
+  hash function uses tensorflow::ops::Fingerprint to produce the same output consistently across all platforms.
+  This layer uses FarmHash64 by default, which provides a consistent hashed output across different platforms
+  and is stable across invocations, regardless of device and context, by mixing the input bits thoroughly.
+  If you want to obfuscate the hashed output, you can also pass a random salt argument in the constructor.
+  In that case, the layer will use the SipHash64 hash function, with the salt value serving as additional
+  input to the hash function.
+definition_sources:
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers/Hashing

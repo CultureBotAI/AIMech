@@ -1,0 +1,146 @@
+id: https://w3id.org/culturebotai/aimech
+name: aimech
+title: AIMech artificial intelligence concept records
+description: >-
+  A provenance-bearing projection of AIO terminology, with separately curated
+  evidence and discussions. Ontology membership does not establish efficacy,
+  benchmark performance, safety, or causal mechanism.
+license: BSD-3-Clause
+prefixes:
+  linkml: https://w3id.org/linkml/
+  aimech: https://w3id.org/culturebotai/aimech/
+  AIO: https://w3id.org/aio/
+default_prefix: aimech
+default_range: string
+imports:
+  - linkml:types
+  - mech_shared
+classes:
+  AIConcept:
+    tree_root: true
+    attributes:
+      id:
+        identifier: true
+        pattern: '^AIO:[A-Za-z0-9]+$'
+        required: true
+      name:
+        required: true
+      definition:
+        required: true
+      ontology_iri:
+        range: uri
+        required: true
+      branches:
+        range: AIOBranch
+        multivalued: true
+        required: true
+        minimum_cardinality: 1
+      parents:
+        multivalued: true
+        pattern: '^(AIO:[A-Za-z0-9]+|owl:Thing)$'
+      relationships:
+        range: ConceptRelationship
+        multivalued: true
+        inlined_as_list: true
+      synonyms:
+        range: ConceptSynonym
+        multivalued: true
+        inlined_as_list: true
+      definition_sources:
+        multivalued: true
+      subsets:
+        range: uri
+        multivalued: true
+      comments:
+        multivalued: true
+      provenance:
+        range: ImportProvenance
+        inlined: true
+        required: true
+      review_status:
+        range: ReviewStatus
+        required: true
+      curation_history:
+        range: CurationEvent
+        multivalued: true
+        inlined_as_list: true
+      history_refs:
+        multivalued: true
+      discussions:
+        range: Discussion
+        multivalued: true
+        inlined_as_list: true
+  ConceptRelationship:
+    description: An exported named-class relationship, not an experimental causal claim.
+    attributes:
+      predicate:
+        range: RelationshipPredicate
+        required: true
+      target:
+        pattern: '^AIO:[A-Za-z0-9]+$'
+        required: true
+  ConceptSynonym:
+    attributes:
+      value:
+        required: true
+      scope:
+        range: SynonymScope
+        required: true
+  ImportProvenance:
+    attributes:
+      source:
+        range: uri
+        required: true
+      source_commit:
+        pattern: '^[a-f0-9]{40}$'
+        required: true
+      source_version:
+        range: uri
+        required: true
+      source_sha256:
+        pattern: '^[a-f0-9]{64}$'
+        required: true
+      source_file:
+        required: true
+      source_node:
+        range: uri
+        required: true
+      imported_at:
+        pattern: '^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$'
+        required: true
+      license:
+        required: true
+  CurationEvent:
+    attributes:
+      timestamp:
+        pattern: '^20[0-9]{2}-'
+        required: true
+      curator:
+        required: true
+      action:
+        required: true
+      notes:
+        required: true
+enums:
+  AIOBranch:
+    permissible_values:
+      Bias:
+      Layer:
+      MachineLearningTask:
+      MathematicalFunction:
+      Model:
+      Network:
+      Preprocessing:
+      TrainingStrategy:
+  ReviewStatus:
+    permissible_values:
+      NOT_REVIEWED:
+        description: Imported vocabulary; no AIMech scientific review or validation implied.
+  RelationshipPredicate:
+    permissible_values:
+      BFO:0000051:
+        description: has part; exported ontology axiom, not evidence of causal effect.
+  SynonymScope:
+    permissible_values:
+      exact:
+      related:

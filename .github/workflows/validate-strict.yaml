@@ -1,0 +1,40 @@
+name: Validate strictly
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+    types: [checks_requested]
+permissions:
+  contents: read
+jobs:
+  validate-strict:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      RECORD_REVIEW_BASE: ${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.event.before }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Fetch and verify the trusted review base
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$RECORD_REVIEW_BASE" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$RECORD_REVIEW_BASE" != 0000000000000000000000000000000000000000 ]]
+          git fetch --no-tags origin "$RECORD_REVIEW_BASE"
+          git cat-file -e "$RECORD_REVIEW_BASE^{commit}"
+      - uses: astral-sh/setup-uv@bec219d24cd3e171d82865faccec33120bb574f4 # v10.1.0
+        with:
+          version: '0.12.5'
+          python-version: '3.13'
+      - name: Install locked dependencies
+        run: uv sync --locked --extra dev
+      - name: Set up the repository recipe runner
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+        with:
+          just-version: '1.46.0'
+      - name: Run the local gate
+        run: just check

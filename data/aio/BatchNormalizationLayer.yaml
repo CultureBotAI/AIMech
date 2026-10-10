@@ -1,0 +1,43 @@
+id: AIO:BatchNormalizationLayer
+name: BatchNormalization Layer
+definition: A normalization layer that normalizes its inputs applying a transformation that maintains
+  the mean close to 0 and the standard deviation close to 1.
+ontology_iri: https://w3id.org/aio/BatchNormalizationLayer
+branches:
+- Layer
+parents:
+- AIO:NormalizationLayer
+provenance:
+  source: https://github.com/berkeleybop/artificial-intelligence-ontology
+  source_commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  source_version: https://w3id.org/aio/releases/2026-07-22/aio.json
+  source_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+  source_file: aio.json
+  source_node: https://w3id.org/aio/BatchNormalizationLayer
+  imported_at: '2026-10-10T07:34:10Z'
+  license: CC-BY-4.0
+review_status: NOT_REVIEWED
+synonyms:
+- value: BatchNorm
+  scope: exact
+subsets:
+- https://w3id.org/aio/LayerSubset
+comments:
+- 'Layer that normalizes its inputs. Batch normalization applies a transformation that maintains the mean
+  output close to 0 and the output standard deviation close to 1. Importantly, batch normalization works
+  differently during training and during inference. During training (i.e. when using fit() or when calling
+  the layer/model with the argument training=True), the layer normalizes its output using the mean and
+  standard deviation of the current batch of inputs. That is to say, for each channel being normalized,
+  the layer returns gamma * (batch - mean(batch)) / sqrt(var(batch) + epsilon) + beta, where: epsilon
+  is small constant (configurable as part of the constructor arguments), gamma is a learned scaling factor
+  (initialized as 1), which can be disabled by passing scale=False to the constructor. beta is a learned
+  offset factor (initialized as 0), which can be disabled by passing center=False to the constructor.
+  During inference (i.e. when using evaluate() or predict() or when calling the layer/model with the argument
+  training=False (which is the default), the layer normalizes its output using a moving average of the
+  mean and standard deviation of the batches it has seen during training. That is to say, it returns gamma
+  * (batch - self.moving_mean) / sqrt(self.moving_var + epsilon) + beta. self.moving_mean and self.moving_var
+  are non-trainable variables that are updated each time the layer in called in training mode, as such:
+  moving_mean = moving_mean * momentum + mean(batch) * (1 - momentum) moving_var = moving_var * momentum
+  + var(batch) * (1 - momentum).'
+definition_sources:
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
