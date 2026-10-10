@@ -18,23 +18,29 @@ lint:
 vendored-check:
     bash scripts/check_vendored_sync.sh
 
+[positional-arguments]
 validate *args:
-    uv run --locked aimech validate {{args}}
+    uv run --locked aimech validate "$@"
 
 check-source:
     uv run --locked aimech check-source
 
+[positional-arguments]
 seed *args:
-    uv run --locked aimech seed {{args}}
+    uv run --locked aimech seed "$@"
 
+[positional-arguments]
 new-history *args:
-    uv run --locked aimech new-history {{args}}
+    uv run --locked aimech new-history "$@"
 
+[positional-arguments]
 validate-history *args:
-    uv run --locked aimech validate-history {{args}}
+    uv run --locked aimech validate-history "$@"
 
+[positional-arguments]
 check-reviews *args:
-    uv run --locked python scripts/record_review.py check {{args}}
+    uv run --locked python scripts/record_review.py check "$@"
 
+[positional-arguments]
 review-check *args:
-    uv run --locked python scripts/record_review.py check {{args}}
+    uv run --locked python scripts/record_review.py check "$@"
