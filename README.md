@@ -62,6 +62,11 @@ curation layer, not hand-edits to generated outputs. See
 [source policy](docs/sources.md). No website, benchmark evaluator, or live
 model-execution capability is claimed by this bootstrap.
 
+Use [$aimech-add-record](.claude/skills/aimech-add-record/SKILL.md) to resolve a
+concept, check for duplicates, and add a missing record from the pinned source
+or prepare an upstream-term/source-update proposal. The skill is also exposed
+through the repository's `.agents/skills` link.
+
 ## Licensing
 
 New AIMech code is BSD-3-Clause. AIO source data and derived concept records
