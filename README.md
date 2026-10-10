@@ -31,12 +31,15 @@ reasoner and does not replace that export.
 ```bash
 uv sync --locked --extra dev
 just check
+just vendored-check                     # verify the public, immutable CLAW pin
 uv run --locked aimech seed              # read-only preview
 uv run --locked aimech seed --check      # verify byte-for-byte reproduction
 uv run --locked aimech validate
 ```
 
-`just check` is the local and CI quality gate. No API keys or live research
+`just check` is the offline local and CI quality gate. CI additionally runs
+`just vendored-check`, which compares shared artifacts with the public CLAW
+revision in `scripts/.vendored_canon_ref`. No API keys or live research
 providers are needed. `seed --write` creates missing files only; it refuses to
 overwrite changed records or delete unexpected files. Source upgrades are
 explicit, reviewed changes to the snapshot and manifest, not automatic pulls.

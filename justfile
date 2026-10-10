@@ -9,6 +9,15 @@ install:
 check:
     uv run --locked --extra dev python scripts/check.py
 
+test:
+    uv run --locked --extra dev pytest -q
+
+lint:
+    uv run --locked --extra dev ruff check src tests scripts
+
+vendored-check:
+    bash scripts/check_vendored_sync.sh
+
 validate *args:
     uv run --locked aimech validate {{args}}
 
@@ -25,4 +34,7 @@ validate-history *args:
     uv run --locked aimech validate-history {{args}}
 
 check-reviews *args:
+    uv run --locked python scripts/record_review.py check {{args}}
+
+review-check *args:
     uv run --locked python scripts/record_review.py check {{args}}

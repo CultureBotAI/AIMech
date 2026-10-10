@@ -41,7 +41,18 @@ def test_ci_runs_unconditionally_with_trusted_fetched_base_and_locked_environmen
     assert len(setup_just["uses"].split("@", 1)[1]) == 40
     assert setup_just["with"]["just-version"]
     assert "just check" in runs
+    assert "just vendored-check" in runs
+    assert runs.index("just vendored-check") > runs.index("just check")
     assert "uv run --locked --extra dev python scripts/check.py" in (ROOT / "justfile").read_text()
+
+
+def test_standard_recipes_keep_the_supported_checkers():
+    recipes = (ROOT / "justfile").read_text()
+    assert "vendored-check:\n    bash scripts/check_vendored_sync.sh" in recipes
+    assert "test:\n    uv run --locked --extra dev pytest -q" in recipes
+    assert "lint:\n    uv run --locked --extra dev ruff check src tests scripts" in recipes
+    assert ("review-check *args:\n    uv run --locked python "
+            "scripts/record_review.py check {{args}}") in recipes
 
 
 @pytest.mark.parametrize("environment", [
