@@ -1,0 +1,57 @@
+name: Submodular pick LIME
+definition: A method selecting a budgeted set of local LIME explanations by greedily increasing weighted
+  coverage of explanatory features.
+concept_kind: algorithm
+identity_notes: SP-LIME selects representative local explanations; it is separate from fitting each LIME
+  surrogate and does not produce a globally faithful surrogate model.
+limitations:
+- Coverage depends on the candidate instances, local explanations, interpretable features and importance
+  weights.
+- The greedy coverage objective is not a guarantee of overall model trustworthiness; cross-image feature
+  comparability requires additional choices.
+aliases:
+- SP-LIME
+id: AIMech:SPLIME
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4, Algorithm 2 and equations 3–4, PDF/printed pp. 5–6
+  relation: supports
+claims:
+- claim_id: explanation-method
+  kind: mechanism
+  statement: Build an instance-by-feature explanation matrix and global feature weights, then select instances
+    by marginal gain in the total weight of features covered by at least one selected explanation.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4, Algorithm 2 and equations 3–4, PDF/printed pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Why Should I Trust You?: Explaining the Predictions of Any Classifier'
+  authors:
+  - Marco Tulio Ribeiro
+  - Sameer Singh
+  - Carlos Guestrin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1602.04938v3
+  version: 1602.04938v3
+  access_level: full_text
+  accessed_at: '2026-10-11T03:06:39Z'
+  sha256: 365079753571d7d14180e9796cf5d8ae53c5ef157f0a585ef8030b2a126eeccb
+  persistent_id: arXiv:1602.04938v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: related_match
+  rationale: The procedure selects explanations of predictive-model behavior for inspection. This direct
+    analysis relationship does not make the selector a model class.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:02:04Z'
+  updated_at: '2026-10-11T04:02:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

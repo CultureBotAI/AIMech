@@ -1,0 +1,53 @@
+name: Kernel SHAP
+definition: A model-agnostic Shapley-attribution estimator using weighted linear regression on feature-presence
+  subsets.
+concept_kind: algorithm
+identity_notes: Kernel SHAP is a specific estimator within the SHAP framework. Its Shapley kernel and
+  constraints distinguish it from an arbitrary LIME regression surrogate.
+limitations:
+- Results depend on how missing features are evaluated and on sampling; exact Shapley recovery in the
+  full weighted problem is not a guarantee for every finite sample or background choice.
+- Independence approximations do not in general reproduce a dependence-aware conditional expectation.
+id: AIMech:KernelSHAP
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4.1, Kernel SHAP; Theorem 2 and endpoint constraints, PDF/printed pp. 5–6
+  relation: supports
+claims:
+- claim_id: explanation-method
+  kind: mechanism
+  statement: Fit an additive explanation model to subset-evaluation outputs with the Shapley weighting
+    kernel and constraints fixing the empty-subset baseline and full-input prediction; sampled subsets
+    give an approximate estimate.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.1, Kernel SHAP; Theorem 2 and endpoint constraints, PDF/printed pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: A Unified Approach to Interpreting Model Predictions
+  authors:
+  - Scott M. Lundberg
+  - Su-In Lee
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf
+  version: NeurIPS 2017 proceedings
+  access_level: full_text
+  accessed_at: '2026-10-11T03:06:38Z'
+  sha256: 32518459c313a57876ec1646f3266d54569d3b9a70152dd4f28e742eef05a5f3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: related_match
+  rationale: The estimator analyzes a predictive model through feature-subset evaluations of its outputs.
+    This direct analysis relationship does not identify the estimator with a model.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:02:04Z'
+  updated_at: '2026-10-11T04:02:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

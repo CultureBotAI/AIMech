@@ -1,0 +1,58 @@
+name: Gradient-weighted class activation mapping
+definition: A convolutional-network localization method weighting activation maps by spatially averaged
+  gradients of a selected target output.
+concept_kind: algorithm
+identity_notes: Grad-CAM computes a coarse activation-space localization map. It differs from architecture-restricted
+  CAM and from Guided Grad-CAM's additional input-space fusion.
+limitations:
+- Map resolution follows the selected convolutional layer, and ReLU retains positive weighted contributions.
+- A localization map is not a proof of causal influence or universal faithfulness; evaluation claims are
+  not curated here.
+aliases:
+- Grad-CAM
+id: AIMech:GradCAM
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, equations 1–2, PDF pp. 3–4 / printed pp. 620–621
+  relation: supports
+claims:
+- claim_id: explanation-method
+  kind: mechanism
+  statement: Differentiate the target score with respect to convolutional feature maps, average gradients
+    spatially to obtain channel weights, and apply ReLU to the weighted sum of activation maps.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, equations 1–2, PDF pp. 3–4 / printed pp. 620–621
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization'
+  authors:
+  - Ramprasaath R. Selvaraju
+  - Michael Cogswell
+  - Abhishek Das
+  - Ramakrishna Vedantam
+  - Devi Parikh
+  - Dhruv Batra
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf
+  version: ICCV 2017, pp. 618–626, CVF open-access proceedings version
+  access_level: full_text
+  accessed_at: '2026-10-11T03:55:51Z'
+  sha256: fa3192ab0f817aabe9673d3aade89ccd6c1942b007f339bffe01abd714812d5d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: The method analyzes convolutional artificial-neural-network activations and target gradients.
+    This is a direct analysis relation, not architecture identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:02:04Z'
+  updated_at: '2026-10-11T04:02:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
