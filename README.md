@@ -28,8 +28,8 @@ reasoner and does not replace that export.
 
 Concepts absent from AIO can be curated under `data/curated/` with stable
 `AIMech:` IDs, inspected primary evidence, claim-specific citations and explicit
-AIO mappings. These maintained records remain `DRAFT`; scientific reviews are
-saved separately. See [curated concepts](docs/curated-concepts.md).
+AIO mappings or documented no-match assessments. These maintained records remain
+`DRAFT`; scientific reviews are saved separately. See [curated concepts](docs/curated-concepts.md).
 
 ## Work Locally
 

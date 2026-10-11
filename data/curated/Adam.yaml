@@ -12,6 +12,11 @@ aio_mappings:
 limitations:
 - No universal convergence or benchmark superiority claim is curated.
 - AdamW, AdaMax and other variants require their own identity assessment.
+- The reported counterexample is an existence result for the analyzed Adam setting, not a statement that
+  Adam fails on every training problem or that all later variants share the result.
+- The analysis introduces projection and a decreasing step-size setting, omits debiasing for exposition,
+  and states that its arguments extend to the debiased version; it does not analyze every implementation
+  configuration.
 id: AIMech:Adam
 aliases:
 - Adaptive moment estimation
@@ -28,6 +33,16 @@ claims:
   - source_id: original-paper
     locator: Section 2 and Algorithm 1, PDF/printed p. 2
     relation: supports
+- claim_id: convergence-counterexample
+  kind: limitation
+  statement: In the paper's bounded, projected diagonal optimization setting, the analysis constructs
+    stochastic convex problems on which Adam with fixed moment coefficients beta1 and beta2 in [0, 1),
+    satisfying beta1 < sqrt(beta2), does not converge to the optimum.
+  evidence:
+  - source_id: convergence-analysis
+    locator: Section 2, PDF/printed pp. 2–3, including the debiasing footnote; Theorem 3 and scope discussion,
+      PDF/printed p. 5
+    relation: supports
 evidence_sources:
 - source_id: original-paper
   title: 'Adam: A Method for Stochastic Optimization'
@@ -41,13 +56,26 @@ evidence_sources:
   accessed_at: '2026-10-11T03:06:37Z'
   sha256: eab9c73ae2ceda884b94830bda99312254bac4806f6c9f045cbab90721ecda31
   persistent_id: arXiv:1412.6980v9
+- source_id: convergence-analysis
+  title: On the Convergence of Adam and Beyond
+  authors:
+  - Sashank J. Reddi
+  - Satyen Kale
+  - Sanjiv Kumar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.09237v1
+  persistent_id: arXiv:1904.09237v1
+  version: 1904.09237v1
+  access_level: full_text
+  accessed_at: '2026-10-11T03:27:02Z'
+  sha256: 75a949b0751e81c490e7eee76efadd1eb8868c64f44275d8d1542a8f42cb7c01
 aio_snapshot:
   commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
   sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
 review_status: DRAFT
 curation:
   created_at: '2026-10-11T03:12:53Z'
-  updated_at: '2026-10-11T03:12:53Z'
+  updated_at: '2026-10-11T03:33:57Z'
   curator: Codex
   method: ai_assisted
   model: GPT-6

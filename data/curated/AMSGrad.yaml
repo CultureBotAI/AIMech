@@ -1,0 +1,56 @@
+name: AMSGrad
+definition: An Adam variant that normalizes first-moment updates with the coordinatewise historical maximum
+  of second-moment estimates.
+identity_notes: The historical maximum distinguishes AMSGrad from Adam and from weight-decay decoupling
+  in AdamW. It can be combined with other optimizer choices without becoming identical to them.
+limitations:
+- The paper's convergence analysis imposes assumptions and schedules; no unconditional convergence or
+  benchmark advantage is claimed here.
+- The record describes the original formulation; implementation-specific bias correction and numerical
+  stabilizers require separate comparison.
+id: AIMech:AMSGrad
+concept_kind: algorithm
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4 and Algorithm 2, PDF/printed p. 5
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The method keeps first- and second-moment accumulators and a nondecreasing coordinatewise
+    maximum of the latter; its original constrained formulation projects the resulting adaptive step onto
+    the feasible set.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4 and Algorithm 2, PDF/printed p. 5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: On the Convergence of Adam and Beyond
+  authors:
+  - Sashank J. Reddi
+  - Satyen Kale
+  - Sanjiv Kumar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.09237v1
+  persistent_id: arXiv:1904.09237v1
+  version: 1904.09237v1
+  access_level: full_text
+  accessed_at: '2026-10-11T03:27:02Z'
+  sha256: 75a949b0751e81c490e7eee76efadd1eb8868c64f44275d8d1542a8f42cb7c01
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: An optimizer can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus; no equivalence or subclass relationship is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:33:00Z'
+  updated_at: '2026-10-11T03:33:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

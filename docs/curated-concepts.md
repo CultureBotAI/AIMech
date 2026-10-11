@@ -58,12 +58,22 @@ AIO branch name sounds relevant; AIO's task/model/architecture distinctions
 must be inspected. A source update requires mapping reassessment rather than
 silently rewriting snapshot hashes. No OWL axiom is added by this mapping format.
 
+A supported concept may have no suitable AIO counterpart. In that case, provide
+`aio_no_match` instead of `aio_mappings`: record the searched scope, the rationale,
+and nonempty `examined_targets` with valid AIO IDs and individual rejection
+reasons. Exactly one representation is required. Shared words or an incidental
+application are insufficient reasons for a related match. This is a bounded
+assessment of the pinned snapshot, not a claim that the concept is absent from
+all ontologies. The same source, identity, evidence and review checks still apply;
+a later snapshot requires reassessment of both positive and no-match decisions.
+
 ## Validation, review and history
 
 Run `uv run --locked aimech validate-curated` for the complete maintained
 collection. It rejects an absent or empty collection, unknown fields, unresolved
 citations, invalid mapping targets, stale mapping snapshots, identity collisions,
-misnamed files and symlink aliases. This gate is included in `just check`, alongside
+missing or contradictory mapping assessments, misnamed files and symlink aliases.
+This gate is included in `just check`, alongside
 unchanged AIO schema validation and exact seed reproduction.
 
 All curated records start and remain `DRAFT`; structural validation does not
