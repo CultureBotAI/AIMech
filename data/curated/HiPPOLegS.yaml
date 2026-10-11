@@ -1,0 +1,64 @@
+name: Scaled Legendre HiPPO operator
+definition: The HiPPO projection operator using the uniform measure over the full elapsed interval from
+  zero to the current time, with scaled-Legendre coefficients evolving under explicitly time-dependent
+  linear memory dynamics.
+concept_kind: mathematical_method
+identity_notes: HiPPO-LegS is the scaled-Legendre instantiation of the broader HiPPO framework. Its time-dependent
+  operator differs from a fixed state matrix used to initialize a later S4 model and from the fixed-width
+  translated-Legendre window.
+limitations:
+- The displayed differential formula contains 1/t and applies for positive t; an executable initialization
+  at the time origin is not supplied by this record.
+- Equation 4 illustrates an Euler discretization; the paper also uses bilinear and zero-order-hold schemes.
+  The operator's approximation properties do not guarantee arbitrary downstream-network accuracy.
+aliases:
+- HiPPO-LegS
+id: AIMech:HiPPOLegS
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, Theorem 2, equations 3–4 and footnote 3, with Sections 2.1–2.4 for projection context;
+    PDF/printed pp. 3–5
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: Use the normalized uniform measure on [0,t] and the corresponding Legendre basis. For positive
+    time, the coefficient derivative is minus A times the current coefficient vector divided by t, plus
+    B times the current signal divided by t; the source specifies a lower-triangular A and a fixed B and
+    derives discrete recurrences from these dynamics.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, Theorem 2, equations 3–4 and footnote 3, with Sections 2.1–2.4 for projection
+      context; PDF/printed pp. 3–5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'HiPPO: Recurrent Memory with Optimal Polynomial Projections'
+  authors:
+  - Albert Gu
+  - Tri Dao
+  - Stefano Ermon
+  - Atri Rudra
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2020/file/102f0bb6efb3a6128a3c750dd16729be-Paper.pdf
+  version: NeurIPS 2020 proceedings PDF, 102f0bb6efb3a6128a3c750dd16729be
+  access_level: full_text
+  accessed_at: '2026-10-11T04:28:33Z'
+  sha256: e99e0063517ac2e8d6e04aa8f7e621c958fcf3429697eddaa56cf934628a831a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: This specific scaled-Legendre projection maps signal history to a coefficient-valued function.
+    It is a mathematical operator, not itself a complete neural network or external memory store.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:33:01Z'
+  updated_at: '2026-10-11T04:33:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

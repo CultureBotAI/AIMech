@@ -1,0 +1,64 @@
+name: FlashConv
+definition: An execution algorithm for state-space sequence convolutions that fuses FFT-based convolution
+  in GPU on-chip memory, uses block FFT matrix multiplications and passes state between chunks for longer
+  sequences.
+concept_kind: algorithm
+identity_notes: FlashConv is the convolution-execution contribution in the H3 paper, distinct from the
+  H3 layer and from FlashAttention's attention-computation algorithm.
+limitations:
+- The paper's 8K on-chip threshold concerns its stated A100 setting; no device-independent cutoff or wall-clock
+  speedup is asserted.
+- Block FFT may use more arithmetic than a conventional FFT while exploiting specialized matrix hardware.
+- The printed Algorithm 2 mixes chunk variable names and its exact boundary indexing was not implemented
+  or verified here. This record supports the execution strategy, not a certified literal transcription
+  of the pseudocode.
+id: AIMech:FlashConv
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 4.1–4.2 and Algorithm 2, PDF/printed pp. 6–7
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: Fuse the FFT, pointwise spectral product and inverse FFT to avoid intermediate off-chip transfers;
+    factor the FFT into block matrix multiplications suited to specialized hardware. When the sequence
+    exceeds the chosen on-chip working capacity, compute chunk convolutions and propagate the state-space
+    boundary state between chunks.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 4.1–4.2 and Algorithm 2, PDF/printed pp. 6–7
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Hungry Hungry Hippos: Towards Language Modeling with State Space Models'
+  authors:
+  - Daniel Y. Fu
+  - Tri Dao
+  - Khaled K. Saab
+  - Armin W. Thomas
+  - Atri Rudra
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2212.14052v3
+  version: arXiv:2212.14052v3, revised 2023-04-29; ICLR 2023 camera-ready
+  access_level: full_text
+  accessed_at: '2026-10-11T04:20:57Z'
+  sha256: de923022ffc5e53d430f0af72286cec26f32d03c9e2fd3686938a5d62811eae2
+  persistent_id: arXiv:2212.14052v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Convolution1DLayer
+  relation: related_match
+  rationale: FlashConv computes one-dimensional sequence convolutions, an operation used by this AIO layer.
+    The algorithm concerns execution and state passing rather than denoting the layer itself, so the mapping
+    is related rather than broader-class membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:33:01Z'
+  updated_at: '2026-10-11T04:33:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
