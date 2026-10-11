@@ -1,0 +1,85 @@
+name: CHAMELEON clustering
+definition: A graph-clustering procedure that first partitions a sparse neighbor graph into small subclusters
+  and then agglomerates them using interconnectivity and closeness normalized by their internal bisection
+  statistics.
+concept_kind: algorithm
+identity_notes: This record covers the two-phase CHAMELEON procedure in Technical Report 99-007, including
+  the two merge-selection alternatives described there. Dynamic modeling means recomputing cluster-relative
+  graph statistics, not learning a neural representation. The inspected source is the 22-page report,
+  not the eight-page final Computer article. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 218 preceding native IDs/names/aliases. Word-delimited fixed-string searches
+  of both full checkouts, including ignored and hidden files, returned 15 lines each in existing discovery/review
+  context. Five neighboring native records and five exact AIO nodes with scoped synonyms and outgoing
+  edges were inspected.
+limitations:
+- Meaningful nonzero internal cut statistics and nonempty cross-edge sets are needed to evaluate the ratios.
+  Very small or disconnected subclusters can make the estimates unstable or undefined; a zero-denominator
+  policy is not supplied by this record.
+- Neighbor size, similarity, initial granularity, bisection balance and merge parameters influence results.
+  The initial partition and later merges may cross desired cluster boundaries; the procedure does not
+  establish semantic recovery.
+- The product-score and threshold-based schemes have different selection and stopping behavior; they are
+  documented alternatives within the original named procedure, not assumed identical algorithms.
+- Internal cuts are computed by graph-partitioning software; describing the min-cut objective does not
+  certify a global exact cut solver. Runtime depends in part on neighbor search and data dimension. No
+  implementation or reported benchmark was reproduced.
+id: AIMech:CHAMELEONClustering
+aliases:
+- CHAMELEON hierarchical clustering
+definition_evidence:
+- source_id: method-source
+  locator: Technical Report 99-007, Sections 4.1–4.4, printed pp. 5–11 (PDF pp. 6–12), Equations (1)–(4)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Construct a weighted undirected k-nearest-neighbor graph by retaining an edge when either
+    endpoint lists the other among its k most similar points. Obtain small initial subclusters by repeated
+    balanced graph bisection, selecting the largest current subcluster; the report uses hMETIS with each
+    child holding at least 25 percent of its parent and stops when the largest subcluster is below MINSIZE.
+    For clusters A,B, relative interconnectivity RI is the total cross-edge weight divided by the mean
+    of the two internal bisection-cut weights. Relative closeness RC is the mean cross-edge weight divided
+    by the size-weighted mean of the two mean internal bisection-edge weights. One merge scheme maximizes
+    RI(A,B)*RC(A,B)^alpha over pairs; this is the scheme used for the report’s dendrogram experiments.
+    An alternative visits clusters and selects their most strongly connected eligible neighbor subject
+    to separate RI and RC thresholds, permitting multiple merges per iteration and either stopping or
+    relaxing thresholds when no pair qualifies.
+  evidence:
+  - source_id: method-source
+    locator: Technical Report 99-007, Sections 4.1–4.4, printed pp. 5–11 (PDF pp. 6–12), Equations (1)–(4)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'CHAMELEON: A Hierarchical Clustering Algorithm Using Dynamic Modeling'
+  authors:
+  - George Karypis
+  - Eui-Hong (Sam) Han
+  - Vipin Kumar
+  source_type: author_technical_report
+  url: https://www-users.cse.umn.edu/~kumar001/papers/chameleon.ps
+  version: University of Minnesota Technical Report 99-007, 1999, to appear in IEEE Computer; 22-page
+    author PostScript, read via a local PDF conversion
+  persistent_id: University of Minnesota Technical Report 99-007
+  access_level: full_text
+  accessed_at: '2026-10-11T09:23:57Z'
+  sha256: da03091e656bf4b49f56c2c06a052949f6e91f761d1e5252d39392a8c99c1b69
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: CHAMELEON supplies a procedure for grouping unlabeled observations. The AIO target denotes
+    a clustering task; this algorithm-to-task association does not assert equivalence or subclass membership.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: CHAMELEON builds a hierarchy through agglomeration. The target describes hierarchy construction
+    without prescribing this merge criterion or initialization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:32:03Z'
+  updated_at: '2026-10-11T09:32:03Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

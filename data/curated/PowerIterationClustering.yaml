@@ -1,0 +1,105 @@
+name: Power iteration clustering
+definition: A clustering algorithm that uses an early-stopped power iteration of a normalized similarity
+  matrix to embed observations and then applies k-means to their embedding coordinates.
+concept_kind: algorithm
+identity_notes: 'This is the Lin and Cohen ICML 2010 algorithm. Its qualified PIC alias is distinct from
+  path integral clustering: it truncates a matrix iteration to form coordinates instead of merging clusters
+  by resolvent descriptors. It is not a generic eigensolver or a claim that converging to the dominant
+  eigenvector finds clusters. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 218 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full
+  checkouts, including ignored and hidden files, returned 15 lines each in existing discovery/review context.
+  Five neighboring native records and five exact AIO nodes with scoped synonyms and outgoing edges were
+  inspected.'
+limitations:
+- The stopping test is a heuristic for a useful intermediate embedding, not a certificate of cluster recovery.
+  A regular graph with degree-proportional initialization starts at a constant vector and can yield no
+  separating coordinates.
+- Positive row sums are required for the stated row-stochastic normalization. Disconnected graphs, negative
+  eigenmodes and collisions in a one-dimensional embedding limit a blanket spectral or convergence interpretation.
+- The paper reports experimental tolerance 1e−5/n. The released experiment driver sets baseconv=0.001
+  and uses baseconv/n, with maxit=5000. These are different settings, not an asserted benchmark reproduction
+  or proof that either setting is wrong.
+- Choice of similarity, initialization, stopping rule and k-means solution affects the partition. No code
+  was executed, and no runtime, accuracy or global-optimum claim is made.
+id: AIMech:PowerIterationClustering
+aliases:
+- PIC (power iteration clustering)
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.4, PDF pp. 1–4; Algorithm 1 and experimental stopping threshold on p. 4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a symmetric nonnegative similarity matrix A with zero diagonal and positive row sums,
+    form D_ii=sum_j A_ij and W=D^−1 A. Starting with a nonnegative nonzero vector v, iterate v_next=Wv/||Wv||_1.
+    Use an intermediate vector before convergence to the constant dominant right eigenvector. Following
+    Algorithm 1 and the released pic.m, monitor d_next=abs(v_next−v) componentwise and stop when max_i
+    abs(d_next_i−d_i) is sufficiently small, subject to an iteration cap. Apply k-means to the scalar
+    coordinates v_i for the requested k clusters. Degree-proportional initialization is described, and
+    multiple random initial vectors may supply several embedding coordinates. Section 2.4 prose instead
+    writes signed differences; the absolute-change convention here is explicitly the pseudocode/implementation
+    convention.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.4, PDF pp. 1–4; Algorithm 1 and experimental stopping threshold on p. 4
+    relation: supports
+  - source_id: author-code
+    locator: icml2010/pic.m complete function; x_clusterembed_icml2010.m baseconv, maxit and pic case;
+      readme.txt attribution
+    relation: supports
+- claim_id: stopping-convention
+  kind: limitation
+  statement: The stopping convention follows the paper pseudocode and released code, which use componentwise
+    absolute first changes. The surrounding prose uses signed first changes. The released driver also
+    uses a tolerance 100 times the paper’s stated experimental tolerance. These source differences are
+    preserved rather than silently reconciled.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.4 and Algorithm 1, PDF pp. 3–4; p. 4 experimental threshold
+    relation: supports
+  - source_id: author-code
+    locator: pic.m and x_clusterembed_icml2010.m, complete files inspected
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Power Iteration Clustering
+  authors:
+  - Frank Lin
+  - William W. Cohen
+  source_type: primary_paper
+  url: https://icml.cc/Conferences/2010/papers/387.pdf
+  version: ICML 2010 proceedings paper, 8 PDF pages
+  persistent_id: https://icml.cc/Conferences/2010/papers/387.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T09:21:27Z'
+  sha256: 92619e1e526d23d8177a94b44c82f38db6ab41d7f226b76377d9c994d6edb51b
+- source_id: author-code
+  title: Author MATLAB code accompanying Power Iteration Clustering
+  authors:
+  - Frank Lin
+  source_type: official_documentation
+  url: https://www.cs.cmu.edu/~frank/code/icml2010-code.zip
+  version: Author-linked archive retrieved 2026-10-11; SHA-256 pins the archive; readme.txt, pic.m and
+    x_clusterembed_icml2010.m inspected
+  persistent_id: https://www.cs.cmu.edu/~frank/code/icml2010-code.zip
+  access_level: documentation
+  accessed_at: '2026-10-11T09:23:34Z'
+  sha256: 95b4275d8ecf9c8544deb5034a4e2d4d58501b9a1c0e41851360db8401c42ca6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Power iteration clustering supplies a procedure for grouping unlabeled observations. The
+    AIO target denotes a clustering task; this algorithm-to-task association does not assert equivalence
+    or subclass membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:32:03Z'
+  updated_at: '2026-10-11T09:35:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
