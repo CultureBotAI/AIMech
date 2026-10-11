@@ -1,0 +1,91 @@
+name: Rejection sampling
+definition: A random-variate generation algorithm that draws proposals from a normalized envelope dominating
+  an unnormalized target and accepts each with the target-to-envelope ratio, yielding independent target
+  draws with fresh independent random trials.
+concept_kind: algorithm
+identity_notes: This is ordinary accept-reject generation with a valid global envelope. A rejected candidate
+  is discarded, not recorded as a repeated chain state. The method differs from Metropolis acceptance,
+  rejection-driven Metropolis proposals, importance weighting and selective filtering of model answers.
+  The inspected primary source presents the scalar density case. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 167 prior native IDs/names/aliases. Full-checkout
+  searches in both worktrees included ignored and hidden files; the 15 lines in each were shared Tierney
+  source-title references or an adaptive-rejection discovery lead, not matching records. Existing Gibbs,
+  Metropolis-within-Gibbs, random-walk and independence Metropolis mechanisms were inspected to resolve
+  specialization boundaries.
+limitations:
+- A valid dominating envelope and an exact sampler for its normalized distribution are required. Clipping
+  an invalid envelope ratio at one does not preserve the intended independent-sample law.
+- An envelope with excessive mass can make acceptance rare. No universal efficiency, dimensional scaling
+  or bound on the number of trials is claimed.
+- The optional squeezing bound must be valid everywhere it is used; it is an evaluation shortcut, not
+  a replacement target.
+- Numerical approximation, finite precision and inaccurate envelope sampling can change the output distribution.
+  Log concavity is not required by ordinary rejection sampling itself.
+id: AIMech:RejectionSampling
+aliases:
+- Accept-reject sampling
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, Rejection Sampling, printed pp. 338–339 / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a nonnegative target g with finite positive integral, choose an integrable envelope g_u
+    with g_u(x)≥g(x) everywhere on the target support and sample x from g_u/integral(g_u). Independently
+    draw w uniformly on (0,1); accept x if w≤g(x)/g_u(x), otherwise discard the trial and repeat. An optional
+    lower bound 0≤g_l≤g allows early acceptance when the same w≤g_l(x)/g_u(x), avoiding evaluation of
+    g. Fresh independent trials produce independent accepted draws from normalized g. The target normalizing
+    constant is not required for the acceptance ratio.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Rejection Sampling, printed pp. 338–339 / PDF pp. 3–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Adaptive Rejection Sampling for Gibbs Sampling
+  authors:
+  - W. R. Gilks
+  - P. Wild
+  source_type: primary_paper
+  url: https://hedibert.org/wp-content/uploads/2013/12/1992GilksWild.pdf
+  version: Applied Statistics 41(2), 1992, pp. 337–348; 13-page published scan including JSTOR cover
+  persistent_id: doi:10.2307/2347565
+  access_level: full_text
+  accessed_at: '2026-10-11T07:04:24Z'
+  sha256: c88f55b2e19e6e3a7f828ba1dcd84ff65db20924220779a12680f7fe84fc2c55
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 AIO CLASS labels/scoped synonyms and native identities; ignored-inclusive searches
+    of both full checkouts. Semantic search covered sampling, Monte Carlo, Markov, Bayesian, probabilistic
+    and mathematical-function descriptions; exact candidate targets and incident edges were inspected.
+  rationale: No suitable target for this independent random-variate generator was found in the inspected
+    pin. Its possible use inside a Gibbs sampler or Bayesian model is insufficient to force a process/model
+    mapping. This is a bounded assessment of this AIO snapshot.
+  examined_targets:
+  - target: AIO:MarkovChain
+    rejection_reason: A stochastic sequence/model exported beneath Network, rather than an independent
+      random-variate generation procedure. Embedding independent draws in a chain or an outer Gibbs algorithm
+      does not establish the needed concept relation here.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: Defines a graphical conditional-dependence task; no graphical factorization defines
+      this generator.
+  - target: AIO:BayesianNetwork
+    rejection_reason: A directed acyclic probabilistic model, not this sampling algorithm; use for a conditional
+      distribution is incidental.
+  - target: AIO:MathematicalFunction
+    rejection_reason: A generic rule assigning dependent-variable values is not a suitable identity or
+      informative broader mapping for a randomized accept-reject procedure.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Describes selection-induced representativeness error, not exact generation from
+      a specified target; shared sampling terminology is insufficient.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:13:10Z'
+  updated_at: '2026-10-11T07:13:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

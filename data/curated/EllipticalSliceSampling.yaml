@@ -1,0 +1,77 @@
+name: Elliptical slice sampling
+definition: A Markov-chain update for a target factored into a Gaussian prior and a likelihood, which
+  performs an angular slice search along the ellipse defined by the current state and an independent prior
+  draw.
+concept_kind: algorithm
+identity_notes: This is the full-circle default algorithm in Murray et al. Figure 2 for a fixed Gaussian
+  prior covariance. It differs from a fixed-angle Gaussian autoregressive Metropolis proposal and from
+  scalar interval stepping-out or doubling. ESS here denotes this sampler, not the effective-sample-size
+  diagnostic. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 167 prior native IDs/names/aliases. Full-checkout searches in both worktrees included ignored and
+  hidden files; the 15 lines in each were shared Tierney source-title references or an adaptive-rejection
+  discovery lead, not matching records. Existing Gibbs, Metropolis-within-Gibbs, random-walk and independence
+  Metropolis mechanisms were inspected to resolve specialization boundaries.
+limitations:
+- A Gaussian prior draw and likelihood evaluation are required. A nonzero prior mean must be handled by
+  centering the ellipse; an arbitrary non-Gaussian prior is outside this formula.
+- Fixing the initial bracket deterministically to [−pi,pi] is not the proved algorithm; the paper explicitly
+  explains why its random placement matters.
+- The algorithm may reject multiple internal angle trials before returning an update. Its lack of an outer
+  Metropolis rejection is not a claim of one likelihood evaluation or independent retained states.
+- The default full-circle algorithm avoids a user-specified proposal scale, but covariance, model hyperparameters
+  and optional narrower angular variants still involve choices.
+- Strong offsets, covariance structure and likelihood geometry can impede exploration. No universal mixing
+  rate, finite-run accuracy or timing advantage is asserted.
+id: AIMech:EllipticalSliceSampling
+aliases:
+- ESS
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3, Figure 2 and correctness proof, printed pp. 542–545 / PDF pp. 2–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For pi(f) proportional to Normal(f;0,Sigma)L(f), draw nu from Normal(0,Sigma), then log y=log
+    L(f)+log u for independent u uniform on (0,1). Draw theta uniformly on (0,2pi) and initialize [theta_min,theta_max]=[theta−2pi,theta].
+    Test f_prime=f cos(theta)+nu sin(theta); accept when log L(f_prime)>log y. Otherwise shrink the bracket
+    at theta on the side determined by its sign relative to zero, redraw theta uniformly from that bracket,
+    and repeat with the same nu, f and threshold. The randomly positioned bracket retains the angle zero
+    corresponding to the current state. Gaussian rotational invariance and the reversible bracket construction
+    give the target-invariant transition.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3, Figure 2 and correctness proof, printed pp. 542–545 / PDF pp. 2–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Elliptical slice sampling
+  authors:
+  - Iain Murray
+  - Ryan Prescott Adams
+  - David J. C. MacKay
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v9/murray10a/murray10a.pdf
+  version: AISTATS 2010, PMLR 9, pp. 541–548; eight-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v9/murray10a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:03:48Z'
+  sha256: ad6fbbfb8fb7b5899161ab425f0516e81c9c0f3a95ddcd9da04e4745ce232eee
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This algorithm constructs target-invariant Markov transitions under its stated assumptions.
+    The exact AIO CLASS denotes a stochastic process/model and is exported beneath Network. This is a
+    method-to-process related match, not equivalence, subclass membership, independence of retained draws
+    or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:13:10Z'
+  updated_at: '2026-10-11T07:13:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
