@@ -1,0 +1,111 @@
+name: Convolutional Block Attention Module
+definition: A convolutional feature refinement component that sequentially applies learned channel attention
+  and then spatial attention to an intermediate feature tensor.
+concept_kind: layer
+identity_notes: This record covers the canonical channel-first CBAM configuration from the 2018 paper.
+  It is a reusable component rather than a complete CNN, detector or gradient-based explanation method.
+  Spatial-first, parallel, channel-only and alternative pooling configurations are separately assessed
+  variants, not silent replacements of this selected procedure. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 279 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 6 and 6 lines
+  respectively. Every text hit was a prior candidate lead or a closely related variant lead. Seven exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- Average and maximum channel descriptors share the same MLP parameters. The sum occurs before sigmoid,
+  not between independently sigmoid-normalized channel weights. Spatial pooling runs over channels, whereas
+  the channel stage pools over spatial positions.
+- Reversing the stages or computing both from the original input generally changes the transformation.
+  The spatial kernel and reduction ratio were selected empirically; the pinned implementation exposes
+  alternative pooling and a channel-only switch, which are not the canonical configuration asserted here.
+- Independent sigmoid gates need not sum to one. Each multiplicative gate attenuates immediate feature
+  magnitude; relative emphasis is not an absolute amplification guarantee. The learned weights add parameters
+  and computation.
+- The source’s Grad-CAM visualizations and selected-image user study do not certify causal faithfulness,
+  calibrated object probabilities or universal interpretability. CBAM itself is not Grad-CAM or a complete
+  object detector, and no benchmark improvement or hardware-independent speed claim is curated.
+id: AIMech:ConvolutionalBlockAttentionModule
+aliases:
+- CBAM
+definition_evidence:
+- source_id: method-source
+  locator: Section3, Equations1–3 and Figure2, PDF pp.4–6; residual placement Figure3, PDFp.7; arrangement
+    discussion PDFp.9; interpretability scope Sections4.3–4.4, PDF pp.10–13; conclusion PDFp.14
+  relation: supports
+- source_id: pinned-code
+  locator: ChannelGate, ChannelPool, SpatialGate, BasicConv and CBAM classes, complete MODELS/cbam.py
+    at the cited commit
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Compute global spatial average and maximum descriptors for every channel. Pass both through
+    the same two-layer bottleneck MLP, with ReLU after its reduction layer, sum the resulting channel
+    logits and apply sigmoid. Broadcast the channel weights over space and multiply them into the input
+    tensor. From this channel-refined tensor, compute average and maximum maps over the channel axis,
+    concatenate these two spatial maps, apply a convolution with a 7-by-7 kernel and sigmoid, then multiply
+    the spatial weights across all channels. Thus the second attention stage depends on the output of
+    the first, rather than being computed in parallel from the original tensor. The paper’s residual example
+    applies the component before skip addition; the learned component also operates during inference.
+  evidence:
+  - source_id: method-source
+    locator: Section3, Equations1–3 and Figure2, PDF pp.4–6; residual placement Figure3, PDFp.7; arrangement
+      discussion PDFp.9; interpretability scope Sections4.3–4.4, PDF pp.10–13; conclusion PDFp.14
+    relation: supports
+  - source_id: pinned-code
+    locator: ChannelGate, ChannelPool, SpatialGate, BasicConv and CBAM classes, complete MODELS/cbam.py
+      at the cited commit
+    relation: supports
+- claim_id: implementation-convention
+  kind: scope
+  statement: The pinned author implementation follows channel-then-spatial gating with average/max channel
+    descriptors sharing one MLP. Its spatial path uses a bias-free 7-by-7 convolution followed by batch
+    normalization and sigmoid, with no intervening ReLU. Optional pooling choices and no_spatial are exposed
+    as code configurations. This static inspection does not establish runtime compatibility or reproduction
+    of a trained checkpoint.
+  evidence:
+  - source_id: pinned-code
+    locator: ChannelGate.forward, SpatialGate.__init__/forward, BasicConv and CBAM.forward in MODELS/cbam.py
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'CBAM: Convolutional Block Attention Module'
+  authors:
+  - Sanghyun Woo
+  - Jongchan Park
+  - Joon-Young Lee
+  - In So Kweon
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ECCV_2018/papers/Sanghyun_Woo_Convolutional_Block_Attention_ECCV_2018_paper.pdf
+  version: ECCV 2018; 17-page CVF proceedings PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T12:33:17Z'
+  sha256: 40bdff61acdd66859313712892c4481610edb3180750ce6aaec570a1d20235fb
+- source_id: pinned-code
+  title: 'Official attention-module implementation: MODELS/cbam.py'
+  authors:
+  - Jongchan Park
+  - Sanghyun Woo
+  source_type: official_documentation
+  url: https://github.com/Jongchan/attention-module/blob/459efad0e05ee7dde50c41ca10a3d0800bc3792a/MODELS/cbam.py
+  version: Jongchan/attention-module commit459efad0e05ee7dde50c41ca10a3d0800bc3792a
+  access_level: documentation
+  accessed_at: '2026-10-11T12:35:24Z'
+  sha256: 6a2115f71541c77ab09c666e4cf32ab9928520f9c2bba9c1ceab8edc8fdd8ac5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: The native concept is a particular learned input-to-output feature-map component inside a
+    neural network. The pinned generic Layer class is broader; the pinned AttentionLayer specifically
+    denotes dot-product attention and is not used as a generic attention parent.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:43:35Z'
+  updated_at: '2026-10-11T12:43:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
