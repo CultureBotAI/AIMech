@@ -1,0 +1,845 @@
+# Scientific self-review of neighborhood-search controls
+
+- Review: 20261011T143347Z-neighborhood-search-controls
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T14:30:26Z
+- Finished UTC: 2026-10-11T14:33:47Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain strict hill climbing, Fast Local Search and strategic oscillation with explicit neighborhood, activation and boundary-control scope. One minor source-classification finding was corrected; no actionable finding remains in the declared review.
+
+## Scope And Provenance
+
+All fields of three new maintained neighborhood-search records.
+
+Selection: Exact three record IDs in the ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 5866e2d7d179d1efcad3c3cb4aadb497ad710a99.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HillClimbing | data/curated/HillClimbing.yaml | maintained | Hill climbing |
+| AIMech:FastLocalSearch | data/curated/FastLocalSearch.yaml | maintained | Fast Local Search |
+| AIMech:StrategicOscillation | data/curated/StrategicOscillation.yaml | maintained | Strategic oscillation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 91.39s (0:01:31)<br>Checked 442 record(s); 0 failed.<br>Checked 307 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 82 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 80,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli check-source | passed | True | AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation | Command exited 0 with no output. |
+| Finite neighborhood-search boundary examples | passed | True | AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation | {"strict_hill_climbing_stops_on_flat_step": true, "fls_incomplete_reactivation": {"state": [0, 1], "cost": 1, "trace": [[0, 0], [0, 1]], "improving_neighbor_remains": true}, "fls_complete_reactivation": {"state": [1, 1], "cost": 0, "trace": [[0, 0], [0, 1], [1, 1]], "improving_neighbor_remains": false}, "oscillation_feasibility_improving_choice": "B", "oscillation_minimum_deterioration_choice": "D", "interpretation": "Strict ascent cannot traverse this plateau. All FLS bits off does not certify full-neighborhood optimality with incomplete reactivation. The illustrated oscillation rule separates violation-based eligibility from objective ranking. These finite examples establish no global convergence or performance result."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, claims, limitations, provenance and bounded AIO no-match
+
+evidence: supported. Targets: AIMech:HillClimbing.
+
+The record covers the strict-improvement hill-climbing family: Glover selects some improving move, while the inspected AIMA figure selects the best-valued successor. Steepest ascent/descent is a particular selection rule, not an exact alias for every family member. Hill climbing does not denote every local-search metaheuristic, continuous gradient descent, greedy global best-first search, or the full ParamILS framework. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 304 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 176 and 176 lines respectively. Inspected text hits were prior discovery leads, uses of local search inside existing methods, source references and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Choose an initial solution, an objective and applicable neighborhood moves. In the minimizing formulation, select a move s with c(s(x))&lt;c(x), replace x by s(x), and repeat. If no such move exists in the specified neighborhood, stop at the current solution. The source permits selecting any improving move. The inspected AIMA maximizing variant instead selects a highest-valued successor and stops if its value is no greater than the current value. Thus best-improvement and other improving-move choices share the strict-improvement principle but need not follow the same trajectory. A complete neighborhood check is needed to certify the stated local stopping condition; failure to find an improvement in a sample is not that certificate. Limits: A local optimum need not be globally optimal. Strict improvement cannot traverse equal-valued plateaus or take an initially worsening escape step; sideways moves, random restarts and worsening acceptance change the specified baseline. Curator deduction: on a finite state space with a fixed objective and strict improvements, accepted states cannot repeat. This does not supply a polynomial bound, finite termination in arbitrary continuous spaces, or global optimality. Move definition, neighborhood coverage, initialization and selection/tie rules affect results. AIMA Figure 4.2 does not explicitly handle an empty successor set; a concrete implementation must declare that boundary. No numerical performance claim is curated.
+
+### Identity, definition, claims, limitations, provenance and bounded AIO no-match
+
+evidence: supported. Targets: AIMech:FastLocalSearch.
+
+FLS is the named Voudouris–Tsang neighborhood-reduction procedure, not any fast implementation of local search. It is separable from GLS feature-penalty updates and from the combined Guided Fast Local Search algorithm. Subneighborhoods can overlap; calling them a disjoint partition would overstate the source. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 304 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 176 and 176 lines respectively. Inspected text hits were prior discovery leads, uses of local search inside existing methods, source references and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Decompose the neighborhood into indexed, possibly overlapping subneighborhoods and supply an activation bit for each. The standalone initialization activates all; the callable routine also permits a supplied subset. Repeatedly scan in the declared order, skipping inactive subneighborhoods. In an active subneighborhood, take the first encountered move that strictly improves the current objective, update the solution, retain that subneighborhood as active, and activate the configured subneighborhoods affected by the move. Continue with the next subneighborhood instead of restarting the entire scan. If no improving move is found after checking the current subneighborhood, deactivate it. Return the current solution when all bits are inactive. In the optional GLS combination, changes to feature penalties reactivate associated subneighborhoods before the next FLS call; the penalty formula itself belongs to GLS. Limits: All bits inactive certifies only the termination of the configured activation scheme. If initial activation or later reactivation omits a region where an improvement exists or becomes possible, the result need not be a local optimum of the full neighborhood. The authors explicitly call the result approximate and warn that improvements can be missed. Activation dependencies, move coverage, order and overlap are problem-dependent. Reactivating every subneighborhood is conservative but can remove the intended computational savings; the method is not a universal speedup guarantee. Within one call the objective is fixed and accepted moves strictly improve it. Curator deduction: finite states and finite move scans imply termination, but neither arbitrary continuous termination nor overall GLS termination follows. Penalty changes between GLS calls alter the objective and require renewed activation.
+
+### Identity, definition, claims, limitations, provenance and bounded AIO no-match
+
+evidence: supported. Targets: AIMech:StrategicOscillation.
+
+The concept is deliberate boundary-relative control, not incidental oscillation of objective values and not every tabu-search method. Feasibility/infeasibility is an important application, while the primary source also describes cardinality boundaries, opposing constructive/destructive searches and rebounds without crossing. The rudimentary Glover–Hao rule is one instance, not the universal definition. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 304 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 176 and 176 lines respectively. Inspected text hits were prior discovery leads, uses of local search inside existing methods, source references and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Choose a boundary or paired search regimes, move-selection rules for the relevant sides or directions, and a policy controlling reversal or excursion depth. Drive search toward and beyond a boundary, or rebound from it at specified depths, then reverse or change regimes so subsequent trajectories explore alternative approaches. Glover describes tabu conditions that compel crossings/returns or graduated penalties whose weights change with position and direction; a fixed sine wave or single depth schedule is not required. For the later illustrated feasibility instance, while feasible choose an objectively best improving feasible move when one exists, otherwise an objectively best available move, which may enter infeasibility. While infeasible, restrict to moves that improve the infeasibility measure and select the objectively best among them; if none improves infeasibility, first restrict to the least deterioration of that measure and then select by objective quality. These two ranking levels are not interchangeable. Keep feasible solution quality distinct from temporary infeasible search states. Limits: The rudimentary rule does not ensure that every local step crosses a boundary, and generic strategic oscillation is not restricted to feasibility crossing. The boundary, quality/infeasibility measures, depth control, memory, ties and stopping must be specified for an executable instance. Finding a better objective in infeasible space does not make it a valid answer to the constrained problem. The strategy alone provides no general feasibility, cycle-freedom or global-optimality guarantee. The later paper analyzes a constructed hard example and explicitly disclaims a universally prevailing strategy. Its complete example derivation, broader appendix and empirical performance were not audited here; no generalized theorem or benchmark claim is curated.
+
+### Improving-move family and best-neighbor variant
+
+consistency: supported. Targets: AIMech:HillClimbing.
+
+Retain strict hill climbing without equating it with all local search.
+
+The primary box permits some strictly improving move; the AIMA figure selects a best-valued successor. Best-selection variants are not exact aliases of the entire family. Strict improvement stops at the finite example’s plateau and does not certify global optimality. Empty-neighborhood handling and full-neighborhood stopping certification are explicit. Finite-state nonrepetition is labeled a curator deduction, not a universal continuous-space termination theorem.
+
+### Activation coverage, overlap and scan order
+
+consistency: supported. Targets: AIMech:FastLocalSearch.
+
+Retain FLS separately from objective penalties and the complete GFLS composition.
+
+The full pseudocode was checked across the 2010 PDF9–10 and1999 PDF16 images. A move continues at the next subneighborhood; the origin remains active. Arbitrary supplied initial bits, overlapping regions and problem-dependent reactivation are permitted. The finite binary example returns cost1 with an improving neighbor under incomplete reactivation but reaches cost0 when affected regions are reactivated. Therefore all bits off is not a universal full-neighborhood optimality certificate. The source’s approximate-result warning and later stronger local-minimum wording are reconciled by explicit coverage conditions.
+
+### Controlled excursions and side-dependent ranking
+
+consistency: supported. Targets: AIMech:StrategicOscillation.
+
+Retain strategic oscillation as a distinct search-control strategy.
+
+The 1989 source allows cardinality boundaries, feasibility crossings and rebounds; incidental objective oscillation is insufficient. The later simple method ranks objective quality among violation-improving moves rather than maximizing violation reduction. If none improves violation, least deterioration is the primary eligibility filter. The finite example distinguishes these orders. The general strategy does not force every move to cross a boundary or inherit the constructed example’s success as a universal guarantee.
+
+### Search mechanisms versus learning/model classes
+
+grounding: supported. Targets: AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation.
+
+Retain three native identities with bounded AIO no-match assessments.
+
+Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask, ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain. All three general search procedures receive bounded no-match assessments. They do not require machine-learning training, a language model, policy learning or a stochastic-model identity. Six native neighbors distinguish strict improvement, active-region scanning and boundary-relative control from temperature-based worsening acceptance, global frontier selection, tabu restrictions, feature penalties and iterated configuration search.
+
+## Findings
+
+### hill-documentation-access: Official documentation has an incompatible access classification.
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-HillClimbing-documentation-access.
+
+The original official-documentation source used full_text access and failed maintained validation. Its classification is corrected to documentation without changing the evidence or scientific claims.
+
+Disposition: The official AIMA source now has documentation access, preserving its URL, checksum, undated version and Figure4.2 locator. The ledger and append-only EDIT history are synchronized, and the post-fix gate passes.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:HillClimbing, AIMech:FastLocalSearch, AIMech:StrategicOscillation. Strict improving moves, active-neighborhood scanning and controlled excursions have different defining roles even when composed. Family overlap does not establish exact identity.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T142703Z-neighborhood-search-controls.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 304 preceding native IDs/names/aliases. No normalized identity match was found for the candidate names and scope variants. Whole-checkout searches included ignored/hidden files, returning 176 and 176 lines in worktree and main. Inspected hits were prior leads, local-search components of other methods, source references and saved reports/reviews. Six exact AIO CLASS nodes and six native neighboring records were inspected. A broad LocalSearch label remains pending rather than being equated with strict hill climbing. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Six exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask, ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain. All three general search procedures receive bounded no-match assessments. They do not require machine-learning training, a language model, policy learning or a stochastic-model identity. Six native neighbors distinguish strict improvement, active-region scanning and boundary-relative control from temperature-based worsening acceptance, global frontier selection, tabu restrictions, feature penalties and iterated configuration search. |
+| neighbors | research/discovery/20261011T142703Z-neighborhood-search-controls.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Tabu Search, Guided Local Search, Iterated Local Search, simulated annealing, greedy best-first search and ParamILS were inspected in full for boundary context. Their older mappings are not automatically approved. |
+| finite-conventions | research/discovery/neighborhood-search-controls-boundaries.py; calculate() and fls(): strict plateau stopping, active-set reactivation and feasibility/objective ranking | supports | Original finite examples show strict hill climbing stopping on a plateau, an improving neighbor missed by incomplete FLS reactivation, and the separation of feasibility filters from objective ranking in the illustrated oscillation rule. No benchmark or global-convergence theorem is claimed. |
+| hillclimbing-source-0 | https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf; Section 2, PDF p.2 / printed191, Hill Climbing Heuristic for (P), strict inequality and local/global distinction | supports | Tabu Search—Part I. ORSA Journal on Computing 1(3):190–206 (1989), 17-page author-hosted journal scan. The scan contains a 2001 copyright footer, distinct from the verified 1989 publication date; the footer’s insertion date is not established. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+| hillclimbing-source-1 | https://aima.eecs.berkeley.edu/algorithms.pdf; Chapter 4, Figure 4.2, PDF p.8, best-successor strict-ascent pseudocode | supports | Artificial Intelligence: A Modern Approach — algorithms extract. Undated 60-page author-hosted algorithms extract, Chapter 4, Figure 4.2, PDF p.8. The exact downloaded checksum identifies this extract; no publication date or final book edition is inferred. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+| fastlocalsearch-source-0 | https://www.bracil.net/CSP/papers/VTA-GLS-Handbook2010.pdf; Sections 5–6.2.2, manuscript/PDF pp.8–11, FLS pseudocode and activation guidance; Section 6.3, PDF p.12, optional GLS integration | supports | Guided Local Search. 41-page author-hosted manuscript of Handbook of Metaheuristics, Chapter 11, pp.321–361 (2010). Locators use manuscript/PDF pages. This is not a later handbook revision. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+| fastlocalsearch-source-1 | https://bracil.net/CSP/papers/VouTsa-GlsTsP-Ejor99.pdf; Section 3.4, manuscript/PDF pp.14–16, neighborhood activation and Figure 2 | supports | Guided Local Search and Its Application to the Traveling Salesman Problem. 62-page author manuscript, cover marked accepted March 1998 and bibliographically linked to European Journal of Operational Research 113(2):469–499 (March 1999). Locators use manuscript/PDF pages, not the shorter journal pagination. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+| strategicoscillation-source-0 | https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf; Section 7, PDF pp.9–10 / printed198–199, Tabu Lists and Strategic Oscillation | supports | Tabu Search—Part I. ORSA Journal on Computing 1(3):190–206 (1989), 17-page author-hosted journal scan. The scan contains a 2001 copyright footer, distinct from the verified 1989 publication date; the footer’s insertion date is not established. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+| strategicoscillation-source-1 | https://leeds-faculty.colorado.edu/glover/fred%20pubs/423%20-%20Case%20for%20Strategic%20Oscillation%20ANOR%20J-K.pdf; Feasibility/Infeasibility Asymmetry and Strategic Oscillation, PDF pp.6–7; Simple Strategic Oscillation, PDF p.7; discussion and conclusion, PDF pp.8–9 | supports | The Case for Strategic Oscillation. 16-page author-hosted manuscript associated with Annals of Operations Research 183:163–173 (2011); the publisher also records online publication in 2009. Locators use manuscript/PDF pages; the scan is not treated as the final journal layout. Per-source actual text and visual pages are declared in source_analysis. Extraction and rendering alone are not reading; reused sources preserve their original retrieval times. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- The AIMA extract is undated and identified by checksum. The 2010 FLS manuscript and 2009-online/2011-issue oscillation manuscript are not silently substituted for other layouts or revisions.
+- Finite examples distinguish implementation boundaries; no author code, benchmark or complete convergence proof was run or audited.
+- The broad local-search umbrella and named GLS/FLS composition remain pending. There are 179 pending inspection leads plus other unresolved dispositions; discovery is ongoing.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T143347Z-neighborhood-search-controls
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of neighborhood-search controls
+started_at: '2026-10-11T14:30:26Z'
+finished_at: '2026-10-11T14:33:47Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked every new record against
+    declared source sections, critical PDF images, six exact AIO nodes, six complete
+    native neighbors and original finite counterexamples. The failed source-classification
+    gate was preserved and issue89 corrected with a successor disposition. This is
+    not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain strict hill climbing, Fast Local Search and strategic oscillation
+  with explicit neighborhood, activation and boundary-control scope. One minor source-classification
+  finding was corrected; no actionable finding remains in the declared review.
+source:
+  git_revision: 5866e2d7d179d1efcad3c3cb4aadb497ad710a99
+  state: working_tree
+  inputs:
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/FastLocalSearch.yaml
+    sha256: 2344a8d777fa40a5b41ae91d57337d9883c197b9fe3a13a991a79f2bc616a963
+    role: target
+  - path: data/curated/GreedyBestFirstSearch.yaml
+    sha256: ec49328f0c41b8205dfe2816c9a01fdb50fa1e1292eacee71fc2872c7cc54020
+    role: context
+  - path: data/curated/GuidedLocalSearch.yaml
+    sha256: 91618dff5e0ed6681aad81deb9be9c8e35ed43b42acad285ef473916852cdebc
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: 1f63c3e6341fecd3c78e00ae3ced9898c070ba9565dccc5511f3c67e6ea29476
+    role: target
+  - path: data/curated/IteratedLocalSearch.yaml
+    sha256: 15a6a25711dabac3dff72b612cf7daa7a2ae5f9660a9a677c2d21163335f2ef0
+    role: context
+  - path: data/curated/ParamILS.yaml
+    sha256: 8cb2244b7c067b3379e607b3df01a571623c1700c89ff951469d762a72539fa3
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/StrategicOscillation.yaml
+    sha256: 16ddf953d0d121c589e8ddc63d42741b9102cf4fe878fa47c29487f7aa274ced
+    role: target
+  - path: data/curated/TabuSearch.yaml
+    sha256: 6dae782f4d0c0b2a7195f471b7f73acb38fa036fb43ec15bacfa8f9a0264b844
+    role: context
+  - path: research/discovery/20261011T142703Z-neighborhood-search-controls.json
+    sha256: 32f505532afb1e47c674dc2ed80ea171a06f37b8584de803879d4ac20d739dbf
+    role: context
+  - path: research/discovery/neighborhood-search-controls-boundaries.py
+    sha256: 6e764736cbea503b4cf53e335708d53d3039161ef819846f1b90c2c81e4e6338
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HillClimbing
+  path: data/curated/HillClimbing.yaml
+  label: Hill climbing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HillClimbing.yaml
+    role: maintained
+- target_id: AIMech:FastLocalSearch
+  path: data/curated/FastLocalSearch.yaml
+  label: Fast Local Search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FastLocalSearch.yaml
+    role: maintained
+- target_id: AIMech:StrategicOscillation
+  path: data/curated/StrategicOscillation.yaml
+  label: Strategic oscillation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StrategicOscillation.yaml
+    role: maintained
+scope:
+  description: All fields of three new maintained neighborhood-search records.
+  selection: Exact three record IDs in the ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exclusions:
+  - target: Broader LocalSearch concept and new frontier leads
+    reason: The broader umbrella and uninspected extensions remain pending; the three
+      additions do not exhaust the family.
+  - target: Older records, unread pages, author implementations and benchmarks
+    reason: Older concepts are boundary context. Only declared source scopes and finite
+      curator examples were inspected.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 91.39s (0:01:31)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 307 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 82 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 80,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Finite neighborhood-search boundary examples
+  command: python3 research/discovery/neighborhood-search-controls-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"strict_hill_climbing_stops_on_flat_step": true, "fls_incomplete_reactivation":
+    {"state": [0, 1], "cost": 1, "trace": [[0, 0], [0, 1]], "improving_neighbor_remains":
+    true}, "fls_complete_reactivation": {"state": [1, 1], "cost": 0, "trace": [[0,
+    0], [0, 1], [1, 1]], "improving_neighbor_remains": false}, "oscillation_feasibility_improving_choice":
+    "B", "oscillation_minimum_deterioration_choice": "D", "interpretation": "Strict
+    ascent cannot traverse this plateau. All FLS bits off does not certify full-neighborhood
+    optimality with incomplete reactivation. The illustrated oscillation rule separates
+    violation-based eligibility from objective ranking. These finite examples establish
+    no global convergence or performance result."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T142703Z-neighborhood-search-controls.json
+  accessed_at: '2026-10-11T14:30:26Z'
+  support: supports
+  summary: Compared all 442 pinned AIO labels/scoped synonyms and 304 preceding native
+    IDs/names/aliases. No normalized identity match was found for the candidate names
+    and scope variants. Whole-checkout searches included ignored/hidden files, returning
+    176 and 176 lines in worktree and main. Inspected hits were prior leads, local-search
+    components of other methods, source references and saved reports/reviews. Six
+    exact AIO CLASS nodes and six native neighboring records were inspected. A broad
+    LocalSearch label remains pending rather than being equated with strict hill climbing.
+    Absence is bounded to this snapshot and semantic neighborhood.
+  search_scope: All 442 pinned AIO IDs/labels/scoped synonyms and 304 preceding native
+    IDs/names/aliases; four initial leads including broader LocalSearch and steepest
+    variants; both full checkouts including ignored/hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Six exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T14:30:26Z'
+  support: supports
+  summary: 'Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask,
+    ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain.
+    All three general search procedures receive bounded no-match assessments. They
+    do not require machine-learning training, a language model, policy learning or
+    a stochastic-model identity. Six native neighbors distinguish strict improvement,
+    active-region scanning and boundary-relative control from temperature-based worsening
+    acceptance, global frontier selection, tabu restrictions, feature penalties and
+    iterated configuration search.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T142703Z-neighborhood-search-controls.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T14:30:26Z'
+  support: supports
+  summary: Tabu Search, Guided Local Search, Iterated Local Search, simulated annealing,
+    greedy best-first search and ParamILS were inspected in full for boundary context.
+    Their older mappings are not automatically approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/neighborhood-search-controls-boundaries.py
+  locator: 'calculate() and fls(): strict plateau stopping, active-set reactivation
+    and feasibility/objective ranking'
+  accessed_at: '2026-10-11T14:30:26Z'
+  snapshot_sha256: 6e764736cbea503b4cf53e335708d53d3039161ef819846f1b90c2c81e4e6338
+  support: supports
+  summary: Original finite examples show strict hill climbing stopping on a plateau,
+    an improving neighbor missed by incomplete FLS reactivation, and the separation
+    of feasibility filters from objective ranking in the illustrated oscillation rule.
+    No benchmark or global-convergence theorem is claimed.
+- evidence_id: hillclimbing-source-0
+  kind: primary_source
+  reference: https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf
+  locator: Section 2, PDF p.2 / printed191, Hill Climbing Heuristic for (P), strict
+    inequality and local/global distinction
+  accessed_at: '2026-10-11T14:07:24Z'
+  snapshot_sha256: fb1102afc415eb0d9d7e2a8ced4ec7047d1fea2f47c74c16e7cd8be290ea5a1a
+  support: supports
+  summary: Tabu Search—Part I. ORSA Journal on Computing 1(3):190–206 (1989), 17-page
+    author-hosted journal scan. The scan contains a 2001 copyright footer, distinct
+    from the verified 1989 publication date; the footer’s insertion date is not established.
+    Per-source actual text and visual pages are declared in source_analysis. Extraction
+    and rendering alone are not reading; reused sources preserve their original retrieval
+    times.
+- evidence_id: hillclimbing-source-1
+  kind: primary_source
+  reference: https://aima.eecs.berkeley.edu/algorithms.pdf
+  locator: Chapter 4, Figure 4.2, PDF p.8, best-successor strict-ascent pseudocode
+  accessed_at: '2026-10-11T14:21:17Z'
+  snapshot_sha256: 64a11241eb336780ccae716a732e20a83c385c724cc60459bffd86231fd60e44
+  support: supports
+  summary: 'Artificial Intelligence: A Modern Approach — algorithms extract. Undated
+    60-page author-hosted algorithms extract, Chapter 4, Figure 4.2, PDF p.8. The
+    exact downloaded checksum identifies this extract; no publication date or final
+    book edition is inferred. Per-source actual text and visual pages are declared
+    in source_analysis. Extraction and rendering alone are not reading; reused sources
+    preserve their original retrieval times.'
+- evidence_id: fastlocalsearch-source-0
+  kind: primary_source
+  reference: https://www.bracil.net/CSP/papers/VTA-GLS-Handbook2010.pdf
+  locator: Sections 5–6.2.2, manuscript/PDF pp.8–11, FLS pseudocode and activation
+    guidance; Section 6.3, PDF p.12, optional GLS integration
+  accessed_at: '2026-10-11T14:21:17Z'
+  snapshot_sha256: e4dd9aed0fcfb494d61b9aff6d0869319109b4c03f5982cb06d4906e0d3d453e
+  support: supports
+  summary: Guided Local Search. 41-page author-hosted manuscript of Handbook of Metaheuristics,
+    Chapter 11, pp.321–361 (2010). Locators use manuscript/PDF pages. This is not
+    a later handbook revision. Per-source actual text and visual pages are declared
+    in source_analysis. Extraction and rendering alone are not reading; reused sources
+    preserve their original retrieval times.
+- evidence_id: fastlocalsearch-source-1
+  kind: primary_source
+  reference: https://bracil.net/CSP/papers/VouTsa-GlsTsP-Ejor99.pdf
+  locator: Section 3.4, manuscript/PDF pp.14–16, neighborhood activation and Figure
+    2
+  accessed_at: '2026-10-11T14:07:24Z'
+  snapshot_sha256: 4550ebdad45d6d164b48525a4a71d9c29063e7bc2876a3302234b5ecc294b93f
+  support: supports
+  summary: Guided Local Search and Its Application to the Traveling Salesman Problem.
+    62-page author manuscript, cover marked accepted March 1998 and bibliographically
+    linked to European Journal of Operational Research 113(2):469–499 (March 1999).
+    Locators use manuscript/PDF pages, not the shorter journal pagination. Per-source
+    actual text and visual pages are declared in source_analysis. Extraction and rendering
+    alone are not reading; reused sources preserve their original retrieval times.
+- evidence_id: strategicoscillation-source-0
+  kind: primary_source
+  reference: https://leeds-faculty.colorado.edu/glover/TS%20-%20Part%20I-ORSA-aw.pdf
+  locator: Section 7, PDF pp.9–10 / printed198–199, Tabu Lists and Strategic Oscillation
+  accessed_at: '2026-10-11T14:07:24Z'
+  snapshot_sha256: fb1102afc415eb0d9d7e2a8ced4ec7047d1fea2f47c74c16e7cd8be290ea5a1a
+  support: supports
+  summary: Tabu Search—Part I. ORSA Journal on Computing 1(3):190–206 (1989), 17-page
+    author-hosted journal scan. The scan contains a 2001 copyright footer, distinct
+    from the verified 1989 publication date; the footer’s insertion date is not established.
+    Per-source actual text and visual pages are declared in source_analysis. Extraction
+    and rendering alone are not reading; reused sources preserve their original retrieval
+    times.
+- evidence_id: strategicoscillation-source-1
+  kind: primary_source
+  reference: https://leeds-faculty.colorado.edu/glover/fred%20pubs/423%20-%20Case%20for%20Strategic%20Oscillation%20ANOR%20J-K.pdf
+  locator: Feasibility/Infeasibility Asymmetry and Strategic Oscillation, PDF pp.6–7;
+    Simple Strategic Oscillation, PDF p.7; discussion and conclusion, PDF pp.8–9
+  accessed_at: '2026-10-11T14:21:17Z'
+  snapshot_sha256: de0f17fec683a910e92a88dad3b43a5503046e6983fb5abaa209564a3aa72c02
+  support: supports
+  summary: The Case for Strategic Oscillation. 16-page author-hosted manuscript associated
+    with Annals of Operations Research 183:163–173 (2011); the publisher also records
+    online publication in 2009. Locators use manuscript/PDF pages; the scan is not
+    treated as the final journal layout. Per-source actual text and visual pages are
+    declared in source_analysis. Extraction and rendering alone are not reading; reused
+    sources preserve their original retrieval times.
+assessments:
+- assessment_id: hillclimbing
+  area: evidence
+  topic: Identity, definition, claims, limitations, provenance and bounded AIO no-match
+  outcome: supported
+  target_ids:
+  - AIMech:HillClimbing
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - hillclimbing-source-0
+  - hillclimbing-source-1
+  summary: 'The record covers the strict-improvement hill-climbing family: Glover
+    selects some improving move, while the inspected AIMA figure selects the best-valued
+    successor. Steepest ascent/descent is a particular selection rule, not an exact
+    alias for every family member. Hill climbing does not denote every local-search
+    metaheuristic, continuous gradient descent, greedy global best-first search, or
+    the full ParamILS framework. No normalized identity match was found across all
+    442 pinned AIO labels/scoped synonyms and 304 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 176 and 176 lines respectively. Inspected text hits were prior
+    discovery leads, uses of local search inside existing methods, source references
+    and their saved reports/reviews. These were references to methods rather than
+    existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments
+    and outgoing edges and six native neighboring mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.'
+  details: 'Choose an initial solution, an objective and applicable neighborhood moves.
+    In the minimizing formulation, select a move s with c(s(x))<c(x), replace x by
+    s(x), and repeat. If no such move exists in the specified neighborhood, stop at
+    the current solution. The source permits selecting any improving move. The inspected
+    AIMA maximizing variant instead selects a highest-valued successor and stops if
+    its value is no greater than the current value. Thus best-improvement and other
+    improving-move choices share the strict-improvement principle but need not follow
+    the same trajectory. A complete neighborhood check is needed to certify the stated
+    local stopping condition; failure to find an improvement in a sample is not that
+    certificate. Limits: A local optimum need not be globally optimal. Strict improvement
+    cannot traverse equal-valued plateaus or take an initially worsening escape step;
+    sideways moves, random restarts and worsening acceptance change the specified
+    baseline. Curator deduction: on a finite state space with a fixed objective and
+    strict improvements, accepted states cannot repeat. This does not supply a polynomial
+    bound, finite termination in arbitrary continuous spaces, or global optimality.
+    Move definition, neighborhood coverage, initialization and selection/tie rules
+    affect results. AIMA Figure 4.2 does not explicitly handle an empty successor
+    set; a concrete implementation must declare that boundary. No numerical performance
+    claim is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable search procedure or framework, not a trained instance or
+      evaluation outcome.
+    evidence_ids:
+    - hillclimbing-source-0
+    - hillclimbing-source-1
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask,
+      ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain.
+      All three general search procedures receive bounded no-match assessments. They
+      do not require machine-learning training, a language model, policy learning
+      or a stochastic-model identity. Six native neighbors distinguish strict improvement,
+      active-region scanning and boundary-relative control from temperature-based
+      worsening acceptance, global frontier selection, tabu restrictions, feature
+      penalties and iterated configuration search.'
+    evidence_ids:
+    - mapping
+- assessment_id: fastlocalsearch
+  area: evidence
+  topic: Identity, definition, claims, limitations, provenance and bounded AIO no-match
+  outcome: supported
+  target_ids:
+  - AIMech:FastLocalSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - fastlocalsearch-source-0
+  - fastlocalsearch-source-1
+  summary: FLS is the named Voudouris–Tsang neighborhood-reduction procedure, not
+    any fast implementation of local search. It is separable from GLS feature-penalty
+    updates and from the combined Guided Fast Local Search algorithm. Subneighborhoods
+    can overlap; calling them a disjoint partition would overstate the source. No
+    normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+    and 304 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+    included ignored and hidden files in worktree and main, returning 176 and 176
+    lines respectively. Inspected text hits were prior discovery leads, uses of local
+    search inside existing methods, source references and their saved reports/reviews.
+    These were references to methods rather than existing candidate records. Six exact
+    AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native
+    neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+    semantic neighborhood.
+  details: 'Decompose the neighborhood into indexed, possibly overlapping subneighborhoods
+    and supply an activation bit for each. The standalone initialization activates
+    all; the callable routine also permits a supplied subset. Repeatedly scan in the
+    declared order, skipping inactive subneighborhoods. In an active subneighborhood,
+    take the first encountered move that strictly improves the current objective,
+    update the solution, retain that subneighborhood as active, and activate the configured
+    subneighborhoods affected by the move. Continue with the next subneighborhood
+    instead of restarting the entire scan. If no improving move is found after checking
+    the current subneighborhood, deactivate it. Return the current solution when all
+    bits are inactive. In the optional GLS combination, changes to feature penalties
+    reactivate associated subneighborhoods before the next FLS call; the penalty formula
+    itself belongs to GLS. Limits: All bits inactive certifies only the termination
+    of the configured activation scheme. If initial activation or later reactivation
+    omits a region where an improvement exists or becomes possible, the result need
+    not be a local optimum of the full neighborhood. The authors explicitly call the
+    result approximate and warn that improvements can be missed. Activation dependencies,
+    move coverage, order and overlap are problem-dependent. Reactivating every subneighborhood
+    is conservative but can remove the intended computational savings; the method
+    is not a universal speedup guarantee. Within one call the objective is fixed and
+    accepted moves strictly improve it. Curator deduction: finite states and finite
+    move scans imply termination, but neither arbitrary continuous termination nor
+    overall GLS termination follows. Penalty changes between GLS calls alter the objective
+    and require renewed activation.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable search procedure or framework, not a trained instance or
+      evaluation outcome.
+    evidence_ids:
+    - fastlocalsearch-source-0
+    - fastlocalsearch-source-1
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask,
+      ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain.
+      All three general search procedures receive bounded no-match assessments. They
+      do not require machine-learning training, a language model, policy learning
+      or a stochastic-model identity. Six native neighbors distinguish strict improvement,
+      active-region scanning and boundary-relative control from temperature-based
+      worsening acceptance, global frontier selection, tabu restrictions, feature
+      penalties and iterated configuration search.'
+    evidence_ids:
+    - mapping
+- assessment_id: strategicoscillation
+  area: evidence
+  topic: Identity, definition, claims, limitations, provenance and bounded AIO no-match
+  outcome: supported
+  target_ids:
+  - AIMech:StrategicOscillation
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - strategicoscillation-source-0
+  - strategicoscillation-source-1
+  summary: The concept is deliberate boundary-relative control, not incidental oscillation
+    of objective values and not every tabu-search method. Feasibility/infeasibility
+    is an important application, while the primary source also describes cardinality
+    boundaries, opposing constructive/destructive searches and rebounds without crossing.
+    The rudimentary Glover–Hao rule is one instance, not the universal definition.
+    No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 304 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 176
+    and 176 lines respectively. Inspected text hits were prior discovery leads, uses
+    of local search inside existing methods, source references and their saved reports/reviews.
+    These were references to methods rather than existing candidate records. Six exact
+    AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native
+    neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+    semantic neighborhood.
+  details: 'Choose a boundary or paired search regimes, move-selection rules for the
+    relevant sides or directions, and a policy controlling reversal or excursion depth.
+    Drive search toward and beyond a boundary, or rebound from it at specified depths,
+    then reverse or change regimes so subsequent trajectories explore alternative
+    approaches. Glover describes tabu conditions that compel crossings/returns or
+    graduated penalties whose weights change with position and direction; a fixed
+    sine wave or single depth schedule is not required. For the later illustrated
+    feasibility instance, while feasible choose an objectively best improving feasible
+    move when one exists, otherwise an objectively best available move, which may
+    enter infeasibility. While infeasible, restrict to moves that improve the infeasibility
+    measure and select the objectively best among them; if none improves infeasibility,
+    first restrict to the least deterioration of that measure and then select by objective
+    quality. These two ranking levels are not interchangeable. Keep feasible solution
+    quality distinct from temporary infeasible search states. Limits: The rudimentary
+    rule does not ensure that every local step crosses a boundary, and generic strategic
+    oscillation is not restricted to feasibility crossing. The boundary, quality/infeasibility
+    measures, depth control, memory, ties and stopping must be specified for an executable
+    instance. Finding a better objective in infeasible space does not make it a valid
+    answer to the constrained problem. The strategy alone provides no general feasibility,
+    cycle-freedom or global-optimality guarantee. The later paper analyzes a constructed
+    hard example and explicitly disclaims a universally prevailing strategy. Its complete
+    example derivation, broader appendix and empirical performance were not audited
+    here; no generalized theorem or benchmark claim is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable search procedure or framework, not a trained instance or
+      evaluation outcome.
+    evidence_ids:
+    - strategicoscillation-source-0
+    - strategicoscillation-source-1
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask,
+      ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain.
+      All three general search procedures receive bounded no-match assessments. They
+      do not require machine-learning training, a language model, policy learning
+      or a stochastic-model identity. Six native neighbors distinguish strict improvement,
+      active-region scanning and boundary-relative control from temperature-based
+      worsening acceptance, global frontier selection, tabu restrictions, feature
+      penalties and iterated configuration search.'
+    evidence_ids:
+    - mapping
+- assessment_id: hill-boundaries
+  area: consistency
+  topic: Improving-move family and best-neighbor variant
+  outcome: supported
+  target_ids:
+  - AIMech:HillClimbing
+  evidence_ids:
+  - hillclimbing-source-0
+  - hillclimbing-source-1
+  - finite-conventions
+  summary: Retain strict hill climbing without equating it with all local search.
+  details: The primary box permits some strictly improving move; the AIMA figure selects
+    a best-valued successor. Best-selection variants are not exact aliases of the
+    entire family. Strict improvement stops at the finite example’s plateau and does
+    not certify global optimality. Empty-neighborhood handling and full-neighborhood
+    stopping certification are explicit. Finite-state nonrepetition is labeled a curator
+    deduction, not a universal continuous-space termination theorem.
+- assessment_id: fls-boundaries
+  area: consistency
+  topic: Activation coverage, overlap and scan order
+  outcome: supported
+  target_ids:
+  - AIMech:FastLocalSearch
+  evidence_ids:
+  - fastlocalsearch-source-0
+  - fastlocalsearch-source-1
+  - finite-conventions
+  summary: Retain FLS separately from objective penalties and the complete GFLS composition.
+  details: The full pseudocode was checked across the 2010 PDF9–10 and1999 PDF16 images.
+    A move continues at the next subneighborhood; the origin remains active. Arbitrary
+    supplied initial bits, overlapping regions and problem-dependent reactivation
+    are permitted. The finite binary example returns cost1 with an improving neighbor
+    under incomplete reactivation but reaches cost0 when affected regions are reactivated.
+    Therefore all bits off is not a universal full-neighborhood optimality certificate.
+    The source’s approximate-result warning and later stronger local-minimum wording
+    are reconciled by explicit coverage conditions.
+- assessment_id: oscillation-boundaries
+  area: consistency
+  topic: Controlled excursions and side-dependent ranking
+  outcome: supported
+  target_ids:
+  - AIMech:StrategicOscillation
+  evidence_ids:
+  - strategicoscillation-source-0
+  - strategicoscillation-source-1
+  - finite-conventions
+  summary: Retain strategic oscillation as a distinct search-control strategy.
+  details: The 1989 source allows cardinality boundaries, feasibility crossings and
+    rebounds; incidental objective oscillation is insufficient. The later simple method
+    ranks objective quality among violation-improving moves rather than maximizing
+    violation reduction. If none improves violation, least deterioration is the primary
+    eligibility filter. The finite example distinguishes these orders. The general
+    strategy does not force every move to cross a boundary or inherit the constructed
+    example’s success as a universal guarantee.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Search mechanisms versus learning/model classes
+  outcome: supported
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three native identities with bounded AIO no-match assessments.
+  details: 'Six exact AIO CLASS nodes were inspected: TrainingStrategy, MachineLearningTask,
+    ReinforcementLearning, ReinforcementLearningLLM, EvolutionaryLLM and MarkovChain.
+    All three general search procedures receive bounded no-match assessments. They
+    do not require machine-learning training, a language model, policy learning or
+    a stochastic-model identity. Six native neighbors distinguish strict improvement,
+    active-region scanning and boundary-relative control from temperature-based worsening
+    acceptance, global frontier selection, tabu restrictions, feature penalties and
+    iterated configuration search.'
+findings:
+- finding_id: hill-documentation-access
+  issue_key: CultureBotAI-AIMech-HillClimbing-documentation-access
+  category: provenance
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:HillClimbing
+  field_paths:
+  - evidence_sources[source_id=additional-1].access_level
+  evidence_ids:
+  - hillclimbing-source-1
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HillClimbing.yaml
+    role: maintained
+  title: Official documentation has an incompatible access classification.
+  description: The original official-documentation source used full_text access and
+    failed maintained validation. Its classification is corrected to documentation
+    without changing the evidence or scientific claims.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/89
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T142938Z-hill-documentation-access
+    finding_id: hill-documentation-access
+  disposition_reason: The official AIMA source now has documentation access, preserving
+    its URL, checksum, undated version and Figure4.2 locator. The ledger and append-only
+    EDIT history are synchronized, and the post-fix gate passes.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:HillClimbing
+  - AIMech:FastLocalSearch
+  - AIMech:StrategicOscillation
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - hillclimbing-source-0
+  - hillclimbing-source-1
+  - fastlocalsearch-source-0
+  - fastlocalsearch-source-1
+  - strategicoscillation-source-0
+  - strategicoscillation-source-1
+  rationale: Strict improving moves, active-neighborhood scanning and controlled excursions
+    have different defining roles even when composed. Family overlap does not establish
+    exact identity.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- The AIMA extract is undated and identified by checksum. The 2010 FLS manuscript
+  and 2009-online/2011-issue oscillation manuscript are not silently substituted for
+  other layouts or revisions.
+- Finite examples distinguish implementation boundaries; no author code, benchmark
+  or complete convergence proof was run or audited.
+- The broad local-search umbrella and named GLS/FLS composition remain pending. There
+  are 179 pending inspection leads plus other unresolved dispositions; discovery is
+  ongoing.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/89
+tags:
+- native-concepts
+- local-search
+- self-review
+- discovery-ongoing
+```
