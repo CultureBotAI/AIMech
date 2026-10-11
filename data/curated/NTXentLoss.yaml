@@ -1,0 +1,112 @@
+name: Normalized temperature-scaled cross entropy loss
+definition: A contrastive cross-entropy objective that uses cosine-normalized, temperature-scaled similarities
+  to identify a paired positive representation among nonself candidates, including that positive in the
+  denominator.
+concept_kind: mathematical_method
+identity_notes: 'NT-Xent is the named normalized temperature-scaled configuration of the contrastive categorical
+  objective in the SimCLR paper. It specializes the generic InfoNCE score and candidate construction rather
+  than defining a mathematically unrelated loss family. The loss is not the full SimCLR augmentation/encoder/projection/training
+  procedure, and its symmetric two-view minibatch aggregation is stated explicitly. The paper credits
+  prior uses; no claim of first invention by SimCLR is made. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 214 preceding native IDs/names/aliases. Word-delimited
+  fixed-string searches of both full checkouts, including ignored and hidden files, returned 31 lines
+  each: existing SimCLR/InfoNCE component discussion, shared primary-source references and discovery/review
+  context. Five native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations
+  were inspected.'
+limitations:
+- Cosine similarity requires nonzero representations and the specified temperature is positive. The positive
+  is included in the normalization; dropping it or retaining the self-comparison yields a different expression.
+- The two views of each other source are dependent candidates. The standard independent-negative InfoNCE
+  mutual-information argument is not automatically established for this minibatch construction; this record
+  asserts a loss, not an unconditional information certificate.
+- Other-source views are treated as negatives without guaranteeing semantic dissimilarity. Learned usefulness
+  depends on positive construction, candidate sampling and representation choices; minimizing the objective
+  alone does not certify downstream quality.
+- The named configuration shares the categorical form of InfoNCE. Its record preserves the explicit normalization,
+  temperature and batching convention rather than claiming a new unrestricted variational bound. No model
+  training or benchmark was reproduced.
+id: AIMech:NTXentLoss
+aliases:
+- NT-Xent
+- NT-Xent loss
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, PDF p. 2, Equation (1); Algorithm 1, p. 3; Section 5.1 and Table 2, p. 6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For nonzero representations z_i,z_k and temperature tau>0, use s_ik=z_i^T z_k/(||z_i|| ||z_k||).
+    In the SimCLR two-view configuration, N>=2 source examples produce 2N views; j is the other view of
+    the same source as anchor i. Define ell(i,j)=−log[exp(s_ij/tau)/sum_(k=1..2N,k≠i) exp(s_ik/tau)].
+    The denominator contains 2N−1 terms: the paired positive and 2N−2 other-source views; only the anchor
+    itself is excluded. Average ell over both directions of every positive pair, giving 2N anchor losses.
+    Temperature changes the softmax weighting of candidate similarities. The paper applies this objective
+    to projected representations, but the mathematical loss does not itself prescribe an encoder, augmentation
+    family or optimizer.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF p. 2, Equation (1); Algorithm 1, p. 3; Section 5.1 and Table 2, p. 6
+    relation: supports
+- claim_id: information-bound-scope
+  kind: limitation
+  statement: 'Curator qualification from comparing the two sampling constructions: SimCLR uses both augmented
+    views of every other source as negative candidates, whereas Poole et al.’s Equation (10) states its
+    InfoNCE expectation over independent joint pairs. The latter proof is not automatically a proof for
+    the full SimCLR candidate construction. This comparison does not assert that no alternative dependent-candidate
+    bound can hold.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF p. 2, Equation (1); Algorithm 1, p. 3, two-view candidate construction
+    relation: supports
+  - source_id: bound-context
+    locator: Section 2.3, PDF p. 4, Equations (8)–(10), independent-joint-pair expectation and footnote
+      2
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: A Simple Framework for Contrastive Learning of Visual Representations
+  authors:
+  - Ting Chen
+  - Simon Kornblith
+  - Mohammad Norouzi
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v119/chen20j/chen20j.pdf
+  version: ICML 2020, PMLR 119:1597–1607; eleven-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v119/chen20j.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:10Z'
+  sha256: cc620e511bafe8b4b11ca3415f6d7bcf127a05818087bfa49905de3a2e50bc2d
+- source_id: bound-context
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: NT-Xent supplies the positive-versus-negative objective used in contrastive representation
+    learning. The AIO target is represented as a neural-network learning approach, so this mathematical-method-to-approach
+    association does not assert equivalence or subclass membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:15:34Z'
+  updated_at: '2026-10-11T09:18:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

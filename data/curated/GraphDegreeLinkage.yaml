@@ -1,0 +1,86 @@
+name: Graph degree linkage
+definition: An agglomerative clustering algorithm that merges the pair with greatest symmetric graph-degree
+  affinity, formed by summing products of cluster-normalized incoming and outgoing edge weights on a fixed
+  directed nearest-neighbor graph.
+concept_kind: algorithm
+identity_notes: 'GDL is the graph-degree clustering procedure of Zhang et al. Its affinity uses a product
+  of directed degree averages, not average pairwise distance or a symmetrized graph. GDL-U is the paper’s
+  exact update implementation of this same merge criterion; AGDL restricts candidate search and is represented
+  separately. JULE incorporates graph-degree affinity while also learning representations and changing
+  merge selection, so it is not the same algorithm. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 214 preceding native IDs/names/aliases. Word-delimited fixed-string
+  searches of both full checkouts, including ignored and hidden files, returned 31 lines each: existing
+  SimCLR/InfoNCE component discussion, shared primary-source references and discovery/review context.
+  Five native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The distance, K, K0, bandwidth and requested cluster count determine the construction. Weak-component
+  initialization can already join observations irreversibly; the merge-only procedure cannot recover a
+  requested count larger than the initial number of components.
+- Degree products encode two-way connectivity but do not prove recovery of true semantic clusters or universal
+  robustness to noise. The graph is directed even though the final pair affinity is symmetric.
+- GDL-U preserves the exact criterion when updates and tie handling agree. The paper’s AGDL approximation
+  can choose different merges and is not an exact synonym.
+- The published complexity analysis distinguishes naive GDL from its update and approximate implementations,
+  and assumes fixed neighborhood parameters and sparsity. This record asserts no universal runtime or
+  benchmark advantage. No implementation or benchmark was executed.
+id: AIMech:GraphDegreeLinkage
+aliases:
+- GDL
+- Graph degree linkage clustering
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.4, PDF pp. 5–8, Definitions 1–2, Equations (1)–(9), Algorithm 1; supplement
+    Section 6, p. 15, Algorithm 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Construct a directed K-nearest-neighbor graph with w_ij=exp(−dist(i,j)^2/sigma^2) for retained
+    edges and zero otherwise. Keep W fixed during clustering. Initialize clusters as weakly connected
+    components of a smaller K0-nearest-neighbor graph. For vertex i and cluster C, define d_in(i,C)=sum_(j
+    in C) w_ji/|C| and d_out(i,C)=sum_(j in C) w_ij/|C|. The directed affinity A(B→C)=sum_(i in B) d_in(i,C)d_out(i,C);
+    the symmetric merge affinity is A(B,C)=A(B→C)+A(C→B). Repeatedly choose a pair with maximum affinity
+    over all current pairs, merge it, and stop at the requested cluster count. The exact update implementation
+    uses A((A union B)→C)=A(A→C)+A(B→C), while the opposite direction must be computed from the original
+    degree expression; both directions are not generally additive.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.4, PDF pp. 5–8, Definitions 1–2, Equations (1)–(9), Algorithm 1; supplement
+      Section 6, p. 15, Algorithm 2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Graph Degree Linkage: Agglomerative Clustering on a Directed Graph'
+  authors:
+  - Wei Zhang
+  - Xiaogang Wang
+  - Deli Zhao
+  - Xiaoou Tang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1208.5092v1
+  version: arXiv:1208.5092v1, 2012-08-25; ECCV 2012 manuscript with supplement, 17 PDF pages
+  persistent_id: https://arxiv.org/abs/1208.5092v1
+  access_level: full_text
+  accessed_at: '2026-10-11T09:12:14Z'
+  sha256: eea827c754d6c59226d10b771ffefb882a60c9787cb6d85c088f8efb595ef31c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: GDL groups unlabeled observations using a specified graph-based merge procedure. The AIO
+    target is a clustering task, so this algorithm-to-task association does not assert equivalence or
+    an is-a relation.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: GDL repeatedly merges clusters to build an agglomerative hierarchy. The target describes
+    hierarchy construction without prescribing this linkage or candidate-search procedure.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:15:34Z'
+  updated_at: '2026-10-11T09:15:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
