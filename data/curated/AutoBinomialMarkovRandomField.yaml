@@ -1,0 +1,101 @@
+name: Auto-binomial Markov random field
+definition: A finite pairwise Markov-field model for bounded site counts whose full conditionals are binomial
+  with fixed trial counts and log odds linear in neighboring counts, using symmetric interaction coefficients.
+concept_kind: model_family
+identity_notes: 'The classical auto-binomial construction specifies a joint law for mutually dependent
+  counts, not a collection of independent binomial regressions. Trial counts m_i are fixed nonnegative
+  integer bounds; nondegenerate sites have m_i at least one. When every m_i is one, the model reduces
+  to the binary auto-logistic special case. The general bounded-count family is not identical to that
+  special case, a classification task, a sigmoid activation or a Boltzmann neural architecture with a
+  specified visible/hidden partition. The binomial property is a full-conditional statement; it does not
+  assert binomial marginal laws for interacting sites. No normalized identity match was found across all
+  442 pinned AIO labels and all scoped synonyms and 403 preceding native IDs, names and aliases. Fixed-string
+  full-checkout searches included ignored and hidden files in worktree and main, yielding 37 and 37 matched
+  lines; all 20 unique contents were read. Hits are citations, contextual statements and discovery leads
+  rather than records of these identities. All 185 semantic label/synonym hits were read. Forty-three
+  fully annotated exact CLASS nodes and outgoing edges were inspected: 38 byte-equivalent to prior inspected
+  nodes and five freshly read. Fifty-four contextual YAMLs comprise 43 generated and 11 native records:
+  46 byte-verified after prior reading and eight freshly read. Absence is bounded to the pinned snapshot,
+  maintained corpus and inspected semantic neighborhood.'
+limitations:
+- The combinatorial factors choose(m_i,x_i) are essential when m_i exceeds one. Dropping them changes
+  the site conditionals; a bounded geometric-type energy is not automatically auto-binomial.
+- Finite support permits either sign of a symmetric interaction coefficient, but does not guarantee that
+  a chosen parameterization fits observed counts. Changing trial counts, aggregation scale or support
+  changes the model.
+- The source develops the count construction formally. Its two detailed ecological examples concern binary
+  and Gaussian data, so they are not empirical validation of arbitrary auto-binomial count models.
+- The graph, site supports and any conditioning boundary values must be specified. The construction assumes
+  compatible positive full conditionals on the stated Cartesian support; arbitrary separately fitted regressions
+  or asymmetric neighbor coefficients do not automatically define a joint model.
+- The finite fixed-site model does not by itself specify a random-location point process, temporal causal
+  mechanism, hidden observation layer or infinite-lattice existence theorem. Conditional association does
+  not establish causation.
+- A closed-form site conditional does not make the joint partition function, maximum-likelihood fit or
+  uncertainty calculation trivial. Estimation, sampling and model diagnostics require their own procedures.
+  No author implementation, empirical fit or benchmark was reproduced.
+id: AIMech:AutoBinomialMarkovRandomField
+aliases:
+- Auto-binomial model
+- Auto-binomial scheme
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–4.1, printed pp. 197–200 / PDF pp. 7–10, especially Equations (3.1)–(3.3) and (4.1)–(4.6);
+    Section 4.2.3, p. 202 / PDF p. 12; Section 4.3, pp. 202–203 / PDF pp. 12–13
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: On a finite graph, take X_i in {0,...,m_i}, finite real alpha_i and symmetric beta_ij=beta_ji,
+    with beta_ij=0 on nonedges. The site full conditional is Binomial(m_i,theta_i), where log(theta_i/(1-theta_i))=alpha_i+sum_(j!=i)
+    beta_ij*x_j. Substituting the binomial base measure into the source pairwise representation gives
+    p(x)=Z^(-1)*product_i choose(m_i,x_i)*exp[sum_i alpha_i*x_i+sum_(i<j) beta_ij*x_i*x_j]. Each undirected
+    edge occurs once. Its finite support gives a finite positive Z for finite coefficients of either sign.
+    Conditioning on all other sites yields the stated binomial law, with conditional mean m_i*theta_i.
+    Setting every m_i=1 removes the combinatorial factors and recovers the auto-logistic family; setting
+    all interactions to zero gives independent binomials.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–4.1, printed pp. 197–200 / PDF pp. 7–10, especially Equations (3.1)–(3.3) and
+      (4.1)–(4.6); Section 4.2.3, p. 202 / PDF p. 12; Section 4.3, pp. 202–203 / PDF pp. 12–13
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Spatial Interaction and the Statistical Analysis of Lattice Systems
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www.stat.cmu.edu/~brian/720-2007-source/nice%20materials/besag-74-contains-hammersley-clifford.pdf
+  version: Journal of the Royal Statistical Society, Series B 36(2):192–225, 1974. The university-hosted
+    46-page scan includes a JSTOR cover and separately published discussion on pp. 225–236. All 46 pages
+    visually read, including two main figures, 16 tables, discussion figure, references and author reply.
+    Printed page=PDF page+190. The main-paper DOI identifies the cited method sections; discussion has
+    DOI 10.1111/j.2517-6161.1974.tb01000.x. A later online date is not the original publication date.
+    This batch reuses the same hash-verified PDF after the prior complete visual reading and revisits
+    PDF pages 2, 7, 9, 10, 12, 13 and 14. No new PDF download or full extracted-text/OCR reading is claimed.
+  persistent_id: doi:10.1111/j.2517-6161.1974.tb00999.x
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:19Z'
+  sha256: 796199ef5d870e81750cc3fc262f140ccc7114ce916e3a23fc53f36a614bebef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The finite joint probability family is a mathematical representation within the broader Model
+    class. Its defining support and compatible full conditionals do not require a particular regression
+    task or neural architecture.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The field represents undirected graphical conditional dependence. The pinned AIO target is
+    task-scoped, so related_match connects the model family to that graphical-modeling task without asserting
+    model is-a task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:15:55Z'
+  updated_at: '2026-10-11T22:15:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
