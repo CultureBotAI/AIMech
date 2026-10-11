@@ -1,0 +1,93 @@
+name: CD-PercLoss
+definition: A conditional RBM training algorithm that contrasts the observed output free energy with that
+  of a prediction selected by input-initialized stochastic search, treating the selected prediction as
+  fixed during differentiation.
+concept_kind: algorithm
+identity_notes: 'This is the CD-PercLoss algorithm defined by Mnih, Larochelle and Hinton as a practical
+  approximation to generalized perceptron-loss training. Unlike standard data-started contrastive divergence,
+  its search begins from the conditioning input and chooses the best free-energy state among its search
+  steps. The training algorithm, the generalized perceptron objective and the conditional RBM architecture
+  are distinct identities. The name does not identify the AIO single-layer linear Perceptron architecture.
+  The paper also allows extension to other models with computable energy or free energy and Gibbs sampling;
+  this record states its conditional-RBM procedure. All 442 pinned AIO labels/scoped synonyms and 367
+  preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string
+  searches included ignored and hidden files in both worktree and main, returning 37 lines each. All 27
+  unique matched contents were read: conditional-RBM source references, contrasting method descriptions,
+  pending leads and saved review context, rather than existing candidate identities. All 45 semantic label/synonym
+  hits and 23 exact annotated AIO nodes were inspected, alongside corresponding generated records and
+  three complete native neighbors. Previously read contextual files were checked for byte identity. Absence
+  is bounded to this snapshot and inspected neighborhood.'
+limitations:
+- Finite search does not certify the global conditional mode. Its approximate free-energy difference can
+  be negative, and its update can be zero when the searched prediction equals the observed target even
+  though another output has lower free energy.
+- Holding the prediction fixed is an explicit surrogate-update convention. It does not differentiate the
+  sampling/selection process or produce the exact conditional log-likelihood gradient, and it does not
+  guarantee calibrated conditional probabilities.
+- The selected candidate is the lowest-free-energy state among k generated configurations, not necessarily
+  the last chain state. Search initialization uses the conditioning input rather than the observed target;
+  substituting ordinary data-started CD changes the procedure.
+- Mean visible initialization and mean-field test updates are deterministic probability-valued computations,
+  distinct from binary equilibrium samples or exact MAP inference. Tie-breaking and any final hard-decision
+  convention need to be specified by an implementation; this record does not infer undocumented author-code
+  behavior.
+- The displayed loss has no explicit margin. The paper proposes margin-based extensions as future work;
+  those are not silently part of CD-PercLoss. Results for the inspected denoising settings do not establish
+  universal suitability, global convergence or equivalence to the linear perceptron.
+id: AIMech:CDPercLoss
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 6.2, Equation (17), generalized perceptron loss and finite prediction search, PDF pp.6–7;
+    test-time mean-field substitution, p.7; future margin discussion, Section 7, p.8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For training pair (u,v), initialize each visible value from the logistic input-to-visible
+    prediction sigmoid(b_v+W_uv^T u) when those connections exist; without them, draw independent Bernoulli(0.5)
+    visible values. Holding u fixed, perform k Gibbs updates and retain the k resulting visible configurations.
+    Choose a configuration v_hat with the lowest conditional free energy among those candidates. Update
+    model parameters using the derivative of F(v,u)-F(v_hat,u) with v_hat held constant, contrasting the
+    observed and searched free-energy derivatives. This replaces the generally intractable global minimum
+    in the generalized perceptron loss by a finite stochastic search. The source uses k mean-field updates
+    instead of sampled Gibbs updates for test-time predictions. No partition function enters the frozen-prediction
+    free-energy-difference gradient.
+  evidence:
+  - source_id: method-source
+    locator: Section 6.2, Equation (17), generalized perceptron loss and finite prediction search, PDF
+      pp.6–7; test-time mean-field substitution, p.7; future margin discussion, Section 7, p.8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Conditional Restricted Boltzmann Machines for Structured Output Prediction
+  authors:
+  - Volodymyr Mnih
+  - Hugo Larochelle
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf
+  version: Nine-page author-hosted UAI 2011 paper, report UAI-P-2011-PG-514-522; arXiv upload 14 February
+    2012. No printed page numbers. Complete PDF visually read in the preceding batch and verified byte-identical;
+    PDF pages 3–8 reread for these algorithms.
+  persistent_id: arXiv:1202.3748
+  access_level: full_text
+  accessed_at: '2026-10-11T18:43:08Z'
+  sha256: e7811677aa0f48e97931e1a5b60497d7ec0f2a22c19ab06ce1e15b8f366df4ac
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: This is a learning and prediction procedure developed for conditional RBM free energies.
+    The AIO target names the model component/family, not this procedure; the association is related rather
+    than an algorithm-is-model subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:05:47Z'
+  updated_at: '2026-10-11T19:05:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
