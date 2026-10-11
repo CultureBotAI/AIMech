@@ -1,0 +1,97 @@
+name: Factorial hidden Markov model
+definition: A directed latent sequence-model family in which several independently evolving hidden Markov
+  chains jointly determine the observation distribution at each time.
+concept_kind: model_family
+identity_notes: 'This record covers the independent-chain factorial HMM developed by Ghahramani and Jordan,
+  with a shared observation distribution. It is not a mixture selecting one HMM, a globally normalized
+  product of complete HMM likelihoods, an input-conditioned HMM, or the variational algorithm used to
+  fit the model. Each combination of chain states is one joint state; factorial refers to its distributed
+  component representation. The later coupled-chain and input-conditioned extensions in Section 5 are
+  outside this narrow definition. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully
+  read: preceding boundary discussions, citations, reviews and pending leads, not existing records of
+  these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with
+  outgoing edges, their generated records and four native neighbors were inspected or verified unchanged
+  after prior full reading. Absence is bounded to this pin and inspected neighborhood.'
+limitations:
+- Independent latent dynamics do not imply posterior independence after shared observations. Special emission
+  structures may decouple chains; for the Gaussian case a sufficient condition is cross-chain orthogonality
+  in the C^-1 metric. Note 3’s ordinary orthogonality with a merely diagonal covariance is not sufficient
+  in general.
+- The Gaussian additive mean is a worked parameterization, not the only possible factorial-HMM emission.
+  Its closed-form parameter updates do not automatically transfer to nonlinear or discrete emissions.
+- Factorized transitions reduce exact computation relative to a naive unconstrained joint-state HMM but
+  do not remove exponential state growth. A compact parameterization is not a universal scalability or
+  accuracy guarantee.
+- Approximate E-steps may improve a variational bound without monotonically improving the true likelihood.
+  Additive offsets are not individually identifiable without conventions; the paper uses a pseudoinverse.
+- Section 5’s coupled-transition and input-conditioned extension displays contain indexing/factorization
+  ambiguities. They are not adopted as the defining joint distribution here. No experimental performance,
+  author implementation or general convergence guarantee is certified.
+id: AIMech:FactorialHiddenMarkovModel
+aliases:
+- FHMM
+- Factorial HMM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3.2, Equations (1)–(6), printed pp.246–250 / PDF pp.2–6; Section 3.3–3.6, pp.251–256
+    / PDF pp.7–12; Appendices A–B, pp.265–268 / PDF pp.21–24; Note 3, p.271 / PDF p.27
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: With independent initial states and chain-specific transitions, the joint distribution factors
+    into the product of chain priors, the product over times and chains of p(s_t^m|s_(t-1)^m), and one
+    shared p(y_t|s_t^1,...,s_t^M) per time. The paper’s worked emission is Gaussian with mean sum_m W_m
+    s_t^m for one-hot states and common covariance C. Although chains are independent a priori, observations
+    generally couple their posterior paths through the shared emission. For M chains each having K states,
+    the joint latent state has K^M configurations. Exact forward–backward can exploit the transition factorization
+    by contracting one chain dimension at a time, with O(T M K^(M+1)) transition work under the paper’s
+    fixed-observation-dimension setting; this remains exponential in M. EM uses posterior state, temporal-pair
+    and cross-chain moments. In the additive Gaussian model its weight update is a linear-system solution
+    with a pseudoinverse because chain contributions have redundant mean offsets. Exact inference, Gibbs
+    sampling and variational approximations are separate procedures, not defining alternatives for model
+    identity.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3.2, Equations (1)–(6), printed pp.246–250 / PDF pp.2–6; Section 3.3–3.6, pp.251–256
+      / PDF pp.7–12; Appendices A–B, pp.265–268 / PDF pp.21–24; Note 3, p.271 / PDF p.27
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Factorial Hidden Markov Models
+  authors:
+  - Zoubin Ghahramani
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf
+  version: Machine Learning 29:245–273 (November 1997), author-hosted journal PDF. All 29 pages visually
+    read. Printed page = PDF page +244; first page number absent. Distinct from the earlier NIPS paper
+    and technical-report versions.
+  persistent_id: doi:10.1023/A:1007425814087
+  access_level: full_text
+  accessed_at: '2026-10-11T19:30:52Z'
+  sha256: ab3b4f8f4c8ddbf51fd20f35c9913dca409e5fc725c9153e3c185b99ed1708e2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: For a finite sequence, the independent-chain model with shared observation children is a
+    directed acyclic probabilistic network. The pinned BayesianNetwork definition has that broader scope
+    and is parented under Network; the local factorial temporal structure is more specific. This is a
+    local mapping, not an upstream axiom.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The model contains multiple latent Markov chains; shared emissions and marginalization do
+    not make its observations a first-order Markov chain. This is a component association.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:44:52Z'
+  updated_at: '2026-10-11T19:44:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
