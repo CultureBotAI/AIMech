@@ -1,0 +1,147 @@
+name: DeepCluster
+definition: A visual representation-learning procedure that alternates clustering current neural features
+  into pseudo-labels and training the feature extractor and a classifier to predict those labels.
+concept_kind: algorithm
+identity_notes: This record covers the original k-means-based DeepCluster procedure of Caron et al. It
+  is not generic deep clustering, standalone k-means, DeepCluster-v2, or a particular pretrained model.
+  Cluster assignments provide training targets; the k-means centroid matrix is not used as the discriminative
+  classifier. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 195 prior native IDs/names/aliases. Ignored-inclusive, word-delimited searches of both full checkouts
+  found nine prior discovery/review references in each plus six unrelated language-stemmer tokens in the
+  main environment. An initial substring search also matched unrelated layer-name suffixes. Neighboring
+  k-means, SwAV, Barlow Twins and VICReg mechanisms and exact AIO definitions/edges were inspected; shared
+  components do not establish identity.
+limitations:
+- K-means is nonconvex and the finite iteration implementation does not certify a global optimum. The
+  alternating clustering and classification stages are not a proof of descent for one common objective
+  or of general convergence.
+- Empty-cluster repair and pseudo-label sampling are practical safeguards, not a universal guarantee against
+  collapsed representations. The inspected wrapper delegates clustering to Faiss; its library internals
+  were not audited.
+- Uniform training exposure to pseudo-label groups does not force equal cluster sizes. Cluster IDs can
+  be permuted or change between rounds and are not verified semantic class labels.
+- PCA dimension 256, Sobel filtering, architecture, augmentations and epoch schedule describe the original
+  experimental configuration. Whitening and L2 normalization require suitable numerical handling; no performance
+  equivalence for arbitrary variants is asserted.
+- Training discards ImageNet class labels, but the paper selects hyperparameters using labeled Pascal
+  VOC validation. Full-dataset feature extraction has a cost; no training or benchmark reproduction was
+  performed.
+id: AIMech:DeepCluster
+aliases:
+- Deep clustering for unsupervised learning of visual features
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.4, Equations (1)–(2), PDF pp. 4–7; hyperparameter-selection paragraph on PDF
+    p. 7
+  relation: supports
+- source_id: additional-1
+  locator: 'main.py lines 141–186: feature extraction, pseudo-label sampling, classifier reinitialization
+    and training'
+  relation: supports
+- source_id: additional-2
+  locator: 'clustering.py lines 76–97, 150–183 and 204–219: PCA whitening, L2 normalization and finite
+    Faiss k-means'
+  relation: supports
+- source_id: additional-3
+  locator: 'util.py lines 49–90: sampling across nonempty pseudo-label groups'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Extract features of the unlabeled training images with the current encoder while holding
+    its parameters fixed. In the original reported configuration, PCA-reduce and whiten these features,
+    then L2-normalize them before k-means. Cluster them by alternating nearest-centroid assignment and
+    centroid updates toward the squared-distance objective; use the resulting hard cluster indices as
+    pseudo-labels. The paper handles empty clusters by perturbing a selected nonempty centroid and reassigning
+    its members between the two centers. Then hold pseudo-labels fixed and optimize the encoder and a
+    classification head with cross-entropy on augmented images. Sample approximately uniformly across
+    nonempty pseudo-label groups so large clusters do not dominate training. Repeat full-dataset feature
+    extraction, clustering and discriminative training. The pinned author implementation reinitializes
+    the final linear classifier for each reclustering round, uses 20 k-means iterations, and uses sampled
+    pseudo-labels rather than differentiating through k-means.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.4, Equations (1)–(2), PDF pp. 4–7; hyperparameter-selection paragraph on PDF
+      p. 7
+    relation: supports
+  - source_id: additional-1
+    locator: 'main.py lines 141–186: feature extraction, pseudo-label sampling, classifier reinitialization
+      and training'
+    relation: supports
+  - source_id: additional-2
+    locator: 'clustering.py lines 76–97, 150–183 and 204–219: PCA whitening, L2 normalization and finite
+      Faiss k-means'
+    relation: supports
+  - source_id: additional-3
+    locator: 'util.py lines 49–90: sampling across nonempty pseudo-label groups'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Deep Clustering for Unsupervised Learning of Visual Features
+  authors:
+  - Mathilde Caron
+  - Piotr Bojanowski
+  - Armand Joulin
+  - Matthijs Douze
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ECCV_2018/papers/Mathilde_Caron_Deep_Clustering_for_ECCV_2018_paper.pdf
+  version: ECCV 2018, pp. 132–149; 18-page proceedings PDF
+  persistent_id: https://openaccess.thecvf.com/content_ECCV_2018/html/Mathilde_Caron_Deep_Clustering_for_ECCV_2018_paper.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:07:46Z'
+  sha256: cc527dbc1ccbed94d31d60bc83b05f59a4e6a2ac2e1baf114422543dbd513798
+- source_id: additional-1
+  title: 'facebookresearch/deepcluster author implementation: main.py'
+  authors:
+  - facebookresearch/deepcluster contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/main.py
+  version: facebookresearch/deepcluster commit 2d1927e8e3dd272329e879e510fbbdf1b1d02d17
+  persistent_id: https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/main.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:12:27Z'
+  sha256: 2ca6ba2def5344fdf580bfb67feea0974efa1fbedb027c9c2f02d0014083942f
+- source_id: additional-2
+  title: 'facebookresearch/deepcluster author implementation: clustering.py'
+  authors:
+  - facebookresearch/deepcluster contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/clustering.py
+  version: facebookresearch/deepcluster commit 2d1927e8e3dd272329e879e510fbbdf1b1d02d17
+  persistent_id: https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/clustering.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:12:27Z'
+  sha256: a7d07cb901f583839807968d1ceaec5c110d406b9188114982c9bef791527fb2
+- source_id: additional-3
+  title: 'facebookresearch/deepcluster author implementation: util.py'
+  authors:
+  - facebookresearch/deepcluster contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/util.py
+  version: facebookresearch/deepcluster commit 2d1927e8e3dd272329e879e510fbbdf1b1d02d17
+  persistent_id: https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/util.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:12:27Z'
+  sha256: f47aaf8fcb74f80d65db81631071f7876ce7956690c5c0d63e5079683a50bd4a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This algorithm learns from self-generated targets or relationships between unlabeled inputs.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: This procedure uses or directly learns unlabeled image cluster assignments. The pinned target
+    is an unlabeled clustering task; this is a related algorithm-to-task association, not equivalence,
+    a semantic class-label guarantee or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:15:29Z'
+  updated_at: '2026-10-11T08:15:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
