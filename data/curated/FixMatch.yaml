@@ -1,0 +1,136 @@
+name: FixMatch
+definition: A semi-supervised classifier-training procedure that fits labeled examples and trains on strongly
+  augmented unlabeled inputs using hard pseudo-labels retained only when the corresponding weakly augmented
+  prediction reaches a confidence threshold.
+concept_kind: algorithm
+identity_notes: FixMatch’s defining combination is weak-to-strong consistency with confidence-masked hard
+  pseudo-labels. It differs from MixMatch’s soft guessed targets and interpolation, ReMixMatch’s distribution
+  alignment and anchored soft targets, and an EMA-target Mean Teacher. AIO SemiSupervisedLLM is a narrower,
+  differently structured LLM model class, not this classifier-training algorithm. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 234 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 21 lines in each from prior discovery and the related MixMatch record. Twelve exact AIO CLASS
+  nodes, their scoped synonyms and outgoing edges, plus six neighboring native mechanisms were inspected.
+  This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+limitations:
+- High confidence need not mean correctness; the threshold trades target coverage against potential confirmation
+  errors rather than proving label quality.
+- The denominator includes masked-out inputs, so changing the retained fraction changes the effective
+  contribution at fixed lambda_u.
+- Class-preserving augmentations and labeled/unlabeled distribution assumptions affect applicability.
+  Strong-augmentation extensions and distribution alignment are separate variants.
+- Published source notation differs at the threshold boundary; the record follows the inclusive main-paper
+  and pinned-code convention. No performance score is asserted.
+id: AIMech:FixMatch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–2.5, especially Equations (3)–(4) and footnote 2, PDF/printed pp. 2–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Use B labeled examples and an unlabeled-input batch of size mu*B. Compute average cross-entropy
+    on weakly augmented labeled inputs. For each unlabeled input u_b, compute q_b from the current model
+    on its weak augmentation and make a one-hot pseudo-label at argmax(q_b). With these target predictions
+    detached from gradients, use mask 1[max(q_b)≥tau] and cross-entropy against the model prediction on
+    a strong augmentation of the same input. Sum masked losses and divide by the full mu*B, not by the
+    number retained. Add this loss with fixed weight lambda_u to the labeled loss; the stated core algorithm
+    does not require a separate weight ramp. The paper’s input pool can include labeled examples with
+    their labels ignored in this branch. The source uses weak flip/shift augmentation and strong RandAugment
+    or CTAugment plus Cutout; these generators and hyperparameters instantiate the procedure. EMA parameters
+    are used for reported evaluation, while weak-view pseudo-labels come from the current model. The core
+    does not require MixUp or distribution alignment.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–2.5, especially Equations (3)–(4) and footnote 2, PDF/printed pp. 2–4
+    relation: supports
+  - source_id: implementation
+    locator: 'fixmatch.py lines 85–138: student logits, detached weak probabilities, >= threshold, mean
+      masked loss and evaluation EMA'
+    relation: supports
+- claim_id: threshold-convention
+  kind: limitation
+  statement: Main-paper Equation4 and the inspected author code use max(q)≥tau, whereas supplementary
+    Algorithm1 writes max(q)>tau. Equality can change whether an example contributes. The inclusive convention
+    is used here; the supplement’s strict inequality is not silently treated as identical.
+  evidence:
+  - source_id: method-source
+    locator: Equation (4), main PDF/printed p. 3
+    relation: supports
+  - source_id: implementation
+    locator: fixmatch.py lines 112–118
+    relation: supports
+  - source_id: supplement
+    locator: Appendix A Algorithm1, supplementary PDF p. 1 / printed p. 14
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: 'FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence'
+  authors:
+  - Kihyuk Sohn
+  - David Berthelot
+  - Chun-Liang Li
+  - Zizhao Zhang
+  - Nicholas Carlini
+  - Ekin D. Cubuk
+  - Alex Kurakin
+  - Han Zhang
+  - Colin Raffel
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2020/file/06964dce9addb1c5cb5d6e3d9838f733-Paper.pdf
+  version: NeurIPS 2020 proceedings paper; 13 pages; author order follows the PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:14:02Z'
+  sha256: c405d1d8a3e82ab486d1d2a4fc7abed36662d1130078dab1d7fa7d4cbade5ac1
+- source_id: implementation
+  title: FixMatch author implementation — fixed pseudo-label targets and masked loss
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/fixmatch/blob/d4985a158065947dba803e626ee9a6721709c570/fixmatch.py
+  version: Author implementation at commit d4985a158065947dba803e626ee9a6721709c570, fixmatch.py; source
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:19:17Z'
+  sha256: 46fb0f881c17e2ff845c2f57394179dc128f104fa87a91d9af4296db67f83a05
+- source_id: supplement
+  title: 'FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence — supplementary
+    material'
+  authors:
+  - Kihyuk Sohn
+  - David Berthelot
+  - Chun-Liang Li
+  - Zizhao Zhang
+  - Nicholas Carlini
+  - Ekin D. Cubuk
+  - Alex Kurakin
+  - Han Zhang
+  - Colin Raffel
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2020/file/06964dce9addb1c5cb5d6e3d9838f733-Supplemental.pdf
+  version: NeurIPS 2020 proceedings supplement; 8 PDF pages, printed 14–21
+  access_level: full_text
+  accessed_at: '2026-10-11T10:18:09Z'
+  sha256: 0483c3a036f616961f40f746a5af0720af51db559dc1b8d185deeab0c98c156b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: This algorithm learns class predictions from labeled and unlabeled examples. The pinned target
+    is a classification task under SupervisedLearning; the association is not an equivalence or an is-a
+    assertion.
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This training algorithm realizes learning from data; the AIO target is a general learning
+    task at a different abstraction level, so the relation is associative.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:22:43Z'
+  updated_at: '2026-10-11T10:22:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
