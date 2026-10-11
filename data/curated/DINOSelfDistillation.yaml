@@ -1,0 +1,113 @@
+name: DINO self-distillation
+definition: A self-supervised representation-learning procedure that matches cross-view student probabilities
+  to centered and sharpened probabilities from a momentum teacher, without a separate prediction head
+  or explicit negative-pair objective.
+concept_kind: algorithm
+identity_notes: This is Caron et al.’s 2021 DINO self-distillation method, supporting both vision-transformer
+  and convolutional backbones. It is not the later DINO object detector, DINOv2/v3, or a particular checkpoint.
+  The bare acronym is not asserted as an unqualified alias. Its same-architecture student/teacher branches
+  differ from BYOL’s online-only predictor and normalized vector regression. No normalized identity match
+  was found across all 442 pinned AIO labels/scoped synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive
+  searches of both full checkouts found no discovery-checkout hits and nine unrelated main-environment
+  substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms and
+  incident edges were inspected; task/network vocabulary does not make these algorithms equivalent.
+limitations:
+- The centering prose on printed p. 9653 says to add c, whereas Algorithm 1 subtracts the running center.
+  The pinned author implementation also subtracts it; this record follows the algorithm and implementation
+  and preserves the discrepancy.
+- The teacher is updated from the student, not supplied as an independently trained larger model. Its
+  output coordinates are learned representation probabilities, not verified semantic class labels.
+- Centering and sharpening are empirical collapse-control choices, not a proof that all initializations,
+  temperatures, momentum schedules or datasets avoid collapsed representations.
+- A larger number of local crops changes the cross-view objective. The two-view pseudocode is a specialization;
+  losses exclude the teacher/student pair from the identical crop.
+- The pinned implementation uses zero center initialization, distributed raw-output averaging and matched
+  initial student/teacher weights. Its specific default temperature schedule differs from the paper’s
+  reported experimental schedule; this record does not equate all defaults.
+- No DINO detector mechanism, later DINO variant, segmentation accuracy claim, trained checkpoint or executed
+  benchmark is asserted.
+id: AIMech:DINOSelfDistillation
+aliases:
+- Self-distillation with no labels
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.2, Algorithm 1, Equations (1)–(4), printed pp. 9652–9654 / PDF pp. 3–5; Section
+    5, printed p. 9657 / PDF p. 8
+  relation: supports
+- source_id: additional-1
+  locator: main_dino.py lines 188–224 (matching initialization/no teacher gradients), 302–351 (views,
+    student optimization and teacher EMA), 363–416 (DINOLoss, zero center, subtraction, cross-view exclusions
+    and distributed center update); lines 61–75 (teacher momentum and temperature defaults; warmup help
+    text differs from parser default)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize teacher parameters from the student and a center c=0. Generate two global crops
+    and optional local crops from each image; the teacher sees the global crops and the student sees all
+    crops. For raw K-dimensional outputs g, use P_s(v)=softmax(g_s(v)/tau_s) and P_t(v)=softmax((g_t(v)−c)/tau_t),
+    with positive temperatures and a sharpened teacher distribution. Average cross-entropy −sum_i P_t(v)_i
+    log P_s(v′)_i over teacher global crops and student crops of the same image, excluding the identical
+    view, and average over images in the minibatch. Stop gradients through P_t, update student parameters
+    by the loss, and update teacher parameters by theta_t←lambda theta_t+(1−lambda)theta_s, with lambda
+    in [0,1]. Update c by an exponential moving average with center momentum in [0,1) of the raw teacher
+    outputs over all global views in the distributed batch for use on subsequent batches. Both branches
+    share backbone and projection-head architecture; downstream features are taken from the backbone before
+    the head.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.2, Algorithm 1, Equations (1)–(4), printed pp. 9652–9654 / PDF pp. 3–5; Section
+      5, printed p. 9657 / PDF p. 8
+    relation: supports
+  - source_id: additional-1
+    locator: main_dino.py lines 188–224 (matching initialization/no teacher gradients), 302–351 (views,
+      student optimization and teacher EMA), 363–416 (DINOLoss, zero center, subtraction, cross-view exclusions
+      and distributed center update); lines 61–75 (teacher momentum and temperature defaults; warmup help
+      text differs from parser default)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Emerging Properties in Self-Supervised Vision Transformers
+  authors:
+  - Mathilde Caron
+  - Hugo Touvron
+  - Ishan Misra
+  - Hervé Jégou
+  - Julien Mairal
+  - Piotr Bojanowski
+  - Armand Joulin
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content/ICCV2021/papers/Caron_Emerging_Properties_in_Self-Supervised_Vision_Transformers_ICCV_2021_paper.pdf
+  version: ICCV 2021, pp. 9650–9660; eleven-page proceedings PDF; original DINO self-distillation
+  persistent_id: https://openaccess.thecvf.com/content/ICCV2021/html/Caron_Emerging_Properties_in_Self-Supervised_Vision_Transformers_ICCV_2021_paper.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:11Z'
+  sha256: fa218769e59512c0f2ffc73f2280ddfa2a2d23821837833082510b51b991daac
+- source_id: additional-1
+  title: Original DINO training and DINOLoss author implementation
+  authors:
+  - Facebook Research DINO contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookresearch/dino/7c446df5b9f45747937fb0d72314eb9f7b66930a/main_dino.py
+  version: facebookresearch/dino commit 7c446df5b9f45747937fb0d72314eb9f7b66930a
+  persistent_id: https://github.com/facebookresearch/dino/tree/7c446df5b9f45747937fb0d72314eb9f7b66930a
+  access_level: documentation
+  accessed_at: '2026-10-11T07:49:36Z'
+  sha256: 74ef2afb9e16ab859370e1eb18455de0797d1202851c92d8191f06ccc05b28c7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:53:16Z'
+  updated_at: '2026-10-11T07:54:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

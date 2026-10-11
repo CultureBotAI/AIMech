@@ -1,0 +1,619 @@
+schema_version: 1.0.0
+review_id: 20261011T075605Z-visual-self-supervision
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of visual self-supervised learning methods
+started_at: '2026-10-11T07:54:21Z'
+finished_at: '2026-10-11T07:56:05Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all four actual YAMLs
+    against primary methods, visible algorithm/equation pages, BYOL supplement, pinned
+    DINO implementation and exact AIO neighbors. No independent reviewer or approval
+    is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain four distinct self-supervised representation-learning procedures with
+  qualified AIO related mappings. No actionable defect remains in the assessed records.
+  All remain DRAFT; source discrepancies, reading scope and empirical limits are explicit.
+source:
+  git_revision: 392538e45b675abddaf98084c6ae41bb2bf2f8e8
+  state: working_tree
+  inputs:
+  - path: data/aio/ContrastiveLearning.yaml
+    sha256: f8100e15621b6dd3335dc0bc8253da0197719faf6ac00f1369ebbc455a6fa645
+    role: context
+  - path: data/aio/Distillation.yaml
+    sha256: 02faf8db468fca6adfe257a141c98c7b13f85dc301e856a1f9622dfdb68ae5c9
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SelfsupervisedLearning.yaml
+    sha256: ad9a98dfee5629f6433f13470f56e333316f8f03847df2c5678faf023d979c0e
+    role: context
+  - path: data/curated/BootstrapYourOwnLatent.yaml
+    sha256: 4ed2bebb46d3199f192dcb7e53012a22c7bd96d7b41f015db762dd41f545e307
+    role: target
+  - path: data/curated/DINOSelfDistillation.yaml
+    sha256: 66ac3400efd5deda6468cb7e8ae53f3c7f6f0cf942557b634ef3a7bdafc93516
+    role: target
+  - path: data/curated/MomentumContrast.yaml
+    sha256: 88f10d2891717ff3d6c625bb9c1a656642c5be0cd40752f8776179076a462ecc
+    role: target
+  - path: data/curated/SimCLR.yaml
+    sha256: e00dbf707a274e02df684ad09ae679b9dda832ba42e4aea7db5a157e25385e3d
+    role: target
+  - path: research/discovery/20261011T075420Z-visual-self-supervision.json
+    sha256: 4040e56bdc526121612f46a90bb34ec61eba504470c85aa39c8c679202af9177
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SimCLR
+  path: data/curated/SimCLR.yaml
+  label: SimCLR
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SimCLR.yaml
+    role: maintained
+- target_id: AIMech:MomentumContrast
+  path: data/curated/MomentumContrast.yaml
+  label: Momentum contrast
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MomentumContrast.yaml
+    role: maintained
+- target_id: AIMech:BootstrapYourOwnLatent
+  path: data/curated/BootstrapYourOwnLatent.yaml
+  label: Bootstrap Your Own Latent
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BootstrapYourOwnLatent.yaml
+    role: maintained
+- target_id: AIMech:DINOSelfDistillation
+  path: data/curated/DINOSelfDistillation.yaml
+  label: DINO self-distillation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DINOSelfDistillation.yaml
+    role: maintained
+scope:
+  description: Four maintained visual self-supervised learning algorithms.
+  selection: Exactly SimCLR, MomentumContrast, BootstrapYourOwnLatent and DINOSelfDistillation
+    in the visual-self-supervision discovery ledger; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:SimCLR
+  - AIMech:MomentumContrast
+  - AIMech:BootstrapYourOwnLatent
+  - AIMech:DINOSelfDistillation
+  exclusions:
+  - target: Later variants, DINO object detector and other self-supervised methods
+    reason: Separate original methods and identity decisions are required; retained
+      as discovery leads.
+  - target: Unread supplementary pages and benchmark reproduction
+    reason: Only declared passages/images/code were inspected; no training was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimCLR
+  - AIMech:MomentumContrast
+  - AIMech:BootstrapYourOwnLatent
+  - AIMech:DINOSelfDistillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 30%]\n........................................................................\
+    \ [ 61%]\n........................................................................\
+    \ [ 91%]\n................sss                                                \
+    \      [100%]\n232 passed, 3 skipped in 43.29s\nChecked 442 record(s); 0 failed.\n\
+    Checked 191 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 37 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 37,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimCLR
+  - AIMech:MomentumContrast
+  - AIMech:BootstrapYourOwnLatent
+  - AIMech:DINOSelfDistillation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T075420Z-visual-self-supervision.json
+  accessed_at: '2026-10-11T07:54:21Z'
+  support: supports
+  summary: 'No normalized match among all 442 AIO labels/scoped synonyms and 187 native
+    IDs/names/aliases. Both full checkouts were searched including ignored and hidden
+    files: zero discovery hits and nine main-environment substring hits, inspected
+    in Pygments builtins and Sphinx Slovak locale/minified bundle text. The original
+    DINO self-distillation identity is qualified; the distinct detector was inspected
+    at abstract/metadata level and is not an unqualified alias.'
+  search_scope: All 442 AIO labels/scoped synonyms and 187 preceding native IDs/names/aliases;
+    both full checkouts including hidden and ignored files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-11T07:54:21Z'
+  support: supports
+  locator: Twelve exact CLASS nodes and incident edges listed in discovery source_analysis.aio_mapping_inspection;
+    also the generated SelfsupervisedLearning, ContrastiveLearning, RepresentationLearning
+    and Distillation YAMLs
+  summary: Read twelve exact CLASS nodes and their synonyms/incident edges, enumerated
+    in source_analysis.aio_mapping_inspection. All four algorithms have related mappings
+    to the SelfsupervisedLearning task. SimCLR and MoCo also relate to ContrastiveLearning,
+    exported beneath DeepNeuralNetwork. These are algorithm-to-task/network associations,
+    not is-a or equivalent matches. BYOL and DINO do not explicitly compare negative
+    pairs. Distillation describes larger-to-smaller compression, so its definition
+    does not establish equivalence to a same-architecture momentum teacher; RepresentationLearning
+    is broad network vocabulary. LLM terms have wrong scope and RandomContrastLayer
+    means pixel preprocessing. No AIO pin or generated record changed.
+- evidence_id: simclr-source
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v119/chen20j/chen20j.pdf
+  locator: Section 2.1, Figure 2 and Equation (1), PDF p. 2; Algorithm 1 and Sections
+    2.2–2.3, p. 3; Section 4.2, p. 6
+  accessed_at: '2026-10-11T07:45:10Z'
+  snapshot_sha256: cc620e511bafe8b4b11ca3415f6d7bcf127a05818087bfa49905de3a2e50bc2d
+  support: supports
+  summary: 'A self-supervised representation-learning procedure that jointly trains
+    an encoder and a nonlinear projection head by contrasting two augmented views
+    of each image against other images’ views in the same minibatch. Version: ICML
+    2020, PMLR 119:1597–1607; eleven-page proceedings PDF. Complete local text pages
+    read: 1, 2, 3, 4, 5, 6, 7, 8. Actual image pages viewed: 3. Partial/web-only reads
+    are separately recorded in the discovery ledger. No benchmark execution.'
+- evidence_id: momentumcontrast-source
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_CVPR_2020/papers/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.pdf
+  locator: Sections 3.1–3.3, Equations (1)–(2), Figure 2 and Algorithm 1, printed
+    pp. 9730–9732 / PDF pp. 2–4
+  accessed_at: '2026-10-11T07:45:10Z'
+  snapshot_sha256: 69e11f076c82bb046cdb5efeec4ecc779fef00a6e67c0da6991dd6416d0a6871
+  support: supports
+  summary: 'A contrastive representation-learning mechanism that maintains a queue
+    of encoded negative keys and produces new keys with an encoder updated by an exponential
+    moving average of the query encoder. Version: CVPR 2020, pp. 9729–9738; ten-page
+    proceedings PDF; original MoCo. Complete local text pages read: 1, 2, 3, 4. Actual
+    image pages viewed: 4. Partial/web-only reads are separately recorded in the discovery
+    ledger. No benchmark execution.'
+- evidence_id: bootstrapyourownlatent-source
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2020/file/f3ada80d5c4ee70142b17b8192b2958e-Paper.pdf
+  locator: Section 3.1, Figure 2 and Equations (1)–(2), main PDF p. 4; Section 3.2,
+    pp. 4–5; Section 5, pp. 7–8
+  accessed_at: '2026-10-11T07:45:11Z'
+  snapshot_sha256: d6a3c810134ffdddabe827689499cf5b4802227a381fe09795f637263af2f97d
+  support: supports
+  summary: 'A self-supervised image representation-learning procedure that trains
+    an online predictor to match a stopped-gradient target projection from another
+    augmented view, while updating the target encoder and projector by exponential
+    moving averages. Version: NeurIPS 2020 proceedings, fourteen-page main paper.
+    Complete local text pages read: 4, 5, 7, 8. Actual image pages viewed: 4. Partial/web-only
+    reads are separately recorded in the discovery ledger. No benchmark execution.'
+- evidence_id: bootstrapyourownlatent-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2020/file/f3ada80d5c4ee70142b17b8192b2958e-Supplemental.pdf
+  locator: Appendices A–B, architecture and Algorithm 1, printed p. 15 / PDF p. 1;
+    augmentation distributions Appendix C, printed p. 16 / PDF p. 2
+  accessed_at: '2026-10-11T07:45:11Z'
+  snapshot_sha256: 41c79ee8588e37c56151894e1082445da030979127c6b63a83f797059e3b23ef
+  support: supports
+  summary: 'Bootstrap Your Own Latent: Supplementary material. NeurIPS 2020 supplement,
+    twenty PDF pages numbered 15–34. BYOL supplement PDF pp. 1–3 read, Algorithm 1
+    on p. 1 actually viewed.'
+- evidence_id: dinoselfdistillation-source
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content/ICCV2021/papers/Caron_Emerging_Properties_in_Self-Supervised_Vision_Transformers_ICCV_2021_paper.pdf
+  locator: Sections 3.1–3.2, Algorithm 1, Equations (1)–(4), printed pp. 9652–9654
+    / PDF pp. 3–5; Section 5, printed p. 9657 / PDF p. 8
+  accessed_at: '2026-10-11T07:45:11Z'
+  snapshot_sha256: fa218769e59512c0f2ffc73f2280ddfa2a2d23821837833082510b51b991daac
+  support: supports
+  summary: 'A self-supervised representation-learning procedure that matches cross-view
+    student probabilities to centered and sharpened probabilities from a momentum
+    teacher, without a separate prediction head or explicit negative-pair objective.
+    Version: ICCV 2021, pp. 9650–9660; eleven-page proceedings PDF; original DINO
+    self-distillation. Complete local text pages read: 1, 2, 3, 4, 5, 8. Actual image
+    pages viewed: 3, 4. Partial/web-only reads are separately recorded in the discovery
+    ledger. No benchmark execution.'
+- evidence_id: dinoselfdistillation-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/facebookresearch/dino/7c446df5b9f45747937fb0d72314eb9f7b66930a/main_dino.py
+  locator: main_dino.py lines 188–224 (matching initialization/no teacher gradients),
+    302–351 (views, student optimization and teacher EMA), 363–416 (DINOLoss, zero
+    center, subtraction, cross-view exclusions and distributed center update); lines
+    61–75 (teacher momentum and temperature defaults; warmup help text differs from
+    parser default)
+  accessed_at: '2026-10-11T07:49:36Z'
+  snapshot_sha256: 74ef2afb9e16ab859370e1eb18455de0797d1202851c92d8191f06ccc05b28c7
+  support: supports
+  summary: Original DINO training and DINOLoss author implementation. facebookresearch/dino
+    commit 7c446df5b9f45747937fb0d72314eb9f7b66930a. Read pinned main_dino.py lines
+    58–80, 188–224, 302–355 and 360–438. Initialization, loss/EMA/center operations
+    inspected; code not executed.
+assessments:
+- assessment_id: simclr
+  area: evidence
+  topic: Identity, mechanism, source scope, limitations and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:SimCLR
+  evidence_ids:
+  - identity
+  - mapping
+  - simclr-source
+  summary: This is the original 2020 SimCLR procedure, not a particular ResNet checkpoint,
+    the general contrastive-learning category or SimCLR v2. It uses current-batch
+    views and a shared gradient-trained encoder/projection head, rather than a queue
+    of historical keys or a momentum target encoder. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 187 prior native
+    IDs/names/aliases. Ignored-inclusive searches of both full checkouts found no
+    discovery-checkout hits and nine unrelated main-environment substrings (Pygments
+    and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms and
+    incident edges were inspected; task/network vocabulary does not make these algorithms
+    equivalent.
+  details: 'For a minibatch of N≥2 images, independently augment each image twice
+    to obtain 2N views. Encode each with the same f and nonlinear projection head
+    g, giving z_i=g(f(v_i)). With nonzero projected vectors and temperature tau>0,
+    set s_ik=z_i^T z_k/(||z_i|| ||z_k||). For anchor i and its paired view j, use
+    loss ell(i,j)=−log[exp(s_ij/tau)/sum_(k≠i) exp(s_ik/tau)]. The denominator contains
+    the positive j and the 2N−2 other-image views, while excluding i itself. Average
+    over all 2N directed positive pairs and update both f and g by gradients. After
+    pretraining, discard g and use the representation before projection from f for
+    downstream learning. Limitations: The source’s image realization composes crop/resize/flip,
+    color distortion and Gaussian blur. These choices determine the prediction task;
+    an augmentation policy may remove information needed downstream. Views from other
+    images serve as negatives by construction, not by verified semantic dissimilarity.
+    This does not establish class labels or guarantee that semantically related images
+    never oppose one another. The source uses global batch normalization to mitigate
+    same-device information leakage between positive views. Distributed normalization
+    and optimization choices matter to reproducing its experiments. Projection normalization
+    requires meaningful nonzero vectors and numerically stable loss evaluation. Batch
+    size, temperature, architecture and training schedule affect the procedure’s empirical
+    behavior. Reported ImageNet and transfer comparisons are context-specific. No
+    universal performance advantage, mutual-information explanation, trained checkpoint
+    or reproduced benchmark is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint or
+      reported benchmark outcome.
+    evidence_ids:
+    - simclr-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning; related_match: AIO:ContrastiveLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+      The algorithm implements positive/negative representation comparisons. The pinned
+      AIO target is exported beneath DeepNeuralNetwork; this related mapping preserves
+      the algorithm versus network/approach distinction rather than asserting equivalence
+      or subclass membership.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: momentumcontrast
+  area: evidence
+  topic: Identity, mechanism, source scope, limitations and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:MomentumContrast
+  evidence_ids:
+  - identity
+  - mapping
+  - momentumcontrast-source
+  summary: This is original MoCo from the 2020 paper, with its image instance-discrimination
+    realization. The momentum acts on encoder parameters, not on per-example memory-bank
+    embeddings. It is distinct from MoCo v2/v3 and from large-batch end-to-end contrastive
+    training. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive searches of
+    both full checkouts found no discovery-checkout hits and nine unrelated main-environment
+    substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions,
+    synonyms and incident edges were inspected; task/network vocabulary does not make
+    these algorithms equivalent.
+  details: 'Initialize key-encoder parameters from the query encoder and maintain
+    a finite FIFO queue of K≥1 encoded keys. For each image draw two augmented views,
+    form normalized query q and current positive key k+, and use loss −log[exp(q·k+/tau)/(exp(q·k+/tau)+sum_(k
+    in queue)exp(q·k/tau))] with tau>0. Stop gradients through the key outputs and
+    queue; update the query encoder from the minibatch loss. In paper Algorithm 1,
+    next update key parameters as theta_k←m theta_k+(1−m)theta_q, m in [0,1), enqueue
+    the keys already computed for this batch, and remove the oldest batch to maintain
+    the queue. The queue decouples dictionary size from current minibatch size; the
+    momentum encoder reduces changes between key representations created at different
+    iterations. Limitations: Queued keys were encoded at different parameter states.
+    A slow update aims to improve consistency; it does not make historical keys identical
+    to recomputed current-encoder outputs. The image realization treats different
+    images as negatives. This is instance discrimination, not verification that all
+    negative pairs belong to different semantic classes. The paper’s distributed ResNet
+    implementation shuffles the key minibatch across GPUs and restores correspondence
+    after encoding to reduce batch-normalization leakage. Other normalization choices
+    need their own reproduction checks. The displayed algorithm abstracts queue initialization
+    and requires a valid finite dictionary. Temperature, queue length, momentum and
+    augmentation are tuning choices; no single setting is universally optimal. This
+    record specifies the original paper’s update order and scope. It does not import
+    later MoCo variants, claim independent samples, or reproduce benchmark training.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint or
+      reported benchmark outcome.
+    evidence_ids:
+    - momentumcontrast-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning; related_match: AIO:ContrastiveLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+      The algorithm implements positive/negative representation comparisons. The pinned
+      AIO target is exported beneath DeepNeuralNetwork; this related mapping preserves
+      the algorithm versus network/approach distinction rather than asserting equivalence
+      or subclass membership.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: bootstrapyourownlatent
+  area: evidence
+  topic: Identity, mechanism, source scope, limitations and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:BootstrapYourOwnLatent
+  evidence_ids:
+  - identity
+  - mapping
+  - bootstrapyourownlatent-source
+  - bootstrapyourownlatent-source-1
+  summary: BYOL is the 2020 online/target learning procedure, not statistical bootstrap
+    resampling or a particular trained network. Only the online branch has the prediction
+    head. Its normalized regression objective has no explicit negative-pair term or
+    historical key queue. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive
+    searches of both full checkouts found no discovery-checkout hits and nine unrelated
+    main-environment substrings (Pygments and Sphinx locale/bundle text). Exact neighboring
+    AIO definitions, synonyms and incident edges were inspected; task/network vocabulary
+    does not make these algorithms equivalent.
+  details: 'Generate two augmented views v and v′ of each image. The online branch
+    computes p(v)=q_theta(g_theta(f_theta(v))), and the target branch computes z_xi(v′)=g_xi(f_xi(v′)).
+    Normalize both nonzero vectors and minimize their squared distance, plus the reversed-view
+    term p(v′) versus z_xi(v), averaged over the batch. Stop gradients at target projections
+    and optimize only the online encoder, projector and predictor. After the optimizer
+    step update the corresponding target encoder/projector parameters by xi←tau xi+(1−tau)theta
+    with tau in [0,1] and a chosen decay schedule. The target branch has no predictor
+    to update. After training retain the online encoder f_theta and discard the training
+    heads and target branch for the stated downstream representation. Limitations:
+    The paper’s general same-architecture wording is qualified by its explicit online-only
+    predictor in Figure 2 and the algorithm. Matching encoder/projector weights are
+    averaged; a nonexistent target predictor is not required. Absence of an explicit
+    negative-pair term does not prove collapse impossible. The source’s conditional-variance
+    explanation assumes an optimal predictor and simplified unnormalized, unsymmetrized
+    dynamics; it is an intuition, not a general convergence theorem. Batch normalization
+    still couples examples. The batch-size ablation also accumulates gradients to
+    control effective update size; it does not establish unconditional batch-size
+    independence. Augmentation, normalization, predictor design and target-decay schedule
+    affect training. tau=1 freezes the target and tau=0 copies the online parameters;
+    these endpoints do not by themselves reproduce the usual slow-target regime. Vector
+    normalization needs a defined nonzero-norm numerical treatment. No universal transfer
+    benefit, benchmark reproduction or model checkpoint is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint or
+      reported benchmark outcome.
+    evidence_ids:
+    - bootstrapyourownlatent-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: dinoselfdistillation
+  area: evidence
+  topic: Identity, mechanism, source scope, limitations and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DINOSelfDistillation
+  evidence_ids:
+  - identity
+  - mapping
+  - dinoselfdistillation-source
+  - dinoselfdistillation-source-1
+  summary: This is Caron et al.’s 2021 DINO self-distillation method, supporting both
+    vision-transformer and convolutional backbones. It is not the later DINO object
+    detector, DINOv2/v3, or a particular checkpoint. The bare acronym is not asserted
+    as an unqualified alias. Its same-architecture student/teacher branches differ
+    from BYOL’s online-only predictor and normalized vector regression. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    187 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts
+    found no discovery-checkout hits and nine unrelated main-environment substrings
+    (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms
+    and incident edges were inspected; task/network vocabulary does not make these
+    algorithms equivalent.
+  details: 'Initialize teacher parameters from the student and a center c=0. Generate
+    two global crops and optional local crops from each image; the teacher sees the
+    global crops and the student sees all crops. For raw K-dimensional outputs g,
+    use P_s(v)=softmax(g_s(v)/tau_s) and P_t(v)=softmax((g_t(v)−c)/tau_t), with positive
+    temperatures and a sharpened teacher distribution. Average cross-entropy −sum_i
+    P_t(v)_i log P_s(v′)_i over teacher global crops and student crops of the same
+    image, excluding the identical view, and average over images in the minibatch.
+    Stop gradients through P_t, update student parameters by the loss, and update
+    teacher parameters by theta_t←lambda theta_t+(1−lambda)theta_s, with lambda in
+    [0,1]. Update c by an exponential moving average with center momentum in [0,1)
+    of the raw teacher outputs over all global views in the distributed batch for
+    use on subsequent batches. Both branches share backbone and projection-head architecture;
+    downstream features are taken from the backbone before the head. Limitations:
+    The centering prose on printed p. 9653 says to add c, whereas Algorithm 1 subtracts
+    the running center. The pinned author implementation also subtracts it; this record
+    follows the algorithm and implementation and preserves the discrepancy. The teacher
+    is updated from the student, not supplied as an independently trained larger model.
+    Its output coordinates are learned representation probabilities, not verified
+    semantic class labels. Centering and sharpening are empirical collapse-control
+    choices, not a proof that all initializations, temperatures, momentum schedules
+    or datasets avoid collapsed representations. A larger number of local crops changes
+    the cross-view objective. The two-view pseudocode is a specialization; losses
+    exclude the teacher/student pair from the identical crop. The pinned implementation
+    uses zero center initialization, distributed raw-output averaging and matched
+    initial student/teacher weights. Its specific default temperature schedule differs
+    from the paper’s reported experimental schedule; this record does not equate all
+    defaults. No DINO detector mechanism, later DINO variant, segmentation accuracy
+    claim, trained checkpoint or executed benchmark is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint or
+      reported benchmark outcome.
+    evidence_ids:
+    - dinoselfdistillation-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: current-batch-versus-queue
+  area: scope
+  topic: Contrastive dictionary and encoder update boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:SimCLR
+  - AIMech:MomentumContrast
+  evidence_ids:
+  - simclr-source
+  - momentumcontrast-source
+  - mapping
+  summary: Retain SimCLR and original MoCo as distinct procedures.
+  details: SimCLR includes the current positive and other-image views but excludes
+    the anchor from its denominator, averaging all directed positive pairs. Both shared
+    encoder and projection head receive gradients, and downstream features precede
+    the head. MoCo instead has one current positive plus a historical FIFO negative
+    dictionary, a stopped key branch and EMA key parameters. Paper Algorithm 1 updates
+    query parameters then key parameters, then enqueues already-computed keys. Queue
+    initialization is abstracted by the source and is not invented. Neither negative
+    construction guarantees semantic class separation. Their shared contrastive objective
+    does not establish equivalence.
+- assessment_id: regression-versus-probability-distillation
+  area: scope
+  topic: BYOL predictor and DINO centered teacher distribution
+  outcome: supported
+  target_ids:
+  - AIMech:BootstrapYourOwnLatent
+  - AIMech:DINOSelfDistillation
+  evidence_ids:
+  - bootstrapyourownlatent-source
+  - bootstrapyourownlatent-source-1
+  - dinoselfdistillation-source
+  - dinoselfdistillation-source-1
+  - mapping
+  summary: Retain BYOL and DINO self-distillation as distinct methods.
+  details: BYOL symmetrizes normalized prediction-to-target regression and has an
+    online-only predictor. Its target encoder/projector are EMA updated after online
+    optimization. DINO has matching backbone/head architecture without a separate
+    predictor, cross-entropy between probability outputs, a teacher restricted to
+    global crops, and same-view exclusions. Pinned code averages loss over images
+    and valid crop pairs; its center is a distributed mean of raw teacher logits,
+    updated for the next forward evaluation. The source prose adds c, whereas Algorithm
+    1 and pinned code subtract the stored running mean. The record follows the latter
+    and discloses the discrepancy. Teacher-temperature parser defaults differ from
+    the experimental paper schedule and even the warmup help string; no universal
+    default is asserted. Neither collapse-control construction is promoted into a
+    general noncollapse theorem.
+- assessment_id: qualified-dino-identity
+  area: identity
+  topic: DINO acronym disambiguation
+  outcome: supported
+  target_ids:
+  - AIMech:DINOSelfDistillation
+  evidence_ids:
+  - identity
+  - dinoselfdistillation-source
+  summary: Use the qualified DINO self-distillation identity and omit a bare DINO
+    alias.
+  details: The 2021 Caron method is represented by its full source title and qualified
+    local ID. The 2022 DINO DETR detector abstract/metadata confirms a distinct referent,
+    but its full mechanism was not read or added. Later DINOv2/v3 remain separate
+    pending searches; none is implicitly imported.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:SimCLR
+  - AIMech:MomentumContrast
+  - AIMech:BootstrapYourOwnLatent
+  - AIMech:DINOSelfDistillation
+  evidence_ids:
+  - identity
+  - mapping
+  - simclr-source
+  - momentumcontrast-source
+  - bootstrapyourownlatent-source
+  - bootstrapyourownlatent-source-1
+  - dinoselfdistillation-source
+  - dinoselfdistillation-source-1
+  rationale: Current-batch contrastive learning, queued momentum-key contrast, online-only
+    predictor regression and centered/sharpened probability self-distillation differ
+    in objective, retained training state and gradient/update structure. Preserve
+    these algorithm identities and the qualified DINO scope. Shared use of augmented
+    views or EMA does not establish equivalence.
+limitations:
+- Adversarial author self-review only; all four records remain DRAFT.
+- Only the declared full-method passages, selected images and pinned code ranges were
+  inspected; extraction alone is not reading.
+- DINO source centering and default-schedule inconsistencies are disclosed rather
+  than silently reconciled.
+- No model training, benchmark reproduction, universal performance or noncollapse
+  guarantee is certified.
+- The first sandbox vendor-check attempt failed because DNS was unavailable; the network-enabled
+  retry passed all 22 canonical artifact checks.
+- Required checks passed, while additional supported leads keep discovery active.
+tags:
+- native-concepts
+- self-supervised-learning
+- contrastive-learning
+- self-distillation
+- self-review
+- discovery-ongoing

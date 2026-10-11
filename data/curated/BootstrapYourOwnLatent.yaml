@@ -1,0 +1,124 @@
+name: Bootstrap Your Own Latent
+definition: A self-supervised image representation-learning procedure that trains an online predictor
+  to match a stopped-gradient target projection from another augmented view, while updating the target
+  encoder and projector by exponential moving averages.
+concept_kind: algorithm
+identity_notes: BYOL is the 2020 online/target learning procedure, not statistical bootstrap resampling
+  or a particular trained network. Only the online branch has the prediction head. Its normalized regression
+  objective has no explicit negative-pair term or historical key queue. No normalized identity match was
+  found across all 442 pinned AIO labels/scoped synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive
+  searches of both full checkouts found no discovery-checkout hits and nine unrelated main-environment
+  substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms and
+  incident edges were inspected; task/network vocabulary does not make these algorithms equivalent.
+limitations:
+- The paper’s general same-architecture wording is qualified by its explicit online-only predictor in
+  Figure 2 and the algorithm. Matching encoder/projector weights are averaged; a nonexistent target predictor
+  is not required.
+- Absence of an explicit negative-pair term does not prove collapse impossible. The source’s conditional-variance
+  explanation assumes an optimal predictor and simplified unnormalized, unsymmetrized dynamics; it is
+  an intuition, not a general convergence theorem.
+- Batch normalization still couples examples. The batch-size ablation also accumulates gradients to control
+  effective update size; it does not establish unconditional batch-size independence.
+- Augmentation, normalization, predictor design and target-decay schedule affect training. tau=1 freezes
+  the target and tau=0 copies the online parameters; these endpoints do not by themselves reproduce the
+  usual slow-target regime.
+- Vector normalization needs a defined nonzero-norm numerical treatment. No universal transfer benefit,
+  benchmark reproduction or model checkpoint is asserted.
+id: AIMech:BootstrapYourOwnLatent
+aliases:
+- BYOL
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.1, Figure 2 and Equations (1)–(2), main PDF p. 4; Section 3.2, pp. 4–5; Section 5,
+    pp. 7–8
+  relation: supports
+- source_id: additional-1
+  locator: Appendices A–B, architecture and Algorithm 1, printed p. 15 / PDF p. 1; augmentation distributions
+    Appendix C, printed p. 16 / PDF p. 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Generate two augmented views v and v′ of each image. The online branch computes p(v)=q_theta(g_theta(f_theta(v))),
+    and the target branch computes z_xi(v′)=g_xi(f_xi(v′)). Normalize both nonzero vectors and minimize
+    their squared distance, plus the reversed-view term p(v′) versus z_xi(v), averaged over the batch.
+    Stop gradients at target projections and optimize only the online encoder, projector and predictor.
+    After the optimizer step update the corresponding target encoder/projector parameters by xi←tau xi+(1−tau)theta
+    with tau in [0,1] and a chosen decay schedule. The target branch has no predictor to update. After
+    training retain the online encoder f_theta and discard the training heads and target branch for the
+    stated downstream representation.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.1, Figure 2 and Equations (1)–(2), main PDF p. 4; Section 3.2, pp. 4–5; Section
+      5, pp. 7–8
+    relation: supports
+  - source_id: additional-1
+    locator: Appendices A–B, architecture and Algorithm 1, printed p. 15 / PDF p. 1; augmentation distributions
+      Appendix C, printed p. 16 / PDF p. 2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning'
+  authors:
+  - Jean-Bastien Grill
+  - Florian Strub
+  - Florent Altché
+  - Corentin Tallec
+  - Pierre H. Richemond
+  - Elena Buchatskaya
+  - Carl Doersch
+  - Bernardo Avila Pires
+  - Zhaohan Daniel Guo
+  - Mohammad Gheshlaghi Azar
+  - Bilal Piot
+  - Koray Kavukcuoglu
+  - Rémi Munos
+  - Michal Valko
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2020/file/f3ada80d5c4ee70142b17b8192b2958e-Paper.pdf
+  version: NeurIPS 2020 proceedings, fourteen-page main paper
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2020/hash/f3ada80d5c4ee70142b17b8192b2958e-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:11Z'
+  sha256: d6a3c810134ffdddabe827689499cf5b4802227a381fe09795f637263af2f97d
+- source_id: additional-1
+  title: 'Bootstrap Your Own Latent: Supplementary material'
+  authors:
+  - Jean-Bastien Grill
+  - Florian Strub
+  - Florent Altché
+  - Corentin Tallec
+  - Pierre H. Richemond
+  - Elena Buchatskaya
+  - Carl Doersch
+  - Bernardo Avila Pires
+  - Zhaohan Daniel Guo
+  - Mohammad Gheshlaghi Azar
+  - Bilal Piot
+  - Koray Kavukcuoglu
+  - Rémi Munos
+  - Michal Valko
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2020/file/f3ada80d5c4ee70142b17b8192b2958e-Supplemental.pdf
+  version: NeurIPS 2020 supplement, twenty PDF pages numbered 15–34
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2020/file/f3ada80d5c4ee70142b17b8192b2958e-Supplemental.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:11Z'
+  sha256: 41c79ee8588e37c56151894e1082445da030979127c6b63a83f797059e3b23ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:53:16Z'
+  updated_at: '2026-10-11T07:54:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

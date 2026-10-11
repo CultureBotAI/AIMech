@@ -1,0 +1,80 @@
+name: SimCLR
+definition: A self-supervised representation-learning procedure that jointly trains an encoder and a nonlinear
+  projection head by contrasting two augmented views of each image against other images’ views in the
+  same minibatch.
+concept_kind: algorithm
+identity_notes: This is the original 2020 SimCLR procedure, not a particular ResNet checkpoint, the general
+  contrastive-learning category or SimCLR v2. It uses current-batch views and a shared gradient-trained
+  encoder/projection head, rather than a queue of historical keys or a momentum target encoder. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 187 prior native IDs/names/aliases.
+  Ignored-inclusive searches of both full checkouts found no discovery-checkout hits and nine unrelated
+  main-environment substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions,
+  synonyms and incident edges were inspected; task/network vocabulary does not make these algorithms equivalent.
+limitations:
+- The source’s image realization composes crop/resize/flip, color distortion and Gaussian blur. These
+  choices determine the prediction task; an augmentation policy may remove information needed downstream.
+- Views from other images serve as negatives by construction, not by verified semantic dissimilarity.
+  This does not establish class labels or guarantee that semantically related images never oppose one
+  another.
+- The source uses global batch normalization to mitigate same-device information leakage between positive
+  views. Distributed normalization and optimization choices matter to reproducing its experiments.
+- Projection normalization requires meaningful nonzero vectors and numerically stable loss evaluation.
+  Batch size, temperature, architecture and training schedule affect the procedure’s empirical behavior.
+- Reported ImageNet and transfer comparisons are context-specific. No universal performance advantage,
+  mutual-information explanation, trained checkpoint or reproduced benchmark is asserted.
+id: AIMech:SimCLR
+aliases:
+- Simple framework for contrastive learning of visual representations
+definition_evidence: &id001
+- source_id: method-source
+  locator: Section 2.1, Figure 2 and Equation (1), PDF p. 2; Algorithm 1 and Sections 2.2–2.3, p. 3; Section
+    4.2, p. 6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a minibatch of N≥2 images, independently augment each image twice to obtain 2N views.
+    Encode each with the same f and nonlinear projection head g, giving z_i=g(f(v_i)). With nonzero projected
+    vectors and temperature tau>0, set s_ik=z_i^T z_k/(||z_i|| ||z_k||). For anchor i and its paired view
+    j, use loss ell(i,j)=−log[exp(s_ij/tau)/sum_(k≠i) exp(s_ik/tau)]. The denominator contains the positive
+    j and the 2N−2 other-image views, while excluding i itself. Average over all 2N directed positive
+    pairs and update both f and g by gradients. After pretraining, discard g and use the representation
+    before projection from f for downstream learning.
+  evidence: *id001
+evidence_sources:
+- source_id: method-source
+  title: A Simple Framework for Contrastive Learning of Visual Representations
+  authors:
+  - Ting Chen
+  - Simon Kornblith
+  - Mohammad Norouzi
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v119/chen20j/chen20j.pdf
+  version: ICML 2020, PMLR 119:1597–1607; eleven-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v119/chen20j.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:10Z'
+  sha256: cc620e511bafe8b4b11ca3415f6d7bcf127a05818087bfa49905de3a2e50bc2d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: The algorithm implements positive/negative representation comparisons. The pinned AIO target
+    is exported beneath DeepNeuralNetwork; this related mapping preserves the algorithm versus network/approach
+    distinction rather than asserting equivalence or subclass membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:53:16Z'
+  updated_at: '2026-10-11T07:53:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
