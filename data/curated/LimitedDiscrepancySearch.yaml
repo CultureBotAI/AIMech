@@ -1,0 +1,135 @@
+name: Limited discrepancy search
+definition: A backtracking tree-search strategy that repeatedly explores paths under an increasing upper
+  limit on deviations from a successor-ordering heuristic; in the original binary formulation, taking
+  the nonpreferred child consumes one discrepancy.
+concept_kind: algorithm
+identity_notes: The original LDS searches paths with at most k discrepancies in each pass. It differs
+  from Korf’s improved LDS, which avoids revisiting leaves at the supplied maximum depth by allocating
+  an exact discrepancy count there, and from depth-bounded discrepancy search, which bounds where deviations
+  may occur. The original 1995 Figure 1 explores the nonpreferred child first when discrepancy budget
+  remains; Korf’s 1996 presentation of original LDS uses the opposite within-pass order. The names do
+  not establish identical visit sequences. No normalized identity match was found across the 442 AIO and
+  141 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads
+  and incidental substrings such as builds in records, source text and dependencies, not existing concept
+  records.
+limitations:
+- Completeness applies to exhaustive passes on a finite tree with a sufficient discrepancy/depth limit
+  and adequate resources. A fixed early-pass cutoff is not a decision procedure for unsolvability.
+- The first goal found is not generally a minimum-cost or shortest-path goal. Successor preference is
+  a search-order heuristic, not an admissible cost bound.
+- The curated original mechanism is binary. Counting any alternate child as one discrepancy and assigning
+  rank-based discrepancy costs are distinct multiway extensions requiring an explicit policy.
+- Repeated at-most-k passes revisit paths. The subsequent ILDS paper qualifies the original redundancy
+  argument and supplies cases where discrepancy search has no advantage over ordinary DFS.
+- The original paper references an LDS-BBS appendix that is not present in the inspected seven-page download.
+  The bounded-backtracking hybrid is not asserted as part of this record.
+id: AIMech:LimitedDiscrepancySearch
+aliases:
+- LDS
+definition_evidence:
+- source_id: method-source
+  locator: Section 3 and Figure 1, printed p. 608 / PDF p. 2; Section 5.5, printed p. 611 / PDF p. 5
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Run a depth-first probe with budget k, starting with k=0 and increasing through a sufficient
+    maximum depth for a finite binary tree. When the budget is zero, follow the heuristic-preferred child.
+    With positive budget, the original Figure 1 first probes the nonpreferred child with k−1 and then
+    the preferred child with k. Return when a goal is found. Each pass permits at most k deviations, so
+    earlier paths may be revisited in later passes.
+  evidence:
+  - source_id: method-source
+    locator: Section 3 and Figure 1, printed p. 608 / PDF p. 2; Section 5.5, printed p. 611 / PDF p. 5
+    relation: supports
+- claim_id: original-versus-improved
+  kind: scope
+  statement: Korf distinguishes original at-most-k passes from an exact-count-at-maximum-depth modification,
+    and presents a left-child-first original probe. This differs from the right-child-first positive-budget
+    probe printed in the 1995 paper; the two presentations share a budget principle, not necessarily a
+    visit order.
+  evidence:
+  - source_id: original-versus-improved
+    locator: Printed pp. 286–287 / PDF pp. 1–2; Figures 2–3
+    relation: supports
+  - source_id: method-source
+    locator: Figure 1, printed p. 608 / PDF p. 2
+    relation: supports
+- claim_id: problem-dependence
+  kind: limitation
+  statement: Discrepancy search depends on the successor heuristic and search-tree structure. The 1996
+    study includes negative results against DFS, so the original method is not characterized by universal
+    runtime superiority.
+  evidence:
+  - source_id: problem-dependence
+    locator: A Simpler Algorithm and Negative Result and Conclusions, printed pp. 290–291 / PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Limited Discrepancy Search
+  authors:
+  - William D. Harvey
+  - Matthew L. Ginsberg
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/95-1/Papers/080.pdf
+  version: IJCAI 1995; official seven-page PDF, printed pp. 607–613
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: aa484ed1115a53ab9098d3509407bc50b3951f58cea96df46c108a68350bf1db
+- source_id: original-versus-improved
+  title: Improved Limited Discrepancy Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf
+  version: AAAI 1996 proceedings, printed pp. 286–291; official six-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 55b3305027e77ddf84ad13dd4b1114a0a1630d4c066562aa8c64d6c376ab18aa
+- source_id: problem-dependence
+  title: Improved Limited Discrepancy Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf
+  version: AAAI 1996 proceedings, printed pp. 286–291; official six-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 55b3305027e77ddf84ad13dd4b1114a0a1630d4c066562aa8c64d6c376ab18aa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 141 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:26:52Z'
+  updated_at: '2026-10-11T06:29:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

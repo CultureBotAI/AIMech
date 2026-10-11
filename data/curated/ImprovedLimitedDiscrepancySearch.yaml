@@ -1,0 +1,111 @@
+name: Improved limited discrepancy search
+definition: Korf’s discrepancy-search variant that uses a supplied maximum search depth and remaining
+  discrepancy count to generate each path to that depth in the pass corresponding to its exact number
+  of nonpreferred choices, avoiding the original method’s repeated maximum-depth paths.
+concept_kind: algorithm
+identity_notes: ILDS is the 1996 improvement to LDS, not a generic label for any later discrepancy-search
+  modification. Its exact-count guarantee concerns leaves at the specified maximum depth; shallower leaves
+  and internal nodes can still be revisited. The supplied depth bound differs from a bound on the depths
+  at which discrepancies are allowed. No normalized identity match was found across the 442 AIO and 141
+  prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads and
+  incidental substrings such as builds in records, source text and dependencies, not existing concept
+  records.
+limitations:
+- A valid upper bound on maximum depth is an input. A loose bound or pruning that creates shallower leaves
+  reduces the benefit because those leaves may be visited on several passes.
+- Visiting each maximum-depth leaf once does not mean visiting every internal node once; repeated prefixes
+  remain.
+- The complete uniform-tree expansion analysis is conditional on that tree shape. It does not establish
+  an unconditional wall-clock advantage on pruned trees or early-terminated searches.
+- The procedure’s discrepancy priority does not guarantee that the first goal is shortest or globally
+  minimum-cost. No universal superiority over DFS is asserted.
+- The 1996 prose gives a depth-three original-LDS path count inconsistent with its own displayed counting
+  formula and the original paper’s trace. No literal 19-path count is adopted.
+id: AIMech:ImprovedLimitedDiscrepancySearch
+aliases:
+- ILDS
+definition_evidence:
+- source_id: method-source
+  locator: Improved Limited Discrepancy Search and Figure 3, printed p. 287 / PDF p. 2; Interior Node
+    Overhead of ILDS, printed p. 288 / PDF p. 3
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: For each budget k from zero through the supplied maximum depth, recursively track remaining
+    depth D and discrepancies k. In the binary Figure 3, visit the preferred child when D>k, leaving k
+    unchanged; visit the nonpreferred child when k>0, reducing k by one. Both moves reduce D by one. When
+    D=k, only nonpreferred choices remain possible along a path that reaches the depth bound. The printed
+    procedure visits the preferred branch before the nonpreferred branch when both are allowed.
+  evidence:
+  - source_id: method-source
+    locator: Improved Limited Discrepancy Search and Figure 3, printed p. 287 / PDF p. 2; Interior Node
+      Overhead of ILDS, printed p. 288 / PDF p. 3
+    relation: supports
+- claim_id: repeated-prefixes
+  kind: limitation
+  statement: Maximum-depth paths are generated once across discrepancy passes, but shorter leaves and
+    internal nodes can recur. The paper’s uniform-tree overhead analysis and its negative number-partitioning
+    results are distinct from a universal performance guarantee.
+  evidence:
+  - source_id: repeated-prefixes
+    locator: Printed pp. 287–288 and 290–291 / PDF pp. 2–3 and 5–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Improved Limited Discrepancy Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf
+  version: AAAI 1996 proceedings, printed pp. 286–291; official six-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 55b3305027e77ddf84ad13dd4b1114a0a1630d4c066562aa8c64d6c376ab18aa
+- source_id: repeated-prefixes
+  title: Improved Limited Discrepancy Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf
+  version: AAAI 1996 proceedings, printed pp. 286–291; official six-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 55b3305027e77ddf84ad13dd4b1114a0a1630d4c066562aa8c64d6c376ab18aa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 141 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:26:52Z'
+  updated_at: '2026-10-11T06:26:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
