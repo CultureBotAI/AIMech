@@ -1,0 +1,118 @@
+name: Breadth-first branch-and-bound search
+definition: A heuristic graph-search procedure that expands states in breadth-first layers and prunes
+  candidate paths whose accumulated cost plus an admissible remaining-cost estimate exceeds a supplied
+  solution-cost bound; the formulation curated here assumes uniform positive edge costs, scaled to one.
+concept_kind: algorithm
+identity_notes: The BFBnB search strategy is distinguished from BFIDA*, which obtains bounds by repeated
+  searches, and from width-pruned beam search. Breadth-first heuristic search names the broader family
+  in Zhou and Hansen; that umbrella phrase is not asserted as an exact alias. Frontier, sparse-memory
+  and layered duplicate-detection implementations are alternatives, not mandatory simultaneous components.
+  No normalized identity match was found across the 442 AIO and 135 prior native records; ignored-inclusive
+  text hits in the main checkout were prior discovery leads, source citations, scope contrasts and DCBSS
+  substring matches, plus seven public certificate-data substring matches, not existing concept records.
+limitations:
+- The scope is uniform positive costs and an admissible heuristic. A valid upper bound must cover a real
+  solution for a single-pass optimal-solution guarantee; an unsuccessful hypothetical contour does not
+  establish that the original problem is unsolvable.
+- The layered implementation needs enough previous-layer information for the graph structure; retaining
+  one previous layer is not a universal duplicate-elimination rule for directed graphs.
+- Memory-saving implementations can still run out of memory in a large frontier. The paper explicitly
+  does not prove universally lower peak memory than best-first search.
+- The f≥U option is valid for improving an actual incumbent, not for an inclusive hypothetical contour
+  with no stored solution. Preserving the incumbent when no improvement exists is an explicit operational
+  consequence of that distinction.
+- The record does not certify the printed pseudocode for all base cases, graph-locality claims under every
+  pruning policy, or nonuniform-cost extensions.
+id: AIMech:BreadthFirstBranchAndBound
+aliases:
+- BFBnB
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–3.5, printed pp. 389–395 / PDF pp. 5–11; Figure 2 and the actual-incumbent versus
+    hypothetical-bound distinction on printed pp. 393–394
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: For a unit-cost graph, process nodes by increasing depth g and evaluate f=g+h with admissible
+    h. Under a hypothetical bound U, retain f≤U. If U is the cost of an actual retained incumbent and
+    only improvement is needed, f≥U can instead be pruned; failure to improve then preserves the incumbent.
+    Memory-saving implementations retain enough information for duplicate detection and use relay nodes
+    to reconstruct a found path by recursively solving subproblems.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–3.5, printed pp. 389–395 / PDF pp. 5–11; Figure 2 and the actual-incumbent versus
+      hypothetical-bound distinction on printed pp. 393–394
+    relation: supports
+- claim_id: resource-scope
+  kind: limitation
+  statement: The authors consider frontier, sparse-memory and layered duplicate handling, and relay-based
+    path recovery. The potential reduction in stored search nodes is problem dependent; neither a fixed
+    total-memory bound nor a universal advantage over A* follows. Nonuniform-cost extensions are outlined
+    as future work.
+  evidence:
+  - source_id: resource-scope
+    locator: Sections 2.2–3.4, 6.1–6.2; printed pp. 387–392 and 405–406 / PDF pp. 3–8 and 21–22
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Breadth-first heuristic search
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf
+  version: Artificial Intelligence 170(4–5), 385–408 (2006); university-hosted published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:07:08Z'
+  sha256: 9f094b2d1e98822236c3c0957703fc1adc47798db0754240f6fbc93887934a54
+  persistent_id: doi:10.1016/j.artint.2005.12.002
+- source_id: resource-scope
+  title: Breadth-first heuristic search
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://ai.dmi.unibas.ch/research/reading_group/zhou-hansen-aij2006.pdf
+  version: Artificial Intelligence 170(4–5), 385–408 (2006); university-hosted published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:07:08Z'
+  sha256: 9f094b2d1e98822236c3c0957703fc1adc47798db0754240f6fbc93887934a54
+  persistent_id: doi:10.1016/j.artint.2005.12.002
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 135 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:16:04Z'
+  updated_at: '2026-10-11T06:16:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

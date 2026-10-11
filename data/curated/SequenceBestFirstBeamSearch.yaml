@@ -1,0 +1,122 @@
+name: Best-first beam search with per-length budgets
+definition: The sequence-decoding beam procedure of Meister, Vieira and Cotterell that prioritizes active
+  hypotheses by decreasing accumulated score, breaks score ties by shorter length, and limits accepted
+  expansions to k hypotheses at each sequence length without a future-score heuristic.
+concept_kind: algorithm
+identity_notes: This is the 2020 sequence-decoding meaning of best-first beam search. Its per-length budget
+  is distinct from AIMech:GlobalFrontierBeamSearch, which caps the entire open list. The qualified name
+  avoids treating those different pruning rules as exact synonyms. The h=0 procedure is a specialization
+  of the paper’s A-star beam framework. No normalized identity match was found across the 442 AIO and
+  135 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads,
+  source citations, scope contrasts and DCBSS substring matches, plus seven public certificate-data substring
+  matches, not existing concept records.
+limitations:
+- The finite beam is an approximation to exact sequence-model decoding; equality to a specified beam procedure
+  is not global MAP optimality.
+- Sequence length limits, EOS handling and compatible deterministic tie conventions are part of the comparison.
+  Arbitrary implementations with different stopping or tie rules need not return identical hypotheses.
+- Queue counts are counts of retained hypotheses, not total bytes including neural states, model parameters,
+  backpointers and temporary successors. No numerical speedup or benchmark-quality claim is curated.
+- The beam-equivalence claim is restricted to nonincreasing scores and h=0. The paper also asserts a nonmonotonic
+  stop-only extension; this record does not adopt that guarantee because a saved curator finite-tree counterexample
+  exposes a conflict with unchanged per-length pruning.
+- The optimized queue-of-beams representation can retain hypotheses at several lengths. The per-length
+  budget is not a global queue-capacity bound.
+id: AIMech:SequenceBestFirstBeamSearch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Algorithm 2 and Table 1, printed pp. 797–798 / PDF pp. 3–4; Sections 3.2–4.1, printed pp. 798–801
+    / PDF pp. 4–7
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Maintain a score-prioritized agenda and a count for each hypothesis length; skip expansion
+    after k hypotheses of that length have been accepted. Under scores that never increase on extension
+    and h=0, the paper shows that the top completed hypothesis agrees with its specified width-k layer
+    beam, with compatible tie and EOS conventions. Once k hypotheses of a later length have been accepted,
+    earlier unfinished layers can be removed under those same monotonicity assumptions.
+  evidence:
+  - source_id: method-source
+    locator: Algorithm 2 and Table 1, printed pp. 797–798 / PDF pp. 3–4; Sections 3.2–4.1, printed pp.
+      798–801 / PDF pp. 4–7
+    relation: supports
+- claim_id: heuristic-boundary
+  kind: limitation
+  statement: The paper explicitly limits its beam-output equivalence proof to the zero-heuristic case;
+    an optimistic future-score heuristic can change which paths survive finite-beam pruning.
+  evidence:
+  - source_id: heuristic-boundary
+    locator: Section 4.1, A Note on Heuristics, printed p. 801 / PDF p. 7
+    relation: supports
+- claim_id: decoding-context
+  kind: application
+  statement: The method is defined for sequential structured prediction and developed in the paper around
+    natural-language sequence transduction, including translation and abstractive summarization. The decoder
+    is separate from the trained model that supplies scores.
+  evidence:
+  - source_id: decoding-context
+    locator: Sections 1–2, printed pp. 795–796 / PDF pp. 1–2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+- source_id: heuristic-boundary
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+- source_id: decoding-context
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines these decoding procedures for sequential structured prediction
+    and develops them around natural-language transduction. The exact AIO CLASS describes the language-processing
+    task. This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion;
+    the decoder is not a trained language model and can also be used outside NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:16:04Z'
+  updated_at: '2026-10-11T06:16:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

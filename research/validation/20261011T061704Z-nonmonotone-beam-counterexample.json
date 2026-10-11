@@ -1,0 +1,154 @@
+{
+  "created_at": "2026-10-11T06:17:05Z",
+  "source_context": "Meister et al., TACL 2020 Algorithm 2 per-length pop budget and Section 4.1 Equation 6 stop-only extension to nonmonotone scores; also present in arXiv v5 (2022).",
+  "authorship": "Curator-authored finite-tree illustration; not an audit or execution of the authors implementation.",
+  "beam_width": 2,
+  "nodes": {
+    "root": [
+      0,
+      0
+    ],
+    "a": [
+      1,
+      -1
+    ],
+    "b": [
+      1,
+      -2
+    ],
+    "ac": [
+      2,
+      1
+    ],
+    "ad": [
+      2,
+      0
+    ],
+    "be": [
+      2,
+      10
+    ],
+    "bf": [
+      2,
+      -10
+    ],
+    "ac/EOS": [
+      3,
+      -5
+    ],
+    "ad/EOS": [
+      3,
+      -6
+    ],
+    "be/EOS": [
+      3,
+      10
+    ],
+    "bf/EOS": [
+      3,
+      -10
+    ]
+  },
+  "successors": {
+    "root": [
+      "a",
+      "b"
+    ],
+    "a": [
+      "ac",
+      "ad"
+    ],
+    "b": [
+      "be",
+      "bf"
+    ],
+    "ac": [
+      "ac/EOS"
+    ],
+    "ad": [
+      "ad/EOS"
+    ],
+    "be": [
+      "be/EOS"
+    ],
+    "bf": [
+      "bf/EOS"
+    ]
+  },
+  "upper_bound": "Exact best descendant completion score for every remaining hypothesis; equivalent to score+U.",
+  "layer_beam": {
+    "result": "be/EOS",
+    "score": 10,
+    "trace": [
+      [
+        "a",
+        "b"
+      ],
+      [
+        "be",
+        "ac"
+      ],
+      [
+        "be/EOS",
+        "ac/EOS"
+      ]
+    ]
+  },
+  "best_first_stop_only": {
+    "result": "ac/EOS",
+    "score": -5,
+    "trace": [
+      {
+        "action": "accept",
+        "node": "root",
+        "score": 0
+      },
+      {
+        "action": "accept",
+        "node": "a",
+        "score": -1
+      },
+      {
+        "action": "accept",
+        "node": "ac",
+        "score": 1
+      },
+      {
+        "action": "accept",
+        "node": "ad",
+        "score": 0
+      },
+      {
+        "action": "accept",
+        "node": "b",
+        "score": -2
+      },
+      {
+        "action": "skip-per-length-budget",
+        "node": "be",
+        "score": 10
+      },
+      {
+        "action": "accept",
+        "node": "ac/EOS",
+        "score": -5
+      },
+      {
+        "action": "bounded-stop",
+        "incumbent": "ac/EOS",
+        "remaining": [
+          "ad/EOS",
+          "bf"
+        ]
+      }
+    ]
+  },
+  "interpretation": "Changing only stopping does not restore the comparison guarantee for arbitrary nonmonotone scores when a per-length budget can prune an as-yet-unexpanded superior hypothesis. This toy analysis does not challenge the monotone-score method.",
+  "limits": [
+    "This implementation specializes a finite depth-three tree and stores complete hypotheses as incumbents instead of repeated EOS padding.",
+    "The optional monotonicity-based older-layer deletion is deliberately not used; the per-length limit alone produces the discrepancy.",
+    "All complete paths have the same length, ties do not determine the result, and successor-score increments can represent an additively decomposable nonprobabilistic scoring function.",
+    "A primary correction or stronger nonmonotonic algorithm could add conditions or change pruning; that remains a separate evidence check."
+  ],
+  "script_sha256": "1b2e073109814fc1a8fa0ce12b55553a5f6eee2400a9a085cac24f67fe0d665f"
+}
