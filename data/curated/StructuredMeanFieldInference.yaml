@@ -1,0 +1,105 @@
+name: Structured mean-field inference
+definition: A variational inference method that approximates a target distribution with a tractable family
+  retaining selected dependencies, choosing its parameters to reduce the approximation-to-target Kullback–Leibler
+  divergence.
+concept_kind: mathematical_method
+identity_notes: 'This record covers the tractable-substructure mean-field construction exemplified by
+  Saul and Jordan, including partially factorized modules and the qualifications for a tractable correlated
+  skeleton. It is broader than the maintained factorial-HMM-specific algorithm and distinct from a fully
+  factorized approximation that removes every intervariable dependence. It is an inference method, not
+  a graphical-model architecture, all variational inference, a particular Monte Carlo gradient estimator
+  or a variational autoencoder. Fully factorized mean field is a limiting restricted family when retained
+  substructures reduce to individual variables; that inclusion does not make the two concepts exact aliases.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding
+  native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches
+  included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were
+  read: prior specialized inference records, source/review context and pending leads, not exact records
+  for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability
+  terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS
+  nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified
+  unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured
+  variational inference is searched but not asserted as an unconditional alias of structured mean field.
+  Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and
+  inspected neighborhood.'
+limitations:
+- Tractability of retained substructures and evaluation of the required expectations must be established
+  for the chosen family. Compact notation or a sparse-looking graph does not by itself ensure efficient
+  inference.
+- The optimized bound concerns log Z. It is an observed-data log-likelihood bound only when Z is that
+  likelihood under the specified unnormalized posterior construction. A generic partition function is
+  not automatically a probability of observations.
+- Coordinate ascent with exact factor optimization can improve the bound; arbitrary simultaneous field
+  updates need not. The objective can have multiple stationary points, and neither global optimality nor
+  accurate posterior marginals is guaranteed.
+- Omitted links inside one correlated substructure require the covariance/triple-moment terms of Equation
+  (19); simply substituting independent means would change the derivation.
+- The auxiliary-variable equality in Equations (20)–(21) omits a coupling-dependent constant. For one
+  binary edge K, a=acosh(exp(2*abs(K)))/2, b=sign(K)*a and C=exp(-abs(K))/2 give exp(K*s_i*s_j)=C*sum_w
+  exp((a*s_i+b*s_j)*w). Dropping C preserves a normalized marginal but shifts the raw log partition; evidence
+  bounds must retain the offset.
+- The context-sensitive HMM example has boundary conventions and a delayed observation term that need
+  care; the displayed unary-field formula is not adopted as an implementation-ready recipe. Its synthetic
+  illustration does not establish general weak-coupling accuracy or benchmark superiority.
+id: AIMech:StructuredMeanFieldInference
+aliases:
+- Structured mean-field approximation
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations (1)–(5), printed p.487 / PDF p.2; Sections 2.2–2.3, Equations (10)–(22),
+    pp.488–490 / PDF pp.3–5; Section 3 and Figure 1, pp.490–492 / PDF pp.5–7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For a fixed normalized target p(s)=exp(F(s))/Z and tractable q, maximize L(q)=E_q[F(s)]+H(q),
+    so log Z-L(q)=KL(q||p). The source’s binary pairwise modular construction retains all intramodule
+    interactions J and factorizes q across modules, replacing omitted intermodule interactions K by adjustable
+    unary fields H. Expectations within a module are computed exactly using its tractable algorithm; expectations
+    between modules factorize. A module’s field update is H_i^mu=h_i^mu+sum_(nu!=mu),j K_ij^(mu,nu) E_q[s_j^nu].
+    Holding all other factors fixed, recomputing that module with these fields gives a coordinate variational
+    update. A chain module can use forward–backward while retaining within-chain correlations. If omitted
+    links connect variables within the same correlated skeleton, the simple intermodule rule no longer
+    follows: the source’s stationarity equations contain covariance and triple-moment terms. Auxiliary
+    binary link variables provide another construction that induces a tractable core-versus-link factorization.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations (1)–(5), printed p.487 / PDF p.2; Sections 2.2–2.3, Equations (10)–(22),
+      pp.488–490 / PDF pp.3–5; Section 3 and Figure 1, pp.490–492 / PDF pp.5–7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Exploiting Tractable Substructures in Intractable Networks
+  authors:
+  - Lawrence K. Saul
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf
+  version: NIPS 1995, Advances in Neural Information Processing Systems 8, proceedings 1996, pp.486–492.
+    All seven proceedings PDF pages read visually and as extracted text. Printed page=PDF page+485; first
+    printed page number absent.
+  persistent_id: https://proceedings.neurips.cc/paper/1995/hash/285f89b802bcb2651801455c86d78f2a-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T20:03:27Z'
+  sha256: d0a9f10a9d70667053092ad1209953b4c572ab604f8d8c84b4f8c2fe94ae7e61
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The method approximates distributions whose dependence structure is represented by a graph.
+    The pinned target denotes a graphical-model task, while this local concept denotes a variational inference
+    method; the relation is method-to-modeling context, not an is-a assertion.
+- target: AIO:BoltzmannMachineNetwork
+  relation: related_match
+  rationale: The primary derivation approximates the binary pairwise Boltzmann distribution and its hidden-variable
+    statistics. The AIO target is the probabilistic network family, not the approximation procedure. This
+    direct method-to-model relation does not restrict the method to one trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:15:57Z'
+  updated_at: '2026-10-11T20:15:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
