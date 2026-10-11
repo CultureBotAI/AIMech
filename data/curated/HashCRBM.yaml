@@ -1,0 +1,112 @@
+name: HashCRBM
+definition: A conditional RBM training and prediction method that uses spectral hashing of inputs to retrieve
+  distinct training-output configurations and normalizes the conditional model only over that input-dependent
+  support.
+concept_kind: algorithm
+identity_notes: 'This is the HashCRBM method of Mnih, Larochelle and Hinton. It combines a fixed learned
+  input hash with restricted-support conditional energy modeling; neither a generic conditional RBM nor
+  spectral hashing alone defines the method. Retrieval supplies possible output configurations, while
+  learned free energies determine their conditional weights. It is not ordinary k-nearest-neighbor voting
+  or a categorical feature hashing layer. The source allows analogous restricted-support learning for
+  other computable energy models; this record describes its named conditional-RBM construction. All 442
+  pinned AIO labels/scoped synonyms and 367 preceding native IDs/names/aliases were compared, with no
+  normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in
+  both worktree and main, returning 37 lines each. All 27 unique matched contents were read: conditional-RBM
+  source references, contrasting method descriptions, pending leads and saved review context, rather than
+  existing candidate identities. All 45 semantic label/synonym hits and 23 exact annotated AIO nodes were
+  inspected, alongside corresponding generated records and three complete native neighbors. Previously
+  read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected
+  neighborhood.'
+limitations:
+- Exact normalization and gradients refer to the deliberately restricted conditional model, not the original
+  full-output-space CRBM. Outputs outside V(u) have zero joint probability, and a joint-mode predictor
+  cannot return them.
+- Coordinate-wise marginal decisions can lie outside the joint support; this is a loss-dependent prediction
+  decision, not positive model probability for the assembled vector or evidence of factorized output variables.
+- The retrieved set must be nonempty. The displayed formula supplies no distribution for an empty test-time
+  set; any fallback needs an explicit additional convention. Finite training likelihood also requires
+  the observed target in the support, as occurs when its own stored input is retrieved.
+- Repeated output configurations across buckets must be deduplicated. Counting occurrences instead changes
+  the base weighting and therefore the distribution and gradients. The n+1 lookup count does not bound
+  the number of retrieved outputs or make their scoring cost constant.
+- The input code uses a rectangular spectral-hashing approximation; retrieval can omit useful outputs,
+  and coverage assumptions suit limited output variability. A larger Hamming ball is a separate cost/coverage
+  choice. No universal prediction quality, convergence or author-code behavior is certified.
+id: AIMech:HashCRBM
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 6.1, Equations (14)–(16), spectral-hash retrieval and Training and Inference, PDF p.5;
+    marginal-mode example and loss discussion, p.6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'From paired training examples (u,v), learn spectral binary codes for the inputs u and store
+    their associated output vectors v under the code keys. For a query input, the paper retrieves its
+    code bucket and every bucket at Hamming distance one: n+1 bucket accesses for an n-bit code. Union
+    the returned output configurations and remove duplicates to obtain V(u). For nonempty V(u), define
+    p(v|u)=1[v in V(u)] exp(-F(v,u))/sum_(z in V(u)) exp(-F(z,u)), where F is the conditional RBM free
+    energy after summing its hidden units. Fit the conditional energy parameters by exact gradients of
+    this restricted-model negative log likelihood; for a training target in V(u), the gradient is grad
+    F(v,u) minus the restricted-model expectation of grad F(z,u). The hash map and support are fixed during
+    this differentiation. Joint-mode prediction selects the lowest-free-energy retrieved configuration.
+    Alternatively, compute each output-bit marginal by summing the restricted probabilities and choose
+    its mode, which minimizes additive bit-error risk and can produce a vector outside V(u).'
+  evidence:
+  - source_id: method-source
+    locator: Section 6.1, Equations (14)–(16), spectral-hash retrieval and Training and Inference, PDF
+      p.5; marginal-mode example and loss discussion, p.6
+    relation: supports
+  - source_id: hash-component
+    locator: Sections 2.1–2.2 and algorithm summary, printed/PDF pp.4–6; PCA/rectangle construction and
+      zero-thresholded single-axis modes
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Conditional Restricted Boltzmann Machines for Structured Output Prediction
+  authors:
+  - Volodymyr Mnih
+  - Hugo Larochelle
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf
+  version: Nine-page author-hosted UAI 2011 paper, report UAI-P-2011-PG-514-522; arXiv upload 14 February
+    2012. No printed page numbers. Complete PDF visually read in the preceding batch and verified byte-identical;
+    PDF pages 3–8 reread for these algorithms.
+  persistent_id: arXiv:1202.3748
+  access_level: full_text
+  accessed_at: '2026-10-11T18:43:08Z'
+  sha256: e7811677aa0f48e97931e1a5b60497d7ec0f2a22c19ab06ce1e15b8f366df4ac
+- source_id: hash-component
+  title: Spectral Hashing
+  authors:
+  - Yair Weiss
+  - Antonio Torralba
+  - Rob Fergus
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/d58072be2820e8682c0a27c0518e805e-Paper.pdf
+  version: NIPS 2008, Advances in Neural Information Processing Systems 21, publisher PDF. All eight pages
+    visually inspected; printed page numbers equal PDF pages. The later proceedings publication is cited
+    as 2009 in the conditional-RBM paper.
+  persistent_id: https://papers.nips.cc/paper/2008/hash/d58072be2820e8682c0a27c0518e805e-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T18:56:10Z'
+  sha256: 3ad2470d89ee32e21a111175fa9314e058d0ae3b91541da5e7e5b9321270af9d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: This is a learning and prediction procedure developed for conditional RBM free energies.
+    The AIO target names the model component/family, not this procedure; the association is related rather
+    than an algorithm-is-model subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:05:47Z'
+  updated_at: '2026-10-11T19:05:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
