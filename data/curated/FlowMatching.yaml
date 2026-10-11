@@ -1,0 +1,75 @@
+name: Flow matching
+definition: A generative-model training method that fits a time-dependent vector field by regression to
+  velocities associated with a chosen probability path between a base distribution and a data distribution,
+  with conditional flow matching providing a tractable training objective.
+concept_kind: algorithm
+identity_notes: The 442 pinned AIO identities and 90 preceding native identities, including scoped synonyms
+  and aliases, were compared alongside ignored-inclusive searches of both checkouts. This record denotes
+  the general probability-path training method of Lipman and colleagues. Conditional flow matching is
+  its tractable objective construction, not an asserted synonym for every use of the general method. Straight
+  conditional paths overlap with the training construction used in rectified flow; that overlap does not
+  make the general path family and the rectification/reflow procedure identical.
+limitations:
+- The equality of conditional and marginal objective gradients is conditional on the paper's density and
+  integrability assumptions, including positive path density in Theorem 2; finite neural training does
+  not guarantee the ideal field.
+- The Gaussian construction with positive terminal noise leaves a smoothed approximation to the data distribution.
+  Training without ODE simulation does not remove numerical ODE solving from sampling.
+- The optimal-transport conditional Gaussian path in Section 4 does not imply that the resulting marginal
+  flow is a globally optimal transport map, as the paper explicitly notes on PDF p. 6.
+- No benchmark superiority, universal sampling-step count or independently checked theorem proof is asserted.
+aliases:
+- FM (flow matching)
+id: AIMech:FlowMatching
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3–3.2, equations (5)–(9) and Theorems 1–2, PDF pp. 3–4; Section 4, equations (10)–(24),
+    PDF pp. 4–6
+  relation: supports
+claims:
+- claim_id: generative-mechanism
+  kind: mechanism
+  statement: The method regresses a neural vector field on a target velocity under a prescribed time-indexed
+    density. Conditional flow matching samples a data-conditioned path and its known conditional velocity;
+    under the paper's assumptions its loss has the same parameter gradient as the marginal flow-matching
+    loss. For the illustrated Gaussian conditional paths, the mean and standard deviation define an affine
+    transformation of base noise. Training avoids integrating the learned ODE, while generation integrates
+    that vector field from the base distribution.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3–3.2, equations (5)–(9) and Theorems 1–2, PDF pp. 3–4; Section 4, equations (10)–(24),
+      PDF pp. 4–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Flow Matching for Generative Modeling
+  authors:
+  - Yaron Lipman
+  - Ricky T. Q. Chen
+  - Heli Ben-Hamu
+  - Maximilian Nickel
+  - Matt Le
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.02747v2
+  version: arXiv:2210.02747v2, revised 2023-02-08
+  persistent_id: arXiv:2210.02747
+  access_level: full_text
+  accessed_at: '2026-10-11T04:35:23Z'
+  sha256: 5eeb39ba516396924aba4787452f9d0abdee88467a4d0c264d9f66cad0c5ee14
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: Flow matching uses regression of time- and state-dependent velocity targets. RegressionAnalysis
+    describes the corresponding statistical estimation task, whereas this local concept denotes a generative
+    training algorithm; the mapping does not assert an algorithm is a task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:42:32Z'
+  updated_at: '2026-10-11T04:42:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

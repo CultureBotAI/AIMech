@@ -1,0 +1,95 @@
+name: Rectified flow
+definition: A transport-learning method that regresses a velocity field on endpoint differences along
+  straight interpolations of coupled samples and uses the resulting ordinary differential equation to
+  transport the source distribution, optionally repeating rectification using the learned endpoint coupling.
+concept_kind: algorithm
+identity_notes: The ignored-inclusive identity search covered both checkouts, all 442 AIO labels and scoped
+  synonyms, and 90 preceding native identities. This record denotes the straight-interpolation regression
+  and rectification procedure of Liu, Gong and Liu, including optional reflow. It overlaps with particular
+  conditional flow-matching objectives, but does not denote every probability-path choice in flow matching,
+  a particular trained image generator, or mandatory distillation.
+limitations:
+- Marginal preservation and transport-cost statements concern ideal regression with a well-posed ODE,
+  not arbitrary finite neural estimates or numerical solvers.
+- Straight training interpolations do not make the learned marginal trajectories exactly straight; one-step
+  accuracy is not universal. Reflow and distillation are optional.
+- The original paper explicitly does not guarantee a globally cost-optimal coupling in general. Later
+  analysis also gives nonoptimal zero-loss fixed points for a gradient-constrained rectification variant
+  when required support or regularity assumptions are absent.
+- The later optimal-transport counterexamples limit stronger equivalence claims; they do not refute the
+  original least-squares construction. No executable solver, numerical benchmark or full proof verification
+  is supplied.
+aliases:
+- RF (rectified flow)
+id: AIMech:RectifiedFlow
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.1–2.2, equations (1)–(2), Algorithm 1 and transport-cost discussion, PDF pp. 4–6
+  relation: supports
+claims:
+- claim_id: generative-mechanism
+  kind: mechanism
+  statement: Given coupled endpoints X0 and X1, training samples t and regresses v((1−t)X0+tX1,t) toward
+    X1−X0 using squared error. The ideal minimizer is the conditional mean endpoint difference at the
+    interpolated state. Integrating dZt/dt=v(Zt,t) from the source sample induces a new endpoint coupling.
+    Reflow optionally trains another rectified flow on that coupling; endpoint-map distillation is a separate
+    optional step.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.1–2.2, equations (1)–(2), Algorithm 1 and transport-cost discussion, PDF pp. 4–6
+    relation: supports
+- claim_id: optimal-transport-boundary
+  kind: limitation
+  statement: A later analysis of gradient-constrained rectification exhibits nonoptimal zero-loss fixed
+    points with disconnected intermediate supports; its corrected equivalence theorem additionally requires
+    full intermediate support, rectifiability and smooth potential fields. Straightness or imposing a
+    potential alone does not establish globally optimal transport.
+  evidence:
+  - source_id: optimal-transport-analysis
+    locator: Sections 3.1–3.2, PDF pp. 5–6; Section 4.1, Proposition 10, Theorem 11 and Remark 12, PDF
+      pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow'
+  authors:
+  - Xingchao Liu
+  - Chengyue Gong
+  - Qiang Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2209.03003v1
+  version: arXiv:2209.03003v1, submitted 2022-09-07
+  persistent_id: arXiv:2209.03003
+  access_level: full_text
+  accessed_at: '2026-10-11T04:35:22Z'
+  sha256: d81790cb6988ef480002adcc84000d4f44855b11fb868001fd53aad133bc3a74
+- source_id: optimal-transport-analysis
+  title: On the Relation between Rectified Flows and Optimal Transport
+  authors:
+  - Johannes Hertrich
+  - Antonin Chambolle
+  - Julie Delon
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2505.19712v3
+  version: arXiv:2505.19712v3, revised 2026-02-15
+  persistent_id: arXiv:2505.19712
+  access_level: full_text
+  accessed_at: '2026-10-11T04:40:15Z'
+  sha256: 8aca06c9392765e6f4a196ca011576b126a9dd01eee6f7a586fbf296facad6c3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The defining velocity-learning objective estimates conditional endpoint differences by least-squares
+    regression. RegressionAnalysis is the related estimation task, while rectified flow is the transport-learning
+    algorithm and may include iterative reflow; no task/algorithm subclass assertion is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:42:32Z'
+  updated_at: '2026-10-11T04:42:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
