@@ -1,0 +1,172 @@
+name: R-Novelty+ SAT heuristic
+definition: The 1999 R-Novelty extension that replaces its periodic random override with a fixed per-step
+  probability of a random clause-variable flip and otherwise uses the recency- and score-gap-dependent
+  R-Novelty selector.
+concept_kind: algorithm
+identity_notes: 'The record is scoped to Hoos’s 1999 R-Novelty+ definition. It removes the original every-100-step
+  override, rather than adding a random-walk branch while silently retaining that schedule. The 2004 competition
+  report uses Rnovelty+ for a periodic configuration; that differently specified variant is not the present
+  identity. At zero walk probability this method reduces to the core R-Novelty selector without the 1997
+  periodic escape, not the entire original 1997 strategy. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 325 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 90 and 90 lines
+  respectively. All 64 unique hit contents were inspected: neighboring variant and source references,
+  saved reviews and candidate leads, not existing candidate records. Exact checkout counts and differences
+  are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges
+  and five full native neighboring records were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.'
+limitations:
+- The asymptotic guarantee requires a strictly positive walk probability at every step, bounded below
+  independently of elapsed search history. A scheduled-only override or a probability that tends to zero
+  does not automatically satisfy that premise. At w=0 the random-walk argument no longer applies.
+- The guarantee concerns finding a model on a finite satisfiable formula in the limit of continued search.
+  A finite budget can miss an existing model and cannot certify UNSAT. The source’s lower bound can be
+  extremely small; no polynomial or practical runtime follows.
+- The walk probability w is separate from the inner selector’s noise parameter p. The reported experimental
+  w=0.01 is not a defining or universally optimal constant. Optional outer restarts and cutoffs must be
+  specified separately.
+- Empty clauses, unit clauses lacking a second candidate, initial age ties, duplicate literals and timestamp/reset
+  conventions require a well-defined implementation. The general random-walk proof does not certify undocumented
+  choices in the short selector description. No author solver or benchmark was executed.
+- The asymptotic guarantee for the 1999 per-step extension must not be transferred to the 2004 periodic
+  configuration merely because both use a plus label. The previously proved trapping example shows why
+  scheduled random steps can miss an essential variable.
+id: AIMech:RNoveltyPlus
+aliases:
+- R-Novelty+
+definition_evidence:
+- source_id: method-source
+  locator: PDF5–6, random-walk extension and explicit removal of R-Novelty’s periodic override; PDF3–4,
+    asymptotic scope and Theorem 2; PDF4–5, periodic strategy incompleteness
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Randomly select an unsatisfied clause. With fixed walk probability w in [0,1], choose a
+    variable uniformly from that clause and flip it. Otherwise apply the core R-Novelty selector: rank
+    candidates by global post-flip violation count with oldest-variable tie breaks. Choose the best if
+    it is not the most recently flipped variable in the clause. If it is most recent, let d be the second-best
+    count minus the best count, with d>=1 under the stated age/score assumptions, and use inner noise
+    p in [0,1]. For p<0.5 choose second-best with probability 2p when d=1 and with probability zero when
+    d>1. For p>=0.5 choose second-best with probability one when d=1 and with probability 2(p−0.5) when
+    d>1. Choose best otherwise. Update the timestamp of the flipped variable. Omit the periodic every-100-step
+    override: the new walk coin is evaluated at each step. A fixed w>0 supports the source’s asymptotic
+    result; w=1 gives pure clause-first random walk and w=0 retains only the core selector.'
+  evidence:
+  - source_id: method-source
+    locator: PDF5–6, random-walk extension and explicit removal of R-Novelty’s periodic override; PDF3–4,
+      asymptotic scope and Theorem 2; PDF4–5, periodic strategy incompleteness
+    relation: supports
+  - source_id: additional-1
+    locator: PDF2 / printed322, Novelty and R-Novelty selector definitions; PDF3 / printed323, original
+      periodic R-Novelty override
+    relation: supports
+- claim_id: asymptotic-model-finding
+  kind: scope
+  statement: For a finite satisfiable CNF and a well-defined remaining move policy, a fixed positive lower
+    bound on the probability of a uniform random-clause/random-variable step at every search step gives
+    success probability approaching one as the number of steps tends to infinity. Hoos1999 Theorem 2 establishes
+    this via a positive probability of a sequence reducing Hamming distance to a model. The conclusion
+    does not give a polynomial or practically small runtime, a finite-run guarantee, or an UNSAT certificate.
+  evidence:
+  - source_id: method-source
+    locator: PDF3, Definition 2 and no-restart scope; PDF3–4, Lemma 1 and Theorem 2; PDF5–6, application
+      to the plus extensions
+    relation: supports
+- claim_id: plus-source-version-boundary
+  kind: scope
+  statement: Hoos1999 explicitly removes the periodic escape when defining R-Novelty+, while the 2004
+    competition report calls an every-100-step configuration Rnovelty+. This record follows the former
+    definition and does not treat the latter’s cycling-prevention statement as its theorem.
+  evidence:
+  - source_id: method-source
+    locator: PDF5–6, per-step walk and omission of periodic override
+    relation: supports
+  - source_id: additional-2
+    locator: PDF/printed2, periodic configuration and plus naming
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: On the Run-time Behaviour of Stochastic Local Search Algorithms for SAT
+  authors:
+  - Holger H. Hoos
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1999/AAAI99-094.pdf
+  version: Six-page AAAI-99 publisher PDF with proceedings banner and 1999 copyright. The pages have no
+    printed proceedings numbers; locators use PDF pages. This file differs in bytes from the UBCSAT archive
+    copy, and all six publisher page images were inspected directly.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:47:53Z'
+  sha256: 6afd11724464cf043880c221fd14f2110176c9e3bdc97cbb0b200ad3de789eb6
+- source_id: additional-1
+  title: Evidence for Invariants in Local Search
+  authors:
+  - David McAllester
+  - Bart Selman
+  - Henry Kautz
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1997/AAAI97-050.pdf
+  version: Six-page AAAI-97 proceedings scan from the publisher, pp.321–326. The 1997 R-Novelty description
+    includes a periodic random clause-variable flip every 100 moves.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:35:13Z'
+  sha256: 79821a112c8ca937583164161be118c3ebb9795e5cfa494a55536881233852a8
+- source_id: additional-2
+  title: Walksat in the 2004 SAT Competition
+  authors:
+  - Henry Kautz
+  - Bart Selman
+  - David McAllester
+  source_type: author_technical_report
+  url: https://www.cs.virginia.edu/~rmw7my/papers/walksat.pdf
+  version: Two-page author-hosted SAT Competition 2004 solver description, printed/PDF pp.1–2. Defines
+    the SKC rule and distinguishes AutoWalksat and Rnovelty+; this is not documentation for every later
+    software version.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:10:47Z'
+  sha256: 525f46d2f9fd9d32cc46daee6b15a0ece5fcef17af614e74d6143643ed2cf74f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 325 preceding maintained IDs/names/aliases;
+    ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for search,
+    satisfiability, heuristics, reasoning, novelty, memory and recurrence; nine exact AIO CLASS nodes
+    and five complete native neighbors.
+  rationale: No suitable AIO target was established in the pinned snapshot and inspected SAT/search/memory
+    neighborhood. A positive random-walk probability and variable-age bookkeeping do not justify forced
+    neural-memory, language-model or learning-task mappings.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: Selecting Boolean variable flips is not a language model performing reasoning in
+      language tasks.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The method searches a supplied formula rather than prescribing preprocessing or
+      training a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Remembering a move timestamp does not itself turn fixed-formula search into development
+      of a method that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Age-based move selection and a noise parameter do not require a learned reward policy
+      or action-value function.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented state could include timestamps and step phase, but that representation
+      alone does not identify the named SAT heuristic with the pinned stochastic network/model class.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: Boolean assignments, clause scores and flip timestamps are not a network of artificial
+      neurons.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: External memory in a language model is different from retaining SAT variable ages;
+      the related external-memory synonym does not broaden the target to every algorithm using memory.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A neural layer of cells with internal state or weights is not a variable-age table.
+  - target: AIO:LongShortTermMemory
+    rejection_reason: A recurrent neural architecture processing sequences is not a SAT move-history heuristic.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:57:02Z'
+  updated_at: '2026-10-11T15:57:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
