@@ -1,0 +1,63 @@
+name: Deep deterministic policy gradient
+aliases:
+- DDPG
+definition: An off-policy actor–critic method for continuous control using neural function approximators
+  and deterministic policy gradients.
+concept_kind: algorithm
+identity_notes: DDPG combines deterministic policy gradients with deep actor/critic approximators, replay
+  and target networks. It is distinct from stochastic maximum-entropy SAC and discrete-action DQN.
+limitations:
+- Exploration in the original algorithm adds noise to the actor's action; a deterministic actor does not
+  remove the need for exploration.
+- The source's simulated-control results do not establish universal stability or performance in every
+  continuous-action environment.
+id: AIMech:DeepDeterministicPolicyGradient
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, PDF/printed pp. 3–4; Algorithm 1, PDF/printed p. 5
+  relation: supports
+claims:
+- claim_id: learning-method
+  kind: mechanism
+  statement: Replay samples train a critic toward bootstrapped targets and update a deterministic actor
+    through the critic's action gradient; slowly updated target actor and critic networks supply the bootstrap
+    targets.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, PDF/printed pp. 3–4; Algorithm 1, PDF/printed p. 5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Continuous control with deep reinforcement learning
+  authors:
+  - Timothy P. Lillicrap
+  - Jonathan J. Hunt
+  - Alexander Pritzel
+  - Nicolas Heess
+  - Tom Erez
+  - Yuval Tassa
+  - David Silver
+  - Daan Wierstra
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1509.02971v6
+  version: 1509.02971v6
+  access_level: full_text
+  accessed_at: '2026-10-11T03:40:33Z'
+  sha256: 34ef677ecdee8c2a72721c70c7d849191be72af39ac8691a12e8c2979a28feda
+  persistent_id: arXiv:1509.02971v6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: This algorithm implements reinforcement-learning updates. The AIO target is a learning task,
+    not the same method or an asserted algorithm superclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:44:41Z'
+  updated_at: '2026-10-11T03:44:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,59 @@
+name: Trust region policy optimization
+aliases:
+- TRPO
+definition: A policy-optimization method that optimizes a surrogate objective while constraining the change
+  in policy by a trust region based on Kullback–Leibler divergence.
+concept_kind: algorithm
+identity_notes: TRPO's constrained policy update differs from PPO's clipped surrogate or adaptive penalty
+  variants. It is an optimization procedure, not a trained policy instance.
+limitations:
+- The paper distinguishes its theoretical improvement scheme from practical approximations; this record
+  does not guarantee monotonic improvement for every practical update.
+- Single-path and vine sampling have different access requirements; the latter assumes the ability to
+  restore sampled states.
+id: AIMech:TrustRegionPolicyOptimization
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 4–6, PDF pp. 3–5; equations 12–15 and practical-approximation discussion
+  relation: supports
+claims:
+- claim_id: learning-method
+  kind: mechanism
+  statement: The practical method estimates a surrogate objective from sampled trajectories and constrains
+    the average divergence from the old policy, using an approximate constrained update rather than evaluating
+    a maximum-divergence constraint at every state.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 4–6, PDF pp. 3–5; equations 12–15 and practical-approximation discussion
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Trust Region Policy Optimization
+  authors:
+  - John Schulman
+  - Sergey Levine
+  - Philipp Moritz
+  - Michael Jordan
+  - Pieter Abbeel
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/schulman15.pdf
+  version: ICML 2015 / PMLR 37:1889–1897 proceedings version
+  access_level: full_text
+  accessed_at: '2026-10-11T03:40:33Z'
+  sha256: 8e959ae88caeb6d8bdcc92763bc3ff766edff826aa4eb5b96b58a4a56b56ce47
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: This algorithm implements reinforcement-learning updates. The AIO target is a learning task,
+    not the same method or an asserted algorithm superclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:44:41Z'
+  updated_at: '2026-10-11T03:44:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
