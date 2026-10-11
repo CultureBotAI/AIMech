@@ -1,0 +1,155 @@
+name: Unsupervised Data Augmentation
+definition: A semi-supervised classifier-training procedure that combines labeled prediction loss with
+  consistency between fixed current-model predictions on original or weakly augmented unlabeled inputs
+  and predictions on strongly augmented versions.
+concept_kind: algorithm
+identity_notes: The named UDA method is a training procedure, not just a data transform or a label-free
+  learning paradigm. It uses soft current-model targets and strong augmentation, unlike FixMatch’s confidence-masked
+  hard targets or an EMA-target Mean Teacher. Its source-specific RandAugment variant is not byte-for-byte
+  or mathematically identical to the original shared-M procedure. The acronym here means Unsupervised
+  Data Augmentation, not an assertion about every use of UDA in the literature. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related
+  native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring
+  native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected
+  semantic neighborhood.
+limitations:
+- The method still uses labeled supervision despite its name. Consistency can propagate incorrect model
+  predictions, and confidence is not proof of correctness.
+- Augmentations require task-appropriate label preservation; the paper’s theoretical analysis assumes
+  in-domain, label-preserving and reversible transformations rather than proving these properties for
+  arbitrary augmentations.
+- Confidence thresholds, temperatures, loss weights, augmentation settings and domain filters are protocol
+  choices. No universal values or benchmark gains are asserted.
+- The paper cross-entropy and implemented KL values must not be compared as identical losses; gradient
+  equivalence requires treating targets and masks as fixed.
+- TSA uses a different mask and normalization on labeled examples; it is represented separately. No author
+  code or training benchmark was executed.
+id: AIMech:UnsupervisedDataAugmentation
+aliases:
+- UDA
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–2.4, Figure 1 and Equation (1), PDF/printed pp. 2–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Compute supervised cross-entropy on labeled examples. On an unlabeled input, obtain the current
+    model’s probability vector from the original or weakly augmented view and hold that target fixed during
+    differentiation. Train the model on a stronger augmented view to match this soft distribution, adding
+    a weighted mean consistency loss over the unlabeled batch to the labeled loss. Main-paper Equation1
+    uses cross-entropy; the inspected image and text implementations instead compute forward KL divergence
+    from the fixed target to the augmented prediction. These objectives differ by target entropy in value
+    but have the same augmented-prediction gradients when targets and masks are held fixed. The additional
+    confidence filter retains an unlabeled example only when the maximum unsharpened target probability
+    is strictly greater than beta. Target sharpening uses softmax of logits divided by a positive temperature.
+    The masked consistency losses are averaged over the entire unlabeled batch, not the retained subset.
+    The source uses image transformations, back-translation or TF-IDF word replacement depending on the
+    task. Its particular image RandAugment implementation samples two operations from 15 types, each with
+    its own sampled magnitude in [1,10) and application probability 0.5; it is explicitly a variant of
+    the separately represented shared-magnitude RandAugment. Training-signal annealing can additionally
+    filter easy labeled examples, and a separate domain-relevance procedure can select external unlabeled
+    data; neither is silently folded into the core consistency equation.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–2.4, Figure 1 and Equation (1), PDF/printed pp. 2–5
+    relation: supports
+  - source_id: image-code
+    locator: 'image/main.py lines261–290 and307–390: KL, supervised TSA and consistency targets, confidence
+      masks and full-batch mean'
+    relation: supports
+  - source_id: text-code
+    locator: 'text/uda.py lines33–38 and80–182: KL, detached targets, confidence filtering and supervised/unlabeled
+      denominators'
+    relation: supports
+  - source_id: supplement
+    locator: 'Appendix A.1–A.2, supplementary PDF pp. 1–2 / printed pp. 15–16: TSA and augmentation variants'
+    relation: supports
+  - source_id: policy-code
+    locator: 'image/randaugment/policies.py lines58–76: 15-operation list and ordered-pair policies with
+      magnitude1–9 and probability0.5'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Unsupervised Data Augmentation for Consistency Training
+  authors:
+  - Qizhe Xie
+  - Zihang Dai
+  - Eduard Hovy
+  - Minh-Thang Luong
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Paper.pdf
+  version: NeurIPS 2020 proceedings main paper; thirteen PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:37:01Z'
+  sha256: 02193d143baae17ecf975d56d4c1c9f894aa316a4e4838beeea16964ca16d9a4
+- source_id: image-code
+  title: UDA author implementation — image consistency and supervised annealing
+  authors:
+  - Google UDA Team Authors
+  source_type: official_documentation
+  url: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/main.py
+  version: Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/main.py; source
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:40:45Z'
+  sha256: 1d4f91ee5df38b5fb6bf4c98ff360a39e6416c5cff54e6df1b3ac0848184a2a8
+- source_id: text-code
+  title: UDA author implementation — text consistency and supervised annealing
+  authors:
+  - Google UDA Team Authors
+  source_type: official_documentation
+  url: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/text/uda.py
+  version: Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, text/uda.py; source
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:40:45Z'
+  sha256: f34e4a9d36542bc73a6f5decb66d2f48a41d4b46efc88f25976b21151c089d83
+- source_id: supplement
+  title: Unsupervised Data Augmentation for Consistency Training — supplementary material
+  authors:
+  - Qizhe Xie
+  - Zihang Dai
+  - Eduard Hovy
+  - Minh-Thang Luong
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Supplemental.pdf
+  version: NeurIPS 2020 official supplement; seven PDF pages, printed 15–21
+  access_level: full_text
+  accessed_at: '2026-10-11T10:39:30Z'
+  sha256: 77533ff314e4d9a719390698e0c23884ae4a40a53b7decc39639c4039c21375f
+- source_id: policy-code
+  title: UDA author implementation — augmentation policy definitions
+  authors:
+  - Google UDA Team Authors
+  source_type: official_documentation
+  url: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/randaugment/policies.py
+  version: Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/randaugment/policies.py;
+    source read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:40:45Z'
+  sha256: e1a6e83f54fbdb58e697e869de15bc0e75c3546aa55f02fef71acfa0f7284e0a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: The algorithm trains class predictions using labeled and unlabeled examples. The AIO target
+    is a classification task, not an equivalent algorithm or an asserted parent.
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The procedure realizes learning from data; this is an algorithm-to-task association at different
+    abstraction levels.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:45:16Z'
+  updated_at: '2026-10-11T10:45:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

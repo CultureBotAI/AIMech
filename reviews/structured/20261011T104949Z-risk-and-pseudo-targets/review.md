@@ -1,0 +1,993 @@
+# Scientific self-review of risk and pseudo-target training concepts
+
+- Review: 20261011T104949Z-risk-and-pseudo-targets
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T10:46:27Z
+- Finished UTC: 2026-10-11T10:49:49Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain four DRAFT concepts with source-backed loss, target, mask, schedule and objective boundaries. Qualify Pseudo-Label entropy language, UDA paper/code losses and the bounded mirrored paper. No actionable repository defect remains in this scope.
+
+## Scope And Provenance
+
+All fields of the four new maintained risk and pseudo-target concepts.
+
+Selection: The four exact IDs added in the discovery report; no sampling.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base 07161ada2173e1e35d9209cc4fbccafdd4c63fd0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:UnsupervisedDataAugmentation | data/curated/UnsupervisedDataAugmentation.yaml | maintained | Unsupervised Data Augmentation |
+| AIMech:PseudoLabel | data/curated/PseudoLabel.yaml | maintained | Pseudo-Label |
+| AIMech:VicinalRiskMinimization | data/curated/VicinalRiskMinimization.yaml | maintained | Vicinal risk minimization |
+| AIMech:TrainingSignalAnnealing | data/curated/TrainingSignalAnnealing.yaml | maintained | Training signal annealing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:UnsupervisedDataAugmentation, AIMech:PseudoLabel, AIMech:VicinalRiskMinimization, AIMech:TrainingSignalAnnealing | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 65.02s (0:01:05)<br>Checked 442 record(s); 0 failed.<br>Checked 247 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 54 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 51,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:UnsupervisedDataAugmentation, AIMech:PseudoLabel, AIMech:VicinalRiskMinimization, AIMech:TrainingSignalAnnealing | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| Finite risk and target calculations | passed | True | AIMech:UnsupervisedDataAugmentation, AIMech:PseudoLabel, AIMech:TrainingSignalAnnealing | {"scope": "Curator arithmetic; not model training, author-code execution or an author-issued correction.", "pseudo_label": {"probabilities": [0.8, 0.2], "hard_target_binary_ce": 0.4462871026284194, "hard_target_categorical_ce": 0.2231435513142097, "printed_entropy_expression": 0.5004024235381879, "conclusion": "These loss values are not equal; shared confidence-sharpening motivation does not establish objective identity."}, "uda": {"soft_target_cross_entropy": 0.5919186453876236, "kl": 0.09151622184943578, "difference_target_entropy": 0.5004024235381879, "same_fixed_target_logit_gradient": [-0.20000000000000007, 0.2]}, "tsa": {"threshold": 0.6, "label_confidences": [0.6, 0.8], "retained": [true, false], "retained_mean": 0.5108256237659907, "full_batch_mean": 0.25541281188299536, "ten_class_exp_schedule_start": 0.10606415229917693, "ten_class_log_schedule_end": 0.9939358477008231}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, source scope and mapping
+
+evidence: supported. Targets: AIMech:UnsupervisedDataAugmentation.
+
+The named UDA method is a training procedure, not just a data transform or a label-free learning paradigm. It uses soft current-model targets and strong augmentation, unlike FixMatch’s confidence-masked hard targets or an EMA-target Mean Teacher. Its source-specific RandAugment variant is not byte-for-byte or mathematically identical to the original shared-M procedure. The acronym here means Unsupervised Data Augmentation, not an assertion about every use of UDA in the literature. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+
+Compute supervised cross-entropy on labeled examples. On an unlabeled input, obtain the current model’s probability vector from the original or weakly augmented view and hold that target fixed during differentiation. Train the model on a stronger augmented view to match this soft distribution, adding a weighted mean consistency loss over the unlabeled batch to the labeled loss. Main-paper Equation1 uses cross-entropy; the inspected image and text implementations instead compute forward KL divergence from the fixed target to the augmented prediction. These objectives differ by target entropy in value but have the same augmented-prediction gradients when targets and masks are held fixed. The additional confidence filter retains an unlabeled example only when the maximum unsharpened target probability is strictly greater than beta. Target sharpening uses softmax of logits divided by a positive temperature. The masked consistency losses are averaged over the entire unlabeled batch, not the retained subset. The source uses image transformations, back-translation or TF-IDF word replacement depending on the task. Its particular image RandAugment implementation samples two operations from 15 types, each with its own sampled magnitude in [1,10) and application probability 0.5; it is explicitly a variant of the separately represented shared-magnitude RandAugment. Training-signal annealing can additionally filter easy labeled examples, and a separate domain-relevance procedure can select external unlabeled data; neither is silently folded into the core consistency equation. Limits: The method still uses labeled supervision despite its name. Consistency can propagate incorrect model predictions, and confidence is not proof of correctness. Augmentations require task-appropriate label preservation; the paper’s theoretical analysis assumes in-domain, label-preserving and reversible transformations rather than proving these properties for arbitrary augmentations. Confidence thresholds, temperatures, loss weights, augmentation settings and domain filters are protocol choices. No universal values or benchmark gains are asserted. The paper cross-entropy and implemented KL values must not be compared as identical losses; gradient equivalence requires treating targets and masks as fixed. TSA uses a different mask and normalization on labeled examples; it is represented separately. No author code or training benchmark was executed.
+
+### Identity, definition, mechanism, source scope and mapping
+
+evidence: supported. Targets: AIMech:PseudoLabel.
+
+This record denotes Lee’s 2013 named training method and its explicitly described sigmoid-loss configuration. Generic pseudo-labeling also includes other target generators and iterative procedures; DeepCluster’s cluster assignments, SeLa’s balanced transport and FixMatch’s weak-to-strong confidence filter are distinct methods. The method’s entropy-minimization motivation does not establish an identical objective to Shannon entropy minimization. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+
+At each weights update, assign each unlabeled example a one-hot pseudo-target for its argmax predicted class. Treat that chosen target as a label for the update and train the same network on both observed labeled examples and pseudo-labeled examples. The original paper’s Equation15 averages the class-summed supervised loss over the labeled minibatch of size n and separately over the unlabeled minibatch of size n_prime, with multiplier alpha(t) on the latter. The represented original configuration uses independent sigmoid output units and sums binary cross-entropy over classes, as defined in Equation5; it is not silently rewritten as softmax categorical cross-entropy. Equation16 sets alpha(t)=0 before T1, increases it linearly to alpha_f between T1 and T2, and keeps it at alpha_f thereafter. The paper uses Dropout during this training and studies both optional denoising-autoencoder pretraining and training without it. The hard labels are recalculated at each weights update rather than supplied by a separate EMA teacher. The displayed Pseudo-Label rule has no confidence-threshold rejection step. Equations5 and15 use hard pseudo-target loss, while Equation17 defines a different entropy expression. For normalized two-class outputs(0.8,0.2) and pseudo-target(1,0), the class-summed binary cross-entropy is−2log(0.8), whereas the printed entropy is−0.8log(0.8)−0.2log(0.2). Their unequal values refute literal objective equality in this example; this finite algebra does not refute the paper’s qualitative confidence-sharpening motivation. Limits: Wrong hard targets can reinforce early prediction errors; the ramp and low-density-separation motivation do not guarantee target correctness or improved generalization. The original paper’s independent sigmoid outputs need not form a normalized class-probability vector. Its classwise binary loss is distinct from later softmax-based reimplementations. The paper describes equivalence to entropy regularization, but its hard-target loss and printed entropy expression are not algebraically equal. This record preserves the shared low-entropy motivation without asserting objective equality. Specific ramp endpoints, final weight, network widths, Dropout rates and pretraining schedules are reported experimental choices, not universal constants. The paper does not specify an argmax tie-breaking policy. The inspected primary paper is a public third-party-hosted copy with an exact hash. Title, author and workshop identity agree with the indexed original and author-linked citation; original-host byte equality and an exact revision date were not established.
+
+### Identity, definition, mechanism, source scope and mapping
+
+evidence: supported. Targets: AIMech:VicinalRiskMinimization.
+
+VRM is a general learning-objective construction, distinct from MixUp’s particular interpolation distribution, a fixed image augmentation, a support-vector machine, or a standalone density estimator. The paper’s basic fixed-label vicinity formula and its broader joint-distribution formulation are both retained. Special cases do not make VRM equivalent to all of the methods it can encompass. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+
+For labeled observations(x_i,y_i), choose vicinity distributions P_i over inputs near each x_i. The paper’s basic construction replaces each empirical input point mass with P_i while retaining the point label y_i, giving P_est=(1/n)sum_i P_i(x)delta_y_i(y). Minimize R_vic(f)=(1/n)sum_i integral loss(f(x),y_i)dP_i(x) over the chosen hypothesis class F. More generally, the paper allows an estimated joint input-target distribution rather than requiring pointwise kernels. The vicinity distribution and the function class both shape the learning problem. Gaussian neighborhoods are one example, not a defining requirement. Replacing them with exact point masses recovers empirical-risk minimization. However, sending a neighborhood-width parameter to zero after minimizing the vicinal risk need not select every empirical-risk minimizer: the paper discusses a hard-margin limit for a particular linearly separable linear-classifier construction. This principle specifies an objective and modeling choices, not one universal numerical optimizer. Limits: A poor vicinity or density estimate can impose incorrect local assumptions; the hypothesis-class capacity also matters for generalization. Labels are fixed within each neighborhood in the basic construction, but the generalized joint-distribution formulation is broader. The record does not impose Gaussian noise, convex interpolation or mixed labels on all VRM instances. The zero-width objective and the limit of minimizing positive-width objectives are distinct operations; a general assertion that every such limit is ordinary ERM or an SVM is not justified. The source’s ridge and margin examples require their stated model, loss and distribution assumptions. No universal generalization bound, optimizer convergence guarantee or performance result is asserted.
+
+### Identity, definition, mechanism, source scope and mapping
+
+evidence: supported. Targets: AIMech:TrainingSignalAnnealing.
+
+TSA is the named labeled-loss schedule introduced as an additional UDA training technique, not the entire UDA method, an unlabeled pseudo-label confidence filter, or an LLM model class. It is related to curriculum scheduling but does not follow the pinned AIO CurriculumLearning definition’s simple-to-complex presentation rule: it withholds already-confident labeled examples rather than starting with them. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+
+At training step t, compute the model probability of each labeled example’s known correct class. Keep that example in the supervised loss only when its probability does not exceed eta_t, following the inspected author implementations; hold the mask fixed during differentiation. Sum the retained cross-entropy losses and divide by max(number_retained,1), producing zero when none are retained. Set eta_t=a_t*(1−1/K)+1/K for K classes and total step count T. The source provides linear a_t=t/T, log a_t=1−exp(−5t/T), and exponential a_t=exp(5*(t/T−1)) schedules. The linear schedule spans exactly 1/K to 1 over t=0..T; the exponential begins slightly above 1/K and reaches 1, while the log schedule begins at 1/K and ends slightly below 1. These exact endpoint distinctions follow the published formulas. The threshold suppresses easy labeled examples early; this is separate from the unlabeled UDA confidence filter, which accepts high-confidence targets and averages masked losses over the full unlabeled batch. Limits: The schedule depends on the current classifier’s confidence and does not measure intrinsic example difficulty or guarantee avoidance of overfitting. The paper’s prose describes a threshold progressing from1/K to1, but the nonlinear formulas do not both attain those exact endpoints at finite T. The implementations retain threshold equality and normalize by retained count; these details differ from a strict less-than mask or a full labeled-batch denominator. The linear/log/exponential schedule choices and K,T must match the training setting. No benchmark gain, optimal schedule or universal need for TSA is claimed.
+
+### Fixed soft targets, mask and source-specific losses
+
+consistency: supported. Targets: AIMech:UnsupervisedDataAugmentation.
+
+Retain UDA’s consistency objective and qualify paper/code variants.
+
+Targets use the current model, not an EMA teacher. Main-paper CE and author-code forward KL are different values but have equal augmented-prediction gradients with detached targets/masks. Confidence is tested before target sharpening with strict&gt;, and masked consistency is averaged over the full unlabeled batch. The UDA15-operation, independently sampled magnitude and0.5 application-probability variant differs from the maintained shared-M RandAugment. TSA and domain filtering are additional techniques; task-specific augmentation settings do not imply universal label preservation.
+
+### Original sigmoid loss and entropy interpretation
+
+consistency: supported. Targets: AIMech:PseudoLabel.
+
+Retain the original workshop method without silently substituting later softmax conventions.
+
+The original Section2 explicitly uses independent sigmoid outputs and class-summed binary cross-entropy. Hard argmax pseudo-labels are recomputed for each weights update, with separately averaged labeled/unlabeled losses and a scheduled unlabeled multiplier. DAE pretraining is optional in the experiments and no confidence rejection is part of the displayed rule. Equating this hard-target loss to the Section3 entropy expression is mathematically too strong; the record provides a finite counterexample and retains the qualitative confidence-sharpening motivation. The six-page primary paper is mirrored publicly; its original URL failed and no exact original-host byte equivalence is asserted.
+
+### Objective construction and order of limiting operations
+
+consistency: supported. Targets: AIMech:VicinalRiskMinimization.
+
+Retain a general principle rather than collapsing VRM into MixUp or an SVM.
+
+Complete Section2 defines risk under an estimated vicinity distribution, with a basic fixed-label mixture and a broader joint-distribution option. Hypothesis class and distribution estimate both matter. Exact point masses give ERM; sending a positive-width optimizer to zero width is a different operation, with the source’s hard-margin example restricted to the stated separable linear construction. No mandatory Gaussian, convex interpolation, universal optimizer or generalization guarantee is introduced.
+
+### Labeled-example filter, normalization and schedule endpoints
+
+consistency: supported. Targets: AIMech:TrainingSignalAnnealing.
+
+Retain TSA as a separate labeled-loss scheduling method.
+
+The implementation retains true-class probability&lt;=eta, stops gradients through the mask and divides by max(retained_count,1). This is distinct from UDA’s strict high-confidence unlabeled filter and full-batch denominator. Figure5 schedules have exact endpoints: linear spans1/K to1, exponential starts above1/K, log ends below1. An increasing threshold does not guarantee a monotone retained count as the model also changes. The related CurriculumLearning mapping does not assert equivalence to an easy-to-hard presentation rule.
+
+### Tasks, training principles, layers and model classes
+
+grounding: supported. Targets: AIMech:UnsupervisedDataAugmentation, AIMech:PseudoLabel, AIMech:VicinalRiskMinimization, AIMech:TrainingSignalAnnealing.
+
+Use related AIO mappings with explicit abstraction boundaries.
+
+UDA and original Pseudo-Label relate to Classification and MachineLearningTask as algorithm-to-task associations. VRM relates to MachineLearningTask as an objective-construction principle. TSA relates to CurriculumLearning and TrainingStrategy, while its already-confident-example suppression differs from the pinned curriculum definition’s simple-to-complex order. The LLM classes, label-free SelfsupervisedLearning, compression-oriented Distillation and RegularizationLayer are not equivalent concepts. Current-model soft targets, argmax targets, EMA targets, clustered labels and balanced transport are distinct. UDA’s RandAugment variant remains separate from the maintained original shared-magnitude definition.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:UnsupervisedDataAugmentation, AIMech:PseudoLabel, AIMech:VicinalRiskMinimization, AIMech:TrainingSignalAnnealing. UDA matches soft current-model targets on strong views; original Pseudo-Label trains against hard predictions with a scheduled multiplier; VRM defines risk under a vicinity distribution; TSA gates labeled loss according to an increasing confidence ceiling. These are distinct identities, not aliases for their shared components.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T104613Z-risk-and-pseudo-targets.json | supports | All 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases were compared with four candidate identities. No normalized identity match was found. Both checkout searches included ignored and hidden files: 102 worktree lines and 103 main lines concern prior leads, component mentions, saved reviews and one main-checkout Git reflog entry. Twelve exact AIO CLASS nodes and eight native mechanisms were inspected; absence is bounded to this snapshot and neighborhood. |
+| mapping | sources/aio/aio.json; Twelve exact CLASS nodes and outgoing edges in source_analysis.aio_mapping_inspection | supports | UDA and original Pseudo-Label relate to Classification and MachineLearningTask as algorithm-to-task associations. VRM relates to MachineLearningTask as an objective-construction principle. TSA relates to CurriculumLearning and TrainingStrategy, while its already-confident-example suppression differs from the pinned curriculum definition’s simple-to-complex order. The LLM classes, label-free SelfsupervisedLearning, compression-oriented Distillation and RegularizationLayer are not equivalent concepts. Current-model soft targets, argmax targets, EMA targets, clustered labels and balanced transport are distinct. UDA’s RandAugment variant remains separate from the maintained original shared-magnitude definition. |
+| neighbors | research/discovery/20261011T104613Z-risk-and-pseudo-targets.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Read MixUp, FixMatch, ReMixMatch, ICT, Mean Teacher, DeepCluster, SeLa and RandAugment mechanisms. Current soft targets, hard labels, EMA targets, clustering/transport labels and augmentation variants remain distinct. |
+| finite-conventions | research/discovery/risk-and-target-boundaries.py; calculate(): hard-target BCE versus entropy, CE versus KL, retained-count normalization and TSA endpoints | supports | Original arithmetic gives hard-target BCE0.446287 versus the printed entropy0.500402 for outputs(0.8,0.2); soft-target CE and KL differ by that target entropy while their fixed-target prediction gradients agree. The TSA example retains equality and shows a twofold normalization difference, and nonlinear schedules have different exact endpoints. These are curator calculations, not author-issued corrections or model performance results. |
+| unsuperviseddataaugmentation-source-0 | https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Paper.pdf; Sections 2–2.4, Figure 1 and Equation (1), PDF/printed pp. 2–5 | supports | Unsupervised Data Augmentation for Consistency Training. NeurIPS 2020 proceedings main paper; thirteen PDF pages. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| unsuperviseddataaugmentation-source-1 | https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/main.py; image/main.py lines261–290 and307–390: KL, supervised TSA and consistency targets, confidence masks and full-batch mean | supports | UDA author implementation — image consistency and supervised annealing. Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/main.py; source read, not executed. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| unsuperviseddataaugmentation-source-2 | https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/text/uda.py; text/uda.py lines33–38 and80–182: KL, detached targets, confidence filtering and supervised/unlabeled denominators | supports | UDA author implementation — text consistency and supervised annealing. Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, text/uda.py; source read, not executed. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| unsuperviseddataaugmentation-source-3 | https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Supplemental.pdf; Appendix A.1–A.2, supplementary PDF pp. 1–2 / printed pp. 15–16: TSA and augmentation variants | supports | Unsupervised Data Augmentation for Consistency Training — supplementary material. NeurIPS 2020 official supplement; seven PDF pages, printed 15–21. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| unsuperviseddataaugmentation-source-4 | https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/randaugment/policies.py; image/randaugment/policies.py lines58–76: 15-operation list and ordered-pair policies with magnitude1–9 and probability0.5 | supports | UDA author implementation — augmentation policy definitions. Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/randaugment/policies.py; source read, not executed. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| pseudolabel-source-0 | https://raw.githubusercontent.com/emintham/Papers/master/Lee-%20Pseudo-Label%3A%20The%20Simple%20and%20Efficient%20Semi-Supervised%20Learning%20Method%20for%20Deep%20Neural%20Networks.pdf; Equations (5), (15), (17) and Section 3.3, PDF pp. 2–4; Sections 2.1 and 2.4, Equations (5), (14)–(16), PDF pp. 2–3; entropy interpretation in Sections 3.2–3.3, PDF pp. 3–4 | supports | Pseudo-Label : The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks. ICML 2013 Workshop: Challenges in Representation Learning paper; unstamped public PDF copy hosted by emintham/Papers, bounded by URL and hash; original-host byte equivalence not established. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| vicinalriskminimization-source-0 | https://proceedings.neurips.cc/paper_files/paper/2000/file/ba9a56ce0a9bfa26e8ed9e10b2cc8f46-Paper.pdf; Section 2, Equations (1)–(4), PDF pp. 2–3; special-case and zero-width distinctions in Section 3, PDF pp. 3–5 | supports | Vicinal Risk Minimization. Advances in Neural Information Processing Systems 13, NIPS 2000 proceedings; seven-page PDF. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| trainingsignalannealing-source-0 | https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Supplemental.pdf; Appendix A.1 and Figure 5, supplementary PDF p. 1 / printed p. 15 | supports | Unsupervised Data Augmentation for Consistency Training — supplementary material. NeurIPS 2020 official supplement; seven PDF pages, printed 15–21. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| trainingsignalannealing-source-1 | https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/main.py; image/main.py lines178–190 and270–290: schedules, inclusive retained mask and retained-count denominator | supports | UDA author implementation — image consistency and supervised annealing. Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/main.py; source read, not executed. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+| trainingsignalannealing-source-2 | https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/text/uda.py; text/uda.py lines65–77 and121–146: schedules and supervised masking | supports | UDA author implementation — text consistency and supervised annealing. Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, text/uda.py; source read, not executed. Actual reading scope is declared in source_analysis; extraction does not attest inspection. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all four records remain DRAFT.
+- The original Pseudo-Label host and indexed access routes were unavailable. The inspected primary paper is a third-party-hosted copy bounded by exact URL/hash; no unstated original-version or byte-equivalence claim is made.
+- Only declared PDF sections and code ranges were inspected. Raw source caches are private; no author implementation or model was executed.
+- Finite algebra distinguishes objectives and conventions, but is not an author-issued correction or a performance experiment. CE/KL gradient equivalence depends on fixed targets and masks.
+- No universal semantic preservation, target correctness, optimal scheduling, generalization or minimization-limit equivalence is asserted.
+- No actionable repository defect remains after source qualifications, so no review issue was manufactured. This does not close unrelated historical findings.
+- Four additions and a nonempty accounted frontier leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T104949Z-risk-and-pseudo-targets
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of risk and pseudo-target training concepts
+started_at: '2026-10-11T10:46:27Z'
+finished_at: '2026-10-11T10:49:49Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent checked all four current records against
+    declared primary methods, the UDA supplement and pinned image/text code, twelve
+    exact AIO nodes and eight native mechanisms, and ran original finite arithmetic.
+    This adversarial author review is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain four DRAFT concepts with source-backed loss, target, mask, schedule
+  and objective boundaries. Qualify Pseudo-Label entropy language, UDA paper/code
+  losses and the bounded mirrored paper. No actionable repository defect remains in
+  this scope.
+source:
+  git_revision: 07161ada2173e1e35d9209cc4fbccafdd4c63fd0
+  state: working_tree
+  inputs:
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/CurriculumLearning.yaml
+    sha256: 3f1495ef4fd37c9798407dc03f233569c82914e93bfd5c6df518c6fc165f12e4
+    role: context
+  - path: data/aio/CurriculumLearningLLM.yaml
+    sha256: 04228394d496be057fe97e0c9352eb7655a441a6c515173a38d9ad71002b9f67
+    role: context
+  - path: data/aio/DataAugmentation.yaml
+    sha256: e99fd76071e8b52cbe8ed53f694b30093d7fb7a8af2e225f2f158f5cab5f11ae
+    role: context
+  - path: data/aio/Distillation.yaml
+    sha256: 02faf8db468fca6adfe257a141c98c7b13f85dc301e856a1f9622dfdb68ae5c9
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SelfsupervisedLearning.yaml
+    sha256: ad9a98dfee5629f6433f13470f56e333316f8f03847df2c5678faf023d979c0e
+    role: context
+  - path: data/aio/SemiSupervisedLLM.yaml
+    sha256: 4ee601313a6cdaa7134207fa384702f0e92d2b93906e379c2b0ef5cfe6eef9ee
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/DeepCluster.yaml
+    sha256: de6d053aade652d6b54f83654c2b7f26bbc9d2800dcc3344ec3d5d820a5bb42d
+    role: context
+  - path: data/curated/FixMatch.yaml
+    sha256: 92682f50dd71371ff7b52a23cdcf3a0caa452353fa843b2634c5110c8d9011bb
+    role: context
+  - path: data/curated/InterpolationConsistencyTraining.yaml
+    sha256: 0fcfad99e3557c9d970b310c84d4bce717e87628e9e67c58606d1a431d543c16
+    role: context
+  - path: data/curated/MeanTeacher.yaml
+    sha256: 606e863163715f48b89fb35dc090bb32d5d2ca70c099d1fdfac563104ada27b7
+    role: context
+  - path: data/curated/MixUp.yaml
+    sha256: 2f7e6cd92b02c2b258d3b1be9f541b6aa1593416032fc55da7250821d179a724
+    role: context
+  - path: data/curated/PseudoLabel.yaml
+    sha256: 470abfb4f8050ae8e35a9045e479ab1f945f1f0a1e66627a930d691c00045a6a
+    role: target
+  - path: data/curated/RandAugment.yaml
+    sha256: 7519701242b083459bb532442c090d22d7dc812da035990ad34f13802fe8b3c4
+    role: context
+  - path: data/curated/ReMixMatch.yaml
+    sha256: caabbb1e2383227cb0df9c0821c95a9d96a035f966396e81a74bd03f0ef2b226
+    role: context
+  - path: data/curated/SeLa.yaml
+    sha256: 0b5e4c15b065fcf3fd0958d25d93c2c18a418dedac7e29c8a805cb3fd3a674ea
+    role: context
+  - path: data/curated/TrainingSignalAnnealing.yaml
+    sha256: d4450649d1cbe8afa01e72e9dddee4fe14893497a820d7a3e8089d594a9d095a
+    role: target
+  - path: data/curated/UnsupervisedDataAugmentation.yaml
+    sha256: ff6252f6e7faf47476926ce63b4ef07cb1b644ad211cc3d82fc9f2f1c832699c
+    role: target
+  - path: data/curated/VicinalRiskMinimization.yaml
+    sha256: 58691c0331b08254362ff901067bb8b3f2e14671b34c06955828a2798322dcbc
+    role: target
+  - path: research/discovery/20261011T104613Z-risk-and-pseudo-targets.json
+    sha256: c76112c8fc9508cdd3e2a7aaf884ad592ae08adfbed9a2ca681e1402b4e39b5c
+    role: context
+  - path: research/discovery/risk-and-target-boundaries.py
+    sha256: e03d333b030185637c6cd18087942714c151f9866cf34225f7b5af4b1de8e4c1
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:UnsupervisedDataAugmentation
+  path: data/curated/UnsupervisedDataAugmentation.yaml
+  label: Unsupervised Data Augmentation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/UnsupervisedDataAugmentation.yaml
+    role: maintained
+- target_id: AIMech:PseudoLabel
+  path: data/curated/PseudoLabel.yaml
+  label: Pseudo-Label
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PseudoLabel.yaml
+    role: maintained
+- target_id: AIMech:VicinalRiskMinimization
+  path: data/curated/VicinalRiskMinimization.yaml
+  label: Vicinal risk minimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VicinalRiskMinimization.yaml
+    role: maintained
+- target_id: AIMech:TrainingSignalAnnealing
+  path: data/curated/TrainingSignalAnnealing.yaml
+  label: Training signal annealing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TrainingSignalAnnealing.yaml
+    role: maintained
+scope:
+  description: All fields of the four new maintained risk and pseudo-target concepts.
+  selection: The four exact IDs added in the discovery report; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:VicinalRiskMinimization
+  - AIMech:TrainingSignalAnnealing
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were read for identity and mechanism boundaries; this is not
+      a full new review of those records.
+  - target: Unread source pages, implementation branches and performance results
+    reason: Only declared pages and line ranges were inspected. No author code or
+      training benchmark was executed; new principle and augmentation leads remain
+      pending.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:VicinalRiskMinimization
+  - AIMech:TrainingSignalAnnealing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 65.02s (0:01:05)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 247 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 54 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 51,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:VicinalRiskMinimization
+  - AIMech:TrainingSignalAnnealing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: finite-arithmetic
+  name: Finite risk and target calculations
+  command: python3 research/discovery/risk-and-target-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:TrainingSignalAnnealing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Curator arithmetic; not model training, author-code execution
+    or an author-issued correction.", "pseudo_label": {"probabilities": [0.8, 0.2],
+    "hard_target_binary_ce": 0.4462871026284194, "hard_target_categorical_ce": 0.2231435513142097,
+    "printed_entropy_expression": 0.5004024235381879, "conclusion": "These loss values
+    are not equal; shared confidence-sharpening motivation does not establish objective
+    identity."}, "uda": {"soft_target_cross_entropy": 0.5919186453876236, "kl": 0.09151622184943578,
+    "difference_target_entropy": 0.5004024235381879, "same_fixed_target_logit_gradient":
+    [-0.20000000000000007, 0.2]}, "tsa": {"threshold": 0.6, "label_confidences": [0.6,
+    0.8], "retained": [true, false], "retained_mean": 0.5108256237659907, "full_batch_mean":
+    0.25541281188299536, "ten_class_exp_schedule_start": 0.10606415229917693, "ten_class_log_schedule_end":
+    0.9939358477008231}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T104613Z-risk-and-pseudo-targets.json
+  accessed_at: '2026-10-11T10:46:27Z'
+  support: supports
+  summary: 'All 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases
+    were compared with four candidate identities. No normalized identity match was
+    found. Both checkout searches included ignored and hidden files: 102 worktree
+    lines and 103 main lines concern prior leads, component mentions, saved reviews
+    and one main-checkout Git reflog entry. Twelve exact AIO CLASS nodes and eight
+    native mechanisms were inspected; absence is bounded to this snapshot and neighborhood.'
+  search_scope: All 442 AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases;
+    both full checkouts including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Twelve exact CLASS nodes and outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T10:46:27Z'
+  support: supports
+  summary: UDA and original Pseudo-Label relate to Classification and MachineLearningTask
+    as algorithm-to-task associations. VRM relates to MachineLearningTask as an objective-construction
+    principle. TSA relates to CurriculumLearning and TrainingStrategy, while its already-confident-example
+    suppression differs from the pinned curriculum definition’s simple-to-complex
+    order. The LLM classes, label-free SelfsupervisedLearning, compression-oriented
+    Distillation and RegularizationLayer are not equivalent concepts. Current-model
+    soft targets, argmax targets, EMA targets, clustered labels and balanced transport
+    are distinct. UDA’s RandAugment variant remains separate from the maintained original
+    shared-magnitude definition.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T104613Z-risk-and-pseudo-targets.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T10:46:27Z'
+  support: supports
+  summary: Read MixUp, FixMatch, ReMixMatch, ICT, Mean Teacher, DeepCluster, SeLa
+    and RandAugment mechanisms. Current soft targets, hard labels, EMA targets, clustering/transport
+    labels and augmentation variants remain distinct.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/risk-and-target-boundaries.py
+  locator: 'calculate(): hard-target BCE versus entropy, CE versus KL, retained-count
+    normalization and TSA endpoints'
+  accessed_at: '2026-10-11T10:46:27Z'
+  snapshot_sha256: e03d333b030185637c6cd18087942714c151f9866cf34225f7b5af4b1de8e4c1
+  support: supports
+  summary: Original arithmetic gives hard-target BCE0.446287 versus the printed entropy0.500402
+    for outputs(0.8,0.2); soft-target CE and KL differ by that target entropy while
+    their fixed-target prediction gradients agree. The TSA example retains equality
+    and shows a twofold normalization difference, and nonlinear schedules have different
+    exact endpoints. These are curator calculations, not author-issued corrections
+    or model performance results.
+- evidence_id: unsuperviseddataaugmentation-source-0
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Paper.pdf
+  locator: Sections 2–2.4, Figure 1 and Equation (1), PDF/printed pp. 2–5
+  accessed_at: '2026-10-11T10:37:01Z'
+  snapshot_sha256: 02193d143baae17ecf975d56d4c1c9f894aa316a4e4838beeea16964ca16d9a4
+  support: supports
+  summary: Unsupervised Data Augmentation for Consistency Training. NeurIPS 2020 proceedings
+    main paper; thirteen PDF pages. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+- evidence_id: unsuperviseddataaugmentation-source-1
+  kind: primary_source
+  reference: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/main.py
+  locator: 'image/main.py lines261–290 and307–390: KL, supervised TSA and consistency
+    targets, confidence masks and full-batch mean'
+  accessed_at: '2026-10-11T10:40:45Z'
+  snapshot_sha256: 1d4f91ee5df38b5fb6bf4c98ff360a39e6416c5cff54e6df1b3ac0848184a2a8
+  support: supports
+  summary: UDA author implementation — image consistency and supervised annealing.
+    Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/main.py;
+    source read, not executed. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+- evidence_id: unsuperviseddataaugmentation-source-2
+  kind: primary_source
+  reference: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/text/uda.py
+  locator: 'text/uda.py lines33–38 and80–182: KL, detached targets, confidence filtering
+    and supervised/unlabeled denominators'
+  accessed_at: '2026-10-11T10:40:45Z'
+  snapshot_sha256: f34e4a9d36542bc73a6f5decb66d2f48a41d4b46efc88f25976b21151c089d83
+  support: supports
+  summary: UDA author implementation — text consistency and supervised annealing.
+    Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, text/uda.py;
+    source read, not executed. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+- evidence_id: unsuperviseddataaugmentation-source-3
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Supplemental.pdf
+  locator: 'Appendix A.1–A.2, supplementary PDF pp. 1–2 / printed pp. 15–16: TSA and
+    augmentation variants'
+  accessed_at: '2026-10-11T10:39:30Z'
+  snapshot_sha256: 77533ff314e4d9a719390698e0c23884ae4a40a53b7decc39639c4039c21375f
+  support: supports
+  summary: Unsupervised Data Augmentation for Consistency Training — supplementary
+    material. NeurIPS 2020 official supplement; seven PDF pages, printed 15–21. Actual
+    reading scope is declared in source_analysis; extraction does not attest inspection.
+- evidence_id: unsuperviseddataaugmentation-source-4
+  kind: primary_source
+  reference: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/randaugment/policies.py
+  locator: 'image/randaugment/policies.py lines58–76: 15-operation list and ordered-pair
+    policies with magnitude1–9 and probability0.5'
+  accessed_at: '2026-10-11T10:40:45Z'
+  snapshot_sha256: e1a6e83f54fbdb58e697e869de15bc0e75c3546aa55f02fef71acfa0f7284e0a
+  support: supports
+  summary: UDA author implementation — augmentation policy definitions. Author implementation
+    at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/randaugment/policies.py;
+    source read, not executed. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+- evidence_id: pseudolabel-source-0
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/emintham/Papers/master/Lee-%20Pseudo-Label%3A%20The%20Simple%20and%20Efficient%20Semi-Supervised%20Learning%20Method%20for%20Deep%20Neural%20Networks.pdf
+  locator: Equations (5), (15), (17) and Section 3.3, PDF pp. 2–4; Sections 2.1 and
+    2.4, Equations (5), (14)–(16), PDF pp. 2–3; entropy interpretation in Sections
+    3.2–3.3, PDF pp. 3–4
+  accessed_at: '2026-10-11T10:39:30Z'
+  snapshot_sha256: 47a14f59e80178e554e6c205a3e2edea2c50ec7a63e0051640559358f3435bad
+  support: supports
+  summary: 'Pseudo-Label : The Simple and Efficient Semi-Supervised Learning Method
+    for Deep Neural Networks. ICML 2013 Workshop: Challenges in Representation Learning
+    paper; unstamped public PDF copy hosted by emintham/Papers, bounded by URL and
+    hash; original-host byte equivalence not established. Actual reading scope is
+    declared in source_analysis; extraction does not attest inspection.'
+- evidence_id: vicinalriskminimization-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2000/file/ba9a56ce0a9bfa26e8ed9e10b2cc8f46-Paper.pdf
+  locator: Section 2, Equations (1)–(4), PDF pp. 2–3; special-case and zero-width
+    distinctions in Section 3, PDF pp. 3–5
+  accessed_at: '2026-10-11T10:37:01Z'
+  snapshot_sha256: ba59f12df518578416396fc5f182aef42a2d182d92783f9db409c098c04789d8
+  support: supports
+  summary: Vicinal Risk Minimization. Advances in Neural Information Processing Systems
+    13, NIPS 2000 proceedings; seven-page PDF. Actual reading scope is declared in
+    source_analysis; extraction does not attest inspection.
+- evidence_id: trainingsignalannealing-source-0
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/2020/file/44feb0096faa8326192570788b38c1d1-Supplemental.pdf
+  locator: Appendix A.1 and Figure 5, supplementary PDF p. 1 / printed p. 15
+  accessed_at: '2026-10-11T10:39:30Z'
+  snapshot_sha256: 77533ff314e4d9a719390698e0c23884ae4a40a53b7decc39639c4039c21375f
+  support: supports
+  summary: Unsupervised Data Augmentation for Consistency Training — supplementary
+    material. NeurIPS 2020 official supplement; seven PDF pages, printed 15–21. Actual
+    reading scope is declared in source_analysis; extraction does not attest inspection.
+- evidence_id: trainingsignalannealing-source-1
+  kind: primary_source
+  reference: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/image/main.py
+  locator: 'image/main.py lines178–190 and270–290: schedules, inclusive retained mask
+    and retained-count denominator'
+  accessed_at: '2026-10-11T10:40:45Z'
+  snapshot_sha256: 1d4f91ee5df38b5fb6bf4c98ff360a39e6416c5cff54e6df1b3ac0848184a2a8
+  support: supports
+  summary: UDA author implementation — image consistency and supervised annealing.
+    Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, image/main.py;
+    source read, not executed. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+- evidence_id: trainingsignalannealing-source-2
+  kind: primary_source
+  reference: https://github.com/google-research/uda/blob/960684e363251772a5938451d4d2bc0f1da9e24b/text/uda.py
+  locator: 'text/uda.py lines65–77 and121–146: schedules and supervised masking'
+  accessed_at: '2026-10-11T10:40:45Z'
+  snapshot_sha256: f34e4a9d36542bc73a6f5decb66d2f48a41d4b46efc88f25976b21151c089d83
+  support: supports
+  summary: UDA author implementation — text consistency and supervised annealing.
+    Author implementation at commit 960684e363251772a5938451d4d2bc0f1da9e24b, text/uda.py;
+    source read, not executed. Actual reading scope is declared in source_analysis;
+    extraction does not attest inspection.
+assessments:
+- assessment_id: unsuperviseddataaugmentation
+  area: evidence
+  topic: Identity, definition, mechanism, source scope and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - unsuperviseddataaugmentation-source-0
+  - unsuperviseddataaugmentation-source-1
+  - unsuperviseddataaugmentation-source-2
+  - unsuperviseddataaugmentation-source-3
+  - unsuperviseddataaugmentation-source-4
+  - finite-conventions
+  summary: The named UDA method is a training procedure, not just a data transform
+    or a label-free learning paradigm. It uses soft current-model targets and strong
+    augmentation, unlike FixMatch’s confidence-masked hard targets or an EMA-target
+    Mean Teacher. Its source-specific RandAugment variant is not byte-for-byte or
+    mathematically identical to the original shared-M procedure. The acronym here
+    means Unsupervised Data Augmentation, not an assertion about every use of UDA
+    in the literature. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in both worktree and main
+    checkout, returning 102 lines in the worktree and 103 in main from prior discovery,
+    saved reviews and related native records. Twelve exact AIO CLASS nodes, their
+    scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were
+    inspected. This absence assessment is bounded to the pinned snapshot and inspected
+    semantic neighborhood.
+  details: 'Compute supervised cross-entropy on labeled examples. On an unlabeled
+    input, obtain the current model’s probability vector from the original or weakly
+    augmented view and hold that target fixed during differentiation. Train the model
+    on a stronger augmented view to match this soft distribution, adding a weighted
+    mean consistency loss over the unlabeled batch to the labeled loss. Main-paper
+    Equation1 uses cross-entropy; the inspected image and text implementations instead
+    compute forward KL divergence from the fixed target to the augmented prediction.
+    These objectives differ by target entropy in value but have the same augmented-prediction
+    gradients when targets and masks are held fixed. The additional confidence filter
+    retains an unlabeled example only when the maximum unsharpened target probability
+    is strictly greater than beta. Target sharpening uses softmax of logits divided
+    by a positive temperature. The masked consistency losses are averaged over the
+    entire unlabeled batch, not the retained subset. The source uses image transformations,
+    back-translation or TF-IDF word replacement depending on the task. Its particular
+    image RandAugment implementation samples two operations from 15 types, each with
+    its own sampled magnitude in [1,10) and application probability 0.5; it is explicitly
+    a variant of the separately represented shared-magnitude RandAugment. Training-signal
+    annealing can additionally filter easy labeled examples, and a separate domain-relevance
+    procedure can select external unlabeled data; neither is silently folded into
+    the core consistency equation. Limits: The method still uses labeled supervision
+    despite its name. Consistency can propagate incorrect model predictions, and confidence
+    is not proof of correctness. Augmentations require task-appropriate label preservation;
+    the paper’s theoretical analysis assumes in-domain, label-preserving and reversible
+    transformations rather than proving these properties for arbitrary augmentations.
+    Confidence thresholds, temperatures, loss weights, augmentation settings and domain
+    filters are protocol choices. No universal values or benchmark gains are asserted.
+    The paper cross-entropy and implemented KL values must not be compared as identical
+    losses; gradient equivalence requires treating targets and masks as fixed. TSA
+    uses a different mask and normalization on labeled examples; it is represented
+    separately. No author code or training benchmark was executed.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A general mathematical objective-construction principle for VRM, and
+      defined training procedures for the other records.
+    evidence_ids:
+    - unsuperviseddataaugmentation-source-0
+    - unsuperviseddataaugmentation-source-1
+    - unsuperviseddataaugmentation-source-2
+    - unsuperviseddataaugmentation-source-3
+    - unsuperviseddataaugmentation-source-4
+  - name: aio-relations
+    value: 'related_match: AIO:Classification; related_match: AIO:MachineLearningTask'
+    definition: The algorithm trains class predictions using labeled and unlabeled
+      examples. The AIO target is a classification task, not an equivalent algorithm
+      or an asserted parent. The procedure realizes learning from data; this is an
+      algorithm-to-task association at different abstraction levels.
+    evidence_ids:
+    - mapping
+- assessment_id: pseudolabel
+  area: evidence
+  topic: Identity, definition, mechanism, source scope and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:PseudoLabel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - pseudolabel-source-0
+  - finite-conventions
+  summary: This record denotes Lee’s 2013 named training method and its explicitly
+    described sigmoid-loss configuration. Generic pseudo-labeling also includes other
+    target generators and iterative procedures; DeepCluster’s cluster assignments,
+    SeLa’s balanced transport and FixMatch’s weak-to-strong confidence filter are
+    distinct methods. The method’s entropy-minimization motivation does not establish
+    an identical objective to Shannon entropy minimization. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding
+    native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+    and hidden files in both worktree and main checkout, returning 102 lines in the
+    worktree and 103 in main from prior discovery, saved reviews and related native
+    records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges,
+    plus eight neighboring native mechanisms were inspected. This absence assessment
+    is bounded to the pinned snapshot and inspected semantic neighborhood.
+  details: 'At each weights update, assign each unlabeled example a one-hot pseudo-target
+    for its argmax predicted class. Treat that chosen target as a label for the update
+    and train the same network on both observed labeled examples and pseudo-labeled
+    examples. The original paper’s Equation15 averages the class-summed supervised
+    loss over the labeled minibatch of size n and separately over the unlabeled minibatch
+    of size n_prime, with multiplier alpha(t) on the latter. The represented original
+    configuration uses independent sigmoid output units and sums binary cross-entropy
+    over classes, as defined in Equation5; it is not silently rewritten as softmax
+    categorical cross-entropy. Equation16 sets alpha(t)=0 before T1, increases it
+    linearly to alpha_f between T1 and T2, and keeps it at alpha_f thereafter. The
+    paper uses Dropout during this training and studies both optional denoising-autoencoder
+    pretraining and training without it. The hard labels are recalculated at each
+    weights update rather than supplied by a separate EMA teacher. The displayed Pseudo-Label
+    rule has no confidence-threshold rejection step. Equations5 and15 use hard pseudo-target
+    loss, while Equation17 defines a different entropy expression. For normalized
+    two-class outputs(0.8,0.2) and pseudo-target(1,0), the class-summed binary cross-entropy
+    is−2log(0.8), whereas the printed entropy is−0.8log(0.8)−0.2log(0.2). Their unequal
+    values refute literal objective equality in this example; this finite algebra
+    does not refute the paper’s qualitative confidence-sharpening motivation. Limits:
+    Wrong hard targets can reinforce early prediction errors; the ramp and low-density-separation
+    motivation do not guarantee target correctness or improved generalization. The
+    original paper’s independent sigmoid outputs need not form a normalized class-probability
+    vector. Its classwise binary loss is distinct from later softmax-based reimplementations.
+    The paper describes equivalence to entropy regularization, but its hard-target
+    loss and printed entropy expression are not algebraically equal. This record preserves
+    the shared low-entropy motivation without asserting objective equality. Specific
+    ramp endpoints, final weight, network widths, Dropout rates and pretraining schedules
+    are reported experimental choices, not universal constants. The paper does not
+    specify an argmax tie-breaking policy. The inspected primary paper is a public
+    third-party-hosted copy with an exact hash. Title, author and workshop identity
+    agree with the indexed original and author-linked citation; original-host byte
+    equality and an exact revision date were not established.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A general mathematical objective-construction principle for VRM, and
+      defined training procedures for the other records.
+    evidence_ids:
+    - pseudolabel-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:Classification; related_match: AIO:MachineLearningTask'
+    definition: The algorithm trains class predictions using labeled and unlabeled
+      examples. The AIO target is a classification task, not an equivalent algorithm
+      or an asserted parent. The procedure realizes learning from data; this is an
+      algorithm-to-task association at different abstraction levels.
+    evidence_ids:
+    - mapping
+- assessment_id: vicinalriskminimization
+  area: evidence
+  topic: Identity, definition, mechanism, source scope and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:VicinalRiskMinimization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - vicinalriskminimization-source-0
+  summary: VRM is a general learning-objective construction, distinct from MixUp’s
+    particular interpolation distribution, a fixed image augmentation, a support-vector
+    machine, or a standalone density estimator. The paper’s basic fixed-label vicinity
+    formula and its broader joint-distribution formulation are both retained. Special
+    cases do not make VRM equivalent to all of the methods it can encompass. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included
+    ignored and hidden files in both worktree and main checkout, returning 102 lines
+    in the worktree and 103 in main from prior discovery, saved reviews and related
+    native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing
+    edges, plus eight neighboring native mechanisms were inspected. This absence assessment
+    is bounded to the pinned snapshot and inspected semantic neighborhood.
+  details: 'For labeled observations(x_i,y_i), choose vicinity distributions P_i over
+    inputs near each x_i. The paper’s basic construction replaces each empirical input
+    point mass with P_i while retaining the point label y_i, giving P_est=(1/n)sum_i
+    P_i(x)delta_y_i(y). Minimize R_vic(f)=(1/n)sum_i integral loss(f(x),y_i)dP_i(x)
+    over the chosen hypothesis class F. More generally, the paper allows an estimated
+    joint input-target distribution rather than requiring pointwise kernels. The vicinity
+    distribution and the function class both shape the learning problem. Gaussian
+    neighborhoods are one example, not a defining requirement. Replacing them with
+    exact point masses recovers empirical-risk minimization. However, sending a neighborhood-width
+    parameter to zero after minimizing the vicinal risk need not select every empirical-risk
+    minimizer: the paper discusses a hard-margin limit for a particular linearly separable
+    linear-classifier construction. This principle specifies an objective and modeling
+    choices, not one universal numerical optimizer. Limits: A poor vicinity or density
+    estimate can impose incorrect local assumptions; the hypothesis-class capacity
+    also matters for generalization. Labels are fixed within each neighborhood in
+    the basic construction, but the generalized joint-distribution formulation is
+    broader. The record does not impose Gaussian noise, convex interpolation or mixed
+    labels on all VRM instances. The zero-width objective and the limit of minimizing
+    positive-width objectives are distinct operations; a general assertion that every
+    such limit is ordinary ERM or an SVM is not justified. The source’s ridge and
+    margin examples require their stated model, loss and distribution assumptions.
+    No universal generalization bound, optimizer convergence guarantee or performance
+    result is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: A general mathematical objective-construction principle for VRM, and
+      defined training procedures for the other records.
+    evidence_ids:
+    - vicinalriskminimization-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:MachineLearningTask'
+    definition: This objective-construction principle supports learning from data.
+      The AIO target is the general learning task, so the mapping is associative,
+      not equivalence or an is-a assertion.
+    evidence_ids:
+    - mapping
+- assessment_id: trainingsignalannealing
+  area: evidence
+  topic: Identity, definition, mechanism, source scope and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:TrainingSignalAnnealing
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - trainingsignalannealing-source-0
+  - trainingsignalannealing-source-1
+  - trainingsignalannealing-source-2
+  - finite-conventions
+  summary: 'TSA is the named labeled-loss schedule introduced as an additional UDA
+    training technique, not the entire UDA method, an unlabeled pseudo-label confidence
+    filter, or an LLM model class. It is related to curriculum scheduling but does
+    not follow the pinned AIO CurriculumLearning definition’s simple-to-complex presentation
+    rule: it withholds already-confident labeled examples rather than starting with
+    them. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in both worktree and main checkout,
+    returning 102 lines in the worktree and 103 in main from prior discovery, saved
+    reviews and related native records. Twelve exact AIO CLASS nodes, their scoped
+    synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected.
+    This absence assessment is bounded to the pinned snapshot and inspected semantic
+    neighborhood.'
+  details: 'At training step t, compute the model probability of each labeled example’s
+    known correct class. Keep that example in the supervised loss only when its probability
+    does not exceed eta_t, following the inspected author implementations; hold the
+    mask fixed during differentiation. Sum the retained cross-entropy losses and divide
+    by max(number_retained,1), producing zero when none are retained. Set eta_t=a_t*(1−1/K)+1/K
+    for K classes and total step count T. The source provides linear a_t=t/T, log
+    a_t=1−exp(−5t/T), and exponential a_t=exp(5*(t/T−1)) schedules. The linear schedule
+    spans exactly 1/K to 1 over t=0..T; the exponential begins slightly above 1/K
+    and reaches 1, while the log schedule begins at 1/K and ends slightly below 1.
+    These exact endpoint distinctions follow the published formulas. The threshold
+    suppresses easy labeled examples early; this is separate from the unlabeled UDA
+    confidence filter, which accepts high-confidence targets and averages masked losses
+    over the full unlabeled batch. Limits: The schedule depends on the current classifier’s
+    confidence and does not measure intrinsic example difficulty or guarantee avoidance
+    of overfitting. The paper’s prose describes a threshold progressing from1/K to1,
+    but the nonlinear formulas do not both attain those exact endpoints at finite
+    T. The implementations retain threshold equality and normalize by retained count;
+    these details differ from a strict less-than mask or a full labeled-batch denominator.
+    The linear/log/exponential schedule choices and K,T must match the training setting.
+    No benchmark gain, optimal schedule or universal need for TSA is claimed.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A general mathematical objective-construction principle for VRM, and
+      defined training procedures for the other records.
+    evidence_ids:
+    - trainingsignalannealing-source-0
+    - trainingsignalannealing-source-1
+    - trainingsignalannealing-source-2
+  - name: aio-relations
+    value: 'related_match: AIO:CurriculumLearning; related_match: AIO:TrainingStrategy'
+    definition: Both concern scheduling training examples, but TSA filters already-confident
+      labeled samples instead of the target’s simple-to-complex presentation order.
+      The relation is related, not broader or equivalent. TSA schedules a loss contribution
+      during training; the target is a broadly worded preprocessing/training-strategy
+      class at another abstraction level.
+    evidence_ids:
+    - mapping
+- assessment_id: uda-conventions
+  area: consistency
+  topic: Fixed soft targets, mask and source-specific losses
+  outcome: supported
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  evidence_ids:
+  - unsuperviseddataaugmentation-source-0
+  - unsuperviseddataaugmentation-source-1
+  - unsuperviseddataaugmentation-source-2
+  - unsuperviseddataaugmentation-source-3
+  - unsuperviseddataaugmentation-source-4
+  - finite-conventions
+  - neighbors
+  summary: Retain UDA’s consistency objective and qualify paper/code variants.
+  details: Targets use the current model, not an EMA teacher. Main-paper CE and author-code
+    forward KL are different values but have equal augmented-prediction gradients
+    with detached targets/masks. Confidence is tested before target sharpening with
+    strict>, and masked consistency is averaged over the full unlabeled batch. The
+    UDA15-operation, independently sampled magnitude and0.5 application-probability
+    variant differs from the maintained shared-M RandAugment. TSA and domain filtering
+    are additional techniques; task-specific augmentation settings do not imply universal
+    label preservation.
+- assessment_id: pseudo-label-conventions
+  area: consistency
+  topic: Original sigmoid loss and entropy interpretation
+  outcome: supported
+  target_ids:
+  - AIMech:PseudoLabel
+  evidence_ids:
+  - pseudolabel-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the original workshop method without silently substituting later
+    softmax conventions.
+  details: The original Section2 explicitly uses independent sigmoid outputs and class-summed
+    binary cross-entropy. Hard argmax pseudo-labels are recomputed for each weights
+    update, with separately averaged labeled/unlabeled losses and a scheduled unlabeled
+    multiplier. DAE pretraining is optional in the experiments and no confidence rejection
+    is part of the displayed rule. Equating this hard-target loss to the Section3
+    entropy expression is mathematically too strong; the record provides a finite
+    counterexample and retains the qualitative confidence-sharpening motivation. The
+    six-page primary paper is mirrored publicly; its original URL failed and no exact
+    original-host byte equivalence is asserted.
+- assessment_id: vrm-boundaries
+  area: consistency
+  topic: Objective construction and order of limiting operations
+  outcome: supported
+  target_ids:
+  - AIMech:VicinalRiskMinimization
+  evidence_ids:
+  - vicinalriskminimization-source-0
+  - neighbors
+  summary: Retain a general principle rather than collapsing VRM into MixUp or an
+    SVM.
+  details: Complete Section2 defines risk under an estimated vicinity distribution,
+    with a basic fixed-label mixture and a broader joint-distribution option. Hypothesis
+    class and distribution estimate both matter. Exact point masses give ERM; sending
+    a positive-width optimizer to zero width is a different operation, with the source’s
+    hard-margin example restricted to the stated separable linear construction. No
+    mandatory Gaussian, convex interpolation, universal optimizer or generalization
+    guarantee is introduced.
+- assessment_id: tsa-boundaries
+  area: consistency
+  topic: Labeled-example filter, normalization and schedule endpoints
+  outcome: supported
+  target_ids:
+  - AIMech:TrainingSignalAnnealing
+  evidence_ids:
+  - trainingsignalannealing-source-0
+  - trainingsignalannealing-source-1
+  - trainingsignalannealing-source-2
+  - finite-conventions
+  - mapping
+  summary: Retain TSA as a separate labeled-loss scheduling method.
+  details: 'The implementation retains true-class probability<=eta, stops gradients
+    through the mask and divides by max(retained_count,1). This is distinct from UDA’s
+    strict high-confidence unlabeled filter and full-batch denominator. Figure5 schedules
+    have exact endpoints: linear spans1/K to1, exponential starts above1/K, log ends
+    below1. An increasing threshold does not guarantee a monotone retained count as
+    the model also changes. The related CurriculumLearning mapping does not assert
+    equivalence to an easy-to-hard presentation rule.'
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Tasks, training principles, layers and model classes
+  outcome: supported
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:VicinalRiskMinimization
+  - AIMech:TrainingSignalAnnealing
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Use related AIO mappings with explicit abstraction boundaries.
+  details: UDA and original Pseudo-Label relate to Classification and MachineLearningTask
+    as algorithm-to-task associations. VRM relates to MachineLearningTask as an objective-construction
+    principle. TSA relates to CurriculumLearning and TrainingStrategy, while its already-confident-example
+    suppression differs from the pinned curriculum definition’s simple-to-complex
+    order. The LLM classes, label-free SelfsupervisedLearning, compression-oriented
+    Distillation and RegularizationLayer are not equivalent concepts. Current-model
+    soft targets, argmax targets, EMA targets, clustered labels and balanced transport
+    are distinct. UDA’s RandAugment variant remains separate from the maintained original
+    shared-magnitude definition.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:UnsupervisedDataAugmentation
+  - AIMech:PseudoLabel
+  - AIMech:VicinalRiskMinimization
+  - AIMech:TrainingSignalAnnealing
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - unsuperviseddataaugmentation-source-0
+  - unsuperviseddataaugmentation-source-1
+  - unsuperviseddataaugmentation-source-2
+  - unsuperviseddataaugmentation-source-3
+  - unsuperviseddataaugmentation-source-4
+  - pseudolabel-source-0
+  - vicinalriskminimization-source-0
+  - trainingsignalannealing-source-0
+  - trainingsignalannealing-source-1
+  - trainingsignalannealing-source-2
+  rationale: UDA matches soft current-model targets on strong views; original Pseudo-Label
+    trains against hard predictions with a scheduled multiplier; VRM defines risk
+    under a vicinity distribution; TSA gates labeled loss according to an increasing
+    confidence ceiling. These are distinct identities, not aliases for their shared
+    components.
+limitations:
+- Adversarial author self-review only; all four records remain DRAFT.
+- The original Pseudo-Label host and indexed access routes were unavailable. The inspected
+  primary paper is a third-party-hosted copy bounded by exact URL/hash; no unstated
+  original-version or byte-equivalence claim is made.
+- Only declared PDF sections and code ranges were inspected. Raw source caches are
+  private; no author implementation or model was executed.
+- Finite algebra distinguishes objectives and conventions, but is not an author-issued
+  correction or a performance experiment. CE/KL gradient equivalence depends on fixed
+  targets and masks.
+- No universal semantic preservation, target correctness, optimal scheduling, generalization
+  or minimization-limit equivalence is asserted.
+- No actionable repository defect remains after source qualifications, so no review
+  issue was manufactured. This does not close unrelated historical findings.
+- Four additions and a nonempty accounted frontier leave discovery active.
+tags:
+- native-concepts
+- risk-minimization
+- semi-supervised-learning
+- source-conventions
+- self-review
+- discovery-ongoing
+```

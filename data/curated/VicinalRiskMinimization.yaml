@@ -1,0 +1,81 @@
+name: Vicinal risk minimization
+definition: A risk-minimization principle that chooses a predictor from a specified function class by
+  minimizing expected loss under an estimated distribution built from training examples and their neighborhoods.
+concept_kind: mathematical_method
+identity_notes: VRM is a general learning-objective construction, distinct from MixUp’s particular interpolation
+  distribution, a fixed image augmentation, a support-vector machine, or a standalone density estimator.
+  The paper’s basic fixed-label vicinity formula and its broader joint-distribution formulation are both
+  retained. Special cases do not make VRM equivalent to all of the methods it can encompass. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related
+  native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring
+  native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected
+  semantic neighborhood.
+limitations:
+- A poor vicinity or density estimate can impose incorrect local assumptions; the hypothesis-class capacity
+  also matters for generalization.
+- Labels are fixed within each neighborhood in the basic construction, but the generalized joint-distribution
+  formulation is broader. The record does not impose Gaussian noise, convex interpolation or mixed labels
+  on all VRM instances.
+- The zero-width objective and the limit of minimizing positive-width objectives are distinct operations;
+  a general assertion that every such limit is ordinary ERM or an SVM is not justified.
+- The source’s ridge and margin examples require their stated model, loss and distribution assumptions.
+  No universal generalization bound, optimizer convergence guarantee or performance result is asserted.
+id: AIMech:VicinalRiskMinimization
+aliases:
+- VRM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations (1)–(4), PDF pp. 2–3; special-case and zero-width distinctions in Section
+    3, PDF pp. 3–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For labeled observations(x_i,y_i), choose vicinity distributions P_i over inputs near each
+    x_i. The paper’s basic construction replaces each empirical input point mass with P_i while retaining
+    the point label y_i, giving P_est=(1/n)sum_i P_i(x)delta_y_i(y). Minimize R_vic(f)=(1/n)sum_i integral
+    loss(f(x),y_i)dP_i(x) over the chosen hypothesis class F. More generally, the paper allows an estimated
+    joint input-target distribution rather than requiring pointwise kernels. The vicinity distribution
+    and the function class both shape the learning problem. Gaussian neighborhoods are one example, not
+    a defining requirement. Replacing them with exact point masses recovers empirical-risk minimization.
+    However, sending a neighborhood-width parameter to zero after minimizing the vicinal risk need not
+    select every empirical-risk minimizer: the paper discusses a hard-margin limit for a particular linearly
+    separable linear-classifier construction. This principle specifies an objective and modeling choices,
+    not one universal numerical optimizer.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations (1)–(4), PDF pp. 2–3; special-case and zero-width distinctions in Section
+      3, PDF pp. 3–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Vicinal Risk Minimization
+  authors:
+  - Olivier Chapelle
+  - Jason Weston
+  - Léon Bottou
+  - Vladimir Vapnik
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2000/file/ba9a56ce0a9bfa26e8ed9e10b2cc8f46-Paper.pdf
+  version: Advances in Neural Information Processing Systems 13, NIPS 2000 proceedings; seven-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:37:01Z'
+  sha256: ba59f12df518578416396fc5f182aef42a2d182d92783f9db409c098c04789d8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This objective-construction principle supports learning from data. The AIO target is the
+    general learning task, so the mapping is associative, not equivalence or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:45:16Z'
+  updated_at: '2026-10-11T10:45:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
