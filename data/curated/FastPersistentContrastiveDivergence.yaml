@@ -1,0 +1,96 @@
+name: Fast persistent contrastive divergence
+definition: A persistent-chain RBM learning algorithm that adds rapidly updated, rapidly decaying auxiliary
+  parameters to the sampling energy while retaining separate regular parameters for the model distribution.
+concept_kind: algorithm
+identity_notes: This is fast PCD from Tieleman and Hinton, not a generic fast implementation of PCD. Its
+  temporary energy overlay is separate from the parameters defining the learned model. It differs from
+  momentum alone, partial smoothing of positive gradients, ordinary persistent sampling and fast-weight
+  memory architectures used for prediction. All 442 pinned AIO labels/scoped synonyms and 370 preceding
+  native IDs/names/aliases were compared, with no normalized identity match. Fixed-string searches included
+  ignored and hidden files throughout both worktree and main, returning 29 lines each; all 22 unique matched
+  contents were read. Hits described CD as a training component, a pending lead or a boundary from CD-PercLoss,
+  not an existing candidate record. All 61 semantic label/synonym hits, 21 exact annotated AIO nodes with
+  outgoing edges, corresponding generated records and four native neighbors were inspected. Previously
+  fully read contextual files were verified byte-identical. Absence is bounded to this snapshot and inspected
+  neighborhood.
+limitations:
+- The negative phase uses a changing overlay and is not an unbiased equilibrium estimate for the base
+  theta model merely because each conditional is tractable. Fast parameters intentionally change the sampling
+  landscape; improved mixing is a motivation supported by particular experiments, not a universal guarantee.
+- Section 6 computes h-minus as a vector of conditional probabilities and then writes a visible draw conditioned
+  on h-minus while calling this a full Gibbs update. Exact binary block Gibbs also requires drawing a
+  hidden state; using the probability vector directly gives a distinct mean-field-style transition. This
+  record preserves the intended combined-parameter sampling mechanism without certifying an uninspected
+  implementation or silently resolving that pseudocode ambiguity.
+- The pseudocode computes negative statistics at the current particles before advancing them, then updates
+  both parameter sets. Changing the ordering or using regular instead of combined parameters in the negative
+  conditionals changes the stated procedure. Final conditional expectations for statistics and sampled
+  states for transitions must be distinguished.
+- Fast decay, learning-rate schedules, particle count and initialization influence the procedure. The
+  paper tests alternatives, and its 19/20 decay and 100 chains are not universal optimal settings. Fast
+  PCD does not mean that fast parameters contribute to the final base model’s normalized density.
+- The source’s mixing discussion and restricted MNIST/Micro-NORB experiments do not certify global convergence,
+  asymptotic unbiasedness, universally better likelihood or optimal general hyperparameters. No author-code
+  or empirical-performance reproduction was performed.
+id: AIMech:FastPersistentContrastiveDivergence
+aliases:
+- FPCD
+definition_evidence:
+- source_id: method-source
+  locator: Abstract, PDF p.1; Sections 2–4, temporary sampling overlay and fast-weight updates, pp.2–3;
+    Section 6 pseudocode, p.4; parameter alternatives and limitations, Sections 7–8, pp.5–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain regular parameters theta, auxiliary fast parameters phi and persistent visible configurations.
+    Compute positive statistics using hidden conditional probabilities under theta given the data. Compute
+    negative statistics at the fantasy configurations using hidden conditionals under theta+phi, and advance
+    the persistent chains with the combined sampling parameters. Use the same positive-minus-negative
+    statistic difference g to increment theta by eta_regular*g and set phi to rho*phi+eta_fast*g. The paper’s
+    pseudocode uses rho=19/20, initializes fast parameters at zero and regular parameters at small random
+    values, and uses 100 initially zero visible chains. Its initial experiments keep the fast learning
+    rate constant while reducing the regular rate, and later examine alternative schedules. These numerical
+    settings instantiate the method rather than defining every FPCD variant. The reported model probability
+    is defined by theta alone; the fast overlay shapes fantasy-particle exploration and decays quickly.
+  evidence:
+  - source_id: method-source
+    locator: Abstract, PDF p.1; Sections 2–4, temporary sampling overlay and fast-weight updates, pp.2–3;
+      Section 6 pseudocode, p.4; parameter alternatives and limitations, Sections 7–8, pp.5–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Using Fast Weights to Improve Persistent Contrastive Divergence
+  authors:
+  - Tijmen Tieleman
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~tijmen/fpcd/fpcd.pdf
+  version: ICML 2009 author-hosted eight-page paper; all pages visually inspected. This PDF has no printed
+    page numbers; locators use PDF pages.
+  persistent_id: doi:10.1145/1553374.1553506
+  access_level: full_text
+  accessed_at: '2026-10-11T19:07:37Z'
+  sha256: ce5abe1d4bfa5b4f417d54de5f00863251e6d17398a7fc2ac70338dddcb18d50
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The inspected algorithm trains RBM parameters, but is not itself the model architecture.
+    CD also applies beyond RBMs. This is a training-method to model-family association, not equivalence
+    or subclass identity.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Markov transitions supply the negative-phase configurations used by the parameter-update
+    procedure. The AIO target denotes the stochastic process/model, not the learning algorithm or a guarantee
+    of equilibrium sampling during adaptation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:18:34Z'
+  updated_at: '2026-10-11T19:18:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
