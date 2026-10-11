@@ -1,0 +1,95 @@
+name: Population Based Training
+definition: A population-based neural-network training procedure that interleaves parameter updates with
+  performance-guided copying of partially trained models and exploration of hyperparameters, producing
+  training trajectories with changing hyperparameter settings.
+concept_kind: algorithm
+identity_notes: PBT jointly trains model weights and searches hyperparameter schedules. It differs from
+  independent random-search runs, a prediction ensemble and Population Based Augmentation’s specialized
+  augmentation-schedule transfer. Its population updates do not require genetic crossover. General PBT
+  can return the trained model; PBA separately discards its child weights when transferring a schedule.
+  Reinforcement learning is one application, not the definition of PBT. No normalized identity match was
+  found across all 442 pinned AIO labels/scoped synonyms and 250 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main checkout, returning
+  9 lines in each checkout. These were references within neighboring records, their review and the prior
+  discovery ledger, not records for the proposed identities. Fourteen exact AIO CLASS nodes with synonyms
+  and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- The original algorithm specifies application-dependent readiness, exploitation and exploration. PBA’s
+  quartile selection, three-epoch interval, operation probabilities and schedule-only transfer are not
+  general PBT requirements.
+- Asynchrony removes a global training barrier but does not remove the need to exchange model state and
+  performance information. Reusing weights is not weight averaging or an inference-time ensemble.
+- Score-driven selection depends on the evaluation protocol, search space, budget and population behavior.
+  The record asserts no global optimum, universal cost equivalence, wall-clock speedup or generalization
+  guarantee.
+- Only the primary method and declared pages were inspected. Application-specific experiments, appendices
+  and executable implementations are outside this record’s evidence scope.
+id: AIMech:PopulationBasedTraining
+aliases:
+- PBT
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, Equations (1)–(4) and Algorithm 1, PDF pp. 4–6; identity and related work on pp.
+    1–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Maintain population members with model parameters, hyperparameters, an evaluation score
+    and training progress. Each worker trains its parameters with its current hyperparameters and evaluates
+    a chosen performance metric, which need not be differentiable or identical to the local training objective.
+    When a readiness condition holds, an exploitation rule can replace that worker’s parameters and hyperparameters
+    with those of another promising member. An exploration rule then perturbs or resamples the copied
+    hyperparameters, and training continues from the inherited weights. Algorithm 1 calls exploration
+    and re-evaluation only when exploitation changes the weights; its final output is the population member’s
+    parameters with the highest recorded score. Readiness, selection and mutation rules depend on the
+    application. The original procedure is asynchronous: members need access to population scores, parameters
+    and hyperparameters, but no population-wide synchronization barrier is required. Alternating local
+    parameter learning with slower model selection and hyperparameter changes yields schedules along training
+    lineages, rather than restricting each run to one fixed hyperparameter configuration.'
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations (1)–(4) and Algorithm 1, PDF pp. 4–6; identity and related work on pp.
+      1–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Population Based Training of Neural Networks
+  authors:
+  - Max Jaderberg
+  - Valentin Dalibard
+  - Simon Osindero
+  - Wojciech M. Czarnecki
+  - Jeff Donahue
+  - Ali Razavi
+  - Oriol Vinyals
+  - Tim Green
+  - Iain Dunning
+  - Karen Simonyan
+  - Chrisantha Fernando
+  - Koray Kavukcuoglu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1711.09846v2
+  version: arXiv:1711.09846v2, 28 November 2017; 21-page PDF
+  persistent_id: arXiv:1711.09846
+  access_level: full_text
+  accessed_at: '2026-10-11T11:00:37Z'
+  sha256: 47db40f95ba20505e8557252bd53d6d9c9a98b8c34f8e92b6db30d59ca993e93
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: PBT organizes model training through parameter inheritance and hyperparameter adaptation.
+    The pinned target is a broad training-strategy concept described as preprocessing; the relation connects
+    these scopes without treating this iterative optimizer as preprocessing or asserting an is-a relationship.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:08:01Z'
+  updated_at: '2026-10-11T11:11:20Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
