@@ -1,0 +1,109 @@
+name: Depth-first iterative deepening
+definition: A search algorithm that repeatedly performs depth-first searches from the start with successively
+  larger depth limits, redoing shallower work until it reaches a goal.
+concept_kind: algorithm
+identity_notes: This record denotes single-agent depth-bounded iterative deepening, also called iterative
+  deepening depth-first search. It differs from IDA-star, whose limits apply to estimated path cost, and
+  from time-managed minimax iterations in game-playing applications. No normalized identity match was
+  found across the 442 AIO and 119 prior native records; ignored-inclusive text hits in the main checkout
+  were dependency-package documentation and an unrelated package-metadata substring, not existing concept
+  records.
+limitations:
+- Depth measures operator count, not arbitrary accumulated edge cost. Finite branching is needed for each
+  bounded iteration to finish.
+- Repeated shallow work remains real. The paper’s exponential-tree analysis is conditional and does not
+  establish uniform efficiency on graphs with many duplicate paths or near-unit branching.
+- The 1986 erratum to the original journal paper was identified but its text could not be accessed. The
+  procedure is corroborated by the 1992 primary paper; this record does not assert the original global
+  time-and-space optimality theorem.
+id: AIMech:DepthFirstIterativeDeepening
+aliases:
+- DFID
+- Iterative deepening depth-first search
+- IDDFS
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, printed pp. 100–102 / PDF pp. 4–6; procedure and exponential-tree analysis
+  relation: supports
+- source_id: later-primary-paper
+  locator: 'Previous Work: Iterative Deepening, printed p. 533 / PDF p. 1'
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Complete a depth-limited depth-first search, discard its generated search tree, increase
+    the depth limit, and restart from the initial state. The procedure repeats shallow expansions while
+    retaining only the current depth-first traversal state rather than the complete breadth-first frontier.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, printed pp. 100–102 / PDF pp. 4–6; procedure and exponential-tree analysis
+    relation: supports
+- claim_id: depth-threshold-distinction
+  kind: mechanism
+  statement: The later primary paper identifies depth-first iterative deepening by a depth-based cutoff,
+    in contrast to IDA-star’s g+h cutoff, and describes repeated depth-first passes that keep the current
+    search path.
+  evidence:
+  - source_id: later-primary-paper
+    locator: 'Previous Work: Iterative Deepening, printed p. 533 / PDF p. 1'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Depth-First Iterative-Deepening: An Optimal Admissible Tree Search'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf
+  version: Artificial Intelligence 27(1), 97–109 (1985); university-hosted scan; a separate 1986 erratum
+    remains access-limited
+  access_level: full_text
+  accessed_at: '2026-10-11T05:23:52Z'
+  sha256: 44fc92b6885a43e2beb45db301830dfe97044b142aee9637cd67e6f9bb448894
+  persistent_id: doi:10.1016/0004-3702(85)90084-0
+- source_id: later-primary-paper
+  title: 'Linear-Space Best-First Search: Summary of Results'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  version: AAAI-92 proceedings, 533–538 (1992); official conference PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:28:08Z'
+  sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 119 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:32:15Z'
+  updated_at: '2026-10-11T05:32:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

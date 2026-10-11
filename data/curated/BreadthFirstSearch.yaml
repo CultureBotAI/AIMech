@@ -1,0 +1,100 @@
+name: Breadth-first search
+definition: A graph or state-space traversal that expands vertices in nondecreasing shortest-path distance
+  from a start vertex, where distance counts edges.
+concept_kind: algorithm
+identity_notes: BFS denotes breadth-first search in this record, not the abbreviation sometimes used for
+  generic best-first search. FIFO layer traversal is distinct from a cost-priority queue for weighted
+  paths and from depth-first traversal. No normalized identity match was found across the 442 AIO and
+  119 prior native records; ignored-inclusive text hits in the main checkout were dependency-package documentation
+  and an unrelated package-metadata substring, not existing concept records.
+limitations:
+- Shortest distance means number of edges; arbitrary unequal edge costs are not minimized by FIFO traversal.
+- The cited graph implementation tracks discovered vertices. Its visited-state storage and frontier memory
+  must not be confused with a path-only tree-search implementation.
+- Traversal from a single start reaches only its reachable component; the documentation describes separate
+  visits for disconnected components.
+id: AIMech:BreadthFirstSearch
+aliases:
+- BFS
+- Breadth first traversal
+definition_evidence:
+- source_id: method-source
+  locator: Opening traversal description; BFS(G, s) pseudocode; buffer(Buffer& Q) parameter
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: A FIFO queue holds discovered vertices awaiting expansion. Remove its front vertex, inspect
+    its outgoing edges, mark each previously undiscovered neighbor when it is enqueued, and continue until
+    the queue is empty or a goal-search stopping condition is met.
+  evidence:
+  - source_id: method-source
+    locator: Opening traversal description; BFS(G, s) pseudocode; buffer(Buffer& Q) parameter
+    relation: supports
+- claim_id: edge-count-scope
+  kind: scope
+  statement: Unit-edge paths are within breadth-first search’s shortest-path scope; general nonnegative
+    weighted paths require a cost-sensitive method such as Dijkstra’s algorithm.
+  evidence:
+  - source_id: versioned-documentation-scope
+    locator: Opening description comparing nonnegative weighted shortest paths with unit-edge breadth-first
+      search
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Boost Graph Library: Breadth-First Search'
+  authors:
+  - Jeremy Siek
+  source_type: official_documentation
+  url: https://www.boost.org/doc/libs/1_80_0/libs/graph/doc/breadth_first_search.html
+  version: Boost Graph Library documentation, Boost 1.80.0 (2022)
+  access_level: documentation
+  accessed_at: '2026-10-11T05:28:31Z'
+  sha256: 2a265e09d076352b458651d7a09b48c60ccb5a5e5f708fe6c52891d147ea73d2
+- source_id: versioned-documentation-scope
+  title: 'Boost Graph Library: Dijkstra’s Shortest Paths'
+  authors:
+  - Jeremy Siek
+  source_type: official_documentation
+  url: https://www.boost.org/doc/libs/1_80_0/libs/graph/doc/dijkstra_shortest_paths.html
+  version: Boost Graph Library documentation, Boost 1.80.0 (2022)
+  access_level: documentation
+  accessed_at: '2026-10-11T05:28:31Z'
+  sha256: 3bcfc6120324410d33985bfac9e1fac5fe50d66321602ac7aa109144a2eddd04
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 119 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:32:15Z'
+  updated_at: '2026-10-11T05:32:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
