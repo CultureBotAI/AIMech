@@ -1,0 +1,142 @@
+name: Gumbel-Top-k trick
+definition: A categorical sampling construction that adds independent standard Gumbel noise to each category’s
+  log weight and returns the indices of the k largest perturbed values in descending order, producing
+  an ordered sample without replacement under successive renormalization of the remaining weights.
+concept_kind: mathematical_method
+identity_notes: 'This is the finite categorical Gumbel-Top-k construction formalized by Kool and colleagues,
+  who credit an earlier observation by Vieira. The k=1 case is the Gumbel-Max trick. It is distinct from
+  truncating a language model to its k most probable tokens and then sampling, from a continuous Gumbel-Softmax
+  relaxation, and from the separate stochastic beam algorithm that applies the construction implicitly
+  to sequences. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents
+  were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation
+  scatter search, not existing candidate records. Exact checkout counts and differences are retained in
+  the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full
+  native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The ordered sampling probabilities differ from marginal inclusion probabilities; inclusion is not generally
+  proportional to the original weight or equal to k times its normalized probability. At k=n every supported
+  category is included.
+- The stated construction assumes positive finite weights and k no larger than the positive support. Zero
+  weights require exclusion or a declared limiting convention; invalid weights and k beyond support are
+  not covered.
+- Exactness assumes the specified independent continuous noise and exact ranking. Finite precision, random-number
+  endpoints and numerical ties require implementation policies; no software implementation was certified.
+- Direct finite-domain application perturbs all n category scores. It does not by itself supply an efficient
+  algorithm for exponentially many complete sequences, a differentiable relaxation, or an unbiased sample-mean
+  estimator for arbitrary without-replacement outputs.
+id: AIMech:GumbelTopKTrick
+aliases:
+- Gumbel top-k sampling
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1–2.4, Theorem 1 and footnote 1, PDF p.2; Section 1 attribution, PDF p.1
+  relation: supports
+- source_id: sampling-proof
+  locator: Appendix A, Theorem 1 and Equations (15)–(19), supplement PDF p.1
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For n categories with positive finite weights w_i and 1≤k≤n, draw independent G_i with the
+    standard Gumbel distribution, equivalently G_i=−log(−log U_i) for independent U_i uniform on (0,1).
+    Rank log(w_i)+G_i and return the first k distinct indices in that perturbed order. The probability
+    of an ordered distinct tuple (i_1,…,i_k) is the product over j of w_i_j divided by the total weight
+    remaining after indices i_1,…,i_(j−1) are removed. Common weight normalization is unnecessary because
+    it adds only a common shift to all log scores. This is an exact distributional statement for the specified
+    random variables, not an assertion that the selected indices are the highest-probability unperturbed
+    categories.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1–2.4, Theorem 1 and footnote 1, PDF p.2; Section 1 attribution, PDF p.1
+    relation: supports
+  - source_id: sampling-proof
+    locator: Appendix A, Theorem 1 and Equations (15)–(19), supplement PDF p.1
+    relation: supports
+- claim_id: inclusion-boundary
+  kind: limitation
+  statement: Without replacement here means sequential categorical sampling with the remaining weights
+    renormalized after every selected index. It does not mean that each category’s probability of appearing
+    anywhere in the k-sample is proportional to its original probability. The source explicitly distinguishes
+    these quantities.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.4, footnote 1 and Equation (4), PDF p.2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without
+    Replacement'
+  authors:
+  - Wouter Kool
+  - Herke van Hoof
+  - Max Welling
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/kool19a/kool19a.pdf
+  version: ICML 2019, Proceedings of Machine Learning Research 97:3499–3508; ten-page publisher PDF without
+    printed proceedings page numbers. The separately published three-page supplement contains Appendices
+    A–D.
+  access_level: full_text
+  accessed_at: '2026-10-11T16:01:37Z'
+  sha256: 0e5d71684fae2ae4d9d8fc8b24a7f4858536a7af3c81b0c5181324dfdd57aaaf
+- source_id: sampling-proof
+  title: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without
+    Replacement — supplementary material'
+  authors:
+  - Wouter Kool
+  - Herke van Hoof
+  - Max Welling
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf
+  version: Three-page publisher supplement linked from the PMLR ICML 2019 article; Appendices A–D. Only
+    PDF pages 1–2 were visually inspected for the sampling proof and conditional-maximum transform.
+  access_level: full_text
+  accessed_at: '2026-10-11T16:01:39Z'
+  sha256: a0a844d8b0e40acf4814085a8c2806459f5a8eb8ed0c211fa080c1ac15450992
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 328 preceding maintained IDs/names/aliases;
+    ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for Gumbel,
+    beam, sampling, autoregression, inference, decoding, sequence, categorical, reparameterization, temperature,
+    search and reasoning; nine exact AIO CLASS nodes and four complete native beam-search neighbors.
+  rationale: No suitable target for the generic ordered categorical sampling procedure was established
+    in this inspected snapshot and semantic neighborhood. Shared probability, categorical and sampling
+    terminology does not justify a forced model, function, bias or task mapping.
+  examined_targets:
+  - target: AIO:AutoregressiveLanguageModel
+    rejection_reason: A language model supplying next-token probabilities is different from this generic
+      finite categorical sampling rule; it does not define the rule’s identity or required application.
+  - target: AIO:NaturalLanguageProcessing
+    rejection_reason: The generic categorical rule is not restricted to natural-language data; its sequence-model
+      application is curated separately.
+  - target: AIO:SoftmaxFunction
+    rejection_reason: Softmax normalizes scores to probabilities; Gumbel-Top-k returns discrete ordered
+      random indices. Their mathematical relationship does not make the sampling operation the normalization
+      function.
+  - target: AIO:MathematicalFunction
+    rejection_reason: This record specifies an ordered stochastic sampling procedure and its distributional
+      identity, not a deterministic input-output function class.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Sampling without replacement from a specified categorical distribution is not the
+      ontology’s nonrepresentative-selection bias concept.
+  - target: AIO:CategoricalFeaturesPreprocessingLayer
+    rejection_reason: Categorical random outcomes do not make the sampling rule a neural feature-preprocessing
+      layer.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The finite categorical trick requires no graphical conditional-dependence representation;
+      the tree-based sequence construction is a separate concept.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Drawing random indices from supplied weights does not itself learn from data.
+  - target: AIO:TrainingStrategy
+    rejection_reason: No model training or training-data preprocessing is required by the sampling identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T16:13:12Z'
+  updated_at: '2026-10-11T16:13:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,114 @@
+name: Diverse beam search
+definition: The inference procedure of Vijayakumar and colleagues that partitions a sequence beam budget
+  into groups and updates each group using model log-probability scores augmented by a weighted dissimilarity
+  to the already-updated earlier groups at the same decoding step.
+concept_kind: algorithm
+identity_notes: 'This record denotes the group-based diversity-augmented method published at AAAI 2018,
+  first submitted under a different title in 2016. It is distinct from Gumbel-based stochastic beam sampling,
+  inter-sibling rank penalties, repeated complete beam runs with final-output diversity, and earlier algorithms
+  using the phrase diversity beam search. The diversity objective is integrated into group beam updates;
+  the procedure requires no retraining of the scoring model. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines
+  respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead
+  and a search-result title about coalition-formation scatter search, not existing candidate records.
+  Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped
+  synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The first group is an ordinary beam of width B′. Its baseline inclusion is not a guarantee of matching
+  or beating an ordinary beam of total width B, nor a guarantee of global MAP or globally optimal diversity.
+- Setting G=1 recovers an ordinary width-B beam. With G>1, setting lambda=0 leaves separate smaller beams;
+  it does not generally reconstruct one width-B beam and can reproduce outputs across groups.
+- Distinctness is enforced within each selected group. The soft inter-group diversity term does not impose
+  hard global output uniqueness, semantic correctness or a minimum pairwise distance. Large diversity
+  weight can overwhelm model scores.
+- The diversity measure and strength, group allocation/order, score ties, EOS handling and maximum length
+  are part of the configuration. Prefix-based diversity cannot automatically use an arbitrary sentence-level
+  metric that requires completed outputs.
+- The paper reports empirical quality/diversity gains in specified generation experiments. No universal
+  superiority, runtime speedup, numerical benchmark result or current library behavior is asserted here.
+id: AIMech:DiverseBeamSearch
+aliases:
+- DBS
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, Equations (4)–(5), Figure 2, Algorithm 1 and Section 4.1, printed pp.7374–7375 /
+    PDF pp.4–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Divide a total beam budget B into G ordered groups, conventionally each of width B′=B/G when
+    divisible; the paper also allows unequal allocations. At each decoding step, update the first group
+    by ordinary beam search. For every later group in order, extend its retained prefixes by one token
+    and score each candidate by its cumulative model log probability plus lambda times its dissimilarity
+    to the current-step beams already selected in all earlier groups, with lambda nonnegative. For the
+    additive family, dissimilarity to a group is the sum of pairwise sequence dissimilarities. Select
+    the group’s top B′ distinct candidate extensions under that augmented score and proceed to the next
+    group. Repeat through the chosen maximum length or termination condition, then combine group outputs
+    and sort by model log probability as described in the source prose. The method is greedy across both
+    time and group order; it encourages diversity between groups rather than imposing a joint exact sequence-set
+    optimum.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, Equations (4)–(5), Figure 2, Algorithm 1 and Section 4.1, printed pp.7374–7375
+      / PDF pp.4–5
+    relation: supports
+- claim_id: diversity-choice
+  kind: mechanism
+  statement: The source’s simple Hamming-style option penalizes a candidate token according to how often
+    earlier groups used that token at the same position. Other discussed choices include cumulative positional
+    mismatch, n-gram overlap and embedding-based dissimilarity. These are configurable scoring choices,
+    not interchangeable definitions or guaranteed measures of semantic diversity.
+  evidence:
+  - source_id: method-source
+    locator: Section 4.1, Choice of Diversity Function, printed p.7375 / PDF p.5
+    relation: supports
+- claim_id: inference-context
+  kind: application
+  statement: The method operates during inference on sequence-model scores without requiring retraining,
+    and is developed for image captioning, visual question generation and machine translation. Its empirical
+    comparisons do not establish universal improvements.
+  evidence:
+  - source_id: method-source
+    locator: Abstract, printed p.7371 / PDF p.1; Section 2, Sequence Optimization, printed p.7373 / PDF
+      p.3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Diverse Beam Search for Improved Description of Complex Scenes
+  authors:
+  - Ashwin K. Vijayakumar
+  - Michael Cogswell
+  - Ramprasaath R. Selvaraju
+  - Qing Sun
+  - Stefan Lee
+  - David Crandall
+  - Dhruv Batra
+  source_type: primary_paper
+  url: https://ojs.aaai.org/index.php/AAAI/article/view/12340/12199
+  version: AAAI-18 proceedings, printed pp.7371–7379; nine-page publisher PDF. This is the final 2018
+    publication, distinct from the differently titled 2016 arXiv submission and its 2018 revision.
+  persistent_id: doi:10.1609/aaai.v32i1.12340
+  access_level: full_text
+  accessed_at: '2026-10-11T16:01:40Z'
+  sha256: c002058498ea5d7140e4a7ac3adaca7e3643245dae2256f8e357678920aa07f8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The inspected primary paper develops this decoder for natural-language sequence generation,
+    including machine translation. The exact AIO CLASS denotes the language-processing task. This is an
+    algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the decoder is
+    separate from the model supplying probabilities and is not restricted to natural-language sequences.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T16:13:12Z'
+  updated_at: '2026-10-11T16:13:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

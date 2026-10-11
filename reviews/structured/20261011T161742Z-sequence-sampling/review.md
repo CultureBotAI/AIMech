@@ -1,0 +1,850 @@
+# Scientific self-review of categorical sampling and diverse sequence decoding
+
+- Review: 20261011T161742Z-sequence-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T16:15:13Z
+- Finished UTC: 2026-10-11T16:17:42Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Gumbel-Top-k, the2019 stochastic beam sampler and the2018 diverse beam decoder as distinct DRAFT concepts. The records preserve ordered sampling, consistent subtree maxima, finite positive support, soft diversity and separate beam budgets. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three maintained categorical-sampling and sequence-decoding concepts.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 22d555e8d90cca402c156715ca6bd5cbaa76622c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GumbelTopKTrick | data/curated/GumbelTopKTrick.yaml | maintained | Gumbel-Top-k trick |
+| AIMech:StochasticBeamSearch | data/curated/StochasticBeamSearch.yaml | maintained | Stochastic beam search |
+| AIMech:DiverseBeamSearch | data/curated/DiverseBeamSearch.yaml | maintained | Diverse beam search |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 68.68s (0:01:08)<br>Checked 442 record(s); 0 failed.<br>Checked 331 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 91 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 88,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch | Command exited0 with no output. |
+| Finite sequence-sampling boundary examples | passed | True | AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch | {"ordered_without_replacement": {"a,b": "1/3", "a,c": "1/6", "b,a": "1/4", "b,c": "1/12", "c,a": "1/10", "c,b": "1/15"}, "c_inclusion_probability": "5/12", "incorrect_k_times_p_c": "1/3", "conditional_transform": {"raw": [-1.0, 2.0, 0.5], "target": 0.25, "transformed": [-1.2124608769848082, 0.25, -0.22314047894743053]}, "prefix_maximum_example": {"retained_prefixes": ["a", "b"], "top_leaves": ["aa", "ab"]}, "dbs_one_step": {"zero_diversity_groups": ["a", "a"], "positive_diversity_groups": ["a", "b"], "ordinary_width_two": ["a", "b"]}, "scope": "Exact small arithmetic and fixed-score boundary illustrations; no full implementation, random simulation, author code or general proof."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:GumbelTopKTrick.
+
+This is the finite categorical Gumbel-Top-k construction formalized by Kool and colleagues, who credit an earlier observation by Vieira. The k=1 case is the Gumbel-Max trick. It is distinct from truncating a language model to its k most probable tokens and then sampling, from a continuous Gumbel-Softmax relaxation, and from the separate stochastic beam algorithm that applies the construction implicitly to sequences. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation scatter search, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For n categories with positive finite weights w_i and 1≤k≤n, draw independent G_i with the standard Gumbel distribution, equivalently G_i=−log(−log U_i) for independent U_i uniform on (0,1). Rank log(w_i)+G_i and return the first k distinct indices in that perturbed order. The probability of an ordered distinct tuple (i_1,…,i_k) is the product over j of w_i_j divided by the total weight remaining after indices i_1,…,i_(j−1) are removed. Common weight normalization is unnecessary because it adds only a common shift to all log scores. This is an exact distributional statement for the specified random variables, not an assertion that the selected indices are the highest-probability unperturbed categories. Without replacement here means sequential categorical sampling with the remaining weights renormalized after every selected index. It does not mean that each category’s probability of appearing anywhere in the k-sample is proportional to its original probability. The source explicitly distinguishes these quantities. Limits: The ordered sampling probabilities differ from marginal inclusion probabilities; inclusion is not generally proportional to the original weight or equal to k times its normalized probability. At k=n every supported category is included. The stated construction assumes positive finite weights and k no larger than the positive support. Zero weights require exclusion or a declared limiting convention; invalid weights and k beyond support are not covered. Exactness assumes the specified independent continuous noise and exact ranking. Finite precision, random-number endpoints and numerical ties require implementation policies; no software implementation was certified. Direct finite-domain application perturbs all n category scores. It does not by itself supply an efficient algorithm for exponentially many complete sequences, a differentiable relaxation, or an unbiased sample-mean estimator for arbitrary without-replacement outputs.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:StochasticBeamSearch.
+
+This record denotes the 2019 Gumbel-based sequence sampler, not every search algorithm called stochastic beam search. The generic Gumbel-Top-k distributional construction is a separate record. The method differs from independently resampling prefixes at every beam step, ordinary probability-ranked beam decoding, and diversity-penalized beam groups. An earlier search hit about coalition-formation scatter search is a separate title lead, not evidence of equivalence. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation scatter search, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Represent complete sequences as leaves of a finite locally normalized prefix tree, using a declared common horizon or probability-preserving padding of completed sequences. A prefix log probability is the log of its descendant probability mass. Its stochastic score represents the maximum perturbed leaf log probability in that subtree. Start at the root; its maximum may be sampled from Gumbel(0) or fixed at zero as in Algorithm 1, since the maximum is independent of the selected ranking. For each retained parent with stochastic score T, sample independent child values G_i from Gumbel(phi_i), where phi_i is the child’s cumulative log probability; let Z=max_i G_i, then transform each to −log(exp(−T)−exp(−Z)+exp(−G_i)). This samples child maxima conditionally on their maximum being the parent’s T. Pool child candidates and retain up to k with the largest transformed scores, repeating through the declared horizon. Under the stated finite normalized tree construction this returns the same ordered without-replacement sequence distribution as explicitly applying Gumbel-Top-k to all complete leaves. The ordering is by perturbed score, not raw sequence probability. The paper develops sequence sampling as an alternative to ordinary sampling and deterministic beam decoding for language generation, and studies translation as its principal application. This is a procedure operating on a probability-supplying model, not a trained model identity or a universal translation-quality claim. Retained branches carry a consistent conditional perturbation. More than one final sample may share a prefix; requiring exactly one descendant per earlier beam member changes the sampling procedure. The source also distinguishes this construction from independently choosing fresh random prefixes at every depth. Limits: The requested sample count must not exceed the number of positive-probability complete leaves. Zero-mass branches require exclusion or an explicit limiting representation; an exhausted support is not a source of additional distinct samples. The exact sampling statement requires consistent conditional subtree maxima and the declared normalized sequence distribution. Independently resampling prefixes at each depth, using raw length-normalized scores, or transplanting ordinary beam early stopping does not inherit that statement. The paper assumes common-length sequences with padding possible. Variable-length generation requires an explicit terminal/EOS policy preserving the intended leaf distribution; arbitrary forced truncation or nonterminating probability mass is not silently covered. The linear-in-k-and-length claim concerns the number of model evaluations. Vocabulary expansion, top-k selection, neural-state storage and numerical operations still have costs; this is not a bound independent of vocabulary size or model cost. The conditional-maximum formula can be numerically unstable in direct exponential form. Appendix B supplies stable transformations; exact distributional reasoning is not a certification of finite-precision implementation. Distinct complete samples can share prefixes and need not have high semantic diversity or be the unperturbed MAP sequences. Without-replacement samples are dependent, and arbitrary unweighted sample averages are not automatically unbiased.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:DiverseBeamSearch.
+
+This record denotes the group-based diversity-augmented method published at AAAI 2018, first submitted under a different title in 2016. It is distinct from Gumbel-based stochastic beam sampling, inter-sibling rank penalties, repeated complete beam runs with final-output diversity, and earlier algorithms using the phrase diversity beam search. The diversity objective is integrated into group beam updates; the procedure requires no retraining of the scoring model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation scatter search, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Divide a total beam budget B into G ordered groups, conventionally each of width B′=B/G when divisible; the paper also allows unequal allocations. At each decoding step, update the first group by ordinary beam search. For every later group in order, extend its retained prefixes by one token and score each candidate by its cumulative model log probability plus lambda times its dissimilarity to the current-step beams already selected in all earlier groups, with lambda nonnegative. For the additive family, dissimilarity to a group is the sum of pairwise sequence dissimilarities. Select the group’s top B′ distinct candidate extensions under that augmented score and proceed to the next group. Repeat through the chosen maximum length or termination condition, then combine group outputs and sort by model log probability as described in the source prose. The method is greedy across both time and group order; it encourages diversity between groups rather than imposing a joint exact sequence-set optimum. The source’s simple Hamming-style option penalizes a candidate token according to how often earlier groups used that token at the same position. Other discussed choices include cumulative positional mismatch, n-gram overlap and embedding-based dissimilarity. These are configurable scoring choices, not interchangeable definitions or guaranteed measures of semantic diversity. The method operates during inference on sequence-model scores without requiring retraining, and is developed for image captioning, visual question generation and machine translation. Its empirical comparisons do not establish universal improvements. Limits: The first group is an ordinary beam of width B′. Its baseline inclusion is not a guarantee of matching or beating an ordinary beam of total width B, nor a guarantee of global MAP or globally optimal diversity. Setting G=1 recovers an ordinary width-B beam. With G&gt;1, setting lambda=0 leaves separate smaller beams; it does not generally reconstruct one width-B beam and can reproduce outputs across groups. Distinctness is enforced within each selected group. The soft inter-group diversity term does not impose hard global output uniqueness, semantic correctness or a minimum pairwise distance. Large diversity weight can overwhelm model scores. The diversity measure and strength, group allocation/order, score ties, EOS handling and maximum length are part of the configuration. Prefix-based diversity cannot automatically use an arbitrary sentence-level metric that requires completed outputs. The paper reports empirical quality/diversity gains in specified generation experiments. No universal superiority, runtime speedup, numerical benchmark result or current library behavior is asserted here.
+
+### Ordered without-replacement law and marginal inclusion
+
+consistency: supported. Targets: AIMech:GumbelTopKTrick.
+
+Retain the finite categorical construction as a mathematical method.
+
+The source defines successive renormalization of remaining weights. The finite example yields inclusion5/12 for a category of probability1/6 when k=2, not2p=1/3. Independent Gumbel perturbations return an ordered distinct tuple under positive finite support. This is neither token-probability truncation nor a differentiable relaxation, and direct categorical enumeration does not supply the sequence algorithm’s efficiency.
+
+### Conditional subtree maxima and sequence-distribution scope
+
+consistency: supported. Targets: AIMech:StochasticBeamSearch.
+
+Retain the2019 implicit sequence sampler with explicit support and terminal assumptions.
+
+Child Gumbels are transformed conditionally on the parent maximum. The top-k subtree maxima retain ancestors of the required leaves; multiple final samples may share a prefix. Root conditioning, local normalization, finite support and probability-preserving completion/padding are explicit. Fresh per-depth sampling, arbitrary stopping or length-normalized score substitutions do not inherit the exact distribution. Model-evaluation count does not erase vocabulary or sorting costs.
+
+### Soft diversity between ordered beam groups
+
+consistency: supported. Targets: AIMech:DiverseBeamSearch.
+
+Retain the final2018 group-based inference procedure.
+
+Each later group sees already-updated earlier groups at the same step. G=1 recovers ordinary beam search, whereas lambda=0 with multiple groups leaves smaller separate searches and can duplicate outputs. Within-group distinctness and a soft diversity term do not impose global uniqueness. The first-group baseline is widthB-prime, not total widthB. The final published title and primary-source identity are preserved.
+
+### Categorical method versus language-generation application
+
+grounding: supported. Targets: AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch.
+
+Retain one bounded no-match and two related application mappings.
+
+Nine exact pinned CLASS nodes, all their scoped synonyms/comments and outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k has a bounded no-match assessment: generic categorical sampling is not the Softmax normalization function, a learned model, a bias or a training task. Stochastic beam search and diverse beam search have related_match links to NaturalLanguageProcessing for their explicitly developed language-generation applications. These are algorithm-to-application relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel is the probability-supplying model rather than either decoder; the choice of related application target does not restrict them to text.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:GumbelTopKTrick, AIMech:StochasticBeamSearch, AIMech:DiverseBeamSearch. The finite categorical sampling identity, its efficient sequence-tree implementation and group-based diversity scoring have different mechanisms and guarantees. Shared use of top-k ranking or a beam does not establish equivalence.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T161352Z-sequence-sampling.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases; no normalized identity match. Both full-checkout text searches included ignored and hidden files, returning49 identical lines each. All two unique contents were inspected: a carried stochastic-beam/Gumbel lead and a coalition-formation scatter-search title in old web results. Neither is an existing candidate record. Nine exact AIO nodes and four complete native neighbors were inspected; absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Nine exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Nine exact pinned CLASS nodes, all their scoped synonyms/comments and outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k has a bounded no-match assessment: generic categorical sampling is not the Softmax normalization function, a learned model, a bias or a training task. Stochastic beam search and diverse beam search have related_match links to NaturalLanguageProcessing for their explicitly developed language-generation applications. These are algorithm-to-application relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel is the probability-supplying model rather than either decoder; the choice of related application target does not restrict them to text. |
+| neighbors | research/discovery/20261011T161352Z-sequence-sampling.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full BeamSearch, VanillaSequenceBeamDecoding, SequenceBestFirstBeamSearch and OptimalStoppingBeamDecoding records distinguish generic layer pruning, EOS slot competition, per-length best-first budgets and incumbent stopping certificates. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/sequence-sampling-boundaries.py; calculate(): ordered categorical probabilities versus inclusion, conditional-maximum arithmetic, shared-prefix subtree pruning and zero-weight group duplication | supports | Exact rational probabilities distinguish ordered without-replacement draws from marginal inclusion. Fixed-score examples check conditional maxima, subtree pruning with shared-prefix final samples, and separate group beams at zero diversity weight. These are original curator arithmetic examples, not random simulation, a general correctness proof or a benchmark. |
+| gumbeltopktrick-source-0 | https://proceedings.mlr.press/v97/kool19a/kool19a.pdf; Section 2.1–2.4, Theorem 1 and footnote 1, PDF p.2; Section 1 attribution, PDF p.1; Section 2.4, footnote 1 and Equation (4), PDF p.2 | supports | Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement. ICML 2019, Proceedings of Machine Learning Research 97:3499–3508; ten-page publisher PDF without printed proceedings page numbers. The separately published three-page supplement contains Appendices A–D. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| gumbeltopktrick-source-1 | https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf; Appendix A, Theorem 1 and Equations (15)–(19), supplement PDF p.1 | supports | Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement — supplementary material. Three-page publisher supplement linked from the PMLR ICML 2019 article; Appendices A–D. Only PDF pages 1–2 were visually inspected for the sampling proof and conditional-maximum transform. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| stochasticbeamsearch-source-0 | https://proceedings.mlr.press/v97/kool19a/kool19a.pdf; Abstract and Introduction, PDF p.1; Sections 2.5 and 4.1, PDF pp.2 and 5; Section 3.2 continuation, PDF p.5; Sections 2.5–2.6 and 3.1–3.3, Figure 1, Equations (8)–(10), Algorithm 1 and footnote 2, PDF pp.2–5 | supports | Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement. ICML 2019, Proceedings of Machine Learning Research 97:3499–3508; ten-page publisher PDF without printed proceedings page numbers. The separately published three-page supplement contains Appendices A–D. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| stochasticbeamsearch-source-1 | https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf; Appendices B.1–B.3, Equations (20)–(24), supplement PDF pp.1–2 | supports | Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement — supplementary material. Three-page publisher supplement linked from the PMLR ICML 2019 article; Appendices A–D. Only PDF pages 1–2 were visually inspected for the sampling proof and conditional-maximum transform. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| diversebeamsearch-source-0 | https://ojs.aaai.org/index.php/AAAI/article/view/12340/12199; Abstract, printed p.7371 / PDF p.1; Section 2, Sequence Optimization, printed p.7373 / PDF p.3; Section 4, Equations (4)–(5), Figure 2, Algorithm 1 and Section 4.1, printed pp.7374–7375 / PDF pp.4–5; Section 4.1, Choice of Diversity Function, printed p.7375 / PDF p.5 | supports | Diverse Beam Search for Improved Description of Complex Scenes. AAAI-18 proceedings, printed pp.7371–7379; nine-page publisher PDF. This is the final 2018 publication, distinct from the differently titled 2016 arXiv submission and its 2018 revision. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Exact sampling concerns the declared positive-support finite distribution and conditional-max construction, not finite-precision software, MAP decoding or arbitrary early stopping.
+- DBS has a soft diversity objective and separate group budgets; it does not guarantee global output uniqueness or reproduce one full-width beam at zero penalty with multiple groups.
+- Only the declared PDF pages and finite curator examples were inspected. No author implementation, model execution or numerical benchmark was run.
+- There are187 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T161742Z-sequence-sampling
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of categorical sampling and diverse sequence decoding
+started_at: '2026-10-11T16:15:13Z'
+finished_at: '2026-10-11T16:17:42Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked every new field against
+    primary method sections and supplementary derivations, critical PDF images, nine
+    exact AIO nodes, four full native neighbors and original finite boundary calculations.
+    Ordered/inclusion probabilities, conditional maxima, support and termination,
+    separate group budgets and source versions were examined. This is not independent
+    approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Gumbel-Top-k, the2019 stochastic beam sampler and the2018 diverse
+  beam decoder as distinct DRAFT concepts. The records preserve ordered sampling,
+  consistent subtree maxima, finite positive support, soft diversity and separate
+  beam budgets. No actionable curation finding remains in the declared scope.
+source:
+  git_revision: 22d555e8d90cca402c156715ca6bd5cbaa76622c
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/CategoricalFeaturesPreprocessingLayer.yaml
+    sha256: d00dd20cfd07b33531f593159854176c6d05d8131b93610c82e5d858925beec6
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/NaturalLanguageProcessing.yaml
+    sha256: c57f1ce3c5621c0912c2992fa659bfaa952bdc25fd5133da1da1b73009ab4673
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/aio/SoftmaxFunction.yaml
+    sha256: 150cf1f70d0a49c2515fc4569b451c6b835050346797db01b0536751b867e69f
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/BeamSearch.yaml
+    sha256: aec9aab4ec700ecfc6aa4b71c98f33bdbb456d131748729a98480abef34875bc
+    role: context
+  - path: data/curated/DiverseBeamSearch.yaml
+    sha256: 31c303e3ccff051a28d8ddde301af1bda0d0644a91b9f7259f11640e7160aa01
+    role: target
+  - path: data/curated/GumbelTopKTrick.yaml
+    sha256: 8081698ca94e9ff5650d6a090fa8a85ccc01158f848f2b793b35bbe2360411e3
+    role: target
+  - path: data/curated/OptimalStoppingBeamDecoding.yaml
+    sha256: 4628e4f1e3af8f43de2c06afff4d0e9bb4a706203f10570389263a53f243bd7b
+    role: context
+  - path: data/curated/SequenceBestFirstBeamSearch.yaml
+    sha256: 9bc305bdd3245324d1889389c19b356221021298a0b9d3cd3fdc62fb5f6ce0f0
+    role: context
+  - path: data/curated/StochasticBeamSearch.yaml
+    sha256: 6065e5f361daa776cb6011b3d15e937062bb685641bef83d2d7b44bc18a603e6
+    role: target
+  - path: data/curated/VanillaSequenceBeamDecoding.yaml
+    sha256: f10fab4f3575f098ce6c978158ec15954fe20cbda03cbe63aecea23ff23e6356
+    role: context
+  - path: research/discovery/20261011T161352Z-sequence-sampling.json
+    sha256: 37d546a75958172cadefbc1b74c14f52566c4820f8286c5c8e984cb4d7540d40
+    role: context
+  - path: research/discovery/sequence-sampling-boundaries.py
+    sha256: 34a4c4a18b0a55c170980605effd4b4f5459e747efcf6fa0a6397da6d35bb751
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GumbelTopKTrick
+  path: data/curated/GumbelTopKTrick.yaml
+  label: Gumbel-Top-k trick
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GumbelTopKTrick.yaml
+    role: maintained
+- target_id: AIMech:StochasticBeamSearch
+  path: data/curated/StochasticBeamSearch.yaml
+  label: Stochastic beam search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StochasticBeamSearch.yaml
+    role: maintained
+- target_id: AIMech:DiverseBeamSearch
+  path: data/curated/DiverseBeamSearch.yaml
+  label: Diverse beam search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DiverseBeamSearch.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained categorical-sampling and sequence-decoding
+    concepts.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust sampling or decoding and does not execute original
+      model code. Ancestral extensions, continuous relaxations, sibling penalties,
+      DivMBest and other frontier cohorts remain open.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 68.68s (0:01:08)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 331 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 91 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 88,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Finite sequence-sampling boundary examples
+  command: python3 research/discovery/sequence-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"ordered_without_replacement": {"a,b": "1/3", "a,c": "1/6", "b,a": "1/4",
+    "b,c": "1/12", "c,a": "1/10", "c,b": "1/15"}, "c_inclusion_probability": "5/12",
+    "incorrect_k_times_p_c": "1/3", "conditional_transform": {"raw": [-1.0, 2.0, 0.5],
+    "target": 0.25, "transformed": [-1.2124608769848082, 0.25, -0.22314047894743053]},
+    "prefix_maximum_example": {"retained_prefixes": ["a", "b"], "top_leaves": ["aa",
+    "ab"]}, "dbs_one_step": {"zero_diversity_groups": ["a", "a"], "positive_diversity_groups":
+    ["a", "b"], "ordinary_width_two": ["a", "b"]}, "scope": "Exact small arithmetic
+    and fixed-score boundary illustrations; no full implementation, random simulation,
+    author code or general proof."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T161352Z-sequence-sampling.json
+  accessed_at: '2026-10-11T16:15:13Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 328 preceding native
+    IDs/names/aliases; no normalized identity match. Both full-checkout text searches
+    included ignored and hidden files, returning49 identical lines each. All two unique
+    contents were inspected: a carried stochastic-beam/Gumbel lead and a coalition-formation
+    scatter-search title in old web results. Neither is an existing candidate record.
+    Nine exact AIO nodes and four complete native neighbors were inspected; absence
+    is bounded to this snapshot and semantic neighborhood.'
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 328 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. Both
+    unique hit contents inspected; matches were a saved Gumbel sequence lead and an
+    unrelated coalition-formation search-result title. Exact counts, paths and differences
+    remain in the ledger.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Nine exact CLASS nodes with scoped synonyms/comments/outgoing edges in
+    source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T16:15:13Z'
+  support: supports
+  summary: 'Nine exact pinned CLASS nodes, all their scoped synonyms/comments and
+    outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k
+    has a bounded no-match assessment: generic categorical sampling is not the Softmax
+    normalization function, a learned model, a bias or a training task. Stochastic
+    beam search and diverse beam search have related_match links to NaturalLanguageProcessing
+    for their explicitly developed language-generation applications. These are algorithm-to-application
+    relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel
+    is the probability-supplying model rather than either decoder; the choice of related
+    application target does not restrict them to text.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T161352Z-sequence-sampling.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T16:15:13Z'
+  support: supports
+  summary: Full BeamSearch, VanillaSequenceBeamDecoding, SequenceBestFirstBeamSearch
+    and OptimalStoppingBeamDecoding records distinguish generic layer pruning, EOS
+    slot competition, per-length best-first budgets and incumbent stopping certificates.
+    Their prior mappings are contextual, not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/sequence-sampling-boundaries.py
+  locator: 'calculate(): ordered categorical probabilities versus inclusion, conditional-maximum
+    arithmetic, shared-prefix subtree pruning and zero-weight group duplication'
+  accessed_at: '2026-10-11T16:15:13Z'
+  snapshot_sha256: 34a4c4a18b0a55c170980605effd4b4f5459e747efcf6fa0a6397da6d35bb751
+  support: supports
+  summary: Exact rational probabilities distinguish ordered without-replacement draws
+    from marginal inclusion. Fixed-score examples check conditional maxima, subtree
+    pruning with shared-prefix final samples, and separate group beams at zero diversity
+    weight. These are original curator arithmetic examples, not random simulation,
+    a general correctness proof or a benchmark.
+- evidence_id: gumbeltopktrick-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v97/kool19a/kool19a.pdf
+  locator: Section 2.1–2.4, Theorem 1 and footnote 1, PDF p.2; Section 1 attribution,
+    PDF p.1; Section 2.4, footnote 1 and Equation (4), PDF p.2
+  accessed_at: '2026-10-11T16:01:37Z'
+  snapshot_sha256: 0e5d71684fae2ae4d9d8fc8b24a7f4858536a7af3c81b0c5181324dfdd57aaaf
+  support: supports
+  summary: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling
+    Sequences Without Replacement. ICML 2019, Proceedings of Machine Learning Research
+    97:3499–3508; ten-page publisher PDF without printed proceedings page numbers.
+    The separately published three-page supplement contains Appendices A–D. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.'
+- evidence_id: gumbeltopktrick-source-1
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf
+  locator: Appendix A, Theorem 1 and Equations (15)–(19), supplement PDF p.1
+  accessed_at: '2026-10-11T16:01:39Z'
+  snapshot_sha256: a0a844d8b0e40acf4814085a8c2806459f5a8eb8ed0c211fa080c1ac15450992
+  support: supports
+  summary: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling
+    Sequences Without Replacement — supplementary material. Three-page publisher supplement
+    linked from the PMLR ICML 2019 article; Appendices A–D. Only PDF pages 1–2 were
+    visually inspected for the sampling proof and conditional-maximum transform. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.'
+- evidence_id: stochasticbeamsearch-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v97/kool19a/kool19a.pdf
+  locator: Abstract and Introduction, PDF p.1; Sections 2.5 and 4.1, PDF pp.2 and
+    5; Section 3.2 continuation, PDF p.5; Sections 2.5–2.6 and 3.1–3.3, Figure 1,
+    Equations (8)–(10), Algorithm 1 and footnote 2, PDF pp.2–5
+  accessed_at: '2026-10-11T16:01:37Z'
+  snapshot_sha256: 0e5d71684fae2ae4d9d8fc8b24a7f4858536a7af3c81b0c5181324dfdd57aaaf
+  support: supports
+  summary: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling
+    Sequences Without Replacement. ICML 2019, Proceedings of Machine Learning Research
+    97:3499–3508; ten-page publisher PDF without printed proceedings page numbers.
+    The separately published three-page supplement contains Appendices A–D. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.'
+- evidence_id: stochasticbeamsearch-source-1
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf
+  locator: Appendices B.1–B.3, Equations (20)–(24), supplement PDF pp.1–2
+  accessed_at: '2026-10-11T16:01:39Z'
+  snapshot_sha256: a0a844d8b0e40acf4814085a8c2806459f5a8eb8ed0c211fa080c1ac15450992
+  support: supports
+  summary: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling
+    Sequences Without Replacement — supplementary material. Three-page publisher supplement
+    linked from the PMLR ICML 2019 article; Appendices A–D. Only PDF pages 1–2 were
+    visually inspected for the sampling proof and conditional-maximum transform. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.'
+- evidence_id: diversebeamsearch-source-0
+  kind: primary_source
+  reference: https://ojs.aaai.org/index.php/AAAI/article/view/12340/12199
+  locator: Abstract, printed p.7371 / PDF p.1; Section 2, Sequence Optimization, printed
+    p.7373 / PDF p.3; Section 4, Equations (4)–(5), Figure 2, Algorithm 1 and Section
+    4.1, printed pp.7374–7375 / PDF pp.4–5; Section 4.1, Choice of Diversity Function,
+    printed p.7375 / PDF p.5
+  accessed_at: '2026-10-11T16:01:40Z'
+  snapshot_sha256: c002058498ea5d7140e4a7ac3adaca7e3643245dae2256f8e357678920aa07f8
+  support: supports
+  summary: Diverse Beam Search for Improved Description of Complex Scenes. AAAI-18
+    proceedings, printed pp.7371–7379; nine-page publisher PDF. This is the final
+    2018 publication, distinct from the differently titled 2016 arXiv submission and
+    its 2018 revision. Actual paper and HTML reading scopes are declared in source_analysis;
+    extraction, rendering and a full-text access label do not establish that every
+    page was read.
+assessments:
+- assessment_id: gumbeltopktrick
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gumbeltopktrick-source-0
+  - gumbeltopktrick-source-1
+  summary: 'This is the finite categorical Gumbel-Top-k construction formalized by
+    Kool and colleagues, who credit an earlier observation by Vieira. The k=1 case
+    is the Gumbel-Max trick. It is distinct from truncating a language model to its
+    k most probable tokens and then sampling, from a continuous Gumbel-Softmax relaxation,
+    and from the separate stochastic beam algorithm that applies the construction
+    implicitly to sequences. No normalized identity match was found across all 442
+    pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 49 and 49 lines respectively. All 2 unique hit contents were
+    inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title
+    about coalition-formation scatter search, not existing candidate records. Exact
+    checkout counts and differences are retained in the ledger. Nine exact AIO CLASS
+    nodes with scoped synonyms/comments and outgoing edges and four full native neighboring
+    records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  details: 'For n categories with positive finite weights w_i and 1≤k≤n, draw independent
+    G_i with the standard Gumbel distribution, equivalently G_i=−log(−log U_i) for
+    independent U_i uniform on (0,1). Rank log(w_i)+G_i and return the first k distinct
+    indices in that perturbed order. The probability of an ordered distinct tuple
+    (i_1,…,i_k) is the product over j of w_i_j divided by the total weight remaining
+    after indices i_1,…,i_(j−1) are removed. Common weight normalization is unnecessary
+    because it adds only a common shift to all log scores. This is an exact distributional
+    statement for the specified random variables, not an assertion that the selected
+    indices are the highest-probability unperturbed categories. Without replacement
+    here means sequential categorical sampling with the remaining weights renormalized
+    after every selected index. It does not mean that each category’s probability
+    of appearing anywhere in the k-sample is proportional to its original probability.
+    The source explicitly distinguishes these quantities. Limits: The ordered sampling
+    probabilities differ from marginal inclusion probabilities; inclusion is not generally
+    proportional to the original weight or equal to k times its normalized probability.
+    At k=n every supported category is included. The stated construction assumes positive
+    finite weights and k no larger than the positive support. Zero weights require
+    exclusion or a declared limiting convention; invalid weights and k beyond support
+    are not covered. Exactness assumes the specified independent continuous noise
+    and exact ranking. Finite precision, random-number endpoints and numerical ties
+    require implementation policies; no software implementation was certified. Direct
+    finite-domain application perturbs all n category scores. It does not by itself
+    supply an efficient algorithm for exponentially many complete sequences, a differentiable
+    relaxation, or an unbiased sample-mean estimator for arbitrary without-replacement
+    outputs.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: A reusable mathematical sampling or decoding procedure, not a trained
+      model instance or benchmark outcome.
+    evidence_ids:
+    - gumbeltopktrick-source-0
+    - gumbeltopktrick-source-1
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Nine exact pinned CLASS nodes, all their scoped synonyms/comments
+      and outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k
+      has a bounded no-match assessment: generic categorical sampling is not the Softmax
+      normalization function, a learned model, a bias or a training task. Stochastic
+      beam search and diverse beam search have related_match links to NaturalLanguageProcessing
+      for their explicitly developed language-generation applications. These are algorithm-to-application
+      relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel
+      is the probability-supplying model rather than either decoder; the choice of
+      related application target does not restrict them to text.'
+    evidence_ids:
+    - mapping
+- assessment_id: stochasticbeamsearch
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:StochasticBeamSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - stochasticbeamsearch-source-0
+  - stochasticbeamsearch-source-1
+  summary: 'This record denotes the 2019 Gumbel-based sequence sampler, not every
+    search algorithm called stochastic beam search. The generic Gumbel-Top-k distributional
+    construction is a separate record. The method differs from independently resampling
+    prefixes at every beam step, ordinary probability-ranked beam decoding, and diversity-penalized
+    beam groups. An earlier search hit about coalition-formation scatter search is
+    a separate title lead, not evidence of equivalence. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 49 and 49 lines respectively. All 2 unique
+    hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and
+    a search-result title about coalition-formation scatter search, not existing candidate
+    records. Exact checkout counts and differences are retained in the ledger. Nine
+    exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four
+    full native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  details: 'Represent complete sequences as leaves of a finite locally normalized
+    prefix tree, using a declared common horizon or probability-preserving padding
+    of completed sequences. A prefix log probability is the log of its descendant
+    probability mass. Its stochastic score represents the maximum perturbed leaf log
+    probability in that subtree. Start at the root; its maximum may be sampled from
+    Gumbel(0) or fixed at zero as in Algorithm 1, since the maximum is independent
+    of the selected ranking. For each retained parent with stochastic score T, sample
+    independent child values G_i from Gumbel(phi_i), where phi_i is the child’s cumulative
+    log probability; let Z=max_i G_i, then transform each to −log(exp(−T)−exp(−Z)+exp(−G_i)).
+    This samples child maxima conditionally on their maximum being the parent’s T.
+    Pool child candidates and retain up to k with the largest transformed scores,
+    repeating through the declared horizon. Under the stated finite normalized tree
+    construction this returns the same ordered without-replacement sequence distribution
+    as explicitly applying Gumbel-Top-k to all complete leaves. The ordering is by
+    perturbed score, not raw sequence probability. The paper develops sequence sampling
+    as an alternative to ordinary sampling and deterministic beam decoding for language
+    generation, and studies translation as its principal application. This is a procedure
+    operating on a probability-supplying model, not a trained model identity or a
+    universal translation-quality claim. Retained branches carry a consistent conditional
+    perturbation. More than one final sample may share a prefix; requiring exactly
+    one descendant per earlier beam member changes the sampling procedure. The source
+    also distinguishes this construction from independently choosing fresh random
+    prefixes at every depth. Limits: The requested sample count must not exceed the
+    number of positive-probability complete leaves. Zero-mass branches require exclusion
+    or an explicit limiting representation; an exhausted support is not a source of
+    additional distinct samples. The exact sampling statement requires consistent
+    conditional subtree maxima and the declared normalized sequence distribution.
+    Independently resampling prefixes at each depth, using raw length-normalized scores,
+    or transplanting ordinary beam early stopping does not inherit that statement.
+    The paper assumes common-length sequences with padding possible. Variable-length
+    generation requires an explicit terminal/EOS policy preserving the intended leaf
+    distribution; arbitrary forced truncation or nonterminating probability mass is
+    not silently covered. The linear-in-k-and-length claim concerns the number of
+    model evaluations. Vocabulary expansion, top-k selection, neural-state storage
+    and numerical operations still have costs; this is not a bound independent of
+    vocabulary size or model cost. The conditional-maximum formula can be numerically
+    unstable in direct exponential form. Appendix B supplies stable transformations;
+    exact distributional reasoning is not a certification of finite-precision implementation.
+    Distinct complete samples can share prefixes and need not have high semantic diversity
+    or be the unperturbed MAP sequences. Without-replacement samples are dependent,
+    and arbitrary unweighted sample averages are not automatically unbiased.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable mathematical sampling or decoding procedure, not a trained
+      model instance or benchmark outcome.
+    evidence_ids:
+    - stochasticbeamsearch-source-0
+    - stochasticbeamsearch-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'Nine exact pinned CLASS nodes, all their scoped synonyms/comments
+      and outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k
+      has a bounded no-match assessment: generic categorical sampling is not the Softmax
+      normalization function, a learned model, a bias or a training task. Stochastic
+      beam search and diverse beam search have related_match links to NaturalLanguageProcessing
+      for their explicitly developed language-generation applications. These are algorithm-to-application
+      relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel
+      is the probability-supplying model rather than either decoder; the choice of
+      related application target does not restrict them to text.'
+    evidence_ids:
+    - mapping
+- assessment_id: diversebeamsearch
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:DiverseBeamSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - diversebeamsearch-source-0
+  summary: 'This record denotes the group-based diversity-augmented method published
+    at AAAI 2018, first submitted under a different title in 2016. It is distinct
+    from Gumbel-based stochastic beam sampling, inter-sibling rank penalties, repeated
+    complete beam runs with final-output diversity, and earlier algorithms using the
+    phrase diversity beam search. The diversity objective is integrated into group
+    beam updates; the procedure requires no retraining of the scoring model. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included
+    ignored and hidden files in worktree and main, returning 49 and 49 lines respectively.
+    All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery
+    lead and a search-result title about coalition-formation scatter search, not existing
+    candidate records. Exact checkout counts and differences are retained in the ledger.
+    Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+    four full native neighboring records were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.'
+  details: 'Divide a total beam budget B into G ordered groups, conventionally each
+    of width B′=B/G when divisible; the paper also allows unequal allocations. At
+    each decoding step, update the first group by ordinary beam search. For every
+    later group in order, extend its retained prefixes by one token and score each
+    candidate by its cumulative model log probability plus lambda times its dissimilarity
+    to the current-step beams already selected in all earlier groups, with lambda
+    nonnegative. For the additive family, dissimilarity to a group is the sum of pairwise
+    sequence dissimilarities. Select the group’s top B′ distinct candidate extensions
+    under that augmented score and proceed to the next group. Repeat through the chosen
+    maximum length or termination condition, then combine group outputs and sort by
+    model log probability as described in the source prose. The method is greedy across
+    both time and group order; it encourages diversity between groups rather than
+    imposing a joint exact sequence-set optimum. The source’s simple Hamming-style
+    option penalizes a candidate token according to how often earlier groups used
+    that token at the same position. Other discussed choices include cumulative positional
+    mismatch, n-gram overlap and embedding-based dissimilarity. These are configurable
+    scoring choices, not interchangeable definitions or guaranteed measures of semantic
+    diversity. The method operates during inference on sequence-model scores without
+    requiring retraining, and is developed for image captioning, visual question generation
+    and machine translation. Its empirical comparisons do not establish universal
+    improvements. Limits: The first group is an ordinary beam of width B′. Its baseline
+    inclusion is not a guarantee of matching or beating an ordinary beam of total
+    width B, nor a guarantee of global MAP or globally optimal diversity. Setting
+    G=1 recovers an ordinary width-B beam. With G>1, setting lambda=0 leaves separate
+    smaller beams; it does not generally reconstruct one width-B beam and can reproduce
+    outputs across groups. Distinctness is enforced within each selected group. The
+    soft inter-group diversity term does not impose hard global output uniqueness,
+    semantic correctness or a minimum pairwise distance. Large diversity weight can
+    overwhelm model scores. The diversity measure and strength, group allocation/order,
+    score ties, EOS handling and maximum length are part of the configuration. Prefix-based
+    diversity cannot automatically use an arbitrary sentence-level metric that requires
+    completed outputs. The paper reports empirical quality/diversity gains in specified
+    generation experiments. No universal superiority, runtime speedup, numerical benchmark
+    result or current library behavior is asserted here.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable mathematical sampling or decoding procedure, not a trained
+      model instance or benchmark outcome.
+    evidence_ids:
+    - diversebeamsearch-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'Nine exact pinned CLASS nodes, all their scoped synonyms/comments
+      and outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k
+      has a bounded no-match assessment: generic categorical sampling is not the Softmax
+      normalization function, a learned model, a bias or a training task. Stochastic
+      beam search and diverse beam search have related_match links to NaturalLanguageProcessing
+      for their explicitly developed language-generation applications. These are algorithm-to-application
+      relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel
+      is the probability-supplying model rather than either decoder; the choice of
+      related application target does not restrict them to text.'
+    evidence_ids:
+    - mapping
+- assessment_id: gumbel-boundaries
+  area: consistency
+  topic: Ordered without-replacement law and marginal inclusion
+  outcome: supported
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  evidence_ids:
+  - gumbeltopktrick-source-0
+  - gumbeltopktrick-source-1
+  - finite-conventions
+  summary: Retain the finite categorical construction as a mathematical method.
+  details: The source defines successive renormalization of remaining weights. The
+    finite example yields inclusion5/12 for a category of probability1/6 when k=2,
+    not2p=1/3. Independent Gumbel perturbations return an ordered distinct tuple under
+    positive finite support. This is neither token-probability truncation nor a differentiable
+    relaxation, and direct categorical enumeration does not supply the sequence algorithm’s
+    efficiency.
+- assessment_id: sbs-boundaries
+  area: consistency
+  topic: Conditional subtree maxima and sequence-distribution scope
+  outcome: supported
+  target_ids:
+  - AIMech:StochasticBeamSearch
+  evidence_ids:
+  - stochasticbeamsearch-source-0
+  - stochasticbeamsearch-source-1
+  - finite-conventions
+  summary: Retain the2019 implicit sequence sampler with explicit support and terminal
+    assumptions.
+  details: Child Gumbels are transformed conditionally on the parent maximum. The
+    top-k subtree maxima retain ancestors of the required leaves; multiple final samples
+    may share a prefix. Root conditioning, local normalization, finite support and
+    probability-preserving completion/padding are explicit. Fresh per-depth sampling,
+    arbitrary stopping or length-normalized score substitutions do not inherit the
+    exact distribution. Model-evaluation count does not erase vocabulary or sorting
+    costs.
+- assessment_id: dbs-boundaries
+  area: consistency
+  topic: Soft diversity between ordered beam groups
+  outcome: supported
+  target_ids:
+  - AIMech:DiverseBeamSearch
+  evidence_ids:
+  - diversebeamsearch-source-0
+  - finite-conventions
+  summary: Retain the final2018 group-based inference procedure.
+  details: Each later group sees already-updated earlier groups at the same step.
+    G=1 recovers ordinary beam search, whereas lambda=0 with multiple groups leaves
+    smaller separate searches and can duplicate outputs. Within-group distinctness
+    and a soft diversity term do not impose global uniqueness. The first-group baseline
+    is widthB-prime, not total widthB. The final published title and primary-source
+    identity are preserved.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Categorical method versus language-generation application
+  outcome: supported
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain one bounded no-match and two related application mappings.
+  details: 'Nine exact pinned CLASS nodes, all their scoped synonyms/comments and
+    outgoing edges, and four complete native beam records were inspected. Gumbel-Top-k
+    has a bounded no-match assessment: generic categorical sampling is not the Softmax
+    normalization function, a learned model, a bias or a training task. Stochastic
+    beam search and diverse beam search have related_match links to NaturalLanguageProcessing
+    for their explicitly developed language-generation applications. These are algorithm-to-application
+    relationships, not equivalence or is-a assertions. AutoregressiveLanguageModel
+    is the probability-supplying model rather than either decoder; the choice of related
+    application target does not restrict them to text.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:GumbelTopKTrick
+  - AIMech:StochasticBeamSearch
+  - AIMech:DiverseBeamSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gumbeltopktrick-source-0
+  - gumbeltopktrick-source-1
+  - stochasticbeamsearch-source-0
+  - stochasticbeamsearch-source-1
+  - diversebeamsearch-source-0
+  rationale: The finite categorical sampling identity, its efficient sequence-tree
+    implementation and group-based diversity scoring have different mechanisms and
+    guarantees. Shared use of top-k ranking or a beam does not establish equivalence.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Exact sampling concerns the declared positive-support finite distribution and conditional-max
+  construction, not finite-precision software, MAP decoding or arbitrary early stopping.
+- DBS has a soft diversity objective and separate group budgets; it does not guarantee
+  global output uniqueness or reproduce one full-width beam at zero penalty with multiple
+  groups.
+- Only the declared PDF pages and finite curator examples were inspected. No author
+  implementation, model execution or numerical benchmark was run.
+- There are187 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- sequence-sampling
+- self-review
+- discovery-ongoing
+```
