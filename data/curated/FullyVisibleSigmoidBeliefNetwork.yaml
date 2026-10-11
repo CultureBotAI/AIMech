@@ -1,0 +1,129 @@
+name: Fully visible sigmoid belief network
+definition: A fully observed binary autoregressive probabilistic model whose conditional probability at
+  each position is a logistic function of a bias and a weighted sum of preceding visible variables.
+concept_kind: architecture
+identity_notes: 'This is the fully visible sigmoid model discussed by Larochelle and Murray, with no stochastic
+  hidden variables. Frey and colleagues call their binary logistic special case a fully visible belief
+  network; that local usage does not make all fully visible Bayesian networks synonyms of the sigmoid
+  family. The record specializes the broader sigmoid-belief-network family and is distinct from NADE’s
+  nonlinear deterministic hidden features and DARN’s stochastic latent architecture. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  23 and 23 lines respectively. All 17 unique matched line contents were inspected in full: SBN source
+  metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR discovery lead,
+  not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen
+  exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring
+  records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The chain-rule factorization is general, but restricting each conditional to a logistic-linear function
+  limits the distribution family. A given fixed-order conditional table with a nonzero logit interaction
+  cannot be represented by that affine logit; this is not a claim about every alternative ordering or
+  latent extension.
+- Exact complete-observation likelihood and forward generation do not provide arbitrary missing-variable
+  posteriors for free. Conditioning on a suffix while earlier variables are unknown still requires inference
+  or summation.
+- Changing the variable order changes the restricted model family and can affect fitting. The absence
+  of stochastic latent variables is part of this specialization, not a property of all sigmoid belief
+  networks.
+- The source’s FVBN label is interpreted within its binary logistic model setting. No assertion that every
+  fully visible Bayesian model uses logistic factors, no universal performance ranking and no trained-model
+  result is included.
+id: AIMech:FullyVisibleSigmoidBeliefNetwork
+aliases:
+- FVSBN
+- Logistic autoregressive Bayesian network
+definition_evidence:
+- source_id: method-source
+  locator: Section3, Equations(3)–(4), PDFp.2 / printedp.30; Figure1, PDFp.3 / printedp.31; related-work
+    description, PDFp.4 / printedp.32
+  relation: supports
+- source_id: fvbn-source
+  locator: Binary logistic generative setup, PDFp.1 / printedp.661; Section2 competitor Fully Visible
+    Belief Network, PDFp.3 / printedp.663
+  relation: supports
+- source_id: sigmoid-source
+  locator: Section4.1, Equations(11)–(16), PDFpp.9–10 / printedpp.79–80; Section6.1–6.2, PDFpp.15–16 /
+    printedpp.85–86
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Fix an ordering of D binary visible variables. Parameterize P(x_i=1|x_<i)=sigmoid(b_i+sum_(j<i)
+    w_ij x_j). Multiply the corresponding Bernoulli probabilities over positions to evaluate the normalized
+    observed joint. All variables in that product are visible, so complete-data likelihood evaluation
+    has no hidden-state marginalization or recognition-model posterior approximation. Its negative log
+    likelihood is the sum of the positionwise binary logistic losses. Generate a sample by drawing each
+    bit from the conditional determined by already drawn predecessors. Full connectivity makes all earlier
+    visible variables available as parents; zero coefficients can remove particular dependencies. A fixed-order
+    conditional’s log odds are affine in its predecessors, unlike the more general nonlinear neural conditional
+    used by NADE.
+  evidence:
+  - source_id: method-source
+    locator: Section3, Equations(3)–(4), PDFp.2 / printedp.30; Figure1, PDFp.3 / printedp.31; related-work
+      description, PDFp.4 / printedp.32
+    relation: supports
+  - source_id: fvbn-source
+    locator: Binary logistic generative setup, PDFp.1 / printedp.661; Section2 competitor Fully Visible
+      Belief Network, PDFp.3 / printedp.663
+    relation: supports
+  - source_id: sigmoid-source
+    locator: Section4.1, Equations(11)–(16), PDFpp.9–10 / printedpp.79–80; Section6.1–6.2, PDFpp.15–16
+      / printedpp.85–86
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Neural Autoregressive Distribution Estimator
+  authors:
+  - Hugo Larochelle
+  - Iain Murray
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
+  version: AISTATS 2011, PMLR 15:29–37; nine-page publisher PDF. Printed page = PDF page + 28.
+  persistent_id: pmlr-v15-larochelle11a
+  access_level: full_text
+  accessed_at: '2026-10-11T17:14:24Z'
+  sha256: b1fe502ea1b3f84875d5e13aefec479827b3a33ab1ebdcf3eb4a3d71a5a4ea9a
+- source_id: fvbn-source
+  title: Does the Wake-sleep Algorithm Produce Good Density Estimators?
+  authors:
+  - Brendan J. Frey
+  - Geoffrey E. Hinton
+  - Peter Dayan
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf
+  version: Proceedings-hosted 10-page PDF for NIPS8, conference1995 and proceedings1996, pp.661–667. The
+    cited PDFpp.1–3 correspond to printed pp.661–663; later pages were not audited.
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T17:25:03Z'
+  sha256: cb6d748c68162ce378e0dd5de25e9316b56eeaf3b57726396b1bf8890019b7b5
+- source_id: sigmoid-source
+  title: Connectionist learning of belief networks
+  authors:
+  - Radford M. Neal
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf
+  version: 43-page published scan, Artificial Intelligence 56 (1992):71–113, hosted in a University of
+    Toronto course directory maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted
+    or byte-verified publisher download. Printed page = PDF page + 70.
+  persistent_id: doi:10.1016/0004-3702(92)90065-6
+  access_level: full_text
+  accessed_at: '2026-10-11T17:14:17Z'
+  sha256: 4e4f40a92dced6ad1fbce4e464adca496e73991060d21a7d6d5bccef296a164a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: The pinned AIO target is broader than this fully visible binary logistic family. Ordered
+    visible variables and normalized forward conditional factors form a directed acyclic probabilistic
+    network; the local identity adds logistic-linear parameterization and absence of latent random variables.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:36:54Z'
+  updated_at: '2026-10-11T17:36:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

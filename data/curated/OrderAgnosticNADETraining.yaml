@@ -1,0 +1,96 @@
+name: Order-agnostic NADE training
+definition: A stochastic training procedure that shares neural conditional parameters across variable
+  orderings and estimates the order-averaged NADE log-likelihood objective using a sampled observed prefix
+  and losses for all remaining variables.
+concept_kind: algorithm
+identity_notes: 'This is Uria, Murray and Larochelle’s order-agnostic training procedure, applicable to
+  shallow or deep NADE and its real-valued extension. It is distinct from the original fixed-order NADE
+  architecture, the existence of additional deterministic hidden layers alone, and an ensemble mixture
+  evaluated after training. Parameter sharing across orderings does not assert that every ordering defines
+  the same joint distribution. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 23 and 23 lines respectively. All 17 unique matched
+  line contents were inspected in full: SBN source metadata, NADE and DARN scope distinctions, their saved
+  review and the carried noisy-OR discovery lead, not existing candidate records. Exact checkout counts
+  and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.'
+limitations:
+- Shared parameters do not force order-specific joint distributions to agree. Choosing an ordering convenient
+  for a conditioning query performs inference under that chosen member, not necessarily under another
+  ordering or the ensemble mixture.
+- Conditioning an ensemble generally reweights its members by their evidence probabilities. Uniformly
+  choosing a member after observing evidence does not automatically sample the ensemble posterior; a finite
+  curator example checks this distinction.
+- The unbiased prefix estimator depends on the stated uniform ordering/prefix sampling and D/(D-d+1) weighting.
+  Arbitrary masks, unweighted missing-output losses or nonuniform prefix sampling require a corresponding
+  derivation.
+- The presence mask is additional input information, not a sequence-timestep skipping layer or a guarantee
+  that missing-data mechanisms have been modeled. The paper distinguishes its missing-output loss from
+  ordinary denoising-autoencoder reconstruction.
+- The training objective is an average of log probabilities rather than the log of an average probability.
+  Ensemble density evaluation costs and deep full-joint evaluation differ from one stochastic training
+  update; selecting a convenient model is not dimension-independent numerical inference.
+- No agreement of all conditionals with one joint distribution, universal performance gain, global optimization
+  guarantee or complete implementation audit is asserted.
+id: AIMech:OrderAgnosticNADETraining
+aliases:
+- Order-agnostic training of NADE
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–5, Equations(1)–(12), PDFpp.2–4; input-mask discussion in Section3.1, p.3; experimental/pretraining
+    context, pp.4–6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Treat a variable ordering o as uniformly distributed over permutations and minimize the mean
+    over data and o of the negative log probability assigned by the corresponding autoregressive NADE.
+    For a training example, sample an ordering and a prefix length d-1 uniformly from zero through D-1.
+    Feed the observed prefix values to the shared neural conditional network, set unobserved input values
+    to zero and append a binary mask identifying observed dimensions so that observed zeros remain distinguishable
+    from missing inputs. Evaluate the conditional loss for each of the D-d+1 remaining variables under
+    that same prefix, sum those losses and multiply by D/(D-d+1). The resulting loss and, under the differentiability
+    conditions, its gradient estimate the order-averaged objective; one masked-prefix forward/backward
+    computation serves all missing outputs. Additional deterministic hidden layers can be used, while
+    full joint evaluation for a chosen ordering still requires all ordered conditionals. After training,
+    a selected ordering defines one normalized autoregressive model. A separate ensemble averages the
+    joint probabilities of selected orderings, and samples by selecting a member then generating from
+    that member. This probability average is distinct from the order-average log-likelihood training objective.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–5, Equations(1)–(12), PDFpp.2–4; input-mask discussion in Section3.1, p.3; experimental/pretraining
+      context, pp.4–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Deep and Tractable Density Estimator
+  authors:
+  - Benigno Uria
+  - Iain Murray
+  - Hugo Larochelle
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/uria14.pdf
+  version: ICML2014, PMLR32(1):467–475; nine-page publisher PDF without printed proceedings page numbers.
+  persistent_id: pmlr-v32-uria14
+  access_level: full_text
+  accessed_at: '2026-10-11T17:25:02Z'
+  sha256: 3a039578622b7a5a6776861bea6a86d0ad92a45726e0597df9630f30abc93958
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The procedure trains a family of fully visible autoregressive directed probabilistic models,
+    each indexed by an ordering. The pinned AIO target identifies that model context. This is a training-method-to-model
+    related match, not equivalence or subclass membership of an algorithm in the network class; a missing-input
+    mask alone does not justify mapping to an AIO masking layer.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:36:54Z'
+  updated_at: '2026-10-11T17:36:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
