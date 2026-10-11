@@ -1,0 +1,121 @@
+name: CutMix
+definition: A training augmentation procedure that replaces a rectangular region of one image with the
+  corresponding region of another and mixes their class targets in proportion to the retained and pasted
+  image areas.
+concept_kind: algorithm
+identity_notes: CutMix is spatial patch mixing with area-weighted targets. It is distinct from whole-image
+  intensity averaging, zero masking, learned synthesis and hidden-representation interpolation. The record
+  describes input-image CutMix; feature-level variants are not silently treated as an identical architecture
+  or layer. Its official implementation profile is pinned separately from the proceedings formula. No
+  normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 253 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both
+  worktree and main checkout, returning 27 lines in each checkout. These were neighboring-record and review
+  references or prior candidate leads, not existing records for these identities. Twelve exact AIO CLASS
+  nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.
+limitations:
+- Patch area is a heuristic for class-target contribution; it need not equal the visible object area or
+  semantic information retained. A pasted patch may contain background or remove the discriminative object
+  region.
+- Integer side lengths, floor division and boundary clipping make the actual area differ from the nominal
+  Beta draw. The realized target coefficient is not generally distributed as the original Beta variable.
+- The pinned training code uses one application decision, rectangle and coefficient for a minibatch and
+  a random permutation for partners. Per-example variants and feature-level CutMix require separate version-specific
+  descriptions.
+- The script’s beta argument controls the Beta distribution, while alpha controls PyramidNet width; these
+  names are not the paper’s mathematical alpha convention. Default beta and cutmix_prob are zero, so the
+  augmentation must be enabled by configuration.
+- The implementation was read, not executed. Old API usage and unspecified runtime dependencies preclude
+  an execution guarantee. Logged training error against the anchor labels is distinct from the mixed-target
+  training objective. No universal localization, robustness or performance improvement is asserted.
+id: AIMech:CutMix
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.1, Equations (1)–(2), and Section 3.2, PDF pp. 3–4 / printed pp. 6025–6026
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose two training images and a binary spatial mask M. Construct M*x_A+(1−M)*x_B, preserving
+    anchor pixels outside the rectangle and using donor pixels inside it. Train against lambda*y_A+(1−lambda)*y_B,
+    with lambda representing the retained anchor area fraction. The paper draws a nominal coefficient
+    from Beta(alpha,alpha), samples the rectangle center uniformly over the image, and sets nominal side
+    lengths to the image dimensions times sqrt(1−lambda). The published experiments use alpha=1. The donor
+    patch is taken from the same spatial coordinates as the overwritten anchor region. Unlike MixUp, individual
+    pixels are selected from one source rather than blended throughout the image; unlike Cutout, the removed
+    region is filled with another training image and target weights reflect both sources. On a discrete
+    image, clipping and integer box construction can change the nominal area, so the inspected implementation
+    recomputes the target coefficient from the actual rectangle.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.1, Equations (1)–(2), and Section 3.2, PDF pp. 3–4 / printed pp. 6025–6026
+    relation: supports
+  - source_id: cutmix-train
+    locator: 'train.py lines 170–175, 220–255 and 279–295: cross-entropy, permutation, area correction
+      and clipped integer box; defaults at 56–63'
+    relation: supports
+- claim_id: clipped-area-implementation
+  kind: mechanism
+  statement: When beta is positive and the minibatch application draw passes cutmix_prob, the pinned implementation
+    samples a Beta coefficient, permutes the batch, constructs a shared rectangle and replaces that region
+    with the permuted donor pixels. rand_bbox converts each nominal side length to an integer, uses half-width
+    floor division on each side of a random integer center and clips endpoints to the image dimensions.
+    It then sets lambda=1−rectangle_area/image_area and sums lambda times the anchor cross-entropy with
+    1−lambda times the donor cross-entropy. With this shared coefficient, the objective equals cross-entropy
+    against the correspondingly mixed targets. Training continues by backpropagation; ordinary unmodified
+    inputs and labels are used when the application condition fails.
+  evidence:
+  - source_id: cutmix-train
+    locator: 'train.py lines 170–175, 220–255 and 279–295: cross-entropy, permutation, area correction
+      and clipped integer box; defaults at 56–63'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features'
+  authors:
+  - Sangdoo Yun
+  - Dongyoon Han
+  - Seong Joon Oh
+  - Sanghyuk Chun
+  - Junsuk Choe
+  - Youngjoon Yoo
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2019/papers/Yun_CutMix_Regularization_Strategy_to_Train_Strong_Classifiers_With_Localizable_Features_ICCV_2019_paper.pdf
+  version: ICCV 2019 official proceedings PDF; ten pages
+  persistent_id: arXiv:1905.04899
+  access_level: full_text
+  accessed_at: '2026-10-11T11:12:20Z'
+  sha256: 5ba5b422109b8ac311e92dea236b1c8258975c0b819176c3b3b6294ab0641440
+- source_id: cutmix-train
+  title: 'CutMix official PyTorch implementation: training and rectangle sampling'
+  authors:
+  - clovaai/CutMix-PyTorch contributors
+  source_type: official_documentation
+  url: https://github.com/clovaai/CutMix-PyTorch/blob/2d8eb68faff7fe4962776ad51d175c3b01a25734/train.py
+  version: Official author repository at commit 2d8eb68faff7fe4962776ad51d175c3b01a25734, train.py; statically
+    inspected, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T11:16:05Z'
+  sha256: 049026c020052932ac15a998eee027ae9eb7910fbb7934c8daa22fa3cb37189c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This procedure constructs training examples and specifies how a predictor is trained with
+    them. The AIO target is augmentation in a preprocessing branch; this related association preserves
+    the broader training and target-handling scope without asserting equivalence or a subclass relation.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: The predictor learns from class labels associated with generated or combined training examples.
+    This is an algorithm-to-task association, not identity with the general supervised-learning task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:19:25Z'
+  updated_at: '2026-10-11T11:19:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
