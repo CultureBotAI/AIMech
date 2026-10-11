@@ -1,0 +1,123 @@
+name: Iterative conditional estimation
+definition: An incomplete-data parameter-estimation procedure that repeatedly replaces a chosen complete-data
+  estimator by its conditional expectation given observed data under the current parameter estimate.
+concept_kind: algorithm
+identity_notes: ICE specifies expectation of an estimator, not maximization of an expected complete-data
+  log likelihood as in EM. The estimator may be maximum likelihood, least squares or another supported
+  complete-data estimator. Shared applications to hidden Markov models do not make ICE a model family,
+  an ICM label optimizer or a synonym for every stochastic EM method. Its behavior depends on the selected
+  estimator and parameterization. The short acronym is scoped to this estimation procedure. No normalized
+  identity match was found across all 442 pinned AIO labels and all scoped synonyms and 394 preceding
+  native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included
+  ignored and hidden files in worktree and main, yielding 64 and 64 matched lines; all 44 unique contents
+  were read. Hits represent neighboring records, citations and discovery leads rather than records of
+  these identities. All 97 semantic label/synonym hits were read. Twenty-one fully annotated exact CLASS
+  nodes and outgoing edges were verified identical to the preceding inspection, and three additional nodes
+  were read. Twenty-eight contextual YAMLs were byte-verified after prior full reading and four freshly
+  read, totaling 24 generated and eight native contextual records. Short acronyms were included in the
+  complete normalized identity comparison. The absence assessment is bounded to the pin, native collection
+  and inspected semantic neighborhood.
+limitations:
+- The complete-data estimator must be defined on posterior-supported completed data and have the required
+  moments. Empty mixture components, boundary or infinite MLEs, constrained parameter spaces and nonidentifiability
+  need explicit conventions; a conditional mean can leave a nonconvex parameter space.
+- Conditional expectation is the least-squares approximation to an integrable squared-error target under
+  a fixed law. That fact does not prove decreasing true parameter error, observed-likelihood monotonicity
+  or global convergence across ICE iterations with changing laws.
+- The Delmas equivalence uses the mean/expectation parameter psi, although the source calls it canonical;
+  its natural parameter phi is distinct. The claim is not automatic for arbitrary coordinates, curved/constrained
+  exponential families or boundary estimates. A nonlinear transformation does not generally commute with
+  conditional expectation.
+- For Gaussian mixtures, expectation of a complete-data class mean or variance containing a random class
+  count differs in general from a ratio of expected sufficient statistics. The usual Gaussian-parameter
+  ICE update therefore cannot simply be replaced by an EM update without checking the conditions.
+- Monte Carlo approximation requires valid posterior sampling and appropriate convergence conditions.
+  Correlated Gibbs samples, finite sample counts and apparently steady parameters do not by themselves
+  certify exact expectations or convergence. A one-sample version can resemble stochastic EM for a specific
+  complete-data estimator; it is not every stochastic-approximation EM algorithm.
+- The inspected examples in Delmas contain scaling/covariance notation issues, and its introductory suggestion
+  that mixed discrete-continuous data make likelihood irrelevant is not adopted. The definition and qualified
+  coordinate comparison do not certify all printed example formulas. Neither inspected paper provides
+  a universal empirical performance guarantee; no fitting, benchmark or author-code run was performed.
+id: AIMech:IterativeConditionalEstimation
+aliases:
+- ICE
+definition_evidence:
+- source_id: method-source
+  locator: Section3, printed pp.263–265 / PDF pp.3–5, Equations(3)–(9); Sections4–5, pp.265–267 / PDF
+    pp.5–7, complete estimators, simulation approximation and limited asymptotic results
+  relation: supports
+- source_id: em-comparison
+  locator: SectionsII–III, printed pp.2613–2615 / PDF pp.1–3, Equations(1)–(4), Propositions1–2 and the
+    parameterization discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let observed data be y and hidden data h, and choose a complete-data estimator T(h,y) of
+    a parameter theta. From a valid current theta_k, set theta_(k+1)=E_(theta_k)[T(H,y)|Y=y], when this
+    expectation exists and remains admissible. A finite hidden space permits a posterior-weighted sum;
+    otherwise average T over appropriate posterior samples as a Monte Carlo approximation. This average
+    is taken after evaluating the estimator on each completed datum. It generally differs from applying
+    a nonlinear estimator to expected sufficient statistics. With a complete-data maximum-likelihood estimator,
+    ICE averages an argmax, whereas EM takes an argmax after averaging the log likelihood. For a regular
+    full identifiable exponential family with a valid finite interior complete-data MLE and an invertible
+    mean-parameter map, the expectation coordinate psi=E_theta[s(H,Y)] has complete-data estimator s(H,Y),
+    so ICE and EM coincide in that coordinate. Nonlinear reparameterization need not preserve equality
+    of their updates.
+  evidence:
+  - source_id: method-source
+    locator: Section3, printed pp.263–265 / PDF pp.3–5, Equations(3)–(9); Sections4–5, pp.265–267 / PDF
+      pp.5–7, complete estimators, simulation approximation and limited asymptotic results
+    relation: supports
+  - source_id: em-comparison
+    locator: SectionsII–III, printed pp.2613–2615 / PDF pp.1–3, Equations(1)–(4), Propositions1–2 and
+      the parameterization discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Statistical image segmentation
+  authors:
+  - Wojciech Pieczynski
+  source_type: primary_paper
+  url: https://www-public.imtbs-tsp.eu/~pieczyn/C7.pdf
+  version: Machine GRAPHICS and VISION1(1/2):261–268,1992, proceedings of the second GKiPO92 meeting,
+    Naleczow, May18–23,1992. Author-hosted scanned PDF; all8 pages visually read. Tesseract5.5.3 OCR generated
+    for all pages, with method pages3–6 read and compared visually; mathematical OCR was not trusted alone.
+    Printed page=PDF page+260. Reference20 cites an earlier1990 technical report; no first-invention date
+    is asserted.
+  access_level: full_text
+  accessed_at: '2026-10-11T21:05:52Z'
+  sha256: 3fd1eb9cfae006ffcfcc37e1709ecba52c057169fcd06a6502ae0dee9443b2ce
+- source_id: em-comparison
+  title: An Equivalence of the EM and ICE Algorithm for Exponential Family
+  authors:
+  - Jean Pierre Delmas
+  source_type: primary_paper
+  url: https://www-public.imtbs-tsp.eu/~delmas/articlesPDF.JPD/IEEE/2-1997.pdf
+  version: IEEE Transactions on Signal Processing45(10):2613–2615, October1997; author-hosted journal
+    PDF. All3 pages visually read; printed page=PDF page+2612. The author bibliography links these bytes
+    under the alternate title An extension to the EM Algorithm for exponential family. Secondary metadata
+    suggests DOI10.1109/78.640732, but its endpoint was inaccessible; no independently verified DOI is
+    asserted.
+  access_level: full_text
+  accessed_at: '2026-10-11T21:06:35Z'
+  sha256: 065593e02a66acf0456c8b3a1e4ea5d4170eab1056c1f2e3929d82a1aed35346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: ICE is a general parameter-learning procedure for incomplete-data statistical models. MachineLearningTask
+    supplies a broad learning context but does not identify conditional-estimator iteration or distinguish
+    it from EM. A related mapping records that conceptual connection without classifying the algorithm
+    as a task or assuming a supervised/unsupervised subtype.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:20:23Z'
+  updated_at: '2026-10-11T21:20:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
