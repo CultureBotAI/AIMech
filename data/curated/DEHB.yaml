@@ -1,0 +1,112 @@
+name: DEHB
+definition: A hyperparameter optimization algorithm that combines Hyperband resource schedules with differential-evolution
+  populations at different resource levels, using promising lower-resource configurations to guide proposals
+  evaluated and selected at higher resource levels.
+concept_kind: algorithm
+identity_notes: DEHB is the combined resource-allocation and differential-evolution method, distinct from
+  generic genetic algorithms, differential evolution alone, random-proposal Hyperband, KDE-guided BOHB
+  and ASHA’s asynchronous within-stage promotions. Budget-specific populations contain configuration vectors,
+  not a population of trained checkpoints whose weights are copied between configurations. The proceedings
+  paper and the versioned appendix are distinguished explicitly. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 262 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main checkout, returning
+  9 lines in each checkout. These were prior candidate leads, source references and neighboring-method
+  mentions, not existing records for these identities. Ten exact AIO CLASS nodes with synonyms and outgoing
+  edges and eight neighboring native mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.
+limitations:
+- The source’s initialization prose and pseudocode use bracket and iteration terminology inconsistently.
+  Algorithm3’s bracket_counter==0 condition spans an outer cycle and applies direct promotion only for
+  i>0. The record describes the common mechanism without treating every printed initialization statement
+  as byte-equivalent executable steps.
+- Appendix Algorithm2 prints b0=(bmax/bmin)*eta^(-s), which gives normalized rather than absolute budgets
+  when bmin differs from1. Its return order for counts and budgets is reversed at the Algorithm3 call
+  site. These discrepancies are retained as source qualifications; no author-issued erratum or exact executable
+  schedule is claimed.
+- The appendix updates its incumbent after evaluations without an explicit full-budget restriction. The
+  record therefore does not promise that the returned best observed configuration has been verified at
+  maximum resource. Greedy same-budget replacement limits harmful transfers but is not a proof of global
+  optimality or universal robustness.
+- Continuous encodings impose numerical neighborhoods on categorical choices, and low-fidelity information
+  can be misleading. Parallel completion order can affect shared populations. No benchmark speedup, constant
+  total runtime or author-code execution is claimed.
+id: AIMech:DEHB
+aliases:
+- Evolutionary Hyperband
+definition_evidence:
+- source_id: method-source
+  locator: Sections3–4.3, PDF pp.2–4 (printed2148–2150), especially Figures1–3 and the modified halving
+    procedure
+  relation: supports
+- source_id: versioned-appendix
+  locator: AppendicesA–C, PDF pp.9–12, especially Algorithm2 on p.10, Algorithm3 and SectionsC.2–C.3 on
+    pp.11–12; title/version on p.1
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a differential-evolution subpopulation for each Hyperband resource level, sized
+    according to the maximum number of evaluations assigned to that level. Iterate through the prescribed
+    halving brackets. For a bracket’s starting level use evolution within its own population; for higher
+    levels form a parent pool from promising lower-level configurations and use it for difference-vector
+    mutation, followed by crossover with a target in the current level’s population. Evaluate the proposed
+    configuration at the current level and retain it only according to a same-level fitness comparison
+    with the target. Supplement an undersized mutation pool from a global pool of configurations. The
+    initialization cycle includes direct lower-to-higher promotions before the general evolutionary transfer
+    pattern. For mixed search spaces, the appendix keeps continuous population coordinates in a unit hypercube
+    and maps copies to numerical or binned ordinal/categorical settings for evaluation. Its parallel design
+    keeps each halving stage synchronized while allowing brackets to overlap and applying completed differential-evolution
+    updates immediately.
+  evidence:
+  - source_id: method-source
+    locator: Sections3–4.3, PDF pp.2–4 (printed2148–2150), especially Figures1–3 and the modified halving
+      procedure
+    relation: supports
+  - source_id: versioned-appendix
+    locator: AppendicesA–C, PDF pp.9–12, especially Algorithm2 on p.10, Algorithm3 and SectionsC.2–C.3
+      on pp.11–12; title/version on p.1
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'DEHB: Evolutionary Hyberband for Scalable, Robust and Efficient Hyperparameter Optimization'
+  authors:
+  - Noor Awad
+  - Neeratyoy Mallik
+  - Frank Hutter
+  source_type: primary_paper
+  url: https://www.ijcai.org/proceedings/2021/0296.pdf
+  version: IJCAI 2021, pp.2147–2153; seven-page proceedings PDF; title retains published Hyberband spelling
+  persistent_id: doi:10.24963/ijcai.2021/296
+  access_level: full_text
+  accessed_at: '2026-10-11T11:45:03Z'
+  sha256: 48ff58a4bdc3d3ba1613472f0b984fa1f24c572e1da960366f63967c77f42234
+- source_id: versioned-appendix
+  title: 'DEHB: Evolutionary Hyperband for Scalable, Robust and Efficient Hyperparameter Optimization'
+  authors:
+  - Noor Awad
+  - Neeratyoy Mallik
+  - Frank Hutter
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2105.09821v2
+  version: arXiv:2105.09821v2, 21 October 2021; 19-page manuscript including appendices
+  persistent_id: arXiv:2105.09821v2
+  access_level: full_text
+  accessed_at: '2026-10-11T11:47:53Z'
+  sha256: 90b2d08b7234c591b1e74a7b91a5d8c9ce695669e2b4f5fd3b5482b3c7f30fbd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This hyperparameter procedure selects model configurations and allocates training resources.
+    The relation links that scope to the pinned training-strategy concept without treating the optimizer
+    as preprocessing, an identical concept or a subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:53:28Z'
+  updated_at: '2026-10-11T11:53:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
