@@ -1,0 +1,170 @@
+name: Interpolated variational information bound
+definition: A family of multi-sample mutual-information lower bounds that interpolates the critic’s empirical
+  partition estimate with a positive variational normalizer inside a ratio, connecting NWJ and InfoNCE
+  parameterizations.
+concept_kind: mathematical_method
+identity_notes: 'This is Poole et al.’s I_alpha family, not Rényi alpha-information, a convex average
+  of final scalar bounds, or an ordinary temperature parameter. Its endpoints connect existing parameterizations;
+  the interior normalizer and residual product expectation define the distinct construction. The paper’s
+  proposed optimal critic is explicitly a conjecture. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 208 preceding native IDs/names/aliases. Word-delimited fixed-string
+  searches of both full checkouts, including ignored and hidden files, returned 57 lines each: existing
+  MINE-f component discussion, shared primary-source references, and discovery/review context. Four native
+  neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The lower bound is an expectation with specified independence; a finite minibatch is not a guaranteed
+  lower bound. The held-out product sample must be independent of every input used in its normalizer.
+- The positive q is a variational normalizer; choosing it as an estimated marginal is one configuration.
+  The paper conjectures f=log p(y|x), q=p(y) as an optimum rather than proving it generally.
+- 'The main formula, supplemental table and notebook are not textually consistent: the supplemental I_alpha
+  row places a log in the product term, and a notebook docstring reverses the alpha-logit endpoint labels.
+  This record follows main Equation (11), the explicit mixture definition and the independently checked
+  ceiling qualification.'
+- The notebook mixes score-matrix orientations across critic implementations. Only declared cells were
+  read; no TensorFlow code, training or benchmark was executed. The finite-domain arithmetic check evaluates
+  the population formula by enumeration and is not a trained-estimator experiment.
+id: AIMech:InterpolatedVariationalInformationBound
+aliases:
+- I-alpha bound
+- Nonlinearly interpolated mutual information lower bound
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.3–2.4, PDF pp. 4–5, Equations (8)–(11), independence construction, endpoint discussion
+    and conjecture
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Draw X_1:K independently from p(x), with Y conditional on X_1 for the joint term. Let m(y;X_1:K)=K^−1
+    sum_i exp(f(X_i,y)), b_alpha=alpha*m+(1−alpha)*q(y), and r=exp(f(X_1,y))/b_alpha, for q(y)>0 and alpha
+    in [0,1]. Define I_alpha=1+E_p(x_1:K)p(y|x_1)[log r]−E_p(x_1:K)p(y)[r]. The second expectation uses
+    Y independent of all K inputs. Applying NWJ to the augmented variables gives I_alpha<=I(X_1;Y). At
+    alpha=0 this is NWJ after the critic transformation T=1+f−log q; at alpha=1 exchangeability makes
+    the product expectation equal one and yields InfoNCE. For interior alpha the product term must be
+    retained. A leave-one-out minibatch implementation can hold out an additional paired sample’s Y to
+    estimate that independent product term, leaving K other inputs in the normalizer.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.3–2.4, PDF pp. 4–5, Equations (8)–(11), independence construction, endpoint discussion
+      and conjecture
+    relation: supports
+- claim_id: ceiling-qualification
+  kind: limitation
+  statement: 'A curator derivation from Equation (11) gives the conservative ceiling 1+log(K/alpha) for
+    alpha>0: r<=K/alpha and the product expectation is nonnegative. At alpha=1 the cancellation gives
+    the sharper InfoNCE ceiling log K. The paper’s page-5 prose states log(K/alpha) for the general family,
+    whereas the pinned notebook’s plotting code includes the additive one. A deterministic finite-domain
+    calculation saved in the discovery ledger yields I_alpha approximately 2.08113 for K=2 and alpha=0.5,
+    exceeding log(4) approximately 1.38629 while remaining below the true information. Therefore the stronger
+    printed ceiling is not adopted. This is explicit curator analysis of the displayed formula, not an
+    author-issued erratum.'
+  evidence:
+  - source_id: method-source
+    locator: Equation (11), PDF p. 4, and stated ceiling at the start of p. 5; formula and prose distinguished
+    relation: supports
+  - source_id: additional-1
+    locator: 'Zero-based cell 35 line 35: 1 + log(batch_size) − log_alpha plotted; mixture candidate count
+      in cells 10–11 is batch_size−1'
+    relation: supports
+- claim_id: source-conventions
+  kind: limitation
+  statement: The main Equation (11) uses a ratio without a logarithm in the product expectation, but supplementary
+    Table 2 prints a logarithm in that term. The pinned notebook implements the ratio term; its interpolation
+    docstring reverses endpoint labels even though log_interpolate weights the batch normalizer by alpha.
+    The notebook also uses different score orientations in its two critic classes. The record follows
+    the explicit main formula and keeps these source inconsistencies visible rather than asserting that
+    every displayed expression or code path is equivalent.
+  evidence:
+  - source_id: method-source
+    locator: Main PDF p. 4, Equation (11)
+    relation: supports
+  - source_id: additional-2
+    locator: 'Supplementary PDF p. 1, Table 2, I_alpha row: logarithm shown in the second expectation,
+      unlike main Equation (11)'
+    relation: supports
+  - source_id: additional-1
+    locator: 'Zero-based notebook cells 7, 11, 16 and 19: product term, alpha-logit mixture, baseline
+      and critic orientations'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+- source_id: additional-1
+  title: 'On Variational Bounds of Mutual Information: author demonstration notebook'
+  authors:
+  - Google Research vbmi contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/google-research/google-research/5b381db4139c3cbf25cc9a698c5fe9754215fae2/vbmi/vbmi_demo.ipynb
+  version: google-research/google-research commit 5b381db4139c3cbf25cc9a698c5fe9754215fae2
+  persistent_id: https://github.com/google-research/google-research/blob/5b381db4139c3cbf25cc9a698c5fe9754215fae2/vbmi/vbmi_demo.ipynb
+  access_level: documentation
+  accessed_at: '2026-10-11T08:55:05Z'
+  sha256: 8b90ab53effb980d681daf458b124a000b92eb2ca85d95815942040d62d24bd8
+- source_id: additional-2
+  title: On Variational Bounds of Mutual Information — Supplementary Material
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a-supp.pdf
+  version: ICML 2019 supplementary PDF; four pages
+  persistent_id: https://proceedings.mlr.press/v97/poole19a/poole19a-supp.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:12Z'
+  sha256: 4d9c5a5f008850c05c5033de81891fbd9050dcc275c857594856c8d1d8a1d90d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases
+    were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored
+    files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder,
+    AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning
+    were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and this semantic neighborhood.
+  rationale: The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks,
+    not the mathematical information bound. Shared variational terminology, an optional neural parameterization
+    or downstream use does not establish a suitable mapping.
+  examined_targets:
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder architecture is not a variational information
+      inequality; neither implies the other.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Reconstruction networks can use information objectives but do not identify this
+      mathematical bound.
+  - target: AIO:RepresentationLearning
+    rejection_reason: The target is a deep-network representation-learning class; it is a possible use
+      of a bound, not the bound itself.
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural critic or decoder is one possible parameterization, not the information
+      formula.
+  - target: AIO:FeatureExtraction
+    rejection_reason: This preprocessing task does not specify an information estimator or bound.
+  - target: AIO:BayesianNetwork
+    rejection_reason: Conditional distributions do not make this bound a directed graphical-model architecture.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: A self-generated prediction task does not specify this population information inequality.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:03:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

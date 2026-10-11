@@ -1,0 +1,129 @@
+name: Tractable unnormalized Barber–Agakov bound
+definition: A tractable unnormalized Barber–Agakov lower-bound parameterization that uses a real critic
+  and a positive output-dependent normalizer to replace an intractable log partition term by a linear
+  upper bound.
+concept_kind: mathematical_method
+identity_notes: 'TUBA is the named parameterization with separate critic f(x,y) and normalizer a(y)>0.
+  It is algebraically NWJ evaluated at T=f−log(a)+1; retaining it separately records its explicit normalizer
+  and optimization interpretation, not a claim of inequivalent unrestricted variational families. Fixing
+  a=e gives NWJ with the same f, while a held-fixed scalar moving average explains the modified MINE gradient.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 208 preceding
+  native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored
+  and hidden files, returned 57 lines each: existing MINE-f component discussion, shared primary-source
+  references, and discovery/review context. Four native neighbors and seven exact AIO nodes with scoped
+  synonyms and outgoing relations were inspected.'
+limitations:
+- The normalizer must remain positive and must match the variable/sampling convention of the formula.
+  A batch-dependent normalizer cannot be inserted without checking the extended sampling argument.
+- TUBA and NWJ have the same unrestricted family under the stated critic transformation. Different parameterizations,
+  restrictions or optimizers can behave differently; no universal superiority is claimed.
+- Replacing the normalizer by a running statistic has a fixed-denominator gradient interpretation. It
+  does not automatically yield unbiased population Donsker–Varadhan gradients, especially when the statistic
+  depends on the current batch.
+- Finite samples can exceed true information, and exponential moments can be unstable. The inspected notebook
+  has inconsistent matrix-orientation documentation/implementations; no blanket equivalence of all code
+  paths or runtime correctness is asserted.
+id: AIMech:TUBABound
+aliases:
+- TUBA
+- TUBA bound
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.2, PDF p. 3, Equations (3), (4), (6), (7), log-partition inequality and footnote
+    1; moving-average interpretation continues on p. 4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let Z(y)=E_p(x)[exp(f(X,y))]. For normalized q(x|y)=p(x)exp(f(x,y))/Z(y), the unnormalized
+    Barber–Agakov expression is E_joint[f]−E_p(y)[log Z(y)]. Apply log Z<=Z/a+log a−1 for a(y)>0 to obtain
+    L_TUBA=1+E_joint[f(X,Y)−log a(Y)]−E_product[exp(f(X,Y))/a(Y)]<=I(X;Y). The inequality replacing log
+    Z is tight at a(y)=Z(y); full information tightness additionally requires a critic that represents
+    the conditional-to-marginal relationship. Critic and positive normalizer parameters can be optimized
+    toward the same objective. Reparameterizing T=f−log a+1 recovers exactly the NWJ expression. With
+    fixed functions and appropriate independent joint/product sampling and integrability, the linear expectations
+    admit unbiased Monte Carlo estimates of this bound.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, PDF p. 3, Equations (3), (4), (6), (7), log-partition inequality and footnote
+      1; moving-average interpretation continues on p. 4
+    relation: supports
+- claim_id: implementation-scope
+  kind: limitation
+  statement: The pinned notebook subtracts a row-wise log baseline in its TUBA function. Its separable
+    critic returns Y-indexed rows and X-indexed columns, while the concatenation critic transposes a matrix
+    initially tiled with Y-indexed rows. These paths therefore do not share one score orientation. This
+    is a source-level observation supporting caution about a blanket implementation-equivalence claim;
+    it does not change the stated population formula or claim an executed runtime defect.
+  evidence:
+  - source_id: additional-1
+    locator: 'Zero-based notebook cells 7, 16 and 19: row normalizer subtraction, baseline(y), and differing
+      score-matrix orientations in SeparableCritic and ConcatCritic'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+- source_id: additional-1
+  title: 'On Variational Bounds of Mutual Information: author demonstration notebook'
+  authors:
+  - Google Research vbmi contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/google-research/google-research/5b381db4139c3cbf25cc9a698c5fe9754215fae2/vbmi/vbmi_demo.ipynb
+  version: google-research/google-research commit 5b381db4139c3cbf25cc9a698c5fe9754215fae2
+  persistent_id: https://github.com/google-research/google-research/blob/5b381db4139c3cbf25cc9a698c5fe9754215fae2/vbmi/vbmi_demo.ipynb
+  access_level: documentation
+  accessed_at: '2026-10-11T08:55:05Z'
+  sha256: 8b90ab53effb980d681daf458b124a000b92eb2ca85d95815942040d62d24bd8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases
+    were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored
+    files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder,
+    AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning
+    were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and this semantic neighborhood.
+  rationale: The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks,
+    not the mathematical information bound. Shared variational terminology, an optional neural parameterization
+    or downstream use does not establish a suitable mapping.
+  examined_targets:
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder architecture is not a variational information
+      inequality; neither implies the other.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Reconstruction networks can use information objectives but do not identify this
+      mathematical bound.
+  - target: AIO:RepresentationLearning
+    rejection_reason: The target is a deep-network representation-learning class; it is a possible use
+      of a bound, not the bound itself.
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural critic or decoder is one possible parameterization, not the information
+      formula.
+  - target: AIO:FeatureExtraction
+    rejection_reason: This preprocessing task does not specify an information estimator or bound.
+  - target: AIO:BayesianNetwork
+    rejection_reason: Conditional distributions do not make this bound a directed graphical-model architecture.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: A self-generated prediction task does not specify this population information inequality.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:03:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

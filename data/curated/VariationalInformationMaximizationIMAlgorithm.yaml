@@ -1,0 +1,78 @@
+name: Variational information maximization IM algorithm
+definition: An alternating optimization procedure that adjusts a noisy encoder and a variational decoder
+  to increase the Barber–Agakov lower bound on transmitted information for a fixed input distribution.
+concept_kind: algorithm
+identity_notes: 'This is the named IM algorithm in Barber and Agakov’s 2003 paper, not every algorithm
+  that maximizes information. It is separate from its lower-bound objective and from RIM’s regularized
+  discrete clustering, MINE’s dependence estimation and DIM’s feature-matching framework. The analogy
+  to expectation maximization does not make the optimized target an observed-data likelihood. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 208 preceding native IDs/names/aliases.
+  Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned
+  57 lines each: existing MINE-f component discussion, shared primary-source references, and discovery/review
+  context. Four native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations
+  were inspected.'
+limitations:
+- Restricted decoders can leave a positive variational gap. Monotonic improvement of the bound does not
+  generally imply monotonic true mutual information or a global optimum.
+- The coordinate subproblems may be nonconvex or expensive, and exact maximization is an idealization.
+  The paper’s instruction to iterate to convergence is not a general finite-iteration convergence guarantee.
+- Encoder noise, capacity and constraints matter. In the linear noisy example, unconstrained encoder scaling
+  can diverge; the procedure does not prescribe one universal norm or power constraint for every application.
+- The normalized decoder and fixed source distribution distinguish this method from generic contrastive
+  loss minimization. No IM implementation or empirical performance claim was reproduced.
+id: AIMech:VariationalInformationMaximizationIMAlgorithm
+aliases:
+- IM algorithm
+- IM algorithm (Barber and Agakov)
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF pp. 2–3, Equation (3) and The IM algorithm numbered updates; Section 3, pp.
+    3–4, linear Gaussian channel and constrained projection context
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose a fixed input distribution p(x), a parameterized encoder p_theta(y|x), and a class
+    Q of normalized decoders q(x|y) for which the expected decoder log probability is tractable or can
+    be approximated. Starting from an encoder and decoder, hold q fixed and maximize H(X)+E_p(x)p_theta(y|x)[log
+    q(X|Y)] over theta. Then hold theta fixed and fit q within Q by maximizing the same expectation. Repeat
+    the two updates. H(X) is constant in these updates. Exact coordinate maximizations cannot decrease
+    the chosen lower bound; approximate updates require their own improvement check. The paper develops
+    a noisy linear projection with Gaussian decoding as one feature-extraction configuration and also
+    describes richer encoder/decoder choices.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF pp. 2–3, Equation (3) and The IM algorithm numbered updates; Section 3, pp.
+      3–4, linear Gaussian channel and constrained projection context
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'The IM Algorithm: A variational approach to Information Maximization'
+  authors:
+  - David Barber
+  - Felix Agakov
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2003/file/a6ea8471c120fe8cc35a2954c9b9c595-Paper.pdf
+  version: 'NIPS 2003, eight-page proceedings PDF; landing-page title is Information Maximization in Noisy
+    Channels: A Variational Approach'
+  persistent_id: https://papers.nips.cc/paper_files/paper/2003/hash/a6ea8471c120fe8cc35a2954c9b9c595-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:49:16Z'
+  sha256: 50da364cfa25ff60cb787cf023239024157e7c45a679d1038427228f443790c2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FeatureExtraction
+  relation: related_match
+  rationale: The paper explicitly develops encoder optimization for linear compression and feature extraction.
+    This associates the algorithm’s feature-extraction configuration with the AIO preprocessing task;
+    it does not assert equivalence, an is-a relation, or that every communication-channel use is preprocessing.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:02:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
