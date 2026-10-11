@@ -1,0 +1,87 @@
+name: SamplePairing
+definition: An image-classification augmentation procedure that averages an anchor image with a randomly
+  selected training image using equal pixel weights and trains against the anchor image’s label, with
+  a training schedule that includes phases without pairing.
+concept_kind: algorithm
+identity_notes: 'SamplePairing is the equal-image-weight, anchor-label procedure of Inoue, distinct as
+  a training protocol from the standard Beta-distributed input/target MixUp construction. This distinction
+  does not imply that every expected objective differs: under exchangeable pairing and a loss linear in
+  targets, averaging the anchor-label losses over both orders matches the half-and-half target loss for
+  the same averaged image. The paper itself discusses this relationship. It is also distinct from learned
+  Smart Augmentation and from spatial patch replacement in CutMix. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 253 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main checkout, returning
+  27 lines in each checkout. These were neighboring-record and review references or prior candidate leads,
+  not existing records for these identities. Twelve exact AIO CLASS nodes with synonyms and outgoing edges
+  and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.'
+limitations:
+- Averaged images can contain incompatible classes; the assigned anchor label is a training convention,
+  not a claim that the mixture has a unique correct semantic label.
+- The paper’s N-squared count describes ordered pairing choices. Commutativity and duplicate inputs can
+  make different pairings produce the same averaged image, so it is not a guarantee of N-squared distinct
+  visual samples.
+- The expected-loss relation to half-and-half soft labels requires the stated symmetry and loss assumptions.
+  It does not equate individual sampled gradients, arbitrary pair distributions, the full training schedules
+  or the original randomly weighted MixUp procedure.
+- The source’s training-accuracy ceiling discussion is idealized and does not establish a universal bound
+  for every finite training run. No benchmark advantage, training-cost equivalence or medical-task result
+  is imported.
+id: AIMech:SamplePairing
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3 and Figure 1, PDF pp. 2–3; relationship to MixUp and between-class learning in Section
+    2, PDF p. 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a training anchor, randomly select a partner from the training set without requiring
+    the same class. Apply ordinary image augmentations to the inputs when used, then average corresponding
+    pixels and channels with equal weights. Train on the mixed image using only the anchor label; the
+    partner label is not required by this rule. The published training schedule starts without SamplePairing,
+    enables it after a warm-up, intermittently disables it during training, and finishes with a no-pairing
+    fine-tuning phase. The source uses one warm-up epoch for ILSVRC and 100 for the other datasets, then
+    alternates 300,000 paired / 100,000 unpaired images for ILSVRC or eight paired / two unpaired epochs
+    otherwise. These numerical intervals are experimental choices, not the identity of every use. A learned
+    augmenter, a random mixing ratio, same-class pairing and label interpolation are not required by the
+    original procedure.
+  evidence:
+  - source_id: method-source
+    locator: Section 3 and Figure 1, PDF pp. 2–3; relationship to MixUp and between-class learning in
+      Section 2, PDF p. 2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Data Augmentation by Pairing Samples for Images Classification
+  authors:
+  - Hiroshi Inoue
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1801.02929v2
+  version: arXiv:1801.02929v2, 11 April 2018; eight-page author preprint
+  persistent_id: arXiv:1801.02929
+  access_level: full_text
+  accessed_at: '2026-10-11T11:12:20Z'
+  sha256: af0e6c947d8309962f553593dfbf9d8c9c111f977fac48a9c831e1a8e3195281
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This procedure constructs training examples and specifies how a predictor is trained with
+    them. The AIO target is augmentation in a preprocessing branch; this related association preserves
+    the broader training and target-handling scope without asserting equivalence or a subclass relation.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: The predictor learns from class labels associated with generated or combined training examples.
+    This is an algorithm-to-task association, not identity with the general supervised-learning task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:19:25Z'
+  updated_at: '2026-10-11T11:19:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
