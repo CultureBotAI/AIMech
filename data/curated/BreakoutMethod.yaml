@@ -1,0 +1,107 @@
+name: Breakout method
+definition: A finite constraint-satisfaction search method that takes strictly improving local assignment
+  changes under a weighted nogood cost and increases the weights of all currently violated nogoods at
+  a non-solution local minimum to change the search landscape.
+concept_kind: algorithm
+identity_notes: 'This is Morris’s Breakout method, using weights on forbidden assignment tuples, not the
+  Breakout game. It is distinct from the idealized Fill algorithm, which raises only the current state’s
+  stored cost, and from GLS, which selects features by penalty utility. Shared adaptive-penalty ideas
+  do not make Breakout, GENET and GLS exact synonyms. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 3 and 9 lines respectively.
+  All twelve text hits were inspected: six prior candidate-lead lines across the checkouts and six unrelated
+  Pygments lexer-state lines in the ignored main environment. No hit established an existing candidate
+  record. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native
+  neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The practical Breakout method is incomplete. The paper supplies a satisfiable four-variable CNF counterexample
+  where repeated reweighting can oscillate without reaching the all-true solution. No finite-budget success
+  or unsatisfiability certificate is implied.
+- The paper’s completeness theorem applies to the distinct idealized Fill algorithm, which stores and
+  raises the cost of the current state alone on the finite assignment space. It must not be transferred
+  to Breakout’s shared nogood weights.
+- 'Representation affects the penalty landscape: one constraint can contain several forbidden tuples,
+  and shared nogoods couple costs of different assignments. A constraint-weight implementation requires
+  evidence that its intended representation matches this scope.'
+- Random initialization is an experimental choice, not a required random restart after each local minimum.
+  Favorable results on constructed distributions do not establish general efficiency. The finite curator
+  calculation checks a prefix of the published counterexample, not an independent proof for infinite executions.
+id: AIMech:BreakoutMethod
+aliases:
+- Breakout
+definition_evidence:
+- source_id: method-source
+  locator: The Breakout Algorithm, PDF2–3 / printed41–42, Figure2 and plateau footnote3; A Complete Algorithm,
+    PDF4–6 / printed43–45, Fill Figure3/Theorem1 and Breakout counterexample
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Represent forbidden assignment tuples as nogoods, give each weight1, and score a complete
+    assignment by the sum of weights of the nogoods it matches. Until a satisfying assignment is reached,
+    make any local assignment change that strictly lowers this weighted cost when one exists. At a non-solution
+    local minimum, increment every currently matched nogood’s weight by1 and repeat the search/weight-increase
+    cycle until an improving move becomes available. Plateau points are treated as local minima rather
+    than traversed by unweighted sideways moves. The method leaves initialization and the choice among
+    improving changes open; the reported implementation uses random initial assignments and the first
+    improving change found in a left-to-right scan. Weight increases persist and can also raise costs
+    of neighboring states sharing the same nogoods.
+  evidence:
+  - source_id: method-source
+    locator: The Breakout Algorithm, PDF2–3 / printed41–42, Figure2 and plateau footnote3; A Complete
+      Algorithm, PDF4–6 / printed43–45, Fill Figure3/Theorem1 and Breakout counterexample
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Breakout Method For Escaping From Local Minima
+  authors:
+  - Paul Morris
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf
+  version: AAAI-93 proceedings, pp.40–45; six-page publisher scan. The later website posting date is not
+    the paper publication date.
+  access_level: full_text
+  accessed_at: '2026-10-11T14:45:43Z'
+  sha256: 9f853b6831403bb69376f88c6f96c6d788f49e79323ef59c6780fdcafa42959d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All442 pinned AIO labels/scoped synonyms and310 preceding maintained IDs/names/aliases;
+    ignored/hidden text in both full checkouts; semantic label search for logic, reasoning, satisfiability,
+    constraints, search and heuristics; seven exact AIO CLASS nodes and five complete native neighbors.
+  rationale: No suitable target was found for this symbolic constraint-search mechanism in the inspected
+    snapshot and semantic neighborhood. Broad reasoning, learning or heuristic words do not establish
+    a task, model or bias mapping.
+  examined_targets:
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: Historical inspiration by neural CSP solvers does not make these symbolic assignment/weight/flip
+      procedures neural architectures. Min-conflicts was explicitly extracted for symbolic implementations.
+  - target: AIO:HopfieldNetwork
+    rejection_reason: The method does not require a symmetrically connected content-addressable recurrent
+      neural memory.
+  - target: AIO:TrainingStrategy
+    rejection_reason: Solving a finite CSP or CNF formula does not require preprocessing or training a
+      machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: A supplied constraint system can be searched without constructing a method that
+      learns from data. General constraint solving is not this learning-task definition.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is a language model that uses reasoning in language tasks, not a general
+      SAT or CSP solver. Its related reasoning/logical-inferences synonyms are not exact identities for
+      these methods.
+  - target: AIO:AvailabilityHeuristicBias
+    rejection_reason: This is a bias in judgment from overweighting easily recalled information, not a
+      computational heuristic for selecting repairs.
+  - target: AIO:MarkovChain
+    rejection_reason: A possible stochastic state-space description does not identify the particular repair
+      or weighting method with the pinned network/model class; search can also use deterministic move
+      selection and adaptive memory.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:52:25Z'
+  updated_at: '2026-10-11T14:52:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

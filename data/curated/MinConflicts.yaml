@@ -1,0 +1,115 @@
+name: Min-conflicts heuristic
+definition: A constraint-repair value-selection heuristic that uses a complete assignment to choose a
+  value for a conflicted variable with as few conflicts as possible, breaking tied minimum choices randomly
+  in the inspected formulation.
+concept_kind: algorithm
+identity_notes: 'The record identifies the min-conflicts repair/value-ordering heuristic, not one mandatory
+  hill-climbing implementation. The primary report uses it with both local repair and informed backtracking
+  and permits different variable-selection strategies. It does not identify the original GDS network,
+  GENET inhibitory learning, dynamic Breakout weights, or GSAT global best-flip selection. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  3 and 9 lines respectively. All twelve text hits were inspected: six prior candidate-lead lines across
+  the checkouts and six unrelated Pygments lexer-state lines in the ignored main environment. No hit established
+  an existing candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+  edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.'
+limitations:
+- Minimizing local conflicts does not necessarily reduce distance to a satisfying assignment. Ties, unchanged
+  assignments and non-solution local optima can prevent a local-repair search from terminating successfully.
+- Completeness depends on the outer search strategy. The source contrasts a potentially stuck hill-climbing
+  implementation with a complete backtracking strategy; neither a guarantee of eventual success nor a
+  proof of unsatisfiability follows from the value heuristic alone.
+- General-constraint scoring requires a declared repair interpretation. Counting violated constraints,
+  distinct conflicting variables, weighted violations or individual forbidden tuples can produce different
+  rankings and should not be silently interchanged.
+- Initialization, variable ordering, ties and budgets affect behavior. The source’s simplified probability
+  analysis makes additional problem assumptions and is not asserted as a universal performance guarantee.
+  No numerical benchmark claim is curated.
+id: AIMech:MinConflicts
+aliases:
+- Min-conflicts
+definition_evidence:
+- source_id: method-source
+  locator: Section3.2, PDF9 / printed4, boxed heuristic and footnote2; Figure2 and strategy comparison
+    PDF10 / printed5; Section4.4 PDF18–19 / printed13–14; Section5.1 footnote5 PDF19 / printed14 allows
+    the current value
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For the stated binary-CSP formulation, maintain one domain value for each variable. Select
+    a variable currently in conflict with at least one other variable, and evaluate its possible values
+    against the other current assignments. Choose a minimum-conflict value, breaking ties randomly. The
+    source footnote interprets the binary score as the number of conflicting other variables; for general
+    constraints, estimating how many variables need repair depends on the constraint. The current value
+    remains an eligible candidate, so an update can leave the assignment unchanged or move sideways. Initialization
+    and the choice among conflicted variables belong to the surrounding search strategy. In the described
+    local-repair use, repeat repairs until a consistent assignment is found or a chosen budget ends. The
+    same value-ordering idea can instead guide an informed backtracking procedure; that procedure is not
+    an exact synonym for the heuristic.
+  evidence:
+  - source_id: method-source
+    locator: Section3.2, PDF9 / printed4, boxed heuristic and footnote2; Figure2 and strategy comparison
+      PDF10 / printed5; Section4.4 PDF18–19 / printed13–14; Section5.1 footnote5 PDF19 / printed14 allows
+      the current value
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems'
+  authors:
+  - Steven Minton
+  - Mark D. Johnston
+  - Andrew B. Philips
+  - Philip Laird
+  source_type: author_technical_report
+  url: https://ntrs.nasa.gov/api/citations/19930006097/downloads/19930006097.pdf
+  version: NASA-TM-108121 / FIA-92-21, June1992, 38-page NASA-hosted technical report. Core definition
+    PDF9 corresponds to printed4. This is not the December1992 Artificial Intelligence58:161–205 journal
+    pagination.
+  persistent_id: NASA-TM-108121
+  access_level: full_text
+  accessed_at: '2026-10-11T14:45:43Z'
+  sha256: 4548b61515c41957e5e3010473250ca874db1b577b7d01c7d3e6ac3abda93db1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All442 pinned AIO labels/scoped synonyms and310 preceding maintained IDs/names/aliases;
+    ignored/hidden text in both full checkouts; semantic label search for logic, reasoning, satisfiability,
+    constraints, search and heuristics; seven exact AIO CLASS nodes and five complete native neighbors.
+  rationale: No suitable target was found for this symbolic constraint-search mechanism in the inspected
+    snapshot and semantic neighborhood. Broad reasoning, learning or heuristic words do not establish
+    a task, model or bias mapping.
+  examined_targets:
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: Historical inspiration by neural CSP solvers does not make these symbolic assignment/weight/flip
+      procedures neural architectures. Min-conflicts was explicitly extracted for symbolic implementations.
+  - target: AIO:HopfieldNetwork
+    rejection_reason: The method does not require a symmetrically connected content-addressable recurrent
+      neural memory.
+  - target: AIO:TrainingStrategy
+    rejection_reason: Solving a finite CSP or CNF formula does not require preprocessing or training a
+      machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: A supplied constraint system can be searched without constructing a method that
+      learns from data. General constraint solving is not this learning-task definition.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is a language model that uses reasoning in language tasks, not a general
+      SAT or CSP solver. Its related reasoning/logical-inferences synonyms are not exact identities for
+      these methods.
+  - target: AIO:AvailabilityHeuristicBias
+    rejection_reason: This is a bias in judgment from overweighting easily recalled information, not a
+      computational heuristic for selecting repairs.
+  - target: AIO:MarkovChain
+    rejection_reason: A possible stochastic state-space description does not identify the particular repair
+      or weighting method with the pinned network/model class; search can also use deterministic move
+      selection and adaptive memory.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:52:25Z'
+  updated_at: '2026-10-11T14:52:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
