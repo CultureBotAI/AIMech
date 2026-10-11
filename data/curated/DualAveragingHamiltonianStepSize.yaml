@@ -1,0 +1,75 @@
+name: Dual-averaging step-size adaptation for Hamiltonian samplers
+definition: A warmup procedure that tunes the logarithm of a Hamiltonian sampler’s integration step size
+  using cumulative discrepancy from a target acceptance statistic, a shrinkage point and a smoothed sequence
+  of iterates.
+concept_kind: algorithm
+identity_notes: This is Hoffman and Gelman’s adaptation of dual averaging to HMC/NUTS step-size tuning.
+  It is not the general Nesterov optimization algorithm, trajectory-length adaptation, mass-matrix estimation,
+  or an acceptance test for retaining each NUTS output. The HMC and original NUTS acceptance statistics
+  differ. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  153 prior native IDs/names/aliases. Both checkout text searches included ignored and hidden files and
+  returned no matches for the selected exact IDs, full labels, aliases and source titles. Existing HMM
+  and Markov random field records describe probability models, not these sampling or tuning procedures.
+limitations:
+- The convergence discussion assumes suitable regularity, including the relevant expected acceptance statistic
+  decreasing with step size. The update formula alone does not prove convergence on every target.
+- The target delta, warmup duration, initialization and shrinkage controls remain choices. The paper’s
+  experimental defaults are not universal optimal values or current-library defaults.
+- For NUTS the statistic averages potential HMC acceptances over explored states in the final doubling;
+  it is not the proportion of returned positions that changed.
+- Adapting throughout retained sampling requires a separate adaptive-MCMC argument. This record follows
+  the paper’s finite-warmup/freeze practice.
+- The procedure tunes epsilon, not a mass matrix or the complete distribution geometry, and does not guarantee
+  independent samples or adequate posterior exploration.
+id: AIMech:DualAveragingHamiltonianStepSize
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.2–3.2.4, Equations (5)–(6) and Algorithms 5–6, printed pp. 1605–1611 / PDF pp. 13–19
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At warmup iteration m form Hbar_m=(1−1/(m+t0))Hbar_(m−1)+(delta−a_m)/(m+t0), then log epsilon_m=mu−sqrt(m)Hbar_m/gamma.
+    Smooth with log epsilonbar_m=m^(−kappa)log epsilon_m+(1−m^(−kappa))log epsilonbar_(m−1). Here gamma>0,
+    t0≥0 and 1/2<kappa≤1; initialize Hbar_0=0 and the step-size/shrinkage values as specified by the chosen
+    implementation. HMC uses its proposed trajectory’s Metropolis acceptance probability a_m. Original
+    NUTS uses the mean hypothetical Metropolis acceptance probability over states explored in the final
+    doubling, not a binary acceptance of its selected output. Adapt during a finite warmup, then use the
+    averaged step size without continued adaptation for retained sampling.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2–3.2.4, Equations (5)–(6) and Algorithms 5–6, printed pp. 1605–1611 / PDF pp.
+      13–19
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo'
+  authors:
+  - Matthew D. Hoffman
+  - Andrew Gelman
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf
+  version: JMLR 15(47), 2014, printed pp. 1593–1623; 31-page published PDF
+  persistent_id: https://www.jmlr.org/papers/v15/hoffman14a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T06:40:05Z'
+  sha256: bf2a5592015b6637fe5adaa26d3c8a11871d96c3cb7f41da0aa7d96b9ec1e086
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure tunes the integration step size used by a Markov-chain sampler during warmup,
+    after which the fixed sampling transition is used. AIO MarkovChain describes the stochastic process/model,
+    not its tuning procedure. The relation does not assert that a history-adaptive warmup sequence itself
+    is a homogeneous Markov chain on positions alone.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:48:02Z'
+  updated_at: '2026-10-11T06:48:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
