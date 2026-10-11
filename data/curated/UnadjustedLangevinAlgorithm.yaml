@@ -1,0 +1,99 @@
+name: Unadjusted Langevin algorithm
+definition: An approximate sampling algorithm that discretizes overdamped Langevin dynamics by an explicit
+  gradient drift and Gaussian noise without a Metropolis acceptance correction.
+concept_kind: algorithm
+identity_notes: This is the full-gradient Euler discretization for a differentiable continuous target.
+  It is not deterministic gradient descent, stochastic-gradient Langevin dynamics, the exact continuous-time
+  diffusion or Metropolis-adjusted Langevin sampling. A fixed-step chain generally has a different invariant
+  law from its intended target. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive full-checkout searches found prior
+  discovery leads for Gibbs and slice sampling plus unrelated environment substring hits, not existing
+  concept records. Existing HMM/MRF models and general Metropolis–Hastings were inspected to distinguish
+  model, general transition and specialized algorithm scope.
+limitations:
+- At a fixed positive step size, a stationary distribution, when it exists, generally differs from pi.
+  Running longer does not by itself remove that discretization bias.
+- The paper’s convergence results have regularity, drift and step-size assumptions. Merely taking gamma
+  to zero does not establish convergence for every target or schedule.
+- Discrete Euler dynamics can be unstable even when the continuous diffusion is well behaved. Gradients
+  and noise scaling both depend on the step-size convention.
+- Roberts and Tweedie’s introductory ULA display on printed p. 345 / PDF p. 6 appears to omit h in the
+  drift. This record uses the unambiguous Durmus–Moulines Equation (2), consistent with the h-scaled drift
+  in the older paper’s later analysis; it does not claim a published erratum was found.
+- No minibatch gradient approximation, preconditioning, projection, taming or empirical accuracy bound
+  is included in this record.
+id: AIMech:UnadjustedLangevinAlgorithm
+aliases:
+- ULA
+definition_evidence:
+- source_id: method-source
+  locator: Introduction, Equations (1)–(2) and constant/decreasing step-size discussion, PDF/printed pp.
+    1–2; Section 2, assumptions and kernel, pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a proper target pi(x) proportional to exp(−U(x)), with differentiable U, update X_(k+1)=X_k−gamma_(k+1)
+    grad U(X_k)+sqrt(2 gamma_(k+1)) Z_(k+1), where the Z values are independent standard Gaussian vectors
+    and gamma is positive. There is no accept/reject step. Constant and predetermined decreasing step-size
+    schedules are both covered by the source. Equivalently, writing h=2 gamma and grad log pi=−grad U
+    gives mean x+(h/2)grad log pi(x) and noise covariance hI. This equivalence is an explicit change of
+    notation, not a separate sampling method.
+  evidence:
+  - source_id: method-source
+    locator: Introduction, Equations (1)–(2) and constant/decreasing step-size discussion, PDF/printed
+      pp. 1–2; Section 2, assumptions and kernel, pp. 3–4
+    relation: supports
+- claim_id: discrete-bias-and-instability
+  kind: limitation
+  statement: Roberts and Tweedie distinguish ULA’s generally biased stationary law from the intended continuous-diffusion
+    target and show that discretization can qualitatively change recurrence and convergence behavior.
+    These are conditional results, not a blanket claim that every ULA run is unstable.
+  evidence:
+  - source_id: discrete-bias-and-instability
+    locator: Section 3.1, printed pp. 351–354 / PDF pp. 12–15
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Non-asymptotic convergence analysis for the Unadjusted Langevin Algorithm
+  authors:
+  - Alain Durmus
+  - Éric Moulines
+  source_type: author_technical_report
+  url: https://arxiv.org/pdf/1507.05021v3
+  version: arXiv:1507.05021v3, submitted 2016-12-19; 37-page author preprint with December 20, 2016 footer;
+    not a downloaded publisher version
+  persistent_id: arxiv:1507.05021v3
+  access_level: full_text
+  accessed_at: '2026-10-11T06:57:57Z'
+  sha256: 5794a1e4a70145a3708e149304e9f4744cfb651f94bddc9a51301799ee56eb63
+- source_id: discrete-bias-and-instability
+  title: Exponential convergence of Langevin distributions and their discrete approximations
+  authors:
+  - Gareth O. Roberts
+  - Richard L. Tweedie
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~scs/Courses/Stat376/Papers/Langevin/RobertsTweedieBernoulli1996.pdf
+  version: Bernoulli 2(4), 1996, pp. 341–363; 25-page hosted PDF including a JSTOR cover
+  persistent_id: doi:10.2307/3318418
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: 410e26b08534801112aaa020edcc2a9e483dd76328d950a1a4dee65dc424a9c9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: ULA constructs a discrete Markov process intended to approximate sampling from a target.
+    At fixed positive step size its invariant law generally differs from that target. The AIO CLASS denotes
+    the stochastic process/model, so this is a method-to-process related match, not equivalence, subclass
+    membership or an assertion of exact target stationarity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

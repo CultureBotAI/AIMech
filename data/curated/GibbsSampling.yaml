@@ -1,0 +1,99 @@
+name: Gibbs sampling
+definition: A Markov chain Monte Carlo algorithm that repeatedly draws a coordinate or block from its
+  full conditional distribution given the current values of the remaining coordinates.
+concept_kind: algorithm
+identity_notes: This record denotes exact conditional resampling, including fixed coordinate cycles and
+  fixed random-scan mixtures. It is a sampling procedure, not a Gibbs distribution, Markov random field,
+  annealing schedule or conditional maximization method. Metropolis-within-Gibbs replaces some exact conditional
+  draws by invariant transitions and is represented separately. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive
+  full-checkout searches found prior discovery leads for Gibbs and slice sampling plus unrelated environment
+  substring hits, not existing concept records. Existing HMM/MRF models and general Metropolis–Hastings
+  were inspected to distinguish model, general transition and specialized algorithm scope.
+limitations:
+- The full conditional distributions must be compatible with a proper joint target and be sampled correctly.
+  An approximate conditional draw is not automatically an exact Gibbs step.
+- Target invariance alone does not establish irreducibility, aperiodicity, convergence from every start
+  or rapid mixing. Coordinate dependence and disconnected support can obstruct exploration.
+- The finite positive-state convergence theorem in Geman and Geman has explicit site-visit and positivity
+  assumptions; it is not a theorem for every continuous, constrained or parallel Gibbs implementation.
+- Simultaneously updating dependent coordinates using stale neighbors is outside the stated sequential
+  mechanism; valid parallel or adaptive scan schemes need separate arguments.
+- Fixed-temperature posterior sampling and a cooling schedule for optimization are different procedures.
+  No universal convergence rate or image-restoration performance is asserted.
+id: AIMech:GibbsSampling
+aliases:
+- Gibbs sampler
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.2, Conditioning and the Gibbs Sampler, and Section 2.4, Combining Strategies; printed
+    pp. 2 and 8 / PDF pp. 4 and 10
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Partition the state into coordinates or blocks. Select a block, draw its new value from the
+    target conditional distribution given all other current values, and leave those other values unchanged.
+    Each conditional-resampling kernel preserves the joint target. Composing these kernels in a fixed
+    sweep, or mixing them with fixed selection probabilities, also preserves that target. Later steps
+    in a sweep use the values already updated earlier in that sweep. Exact conditional draws do not make
+    the resulting successive joint states independent.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, Conditioning and the Gibbs Sampler, and Section 2.4, Combining Strategies; printed
+      pp. 2 and 8 / PDF pp. 4 and 10
+    relation: supports
+- claim_id: finite-image-gibbs
+  kind: scope
+  statement: Geman and Geman update one image site by drawing from its Gibbs conditional using current
+    neighboring states. Their fixed-temperature sampling construction is distinct from the later cooling
+    procedure for minimum-energy configurations. The finite-state convergence discussion assumes strictly
+    positive configuration probabilities and repeated site visits.
+  evidence:
+  - source_id: finite-image-gibbs
+    locator: Sections XI–XII, Gibbs Sampler and Theorems A–B, printed pp. 730–731 / PDF pp. 10–11
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Markov Chains for Exploring Posterior Distributions
+  authors:
+  - Luke Tierney
+  source_type: author_technical_report
+  url: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  version: University of Minnesota Technical Report No. 560, August 8, 1991; 28 PDF pages; not the 1994
+    published version
+  persistent_id: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: cfde8fc2fa3c390da09badda81394a0a334d70f13403031ac9d4c0b5a1e11fde
+- source_id: finite-image-gibbs
+  title: Stochastic Relaxation, Gibbs Distributions, and the Bayesian Restoration of Images
+  authors:
+  - Stuart Geman
+  - Donald Geman
+  source_type: primary_paper
+  url: https://www.dam.brown.edu/people/geman/Homepage/Image%20processing,%20image%20analysis,%20Markov%20random%20fields,%20and%20MCMC/stochastic%20relaxation.pdf
+  version: IEEE Transactions on Pattern Analysis and Machine Intelligence PAMI-6(6), 1984, pp. 721–741;
+    21-page author-hosted published scan
+  persistent_id: doi:10.1109/TPAMI.1984.4767596
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: 6adab117ea49d7569a1f4563c33d8c9b393335d084a09e6c22609ed231a1bc31
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

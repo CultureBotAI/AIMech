@@ -1,0 +1,77 @@
+name: Stepping-out slice sampling
+definition: A univariate slice-sampling algorithm that randomly places a width-w interval around the current
+  point, expands it in width-w steps under a randomly divided budget, and samples by slice-aware interval
+  shrinkage.
+concept_kind: algorithm
+identity_notes: This record specifies Neal’s stepping-out procedure paired with shrinkage, Figures 3 and
+  5. The interval-search component alone is not a complete sampler. It differs from doubling in expansion
+  increments and in not requiring doubling’s retrospective acceptability test. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases.
+  Ignored-inclusive full-checkout searches found prior discovery leads for Gibbs and slice sampling plus
+  unrelated environment substring hits, not existing concept records. Existing HMM/MRF models and general
+  Metropolis–Hastings were inspected to distinguish model, general transition and specialized algorithm
+  scope.
+limitations:
+- The finite expansion cap limits the interval length to at most mw. It is not a certificate that all
+  of the slice has been found.
+- The width and expansion budget affect computational work and exploration; this method does not remove
+  all tuning choices.
+- Shrinking the rejected side relative to the current state is essential. Arbitrary interval placement
+  or budget allocation is not the proven kernel.
+- Unimodal shortcuts and tuning width from past draws in Section 4.4 require the source’s additional conditions,
+  including unlimited expansion for that history-based width argument; they are not generalized here.
+- Multimodality, constrained supports, numerical density evaluation and finite precision require care.
+  No universal mixing guarantee is asserted.
+id: AIMech:SteppingOutSliceSampling
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4.1–4.3, Figures 3 and 5, budget construction and correctness proof, PDF/printed pp.
+    8–16
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Draw height y uniformly below f(x0). For w>0 and integer m≥1, set L=x0−wU and R=L+w with
+    U uniform on (0,1); independently choose J uniformly from {0,...,m−1} and K=m−1−J. Extend L left by
+    w while J remains positive and f(L)>y, decrementing J; similarly extend R right using K. From this
+    interval repeatedly propose x1 uniformly: accept if f(x1)>y; otherwise replace the left endpoint by
+    x1 when x1<x0, or the right endpoint otherwise. Shrinkage retains x0. The random placement and random
+    left/right budget split are part of the invariance construction; the resulting interval need not cover
+    every slice component.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1–4.3, Figures 3 and 5, budget construction and correctness proof, PDF/printed
+      pp. 8–16
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Slice Sampling
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://arxiv.org/pdf/physics/0009028v1
+  version: arXiv:physics/0009028v1, submitted 2000-09-07; title page dated 29 August 2000, Technical Report
+    No. 2005; 40 pages; not the 2003 journal version
+  persistent_id: arxiv:physics/0009028v1
+  access_level: full_text
+  accessed_at: '2026-10-11T06:53:34Z'
+  sha256: c6cf46fb834b637b95357ec12f3247540fecd64248051001d7236f469832902d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

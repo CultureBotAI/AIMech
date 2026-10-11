@@ -1,0 +1,76 @@
+name: Doubling slice sampling
+definition: A univariate slice-sampling algorithm that expands a randomly placed initial interval by randomly
+  directed doublings and uses shrinkage with a retrospective acceptability test to preserve the target.
+concept_kind: algorithm
+identity_notes: This record specifies Neal’s Figures 4–6, including the extra acceptance test for general
+  slices. It differs from stepping out by geometric interval expansion and the need to reject some in-slice
+  candidates. Its binary interval construction is unrelated to NUTS trajectory-tree doubling. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases.
+  Ignored-inclusive full-checkout searches found prior discovery leads for Gibbs and slice sampling plus
+  unrelated environment substring hits, not existing concept records. Existing HMM/MRF models and general
+  Metropolis–Hastings were inspected to distinguish model, general transition and specialized algorithm
+  scope.
+limitations:
+- For a general multimodal density, being inside the slice is insufficient for acceptance. Omitting Figure
+  6 can invalidate the update.
+- Stopping expansion on one side merely because that side is already outside the slice is not the random
+  doubling procedure used in the proof.
+- The test may be omitted under the source’s single-interval slice/unimodality conditions, not as a blanket
+  optimization.
+- The width and maximum doubling count remain parameters; the interval length cap is 2^p w, and finding
+  an interval is not proof of rapid mixing across disconnected slice components.
+- The doubling interval must remain available for the retrospective test even as the proposal interval
+  shrinks. Numerical boundary handling and round-off remain implementation concerns.
+id: AIMech:DoublingSliceSampling
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4.1–4.3, Figures 4–6 and detailed-balance argument, PDF/printed pp. 10–16
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Draw a slice height and randomly place an interval of width w around x0. While at least
+    one endpoint is inside the slice and fewer than p doublings have occurred, choose left or right with
+    probability one half and extend that side by the current interval width, even if the chosen endpoint
+    was already outside the slice. Propose uniformly from the resulting interval and shrink rejected sides
+    relative to x0. An in-slice x1 must also pass Figure 6: repeatedly bisect the original doubled interval
+    toward x1, track whether x0 and x1 have entered different halves, and after such separation reject
+    if both endpoints of a resulting interval lie outside the slice. Continue back to the original width,
+    with the source’s round-off guard. This excludes candidates from which interval construction would
+    have stopped earlier and preserves the required transition symmetry.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1–4.3, Figures 4–6 and detailed-balance argument, PDF/printed pp. 10–16
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Slice Sampling
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://arxiv.org/pdf/physics/0009028v1
+  version: arXiv:physics/0009028v1, submitted 2000-09-07; title page dated 29 August 2000, Technical Report
+    No. 2005; 40 pages; not the 2003 journal version
+  persistent_id: arxiv:physics/0009028v1
+  access_level: full_text
+  accessed_at: '2026-10-11T06:53:34Z'
+  sha256: c6cf46fb834b637b95357ec12f3247540fecd64248051001d7236f469832902d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
