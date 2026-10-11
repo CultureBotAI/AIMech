@@ -1,0 +1,76 @@
+name: SimSiam
+definition: A self-supervised representation-learning procedure that trains a shared encoder and predictor
+  to match the encoder output of another augmented view using symmetric negative cosine similarity with
+  stopped gradients on each target output.
+concept_kind: algorithm
+identity_notes: This is Chen and He’s SimSiam procedure, not generic Siamese-network architecture or a
+  checkpoint. The two views share encoder weights directly; the target output is detached only for its
+  directional loss. There is no separately averaged target encoder or explicit negative-pair term. No
+  normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native
+  IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads
+  (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo,
+  BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish
+  identity.
+limitations:
+- Stop-gradient changes the optimization dynamics but does not remove constant representations from the
+  numerical loss’s minimizers. Section 5.3 explicitly treats noncollapse as empirical and says the alternating-optimization
+  hypothesis does not explain its prevention.
+- The predictor is trained; removing it or fixing random predictor weights is not the defined procedure.
+  A symmetric target stop does not mean a branch never receives gradients.
+- Batch normalization, augmentation, architecture, optimizer and scheduling affect the reported results.
+  Absence of explicit negative pairs does not imply independent per-example learning when batch statistics
+  are used.
+- The record covers the original symmetric cosine formulation. Asymmetric, cross-entropy and multistep-alternation
+  experiments are not silently made equivalent. Nonzero-norm handling is required; no universal performance
+  or convergence guarantee is asserted.
+id: AIMech:SimSiam
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, Equations (1)–(4) and Algorithm 1, printed pp. 15751–15752 / PDF pp. 2–3; Sections
+    4.1–4.7, pp. 15752–15754 / PDF pp. 3–5; Section 5.3, p. 15756 / PDF p. 7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Generate two augmented views v1 and v2 of each image. A shared encoder f, including backbone
+    and projection MLP, produces z1=f(v1) and z2=f(v2); a shared prediction MLP h produces p1=h(z1) and
+    p2=h(z2). For nonzero vectors let D(p,z)=−(p/||p||)·(z/||z||). Average [D(p1,stopgrad(z2))+D(p2,stopgrad(z1))]/2
+    over images and update f and h by gradients. Each view’s encoder output is constant on its target
+    side but receives gradients through its prediction side in the opposite term. The original procedure
+    uses no momentum-averaged encoder, negative dictionary or clustering assignment step.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations (1)–(4) and Algorithm 1, printed pp. 15751–15752 / PDF pp. 2–3; Sections
+      4.1–4.7, pp. 15752–15754 / PDF pp. 3–5; Section 5.3, p. 15756 / PDF p. 7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Exploring Simple Siamese Representation Learning
+  authors:
+  - Xinlei Chen
+  - Kaiming He
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Exploring_Simple_Siamese_Representation_Learning_CVPR_2021_paper.pdf
+  version: CVPR 2021, pp. 15750–15758; nine-page proceedings PDF
+  persistent_id: https://openaccess.thecvf.com/content/CVPR2021/html/Chen_Exploring_Simple_Siamese_Representation_Learning_CVPR_2021_paper.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:56:30Z'
+  sha256: 89e52731a2da8644199c86b789ac74c581ec993338d3ad65cdf681d32c835242
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:04:24Z'
+  updated_at: '2026-10-11T08:04:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

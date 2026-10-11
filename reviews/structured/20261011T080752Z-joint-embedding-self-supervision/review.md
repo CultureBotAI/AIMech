@@ -1,0 +1,850 @@
+# Scientific self-review of joint-embedding self-supervised methods
+
+- Review: 20261011T080752Z-joint-embedding-self-supervision
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T08:05:49Z
+- Finished UTC: 2026-10-11T08:07:52Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain four distinct representation-learning procedures with qualified AIO task mappings. No actionable defect remains in the assessed records. All remain DRAFT; paper/code conventions, reading scope and empirical limits are explicit.
+
+## Scope And Provenance
+
+Four maintained joint-embedding self-supervised representation-learning algorithms.
+
+Selection: Exactly SimSiam, SwAV, BarlowTwins and VICReg in the joint-embedding-self-supervision discovery ledger; no sampling.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base 0b9e2f9f56e28caa0ffee8e04e6f705907645e4f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SimSiam | data/curated/SimSiam.yaml | maintained | SimSiam |
+| AIMech:SwAV | data/curated/SwAV.yaml | maintained | SwAV |
+| AIMech:BarlowTwins | data/curated/BarlowTwins.yaml | maintained | Barlow Twins |
+| AIMech:VICReg | data/curated/VICReg.yaml | maintained | VICReg |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SimSiam, AIMech:SwAV, AIMech:BarlowTwins, AIMech:VICReg | All checks passed!<br>........................................................................ [ 30%]<br>........................................................................ [ 61%]<br>........................................................................ [ 91%]<br>................sss                                                      [100%]<br>232 passed, 3 skipped in 56.45s<br>Checked 442 record(s); 0 failed.<br>Checked 195 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 38 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 38,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SimSiam, AIMech:SwAV, AIMech:BarlowTwins, AIMech:VICReg | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+
+## Scientific And Domain Assessments
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:SimSiam.
+
+This is Chen and He’s SimSiam procedure, not generic Siamese-network architecture or a checkpoint. The two views share encoder weights directly; the target output is detached only for its directional loss. There is no separately averaged target encoder or explicit negative-pair term. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish identity.
+
+Generate two augmented views v1 and v2 of each image. A shared encoder f, including backbone and projection MLP, produces z1=f(v1) and z2=f(v2); a shared prediction MLP h produces p1=h(z1) and p2=h(z2). For nonzero vectors let D(p,z)=−(p/&#124;&#124;p&#124;&#124;)·(z/&#124;&#124;z&#124;&#124;). Average [D(p1,stopgrad(z2))+D(p2,stopgrad(z1))]/2 over images and update f and h by gradients. Each view’s encoder output is constant on its target side but receives gradients through its prediction side in the opposite term. The original procedure uses no momentum-averaged encoder, negative dictionary or clustering assignment step. Limitations: Stop-gradient changes the optimization dynamics but does not remove constant representations from the numerical loss’s minimizers. Section 5.3 explicitly treats noncollapse as empirical and says the alternating-optimization hypothesis does not explain its prevention. The predictor is trained; removing it or fixing random predictor weights is not the defined procedure. A symmetric target stop does not mean a branch never receives gradients. Batch normalization, augmentation, architecture, optimizer and scheduling affect the reported results. Absence of explicit negative pairs does not imply independent per-example learning when batch statistics are used. The record covers the original symmetric cosine formulation. Asymmetric, cross-entropy and multistep-alternation experiments are not silently made equivalent. Nonzero-norm handling is required; no universal performance or convergence guarantee is asserted.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:SwAV.
+
+SwAV means swapping assignments between views. It uses online soft prototype codes rather than offline full-dataset k-means labels, direct pairwise feature negatives, or an exponential-moving-average teacher. Its prototype assignments are learned training targets, not verified semantic class labels. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish identity.
+
+Encode augmented views into nonzero features and L2-normalize them; compare them with K trainable prototype columns C. For a group of B features Z with positive integer B and K and epsilon&gt;0, approximately maximize Tr(Q^T C^T Z)+epsilon H(Q) over nonnegative Q with row sums 1/K and column sums 1/B, where H(Q)=−sum_(k,b) Q_kb log Q_kb. Compute the soft transport assignment by Sinkhorn row/column rescaling of exp(C^T Z/epsilon), then normalize each column into a probability code q_b (q_b=B Q_:b at exact column balance). Stop gradients through codes. For each image, predict a global view’s code from the other views using p(v)=softmax(C^T z(v)/tau), tau&gt;0, and cross-entropy −sum_k q_k log p_k, averaged over images and valid cross-view pairs. In multicrop training codes are computed from the two global crops; predictions use global and smaller crops while excluding the same crop as its code target. Update encoder/projection parameters and prototypes by gradients and normalize prototype columns, as in the supplement. The small-batch variant augments assignment features with a recent-feature queue but uses only current-image codes in the loss. Limitations: Finite Sinkhorn iterations approximate the balanced transport solution. Probability codes must sum to one per image; the mass-1 transport matrix with column sums 1/B is not already that probability matrix. Exponential scores need numerically stable evaluation. The source describes equipartition as preventing identical codes, but also reports uniform collapse with strong entropy regularization. Uniform soft assignments satisfy the balance constraints, so balance alone is not a general noncollapse theorem. The source motivates a feature queue when B is small relative to K. This is an empirical assignment-quality issue; the continuous transport polytope is not mathematically empty merely because B&lt;K. Queued features can be stale and are not a momentum encoder. The main equations and supplement pseudocode use different compact sum/mean conventions. This record states averaged cross-entropy explicitly and does not transfer optimizer coefficients between differently scaled losses. Prototype number, assignment regularization, crop distribution, initial prototype freezing and optimization schedule are experimental choices. No semantic clustering guarantee, universal batch-size independence or reproduced benchmark is asserted.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:BarlowTwins.
+
+This is the Barlow Twins procedure of Zbontar et al., not all redundancy-reduction methods or a particular encoder. Its objective couples feature dimensions through a cross-view correlation matrix, with gradients through both views and no separate predictor, stopped target or momentum teacher. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish identity.
+
+For B≥2 paired augmented views, apply a shared backbone and projection head to obtain B-by-d embeddings in each view. Center every embedding coordinate over the batch. For nonzero centered column norms define C_ij=sum_b zA_bi zB_bj/[sqrt(sum_b zA_bi^2) sqrt(sum_b zB_bj^2)]. Minimize L=sum_i(1−C_ii)^2+lambda sum_(i≠j) C_ij^2 with lambda&gt;0, backpropagating through both branches and their normalization. The first term aligns matching coordinates across views; the second penalizes off-diagonal cross-view correlations. After pretraining, use backbone representations before the projection head for downstream tasks. This states the paper’s correlation-equation formulation; the pinned implementation realizes normalization with synchronized batch normalization and an epsilon-stabilized denominator. Limitations: Zero centered variance makes the ideal correlation equation undefined. The author implementation uses non-affine BatchNorm1d, converts it to synchronized batch normalization, and reduces cross-products across workers; reproductions must preserve statistics, epsilon and batch-size conventions. The paper’s pseudocode leaves the standard-deviation convention implicit, while its equation uses normalized column norms. Sample-standard-deviation normalization followed by division by B is not identical to that equation; do not equate arbitrary std defaults with the stated correlation. Zero pairwise correlation does not establish statistical independence. By matrix rank, a centered B-sample cross-correlation matrix cannot equal a d-dimensional identity when d&gt;B−1; driving it toward identity is an objective, not a guarantee of attaining zero loss. The loss is not itself a mutual-information quantity, and the source’s information-bottleneck interpretation uses additional assumptions. No general noncollapse or downstream-performance theorem is asserted. High-dimensional projection increases the size of the d-by-d correlation computation. The record does not include proposed autocorrelation/covariance variants or numerical benchmark reproduction.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:VICReg.
+
+This is VICReg as defined by Bardes et al., not a generic covariance penalty, Barlow Twins cross-correlation loss, VICRegL or a checkpoint. Both branches are optimized through their outputs; shared weights and identical backbones are supported but are not requirements of the general construction. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish identity.
+
+Encode paired augmented views and pass their representations through expander networks to obtain n-by-d embeddings Z and Z′, n≥2. In the paper’s Equations (1)–(6), define s(Z,Z′)=sum_i&#124;&#124;z_i−z′_i&#124;&#124;^2/n; v(Z)=sum_j max(0,gamma−sqrt(Var(Z_:j)+epsilon))/d with epsilon&gt;0 and a target gamma&gt;0; and c(Z)=sum_(j≠k) C(Z)_jk^2/d, where C(Z)=sum_i(z_i−mean(Z))(z_i−mean(Z))^T/(n−1). Use sample variance consistent with the covariance diagonal and the supplement’s variance call. Minimize lambda s+mu[v(Z)+v(Z′)]+nu[c(Z)+c(Z′)] for positive weights, differentiating through both branches without target stop-gradient. Branches must produce matching embedding dimensions but can have different encoder architectures or weights. The loss requires no output normalization, negative-pair dictionary or momentum teacher. After pretraining discard the expanders and retain encoder representations. Limitations: The pinned author code uses element-averaged F.mse_loss and averages the two variance penalties with an additional factor 1/2. The main equations instead use a per-image squared Euclidean sum and a sum of branch variance penalties; coefficient values are not interchangeable without corresponding rescaling. A hinge on regularized standard deviation stops penalizing values above its threshold; it does not enforce equality to gamma or a hard variance constraint. A positive penalty at zero sample variance requires gamma&gt;sqrt(epsilon), as in the reported gamma=1 and epsilon=0.0001 setting. A positive penalty at a collapsed output does not prove that every optimizer can escape it. The loss does not require batch normalization, but the reported expander architecture uses it internally. Absence of output normalization is not a claim that every layer is normalization-free. Covariance decorrelation does not establish statistical independence. With centered n-sample embeddings, rank limits can make simultaneous positive variance in all d coordinates and exactly zero off-diagonal covariance unattainable when d&gt;n−1. The pinned distributed implementation gathers embeddings with backward support and uses the configured global batch size in the covariance denominator. Framework defaults, batch composition, augmentation, dimensions and coefficients matter to reproduction. No historical runtime execution, general noncollapse guarantee or numerical benchmark is asserted.
+
+### SimSiam and SwAV target construction
+
+scope: supported. Targets: AIMech:SimSiam, AIMech:SwAV.
+
+Retain shared-network stopped cosine targets and detached online prototype codes as distinct procedures.
+
+SimSiam directly shares encoder weights and trains its predictor; detachment is directional, so both view paths still receive gradients through prediction terms. Section 5.3 explicitly limits its noncollapse account to empirical observation. SwAV instead computes entropy-regularized soft assignments and predicts opposite/global-view codes. The transport matrix has total mass one and column mass 1/B; its per-image probability codes are rescaled to unit column mass. Finite Sinkhorn iteration is approximate. Uniform soft assignments satisfy balance, so the record preserves the source’s high-entropy collapse observation rather than treating equipartition as an absolute guarantee. The optional recent-feature queue and finite-batch assignment behavior differ from MoCo’s momentum negative-key dictionary.
+
+### Barlow Twins versus VICReg statistics
+
+representation: supported. Targets: AIMech:BarlowTwins, AIMech:VICReg.
+
+Retain cross-view correlation identity matching and separate branch variance/covariance regularization.
+
+Barlow Twins normalizes centered coordinate columns and penalizes deviation of cross-view C from identity; both view paths carry gradients. Its pinned implementation uses synchronized non-affine batch normalization and distributed cross-products. VICReg uses unnormalized paired differences plus per-branch variance hinges and covariance off-diagonals, and supports nonshared backbones with matching output dimensions. Visually checked VICReg equations and Appendix A algorithm against pinned forward code: the code averages squared error over elements and half-sums the variance terms, whereas the main equations use per-image squared Euclidean sums and an unhalved branch sum. The record specifies its equation convention and preserves required coefficient rescaling. A hinge is not a hard variance constraint or equality, and its numerical floor affects collapse penalties. Rank limits and the distinction between decorrelation and independence are explicit mathematical consequences of the displayed centered matrices, not claimed experiments.
+
+### Qualified AIO related mappings
+
+scope: supported. Targets: AIMech:SimSiam, AIMech:SwAV, AIMech:BarlowTwins, AIMech:VICReg.
+
+Retain native algorithm identities and qualified task associations.
+
+The inspected AIO self-supervised and unsupervised-clustering nodes denote tasks; related mappings do not assert algorithm/task equivalence or upstream subclass changes. Generic network vocabulary, smaller-model compression and unrelated clustering structures do not resolve these algorithms. Neighboring native mechanisms remain distinct despite overlapping augmentation, normalization and loss components.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:SimSiam, AIMech:SwAV, AIMech:BarlowTwins, AIMech:VICReg. Retain directional stop-gradient with a shared predictor, balanced detached prototype assignment, normalized cross-view correlation reduction and separately regularized branch variances/covariances. Their loss, target construction and update mechanisms differ. The task mappings preserve relatedness without asserting identity or upstream ontology edits.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T080531Z-joint-embedding-self-supervision.json | supports | No normalized match among all 442 AIO labels/scoped synonyms and 191 native IDs/names/aliases. Both full checkouts were searched including hidden and ignored files: four discovery-lead references per checkout plus an unrelated Pygments DFSWAVE token in main. Actual neighboring SimCLR, MoCo, BYOL and DINO records remain distinct in objective, target construction and updates. |
+| mapping | sources/aio/aio.json; Thirteen exact CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection; generated SelfsupervisedLearning, UnsupervisedClustering, RepresentationLearning and Distillation records | supports | Read thirteen exact AIO CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection. All four algorithms have related mappings to the SelfsupervisedLearning task; SwAV also relates to the UnsupervisedClustering task through its online prototype assignment. These preserve algorithm/task distinctions. RepresentationLearning and ContrastiveLearning are broad network vocabulary; the latter explicitly describes positive/negative comparisons. LLM scope, larger-to-smaller Distillation, hierarchical clustering and biclustering do not establish these identities. No pin or generated record changed. |
+| neighbors | data/curated/BootstrapYourOwnLatent.yaml; Actual definitions, claims and mappings in SimCLR, MomentumContrast, BootstrapYourOwnLatent and DINOSelfDistillation | supports | Neighboring methods retain distinct current-batch negatives, queued momentum keys, online-only predictor against EMA targets, and centered/sharpened teacher probability targets. Shared components and representation-learning purpose do not establish identity. |
+| simsiam-source | https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Exploring_Simple_Siamese_Representation_Learning_CVPR_2021_paper.pdf; Section 3, Equations (1)–(4) and Algorithm 1, printed pp. 15751–15752 / PDF pp. 2–3; Sections 4.1–4.7, pp. 15752–15754 / PDF pp. 3–5; Section 5.3, p. 15756 / PDF p. 7 | supports | A self-supervised representation-learning procedure that trains a shared encoder and predictor to match the encoder output of another augmented view using symmetric negative cosine similarity with stopped gradients on each target output. Version: CVPR 2021, pp. 15750–15758; nine-page proceedings PDF. Complete local text pages read: 1, 2, 3, 4, 5, 6, 8. Actual image pages viewed: 2, 3. Partial/web reads are separately recorded. No training or benchmark execution. |
+| swav-source | https://proceedings.neurips.cc/paper_files/paper/2020/file/70feb62b69f16e0238f741fab228fec2-Paper.pdf; Sections 3.1–3.2, Equations (1)–(6), main PDF pp. 3–5, with Section 3.2 continuation on p. 6 | supports | An online self-supervised visual representation-learning procedure that predicts soft prototype assignments of one augmented image view from other views, using entropy-regularized balanced assignment and jointly learned features and prototypes. Version: NeurIPS 2020 proceedings; thirteen-page main paper. Complete local text pages read: 3, 4, 5. Actual image pages viewed: 4. Partial/web reads are separately recorded. No training or benchmark execution. |
+| swav-source-1 | https://proceedings.neurips.cc/paper_files/paper/2020/file/70feb62b69f16e0238f741fab228fec2-Supplemental.pdf; Appendix A.1 training loop, stopped codes, prototype normalization and Sinkhorn pseudocode, supplement PDF pp. 1–2; Appendix A.2 crop distributions, p. 2 | supports | Inspected source: Supplementary Material for Unsupervised Learning of Visual Features by Contrasting Cluster Assignments. NeurIPS 2020 supplement; eleven PDF pages. SwAV supplement pages 1–2 were read as text and actual images. |
+| barlowtwins-source | https://proceedings.mlr.press/v139/zbontar21a/zbontar21a.pdf; Sections 2.1–2.2, Equations (1)–(2) and Algorithm 1, PDF pp. 2–3; Section 5.2 and comparison discussion, PDF p. 9 | supports | A self-supervised representation-learning procedure that trains shared encoder and projection networks to make the cross-correlation of two batches of augmented-view embeddings close to the identity, penalizing diagonal mismatch and off-diagonal correlation. Version: ICML 2021, PMLR 139:12310–12320; eleven-page proceedings PDF. Complete local text pages read: 1, 2, 3, 9. Actual image pages viewed: 2, 3. Partial/web reads are separately recorded. No training or benchmark execution. |
+| barlowtwins-source-1 | https://raw.githubusercontent.com/facebookresearch/barlowtwins/8e8d284ca0bc02f88b92328e53f9b901e86b4a3c/main.py; main.py lines 88–117 (SyncBatchNorm/distributed setup) and 187–222 (projector, non-affine batch normalization, cross-correlation and loss) | context_only | Inspected source: Barlow Twins author training implementation. facebookresearch/barlowtwins commit 8e8d284ca0bc02f88b92328e53f9b901e86b4a3c. Pinned author code was read at the cited ranges without execution. |
+| barlowtwins-source-2 | https://docs.pytorch.org/docs/2.14/generated/torch.nn.BatchNorm1d.html; Class signature and forward normalization description: biased forward variance, epsilon, and running-statistic distinction | context_only | Inspected source: PyTorch BatchNorm1d API semantics. PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical runtime. Versioned API sections support normalization interpretation, not an executed historical environment. |
+| vicreg-source | https://arxiv.org/pdf/2105.04906v3; Sections 4–4.2, Equations (1)–(6), PDF pp. 4–5; Section 5.3 multimodal scope, p. 7; Appendix A Algorithm 1, p. 13 | supports | A self-supervised joint-embedding procedure that combines a paired-view invariance loss with separate per-branch penalties for insufficient coordinate standard deviation and off-diagonal covariance. Version: arXiv:2105.04906v3, 2022-01-28; ICLR 2022 paper; 23 PDF pages. Complete local text pages read: 2, 3, 4, 5, 7, 13. Actual image pages viewed: 5, 13. Partial/web reads are separately recorded. No training or benchmark execution. |
+| vicreg-source-1 | https://raw.githubusercontent.com/facebookresearch/vicreg/4e12602fd495af83efd1631fbe82523e6db092e0/main_vicreg.py; main_vicreg.py lines 183–222 (forward loss, feature gathering, half-summed variance penalties and covariance scaling) and 307–323 (FullGatherLayer forward/backward) | context_only | Inspected source: VICReg author training implementation. facebookresearch/vicreg commit 4e12602fd495af83efd1631fbe82523e6db092e0. Pinned author code was read at the cited ranges without execution. |
+| vicreg-source-2 | https://docs.pytorch.org/docs/2.14/generated/torch.nn.functional.mse_loss.html; Function signature and reduction argument: default mean of elementwise squared error | context_only | Inspected source: PyTorch functional mean squared error API semantics. PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical runtime. Versioned API sections support normalization interpretation, not an executed historical environment. |
+| vicreg-source-3 | https://docs.pytorch.org/docs/2.14/generated/torch.var.html; Function signature, sample-variance formula, correction=1 default and pre-2.0 unbiased argument equivalence | context_only | Inspected source: PyTorch variance API semantics. PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical runtime. Versioned API sections support normalization interpretation, not an executed historical environment. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all four records remain DRAFT.
+- Only declared full-method passages, selected PDF images, pinned code ranges and API sections were inspected.
+- SimSiam and Barlow Twins supplements were not downloaded; uninspected appendices are not evidence for claims.
+- Current PyTorch API documentation explains normalization conventions; no historical software environment was reproduced.
+- Paper/pseudocode/author-code reduction differences are disclosed; no universal numerical coefficient transfer, collapse avoidance or performance guarantee is certified.
+- Required local and vendor checks passed; positive discoveries and remaining supported leads keep the goal active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T080752Z-joint-embedding-self-supervision
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of joint-embedding self-supervised methods
+started_at: '2026-10-11T08:05:49Z'
+finished_at: '2026-10-11T08:07:52Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all four actual YAMLs
+    against primary method text, visible equations/algorithms, SwAV supplement, pinned
+    author code, versioned API documentation, neighboring native records and exact
+    AIO nodes. No independent reviewer or approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain four distinct representation-learning procedures with qualified AIO
+  task mappings. No actionable defect remains in the assessed records. All remain
+  DRAFT; paper/code conventions, reading scope and empirical limits are explicit.
+source:
+  git_revision: 0b9e2f9f56e28caa0ffee8e04e6f705907645e4f
+  state: working_tree
+  inputs:
+  - path: data/aio/Distillation.yaml
+    sha256: 02faf8db468fca6adfe257a141c98c7b13f85dc301e856a1f9622dfdb68ae5c9
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SelfsupervisedLearning.yaml
+    sha256: ad9a98dfee5629f6433f13470f56e333316f8f03847df2c5678faf023d979c0e
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/BarlowTwins.yaml
+    sha256: d94a944d2e8e50185b7171f5461e515708eced1b732bac61b1e420f6a367643a
+    role: target
+  - path: data/curated/BootstrapYourOwnLatent.yaml
+    sha256: 4ed2bebb46d3199f192dcb7e53012a22c7bd96d7b41f015db762dd41f545e307
+    role: context
+  - path: data/curated/DINOSelfDistillation.yaml
+    sha256: 66ac3400efd5deda6468cb7e8ae53f3c7f6f0cf942557b634ef3a7bdafc93516
+    role: context
+  - path: data/curated/MomentumContrast.yaml
+    sha256: 88f10d2891717ff3d6c625bb9c1a656642c5be0cd40752f8776179076a462ecc
+    role: context
+  - path: data/curated/SimCLR.yaml
+    sha256: e00dbf707a274e02df684ad09ae679b9dda832ba42e4aea7db5a157e25385e3d
+    role: context
+  - path: data/curated/SimSiam.yaml
+    sha256: 283a7d1d5f9bbd6bff853294b71e26d5489a412568bfff0846bef831d9019fe3
+    role: target
+  - path: data/curated/SwAV.yaml
+    sha256: d637a3b257a377eb6e99f54c5372cead970a4045706c356d279d69340a0f9ed2
+    role: target
+  - path: data/curated/VICReg.yaml
+    sha256: c04e41d11984e1be0efaf723b1cccc4bef0f0712acdd28f6004cf9287bf276af
+    role: target
+  - path: research/discovery/20261011T080531Z-joint-embedding-self-supervision.json
+    sha256: 2fd673216f0f001eaea7bf46f35bf0931908188dae3d8e26db5c5a23e07dd82b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SimSiam
+  path: data/curated/SimSiam.yaml
+  label: SimSiam
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SimSiam.yaml
+    role: maintained
+- target_id: AIMech:SwAV
+  path: data/curated/SwAV.yaml
+  label: SwAV
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SwAV.yaml
+    role: maintained
+- target_id: AIMech:BarlowTwins
+  path: data/curated/BarlowTwins.yaml
+  label: Barlow Twins
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BarlowTwins.yaml
+    role: maintained
+- target_id: AIMech:VICReg
+  path: data/curated/VICReg.yaml
+  label: VICReg
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VICReg.yaml
+    role: maintained
+scope:
+  description: Four maintained joint-embedding self-supervised representation-learning
+    algorithms.
+  selection: Exactly SimSiam, SwAV, BarlowTwins and VICReg in the joint-embedding-self-supervision
+    discovery ledger; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  exclusions:
+  - target: DeepCluster, SeLa, whitening methods, OBoW and later variants
+    reason: Original methods and identity checks remain pending in the discovery frontier.
+  - target: Uninspected supplementary pages and historical runtime reproduction
+    reason: Only declared passages/images/code/API documentation were inspected; no
+      training or numerical benchmark was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 30%]\n........................................................................\
+    \ [ 61%]\n........................................................................\
+    \ [ 91%]\n................sss                                                \
+    \      [100%]\n232 passed, 3 skipped in 56.45s\nChecked 442 record(s); 0 failed.\n\
+    Checked 195 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 38 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 38,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T080531Z-joint-embedding-self-supervision.json
+  accessed_at: '2026-10-11T08:05:49Z'
+  support: supports
+  summary: 'No normalized match among all 442 AIO labels/scoped synonyms and 191 native
+    IDs/names/aliases. Both full checkouts were searched including hidden and ignored
+    files: four discovery-lead references per checkout plus an unrelated Pygments
+    DFSWAVE token in main. Actual neighboring SimCLR, MoCo, BYOL and DINO records
+    remain distinct in objective, target construction and updates.'
+  search_scope: All 442 AIO labels/scoped synonyms and 191 preceding native IDs/names/aliases;
+    both full checkouts including hidden and ignored files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-11T08:05:49Z'
+  support: supports
+  locator: Thirteen exact CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection;
+    generated SelfsupervisedLearning, UnsupervisedClustering, RepresentationLearning
+    and Distillation records
+  summary: Read thirteen exact AIO CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection.
+    All four algorithms have related mappings to the SelfsupervisedLearning task;
+    SwAV also relates to the UnsupervisedClustering task through its online prototype
+    assignment. These preserve algorithm/task distinctions. RepresentationLearning
+    and ContrastiveLearning are broad network vocabulary; the latter explicitly describes
+    positive/negative comparisons. LLM scope, larger-to-smaller Distillation, hierarchical
+    clustering and biclustering do not establish these identities. No pin or generated
+    record changed.
+- evidence_id: neighbors
+  kind: record_content
+  reference: data/curated/BootstrapYourOwnLatent.yaml
+  accessed_at: '2026-10-11T08:05:49Z'
+  support: supports
+  locator: Actual definitions, claims and mappings in SimCLR, MomentumContrast, BootstrapYourOwnLatent
+    and DINOSelfDistillation
+  summary: Neighboring methods retain distinct current-batch negatives, queued momentum
+    keys, online-only predictor against EMA targets, and centered/sharpened teacher
+    probability targets. Shared components and representation-learning purpose do
+    not establish identity.
+- evidence_id: simsiam-source
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Exploring_Simple_Siamese_Representation_Learning_CVPR_2021_paper.pdf
+  locator: Section 3, Equations (1)–(4) and Algorithm 1, printed pp. 15751–15752 /
+    PDF pp. 2–3; Sections 4.1–4.7, pp. 15752–15754 / PDF pp. 3–5; Section 5.3, p.
+    15756 / PDF p. 7
+  accessed_at: '2026-10-11T07:56:30Z'
+  snapshot_sha256: 89e52731a2da8644199c86b789ac74c581ec993338d3ad65cdf681d32c835242
+  support: supports
+  summary: 'A self-supervised representation-learning procedure that trains a shared
+    encoder and predictor to match the encoder output of another augmented view using
+    symmetric negative cosine similarity with stopped gradients on each target output.
+    Version: CVPR 2021, pp. 15750–15758; nine-page proceedings PDF. Complete local
+    text pages read: 1, 2, 3, 4, 5, 6, 8. Actual image pages viewed: 2, 3. Partial/web
+    reads are separately recorded. No training or benchmark execution.'
+- evidence_id: swav-source
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2020/file/70feb62b69f16e0238f741fab228fec2-Paper.pdf
+  locator: Sections 3.1–3.2, Equations (1)–(6), main PDF pp. 3–5, with Section 3.2
+    continuation on p. 6
+  accessed_at: '2026-10-11T07:56:30Z'
+  snapshot_sha256: a18124b18b012b502c9d584fa527f08218858e7c41152aaf250bd8a3c0f69b60
+  support: supports
+  summary: 'An online self-supervised visual representation-learning procedure that
+    predicts soft prototype assignments of one augmented image view from other views,
+    using entropy-regularized balanced assignment and jointly learned features and
+    prototypes. Version: NeurIPS 2020 proceedings; thirteen-page main paper. Complete
+    local text pages read: 3, 4, 5. Actual image pages viewed: 4. Partial/web reads
+    are separately recorded. No training or benchmark execution.'
+- evidence_id: swav-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2020/file/70feb62b69f16e0238f741fab228fec2-Supplemental.pdf
+  locator: Appendix A.1 training loop, stopped codes, prototype normalization and
+    Sinkhorn pseudocode, supplement PDF pp. 1–2; Appendix A.2 crop distributions,
+    p. 2
+  accessed_at: '2026-10-11T07:56:30Z'
+  support: supports
+  summary: 'Inspected source: Supplementary Material for Unsupervised Learning of
+    Visual Features by Contrasting Cluster Assignments. NeurIPS 2020 supplement; eleven
+    PDF pages. SwAV supplement pages 1–2 were read as text and actual images.'
+  snapshot_sha256: 8cd2a74ab7980b7cec34c9c9b84da1c86f2e7d806b7a38f454fad7758923f507
+- evidence_id: barlowtwins-source
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v139/zbontar21a/zbontar21a.pdf
+  locator: Sections 2.1–2.2, Equations (1)–(2) and Algorithm 1, PDF pp. 2–3; Section
+    5.2 and comparison discussion, PDF p. 9
+  accessed_at: '2026-10-11T07:56:31Z'
+  snapshot_sha256: 8c31a5584f797e2bd0f6f05e0f5f14a649ef89b8c465212ccc5491b45a285ff5
+  support: supports
+  summary: 'A self-supervised representation-learning procedure that trains shared
+    encoder and projection networks to make the cross-correlation of two batches of
+    augmented-view embeddings close to the identity, penalizing diagonal mismatch
+    and off-diagonal correlation. Version: ICML 2021, PMLR 139:12310–12320; eleven-page
+    proceedings PDF. Complete local text pages read: 1, 2, 3, 9. Actual image pages
+    viewed: 2, 3. Partial/web reads are separately recorded. No training or benchmark
+    execution.'
+- evidence_id: barlowtwins-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/facebookresearch/barlowtwins/8e8d284ca0bc02f88b92328e53f9b901e86b4a3c/main.py
+  locator: main.py lines 88–117 (SyncBatchNorm/distributed setup) and 187–222 (projector,
+    non-affine batch normalization, cross-correlation and loss)
+  accessed_at: '2026-10-11T08:00:52Z'
+  support: context_only
+  summary: 'Inspected source: Barlow Twins author training implementation. facebookresearch/barlowtwins
+    commit 8e8d284ca0bc02f88b92328e53f9b901e86b4a3c. Pinned author code was read at
+    the cited ranges without execution.'
+  snapshot_sha256: 24598954e02207fa25b7602e2d6f35aa4f3a52d98fb1aa3360de3f46699df429
+- evidence_id: barlowtwins-source-2
+  kind: primary_source
+  reference: https://docs.pytorch.org/docs/2.14/generated/torch.nn.BatchNorm1d.html
+  locator: 'Class signature and forward normalization description: biased forward
+    variance, epsilon, and running-statistic distinction'
+  accessed_at: '2026-10-11T08:02:15Z'
+  support: context_only
+  summary: 'Inspected source: PyTorch BatchNorm1d API semantics. PyTorch 2.14 API
+    documentation; inspected API semantics, not a reproduced historical runtime. Versioned
+    API sections support normalization interpretation, not an executed historical
+    environment.'
+- evidence_id: vicreg-source
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2105.04906v3
+  locator: Sections 4–4.2, Equations (1)–(6), PDF pp. 4–5; Section 5.3 multimodal
+    scope, p. 7; Appendix A Algorithm 1, p. 13
+  accessed_at: '2026-10-11T07:56:31Z'
+  snapshot_sha256: c227c290d5eb2ba459fd502de3b4e1da36a0ea4c88989b7d8153e211751e9e77
+  support: supports
+  summary: 'A self-supervised joint-embedding procedure that combines a paired-view
+    invariance loss with separate per-branch penalties for insufficient coordinate
+    standard deviation and off-diagonal covariance. Version: arXiv:2105.04906v3, 2022-01-28;
+    ICLR 2022 paper; 23 PDF pages. Complete local text pages read: 2, 3, 4, 5, 7,
+    13. Actual image pages viewed: 5, 13. Partial/web reads are separately recorded.
+    No training or benchmark execution.'
+- evidence_id: vicreg-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/facebookresearch/vicreg/4e12602fd495af83efd1631fbe82523e6db092e0/main_vicreg.py
+  locator: main_vicreg.py lines 183–222 (forward loss, feature gathering, half-summed
+    variance penalties and covariance scaling) and 307–323 (FullGatherLayer forward/backward)
+  accessed_at: '2026-10-11T08:00:52Z'
+  support: context_only
+  summary: 'Inspected source: VICReg author training implementation. facebookresearch/vicreg
+    commit 4e12602fd495af83efd1631fbe82523e6db092e0. Pinned author code was read at
+    the cited ranges without execution.'
+  snapshot_sha256: 88c4439e2c508156c79416cbd7c628d05f52f517e3eb1f66eac8db483485cf20
+- evidence_id: vicreg-source-2
+  kind: primary_source
+  reference: https://docs.pytorch.org/docs/2.14/generated/torch.nn.functional.mse_loss.html
+  locator: 'Function signature and reduction argument: default mean of elementwise
+    squared error'
+  accessed_at: '2026-10-11T08:02:15Z'
+  support: context_only
+  summary: 'Inspected source: PyTorch functional mean squared error API semantics.
+    PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical
+    runtime. Versioned API sections support normalization interpretation, not an executed
+    historical environment.'
+- evidence_id: vicreg-source-3
+  kind: primary_source
+  reference: https://docs.pytorch.org/docs/2.14/generated/torch.var.html
+  locator: Function signature, sample-variance formula, correction=1 default and pre-2.0
+    unbiased argument equivalence
+  accessed_at: '2026-10-11T08:02:15Z'
+  support: context_only
+  summary: 'Inspected source: PyTorch variance API semantics. PyTorch 2.14 API documentation;
+    inspected API semantics, not a reproduced historical runtime. Versioned API sections
+    support normalization interpretation, not an executed historical environment.'
+assessments:
+- assessment_id: simsiam
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:SimSiam
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - simsiam-source
+  summary: This is Chen and He’s SimSiam procedure, not generic Siamese-network architecture
+    or a checkpoint. The two views share encoder weights directly; the target output
+    is detached only for its directional loss. There is no separately averaged target
+    encoder or explicit negative-pair term. No normalized identity match was found
+    across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases.
+    Ignored-inclusive searches of both full checkouts found only prior discovery leads
+    (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring
+    SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected;
+    shared components do not establish identity.
+  details: 'Generate two augmented views v1 and v2 of each image. A shared encoder
+    f, including backbone and projection MLP, produces z1=f(v1) and z2=f(v2); a shared
+    prediction MLP h produces p1=h(z1) and p2=h(z2). For nonzero vectors let D(p,z)=−(p/||p||)·(z/||z||).
+    Average [D(p1,stopgrad(z2))+D(p2,stopgrad(z1))]/2 over images and update f and
+    h by gradients. Each view’s encoder output is constant on its target side but
+    receives gradients through its prediction side in the opposite term. The original
+    procedure uses no momentum-averaged encoder, negative dictionary or clustering
+    assignment step. Limitations: Stop-gradient changes the optimization dynamics
+    but does not remove constant representations from the numerical loss’s minimizers.
+    Section 5.3 explicitly treats noncollapse as empirical and says the alternating-optimization
+    hypothesis does not explain its prevention. The predictor is trained; removing
+    it or fixing random predictor weights is not the defined procedure. A symmetric
+    target stop does not mean a branch never receives gradients. Batch normalization,
+    augmentation, architecture, optimizer and scheduling affect the reported results.
+    Absence of explicit negative pairs does not imply independent per-example learning
+    when batch statistics are used. The record covers the original symmetric cosine
+    formulation. Asymmetric, cross-entropy and multistep-alternation experiments are
+    not silently made equivalent. Nonzero-norm handling is required; no universal
+    performance or convergence guarantee is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint, generic
+      network shape or reported benchmark outcome.
+    evidence_ids:
+    - simsiam-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: swav
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:SwAV
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - swav-source
+  - swav-source-1
+  summary: SwAV means swapping assignments between views. It uses online soft prototype
+    codes rather than offline full-dataset k-means labels, direct pairwise feature
+    negatives, or an exponential-moving-average teacher. Its prototype assignments
+    are learned training targets, not verified semantic class labels. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts
+    found only prior discovery leads (four hits per checkout) and one unrelated main-environment
+    DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO
+    definitions/edges were inspected; shared components do not establish identity.
+  details: 'Encode augmented views into nonzero features and L2-normalize them; compare
+    them with K trainable prototype columns C. For a group of B features Z with positive
+    integer B and K and epsilon>0, approximately maximize Tr(Q^T C^T Z)+epsilon H(Q)
+    over nonnegative Q with row sums 1/K and column sums 1/B, where H(Q)=−sum_(k,b)
+    Q_kb log Q_kb. Compute the soft transport assignment by Sinkhorn row/column rescaling
+    of exp(C^T Z/epsilon), then normalize each column into a probability code q_b
+    (q_b=B Q_:b at exact column balance). Stop gradients through codes. For each image,
+    predict a global view’s code from the other views using p(v)=softmax(C^T z(v)/tau),
+    tau>0, and cross-entropy −sum_k q_k log p_k, averaged over images and valid cross-view
+    pairs. In multicrop training codes are computed from the two global crops; predictions
+    use global and smaller crops while excluding the same crop as its code target.
+    Update encoder/projection parameters and prototypes by gradients and normalize
+    prototype columns, as in the supplement. The small-batch variant augments assignment
+    features with a recent-feature queue but uses only current-image codes in the
+    loss. Limitations: Finite Sinkhorn iterations approximate the balanced transport
+    solution. Probability codes must sum to one per image; the mass-1 transport matrix
+    with column sums 1/B is not already that probability matrix. Exponential scores
+    need numerically stable evaluation. The source describes equipartition as preventing
+    identical codes, but also reports uniform collapse with strong entropy regularization.
+    Uniform soft assignments satisfy the balance constraints, so balance alone is
+    not a general noncollapse theorem. The source motivates a feature queue when B
+    is small relative to K. This is an empirical assignment-quality issue; the continuous
+    transport polytope is not mathematically empty merely because B<K. Queued features
+    can be stale and are not a momentum encoder. The main equations and supplement
+    pseudocode use different compact sum/mean conventions. This record states averaged
+    cross-entropy explicitly and does not transfer optimizer coefficients between
+    differently scaled losses. Prototype number, assignment regularization, crop distribution,
+    initial prototype freezing and optimization schedule are experimental choices.
+    No semantic clustering guarantee, universal batch-size independence or reproduced
+    benchmark is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint, generic
+      network shape or reported benchmark outcome.
+    evidence_ids:
+    - swav-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning; related_match: AIO:UnsupervisedClustering'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+      SwAV uses balanced online soft assignments to learned prototypes in its representation-learning
+      procedure. The pinned target is an unlabeled clustering task; this is a related
+      algorithm-to-task association, not equivalence, a semantic class-label guarantee
+      or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: barlowtwins
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:BarlowTwins
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - barlowtwins-source
+  - barlowtwins-source-1
+  - barlowtwins-source-2
+  summary: This is the Barlow Twins procedure of Zbontar et al., not all redundancy-reduction
+    methods or a particular encoder. Its objective couples feature dimensions through
+    a cross-view correlation matrix, with gradients through both views and no separate
+    predictor, stopped target or momentum teacher. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases.
+    Ignored-inclusive searches of both full checkouts found only prior discovery leads
+    (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring
+    SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected;
+    shared components do not establish identity.
+  details: 'For B≥2 paired augmented views, apply a shared backbone and projection
+    head to obtain B-by-d embeddings in each view. Center every embedding coordinate
+    over the batch. For nonzero centered column norms define C_ij=sum_b zA_bi zB_bj/[sqrt(sum_b
+    zA_bi^2) sqrt(sum_b zB_bj^2)]. Minimize L=sum_i(1−C_ii)^2+lambda sum_(i≠j) C_ij^2
+    with lambda>0, backpropagating through both branches and their normalization.
+    The first term aligns matching coordinates across views; the second penalizes
+    off-diagonal cross-view correlations. After pretraining, use backbone representations
+    before the projection head for downstream tasks. This states the paper’s correlation-equation
+    formulation; the pinned implementation realizes normalization with synchronized
+    batch normalization and an epsilon-stabilized denominator. Limitations: Zero centered
+    variance makes the ideal correlation equation undefined. The author implementation
+    uses non-affine BatchNorm1d, converts it to synchronized batch normalization,
+    and reduces cross-products across workers; reproductions must preserve statistics,
+    epsilon and batch-size conventions. The paper’s pseudocode leaves the standard-deviation
+    convention implicit, while its equation uses normalized column norms. Sample-standard-deviation
+    normalization followed by division by B is not identical to that equation; do
+    not equate arbitrary std defaults with the stated correlation. Zero pairwise correlation
+    does not establish statistical independence. By matrix rank, a centered B-sample
+    cross-correlation matrix cannot equal a d-dimensional identity when d>B−1; driving
+    it toward identity is an objective, not a guarantee of attaining zero loss. The
+    loss is not itself a mutual-information quantity, and the source’s information-bottleneck
+    interpretation uses additional assumptions. No general noncollapse or downstream-performance
+    theorem is asserted. High-dimensional projection increases the size of the d-by-d
+    correlation computation. The record does not include proposed autocorrelation/covariance
+    variants or numerical benchmark reproduction.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint, generic
+      network shape or reported benchmark outcome.
+    evidence_ids:
+    - barlowtwins-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: vicreg
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:VICReg
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - vicreg-source
+  - vicreg-source-1
+  - vicreg-source-2
+  - vicreg-source-3
+  summary: This is VICReg as defined by Bardes et al., not a generic covariance penalty,
+    Barlow Twins cross-correlation loss, VICRegL or a checkpoint. Both branches are
+    optimized through their outputs; shared weights and identical backbones are supported
+    but are not requirements of the general construction. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native
+    IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only
+    prior discovery leads (four hits per checkout) and one unrelated main-environment
+    DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO
+    definitions/edges were inspected; shared components do not establish identity.
+  details: 'Encode paired augmented views and pass their representations through expander
+    networks to obtain n-by-d embeddings Z and Z′, n≥2. In the paper’s Equations (1)–(6),
+    define s(Z,Z′)=sum_i||z_i−z′_i||^2/n; v(Z)=sum_j max(0,gamma−sqrt(Var(Z_:j)+epsilon))/d
+    with epsilon>0 and a target gamma>0; and c(Z)=sum_(j≠k) C(Z)_jk^2/d, where C(Z)=sum_i(z_i−mean(Z))(z_i−mean(Z))^T/(n−1).
+    Use sample variance consistent with the covariance diagonal and the supplement’s
+    variance call. Minimize lambda s+mu[v(Z)+v(Z′)]+nu[c(Z)+c(Z′)] for positive weights,
+    differentiating through both branches without target stop-gradient. Branches must
+    produce matching embedding dimensions but can have different encoder architectures
+    or weights. The loss requires no output normalization, negative-pair dictionary
+    or momentum teacher. After pretraining discard the expanders and retain encoder
+    representations. Limitations: The pinned author code uses element-averaged F.mse_loss
+    and averages the two variance penalties with an additional factor 1/2. The main
+    equations instead use a per-image squared Euclidean sum and a sum of branch variance
+    penalties; coefficient values are not interchangeable without corresponding rescaling.
+    A hinge on regularized standard deviation stops penalizing values above its threshold;
+    it does not enforce equality to gamma or a hard variance constraint. A positive
+    penalty at zero sample variance requires gamma>sqrt(epsilon), as in the reported
+    gamma=1 and epsilon=0.0001 setting. A positive penalty at a collapsed output does
+    not prove that every optimizer can escape it. The loss does not require batch
+    normalization, but the reported expander architecture uses it internally. Absence
+    of output normalization is not a claim that every layer is normalization-free.
+    Covariance decorrelation does not establish statistical independence. With centered
+    n-sample embeddings, rank limits can make simultaneous positive variance in all
+    d coordinates and exactly zero off-diagonal covariance unattainable when d>n−1.
+    The pinned distributed implementation gathers embeddings with backward support
+    and uses the configured global batch size in the covariance denominator. Framework
+    defaults, batch composition, augmentation, dimensions and coefficients matter
+    to reproduction. No historical runtime execution, general noncollapse guarantee
+    or numerical benchmark is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified representation-learning procedure, not a checkpoint, generic
+      network shape or reported benchmark outcome.
+    evidence_ids:
+    - vicreg-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This is an algorithm for learning representations from relationships
+      between unlabeled views. The pinned AIO target is a MachineLearningTask; this
+      is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: stopped-targets-and-balanced-codes
+  area: scope
+  topic: SimSiam and SwAV target construction
+  outcome: supported
+  target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  evidence_ids:
+  - simsiam-source
+  - swav-source
+  - swav-source-1
+  - neighbors
+  summary: Retain shared-network stopped cosine targets and detached online prototype
+    codes as distinct procedures.
+  details: SimSiam directly shares encoder weights and trains its predictor; detachment
+    is directional, so both view paths still receive gradients through prediction
+    terms. Section 5.3 explicitly limits its noncollapse account to empirical observation.
+    SwAV instead computes entropy-regularized soft assignments and predicts opposite/global-view
+    codes. The transport matrix has total mass one and column mass 1/B; its per-image
+    probability codes are rescaled to unit column mass. Finite Sinkhorn iteration
+    is approximate. Uniform soft assignments satisfy balance, so the record preserves
+    the source’s high-entropy collapse observation rather than treating equipartition
+    as an absolute guarantee. The optional recent-feature queue and finite-batch assignment
+    behavior differ from MoCo’s momentum negative-key dictionary.
+- assessment_id: cross-correlation-and-separate-covariance
+  area: representation
+  topic: Barlow Twins versus VICReg statistics
+  outcome: supported
+  target_ids:
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  evidence_ids:
+  - barlowtwins-source
+  - barlowtwins-source-1
+  - barlowtwins-source-2
+  - vicreg-source
+  - vicreg-source-1
+  - vicreg-source-2
+  - vicreg-source-3
+  summary: Retain cross-view correlation identity matching and separate branch variance/covariance
+    regularization.
+  details: 'Barlow Twins normalizes centered coordinate columns and penalizes deviation
+    of cross-view C from identity; both view paths carry gradients. Its pinned implementation
+    uses synchronized non-affine batch normalization and distributed cross-products.
+    VICReg uses unnormalized paired differences plus per-branch variance hinges and
+    covariance off-diagonals, and supports nonshared backbones with matching output
+    dimensions. Visually checked VICReg equations and Appendix A algorithm against
+    pinned forward code: the code averages squared error over elements and half-sums
+    the variance terms, whereas the main equations use per-image squared Euclidean
+    sums and an unhalved branch sum. The record specifies its equation convention
+    and preserves required coefficient rescaling. A hinge is not a hard variance constraint
+    or equality, and its numerical floor affects collapse penalties. Rank limits and
+    the distinction between decorrelation and independence are explicit mathematical
+    consequences of the displayed centered matrices, not claimed experiments.'
+- assessment_id: algorithm-task-boundaries
+  area: scope
+  topic: Qualified AIO related mappings
+  outcome: supported
+  target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain native algorithm identities and qualified task associations.
+  details: The inspected AIO self-supervised and unsupervised-clustering nodes denote
+    tasks; related mappings do not assert algorithm/task equivalence or upstream subclass
+    changes. Generic network vocabulary, smaller-model compression and unrelated clustering
+    structures do not resolve these algorithms. Neighboring native mechanisms remain
+    distinct despite overlapping augmentation, normalization and loss components.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:SimSiam
+  - AIMech:SwAV
+  - AIMech:BarlowTwins
+  - AIMech:VICReg
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - simsiam-source
+  - swav-source
+  - swav-source-1
+  - barlowtwins-source
+  - barlowtwins-source-1
+  - barlowtwins-source-2
+  - vicreg-source
+  - vicreg-source-1
+  - vicreg-source-2
+  - vicreg-source-3
+  rationale: Retain directional stop-gradient with a shared predictor, balanced detached
+    prototype assignment, normalized cross-view correlation reduction and separately
+    regularized branch variances/covariances. Their loss, target construction and
+    update mechanisms differ. The task mappings preserve relatedness without asserting
+    identity or upstream ontology edits.
+limitations:
+- Adversarial author self-review only; all four records remain DRAFT.
+- Only declared full-method passages, selected PDF images, pinned code ranges and
+  API sections were inspected.
+- SimSiam and Barlow Twins supplements were not downloaded; uninspected appendices
+  are not evidence for claims.
+- Current PyTorch API documentation explains normalization conventions; no historical
+  software environment was reproduced.
+- Paper/pseudocode/author-code reduction differences are disclosed; no universal numerical
+  coefficient transfer, collapse avoidance or performance guarantee is certified.
+- Required local and vendor checks passed; positive discoveries and remaining supported
+  leads keep the goal active.
+tags:
+- native-concepts
+- self-supervised-learning
+- joint-embedding
+- redundancy-reduction
+- self-review
+- discovery-ongoing
+```

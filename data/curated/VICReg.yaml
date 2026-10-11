@@ -1,0 +1,138 @@
+name: VICReg
+definition: A self-supervised joint-embedding procedure that combines a paired-view invariance loss with
+  separate per-branch penalties for insufficient coordinate standard deviation and off-diagonal covariance.
+concept_kind: algorithm
+identity_notes: This is VICReg as defined by Bardes et al., not a generic covariance penalty, Barlow Twins
+  cross-correlation loss, VICRegL or a checkpoint. Both branches are optimized through their outputs;
+  shared weights and identical backbones are supported but are not requirements of the general construction.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior
+  native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery
+  leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR,
+  MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do
+  not establish identity.
+limitations:
+- The pinned author code uses element-averaged F.mse_loss and averages the two variance penalties with
+  an additional factor 1/2. The main equations instead use a per-image squared Euclidean sum and a sum
+  of branch variance penalties; coefficient values are not interchangeable without corresponding rescaling.
+- A hinge on regularized standard deviation stops penalizing values above its threshold; it does not enforce
+  equality to gamma or a hard variance constraint. A positive penalty at zero sample variance requires
+  gamma>sqrt(epsilon), as in the reported gamma=1 and epsilon=0.0001 setting. A positive penalty at a
+  collapsed output does not prove that every optimizer can escape it.
+- The loss does not require batch normalization, but the reported expander architecture uses it internally.
+  Absence of output normalization is not a claim that every layer is normalization-free.
+- Covariance decorrelation does not establish statistical independence. With centered n-sample embeddings,
+  rank limits can make simultaneous positive variance in all d coordinates and exactly zero off-diagonal
+  covariance unattainable when d>n−1.
+- The pinned distributed implementation gathers embeddings with backward support and uses the configured
+  global batch size in the covariance denominator. Framework defaults, batch composition, augmentation,
+  dimensions and coefficients matter to reproduction. No historical runtime execution, general noncollapse
+  guarantee or numerical benchmark is asserted.
+id: AIMech:VICReg
+aliases:
+- Variance-invariance-covariance regularization
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4–4.2, Equations (1)–(6), PDF pp. 4–5; Section 5.3 multimodal scope, p. 7; Appendix
+    A Algorithm 1, p. 13
+  relation: supports
+- source_id: additional-1
+  locator: main_vicreg.py lines 183–222 (forward loss, feature gathering, half-summed variance penalties
+    and covariance scaling) and 307–323 (FullGatherLayer forward/backward)
+  relation: context
+- source_id: additional-2
+  locator: 'Function signature and reduction argument: default mean of elementwise squared error'
+  relation: context
+- source_id: additional-3
+  locator: Function signature, sample-variance formula, correction=1 default and pre-2.0 unbiased argument
+    equivalence
+  relation: context
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Encode paired augmented views and pass their representations through expander networks to
+    obtain n-by-d embeddings Z and Z′, n≥2. In the paper’s Equations (1)–(6), define s(Z,Z′)=sum_i||z_i−z′_i||^2/n;
+    v(Z)=sum_j max(0,gamma−sqrt(Var(Z_:j)+epsilon))/d with epsilon>0 and a target gamma>0; and c(Z)=sum_(j≠k)
+    C(Z)_jk^2/d, where C(Z)=sum_i(z_i−mean(Z))(z_i−mean(Z))^T/(n−1). Use sample variance consistent with
+    the covariance diagonal and the supplement’s variance call. Minimize lambda s+mu[v(Z)+v(Z′)]+nu[c(Z)+c(Z′)]
+    for positive weights, differentiating through both branches without target stop-gradient. Branches
+    must produce matching embedding dimensions but can have different encoder architectures or weights.
+    The loss requires no output normalization, negative-pair dictionary or momentum teacher. After pretraining
+    discard the expanders and retain encoder representations.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4–4.2, Equations (1)–(6), PDF pp. 4–5; Section 5.3 multimodal scope, p. 7; Appendix
+      A Algorithm 1, p. 13
+    relation: supports
+  - source_id: additional-1
+    locator: main_vicreg.py lines 183–222 (forward loss, feature gathering, half-summed variance penalties
+      and covariance scaling) and 307–323 (FullGatherLayer forward/backward)
+    relation: context
+  - source_id: additional-2
+    locator: 'Function signature and reduction argument: default mean of elementwise squared error'
+    relation: context
+  - source_id: additional-3
+    locator: Function signature, sample-variance formula, correction=1 default and pre-2.0 unbiased argument
+      equivalence
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: 'VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning'
+  authors:
+  - Adrien Bardes
+  - Jean Ponce
+  - Yann LeCun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2105.04906v3
+  version: arXiv:2105.04906v3, 2022-01-28; ICLR 2022 paper; 23 PDF pages
+  persistent_id: https://arxiv.org/abs/2105.04906v3
+  access_level: full_text
+  accessed_at: '2026-10-11T07:56:31Z'
+  sha256: c227c290d5eb2ba459fd502de3b4e1da36a0ea4c88989b7d8153e211751e9e77
+- source_id: additional-1
+  title: VICReg author training implementation
+  authors:
+  - Facebook Research vicreg contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookresearch/vicreg/4e12602fd495af83efd1631fbe82523e6db092e0/main_vicreg.py
+  version: facebookresearch/vicreg commit 4e12602fd495af83efd1631fbe82523e6db092e0
+  persistent_id: https://github.com/facebookresearch/vicreg/tree/4e12602fd495af83efd1631fbe82523e6db092e0
+  access_level: documentation
+  accessed_at: '2026-10-11T08:00:52Z'
+  sha256: 88c4439e2c508156c79416cbd7c628d05f52f517e3eb1f66eac8db483485cf20
+- source_id: additional-2
+  title: PyTorch functional mean squared error API semantics
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://docs.pytorch.org/docs/2.14/generated/torch.nn.functional.mse_loss.html
+  version: PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical runtime
+  persistent_id: https://docs.pytorch.org/docs/2.14/generated/torch.nn.functional.mse_loss.html
+  access_level: documentation
+  accessed_at: '2026-10-11T08:02:15Z'
+- source_id: additional-3
+  title: PyTorch variance API semantics
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://docs.pytorch.org/docs/2.14/generated/torch.var.html
+  version: PyTorch 2.14 API documentation; inspected API semantics, not a reproduced historical runtime
+  persistent_id: https://docs.pytorch.org/docs/2.14/generated/torch.var.html
+  access_level: documentation
+  accessed_at: '2026-10-11T08:02:15Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:04:24Z'
+  updated_at: '2026-10-11T08:05:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
