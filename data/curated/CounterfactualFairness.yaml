@@ -1,0 +1,126 @@
+name: Counterfactual fairness
+definition: A fairness criterion in a specified causal model requiring a predictor's conditional output
+  distribution, given an individual's observed attributes and protected-attribute value, to remain unchanged
+  under counterfactual interventions that assign other attainable protected-attribute values.
+concept_kind: evaluation_criterion
+identity_notes: This is Kusner and colleagues' Definition 5, an equality of conditional counterfactual
+  distributions. It is not merely changing an input feature while freezing its causal descendants, a group-level
+  observational equality, the FAIRLEARNING algorithm, or a generic guarantee of social fairness. All 442
+  pinned AIO labels/scoped synonyms, 94 preceding native identities and ignored-inclusive text in both
+  checkouts were searched. Later parity connections do not establish identity under an arbitrary fixed
+  causal model.
+limitations:
+- The comparison depends on causal and counterfactual assumptions that observational data alone generally
+  cannot establish. Specifying protected attributes and meaningful interventions requires domain interpretation.
+- Ignoring protected attributes as explicit inputs is insufficient when other inputs carry their causal
+  effects. Conversely, using a descendant is not categorically excluded if the relevant total dependence
+  cancels, as the source qualifies its sufficient construction.
+- A predictor satisfying the condition in an assumed model need not satisfy it under a model with omitted
+  confounding; the inspected sensitivity paper studies this vulnerability in additive-noise models.
+- The criterion constrains conditional output distributions, not necessarily pointwise equality for every
+  unobserved state or usefulness of a predictor. Connections to demographic parity retain their model/independence
+  assumptions.
+aliases:
+- CF (counterfactual fairness)
+id: AIMech:CounterfactualFairness
+definition_evidence:
+- source_id: original-paper
+  locator: Section 2.2 and Section 3, Definition 5/equation (1), PDF p. 3; Section 3.2, Lemma 1 and its
+    qualification, PDF p. 5; Sections 4.2–4.3, causal assumptions and interpretive limits, PDF p. 7
+  relation: supports
+claims:
+- claim_id: criterion-scope
+  kind: scope
+  statement: Condition on the factual context X=x,A=a to infer background-variable uncertainty; replace
+    the protected-attribute structural assignment by a counterfactual value and propagate that intervention
+    through the causal model. Compare the resulting prediction distributions for all attainable protected
+    values while retaining the same factual conditioning context. The criterion is distributional, and
+    the paper gives using non-descendants of the protected attributes as a sufficient construction, not
+    a necessary restriction on all possible predictors.
+  evidence:
+  - source_id: original-paper
+    locator: Section 2.2 and Section 3, Definition 5/equation (1), PDF p. 3; Section 3.2, Lemma 1 and
+      its qualification, PDF p. 5; Sections 4.2–4.3, causal assumptions and interpretive limits, PDF p.
+      7
+    relation: supports
+- claim_id: causal-model-misspecification
+  kind: limitation
+  statement: The sensitivity study distinguishes a guessed model used to construct a fair predictor from
+    a model allowing additional unobserved confounding through correlated errors. Fairness in the guessed
+    model does not guarantee fairness under the alternative data-generating assumptions; the paper frames
+    this as sensitivity analysis rather than identification of a uniquely correct hidden model.
+  evidence:
+  - source_id: confounding-sensitivity
+    locator: Section 2.1, PDF pp. 2–3 (volume pp. 617–618); Section 3.1 and Figure 1, PDF p. 4 (volume
+      p. 619)
+    relation: supports
+- claim_id: parity-relation-scope
+  kind: limitation
+  statement: Rosenblatt and Witter's parity connections use their explicit independence criterion for
+    latent and protected variables, and the demographic-parity-to-counterfactual-fairness direction constructs
+    a causal model and latent representation. The paper distinguishes that setting from assessment with
+    a fixed causal model; the relationship is not an unrestricted synonym assertion.
+  evidence:
+  - source_id: causal-parity-analysis
+    locator: Related Work distinction between a fixed and freely constructed causal model, PDF p. 3; Criteria
+      3 and Theorems 4–5, PDF p. 4
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Counterfactual Fairness
+  authors:
+  - Matt J. Kusner
+  - Joshua R. Loftus
+  - Chris Russell
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1703.06856v3
+  version: arXiv:1703.06856v3, revised 2018-03-08
+  persistent_id: arXiv:1703.06856
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:06Z'
+  sha256: 2d7371209e44943bcb2852f23a889b710e2903b2d8830295ff98ab8f730db5bf
+- source_id: confounding-sensitivity
+  title: The Sensitivity of Counterfactual Fairness to Unmeasured Confounding
+  authors:
+  - Niki Kilbertus
+  - Philip J. Ball
+  - Matt J. Kusner
+  - Adrian Weller
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v115/kilbertus20a/kilbertus20a.pdf
+  version: PMLR 115:616–626, published 2020; UAI 2019 conference
+  persistent_id: https://proceedings.mlr.press/v115/kilbertus20a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T04:45:31Z'
+  sha256: f7083ab492a2afafe2eb6e44d7b42f72971be8080c95eef4c05d23ad326cc815
+- source_id: causal-parity-analysis
+  title: Counterfactual Fairness Is Basically Demographic Parity
+  authors:
+  - Lucas Rosenblatt
+  - R. Teal Witter
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.03843v4
+  version: arXiv:2208.03843v4, revised 2023-03-03
+  persistent_id: arXiv:2208.03843
+  access_level: full_text
+  accessed_at: '2026-10-11T04:45:58Z'
+  sha256: ebc09da1ee780fdc7bdc26f5d4e16fdd15fc2f98c081ab1af0ddcce990d35969
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CausalGraphicalModel
+  relation: related_match
+  rationale: The criterion is defined and assessed using a structural causal model that encodes the data-generating
+    assumptions. AIO CausalGraphicalModel describes that supporting model type; the criterion itself is
+    neither a graphical model nor an equivalent causal graph.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:48:50Z'
+  updated_at: '2026-10-11T04:48:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

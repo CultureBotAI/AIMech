@@ -1,0 +1,75 @@
+name: Lipschitz individual fairness
+definition: An individual-fairness criterion requiring the distance between the output distributions assigned
+  by a randomized classifier to any two individuals to be no greater than their task-specific similarity
+  distance.
+concept_kind: evaluation_criterion
+identity_notes: The record is the explicit (D,d)-Lipschitz condition in Dwork and colleagues' framework.
+  It is narrower than every possible notion of individual fairness and separate from their loss-minimizing
+  linear-program construction, metric-learning algorithms, differential privacy and group parity. Identity
+  assessment covered 442 AIO labels/scoped synonyms, 94 preceding native identities and ignored-inclusive
+  searches of both checkouts.
+limitations:
+- The task-specific distance and output-distance choice determine the constraint. The framework does not
+  certify that a chosen similarity metric represents an appropriate social or domain judgment.
+- A constant output distribution satisfies the condition; useful predictions require a separate utility
+  objective. Criterion satisfaction alone does not guarantee predictive quality.
+- The formulation over an inspected finite population does not itself guarantee generalization to unobserved
+  individuals. Group-parity implications require additional conditions on the metric and group distributions.
+- This record does not equate the criterion with all individual-fairness notions, certify the paper's
+  full optimization/theorem results, or assert legal compliance.
+aliases:
+- Individual fairness (Dwork et al.)
+- Fairness through awareness (Lipschitz criterion)
+id: AIMech:LipschitzIndividualFairness
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 1.1–1.2, printed pp. 1–3 / PDF pp. 2–4; Section 2, Definition 2.1 and equation (1),
+    printed p. 4 / PDF p. 5; Section 2.1 probability metrics and Remark 2.1, printed p. 5 / PDF p. 6
+  relation: supports
+claims:
+- claim_id: criterion-scope
+  kind: scope
+  statement: Given a mapping M from individuals to distributions over outcomes, an externally specified
+    task distance d and an output-distribution distance D, require D(M(x),M(y)) <= d(x,y) for every compared
+    pair. The criterion constrains permissible mappings; choosing among them requires a separate utility
+    objective. The paper studies total-variation and relative-l-infinity output distances as particular
+    choices.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 1.1–1.2, printed pp. 1–3 / PDF pp. 2–4; Section 2, Definition 2.1 and equation (1),
+      printed p. 4 / PDF p. 5; Section 2.1 probability metrics and Remark 2.1, printed p. 5 / PDF p. 6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Fairness Through Awareness
+  authors:
+  - Cynthia Dwork
+  - Moritz Hardt
+  - Toniann Pitassi
+  - Omer Reingold
+  - Richard Zemel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1104.3913v2
+  version: arXiv:1104.3913v2, revised 2011-11-29; downloaded PDF title-page date 2024-11-26
+  persistent_id: arXiv:1104.3913
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: 0a5afde6e5a29b3013a8d899d0abd4a6ce929d3be8c68e5f7cea7abfe54d1805
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: 'The condition directly constrains randomized classifiers'' outcome distributions. Classification
+    denotes the task while this local concept denotes a constraint on its mapping, so related_match preserves
+    the abstraction difference. MetricLearning is not a substitute: the defining criterion assumes a task
+    metric rather than specifying a neural procedure that learns one.'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:48:50Z'
+  updated_at: '2026-10-11T04:48:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
