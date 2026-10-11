@@ -1,0 +1,95 @@
+name: Bounded length reward for sequence scoring
+definition: A sequence scoring rule that adds a fixed nonnegative reward per generated position up to
+  a finite length cap, giving score S(y)+r·min(l,|y|) instead of rewarding every additional position without
+  bound.
+concept_kind: mathematical_method
+identity_notes: The cap limits how much reward can accumulate; it is not itself a maximum allowed output
+  length. This is the bounded reward in Huang et al. 2017, called bounded word-reward by Yang et al. 2018.
+  It differs from division by output length, an uncapped word reward and a reward rate recomputed from
+  beam statistics. No normalized identity match was found across the 442 AIO and 146 prior native records;
+  both checkout text searches included ignored and hidden files and returned no matches for the selected
+  exact IDs, full labels, aliases and source titles.
+limitations:
+- The score is a decoding preference, not a probability distribution or an intrinsic translation-quality
+  measure.
+- The reward rate and length-cap estimate require specification. A development-set average length ratio
+  need not transfer to every sentence or domain.
+- The stopping bound assumes non-increasing log probability, nonnegative fixed reward and a fixed finite
+  cap for the input; its beam-relative guarantee does not undo finite-width pruning.
+- Reward saturation does not prohibit outputs longer than the cap. Tokenization, length counting and EOS
+  handling must be specified in an implementation.
+- No numerical BLEU improvement, universal quality advantage or current implementation behavior is asserted.
+id: AIMech:BoundedLengthReward
+aliases:
+- Bounded word reward
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, score definition and Equations (3)–(4), printed pp. 2136–2137 / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Add r·min(l,n) to cumulative log probability S(y), where n is the hypothesis length and r≥0.
+    The 2017 method estimates l from a development-set target/source length ratio times the input length.
+    For a current prefix at depth i, all remaining reward is bounded by r·max(l−i,0). Its total completion-score
+    bound simplifies to S(prefix)+r·l. A beam decoder may stop once the maximum such active-prefix bound
+    is no greater than the best completed adjusted score.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, score definition and Equations (3)–(4), printed pp. 2136–2137 / PDF pp. 3–4
+    relation: supports
+- claim_id: later-name-and-scope
+  kind: scope
+  statement: The 2018 paper calls the fixed-rate capped rule bounded word-reward and distinguishes it
+    from its predicted-length and adaptive-reward variants.
+  evidence:
+  - source_id: later-name-and-scope
+    locator: Section 4.1 Equation (7) and Section 4.2, printed p. 3056 / PDF p. 3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: When to Finish? Optimal Beam Search for Neural Text Generation (modulo beam size)
+  authors:
+  - Liang Huang
+  - Kai Zhao
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D17-1227.pdf
+  version: EMNLP 2017, printed pp. 2134–2139; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7b9ed5e8c84207dbfdd8dbeaf9508f143ed72c2579856d7e72626e8f7d6d88c9
+  persistent_id: doi:10.18653/v1/D17-1227
+- source_id: later-name-and-scope
+  title: 'Breaking the Beam Search Curse: A Study of (Re-)Scoring Methods and Stopping Criteria for Neural
+    Machine Translation'
+  authors:
+  - Yilin Yang
+  - Liang Huang
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D18-1342.pdf
+  version: EMNLP 2018, printed pp. 3054–3059; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 019ba14d74adfb3781eaa0211756f92dfbbf971ccdd9055daa4f20102ff8038f
+  persistent_id: doi:10.18653/v1/D18-1342
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

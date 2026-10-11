@@ -1,0 +1,93 @@
+name: Maximum candidates per node in sequence beam pruning
+definition: A sequence-beam pruning procedure that limits how many retained candidate extensions may come
+  from the same predecessor hypothesis, discarding a candidate when the allowed number of better-scoring
+  siblings is already retained.
+concept_kind: algorithm
+identity_notes: This is the Maximum Candidates per Node rule of Freitag and Al-Onaizan. Same history means
+  the common predecessor prefix, not arbitrary semantic similarity between full sequences. It differs
+  from an additive diversity penalty, grouping beams into separate searches or imposing a global frontier
+  capacity. No normalized identity match was found across the 442 AIO and 146 prior native records; both
+  checkout text searches included ignored and hidden files and returned no matches for the selected exact
+  IDs, full labels, aliases and source titles.
+limitations:
+- A positive integer per-parent cap and deterministic tie handling must be specified. The source’s prose
+  refers to better-scoring candidates without a complete tie policy.
+- Limiting sibling extensions can remove the prefix of the best eventual sequence; this is not an exact
+  or complete search guarantee.
+- More varied parent prefixes do not guarantee semantic diversity or improved translation quality. The
+  paper’s conclusion reports no translation-quality improvement from this diversity intervention.
+- The inherited decoder determines EOS processing, generation length and changing active-beam width. The
+  pruning rule alone is not a complete decoder implementation.
+- No specific current library implementation, numeric quality gain or universal runtime benefit is asserted.
+id: AIMech:PerNodeCandidateBeamPruning
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, introductory paragraph and Maximum Candidates per Node, printed p. 57 / PDF p. 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Apply the current beam-size cap, then keep at most m candidate continuations for each predecessor
+    prefix by score. A candidate is discarded once m better-scoring candidates with that same predecessor
+    are in the retained list. This is extra pruning after the initial top-beam selection; it does not
+    specify refilling with candidates outside that initial list.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, introductory paragraph and Maximum Candidates per Node, printed p. 57 / PDF p.
+      2
+    relation: supports
+- claim_id: diversity-limit
+  kind: limitation
+  statement: The source introduced a per-history candidate cap to diversify predecessor coverage, but
+    its conclusion states that adding diversity did not improve translation quality in the evaluated settings.
+  evidence:
+  - source_id: diversity-limit
+    locator: Introduction and Section 6, printed pp. 56 and 58 / PDF pp. 1 and 3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Beam Search Strategies for Neural Machine Translation
+  authors:
+  - Markus Freitag
+  - Yaser Al-Onaizan
+  source_type: primary_paper
+  url: https://aclanthology.org/W17-3207.pdf
+  version: First Workshop on Neural Machine Translation 2017, printed pp. 56–60; published five-page ACL
+    Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7d157efa8f645f2de375076d3422891355ea921eb88ad35a38a1fa5070989ca0
+  persistent_id: doi:10.18653/v1/W17-3207
+- source_id: diversity-limit
+  title: Beam Search Strategies for Neural Machine Translation
+  authors:
+  - Markus Freitag
+  - Yaser Al-Onaizan
+  source_type: primary_paper
+  url: https://aclanthology.org/W17-3207.pdf
+  version: First Workshop on Neural Machine Translation 2017, printed pp. 56–60; published five-page ACL
+    Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7d157efa8f645f2de375076d3422891355ea921eb88ad35a38a1fa5070989ca0
+  persistent_id: doi:10.18653/v1/W17-3207
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

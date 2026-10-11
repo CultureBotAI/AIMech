@@ -1,0 +1,100 @@
+name: Brevity-penalty normalization for sequence scoring
+definition: 'A sequence rescoring rule that adds a predicted-length brevity penalty in log space to average
+  token log probability: S(x,y)/|y| + min(1−Lpred(x)/|y|,0).'
+concept_kind: mathematical_method
+identity_notes: BP-Norm is Yang et al.’s predicted-length decoding score. It resembles the algebraic structure
+  of BLEU’s brevity penalty but does not compute n-gram precision, use an actual reference translation
+  at inference, or equal the BLEU evaluation metric. It differs from plain average log probability and
+  additive word rewards. No normalized identity match was found across the 442 AIO and 146 prior native
+  records; both checkout text searches included ignored and hidden files and returned no matches for the
+  selected exact IDs, full labels, aliases and source titles.
+limitations:
+- Lpred is a prediction, not a reference length or a proven upper bound on output length. The S_t/R stopping
+  bound requires that admissible completions actually have length at most R.
+- The experiments set R to the predicted length. This supports the stopping guarantee only under an enforced
+  length cap or another justification that all allowed completions obey that bound; a forecast alone is
+  insufficient.
+- The formula requires nonempty hypotheses and a valid length prediction. A BOS-only prefix needs separate
+  handling; length and EOS conventions must be specified.
+- The score is neither a normalized probability nor BLEU itself. Improved search score does not imply
+  better human translation quality.
+- The source’s hyperparameter-free comparison concerns removal of a separately tuned reward constant,
+  not absence of trained models, a length predictor or decoding choices. Finite beam pruning remains approximate.
+id: AIMech:BrevityPenaltyNormalization
+aliases:
+- BP-Norm
+definition_evidence:
+- source_id: method-source
+  locator: Section 4.2.3 Equation (12), transformed score and Section 5.2 Equation (13), printed pp. 3056–3057
+    / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Predict a target length from the input using the paper’s encoder-state length predictor.
+    For a nonempty hypothesis of length n, combine average log probability S/n with log brevity penalty
+    min(1−Lpred/n,0). For decoding with a genuine finite maximum output length R, a current raw log score
+    S_t≤0 yields an upper bound S_t/R on descendant BP-Norm scores. Compare the maximum active-prefix
+    bound with the best completed BP-Norm score before stopping.
+  evidence:
+  - source_id: method-source
+    locator: Section 4.2.3 Equation (12), transformed score and Section 5.2 Equation (13), printed pp.
+      3056–3057 / PDF pp. 3–4
+    relation: supports
+- claim_id: predicted-versus-maximum
+  kind: limitation
+  statement: Equation (13) defines R as a maximum generation length, whereas the experiments identify
+    it with predicted length. The bound is curated only when that value truly bounds the permitted completion
+    lengths; prediction alone is not a mathematical upper bound.
+  evidence:
+  - source_id: predicted-versus-maximum
+    locator: Sections 5.2 and 6.1, printed pp. 3057–3058 / PDF pp. 4–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Breaking the Beam Search Curse: A Study of (Re-)Scoring Methods and Stopping Criteria for Neural
+    Machine Translation'
+  authors:
+  - Yilin Yang
+  - Liang Huang
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D18-1342.pdf
+  version: EMNLP 2018, printed pp. 3054–3059; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 019ba14d74adfb3781eaa0211756f92dfbbf971ccdd9055daa4f20102ff8038f
+  persistent_id: doi:10.18653/v1/D18-1342
+- source_id: predicted-versus-maximum
+  title: 'Breaking the Beam Search Curse: A Study of (Re-)Scoring Methods and Stopping Criteria for Neural
+    Machine Translation'
+  authors:
+  - Yilin Yang
+  - Liang Huang
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D18-1342.pdf
+  version: EMNLP 2018, printed pp. 3054–3059; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 019ba14d74adfb3781eaa0211756f92dfbbf971ccdd9055daa4f20102ff8038f
+  persistent_id: doi:10.18653/v1/D18-1342
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
