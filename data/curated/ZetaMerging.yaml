@@ -1,0 +1,95 @@
+name: Zeta merging
+definition: An agglomerative graph-clustering algorithm that selects the pair with the largest sum of
+  conditional increases in average log-diagonal resolvent popularity.
+concept_kind: algorithm
+identity_notes: Zeta merging is the named Algorithm 1 component of Zhao and Tang’s Zell method. Its input
+  is an already constructed weighted graph and initial partition; it does not prescribe the l-links initialization.
+  It differs from path integral clustering, which averages all endpoint-to-endpoint resolvent entries
+  rather than logarithms of diagonal entries. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 218 preceding native IDs/names/aliases. Word-delimited fixed-string searches
+  of both full checkouts, including ignored and hidden files, returned 15 lines each in existing discovery/review
+  context. Five neighboring native records and five exact AIO nodes with scoped synonyms and outgoing
+  edges were inspected.
+limitations:
+- Initialization, graph weights, damping and requested count determine the result; greedy merges cannot
+  undo an initial grouping or certify a global partition optimum.
+- The paper prints z<rho(W) in Theorem 1, whereas the cycle power series requires |z|rho(W)<1. This record
+  uses the stricter positive norm bound actually stated for Algorithm 1, rather than importing the printed
+  general condition.
+- The printed bound 0<chi_C<=epsilon_C/|C| is not used. A two-vertex mutual-edge graph with z=1/4 gives
+  chi_C=epsilon_C=log(16/15)>epsilon_C/2 under the paper’s own definitions; this is a curator counterexample,
+  not an author erratum.
+- Zell’s full l-links and bandwidth conventions require separate clarification and are not specified by
+  this component. No generic sparse-inverse runtime guarantee, automatic correct cluster count, or benchmark
+  reproduction is asserted.
+id: AIMech:ZetaMerging
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.2–3.2, PDF pp. 3–4, Equations (2)–(5), Theorem 2 and Algorithm 1; Section 4.3, pp.
+    5–6, component boundary
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Given a fixed nonnegative weighted adjacency P, a nonempty initial partition and target count
+    m_c smaller than its initial count, choose damping 0<z<1/(2||P||_1), the sufficient range stated in
+    Section 3.1 for nonzero P. For a cluster C use the principal submatrix P_C without local renormalization
+    and R_C=(I−zP_C)^−1. Its popularity is chi_C=(1/|C|) sum_(i in C) log (R_C)_ii. Equivalently it is
+    the average leave-one-vertex-out reduction of epsilon_C=−log det(I−zP_C). For U=A union B, chi_(A|U)
+    averages log (R_U)_ii over i in A with divisor |A|. Merge the current pair maximizing (chi_(A|U)−chi_A)+(chi_(B|U)−chi_B);
+    recompute affected affinities and repeat to m_c. The conditional increment is not chi_U−chi_A−chi_B.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.2–3.2, PDF pp. 3–4, Equations (2)–(5), Theorem 2 and Algorithm 1; Section 4.3,
+      pp. 5–6, component boundary
+    relation: supports
+- claim_id: popularity-bound-qualification
+  kind: limitation
+  statement: 'Curator calculation: for P=[[0,1],[1,0]], z=1/4 and C both vertices, det(I−zP)=15/16 and
+    both diagonal entries of (I−zP)^−1 are 16/15. Thus epsilon_C=chi_C=log(16/15)>epsilon_C/2. The z choice
+    satisfies Section 3.1’s sufficient norm bound. The printed upper bound after Theorem 2 is not adopted.
+    The reproducible finite calculation is saved as research/discovery/zeta-popularity-bound.py; it is
+    not a benchmark of the clustering procedure.'
+  evidence:
+  - source_id: method-source
+    locator: PDF p. 3, Equations (3)–(4) and Theorem 2 supply the definitions evaluated by the curator
+      in research/discovery/zeta-popularity-bound.py; p. 4 Section 3.1 supplies the damping condition
+    relation: supports
+  - source_id: method-source
+    locator: PDF p. 3, printed inequality immediately after Theorem 2 is the challenged assertion, not
+      support for its validity
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: Cyclizing Clusters via Zeta Function of a Graph
+  authors:
+  - Deli Zhao
+  - Xiaoou Tang
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/3412-cyclizing-clusters-via-zeta-function-of-a-graph.pdf
+  version: Advances in Neural Information Processing Systems 21, NIPS 2008; 8-page proceedings PDF
+  persistent_id: https://papers.neurips.cc/paper_files/paper/2008/hash/3416a75f4cea9109507cacd8e2f2aefc-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T09:21:27Z'
+  sha256: a07c0e034a507cbd97472729b06e8c77a19cc3be2b9bc75f23579aa4441bbeb8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Zeta merging supplies a procedure for grouping unlabeled observations. The AIO target denotes
+    a clustering task; this algorithm-to-task association does not assert equivalence or subclass membership.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: Zeta merging builds a hierarchy through agglomeration. The target describes hierarchy construction
+    without prescribing this merge criterion or initialization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:32:03Z'
+  updated_at: '2026-10-11T09:33:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

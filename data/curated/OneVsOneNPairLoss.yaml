@@ -1,0 +1,74 @@
+name: One-vs-one N-pair loss
+definition: A supervised metric-learning objective that sums separate positive-versus-negative softplus
+  comparisons for each anchor in a batch of positive pairs from distinct classes.
+concept_kind: mathematical_method
+identity_notes: This is the named N-pair-ovo objective in Sohn’s Equation (8). It shares the N-pair batch
+  construction with N-pair-mc but uses a sum of binary softplus comparisons, not one joint log-sum-exp
+  over negatives. They coincide for one negative per anchor (N=2), but generally differ for N>2. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 218 preceding native IDs/names/aliases.
+  Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned
+  15 lines each in existing discovery/review context. Five neighboring native records and five exact AIO
+  nodes with scoped synonyms and outgoing edges were inspected.
+limitations:
+- Use N positive pairs from N distinct classes; other positive-side examples must represent different
+  classes for the stated objective. Pair sampling and class selection are part of this configuration,
+  not interchangeable with arbitrary augmented-view negatives.
+- The main paper uses embedding-norm regularization instead of a hard unit-length constraint. This record
+  specifies the loss term; it does not prescribe a regularization coefficient, encoder, optimizer or full
+  training schedule.
+- No unconditional equivalence to a margin triplet hinge or an information lower bound is asserted. Objective
+  shape and label-based batching do not establish downstream accuracy. No training or benchmark was reproduced.
+- The proceedings Supplemental.zip inspected during retrieval contains a different paper by Steinhardt
+  and Liang. It is not supporting evidence; this record relies on the inspected nine-page N-pair main
+  paper.
+id: AIMech:OneVsOneNPairLoss
+aliases:
+- N-pair-ovo loss
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2, PDF p. 4, Equations (7)–(8); Section 3.2.2, p. 5, regularization discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Given N>=2 positive pairs (x_i,x_i+) from N distinct classes and embeddings f_i,f_i+, define
+    L_ovo=(1/N) sum_i sum_(j!=i) log[1+exp(f_i^T f_j+−f_i^T f_i+)]. Other positive-side examples supply
+    N−1 different-class negatives to each anchor. The printed divisor is N, not N(N−1), so it averages
+    across anchors while summing each anchor’s pairwise comparisons. In contrast, N-pair-mc places the
+    sum over negatives inside a single logarithm. The expression uses dot products without an explicit
+    temperature or cosine normalization.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, PDF p. 4, Equations (7)–(8); Section 3.2.2, p. 5, regularization discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Improved Deep Metric Learning with Multi-class N-pair Loss Objective
+  authors:
+  - Kihyuk Sohn
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2016/file/6b180037abbebea991d8b1232f8a8ca9-Paper.pdf
+  version: NIPS 2016 proceedings, 9-page main paper; the mislinked Supplemental.zip is not evidence for
+    this method
+  persistent_id: https://papers.nips.cc/paper_files/paper/2016/hash/6b180037abbebea991d8b1232f8a8ca9-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T09:21:27Z'
+  sha256: 83bee5d1a7edf86136dce8944c7db44144c2830e4d1ca62a422e212376a87a46
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: The objective contrasts same-class positives with different-class negatives. The inspected
+    AIO target explicitly describes a self-supervised deep-network approach, whereas this objective is
+    supervised and mathematical. Their shared positive-versus-negative representation-learning mechanism
+    supports a related association only, not an equivalence or subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:32:03Z'
+  updated_at: '2026-10-11T09:32:03Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
