@@ -1,0 +1,722 @@
+# Scientific self-review of stochastic connection, block and state masks
+
+- Review: 20261011T123811Z-stochastic-connection-block-and-state-masks
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T12:35:18Z
+- Finished UTC: 2026-10-11T12:38:11Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain DropConnect, stochastic depth and Zoneout with explicit mask granularity, source conventions, inference approximations and mapping boundaries. No actionable record defect was found in this scope.
+
+## Scope And Provenance
+
+All fields of the three newly maintained stochastic regularization records.
+
+Selection: Exact three IDs in the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 6eebf5f38dde45bfd5cabac82651cfd4d93126df.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DropConnect | data/curated/DropConnect.yaml | maintained | DropConnect |
+| AIMech:StochasticDepth | data/curated/StochasticDepth.yaml | maintained | Stochastic depth |
+| AIMech:Zoneout | data/curated/Zoneout.yaml | maintained | Zoneout |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DropConnect, AIMech:StochasticDepth, AIMech:Zoneout | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 64.32s (0:01:04)<br>Checked 442 record(s); 0 failed.<br>Checked 279 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 68 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 66,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DropConnect, AIMech:StochasticDepth, AIMech:Zoneout | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| Finite parameter, block and state masking calculations | passed | True | AIMech:DropConnect, AIMech:StochasticDepth, AIMech:Zoneout | {"dropconnect": {"masked_sums": [0, -1, 2, 1], "mean": 0.5, "variance": 1.25, "mean_relu": 0.75, "relu_mean": 0.5, "equally_likely_masks": 4, "each_mask_probability": 0.25, "interpretation": "Moment identities hold; nonlinearity prevents interchanging activation and expectation."}, "stochastic_depth": {"mean_stochastic_block_output": 0.5, "survival_scaled_block_output": 0, "survival_probabilities": [0.875, 0.75, 0.625, 0.5], "expected_active_blocks": 2.75, "negative_skip_after_relu": 0, "interpretation": "Scaled inference need not equal the stochastic prediction mean; ReLU is identity only on nonnegative values."}, "zoneout": {"exact_two_step_state_mean": 2.5, "local_expectation_two_step_state": 2.375, "printed_lstm_hidden_from_unzoned_cell": 0.0, "alternative_hidden_from_preserved_cell": 0.3807970779778824, "interpretation": "Averaging masks locally differs from full trajectory expectation; choosing the cell used for the hidden proposal matters."}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:DropConnect.
+
+This record denotes the original fully connected DropConnect layer and its training/inference conventions. Dynamic connection masking differs from dropping activation units, removing whole residual branches, masking spatial blocks and permanently pruning a weight matrix. The surrounding feature extractor and classifier are not part of the layer identity. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For each training example, draw independent Bernoulli keep masks for the layer’s weights and biases with a chosen retention probability p. Multiply the parameters elementwise by this mask, compute the affine preactivation and apply the nonlinear activation. Backpropagate through the masked connections, using the same mask for the weight gradients and for gradients passed to earlier layers. The original inference procedure approximates each preactivation by a Gaussian matched to the masked weighted sum’s mean and variance: p times the ordinary weighted sum, and p(1−p) times the sum of squared weight-input products, including the constant input used for bias. Draw samples from these Gaussians, apply the activation to each sample and average the resulting activations before passing them to the next layer. The paper’s sample count and p=0.5 experiments are configuration choices. Limits: The original layer uses per-example masks, including biases. Shared minibatch masks, unmasked biases, inverted training rescaling and later structured weight-masking variants are not silently substituted for this source version. Gaussian moment matching is an approximation to the finite Bernoulli sum; averaging sampled nonlinear activations is also approximate. Passing an averaged activation through a nonlinear downstream network is not exact averaging of full network predictions. Applying the activation to the mean generally differs from averaging activations. The equal-mask paragraph uses 1/&#124;M&#124; while also describing 2^&#124;M&#124; masks. Exact averaging requires normalized mask probabilities; the record follows the weighted expectation in Equation4 rather than propagating that inconsistent displayed factor. No full proof audit of the source’s generalization bound is claimed. Dense connection-mask storage and sampling can be costly; dynamic sparsity alone does not guarantee faster execution. Fully connected-layer evidence does not establish arbitrary convolutional/recurrent implementations, universal generalization improvement or a calibrated Bayesian posterior. No benchmark result or author code execution is asserted.
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:StochasticDepth.
+
+This record covers the original 2016 stochastic-depth procedure with a block-survival draw per minibatch and test-time residual scaling. It is a training procedure for residual networks, not the residual architecture itself. Modern per-example drop-path functions, inverted scaling conventions and learned dynamic-depth methods require separate version assessment. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Assign each residual block a survival probability and, for each training minibatch, sample whether to execute its residual transformation. An active block adds its residual output to the skip path before the architecture’s output activation; an inactive block bypasses the residual transformation while preserving the skip path. The source’s identity reduction relies on its nonnegative activations and compatible skip connection. It proposes a linear decrease in survival probability with block depth from an always-present input to a chosen last-block probability, while also considering a uniform assignment. The expected number of active residual blocks is the sum of their survival probabilities. During inference, activate every residual transformation and multiply its output by its training survival probability before adding the skip path. The original convention does not divide active training residuals by the survival probability. Limits: Identity bypass is conditional on the skip path and activation: a post-addition ReLU clips negative skip values, and a dimension-changing projection is not the same operation as an identity map. The procedure cannot be transferred to an arbitrary incompatible block by merely deleting its output. The survival schedule in the core method varies with network depth, not automatically with elapsed training time. The paper’s final-block probability of0.5 is an experimental choice. Mini-batch sampling and inference scaling differ from later per-example or inverted-scaled implementations. Survival-weighted inference is a practical combination of shared-weight subnetworks, not generally the exact expected prediction of the stochastic nonlinear network. Reduced expected active-block count does not by itself guarantee a proportional wall-clock saving; computation must actually be bypassed. The source’s empirical gradient and benchmark observations do not certify absence of vanishing gradients, universal regularization improvement or arbitrarily deep trainability. No author code or trained network was executed.
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:Zoneout.
+
+Zoneout is a stochastic transition-modification procedure, not a particular RNN architecture or trained sequence model. Its identity branch retains previous activations; it differs from setting recurrent states to zero, dropping only input-gate contributions, fixed periodic update schedules and always skipping an entire recurrent layer. LSTM cells and hidden states can have separate preservation probabilities and masks. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+At a recurrent timestep, form the model’s proposed next-state values and use a Bernoulli selector for each targeted component to choose between that proposal and its previous value. Defining z as the preservation probability, the update has the form mask times previous state plus one-minus-mask times proposed state, with a mask value of1 selecting preservation. This introduces direct identity paths through time for the preserved components. The source’s LSTM account usually uses separate selectors for memory cells and hidden states and also studies shared selectors. At testing, replace the random selector by its expectation, producing a weighted combination of previous and proposed values at each step. Selection probabilities, targeted state components and the underlying recurrent transition are configured choices; the procedure itself does not require a new learned gate. Limits: The generic operator formula in Section3.1 uses d for selecting the normal transition, whereas the LSTM formulas in Section3.2 use d for selecting preservation. The record defines its own preservation convention explicitly; those source masks are complements, not interchangeable symbols. The printed LSTM hidden-state proposal uses the unzoned cell-update expression inside tanh. An implementation that instead uses the already-mixed cell state can differ when cell and hidden selectors differ. This general method record does not certify all LSTM code as equivalent or invent an uninspected implementation rule. Replacing selectors by expectations gives a deterministic local mixture; nonlinear recurrence means it is not generally the exact ensemble-averaged state or output over complete stochastic trajectories. Preserved components pass their old values directly, but this does not guarantee that the entire network avoids vanishing/exploding gradients or processes every input in every component. Very high preservation can suppress adaptation to new inputs. State/cell probabilities, sharing and other regularizers matter; the source’s task-specific results and conjectures do not establish universal improvement. No exact trained-model replication, parameter sweep or author-code execution is asserted.
+
+### Parameter masks, Gaussian approximation and normalization
+
+consistency: supported. Targets: AIMech:DropConnect.
+
+Retain the original fully connected DropConnect layer.
+
+The source masks weights and biases independently per example. Gaussian moments approximate a finite Bernoulli sum; average nonlinear activations rather than applying the activation to the mean. Downstream nonlinear prediction is not exact ensemble averaging. The inconsistent equal-mask normalization factor is qualified, while the correctly normalized weighted expectation governs the account. Generalization proofs and arbitrary later implementations are outside scope.
+
+### Minibatch block survival, compatible skips and test scaling
+
+consistency: supported. Targets: AIMech:StochasticDepth.
+
+Retain the original residual-network training procedure.
+
+Survival varies with block depth and is sampled per minibatch. The identity bypass requires compatible skips and the source nonnegative activations; projection and ReLU on negative inputs prevent an unconditional identity statement. Original inference weights all residual outputs by survival probabilities, while training does not apply inverted scaling. Finite arithmetic refutes an exact nonlinear ensemble-prediction interpretation. Expected active-block count is not a wall-clock guarantee.
+
+### Preservation selector, recurrent expectation and LSTM equations
+
+consistency: supported. Targets: AIMech:Zoneout.
+
+Retain componentwise recurrent state preservation.
+
+The generic and LSTM source sections use complementary selector conventions. The record explicitly defines preservation. The printed hidden proposal uses the unzoned cell expression, which can differ from implementations using the already-preserved cell. A local deterministic expectation is not an exact trajectory ensemble mean. Identity paths do not certify the complete network Jacobian or universal trainability.
+
+### Layer, residual/recurrent architecture and training-procedure relations
+
+grounding: supported. Targets: AIMech:DropConnect, AIMech:StochasticDepth, AIMech:Zoneout.
+
+Retain three distinct concepts with broad and related mappings.
+
+DropConnect maps broadly to Layer and relates to DenseLayer while preserving stochastic weight-mask distinctions. Stochastic depth relates to ResidualNeuralNetwork; Zoneout relates to RecurrentNeuralNetwork. The latter two also relate to TrainingStrategy without treating its preprocessing genus as a clean subclass. Nine exact AIO nodes were inspected, reusing unchanged generic Layer/Dropout/Regularization/TrainingStrategy definitions from batch51. DropoutLayer concerns zeroed activations; RegularizationLayer defines additive loss penalties; LSTM/GRU layers are possible architectures rather than equivalent procedures. Three native neighbors distinguish spatial or activation-derived masks and ordinary SGD parameter updates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:DropConnect, AIMech:StochasticDepth, AIMech:Zoneout. Masking individual parameters, bypassing residual transformations and preserving recurrent state components have different targets and transition semantics. A shared regularization objective does not establish equivalence.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T123501Z-stochastic-connection-block-and-state-masks.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases, including candidate-internal normalized uniqueness. No identity match was found. Full-checkout fixed-string searches included ignored/hidden files and returned 5 worktree and 5 main lines; every hit was a candidate or related-variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Nine exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection | supports | DropConnect maps broadly to Layer and relates to DenseLayer while preserving stochastic weight-mask distinctions. Stochastic depth relates to ResidualNeuralNetwork; Zoneout relates to RecurrentNeuralNetwork. The latter two also relate to TrainingStrategy without treating its preprocessing genus as a clean subclass. Nine exact AIO nodes were inspected, reusing unchanged generic Layer/Dropout/Regularization/TrainingStrategy definitions from batch51. DropoutLayer concerns zeroed activations; RegularizationLayer defines additive loss penalties; LSTM/GRU layers are possible architectures rather than equivalent procedures. Three native neighbors distinguish spatial or activation-derived masks and ordinary SGD parameter updates. |
+| neighbors | research/discovery/20261011T123501Z-stochastic-connection-block-and-state-masks.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Read DropBlock, the attention-based dropout layer and stochastic gradient descent. Spatial feature-map masks and the underlying optimizer differ from individual parameter masks, whole residual-block bypass and recurrent state preservation. |
+| finite-conventions | research/discovery/stochastic-regularization-boundaries.py; calculate(): masked-weight moments and nonlinear expectation, residual-block expectations and activation bounds, recurrent state mixtures and cell/hidden selector differences | supports | Original finite examples verify DropConnect masked-sum moments and nonlinear averaging limits, stochastic-depth survival counts and inference approximation, and Zoneout trajectory versus local-expectation behavior. No author algorithm or model was executed. |
+| dropconnect-source-0 | https://proceedings.mlr.press/v28/wan13.pdf; Sections2.2–3.2 and Equations3–4/Algorithms1–2, PDF pp.2–3; implementation scope Section5, PDFp.4; discussion Section7, PDFp.7 | supports | Regularization of Neural Networks using DropConnect. ICML 2013, PMLR28(3):1058–1066; 9-page proceedings PDF. Actual PDF and static-code reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+| stochasticdepth-source-0 | https://arxiv.org/pdf/1603.09382v3; Section3 and Equations2–5, PDF pp.4–7; residual skip definition Section2, PDFp.3; conclusion PDF pp.13–14 | supports | Deep Networks with Stochastic Depth. arXiv1603.09382v3, 28July2016; 16-page author version. Actual PDF and static-code reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+| zoneout-source-0 | https://arxiv.org/pdf/1606.01305v4; Introduction PDFp.1; Sections2.1–3.2 and Figures1–2, PDF pp.2–4; mask variants and limits in Sections4.1/4.3–4.4, PDF pp.5–8 | supports | Zoneout: Regularizing RNNs by Randomly Preserving Hidden Activations. arXiv1606.01305v4, 22September2017; 11-page PDF bearing an under-review ICLR2017 header. Actual PDF and static-code reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared PDF pages were inspected; no author implementation was audited. No training, benchmark, complete proof audit or author-code execution was performed.
+- Source notation differences and inference approximations remain explicit. No author-issued erratum, full proof audit or exact ensemble-prediction guarantee is claimed.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T123811Z-stochastic-connection-block-and-state-masks
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of stochastic connection, block and state masks
+started_at: '2026-10-11T12:35:18Z'
+finished_at: '2026-10-11T12:38:11Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all three records
+    against the declared primary methods, rendered pages, nine exact AIO nodes, three
+    native neighbors and original finite arithmetic. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain DropConnect, stochastic depth and Zoneout with explicit mask granularity,
+  source conventions, inference approximations and mapping boundaries. No actionable
+  record defect was found in this scope.
+source:
+  git_revision: 6eebf5f38dde45bfd5cabac82651cfd4d93126df
+  state: working_tree
+  inputs:
+  - path: data/aio/DenseLayer.yaml
+    sha256: 28507f5bea308e1fc74242756c40e21dbbd5bab5ed3d8a35e8988be21c7c541e
+    role: context
+  - path: data/aio/DropoutLayer.yaml
+    sha256: f1d1f2ad44ecf177e8c5d16bf1fb72388712d25f499583feab23e5fb65a71e24
+    role: context
+  - path: data/aio/GRULayer.yaml
+    sha256: 6ba029d8bebbbd7f2e24a8a0f495c4a51688a0ef889efd443f3831f8e971929a
+    role: context
+  - path: data/aio/LSTMLayer.yaml
+    sha256: b20c5274aa5e1204d348b715be13e43443392f0f2462b605151f12074b414c90
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/ResidualNeuralNetwork.yaml
+    sha256: 46855f48bc672169007ca212c92ee049f8089e649db9cfa272a3df61fa98ab3e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AttentionBasedDropoutLayer.yaml
+    sha256: 10b68514c413e53862800a861b26a0909cc56fc66b1783cc6ca7e416ad2d8684
+    role: context
+  - path: data/curated/DropBlock.yaml
+    sha256: 8eaba0fedfe78562a162b7b4a4777a3657dac700dd497e97b06b5218061ae3d5
+    role: context
+  - path: data/curated/DropConnect.yaml
+    sha256: 4785777508a6f24792c7533279a08eb66977144b62a260eb26f1d0fbdad1b356
+    role: target
+  - path: data/curated/StochasticDepth.yaml
+    sha256: 32a0f2baac7ebf1c7f08c81f54710df74e56044bbf36e0df1ac7a05f4d925852
+    role: target
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: data/curated/Zoneout.yaml
+    sha256: 25f1c0e8bfaa491a871c780730358be99aa37f44933aefc466b1ca0024563ae6
+    role: target
+  - path: research/discovery/20261011T123501Z-stochastic-connection-block-and-state-masks.json
+    sha256: 13bfebf7a8d877dbc7deaa975433533a24052ede330b6b85c1ac8c2b7cd8bf6b
+    role: context
+  - path: research/discovery/stochastic-regularization-boundaries.py
+    sha256: 4e91100aa3ac3946000b9e7ae0aa6e054ab1777c034179caa465b8547dad5f61
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DropConnect
+  path: data/curated/DropConnect.yaml
+  label: DropConnect
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DropConnect.yaml
+    role: maintained
+- target_id: AIMech:StochasticDepth
+  path: data/curated/StochasticDepth.yaml
+  label: Stochastic depth
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StochasticDepth.yaml
+    role: maintained
+- target_id: AIMech:Zoneout
+  path: data/curated/Zoneout.yaml
+  label: Zoneout
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/Zoneout.yaml
+    role: maintained
+scope:
+  description: All fields of the three newly maintained stochastic regularization
+    records.
+  selection: Exact three IDs in the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were inspected for boundaries, not a complete new review of
+      the earlier corpus.
+  - target: Unread pages, proofs, outcomes and implementations
+    reason: Only declared primary-source pages and the finite curator calculations
+      were inspected. No author code or model was executed.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 64.32s (0:01:04)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 279 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 68 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 66,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: finite-arithmetic
+  name: Finite parameter, block and state masking calculations
+  command: python3 research/discovery/stochastic-regularization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"dropconnect": {"masked_sums": [0, -1, 2, 1], "mean": 0.5, "variance":
+    1.25, "mean_relu": 0.75, "relu_mean": 0.5, "equally_likely_masks": 4, "each_mask_probability":
+    0.25, "interpretation": "Moment identities hold; nonlinearity prevents interchanging
+    activation and expectation."}, "stochastic_depth": {"mean_stochastic_block_output":
+    0.5, "survival_scaled_block_output": 0, "survival_probabilities": [0.875, 0.75,
+    0.625, 0.5], "expected_active_blocks": 2.75, "negative_skip_after_relu": 0, "interpretation":
+    "Scaled inference need not equal the stochastic prediction mean; ReLU is identity
+    only on nonnegative values."}, "zoneout": {"exact_two_step_state_mean": 2.5, "local_expectation_two_step_state":
+    2.375, "printed_lstm_hidden_from_unzoned_cell": 0.0, "alternative_hidden_from_preserved_cell":
+    0.3807970779778824, "interpretation": "Averaging masks locally differs from full
+    trajectory expectation; choosing the cell used for the hidden proposal matters."}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T123501Z-stochastic-connection-block-and-state-masks.json
+  accessed_at: '2026-10-11T12:35:18Z'
+  support: supports
+  summary: Compared all 442 pinned AIO labels/scoped synonyms and 276 preceding native
+    IDs/names/aliases, including candidate-internal normalized uniqueness. No identity
+    match was found. Full-checkout fixed-string searches included ignored/hidden files
+    and returned 5 worktree and 5 main lines; every hit was a candidate or related-variant
+    lead. Nine exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges
+    and three native neighboring mechanisms were inspected. Absence is bounded to
+    this snapshot and semantic neighborhood.
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 276 preceding maintained
+    IDs/names/aliases; full checkouts including ignored/hidden files; candidate-internal
+    normalized uniqueness.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Nine exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T12:35:18Z'
+  support: supports
+  summary: DropConnect maps broadly to Layer and relates to DenseLayer while preserving
+    stochastic weight-mask distinctions. Stochastic depth relates to ResidualNeuralNetwork;
+    Zoneout relates to RecurrentNeuralNetwork. The latter two also relate to TrainingStrategy
+    without treating its preprocessing genus as a clean subclass. Nine exact AIO nodes
+    were inspected, reusing unchanged generic Layer/Dropout/Regularization/TrainingStrategy
+    definitions from batch51. DropoutLayer concerns zeroed activations; RegularizationLayer
+    defines additive loss penalties; LSTM/GRU layers are possible architectures rather
+    than equivalent procedures. Three native neighbors distinguish spatial or activation-derived
+    masks and ordinary SGD parameter updates.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T123501Z-stochastic-connection-block-and-state-masks.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T12:35:18Z'
+  support: supports
+  summary: Read DropBlock, the attention-based dropout layer and stochastic gradient
+    descent. Spatial feature-map masks and the underlying optimizer differ from individual
+    parameter masks, whole residual-block bypass and recurrent state preservation.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/stochastic-regularization-boundaries.py
+  locator: 'calculate(): masked-weight moments and nonlinear expectation, residual-block
+    expectations and activation bounds, recurrent state mixtures and cell/hidden selector
+    differences'
+  accessed_at: '2026-10-11T12:35:18Z'
+  snapshot_sha256: 4e91100aa3ac3946000b9e7ae0aa6e054ab1777c034179caa465b8547dad5f61
+  support: supports
+  summary: Original finite examples verify DropConnect masked-sum moments and nonlinear
+    averaging limits, stochastic-depth survival counts and inference approximation,
+    and Zoneout trajectory versus local-expectation behavior. No author algorithm
+    or model was executed.
+- evidence_id: dropconnect-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/wan13.pdf
+  locator: Sections2.2–3.2 and Equations3–4/Algorithms1–2, PDF pp.2–3; implementation
+    scope Section5, PDFp.4; discussion Section7, PDFp.7
+  accessed_at: '2026-10-11T12:28:11Z'
+  snapshot_sha256: 6b079db3d7a1971cf18b1f8fc9f7873728f187e724ff4f41c7c72e03edc82c08
+  support: supports
+  summary: Regularization of Neural Networks using DropConnect. ICML 2013, PMLR28(3):1058–1066;
+    9-page proceedings PDF. Actual PDF and static-code reading scopes are declared
+    in the ledger. Source rendering alone does not attest inspection.
+- evidence_id: stochasticdepth-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1603.09382v3
+  locator: Section3 and Equations2–5, PDF pp.4–7; residual skip definition Section2,
+    PDFp.3; conclusion PDF pp.13–14
+  accessed_at: '2026-10-11T12:28:11Z'
+  snapshot_sha256: f8c7313da059499280b24bd6cc30b95c83cf4886f2610ae1390026d40299782a
+  support: supports
+  summary: Deep Networks with Stochastic Depth. arXiv1603.09382v3, 28July2016; 16-page
+    author version. Actual PDF and static-code reading scopes are declared in the
+    ledger. Source rendering alone does not attest inspection.
+- evidence_id: zoneout-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1606.01305v4
+  locator: Introduction PDFp.1; Sections2.1–3.2 and Figures1–2, PDF pp.2–4; mask variants
+    and limits in Sections4.1/4.3–4.4, PDF pp.5–8
+  accessed_at: '2026-10-11T12:28:11Z'
+  snapshot_sha256: f82391469757695bcc663bf6ce7ad0ee7eb7831774ae578eb1929729efb4f94c
+  support: supports
+  summary: 'Zoneout: Regularizing RNNs by Randomly Preserving Hidden Activations.
+    arXiv1606.01305v4, 22September2017; 11-page PDF bearing an under-review ICLR2017
+    header. Actual PDF and static-code reading scopes are declared in the ledger.
+    Source rendering alone does not attest inspection.'
+assessments:
+- assessment_id: dropconnect
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:DropConnect
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - dropconnect-source-0
+  summary: This record denotes the original fully connected DropConnect layer and
+    its training/inference conventions. Dynamic connection masking differs from dropping
+    activation units, removing whole residual branches, masking spatial blocks and
+    permanently pruning a weight matrix. The surrounding feature extractor and classifier
+    are not part of the layer identity. No normalized identity match was found across
+    all 442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 5 and 5 lines respectively. Every text hit was a prior candidate
+    lead or a closely related variant lead. Nine exact AIO CLASS nodes with scoped
+    synonyms/comments and outgoing edges and three native neighboring mechanisms were
+    inspected. Absence is bounded to this snapshot and semantic neighborhood.
+  details: 'For each training example, draw independent Bernoulli keep masks for the
+    layer’s weights and biases with a chosen retention probability p. Multiply the
+    parameters elementwise by this mask, compute the affine preactivation and apply
+    the nonlinear activation. Backpropagate through the masked connections, using
+    the same mask for the weight gradients and for gradients passed to earlier layers.
+    The original inference procedure approximates each preactivation by a Gaussian
+    matched to the masked weighted sum’s mean and variance: p times the ordinary weighted
+    sum, and p(1−p) times the sum of squared weight-input products, including the
+    constant input used for bias. Draw samples from these Gaussians, apply the activation
+    to each sample and average the resulting activations before passing them to the
+    next layer. The paper’s sample count and p=0.5 experiments are configuration choices.
+    Limits: The original layer uses per-example masks, including biases. Shared minibatch
+    masks, unmasked biases, inverted training rescaling and later structured weight-masking
+    variants are not silently substituted for this source version. Gaussian moment
+    matching is an approximation to the finite Bernoulli sum; averaging sampled nonlinear
+    activations is also approximate. Passing an averaged activation through a nonlinear
+    downstream network is not exact averaging of full network predictions. Applying
+    the activation to the mean generally differs from averaging activations. The equal-mask
+    paragraph uses 1/|M| while also describing 2^|M| masks. Exact averaging requires
+    normalized mask probabilities; the record follows the weighted expectation in
+    Equation4 rather than propagating that inconsistent displayed factor. No full
+    proof audit of the source’s generalization bound is claimed. Dense connection-mask
+    storage and sampling can be costly; dynamic sparsity alone does not guarantee
+    faster execution. Fully connected-layer evidence does not establish arbitrary
+    convolutional/recurrent implementations, universal generalization improvement
+    or a calibrated Bayesian posterior. No benchmark result or author code execution
+    is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: layer
+    definition: A neural-network layer or stochastic training/state-transition procedure,
+      distinguished from its surrounding architecture.
+    evidence_ids:
+    - dropconnect-source-0
+  - name: aio-relations
+    value: 'broad_match: AIO:Layer; related_match: AIO:DenseLayer'
+    definition: DropConnect is represented as a particular neural-network input-to-output
+      component, which falls within the generic Layer scope. The original method applies
+      dynamic connection masks to a densely parameterized affine layer. Its stochastic
+      sparse realizations and special inference approximation distinguish it from
+      the pinned regular dense layer; this is a component relationship, not equivalence.
+    evidence_ids:
+    - mapping
+- assessment_id: stochasticdepth
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:StochasticDepth
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - stochasticdepth-source-0
+  summary: This record covers the original 2016 stochastic-depth procedure with a
+    block-survival draw per minibatch and test-time residual scaling. It is a training
+    procedure for residual networks, not the residual architecture itself. Modern
+    per-example drop-path functions, inverted scaling conventions and learned dynamic-depth
+    methods require separate version assessment. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 276 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 5 and 5 lines respectively. Every text hit
+    was a prior candidate lead or a closely related variant lead. Nine exact AIO CLASS
+    nodes with scoped synonyms/comments and outgoing edges and three native neighboring
+    mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+  details: 'Assign each residual block a survival probability and, for each training
+    minibatch, sample whether to execute its residual transformation. An active block
+    adds its residual output to the skip path before the architecture’s output activation;
+    an inactive block bypasses the residual transformation while preserving the skip
+    path. The source’s identity reduction relies on its nonnegative activations and
+    compatible skip connection. It proposes a linear decrease in survival probability
+    with block depth from an always-present input to a chosen last-block probability,
+    while also considering a uniform assignment. The expected number of active residual
+    blocks is the sum of their survival probabilities. During inference, activate
+    every residual transformation and multiply its output by its training survival
+    probability before adding the skip path. The original convention does not divide
+    active training residuals by the survival probability. Limits: Identity bypass
+    is conditional on the skip path and activation: a post-addition ReLU clips negative
+    skip values, and a dimension-changing projection is not the same operation as
+    an identity map. The procedure cannot be transferred to an arbitrary incompatible
+    block by merely deleting its output. The survival schedule in the core method
+    varies with network depth, not automatically with elapsed training time. The paper’s
+    final-block probability of0.5 is an experimental choice. Mini-batch sampling and
+    inference scaling differ from later per-example or inverted-scaled implementations.
+    Survival-weighted inference is a practical combination of shared-weight subnetworks,
+    not generally the exact expected prediction of the stochastic nonlinear network.
+    Reduced expected active-block count does not by itself guarantee a proportional
+    wall-clock saving; computation must actually be bypassed. The source’s empirical
+    gradient and benchmark observations do not certify absence of vanishing gradients,
+    universal regularization improvement or arbitrarily deep trainability. No author
+    code or trained network was executed.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A neural-network layer or stochastic training/state-transition procedure,
+      distinguished from its surrounding architecture.
+    evidence_ids:
+    - stochasticdepth-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:ResidualNeuralNetwork; related_match: AIO:TrainingStrategy'
+    definition: The original procedure trains a residual network by stochastically
+      bypassing its residual transformations. The AIO target is the network architecture,
+      while the native concept is a training/inference procedure. Stochastic depth
+      changes network participation during training and the corresponding inference
+      convention. The target’s preprocessing genus and broad learning-task examples
+      do not establish a clean subclass boundary, so the association is related.
+    evidence_ids:
+    - mapping
+- assessment_id: zoneout
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:Zoneout
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - zoneout-source-0
+  summary: Zoneout is a stochastic transition-modification procedure, not a particular
+    RNN architecture or trained sequence model. Its identity branch retains previous
+    activations; it differs from setting recurrent states to zero, dropping only input-gate
+    contributions, fixed periodic update schedules and always skipping an entire recurrent
+    layer. LSTM cells and hidden states can have separate preservation probabilities
+    and masks. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 5 and
+    5 lines respectively. Every text hit was a prior candidate lead or a closely related
+    variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+    edges and three native neighboring mechanisms were inspected. Absence is bounded
+    to this snapshot and semantic neighborhood.
+  details: 'At a recurrent timestep, form the model’s proposed next-state values and
+    use a Bernoulli selector for each targeted component to choose between that proposal
+    and its previous value. Defining z as the preservation probability, the update
+    has the form mask times previous state plus one-minus-mask times proposed state,
+    with a mask value of1 selecting preservation. This introduces direct identity
+    paths through time for the preserved components. The source’s LSTM account usually
+    uses separate selectors for memory cells and hidden states and also studies shared
+    selectors. At testing, replace the random selector by its expectation, producing
+    a weighted combination of previous and proposed values at each step. Selection
+    probabilities, targeted state components and the underlying recurrent transition
+    are configured choices; the procedure itself does not require a new learned gate.
+    Limits: The generic operator formula in Section3.1 uses d for selecting the normal
+    transition, whereas the LSTM formulas in Section3.2 use d for selecting preservation.
+    The record defines its own preservation convention explicitly; those source masks
+    are complements, not interchangeable symbols. The printed LSTM hidden-state proposal
+    uses the unzoned cell-update expression inside tanh. An implementation that instead
+    uses the already-mixed cell state can differ when cell and hidden selectors differ.
+    This general method record does not certify all LSTM code as equivalent or invent
+    an uninspected implementation rule. Replacing selectors by expectations gives
+    a deterministic local mixture; nonlinear recurrence means it is not generally
+    the exact ensemble-averaged state or output over complete stochastic trajectories.
+    Preserved components pass their old values directly, but this does not guarantee
+    that the entire network avoids vanishing/exploding gradients or processes every
+    input in every component. Very high preservation can suppress adaptation to new
+    inputs. State/cell probabilities, sharing and other regularizers matter; the source’s
+    task-specific results and conjectures do not establish universal improvement.
+    No exact trained-model replication, parameter sweep or author-code execution is
+    asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A neural-network layer or stochastic training/state-transition procedure,
+      distinguished from its surrounding architecture.
+    evidence_ids:
+    - zoneout-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:RecurrentNeuralNetwork; related_match: AIO:TrainingStrategy'
+    definition: Zoneout modifies a recurrent state transition. The AIO target denotes
+      the broader network architecture category, not this stochastic regularization
+      algorithm. Zoneout supplies training-time stochastic state preservation and
+      a corresponding inference rule. The target mixes preprocessing and broad learning
+      strategies, so this is a procedure-to-training association rather than an asserted
+      subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: dropconnect-boundaries
+  area: consistency
+  topic: Parameter masks, Gaussian approximation and normalization
+  outcome: supported
+  target_ids:
+  - AIMech:DropConnect
+  evidence_ids:
+  - dropconnect-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the original fully connected DropConnect layer.
+  details: The source masks weights and biases independently per example. Gaussian
+    moments approximate a finite Bernoulli sum; average nonlinear activations rather
+    than applying the activation to the mean. Downstream nonlinear prediction is not
+    exact ensemble averaging. The inconsistent equal-mask normalization factor is
+    qualified, while the correctly normalized weighted expectation governs the account.
+    Generalization proofs and arbitrary later implementations are outside scope.
+- assessment_id: stochastic-depth-boundaries
+  area: consistency
+  topic: Minibatch block survival, compatible skips and test scaling
+  outcome: supported
+  target_ids:
+  - AIMech:StochasticDepth
+  evidence_ids:
+  - stochasticdepth-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the original residual-network training procedure.
+  details: Survival varies with block depth and is sampled per minibatch. The identity
+    bypass requires compatible skips and the source nonnegative activations; projection
+    and ReLU on negative inputs prevent an unconditional identity statement. Original
+    inference weights all residual outputs by survival probabilities, while training
+    does not apply inverted scaling. Finite arithmetic refutes an exact nonlinear
+    ensemble-prediction interpretation. Expected active-block count is not a wall-clock
+    guarantee.
+- assessment_id: zoneout-boundaries
+  area: consistency
+  topic: Preservation selector, recurrent expectation and LSTM equations
+  outcome: supported
+  target_ids:
+  - AIMech:Zoneout
+  evidence_ids:
+  - zoneout-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain componentwise recurrent state preservation.
+  details: The generic and LSTM source sections use complementary selector conventions.
+    The record explicitly defines preservation. The printed hidden proposal uses the
+    unzoned cell expression, which can differ from implementations using the already-preserved
+    cell. A local deterministic expectation is not an exact trajectory ensemble mean.
+    Identity paths do not certify the complete network Jacobian or universal trainability.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Layer, residual/recurrent architecture and training-procedure relations
+  outcome: supported
+  target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three distinct concepts with broad and related mappings.
+  details: DropConnect maps broadly to Layer and relates to DenseLayer while preserving
+    stochastic weight-mask distinctions. Stochastic depth relates to ResidualNeuralNetwork;
+    Zoneout relates to RecurrentNeuralNetwork. The latter two also relate to TrainingStrategy
+    without treating its preprocessing genus as a clean subclass. Nine exact AIO nodes
+    were inspected, reusing unchanged generic Layer/Dropout/Regularization/TrainingStrategy
+    definitions from batch51. DropoutLayer concerns zeroed activations; RegularizationLayer
+    defines additive loss penalties; LSTM/GRU layers are possible architectures rather
+    than equivalent procedures. Three native neighbors distinguish spatial or activation-derived
+    masks and ordinary SGD parameter updates.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:DropConnect
+  - AIMech:StochasticDepth
+  - AIMech:Zoneout
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - dropconnect-source-0
+  - stochasticdepth-source-0
+  - zoneout-source-0
+  rationale: Masking individual parameters, bypassing residual transformations and
+    preserving recurrent state components have different targets and transition semantics.
+    A shared regularization objective does not establish equivalence.
+limitations:
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared PDF pages were inspected; no author implementation was audited. No
+  training, benchmark, complete proof audit or author-code execution was performed.
+- Source notation differences and inference approximations remain explicit. No author-issued
+  erratum, full proof audit or exact ensemble-prediction guarantee is claimed.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+tags:
+- native-concepts
+- parameter-masks
+- residual-blocks
+- recurrent-state
+- regularization
+- source-conventions
+- self-review
+- discovery-ongoing
+```
