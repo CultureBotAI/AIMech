@@ -1,0 +1,73 @@
+name: Diffusion Maps
+definition: A family of spectral embedding algorithms that normalizes a nonnegative symmetric affinity
+  kernel into a reversible Markov operator and represents points by its nontrivial eigenfunctions scaled
+  by powers of their eigenvalues.
+concept_kind: algorithm
+identity_notes: This record denotes the Markov-spectral dimensionality-reduction construction. It is not
+  a denoising generative diffusion model, Isomap shortest-path embedding, or merely a graph Laplacian
+  eigensystem. Kernel choice and diffusion time define the diffusion geometry being represented. All 442
+  pinned AIO labels/scoped synonyms and 109 preceding native identities were compared, together with hidden/ignored-inclusive
+  searches of both checkouts; source citations and pending frontier mentions were distinguished from existing
+  concept identities.
+limitations:
+- The kernel, its bandwidth, density normalization and diffusion time determine the geometry. Ordinary
+  row normalization does not generally remove sampling-density effects.
+- Connectivity and aperiodicity support the usual unique-stationary and decaying-mode interpretation;
+  disconnected graphs or periodic walks need qualified treatment.
+- Coordinate truncation discards spectral contributions. The record does not assert the paper’s relative-error
+  shorthand as a universal pairwise bound, or that every diffusion distance separates distinct points
+  for a rank-deficient transition matrix.
+- Continuum Laplace–Beltrami claims require the stated manifold, sampling and bandwidth limits; they do
+  not establish exact finite-data geometry or universal noise robustness.
+aliases:
+- Diffusion Map
+id: AIMech:DiffusionMaps
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.1–2.5, printed pp. 7–11 / PDF pp. 3–7; Sections 3.1–3.4, pp. 14–16 / PDF pp. 10–12
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Choose an affinity kernel with positive degrees, normalize its rows to transition probabilities,
+    and compute nontrivial eigenpairs of the resulting Markov operator. At diffusion time t, use coordinates
+    λ_l^t ψ_l(x). Under the stated reversible-chain spectral assumptions, squared Euclidean distances
+    in the full coordinates equal a stationary-distribution-weighted squared difference between t-step
+    transition distributions; retaining only leading coordinates gives a truncated approximation. Optional
+    density normalization changes the kernel before row normalization.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.1–2.5, printed pp. 7–11 / PDF pp. 3–7; Sections 3.1–3.4, pp. 14–16 / PDF pp. 10–12
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Diffusion maps
+  authors:
+  - Ronald R. Coifman
+  - Stéphane Lafon
+  source_type: primary_paper
+  url: https://www.math.ucdavis.edu/~strohmer/courses/270/diffusion_maps.pdf
+  version: Applied and Computational Harmonic Analysis 21(1):5–30, July 2006; published PDF mirrored by
+    UC Davis
+  persistent_id: doi:10.1016/j.acha.2006.04.006
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: cf2188865324a22da7dcea1072466881ef47723d50e5ac34253bc7b057ff43ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific unsupervised embedding algorithm used for dimensionality reduction. The pinned
+    target inherits the machine-learning-task hierarchy; this association does not assert algorithm/task
+    identity or subclass membership. RepresentationLearning in this pin specifically denotes a deep neural
+    network, and EmbeddingLayer denotes an integer-index lookup layer, neither of which defines this method.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:11:14Z'
+  updated_at: '2026-10-11T05:11:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,99 @@
+name: Isomap
+definition: A nonlinear dimensionality-reduction algorithm that estimates manifold geodesic distances
+  by shortest paths in a local neighborhood graph and applies classical multidimensional scaling to those
+  estimated distances.
+concept_kind: algorithm
+identity_notes: Isomap combines neighborhood-based geodesic estimation with classical MDS. It is not identical
+  to generic MDS, PCA or LLE. Epsilon and nearest-neighbor graph options belong to the original algorithm;
+  landmark and robust variants require separate inspection. All 442 pinned AIO labels/scoped synonyms
+  and 109 preceding native identities were compared, together with hidden/ignored-inclusive searches of
+  both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- Neighborhoods that bridge manifold branches create short-circuit distances; overly small neighborhoods
+  can disconnect the graph and leave infinite pairwise distances.
+- The original asymptotic recovery claim concerns manifolds intrinsically equivalent to a convex Euclidean
+  region with sufficient sampling and suitable neighborhood choices; the spectral objective does not certify
+  arbitrary manifold recovery.
+- The 2002 comment demonstrates a noise/neighborhood failure, while the authors’ response shows that adjusting
+  neighborhood size can recover useful embeddings in their studied examples. Neither establishes universal
+  failure nor universal robustness.
+- Classical Euclidean embedding can distort graph distances; retaining leading positive modes is not proof
+  that every estimated distance has an exact low-dimensional Euclidean realization.
+aliases:
+- Isometric Feature Mapping
+id: AIMech:Isomap
+definition_evidence:
+- source_id: original-paper
+  locator: Main method, equation (1), Table 1 and notes 15–19, printed pp. 2320–2322 / PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Construct a weighted epsilon-neighborhood or nearest-neighbor graph with input distances
+    as edge lengths, compute all-pairs shortest-path distances, and form the centered inner-product matrix
+    from squared graph distances. Classical MDS uses leading positive eigenvalues and eigenvectors to
+    obtain Euclidean embedding coordinates. The global optimum concerns that matrix-fitting objective,
+    while agreement with true manifold geometry additionally depends on the graph and manifold assumptions.
+  evidence:
+  - source_id: original-paper
+    locator: Main method, equation (1), Table 1 and notes 15–19, printed pp. 2320–2322 / PDF pp. 2–4
+    relation: supports
+- claim_id: noise-and-neighborhood-scope
+  kind: limitation
+  statement: Balasubramanian and Schwartz identify short-circuit sensitivity in a noisy Swiss-roll example.
+    Tenenbaum, de Silva and Langford agree that neighborhood selection matters, distinguish their unorganized-point-cloud
+    problem from known-mesh cortical flattening, and report useful ranges of neighborhood sizes in their
+    examples. The exchange supports a conditional stability limitation, not a blanket rejection of Isomap.
+  evidence:
+  - source_id: stability-discussion
+    locator: Comment and response, Science 295:7a; combined Oxford PDF pp. 6–8
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: A Global Geometric Framework for Nonlinear Dimensionality Reduction
+  authors:
+  - Joshua B. Tenenbaum
+  - Vin de Silva
+  - John C. Langford
+  source_type: primary_paper
+  url: https://pca.narod.ru/ISOMAPGlobalGeometric.pdf
+  version: Science 290(5500):2319–2323, 2000-12-22; publicly mirrored published PDF
+  persistent_id: doi:10.1126/science.290.5500.2319
+  access_level: full_text
+  accessed_at: '2026-10-11T05:08:19Z'
+  sha256: e5a30983feeee1d24cb8f102736420a77e103e43aa009f3ac39bdb90a65f4436
+- source_id: stability-discussion
+  title: The Isomap Algorithm and Topological Stability, with Response
+  authors:
+  - Mukund Balasubramanian
+  - Eric L. Schwartz
+  - Joshua B. Tenenbaum
+  - Vin de Silva
+  - John C. Langford
+  source_type: primary_paper
+  url: https://www.robots.ox.ac.uk/~az/lectures/ml/tenenbaum-isomap-Science2000.pdf
+  version: Science 295(5552):7a, 2002-01-04; comment and response appended to original paper in Oxford-hosted
+    PDF
+  persistent_id: doi:10.1126/science.295.5552.7a
+  access_level: full_text
+  accessed_at: '2026-10-11T05:09:27Z'
+  sha256: 843b504872d928d8733ac313dea75356b7405573184a4452fa75bc2a5b62226a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific unsupervised embedding algorithm used for dimensionality reduction. The pinned
+    target inherits the machine-learning-task hierarchy; this association does not assert algorithm/task
+    identity or subclass membership. RepresentationLearning in this pin specifically denotes a deep neural
+    network, and EmbeddingLayer denotes an integer-index lookup layer, neither of which defines this method.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:11:14Z'
+  updated_at: '2026-10-11T05:11:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
