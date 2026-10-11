@@ -1,0 +1,113 @@
+name: Logarithmic opinion pool
+definition: A probability-aggregation method that forms a normalized weighted geometric mean of expert
+  distributions over the same outcomes, using nonnegative exponent weights that sum to one.
+concept_kind: mathematical_method
+identity_notes: This record uses the normalized-weight convention inspected in Heskes and Hinton. It combines
+  probability assessments, possibly conditional on an input, rather than spatially pooling neural activations.
+  It is distinct from a linear opinion pool, a unit-exponent product learned cooperatively, and a particular
+  algorithm for estimating the exponent weights. Broader log-linear combinations without the sum-to-one
+  constraint require separate qualifications. All 442 pinned AIO labels/scoped synonyms and 373 preceding
+  native IDs/names/aliases were compared. The sole normalized hit is Product of experts as a related synonym
+  of FactorizedLLM; its language-specific definition and parent distinguish it from the generic candidate.
+  Both full-checkout fixed-string searches included ignored and hidden files and returned 59 lines each.
+  All 29 unique matched contents were read; other hits concern citations, training components, prior boundary
+  discussions or pending leads. All 88 semantic label/synonym hits, 20 exact fully annotated AIO nodes
+  with outgoing edges, their generated records and four complete native neighbors were inspected or verified
+  unchanged after previous full reading. Absence is bounded to this pin and inspected semantic neighborhood.
+limitations:
+- An outcome assigned zero probability by any positively weighted expert receives zero pooled probability.
+  Disjoint positively weighted supports can yield Z=0. Zero-weight experts are excluded from this veto;
+  finite-divergence identities require compatible support.
+- The weighted-average KL bound is not a guarantee of improvement over every expert, calibrated uncertainty
+  or empirical predictive superiority. It depends on nonnegative weights summing to one, and does not
+  transfer unchanged to arbitrary unit-exponent products.
+- Pooling does not specify how expert models or their weights are trained. Heskes’s quadratic weight-selection
+  objective is an approximation obtained by neglecting KL asymmetry terms for nearby distributions; it
+  is not the exact general weight-optimization objective. Finite-data divergence estimates may be biased
+  by fitting and overfitting.
+- The Heskes display following Equation (3) prints ambiguity A as positive log Z, conflicting with its
+  nonnegative weighted-KL definition and the preceding prose. The consistent identity is A=-log Z. The
+  normalization constraint there also integrates over x where conditional normalization requires y; these
+  display slips are not adopted.
+- The variance example on printed p.270 reverses the precision ratio for the displayed KL argument order.
+  The record relies on the probability-pool definition and the equal-variance example, not that reversed
+  formula. No general weight-selection implementation or empirical result is certified.
+id: AIMech:LogarithmicOpinionPool
+aliases:
+- Log opinion pool
+- Logarithmic pooling
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations (1)–(5), printed pp.267–269 / PDF pp.2–4; exponential-family examples,
+    Section 3, pp.269–271 / PDF pp.4–6; weight estimation and approximation, Section 4, pp.271–272 / PDF
+    pp.6–7
+  relation: supports
+- source_id: pool-product-boundary
+  locator: Section 12.1, Equation (12.1), printed p.1794 / PDF p.24
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For each input x, aggregate expert probabilities as pbar(y|x)=product_m p_m(y|x)^w_m/Z(x),
+    with w_m>=0 and sum_m w_m=1. Omit zero-weight factors, and require 0<Z(x)<infinity. On a common support
+    where the divergences are finite, pbar minimizes sum_m w_m KL(r||p_m) over normalized r, with the
+    candidate r in the first KL argument. For a target distribution q, KL(q||pbar)=sum_m w_m KL(q||p_m)-sum_m
+    w_m KL(pbar||p_m); the subtracted term is -log Z at a fixed input, or its expectation over inputs.
+    Thus the pool is no worse in that KL direction than the weighted average of experts, not necessarily
+    the best expert. A common likelihood update commutes with pooling when the same fixed normalized weights
+    are retained and normalization exists. For binary logistic probabilities this rule averages logits;
+    for equal-variance Gaussian experts it averages means while preserving that shared variance.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations (1)–(5), printed pp.267–269 / PDF pp.2–4; exponential-family examples,
+      Section 3, pp.269–271 / PDF pp.4–6; weight estimation and approximation, Section 4, pp.271–272 /
+      PDF pp.6–7
+    relation: supports
+  - source_id: pool-product-boundary
+    locator: Section 12.1, Equation (12.1), printed p.1794 / PDF p.24
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Selecting weighting factors in logarithmic opinion pools
+  authors:
+  - Tom Heskes
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/1997/file/59f51fd6937412b7e56ded1ea2470c25-Paper.pdf
+  version: NIPS 1997, Advances in Neural Information Processing Systems 10, pp.266–272, proceedings publication
+    1998. Publisher seven-page PDF, all pages visually read. Printed page = PDF page +265; first page
+    has no printed number.
+  persistent_id: https://papers.neurips.cc/paper_files/paper/1997/hash/59f51fd6937412b7e56ded1ea2470c25-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:21:17Z'
+  sha256: 734a29f44dcdd237cfefceb34ed9b779cd5b80241d4db240d6d38eaf7406ec0a
+- source_id: pool-product-boundary
+  title: Training Products of Experts by Minimizing Contrastive Divergence
+  authors:
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/nccd.pdf
+  version: Neural Computation 14:1771–1800 (2002), author-hosted journal PDF, verified unchanged from
+    the complete 30-page reading in round83. PDF pp.2–3,10–12,23–25 reread visually in round84. Printed
+    page = PDF page +1770; distinct from the 2000 technical report.
+  persistent_id: doi:10.1162/089976602760128018
+  access_level: full_text
+  accessed_at: '2026-10-11T19:07:30Z'
+  sha256: a1190ee66e6950128a2446dfbc78a56c938065eacaff2e1a6f2dc2a3c1df64b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:EnsembleLearning
+  relation: related_match
+  rationale: The inspected method aggregates probabilistic expert predictions and is used in ensemble
+    modeling. The AIO target denotes a learning task and phrases predictive improvement as its aim; it
+    is not an equivalent probability-combination rule or a performance guarantee. PoolingLayer instead
+    denotes spatial downsampling and is not an appropriate match.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:31:29Z'
+  updated_at: '2026-10-11T19:31:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

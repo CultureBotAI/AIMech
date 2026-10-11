@@ -1,0 +1,126 @@
+name: Product of hidden Markov models
+definition: A sequence-model family that multiplies the marginal probabilities assigned to a complete
+  observation sequence by several hidden Markov models and normalizes the product over sequences of the
+  same length.
+concept_kind: model_family
+identity_notes: PoHMM is Brown and Hinton’s undirected product construction with one hidden chain per
+  expert. It is not a mixture that selects one HMM, an ordinary single-chain HMM, or a directed factorial
+  HMM whose multiple latent chains jointly generate locally normalized emissions. Taylor and Hinton’s
+  later AIS study retains this model identity and supplies an evaluation procedure, not a new synonymous
+  architecture. The model is not restricted to linguistic sequences. All 442 pinned AIO labels/scoped
+  synonyms and 373 preceding native IDs/names/aliases were compared. The sole normalized hit is Product
+  of experts as a related synonym of FactorizedLLM; its language-specific definition and parent distinguish
+  it from the generic candidate. Both full-checkout fixed-string searches included ignored and hidden
+  files and returned 59 lines each. All 29 unique matched contents were read; other hits concern citations,
+  training components, prior boundary discussions or pending leads. All 88 semantic label/synonym hits,
+  20 exact fully annotated AIO nodes with outgoing edges, their generated records and four complete native
+  neighbors were inspected or verified unchanged after previous full reading. Absence is bounded to this
+  pin and inspected semantic neighborhood.
+limitations:
+- The partition function depends on model parameters and sequence length. Separate forward–backward computations
+  evaluate the unnormalized product and complete-data hidden posteriors; they do not by themselves give
+  the product’s global normalizer or exact likelihood. Small finite models can be enumerated, but this
+  does not establish scalable tractability.
+- When observations are missing or future observations are integrated out, the experts can become dependent.
+  Exact separate posterior inference given a complete sequence is not a claim of equally simple causal
+  prediction from a prefix.
+- CD learning is approximate, and the customary short-chain update is not generally an exact likelihood
+  or contrastive-objective gradient. The Brown paper’s initial pseudocode writes probability derivatives
+  where its final update uses log derivatives; this record follows the log-score update supported by the
+  later explicit formulation.
+- Brown Equation (3) places a derivative outside a posterior expectation. The score identity used here
+  means the expectation of the log-joint derivative at the current posterior, without differentiating
+  through that posterior. The shared deterministic emission-feature extension is optional, not an extra
+  required stochastic latent layer.
+- Taylor Section 3.3 estimates normalization with an AIS path that tempers emission potentials inside
+  hidden-path sums. This is generally different from simply raising whole HMM marginal likelihoods to
+  fractional powers. Approximate normalizer estimates, and their logarithms, are not exact log likelihoods
+  or a universal reliability guarantee.
+- The papers’ language, rainfall and dance examples do not establish universal superiority. No author
+  code, training experiment or AIS implementation was reproduced.
+id: AIMech:ProductOfHiddenMarkovModels
+aliases:
+- PoHMM
+- Products of hidden Markov models
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1–2, Equations (1)–(5), PDF pp.1–3; missing-data/prediction distinction, Section 3.1,
+    p.4; shared-output extension, Section 4, pp.6–7
+  relation: supports
+- source_id: pohmm-followup
+  locator: Sections 1–2 and Figure 1, PDF pp.1–3; Section 3, Equations (3)–(9) and emission-tempered AIS
+    construction, pp.3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For fixed length T, let p_m(v_1:T) sum each expert HMM’s joint probability over its hidden
+    paths. Define p(v_1:T)=product_m p_m(v_1:T)/Z_T. Given the entire observed sequence, infer each expert’s
+    hidden path posterior separately with forward–backward. A blocked Gibbs transition samples one path
+    from each such posterior, then independently at each time samples an observation from the normalized
+    product of the emissions selected by those paths. For CD-k learning, contrast each expert’s log-marginal
+    score on the data and on the k-step reconstruction, treating reconstructed observations as fixed in
+    the customary update. Each score is the posterior expectation of the derivative of the HMM log joint,
+    with that posterior held fixed for this identity; it is not the total derivative through the posterior
+    of an expected log joint. Global normalization over sequences distinguishes the model from independently
+    normalizing a product emission at every time while retaining independent hidden-chain priors.
+  evidence:
+  - source_id: method-source
+    locator: Sections 1–2, Equations (1)–(5), PDF pp.1–3; missing-data/prediction distinction, Section
+      3.1, p.4; shared-output extension, Section 4, pp.6–7
+    relation: supports
+  - source_id: pohmm-followup
+    locator: Sections 1–2 and Figure 1, PDF pp.1–3; Section 3, Equations (3)–(9) and emission-tempered
+      AIS construction, pp.3–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Products of Hidden Markov Models
+  authors:
+  - Andrew D. Brown
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/r3/brown01a/brown01a.pdf
+  version: AISTATS 2001 paper, publisher eight-page PDF from the PMLR R3 reissue published 31 March 2021,
+    catalogued as pp.21–28. The PDF has no printed page numbers; original bibliographies cite pp.3–11.
+    These version/page conventions are not silently interchanged. All eight PDF pages visually read.
+  persistent_id: https://proceedings.mlr.press/r3/brown01a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:21:14Z'
+  sha256: fd81a41fd9ed560b34f3277ae4c5c977f4455ffeeb0dc31b7798960645ba145e
+- source_id: pohmm-followup
+  title: 'Products of Hidden Markov Models: It Takes N>1 to Tango'
+  authors:
+  - Graham W. Taylor
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.utoronto.ca/~hinton/absps/pohmm_uai.pdf
+  version: UAI 2009 author-hosted eight-page PDF, proceedings pp.522–529; no printed page numbers on the
+    inspected PDF. All eight pages visually read. arXiv:1205.2614 was uploaded in 2012 and is bibliographic
+    context, not a claim that its bytes match this PDF.
+  persistent_id: arxiv:1205.2614
+  access_level: full_text
+  accessed_at: '2026-10-11T19:21:19Z'
+  sha256: e62e3b6a1876c73862c2ca17b6e22911aa332750ece9e388a0333f986e3eb9ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Each expert contains a latent Markov chain, while the normalized product model includes multiple
+    chains and observation factors. This is a component association, not an assertion that the observed
+    sequence is a first-order Markov chain.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The model has an undirected graphical dependence structure. The pinned AIO target is defined
+    and parented as a machine-learning task, so the cross-level relationship is recorded as related rather
+    than a forced model-to-task subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:31:29Z'
+  updated_at: '2026-10-11T19:31:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
