@@ -1,9 +1,16 @@
 ---
 name: review-category
-description: Review an AIMech AIO category or explicit cohort, evaluate lump/split/retain/defer boundaries, and save structured YAML and rendered Markdown without mutating the ontology.
+description: Review an AIMech AIO category or maintained-concept cohort, evaluate lump/split/retain/defer boundaries, and save structured YAML and rendered Markdown without mutating records or the ontology.
 ---
 
 # Review an AIMech Category
+
+For maintained `AIMech:` concepts, follow the native-concept section of
+`docs/record-review-profile.md`. Select the exact local IDs, use maintained
+targets and their actual YAML owners, inspect claim evidence and AIO mapping
+scope, and run `aimech validate-curated`. The generated-AIO source-node
+instructions below apply to imported targets; do not fabricate source nodes
+for local concepts.
 
 Read [the common review contract](../../../docs/record-reviews.md) at
 `docs/record-reviews.md` and the [AIO rubric](../../../docs/record-review-profile.md)
@@ -23,7 +30,9 @@ judging; record exact IRI selectors and input hashes with the canonical helper.
 Preserve both upstream ontology ownership and local importer ownership for
 generated terms. Run the profile's required checks and capture actual results.
 
-Save `kind: category` and explicit evidence-backed `boundary_decisions`:
+Save `kind: category` for a coherent category, or `kind: batch` for an explicitly
+selected heterogeneous record cohort. Include evidence-backed `boundary_decisions`
+when assessing identities across either kind of cohort:
 `retain` preserves distinctions; `lump` needs at least two demonstrably equivalent
 targets; `split` needs a complete, nonempty, disjoint partition of its selected
 targets; `defer` records unresolved evidence and the next discriminating check.

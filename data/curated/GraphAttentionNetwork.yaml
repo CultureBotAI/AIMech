@@ -1,0 +1,64 @@
+name: Graph attention network
+definition: A graph neural architecture that updates node representations using learned attention weights
+  over graph neighborhoods.
+concept_kind: architecture
+identity_notes: The original GAT architecture is distinct from a generic attention layer and from graph-convolution
+  methods that do not use its learned neighborhood attention. GATv2 and other revisions are outside this
+  identity.
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Graph attentional layers are learned neural computations, so the general artificial-neural-network
+    target is broader.
+- target: AIO:GraphConvolutionalNetwork
+  relation: related_match
+  rationale: Both use graph structure, but the GAT paper defines a specific learned attention mechanism;
+    the mapping does not equate named GAT and GCN algorithms.
+limitations:
+- The record uses the revised ICLR 2018 paper, including its specified attention nonlinearity.
+- Attention coefficients are computation weights; no general causal-explanation or benchmark-superiority
+  claim is made.
+id: AIMech:GraphAttentionNetwork
+aliases:
+- GAT
+definition_evidence:
+- source_id: original-paper
+  locator: Section 2.1, equations 1–6, PDF/printed pp. 3–4
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: Shared transformations and a learned attention function produce neighborhood scores, softmax
+    normalizes those scores, and their weighted feature combinations form updated node representations.
+  evidence:
+  - source_id: original-paper
+    locator: Section 2.1, equations 1–6, PDF/printed pp. 3–4
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Graph Attention Networks
+  authors:
+  - Petar Veličković
+  - Guillem Cucurull
+  - Arantxa Casanova
+  - Adriana Romero
+  - Pietro Liò
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1710.10903v3
+  version: 1710.10903v3
+  access_level: full_text
+  accessed_at: '2026-10-11T03:09:20Z'
+  sha256: a7d811a44e1c65bf27da3a01859f23a8edbe33b8f96114b4b5066aedb078f284
+  persistent_id: arXiv:1710.10903v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:12:53Z'
+  updated_at: '2026-10-11T03:12:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

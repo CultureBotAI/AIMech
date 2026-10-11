@@ -16,6 +16,7 @@ def commands(environment):
         [sys.executable, "-m", "ruff", "check", "src", "tests", "scripts"],
         [sys.executable, "-m", "pytest", "-q"],
         [sys.executable, "-m", "aimech", "validate"],
+        [sys.executable, "-m", "aimech", "validate-curated"],
         [sys.executable, "-m", "aimech", "seed", "--check"],
         [sys.executable, "-m", "aimech", "validate-history", "--base", base],
         [sys.executable, "scripts/record_review.py", "check", "--base", base],

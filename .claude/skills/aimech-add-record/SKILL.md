@@ -1,14 +1,20 @@
 ---
 name: aimech-add-record
-description: Add or restore an AIO-backed AIConcept in AIMech by resolving identity, checking duplicates, and generating from the pinned source. Prepare a source-update or upstream-term proposal when the concept is not in the pin. Use for concept additions, not standalone model instances, benchmarks, or read-only record reviews.
+description: Discover and add evidence-backed AI concepts to AIMech using web searches, publication abstracts, and full-text PDFs. Restore generated AIO records or curate AIMech-native concepts with explicit AIO mappings. Use for concept additions and iterative discovery, not standalone trained-model instances or read-only reviews.
 ---
 
 # Add an AIMech Record
 
-Use inside AIMech. The supported record is `AIConcept`, generated in
-`data/aio/<AIO-local-ID>.yaml` from `sources/aio/aio.json`. Adding a record must
-preserve that reproducibility contract. This skill does not establish a new
-curation overlay, extend the schema, or give an unaccepted concept an AIO ID.
+Use inside AIMech. `AIConcept` records in `data/aio/` are generated from the
+pinned AIO source. `CuratedAIConcept` records in `data/curated/` are maintained
+locally with `AIMech:` IDs, inspected evidence and explicit AIO mappings. Keep
+these ownership and identity systems distinct. A local concept does not receive
+an AIO ID or become an accepted upstream class.
+
+For web/literature discovery, abstracts, PDFs, or an open-ended addition loop,
+read [literature discovery](references/literature-discovery.md). For a native
+record, also read `docs/curated-concepts.md` and
+`src/aimech/schema/curated_concept.yaml` from the repository root.
 
 ## Establish the target and source
 
@@ -50,7 +56,9 @@ Do not interpret a failure to access an upstream source as absence there.
 | Exact concept already has a matching generated record | Return its ID and path as already present; do not create a duplicate. Use a record-review skill only when review is requested. |
 | Exact class is in the pin, but its generated file is missing | Generate the missing record from the pinned source using the procedure below. |
 | Class exists only in a different upstream revision | Prepare a pinned source update using [source updates](references/source-updates.md). Its effects extend beyond the new class. |
-| Concept is absent from the examined AIO revisions | Prepare an evidence-backed upstream-term proposal; do not mint an AIO identifier or fabricate a source node. |
+| Exact concept already has a matching maintained record in `data/curated/` | Reuse its stable local ID; assess new evidence without creating a duplicate. |
+| Concept is absent from AIO and supported by inspected evidence | Curate a native record in `data/curated/` with an `AIMech:` ID and explicit, justified AIO mappings; an upstream-term proposal is optional follow-up. |
+| Concept identity, scope, or evidence remains unresolved | Retain the candidate and the missing discriminating evidence in the discovery ledger; do not turn it into an asserted record. |
 | Request is for a particular trained model, dataset, benchmark result or empirical claim | Explain the representation gap and prepare a scoped schema/overlay proposal if needed; these are not currently standalone AIConcept records. |
 
 Downloaded OWL files, BioPortal pages and the AIO paper provide reference
@@ -89,7 +97,30 @@ manifest; the current session time belongs in history, not in rewritten import
 provenance. Never add literature conclusions, discussions or `history_refs` to
 generated YAML merely because the schema has slots for them.
 
-## Propose an unsupported addition
+## Curate a new native concept
+
+Resolve identity against both record collections and existing proposals,
+including aliases, related synonyms and semantic scope. Read the full primary
+method description or versioned implementation documentation before asserting
+a mechanism; a search snippet or abstract alone is not that inspection.
+
+Write the maintained record through the native schema. Include a narrow
+definition, typed concept scope, claim-specific evidence citations and locators,
+source versions/access levels, limitations, actual curation provenance and the
+searched identity context. Use `DRAFT`; a schema check is not scientific review.
+Record AIO mapping direction explicitly: a broad match means the AIO target is
+broader than the local concept. Use a related match when abstraction levels
+differ, and explain it; do not force an algorithm beneath a task as an is-a
+assertion. Preserve the AIO snapshot used for mapping.
+
+Use stable local IDs and canonical filenames with exclusive creation. Never
+overwrite an existing record to make an addition succeed. Validate the complete
+curated collection with `aimech validate-curated`; it checks cross-record
+identity, references and mappings as well as individual record structure.
+If review is requested, save a scientific record/category review using the native
+review contract, with the curated YAML as its maintained target.
+
+## Propose an unresolved or upstream addition
 
 Complete the useful identity and evidence work before requesting a decision.
 Save a clearly labeled proposal in the user's chosen destination, or
@@ -101,8 +132,9 @@ why existing classes do not cover it, a proposed definition and parent rationale
 primary evidence with precise locators, contradictions or uncertainty, and the
 maintained upstream owner. Verify that owner from the upstream revision; a
 release export is not necessarily the maintained ontology file or template.
-Keep an unassigned AIO ID explicitly unresolved. Do not create pseudo-records
-under `data/aio/` or advertise the proposal as an added concept.
+Keep an unassigned AIO ID explicitly unresolved. A proposal is not a native
+record; a curated `AIMech:` record is not an AIO release addition. Do not put
+either kind of maintained content under generated `data/aio/`.
 
 For mechanism, bias, limitation or evaluation claims, inspect primary papers
 or versioned implementation documentation. Distinguish ontology terminology
@@ -127,6 +159,7 @@ After record writes, run:
 ```bash
 uv run --locked aimech check-source
 uv run --locked aimech validate
+uv run --locked aimech validate-curated
 uv run --locked aimech seed --check
 uv run --locked aimech validate-history --base HEAD
 git diff --check
@@ -138,7 +171,7 @@ also run `just vendored-check` before publication as required by `CLAUDE.md`.
 Capture failures honestly and distinguish existing defects from this change.
 Do not edit vendored CLAW files to make a gate pass.
 
-Return the exact ID/label, disposition (added, already present, proposed, or
+Return the exact ID/label, record collection, disposition (added, already present, proposed, or
 blocked), file and history links, source revision, checks performed, and any
 remaining scope or evidence limitations. An import is not a scientific review.
 If a review is requested, use the native review skill and save its required

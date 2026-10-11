@@ -2,8 +2,10 @@
 
 Read `README.md` for scope and `docs/sources.md` for evidence ownership.
 
-- The authoritative vocabulary is AIO, not similarly named BioPortal AI/AION
-  resources. Preserve `https://w3id.org/aio/` identifiers and upstream license.
+- AIO is authoritative for imported vocabulary, not similarly named BioPortal
+  AI/AION resources. Preserve its identifiers and license. Maintained concepts
+  absent from AIO use local `AIMech:` IDs under `data/curated/`, inspected evidence
+  and explicit AIO mappings; follow `docs/curated-concepts.md`.
 - `data/aio/` is generated. Fix the importer or propose an upstream ontology
   correction, then regenerate through a reviewed source-update process. Never
   promote imported terminology into scientific evidence or model evaluation.

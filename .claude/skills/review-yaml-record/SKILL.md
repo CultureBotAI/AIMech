@@ -1,9 +1,15 @@
 ---
 name: review-yaml-record
-description: Review one AIMech AIConcept against its pinned AIO source and claim evidence, saving structured YAML and rendered Markdown. Use for record review, not ontology editing or source refresh.
+description: Review one generated AIO or maintained AIMech concept against its identity, mappings and claim evidence, saving structured YAML and rendered Markdown. Use for record review, not ontology editing or source refresh.
 ---
 
 # Review an AIMech Record
+
+For a native `AIMech:` target, follow the maintained-concept section of
+`docs/record-review-profile.md`: the `data/curated/` YAML is its maintained owner,
+and primary claim evidence plus explicit AIO mappings replace import provenance
+as the scientific review inputs. Use `aimech validate-curated`. Instructions
+below concerning generated source nodes apply only to AIO targets.
 
 Read [the common review contract](../../../docs/record-reviews.md) at
 `docs/record-reviews.md` and the [AIO rubric](../../../docs/record-review-profile.md)

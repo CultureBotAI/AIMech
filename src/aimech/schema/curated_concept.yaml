@@ -1,0 +1,155 @@
+id: https://w3id.org/culturebotai/aimech/curated-concept
+name: curated_concept
+title: Maintained AIMech concepts and inspected claim evidence
+prefixes:
+  linkml: https://w3id.org/linkml/
+  AIMech: https://w3id.org/culturebotai/aimech/concept/
+default_prefix: AIMech
+default_range: NonBlank
+imports:
+  - linkml:types
+types:
+  NonBlank:
+    typeof: string
+    pattern: '\S'
+  EvidenceToken:
+    typeof: string
+    pattern: '^[a-z][a-z0-9-]*(?![\s\S])'
+  UTCDateTime:
+    typeof: string
+    pattern: '^20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$'
+classes:
+  CuratedAIConcept:
+    tree_root: true
+    description: A locally maintained concept, not an accepted AIO class or a trained model instance.
+    attributes:
+      id: {identifier: true, required: true, pattern: '^AIMech:[A-Za-z][A-Za-z0-9]*(?![\s\S])'}
+      name: {required: true}
+      definition: {required: true}
+      concept_kind: {range: ConceptKind, required: true}
+      aliases: {multivalued: true}
+      identity_notes: {required: true}
+      definition_evidence:
+        range: EvidenceCitation
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+      claims:
+        range: ConceptClaim
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+      evidence_sources:
+        range: EvidenceSource
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+      aio_snapshot:
+        range: MappingSnapshot
+        required: true
+        inlined: true
+      aio_mappings:
+        range: AIOMapping
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+      limitations: {required: true, multivalued: true, minimum_cardinality: 1}
+      review_status: {range: CuratedReviewStatus, required: true}
+      curation: {range: CurationProvenance, required: true, inlined: true}
+      history_refs: {multivalued: true}
+  EvidenceCitation:
+    attributes:
+      source_id: {range: EvidenceToken, required: true}
+      locator: {required: true}
+      relation: {range: EvidenceRelation, required: true}
+  EvidenceSource:
+    attributes:
+      source_id: {range: EvidenceToken, required: true}
+      title: {required: true}
+      authors: {required: true, multivalued: true, minimum_cardinality: 1}
+      source_type: {range: EvidenceSourceType, required: true}
+      url: {range: uri, required: true}
+      persistent_id: {}
+      version: {required: true}
+      access_level: {range: EvidenceAccess, required: true}
+      accessed_at: {range: UTCDateTime, required: true}
+      sha256: {pattern: '^[a-f0-9]{64}(?![\s\S])'}
+  ConceptClaim:
+    attributes:
+      claim_id: {range: EvidenceToken, required: true}
+      kind: {range: ClaimKind, required: true}
+      statement: {required: true}
+      evidence:
+        range: EvidenceCitation
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+      evaluation: {range: EvaluationContext, inlined: true}
+  EvaluationContext:
+    attributes:
+      task: {required: true}
+      dataset_and_split: {required: true}
+      model_and_version: {required: true}
+      metric_and_units: {required: true}
+      result: {required: true}
+      baseline: {required: true}
+      conditions: {required: true}
+      uncertainty: {required: true}
+  MappingSnapshot:
+    attributes:
+      commit: {required: true, pattern: '^[a-f0-9]{40}(?![\s\S])'}
+      sha256: {required: true, pattern: '^[a-f0-9]{64}(?![\s\S])'}
+  AIOMapping:
+    description: Mapping direction is local subject to AIO target; it does not mutate either ontology.
+    attributes:
+      target: {required: true, pattern: '^AIO:[A-Za-z0-9]+(?![\s\S])'}
+      relation: {range: MappingRelation, required: true}
+      rationale: {required: true}
+  CurationProvenance:
+    attributes:
+      created_at: {range: UTCDateTime, required: true}
+      updated_at: {range: UTCDateTime, required: true}
+      curator: {required: true}
+      method: {range: CurationMethod, required: true}
+      model: {}
+      agent_tool: {}
+enums:
+  ConceptKind:
+    permissible_values:
+      algorithm: {}
+      architecture: {}
+      model_family: {}
+      learning_paradigm: {}
+      task: {}
+      mathematical_method: {}
+      preprocessing_method: {}
+      evaluation_method: {}
+      bias: {}
+      risk: {}
+  EvidenceSourceType:
+    permissible_values: {primary_paper: {}, official_documentation: {}, author_technical_report: {}}
+  EvidenceAccess:
+    permissible_values: {abstract_only: {}, full_text: {}, documentation: {}}
+  EvidenceRelation:
+    permissible_values: {supports: {}, contradicts: {}, context: {}}
+  ClaimKind:
+    permissible_values: {mechanism: {}, scope: {}, limitation: {}, application: {}, performance: {}}
+  MappingRelation:
+    permissible_values:
+      broad_match:
+        description: The AIO target has broader conceptual scope than the local subject.
+      narrow_match:
+        description: The AIO target has narrower conceptual scope than the local subject.
+      related_match:
+        description: Related concepts; neither equivalence nor subclass membership is asserted.
+  CuratedReviewStatus:
+    permissible_values:
+      DRAFT:
+        description: Maintained curation; scientific assessments are separate saved review observations.
+  CurationMethod:
+    permissible_values: {human: {}, ai_assisted: {}}

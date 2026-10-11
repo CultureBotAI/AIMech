@@ -1,0 +1,56 @@
+id: AIMech:FlashAttention
+name: FlashAttention
+definition: An exact attention computation algorithm using tiling and recomputation to reduce transfers
+  between GPU memory levels.
+concept_kind: algorithm
+identity_notes: The original dense exact-attention algorithm, not a distinct trained model, a generic
+  attention layer, or its separately described block-sparse approximation.
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3.1–3.2 and Algorithm 1, PDF/printed pp. 4–6
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: Blocks of queries, keys and values are processed with running softmax statistics; intermediate
+    attention values can be recomputed during the backward pass.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3.1–3.2 and Algorithm 1, PDF/printed pp. 4–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness'
+  authors:
+  - Tri Dao
+  - Daniel Y. Fu
+  - Stefano Ermon
+  - Atri Rudra
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2205.14135v2
+  persistent_id: arXiv:2205.14135v2
+  version: 2205.14135v2
+  access_level: full_text
+  accessed_at: '2026-10-11T02:58:44Z'
+  sha256: ca7f9fda10b90fc05dd291a3accc85e9c1a4a860b99b31928dab03ed3fcb14e4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:AttentionLayer
+  relation: related_match
+  rationale: FlashAttention changes how attention is computed and stored, while this AIO target denotes
+    a layer implementing attention.
+limitations:
+- The block-sparse extension and later FlashAttention versions are outside this record.
+- Reduced memory traffic does not establish a universal wall-clock speedup; no hardware-independent performance
+  claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:02:19Z'
+  updated_at: '2026-10-11T03:02:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

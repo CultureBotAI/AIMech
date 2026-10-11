@@ -1,0 +1,62 @@
+name: Graph isomorphism network
+definition: A graph neural architecture using multilayer perceptrons on sums of neighboring representations
+  and a separately weighted self-representation.
+concept_kind: architecture
+identity_notes: GIN is the named sum-and-MLP architecture, not the graph-isomorphism decision problem,
+  all graph neural networks, or all architectures as expressive as a Weisfeiler–Lehman test.
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The architecture uses learned multilayer perceptrons to transform graph-node states; the
+    AIO neural-network category is broader.
+- target: AIO:GraphConvolutionalNetwork
+  relation: related_match
+  rationale: The AIO category describes graph-structured neural computation broadly; the GIN construction
+    has a specific aggregation and self-weighting rule.
+limitations:
+- The equation is taken from revised v3; the earlier v1 expression lacks the separately parameterized
+  self weighting.
+- No claim that GIN solves arbitrary graph isomorphism or that every trained finite network attains the
+  theoretical expressivity bound is curated.
+id: AIMech:GraphIsomorphismNetwork
+aliases:
+- GIN
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4.1, Corollary 6 and equation 4.1, PDF/printed p. 5 of arXiv v3
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: Each update applies an MLP to the sum of neighbor states and (1 + epsilon) times the current
+    node state, with epsilon fixed or learned.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.1, Corollary 6 and equation 4.1, PDF/printed p. 5 of arXiv v3
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: How Powerful are Graph Neural Networks?
+  authors:
+  - Keyulu Xu
+  - Weihua Hu
+  - Jure Leskovec
+  - Stefanie Jegelka
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1810.00826v3
+  version: 1810.00826v3
+  access_level: full_text
+  accessed_at: '2026-10-11T03:09:20Z'
+  sha256: a6ebf80c2790b8bac1fa378902993eae26020cc6d0d95e3964eea42b0c66a974
+  persistent_id: arXiv:1810.00826v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:12:53Z'
+  updated_at: '2026-10-11T03:12:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
