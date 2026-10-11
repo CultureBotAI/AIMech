@@ -1,0 +1,78 @@
+name: Metropolis-within-Gibbs sampling
+definition: A componentwise Monte Carlo scheme that uses Metropolis–Hastings transitions targeting full
+  conditional distributions for one or more coordinate blocks, optionally combined with exact Gibbs updates
+  for other blocks.
+concept_kind: algorithm
+identity_notes: The distinction is between an exact draw from a full conditional and a Markov transition
+  that preserves it. The latter can be used within a cycle or fixed mixture of block updates. This record
+  does not define every hybrid MCMC composition as Metropolis-within-Gibbs and does not require a nested
+  chain to be run to equilibrium at each update. No normalized identity match was found across all 442
+  pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive full-checkout
+  searches found prior discovery leads for Gibbs and slice sampling plus unrelated environment substring
+  hits, not existing concept records. Existing HMM/MRF models and general Metropolis–Hastings were inspected
+  to distinguish model, general transition and specialized algorithm scope.
+limitations:
+- The proposal-density ratio is required unless the block proposal is symmetric at the fixed values of
+  the other coordinates.
+- A rejected proposal leaves the current block unchanged. Repeating until acceptance changes the transition
+  unless its effect is separately accounted for.
+- A valid conditional kernel need not explore its support well. Joint convergence and mixing require additional
+  conditions on the target, proposals and update schedule.
+- Fixed mixtures and cycles preserve the target, but Tierney explicitly warns that convergence properties
+  of an individual component do not transfer indiscriminately to a cycle.
+- History-dependent tuning, stale parallel updates and approximate target evaluations are outside this
+  fixed-kernel definition. No optimal number of inner steps is claimed.
+id: AIMech:MetropolisWithinGibbs
+aliases:
+- MWG
+definition_evidence:
+- source_id: method-source
+  locator: 'Sections 2.2–2.4: conditional-invariant kernels, Metropolis ratio, and the two-component Gibbs/Metropolis
+    example; printed pp. 2–4 and 8 / PDF pp. 4–6 and 10'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Hold all coordinates outside the selected block fixed at their current values. Propose a
+    block value from q(new|old,rest), and accept with min(1, pi(new|rest)q(old|new,rest)/(pi(old|rest)q(new|old,rest)))
+    where defined; otherwise retain the old block. This is the substitution of the full conditional into
+    Tierney’s Metropolis rule. The conditional normalization cancels, so an evaluable joint target ratio
+    at the fixed rest can be used. Combine these conditional-invariant transitions, and any exact Gibbs
+    steps, by a fixed cycle or fixed-probability mixture. A finite valid transition per selected block
+    preserves the joint target without independently resampling that block.
+  evidence:
+  - source_id: method-source
+    locator: 'Sections 2.2–2.4: conditional-invariant kernels, Metropolis ratio, and the two-component
+      Gibbs/Metropolis example; printed pp. 2–4 and 8 / PDF pp. 4–6 and 10'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Markov Chains for Exploring Posterior Distributions
+  authors:
+  - Luke Tierney
+  source_type: author_technical_report
+  url: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  version: University of Minnesota Technical Report No. 560, August 8, 1991; 28 PDF pages; not the 1994
+    published version
+  persistent_id: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: cfde8fc2fa3c390da09badda81394a0a334d70f13403031ac9d4c0b5a1e11fde
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

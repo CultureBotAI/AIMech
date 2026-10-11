@@ -1,0 +1,96 @@
+name: Metropolis-adjusted Langevin algorithm
+definition: A Metropolis–Hastings sampler that proposes a Gaussian step with drift proportional to the
+  target log-density gradient and corrects the asymmetric proposal with an accept/reject test.
+concept_kind: algorithm
+identity_notes: This record covers the fixed-step, identity-diffusion formulation of Roberts and Tweedie.
+  It differs from ULA by its Metropolis correction, from random-walk Metropolis by its gradient-directed
+  mean, and from multi-step Hamiltonian trajectories. Preconditioned and manifold variants are not silently
+  included in the displayed formula. No normalized identity match was found across all 442 pinned AIO
+  labels/scoped synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive full-checkout searches
+  found prior discovery leads for Gibbs and slice sampling plus unrelated environment substring hits,
+  not existing concept records. Existing HMM/MRF models and general Metropolis–Hastings were inspected
+  to distinguish model, general transition and specialized algorithm scope.
+limitations:
+- The full target gradient and both proposal densities must be correctly evaluated. Unknown common target
+  normalization cancels, but the reverse proposal factor does not.
+- Target invariance and correction of proposal discretization do not certify rapid mixing, independent
+  draws or accuracy of a finite run.
+- The source gives tail-dependent failures of geometric ergodicity; adding a Metropolis step is not a
+  universal guarantee of exponential convergence.
+- Large steps, problematic geometry and numerical gradient or density errors can make practical sampling
+  ineffective. This record asserts no universal step size or acceptance target.
+- Truncated drift, stochastic gradients, variable metrics and constrained-state extensions need separate
+  definitions and validation.
+id: AIMech:MetropolisAdjustedLangevinAlgorithm
+aliases:
+- MALA
+definition_evidence:
+- source_id: method-source
+  locator: Section 1.4.2, proposal and Equations (9)–(11), printed pp. 345–346 / PDF pp. 6–7; Section
+    4 introductory discussion, printed p. 355 / PDF p. 16
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a positive differentiable target pi on Euclidean space, choose h>0 and propose y from
+    q(y|x)=Normal(x+(h/2)grad log pi(x),hI). Accept with min(1,pi(y)q(x|y)/(pi(x)q(y|x))) and otherwise
+    keep x. Evaluate the reverse Gaussian using its mean at y; the state-dependent gradient generally
+    makes q asymmetric, so its ratio cannot be dropped. This correction makes the transition reversible
+    with respect to the intended target under the stated support conditions, despite the discretized proposal.
+  evidence:
+  - source_id: method-source
+    locator: Section 1.4.2, proposal and Equations (9)–(11), printed pp. 345–346 / PDF pp. 6–7; Section
+      4 introductory discussion, printed p. 355 / PDF p. 16
+    relation: supports
+- claim_id: mala-convergence-boundaries
+  kind: limitation
+  statement: The paper separates conditions for geometric convergence from counterexamples and non-geometric
+    cases. Its rejection and tail analysis shows that correcting the invariant target does not universally
+    supply fast convergence.
+  evidence:
+  - source_id: mala-convergence-boundaries
+    locator: Sections 4.1–4.3, printed pp. 355–359 / PDF pp. 16–20
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Exponential convergence of Langevin distributions and their discrete approximations
+  authors:
+  - Gareth O. Roberts
+  - Richard L. Tweedie
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~scs/Courses/Stat376/Papers/Langevin/RobertsTweedieBernoulli1996.pdf
+  version: Bernoulli 2(4), 1996, pp. 341–363; 25-page hosted PDF including a JSTOR cover
+  persistent_id: doi:10.2307/3318418
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: 410e26b08534801112aaa020edcc2a9e483dd76328d950a1a4dee65dc424a9c9
+- source_id: mala-convergence-boundaries
+  title: Exponential convergence of Langevin distributions and their discrete approximations
+  authors:
+  - Gareth O. Roberts
+  - Richard L. Tweedie
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~scs/Courses/Stat376/Papers/Langevin/RobertsTweedieBernoulli1996.pdf
+  version: Bernoulli 2(4), 1996, pp. 341–363; 25-page hosted PDF including a JSTOR cover
+  persistent_id: doi:10.2307/3318418
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: 410e26b08534801112aaa020edcc2a9e483dd76328d950a1a4dee65dc424a9c9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

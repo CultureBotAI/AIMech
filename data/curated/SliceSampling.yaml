@@ -1,0 +1,76 @@
+name: Slice sampling
+definition: An auxiliary-variable Monte Carlo method that augments a target density with a uniform height
+  below its graph and updates the state using a transition preserving the uniform distribution on the
+  resulting density slice.
+concept_kind: algorithm
+identity_notes: This is the single-height construction and its valid within-slice transitions, not a claim
+  that every implementation draws independently and uniformly from an entire slice. Univariate stepping-out
+  and doubling algorithms are distinct concrete variants. Multiple-auxiliary-variable, reflective and
+  overrelaxed extensions require their own mechanism descriptions. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive
+  full-checkout searches found prior discovery leads for Gibbs and slice sampling plus unrelated environment
+  substring hits, not existing concept records. Existing HMM/MRF models and general Metropolis–Hastings
+  were inspected to distinguish model, general transition and specialized algorithm scope.
+limitations:
+- The target must be proper, and the density and slice updates must be implemented on their valid support.
+  A random move that merely stays inside the slice need not preserve its uniform distribution.
+- Local interval search need not find the entire slice, especially when it has disconnected components.
+  Its acceptance and shrinkage rules determine validity and exploration.
+- Target invariance does not alone establish ergodicity or efficient movement between modes. The retained
+  states need not be independent.
+- Neal’s 2000 report is the inspected version. A later 2003 journal publication was located, but no equivalence
+  of all version details is asserted.
+- No universal advantage over Gibbs or Metropolis, automatic elimination of every tuning parameter, or
+  numerical benchmark result is claimed.
+id: AIMech:SliceSampling
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, The idea of slice sampling, Equations (1)–(2), PDF/printed p. 6; Section 4.3 correctness
+    argument, pp. 12–16
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For nonnegative unnormalized density f with finite positive integral Z, introduce y and the
+    joint density 1/Z on {(x,y):0<y<f(x)}. Its x marginal is f(x)/Z. At a current supported x draw y uniformly
+    from (0,f(x)), then update x with a kernel leaving uniform measure on S_y={x:f(x)>y} invariant. An
+    independent uniform draw from S_y is one option but is often unavailable; a valid Markov update within
+    the slice can replace it. Discarding y recovers a chain with the desired x marginal under the construction’s
+    invariance conditions.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, The idea of slice sampling, Equations (1)–(2), PDF/printed p. 6; Section 4.3 correctness
+      argument, pp. 12–16
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Slice Sampling
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://arxiv.org/pdf/physics/0009028v1
+  version: arXiv:physics/0009028v1, submitted 2000-09-07; title page dated 29 August 2000, Technical Report
+    No. 2005; 40 pages; not the 2003 journal version
+  persistent_id: arxiv:physics/0009028v1
+  access_level: full_text
+  accessed_at: '2026-10-11T06:53:34Z'
+  sha256: c6cf46fb834b637b95357ec12f3247540fecd64248051001d7236f469832902d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

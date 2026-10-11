@@ -1,0 +1,73 @@
+name: Random-walk Metropolis–Hastings sampling
+definition: A Metropolis–Hastings sampler that proposes a new state by adding an increment drawn from
+  a fixed distribution independent of the current state.
+concept_kind: algorithm
+identity_notes: The random walk describes the proposal Y=x+Z, not an assertion that accepted chain increments
+  are independent or target-free. The increment density may be asymmetric; the common symmetric random-walk
+  Metropolis case is included. This differs from a fixed independence proposal g(Y), which does not center
+  on x, and from gradient-directed Langevin proposals. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 159 prior native IDs/names/aliases. Ignored-inclusive full-checkout
+  searches found prior discovery leads for Gibbs and slice sampling plus unrelated environment substring
+  hits, not existing concept records. Existing HMM/MRF models and general Metropolis–Hastings were inspected
+  to distinguish model, general transition and specialized algorithm scope.
+limitations:
+- The simplification to the target-density ratio requires a symmetric increment law, not merely an additive
+  proposal.
+- Proposal and target support determine irreducibility. An invariant kernel is not a guarantee of rapid
+  convergence or movement between separated modes.
+- Accepted-state increments and retained draws are generally dependent. Rejected states remain in the
+  chain.
+- This definition uses a fixed increment distribution; adaptive scales and state-dependent covariance
+  require their own proposal ratios and validity analysis.
+- No universal acceptance-rate target, optimal scale, dimension-scaling law or benchmark advantage is
+  asserted.
+id: AIMech:RandomWalkMetropolisHastings
+aliases:
+- RWMH
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.3, Metropolis Kernels and Random Walk Chains; printed pp. 3–4 / PDF pp. 5–6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At state x draw Z from a fixed increment density f and set y=x+Z, so q(y|x)=f(y−x). Accept
+    with min(1,pi(y)f(x−y)/(pi(x)f(y−x))) where the ratio is defined; retain x on rejection. For f(z)=f(−z),
+    the increment-density terms cancel and acceptance is min(1,pi(y)/pi(x)). The formula is the substitution
+    of Tierney’s random-walk proposal into his general Metropolis ratio. The proposal scale and shape
+    determine which candidate movements are attempted.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3, Metropolis Kernels and Random Walk Chains; printed pp. 3–4 / PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Markov Chains for Exploring Posterior Distributions
+  authors:
+  - Luke Tierney
+  source_type: author_technical_report
+  url: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  version: University of Minnesota Technical Report No. 560, August 8, 1991; 28 PDF pages; not the 1994
+    published version
+  persistent_id: https://conservancy.umn.edu/server/api/core/bitstreams/f87bc468-91ac-45bc-a1cf-5d4b0f8fbcd6/content
+  access_level: full_text
+  accessed_at: '2026-10-11T06:52:00Z'
+  sha256: cfde8fc2fa3c390da09badda81394a0a334d70f13403031ac9d4c0b5a1e11fde
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs Markov transitions for sampling a specified target, with the invariance
+    and convergence qualifications stated in this record. AIO MarkovChain denotes the stochastic process/model
+    and is exported beneath Network. This is a method-to-process related match, not equivalence, subclass
+    membership or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:00:31Z'
+  updated_at: '2026-10-11T07:00:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
