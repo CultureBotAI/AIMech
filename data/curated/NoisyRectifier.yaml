@@ -1,0 +1,79 @@
+name: Noisy rectifier
+definition: A stochastic activation that adds zero-mean noise to a preactivation and then applies the
+  positive-part rectifier, producing h=max(0,a+z).
+concept_kind: mathematical_method
+identity_notes: 'This record covers the noisy rectifier described in Bengio et al. Section 2.1, with standard
+  logistic noise as the analytically characterized special case. It is a stochastic activation, distinct
+  from deterministic ReLU or softplus, input-only corruption, weight-noise dense layers and multiplicative
+  dropout. The paper credits earlier rectifier work; this record does not claim that the 2013 paper invented
+  noisy rectification. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 337 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 22 and 22 lines respectively. All 15 unique matched
+  line contents were inspected in full: the preceding gradient-estimator records, their cited Bengio source,
+  saved source-reading scopes, reviews and open discovery leads, not existing candidate records. Exact
+  checkout counts and differences are retained in the ledger. Thirteen exact AIO CLASS nodes with scoped
+  synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- Equality of the logistic-noise mean to softplus does not make a sampled noisy rectifier a deterministic
+  softplus unit. Passing the mean through a nonlinear downstream loss does not generally preserve the
+  expected loss.
+- The standard logistic activation and mean formulas change with the noise distribution or scale. Gaussian
+  noise is mentioned as a practical alternative, but it does not inherit the displayed logistic identities.
+- Occasional activation permits gradient flow for some samples but does not guarantee that inactive units
+  recover promptly, that every derivative-through-expectation interchange is valid, or that conditional
+  computation saves wall-clock time.
+- No empirical speed, accuracy or sparsity advantage is asserted. The original authors’ implementation
+  and later noisy-activation variants were not audited.
+id: AIMech:NoisyRectifier
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, noisy-rectifier definition and Proposition 1 with proof, PDF/printed pp.3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a preactivation a, sample zero-mean additive noise z and output max(0,a+z). With the
+    source’s standard logistic density sigma(z)*(1-sigma(z)), the probability of a positive output is
+    sigma(a), and the conditional mean output is log(1+exp(a)). These identities are specific to that
+    logistic-noise choice, not arbitrary zero-mean noise. Holding a sampled noise value fixed, the derivative
+    with respect to a is 1 on the positive side and 0 on the negative side, with a nondifferentiable boundary
+    at a+z=0. Noise can occasionally turn an otherwise inactive unit on or an active unit off. The source
+    also suggests adjusting a unit bias when a moving activity rate falls below a chosen target; that
+    heuristic is additional to the forward activation rule.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, noisy-rectifier definition and Proposition 1 with proof, PDF/printed pp.3–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation
+  authors:
+  - Yoshua Bengio
+  - Nicholas Léonard
+  - Aaron Courville
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1308.3432v1
+  version: arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and printed page numbers agree.
+  persistent_id: arXiv:1308.3432v1
+  access_level: full_text
+  accessed_at: '2026-10-11T16:33:05Z'
+  sha256: 509eb5e5294d6a5cb730a239022a6bd3589ed54cd24c1d7482c1edf6237ed863
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReLUFunction
+  relation: related_match
+  rationale: The stochastic activation applies the pinned positive-part ReLU function after additive noise.
+    This is an essential component relationship; the sampled output is not the same deterministic function
+    of preactivation and no equivalence or subclass assertion is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:00:15Z'
+  updated_at: '2026-10-11T17:00:15Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

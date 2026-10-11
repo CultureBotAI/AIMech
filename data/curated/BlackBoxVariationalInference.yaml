@@ -1,0 +1,120 @@
+name: Black box variational inference
+definition: A variational-inference procedure that estimates evidence-lower-bound gradients from samples
+  of a tractable variational distribution using its score function and model log joint, with mean-field
+  local signals and score control variates to manage estimator variance.
+concept_kind: algorithm
+identity_notes: 'This record covers Ranganath, Gerrish and Blei’s original BBVI Algorithms 1–2 and their
+  score-function estimator, mean-field local signals and control variates. It is not every black-box inference
+  method, a pathwise reparameterization estimator, a model architecture or an amortized recognition network
+  such as NVIL. The hierarchical data-subsampling extension is outside the validated mechanism scope here.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 337 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 22 and 22 lines respectively. All 15 unique matched line contents were inspected
+  in full: the preceding gradient-estimator records, their cited Bengio source, saved source-reading scopes,
+  reviews and open discovery leads, not existing candidate records. Exact checkout counts and differences
+  are retained in the ledger. Thirteen exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+  edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.'
+limitations:
+- Black box still requires sampling from and evaluating the variational distribution, score derivatives
+  with respect to its parameters, and evaluation of the model log joint at sampled latent states. The
+  method does not require differentiation through a discrete latent sample, but support and integrability
+  conditions remain necessary.
+- Raw unbiasedness requires the regularity assumptions behind differentiation under the expectation and
+  zero expected score. A model normalization constant independent of lambda cancels from this gradient;
+  a parameter-dependent term cannot be discarded on that basis.
+- A coefficient fixed independently of the gradient samples preserves expectation when the relevant moments
+  exist. A coefficient estimated from those same samples can correlate with the sample score and introduce
+  bias. The paper reports separate sample counts for coefficient estimation and gradient calculation,
+  but the inspected description does not establish an exact sampling-independence convention; no implementation
+  behavior is asserted.
+- Population-optimal control-variate scaling and conditional-expectation variance reduction do not guarantee
+  that estimated coefficients or every additional removal of zero-mean terms reduces finite-sample variance.
+  Zero or poorly estimated score variance requires handling beyond division by the displayed ratio.
+- The practical step schedule and change-in-parameters stopping rule do not establish global optimality
+  or exact posterior recovery. Mean-field factorization can limit the approximation. The printed hierarchical
+  subsampling formulas need a separate weighting audit and are not curated as a verified extension here.
+- No benchmark result, author-code run, general convergence proof or posterior-quality certification is
+  included.
+id: AIMech:BlackBoxVariationalInference
+aliases:
+- BBVI
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(9), Algorithms 1–2, PDF pp.2–5 / proceedings pp.815–818; Section
+    5 sample-count context, PDF p.6 / p.819
+  relation: supports
+- source_id: bbvi-supplement
+  locator: 'Appendix: The Gradient of the ELBO, Equations (A.1)–(A.3), and Supplement: Derivation of the
+    Rao-Blackwellized Gradient, Equations (S.4)–(S.6), PDF pp.1–2'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For fixed observed x and joint model p(x,z), choose a variational family q(z;lambda), sample
+    z from q, and maximize L(lambda)=E_q[log p(x,z)-log q(z;lambda)] by stochastic ascent. Under the normalized-score
+    and differentiation-under-expectation conditions, the raw gradient is E_q[grad_lambda log q(z;lambda)*(log
+    p(x,z)-log q(z;lambda))], estimated by a Monte Carlo average. The mean-field version factors q into
+    q_i(z_i;lambda_i) and uses for each factor the model log terms that depend on z_i together with -log
+    q_i; unrelated terms cancel in expectation under the stated factorization. For parameter coordinate
+    d in factor i, let h_d be the score and f_d be that score times the local log signal. A fixed control-variate
+    coefficient gives f_d-a_d*h_d because E[h_d]=0; the population variance-minimizing coefficient is
+    Cov(f_d,h_d)/Var(h_d) when these quantities exist and Var(h_d)>0. The source estimates coefficients
+    from samples and averages corrected contributions before a stochastic-ascent update. Its fixed-coefficient
+    expectation identity does not by itself justify arbitrary reuse of samples to estimate both the coefficient
+    and corrected gradient.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(9), Algorithms 1–2, PDF pp.2–5 / proceedings pp.815–818; Section
+      5 sample-count context, PDF p.6 / p.819
+    relation: supports
+  - source_id: bbvi-supplement
+    locator: 'Appendix: The Gradient of the ELBO, Equations (A.1)–(A.3), and Supplement: Derivation of
+      the Rao-Blackwellized Gradient, Equations (S.4)–(S.6), PDF pp.1–2'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Black Box Variational Inference
+  authors:
+  - Rajesh Ranganath
+  - Sean Gerrish
+  - David M. Blei
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v33/ranganath14.pdf
+  version: AISTATS 2014, PMLR 33:814–822; nine-page publisher PDF. Printed proceedings page = PDF page
+    + 813.
+  persistent_id: pmlr-v33-ranganath14
+  access_level: full_text
+  accessed_at: '2026-10-11T16:51:18Z'
+  sha256: 8f481e202eb64f5dca87f8e7db4a3ac75f53bad2286542583c5c212eaa00a610
+- source_id: bbvi-supplement
+  title: Black Box Variational Inference (Extra Materials)
+  authors:
+  - Rajesh Ranganath
+  - Sean Gerrish
+  - David M. Blei
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v33/ranganath14-supp.pdf
+  version: Three-page publisher supplement linked from the PMLR article.
+  persistent_id: pmlr-v33-ranganath14-supp
+  access_level: full_text
+  accessed_at: '2026-10-11T16:51:20Z'
+  sha256: f61d07ae80b6f1c86445886cfb1d6bb67fd9c5ad47c5a61566e355d2894b9839
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The original method’s factor-local signals explicitly use a probabilistic model’s conditional-dependence
+    structure and Markov blankets. The pinned target denotes the graphical-model task, while BBVI is an
+    inference/optimization procedure; this is a method-to-modeling-context related match, not equivalence
+    or an is-a claim. The estimator is not restricted to a Bayesian-network architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:00:15Z'
+  updated_at: '2026-10-11T17:00:15Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
