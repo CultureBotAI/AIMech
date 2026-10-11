@@ -1,0 +1,87 @@
+name: Sequential Model-based Algorithm Configuration
+definition: A sequential algorithm-configuration procedure that uses random-forest performance models
+  to propose parameter settings and compares candidate settings with an incumbent through adaptive evaluations
+  on shared problem instances and random seeds.
+concept_kind: algorithm
+identity_notes: The primary scope is the original 2011 SMAC procedure, not every sequential model-based
+  optimizer or every later SMAC software release. It configures a target algorithm over a set or distribution
+  of instances and returns one incumbent configuration; it is not per-instance algorithm selection, a
+  prediction forest by itself, or population-based transfer of trained model weights. Its model-guided
+  proposals distinguish it from ROAR, which shares the intensification procedure but samples configurations
+  at random. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  262 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+  files in both worktree and main checkout, returning 9 lines in each checkout. These were prior candidate
+  leads, source references and neighboring-method mentions, not existing records for these identities.
+  Ten exact AIO CLASS nodes with synonyms and outgoing edges and eight neighboring native mechanisms were
+  inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The original method explicitly lacks adaptive capping of individual poor runs. Its adaptive allocation
+  of additional evaluations must not be equated with the censored-runtime handling or other features of
+  later SMAC releases.
+- Surrogate uncertainty and early empirical comparisons do not certify an optimal configuration or generalization
+  to unseen instance distributions. The paper’s asymptotic argument assumes a finite configuration space,
+  consistent cost estimates and unbounded evaluation growth; the displayed experimental procedure caps
+  incumbent evaluations with maxR=2000. These conditions are not an unconditional guarantee for the capped
+  implementation or continuous spaces.
+- Instance features are optional; the result is a single configuration and does not require test-instance
+  feature computation. The reviewed source is an author-hosted manuscript, not a claim that its 15 PDF
+  pages match the publisher’s page layout. No benchmark result or executable implementation was reproduced.
+id: AIMech:SequentialModelBasedAlgorithmConfiguration
+aliases:
+- SMAC
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–4.3, PDF pp.3–9, especially Framework1, Procedure2 and Equation1; original scope
+    and limitations in Sections1 and6, PDF pp.1–3 and14
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize with an evaluation of the default configuration, or a random setting when no default
+    is available. Fit a random-forest surrogate using configuration values and, when available, training-instance
+    features. Aggregate each tree’s predictions over instances according to the chosen cost metric, then
+    derive predictive moments across trees. For runtime optimization the paper uses log-transformed responses
+    while preserving the original aggregation objective through inverse transformation at leaves. Rank
+    proposals by expected improvement, using its log-cost formulation, and search for promising settings
+    with multistart one-coordinate local changes plus randomly sampled acquisition candidates. Interleave
+    guided proposals with uniformly sampled configurations. The intensification routine compares a challenger
+    and incumbent on shared instance/seed evaluations, enlarges the challenger’s evaluated subset in doubling
+    batches, rejects it when its empirical cost is worse, and replaces the incumbent when the challenger
+    has matched the available evaluation set and is at least as good. Repeat model fitting and configuration
+    comparisons within the overall configuration budget.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–4.3, PDF pp.3–9, especially Framework1, Procedure2 and Equation1; original scope
+      and limitations in Sections1 and6, PDF pp.1–3 and14
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Sequential Model-Based Optimization for General Algorithm Configuration
+  authors:
+  - Frank Hutter
+  - Holger H. Hoos
+  - Kevin Leyton-Brown
+  source_type: primary_paper
+  url: https://www.cs.ubc.ca/labs/algorithms/Projects/SMAC/papers/11-LION5-SMAC.pdf
+  version: LION 5, 2011; author-hosted 15-page manuscript
+  persistent_id: doi:10.1007/978-3-642-25566-3_40
+  access_level: full_text
+  accessed_at: '2026-10-11T11:45:03Z'
+  sha256: aecf80aba31329965bbfcb75c6d8ad2f19da51b2124a920b9f4af3574a9fcdcb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RandomForest
+  relation: related_match
+  rationale: The original SMAC algorithm uses a random-forest regression surrogate as a component. The
+    full proposal-and-comparison procedure is neither identical to that ensemble model nor a subclass
+    of it; this is a component-based conceptual relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:53:28Z'
+  updated_at: '2026-10-11T11:53:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,151 @@
+name: FABOLAS
+definition: A Bayesian hyperparameter optimization algorithm that jointly chooses a model configuration
+  and training-data subset size using surrogate models of loss and evaluation cost, directing evaluations
+  toward information about the best configuration on the full dataset.
+concept_kind: algorithm
+identity_notes: FABOLAS treats dataset size as an environmental evaluation variable while retaining the
+  full dataset as the optimization target. It differs from Gaussian-process regression alone, fixed-fidelity
+  Bayesian optimization, a discrete multi-task optimizer with manually selected task sizes, and Hyperband’s
+  predetermined resource brackets. The paper method and the separately pinned RoBO implementation are
+  recorded as distinct source versions. No normalized identity match was found across all 442 pinned AIO
+  labels/scoped synonyms and 262 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in both worktree and main checkout, returning 9 lines in each checkout.
+  These were prior candidate leads, source references and neighboring-method mentions, not existing records
+  for these identities. Ten exact AIO CLASS nodes with synonyms and outgoing edges and eight neighboring
+  native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- Extrapolation depends on the adequacy of the loss-versus-size and cost models. Small subsets need not
+  preserve the ranking at full size, and the returned projected incumbent need not have a confirming full-data
+  evaluation or optimal test performance.
+- 'The paper’s loss basis (1,(1-s)^2) allows a monotonic latent trend at fixed configuration but does
+  not by itself force that trend to decrease when coefficient signs are unconstrained. Its polynomial-cost
+  interpretation also depends on the size coordinate: log-cost affine in raw relative size is exponential
+  in that coordinate; the pinned code instead uses normalized log dataset counts.'
+- The pinned code logs both objective and cost, applies Latin-hypercube initialization and a RandomSampling
+  acquisition optimizer, and leaves the acquisition overhead at zero through the inspected call chain.
+  Those choices are not silently attributed to the paper’s algorithm. Positive objective/cost values and
+  compatible parameter settings are required by that source; static inspection is not a runtime result.
+- No universal speedup, exact information-gain computation or independent calibration result is asserted.
+  The full entropy-search implementation and the paper’s supplementary experiments were not audited.
+id: AIMech:FABOLAS
+aliases:
+- Fast Bayesian Optimization on Large Data Sets
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–3.4, PDF pp.2–5, especially Section3.1 kernels, Equation7 and Algorithm1 on PDFp.4,
+    and incumbent/initialization details on PDFp.5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Model loss and computational cost as functions of configuration and dataset fraction, using
+    Gaussian-process surrogates with a kernel over configuration coordinates and a finite-rank basis over
+    size. Begin with evaluations of configurations on small subsets. Select the next configuration/size
+    pair using an entropy-search acquisition focused on the minimizer at full dataset size; the paper
+    divides its information criterion by predicted evaluation cost plus optimization overhead. Evaluate
+    the selected pair, observe loss and cost, and update the models. Select the incumbent among configurations
+    already evaluated by projecting their predicted loss to the full dataset, rather than requiring each
+    candidate to have been evaluated there. The paper integrates surrogate hyperparameters using MCMC
+    and describes DIRECT/CMA-ES acquisition optimization; the inspected code has separate implementation
+    choices.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–3.4, PDF pp.2–5, especially Section3.1 kernels, Equation7 and Algorithm1 on PDFp.4,
+      and incumbent/initialization details on PDFp.5
+    relation: supports
+- claim_id: pinned-implementation
+  kind: mechanism
+  statement: In the inspected RoBO revision, dataset counts are mapped to a normalized log2 coordinate
+    between the selected minimum and maximum; proposed coordinates are transformed back and rounded to
+    integer counts. Quadratic loss and linear cost basis functions operate on that transformed coordinate,
+    while both observed objective values and costs are logged. The outer function uses a Latin-hypercube
+    initial design and RandomSampling acquisition maximizer. Its marginalized acquisition update passes
+    no overhead keyword, so the per-unit-cost estimator sets overhead to zero and divides by the exponentiated
+    predicted log-cost mean. These are static observations of this revision, not claims of equality with
+    the original experiments or executable compatibility.
+  evidence:
+  - source_id: implementation-1
+    locator: 'fabolas(): transformations lines21–28, kernels/bases lines105–173, initialization and acquisition
+      lines180–215, model update and proposal lines234–284'
+    relation: supports
+  - source_id: implementation-2
+    locator: FabolasGPMCMC.train and FabolasGP.normalize/train/predict, lines32–99 and122–139
+    relation: supports
+  - source_id: implementation-3
+    locator: InformationGainPerUnitCost.update and compute, lines59–107
+    relation: supports
+  - source_id: implementation-4
+    locator: MarginalizationGPMCMC.update, lines49–90
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Fast Bayesian Optimization of Machine Learning Hyperparameters on Large Datasets
+  authors:
+  - Aaron Klein
+  - Stefan Falkner
+  - Simon Bartels
+  - Philipp Hennig
+  - Frank Hutter
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v54/klein17a/klein17a.pdf
+  version: AISTATS 2017, PMLR 54:528–536; nine-page proceedings PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T11:45:03Z'
+  sha256: c1369156837a4e64ae81285d3fc9a4b9c8f237678e88493cf8fae0210498f08c
+- source_id: implementation-1
+  title: 'RoBO author implementation: robo/fmin/fabolas.py'
+  authors:
+  - AutoML / RoBO contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/fmin/fabolas.py
+  version: automl/RoBO commit 91366b12a1a3deb8e80dd08599e0eaf4df28adc1
+  access_level: documentation
+  accessed_at: '2026-10-11T11:48:27Z'
+  sha256: 2f6d006f53c27f03329c3e8fa1cca66e3013687e9f8f6a460dfa5eaf6f00783f
+- source_id: implementation-2
+  title: 'RoBO author implementation: robo/models/fabolas_gp.py'
+  authors:
+  - AutoML / RoBO contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/models/fabolas_gp.py
+  version: automl/RoBO commit 91366b12a1a3deb8e80dd08599e0eaf4df28adc1
+  access_level: documentation
+  accessed_at: '2026-10-11T11:48:27Z'
+  sha256: 6c5f0dde17f527bbe2676e14740bd8990b6763f8c8f259e52448cfdb6d057d1a
+- source_id: implementation-3
+  title: 'RoBO author implementation: robo/acquisition_functions/information_gain_per_unit_cost.py'
+  authors:
+  - AutoML / RoBO contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/acquisition_functions/information_gain_per_unit_cost.py
+  version: automl/RoBO commit 91366b12a1a3deb8e80dd08599e0eaf4df28adc1
+  access_level: documentation
+  accessed_at: '2026-10-11T11:48:27Z'
+  sha256: fb05bd07ffb480d2d82bf695097d815c6768bbd7fe2181281e4159d9fb16aeb9
+- source_id: implementation-4
+  title: 'RoBO author implementation: robo/acquisition_functions/marginalization.py'
+  authors:
+  - AutoML / RoBO contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/acquisition_functions/marginalization.py
+  version: automl/RoBO commit 91366b12a1a3deb8e80dd08599e0eaf4df28adc1
+  access_level: documentation
+  accessed_at: '2026-10-11T11:49:31Z'
+  sha256: 4d7ce68913dbfe867cdf4a6edfa0262e96114e244688ffa71e54c6d898f70b4f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This hyperparameter procedure selects model configurations and allocates training resources.
+    The relation links that scope to the pinned training-strategy concept without treating the optimizer
+    as preprocessing, an identical concept or a subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:53:28Z'
+  updated_at: '2026-10-11T11:53:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
