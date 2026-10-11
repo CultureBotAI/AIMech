@@ -1,0 +1,127 @@
+name: Boltzmann chain
+definition: A family of tied-weight undirected Boltzmann sequence models with hidden temporal variables,
+  observed variables and chain-derived connectivity chosen to permit exact elimination.
+concept_kind: model_family
+identity_notes: 'The Saul–Jordan construction includes a strictly linear categorical chain and specified
+  coupled-parallel or looped variants. It denotes an energy parameterization and temporal graph family,
+  not a sampled Monte Carlo chain, an RBM without hidden-hidden connections, or a generic directed factorial
+  HMM. The linear positive-potential case overlaps HMM distributions under the terminal conditions established
+  by MacKay; different parameter names alone do not establish additional distributional expressiveness.
+  More complex source architectures are not automatically covered by that linear equivalence. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 379 preceding native IDs/names/aliases
+  for the four researched candidate names. Both full-checkout fixed-string searches included ignored and
+  hidden files, with 7 and 7 matching lines. All 6 unique matched contents were read: pending leads and
+  preceding source/review context, not existing records of these three new identities. Expanded source
+  IDs, plurals, Gibbs-machine and mixture-transition terminology were included. All 63 semantic label/synonym
+  hits, 17 exact fully annotated AIO CLASS nodes with outgoing edges, their generated YAMLs and six native
+  neighbors were read or byte-verified after prior complete reading. Markov mixtures of experts substantially
+  overlaps the existing IOHMM family, so no fourth ID or unconditional alias is created. Absence is bounded
+  to the pinned vocabulary and inspected neighborhood.'
+limitations:
+- The model is globally normalized at each sequence length. Separately normalizing each energy table is
+  generally not an equivalent model transformation.
+- MacKay’s positive-matrix gauge transformation produces normalized HMM parameters plus a final-state
+  factor. Equivalence requires the same constrained final state and normalization over that constrained
+  sample space, or explicit handling of the terminal factor. It is not evidence that every unrestricted-terminal
+  HMM and linear energy parameterization agree.
+- The inspected equivalence proof assumes strictly positive transfer entries from finite energies. Reducible
+  or zero-support cases need separate conditions. It does not cover every coupled or looped graph.
+- Exact elimination can become exponential in graph width or state size. The source’s chosen chain/loop
+  motifs do not establish efficient exact inference for arbitrary Boltzmann networks.
+- First-order hidden dynamics can retain long-lag statistical correlations. The source’s wording about
+  absent long-term dependence is not interpreted as zero correlation at all nonadjacent times; extra direct
+  long-range links are a different structural property.
+- The synthetic learning curves do not certify universal gains, real-data effectiveness or scalability.
+  No author implementation, model fitting or benchmark was executed.
+id: AIMech:BoltzmannChain
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3, Equations (1)–(5), printed pp.436–438 / PDF pp.2–4; Section 3, Figure 2,
+    pp.438–439 / PDF pp.4–5; Sections 4.1–4.2 and Figures 3–5, pp.439–442 / PDF pp.5–8
+  relation: supports
+- source_id: linear-equivalence
+  locator: Abstract and Equations (1)–(4), printed/PDF pp.1–2; positive-matrix proof and terminal pseudo-prior
+    discussion, p.2; architectural scope discussion, p.3
+  relation: context
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'In the linear categorical case, for fixed length L and inverse temperature beta, assign
+    joint probability proportional to exp(beta[Pi_(s_1)+sum_(t=1)^(L-1) A_(s_t,s_(t+1))+sum_(t=1)^L B_(s_t,y_t)]),
+    normalized over all hidden paths and observation sequences by Z_L. A and B are tied across time and
+    need not themselves be log-normalized transition or emission probabilities. Observed likelihood is
+    the ratio of a clamped and a free partition function. A log-likelihood derivative with respect to
+    a tied interaction is beta times its expected count under the clamped distribution minus its expected
+    count under the free distribution. For the selected tractable graphs, exact variable elimination computes
+    these quantities: pruning sums out leaves, decimation sums over an intermediate state, and parallel
+    interactions combine additively in the energy. The paper uses particular coupled chains at different
+    time resolutions and selected loops that preserve an eliminable structure; tractability depends on
+    intermediate state-space size, not merely the presence of temporal edges.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3, Equations (1)–(5), printed pp.436–438 / PDF pp.2–4; Section 3, Figure 2,
+      pp.438–439 / PDF pp.4–5; Sections 4.1–4.2 and Figures 3–5, pp.439–442 / PDF pp.5–8
+    relation: supports
+- claim_id: linear-hmm-boundary
+  kind: scope
+  statement: For the strictly linear finite-energy model, a positive eigenvector of the transfer matrix
+    allows interaction weights to be transformed into normalized HMM parameters. A remaining factor depends
+    only on the final hidden state. Conditioning both models on the same fixed terminal state removes
+    that factor from normalized relative probabilities; more complex architectures are outside this equivalence
+    result.
+  evidence:
+  - source_id: linear-equivalence
+    locator: Abstract and Equations (1)–(4), printed/PDF pp.1–2; positive-matrix proof and terminal pseudo-prior
+      discussion, p.2; architectural scope discussion, p.3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Boltzmann Chains and Hidden Markov Models
+  authors:
+  - Lawrence K. Saul
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/1994/file/4e0cb6fb5fb446d1c92ede2ed8780188-Paper.pdf
+  version: NIPS 1994, Advances in Neural Information Processing Systems 7, proceedings 1995, pp.435–442.
+    All eight publisher PDF pages visually read; printed page=PDF page+434; first number absent.
+  persistent_id: https://papers.neurips.cc/paper_files/paper/1994/hash/4e0cb6fb5fb446d1c92ede2ed8780188-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:47:00Z'
+  sha256: 583d728c7adf54d75566445c06aa50f0a1ce1b60b203cc5bce68b9e72042bc70
+- source_id: linear-equivalence
+  title: Equivalence of Linear Boltzmann Chains and Hidden Markov Models
+  authors:
+  - David J. C. MacKay
+  source_type: author_technical_report
+  url: https://www.inference.org.uk/mackay/jordan.pdf
+  version: Author preprint dated 31 March 1995, To appear in Neural Computation. All three pages visually
+    read; printed/PDF pages 1–3 agree. Distinct from the four-page1996 journal layout; no byte equivalence
+    is claimed.
+  persistent_id: https://www.inference.org.uk/mackay/jordan.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T19:56:20Z'
+  sha256: 30728362614b58a68e9f386bdcc9fc4b16c7b0e0847bd7608b00ea008afa25fa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BoltzmannMachineNetwork
+  relation: broad_match
+  rationale: The source explicitly defines the temporal model as a tied-weight Boltzmann machine with
+    categorical units and undirected pair interactions. The AIO target describes the broader symmetrically
+    connected stochastic network/Markov-random-field family; the selected temporal graphs are a narrower
+    construction.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The strictly linear hidden-chain structure has a qualified relation to HMMs and their latent
+    Markov transitions. Coupled and looped energy graphs, plus terminal normalization conditions, preclude
+    treating the whole family or its observations as the pinned first-order process.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:01:01Z'
+  updated_at: '2026-10-11T20:01:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
