@@ -1,0 +1,102 @@
+name: InfoNCE
+definition: A contrastive log-softmax objective that identifies a joint positive among sampled candidates
+  and, under independent marginal-negative sampling, gives an expectation-level lower bound on mutual
+  information.
+concept_kind: mathematical_method
+identity_notes: 'InfoNCE is the loss introduced in contrastive predictive coding, separable from the CPC
+  encoder/context/prediction procedure. It does not by itself prescribe cosine similarity, temperature,
+  augmentation pairs, symmetric losses or an autoregressive architecture. Named configurations such as
+  SimCLR NT-Xent and DIM’s finite-masking implementation require their own sampling and numerical qualifications.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding
+  native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts returned
+  52 worktree and 75 main-checkout lines: existing component discussions and discovery/review references,
+  plus unrelated ignored dependency text in main. Short acronyms were compared in normalized identities.
+  Four nearest maintained mechanisms and eleven exact AIO candidate nodes with direct parent edges were
+  inspected.'
+limitations:
+- The lower bound holds for an expectation under its specified joint and independent marginal sampling.
+  A realized finite-batch number is not certified to be below true mutual information.
+- The log(N) ceiling limits estimation of high mutual information at a fixed candidate count. Optimizing
+  a finite, restricted critic need not recover the density ratio or true information.
+- False semantic negatives, conditional negative proposals and correlated in-batch candidates can change
+  the learned representation and invalidate an unqualified use of the ideal sampling proof. Semantic usefulness
+  is not guaranteed by the loss.
+- Finite masking values contribute nonzero denominator mass and are not algebraically identical to removing
+  candidates. No numerical implementation or training experiment was run for this loss record.
+id: AIMech:InfoNCE
+aliases:
+- InfoNCE loss
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.3, PDF pp. 3–4, Equation (2) and density-ratio discussion; Appendix A.1 p. 13, with
+    its approximation explicitly qualified
+  relation: supports
+- source_id: additional-1
+  locator: Section 2.3, PDF p. 4, Equations (8)–(10), footnote 2 and log(K) ceiling discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Given a context c, draw one positive x_+ jointly with c and N−1 negative candidates independently
+    from the marginal p(x), with N>=2. For real scores s(x,c), define ell=−log[exp(s(x_+,c))/sum_(j=1)^N
+    exp(s(x_j,c))], including the positive in the denominator, and minimize L_NCE=E[ell]. For the ideal
+    sampling scheme, log(N)−L_NCE<=I(X;C); since ell>=0, the bound is at most log(N) and may itself be
+    negative. An expressive optimum scores the conditional-to-marginal density ratio up to a context-dependent
+    multiplicative constant in exp(s). The categorical objective remains definable with other candidate
+    constructions, but its stated mutual-information interpretation then requires a separate argument.
+    Poole et al. provide an independent rigorous derivation of the expected bound beyond the approximate
+    step in the original CPC appendix.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3, PDF pp. 3–4, Equation (2) and density-ratio discussion; Appendix A.1 p. 13,
+      with its approximation explicitly qualified
+    relation: supports
+  - source_id: additional-1
+    locator: Section 2.3, PDF p. 4, Equations (8)–(10), footnote 2 and log(K) ceiling discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Representation Learning with Contrastive Predictive Coding
+  authors:
+  - Aaron van den Oord
+  - Yazhe Li
+  - Oriol Vinyals
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1807.03748v2
+  version: arXiv:1807.03748v2, 2019-01-22; originally submitted 2018-07-10; 13 pages
+  persistent_id: https://arxiv.org/abs/1807.03748v2
+  access_level: full_text
+  accessed_at: '2026-10-11T08:34:36Z'
+  sha256: 5ef5e1ab47d2273f418f01f66fb8eb1431ba9b185b7cba45e9955f0fee36427d
+- source_id: additional-1
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aaron van den Oord
+  - Alex Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page main PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: InfoNCE is an objective used for positive-versus-negative discrimination in contrastive representation
+    learning. The AIO target is modeled as a network/learning approach, so this mathematical-method-to-approach
+    association is not an is-a relation or an exact match.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:44:37Z'
+  updated_at: '2026-10-11T08:50:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

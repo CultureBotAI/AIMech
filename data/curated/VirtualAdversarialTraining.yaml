@@ -1,0 +1,162 @@
+name: Virtual adversarial training
+definition: A prediction-smoothing regularization procedure that trains a model to preserve its current
+  output distribution under approximately worst-case small input perturbations, constructing those perturbations
+  without using target labels.
+concept_kind: algorithm
+identity_notes: 'VAT denotes the Miyato et al. procedure described in the 2018 manuscript revision. The
+  virtual target is the model’s current prediction. Label-free perturbation construction does not mean
+  the complete supervised or semi-supervised training objective has no labels. VAT is a component of IMSAT
+  but is not that information-maximization framework or a generative adversarial network. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases.
+  Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout
+  lines: existing component discussions and discovery/review references, plus unrelated ignored dependency
+  text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms
+  and eleven exact AIO candidate nodes with direct parent edges were inspected.'
+limitations:
+- The Hessian direction relies on a local quadratic approximation and finite-difference power iteration.
+  One iteration does not solve the exact finite-radius maximization and provides no certified adversarial
+  robustness.
+- The perturbation radius, norm, input representation and regularization weight affect which prediction
+  changes are penalized. Semantic label preservation is not guaranteed for arbitrary perturbations.
+- A constant classifier can have zero consistency loss; VAT alone does not identify meaningful classes.
+  The task loss or other learning signals remain material.
+- The author code uses epsilon-stabilized vector normalization, so its returned vector need not have exactly
+  the ideal radius. Batch-normalization handling and finite arithmetic also belong to implementation scope.
+- Three source files were inspected at the declared ranges without execution. The earlier 2015 precursor
+  was identified but its full methods were not compared; no historical-version equivalence or benchmark
+  reproduction is asserted.
+id: AIMech:VirtualAdversarialTraining
+aliases:
+- VAT
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.2–3.4, PDF pp. 4–6, especially Equation (8) and Algorithm 1; Section 4, p. 7, Equation
+    (17) and implementation setup
+  relation: supports
+- source_id: additional-1
+  locator: 'Lines 1–72: numerical normalization, finite-difference power iteration, detached teacher and
+    VAT loss'
+  relation: supports
+- source_id: additional-2
+  locator: 'Lines 45–75: labeled NLL, unlabeled VAT branch, optional entropy term and optimizer setup'
+  relation: supports
+- source_id: additional-3
+  locator: 'Lines 130–149: stable log-softmax, KL divergence and conditional entropy'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a fixed parameter snapshot theta_hat, approximately maximize D(p_theta_hat(y|x)||p_theta_hat(y|x+r))
+    over ||r||_2<=epsilon; the reported classifier implementation uses KL divergence. At r=0 the smooth
+    KL objective has zero value and first derivative. Its local quadratic approximation gives a dominant-Hessian-eigenvector
+    direction. Approximate that direction by initializing a random unit vector, taking the gradient with
+    respect to r at a small displacement xi*d, normalizing it, and optionally repeating this power-iteration
+    approximation. Scale the resulting direction by epsilon. For a model update, hold both the teacher
+    prediction and the selected perturbation fixed while minimizing D(p_theta_hat(y|x)||p_theta(y|x+r_vadv)).
+    Average this regularizer over available inputs to obtain R_VAT, and minimize supervised negative log
+    likelihood plus alpha times R_VAT. The general formulation can use labeled and unlabeled inputs; the
+    inspected semi-supervised driver applies its VAT branch to the unlabeled-input tensor. The pinned
+    code defaults to one iteration, detaches the teacher and perturbation construction, and computes KL
+    from softmax probabilities and stable log-softmax values. Its vatent branch separately adds conditional
+    entropy minimization.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2–3.4, PDF pp. 4–6, especially Equation (8) and Algorithm 1; Section 4, p. 7,
+      Equation (17) and implementation setup
+    relation: supports
+  - source_id: additional-1
+    locator: 'Lines 1–72: numerical normalization, finite-difference power iteration, detached teacher
+      and VAT loss'
+    relation: supports
+  - source_id: additional-2
+    locator: 'Lines 45–75: labeled NLL, unlabeled VAT branch, optional entropy term and optimizer setup'
+    relation: supports
+  - source_id: additional-3
+    locator: 'Lines 130–149: stable log-softmax, KL divergence and conditional entropy'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning'
+  authors:
+  - Takeru Miyato
+  - Shin-ichi Maeda
+  - Masanori Koyama
+  - Shin Ishii
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1704.03976v2
+  version: arXiv:1704.03976v2, 2018-06-27; 16 pages
+  persistent_id: https://arxiv.org/abs/1704.03976v2
+  access_level: full_text
+  accessed_at: '2026-10-11T08:34:36Z'
+  sha256: e1ccc4b18f17c7b76ef33f018703c8d7a45113cbb1b3a7282e682d8816add8d8
+- source_id: additional-1
+  title: 'takerum/vat_tf author implementation: vat.py'
+  authors:
+  - takerum/vat_tf contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/vat.py
+  version: takerum/vat_tf commit c5125d267531ce0f10b2238cf95604d287de63c8
+  persistent_id: https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/vat.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:39:00Z'
+  sha256: 2d7e42b5afcfa9a7efdf5b9f9328a4cb72dcff1359f71304d26e900674e5cd16
+- source_id: additional-2
+  title: 'takerum/vat_tf author implementation: train_semisup.py'
+  authors:
+  - takerum/vat_tf contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/train_semisup.py
+  version: takerum/vat_tf commit c5125d267531ce0f10b2238cf95604d287de63c8
+  persistent_id: https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/train_semisup.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:39:00Z'
+  sha256: 9936e7353823eac91e5ec869d165c4839526e2a7235d40262c12de5a37c4f49b
+- source_id: additional-3
+  title: 'takerum/vat_tf author implementation: layers.py'
+  authors:
+  - takerum/vat_tf contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/layers.py
+  version: takerum/vat_tf commit c5125d267531ce0f10b2238cf95604d287de63c8
+  persistent_id: https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/layers.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:39:37Z'
+  sha256: a2fde9dadc19b5d214fe9f89794160e504f793bd23ede2c1161f4eb589e1f47a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 CLASS labels and scoped synonyms in pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and all 203 preceding native IDs/names/aliases were compared. Ignored-inclusive searches covered both
+    full checkouts. Exact candidate AIO nodes, definitions, scoped synonyms and direct parents were inspected;
+    this no-match assessment is bounded to this snapshot and the stated semantic neighborhood.
+  rationale: The inspected AIO candidates describe layers, LLM-specific tasks or generative adversarial
+    architectures rather than label-free worst-case prediction smoothing. A shared regularization or adversarial
+    word does not provide a sufficiently scoped mapping.
+  examined_targets:
+  - target: AIO:RegularizationLayer
+    rejection_reason: A layer applying parameter/activity penalties is not this whole-model input-perturbation
+      training procedure.
+  - target: AIO:ActivityRegularizationLayer
+    rejection_reason: Output activity penalties do not specify distributional consistency under a virtual
+      adversarial input.
+  - target: AIO:SemiSupervisedLLM
+    rejection_reason: The class describes an LLM-specific learning arrangement; VAT is a general prediction
+      regularizer.
+  - target: AIO:GenerativeAdversarialNetwork
+    rejection_reason: Competing generator/discriminator training is not VAT’s local input-perturbation
+      procedure.
+  - target: AIO:GenerativeAdversarialNetworkAugmentedLLM
+    rejection_reason: Its related adversarial-training synonym is attached to an LLM-specific generative-adversarial
+      class and does not establish VAT identity.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: The class describes self-supervised prediction tasks. VAT by itself specifies a
+      consistency penalty, not a missing-input prediction task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:44:37Z'
+  updated_at: '2026-10-11T08:45:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

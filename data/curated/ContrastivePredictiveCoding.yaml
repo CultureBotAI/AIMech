@@ -1,0 +1,110 @@
+name: Contrastive predictive coding
+definition: A representation-learning procedure that encodes observations, summarizes preceding representations
+  as context, and jointly trains these components to distinguish future representations from sampled alternatives
+  using InfoNCE.
+concept_kind: algorithm
+identity_notes: 'CPC denotes the van den Oord et al. procedure, with configurable encoders and ordered
+  context. It uses InfoNCE but is not identical to that loss. It differs from DIM local-to-global feature
+  matching and from SimCLR augmentation-pair learning. An autoregressive context module is part of the
+  original procedure; a GRU and raw-input reconstruction are not requirements. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases.
+  Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout
+  lines: existing component discussions and discovery/review references, plus unrelated ignored dependency
+  text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms
+  and eleven exact AIO candidate nodes with direct parent edges were inspected.'
+limitations:
+- The bound is at most log(N) and depends on the negative proposal. Same-speaker, same-sequence or otherwise
+  conditional negatives used in particular experiments do not automatically satisfy the ideal independent
+  marginal sampling assumptions.
+- The original appendix uses an approximate substitution in its derivation. The population bound is supported
+  here by Poole et al.’s separate proof, not by promoting that approximation to an exact equality.
+- Finite critics, finite samples and incomplete optimization do not guarantee density-ratio recovery or
+  an accurate numerical mutual-information estimate. Future-predictive information can include nuisance
+  factors.
+- Only declared primary passages were inspected. No CPC implementation, training run or benchmark was
+  reproduced.
+id: AIMech:ContrastivePredictiveCoding
+aliases:
+- CPC
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3, Equations (1)–(3), PDF pp. 2–4; Appendix A.1, p. 13, read with the independent
+    bound derivation below
+  relation: supports
+- source_id: additional-1
+  locator: 'Section 2.3, PDF p. 4, Equations (8)–(10) and footnote 2: rigorous expected InfoNCE bound
+    and log-number-of-samples ceiling'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Compute z_t=g_enc(x_t) and c_t=g_ar(z_<=t). For each selected future offset k use the positive
+    score f_k(x,c_t)=exp(z(x)^T W_k c_t). Form a candidate set containing one true future observation
+    from the context-conditional distribution and N−1 negatives, ideally drawn independently from the
+    observation marginal. Minimize the expected negative log of the positive score divided by the sum
+    of all N scores, including the positive, over selected prediction horizons. Train the encoder, context
+    module and prediction parameters jointly. With the ideal sampling scheme and a sufficiently expressive
+    optimally fitted score, the optimal score is proportional to the conditional-to-marginal density ratio,
+    with a context-dependent factor cancelling in the categorical probabilities. The expected loss yields
+    the InfoNCE lower bound I(X_future;C)>=log(N)−L_NCE under its sampling assumptions. This is an expectation-level
+    statement, not a guarantee for one minibatch. Learned local representations or context summaries can
+    be used downstream.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3, Equations (1)–(3), PDF pp. 2–4; Appendix A.1, p. 13, read with the independent
+      bound derivation below
+    relation: supports
+  - source_id: additional-1
+    locator: 'Section 2.3, PDF p. 4, Equations (8)–(10) and footnote 2: rigorous expected InfoNCE bound
+      and log-number-of-samples ceiling'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Representation Learning with Contrastive Predictive Coding
+  authors:
+  - Aaron van den Oord
+  - Yazhe Li
+  - Oriol Vinyals
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1807.03748v2
+  version: arXiv:1807.03748v2, 2019-01-22; originally submitted 2018-07-10; 13 pages
+  persistent_id: https://arxiv.org/abs/1807.03748v2
+  access_level: full_text
+  accessed_at: '2026-10-11T08:34:36Z'
+  sha256: 5ef5e1ab47d2273f418f01f66fb8eb1431ba9b185b7cba45e9955f0fee36427d
+- source_id: additional-1
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aaron van den Oord
+  - Alex Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page main PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: CPC constructs prediction targets from ordered observations without manual target labels.
+    This relates an algorithm to a self-supervised task, not an is-a claim or equivalence.
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: CPC learns representations by positive-versus-negative discrimination. The AIO target is
+    modeled under DeepNeuralNetwork; the relation links a procedure to that representation-learning approach
+    without treating the algorithm as a network class.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:44:37Z'
+  updated_at: '2026-10-11T08:50:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
