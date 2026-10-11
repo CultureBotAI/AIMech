@@ -1,0 +1,301 @@
+# Hill-climbing source classification self-review
+
+- Review: 20261011T142938Z-hill-documentation-access
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T14:27:30Z
+- Finished UTC: 2026-10-11T14:29:38Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: false
+
+## Summary
+
+Align the official AIMA documentation source with the documentation access classification required by the maintained validator.
+
+## Scope And Provenance
+
+Source type/access classification only.
+
+Selection: HillClimbing evidence source additional-1.
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 5866e2d7d179d1efcad3c3cb4aadb497ad710a99.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HillClimbing | data/curated/HillClimbing.yaml | maintained | Hill climbing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Full publication gate | failed | True | AIMech:HillClimbing | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 78.60s (0:01:18)<br>Checked 442 record(s); 0 failed.<br>ERROR data/curated/HillClimbing.yaml: evidence_sources/additional-1: source type/access mismatch<br>Checked 307 curated concept record(s); 1 error(s).<br>uv run --locked --extra dev python scripts/check.py<br>error: recipe &#96;check&#96; failed on line 10 with exit code 1<br> |
+
+## Scientific And Domain Assessments
+
+### Official documentation access classification
+
+provenance: concern. Targets: AIMech:HillClimbing.
+
+Change the access classification without altering the source identity, inspected scope or evidence claims.
+
+## Findings
+
+### hill-documentation-access: Official documentation has an incompatible access classification.
+
+minor / open / confirmed; issue key: CultureBotAI-AIMech-HillClimbing-documentation-access.
+
+Use documentation for the official AIMA source access level. Preserve its URL, checksum, undated version and Figure4.2 locator, synchronize ledger/history, and verify the full gate.
+
+## Recommended Actions And Acceptance Checks
+
+### correct-documentation-access
+
+Correct the source access level, synchronize ledger/history and save a linked successor after successful checks.
+
+- The official source has documentation access with unchanged identity and inspected locator.
+- The ledger and append-only EDIT history reflect the correction.
+- Required post-fix checks pass and a successor resolves the finding.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| validator | src/aimech/curated.py; Source validation, official_documentation/documentation equivalence condition, lines103–105 | supports | The validator requires documentation access exactly when the source type is official_documentation. |
+| draft | data/curated/HillClimbing.yaml; evidence_sources[source_id=additional-1].source_type and .access_level | supports | The AIMA extract is official_documentation but its access level is full_text, producing the reported mismatch. |
+
+## Limits And Additional Notes
+
+- Provenance-only partial author self-review; scientific_review is false.
+- The failed full gate is preserved; 239 tests passed and 3 skipped before curated validation rejected this source classification.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T142938Z-hill-documentation-access
+kind: record
+repository: CultureBotAI/AIMech
+title: Hill-climbing source classification self-review
+started_at: '2026-10-11T14:27:30Z'
+finished_at: '2026-10-11T14:29:38Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent inspected the gate failure and the maintained
+    validator rule. This is not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: false
+summary: Align the official AIMA documentation source with the documentation access
+  classification required by the maintained validator.
+source:
+  git_revision: 5866e2d7d179d1efcad3c3cb4aadb497ad710a99
+  state: working_tree
+  inputs:
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/FastLocalSearch.yaml
+    sha256: 2344a8d777fa40a5b41ae91d57337d9883c197b9fe3a13a991a79f2bc616a963
+    role: target
+  - path: data/curated/GreedyBestFirstSearch.yaml
+    sha256: ec49328f0c41b8205dfe2816c9a01fdb50fa1e1292eacee71fc2872c7cc54020
+    role: context
+  - path: data/curated/GuidedLocalSearch.yaml
+    sha256: 91618dff5e0ed6681aad81deb9be9c8e35ed43b42acad285ef473916852cdebc
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: f795f312ebe7d942c5d8d7f65e37a3d334a7a61a2e595f8edb6b086703672999
+    role: target
+  - path: data/curated/IteratedLocalSearch.yaml
+    sha256: 15a6a25711dabac3dff72b612cf7daa7a2ae5f9660a9a677c2d21163335f2ef0
+    role: context
+  - path: data/curated/ParamILS.yaml
+    sha256: 8cb2244b7c067b3379e607b3df01a571623c1700c89ff951469d762a72539fa3
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/StrategicOscillation.yaml
+    sha256: 16ddf953d0d121c589e8ddc63d42741b9102cf4fe878fa47c29487f7aa274ced
+    role: target
+  - path: data/curated/TabuSearch.yaml
+    sha256: 6dae782f4d0c0b2a7195f471b7f73acb38fa036fb43ec15bacfa8f9a0264b844
+    role: context
+  - path: research/discovery/20261011T142703Z-neighborhood-search-controls.json
+    sha256: d66144aecd3bd0725b1c075a44c7d45eac80b84159dce84828fe8068e5b0ca8e
+    role: context
+  - path: research/discovery/neighborhood-search-controls-boundaries.py
+    sha256: 6e764736cbea503b4cf53e335708d53d3039161ef819846f1b90c2c81e4e6338
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HillClimbing
+  path: data/curated/HillClimbing.yaml
+  label: Hill climbing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HillClimbing.yaml
+    role: maintained
+scope:
+  description: Source type/access classification only.
+  selection: HillClimbing evidence source additional-1.
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:HillClimbing
+  exclusions:
+  - target: Mechanism and complete cohort approval
+    reason: The initial observation isolates a failed provenance gate; scientific
+      assessment follows the correction.
+checks:
+- check_id: required-gate
+  name: Full publication gate
+  command: just check
+  status: failed
+  required: true
+  target_ids:
+  - AIMech:HillClimbing
+  exit_code: 1
+  expected_exit_code: 0
+  summary: 'All checks passed!
+
+    ........................................................................ [ 29%]
+
+    ........................................................................ [ 59%]
+
+    ........................................................................ [ 89%]
+
+    .......................sss                                               [100%]
+
+    239 passed, 3 skipped in 78.60s (0:01:18)
+
+    Checked 442 record(s); 0 failed.
+
+    ERROR data/curated/HillClimbing.yaml: evidence_sources/additional-1: source type/access
+    mismatch
+
+    Checked 307 curated concept record(s); 1 error(s).
+
+    uv run --locked --extra dev python scripts/check.py
+
+    error: recipe `check` failed on line 10 with exit code 1
+
+    '
+evidence:
+- evidence_id: validator
+  kind: record_content
+  reference: src/aimech/curated.py
+  locator: Source validation, official_documentation/documentation equivalence condition,
+    lines103–105
+  accessed_at: '2026-10-11T14:29:38Z'
+  support: supports
+  summary: The validator requires documentation access exactly when the source type
+    is official_documentation.
+- evidence_id: draft
+  kind: record_content
+  reference: data/curated/HillClimbing.yaml
+  locator: evidence_sources[source_id=additional-1].source_type and .access_level
+  accessed_at: '2026-10-11T14:29:38Z'
+  support: supports
+  summary: The AIMA extract is official_documentation but its access level is full_text,
+    producing the reported mismatch.
+assessments:
+- assessment_id: access-classification
+  area: provenance
+  topic: Official documentation access classification
+  outcome: concern
+  target_ids:
+  - AIMech:HillClimbing
+  evidence_ids:
+  - validator
+  - draft
+  summary: Change the access classification without altering the source identity,
+    inspected scope or evidence claims.
+findings:
+- finding_id: hill-documentation-access
+  issue_key: CultureBotAI-AIMech-HillClimbing-documentation-access
+  category: provenance
+  severity: minor
+  status: open
+  certainty: confirmed
+  target_ids:
+  - AIMech:HillClimbing
+  field_paths:
+  - evidence_sources[source_id=additional-1].access_level
+  evidence_ids:
+  - validator
+  - draft
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HillClimbing.yaml
+    role: maintained
+  title: Official documentation has an incompatible access classification.
+  description: Use documentation for the official AIMA source access level. Preserve
+    its URL, checksum, undated version and Figure4.2 locator, synchronize ledger/history,
+    and verify the full gate.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/89
+actions:
+- action_id: correct-documentation-access
+  finding_ids:
+  - hill-documentation-access
+  target_ids:
+  - AIMech:HillClimbing
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HillClimbing.yaml
+    role: maintained
+  description: Correct the source access level, synchronize ledger/history and save
+    a linked successor after successful checks.
+  acceptance_checks:
+  - The official source has documentation access with unchanged identity and inspected
+    locator.
+  - The ledger and append-only EDIT history reflect the correction.
+  - Required post-fix checks pass and a successor resolves the finding.
+boundary_decisions: []
+limitations:
+- Provenance-only partial author self-review; scientific_review is false.
+- The failed full gate is preserved; 239 tests passed and 3 skipped before curated
+  validation rejected this source classification.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/89
+```
