@@ -1,0 +1,859 @@
+# Scientific self-review of hyperparameter search and allocation
+
+- Review: 20261011T113512Z-hyperparameter-search-and-allocation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T11:32:10Z
+- Finished UTC: 2026-10-11T11:35:12Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain random search, Hyperband and BOHB with explicit sampling, allocation, source-formula and implementation boundaries. Resolve the BOHB draft integer-conversion and uncited-reference findings after correction and verification.
+
+## Scope And Provenance
+
+All fields of the three newly maintained hyperparameter records.
+
+Selection: Exact three IDs from the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 2f52990807e09e4f9b6fd0c498200ba6e549a76d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RandomSearchHyperparameterOptimization | data/curated/RandomSearchHyperparameterOptimization.yaml | maintained | Random Search for Hyperparameter Optimization |
+| AIMech:Hyperband | data/curated/Hyperband.yaml | maintained | Hyperband |
+| AIMech:BOHB | data/curated/BOHB.yaml | maintained | BOHB |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:RandomSearchHyperparameterOptimization, AIMech:Hyperband, AIMech:BOHB | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 96.51s (0:01:36)<br>Checked 442 record(s); 0 failed.<br>Checked 259 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 61 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 59,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:RandomSearchHyperparameterOptimization, AIMech:Hyperband, AIMech:BOHB | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| Finite hyperparameter-search calculations | passed | True | AIMech:RandomSearchHyperparameterOptimization, AIMech:Hyperband, AIMech:BOHB | {"brackets": [{"s": 4, "paper_algorithm_n": 81, "table_and_pinned_code_n": 81, "initial_resource": 1, "paper_round_sizes": [81, 27, 9, 3, 1]}, {"s": 3, "paper_algorithm_n": 34, "table_and_pinned_code_n": 27, "initial_resource": 3, "paper_round_sizes": [34, 11, 3, 1]}, {"s": 2, "paper_algorithm_n": 15, "table_and_pinned_code_n": 9, "initial_resource": 9, "paper_round_sizes": [15, 5, 1]}, {"s": 1, "paper_algorithm_n": 8, "table_and_pinned_code_n": 6, "initial_resource": 27, "paper_round_sizes": [8, 2]}, {"s": 0, "paper_algorithm_n": 5, "table_and_pinned_code_n": 5, "initial_resource": 81, "paper_round_sizes": [5]}], "noninteger_reduction": {"eta": 2.5, "s_max": 4, "s": 3, "product": 15.625, "count": 15}, "initial_budget_sign": {"printed_bohb": 6561, "bounded_geometric": 1.0, "maximum": 81}, "small_sample_kde": {"dimension": 4, "minimum": 5, "observations": 7, "paper_overlap": 3, "pinned_code_bad_set_size": 2, "pinned_code_model_construction_passes": false}, "independent_sampling": {"region_probability": 0.01, "trials": 100, "probability_at_least_one_hit": 0.6339676587267709, "zero_mass_region_hit_probability": 0}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, method, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:RandomSearchHyperparameterOptimization.
+
+This identity is random sampling for model hyperparameter selection, not stochastic gradient descent, random graph traversal, a quasi-random low-discrepancy design, or every randomized optimizer. Independence concerns configuration draws, not statistical independence of scores measured on shared validation data. Unlike TPE and BOHB, past scores do not fit a proposal model; unlike PBT, the search does not copy trained weights between population members. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 2 lines in each checkout. These were prior random-search candidate leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Specify the valid hyperparameter space and its sampling distribution, independently sample a finite set of configurations, train/evaluate each under the chosen protocol, and select by validation loss. The paper initially describes uniform sampling in search coordinates, while its concrete neural-network and DBN spaces include categorical choices, log-domain draws and conditional architecture settings. Therefore uniformity in raw numerical values and independent activation of every coordinate are not defining requirements. More trials extend the same search distribution without requiring a Cartesian grid. The sampling rule does not itself prescribe equal runtime or forbid per-trial early stopping; the neural-network case study includes a validation-based stopping rule. Test performance is evaluated separately from the validation criterion used to choose a configuration. Limits: Coverage depends on the chosen distribution, parameterization and budget; a region assigned zero probability cannot be discovered by these draws. Low effective dimensionality explains a possible advantage over grids, not a universal performance guarantee. An observed validation winner need not be the best test or population-risk model. The cited experiments and uncertainty-reporting procedure are context, not reproduced performance results. The record retains the nonadaptive configuration-sampling procedure; score-adaptive proposals, population inheritance and cross-trial resource scheduling are additional mechanisms.
+
+### Identity, definition, method, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:Hyperband.
+
+Hyperband is the bracketed allocation procedure, distinct from one successive-halving run, independent random search, TPE proposal fitting and PBT weight inheritance. The inspected finite-horizon algorithm samples configurations independently; the paper also discusses other samplers and a separate infinite-horizon formulation. Pure-exploration bandit terminology does not make this an RL-trained language model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 2 lines in each checkout. These were prior random-search candidate leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Choose a maximum per-configuration resource R and reduction factor eta. In the finite-horizon Algorithm1, set s_max=floor(log_eta(R)) and B=(s_max+1)*R. For each bracket s from s_max down to zero, start with n=ceil((B/R)*eta^s/(s+1)) configurations and r=R*eta^(−s) resource units. Evaluate current candidates at geometrically increasing resource levels and retain the best approximately 1/eta fraction after each comparison. The s=0 bracket evaluates its candidates directly at R. Algorithm1 returns the configuration with the smallest intermediate loss observed, rather than specifying selection only among maximum-budget evaluations. Brackets address uncertainty about how many configurations to start and how long to evaluate before elimination. Resources can denote iterations, time, data or features; actual computational cost and whether work can be resumed depend on that choice. Limits: Table1 is not a numeric instantiation of the printed Algorithm1 count formula: for R=81 and eta=3, Algorithm1 starts with 81,34,15,8,5 configurations, while Table1 lists 81,27,9,6,5. These conventions are retained separately; approximate bracket budgets are not asserted as exact equality. Poor early rankings can discard a configuration that would improve later. The inspected theoretical overview does not establish an unconditional finite-budget optimum or universal speedup. The record describes the finite-horizon method. The paper’s separate infinite-horizon version and alternative samplers are not interchangeable implementations of the exact recorded pseudocode.
+
+### Identity, definition, method, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:BOHB.
+
+BOHB denotes the KDE-based method of Falkner, Klein and Hutter. It differs from pure random-sampling Hyperband and the original tree-structured one-dimensional TPE estimator. It is not every combination of Bayesian optimization and early stopping, a Gaussian-process surrogate, a Bayesian network, or the entire HpBandSter software framework. Paper and pinned implementation conventions are distinguished. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 2 lines in each checkout. These were prior random-search candidate leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Keep observations separated by evaluation budget. For proposals, use the highest budget with enough data to build better- and worse-performing configuration densities. The paper uses multivariate KDEs, a loss-quantile split with minimum set sizes, and finite candidate sampling from an expanded better-performing density, selecting a candidate with favorable l(x)/g(x). Retain a positive fraction of random configurations, and fall back to random sampling when no model is available. Hyperband brackets and successive halving then allocate increasing resources to surviving candidates. Observations are shared across brackets, but the proposal density is not fitted by pooling all fidelity levels indiscriminately. The method can schedule multiple brackets and concurrent evaluations; the paper’s worker policy favors waiting smaller-budget jobs. Numerical model-building and sampling details differ in the pinned implementation, as recorded separately. The pinned scheduler uses geometrically spaced budgets b_max*eta^(−s) and computes its initial bracket count with int(floor((s_max+1)/(s+1))*eta^s), which differs from the paper’s ceiling convention. The proposal generator selects the largest available model budget, minimizes a numerically floored g/l ratio over finite samples, expands continuous-coordinate bandwidths, and samples randomly from ConfigSpace when needed. KDEs fit disjoint best/remainder slices and are created only when each actual slice contains more rows than dimensions. This implementation does not reproduce the paper’s small-sample overlapping-set rule. These are static source observations, not a runtime or compatibility result. Limits: The paper’s Equation(2) reverses the conditioning relative to configuration densities fitted from better/worse subsets. Its Algorithm1 prints eta^s*b_max as the initial budget, exceeding b_max for s&gt;0. The recorded density interpretation and bounded geometric budgets follow the method prose, original Hyperband and inspected code; these are curator qualifications, not an author-issued erratum. Paper Equation(3) permits overlapping fit sets with few observations; the pinned code instead takes disjoint sorted slices and requires both actual slices to have more observations than dimensions. Its bandwidth widening applies to continuous proposal coordinates. Paper defaults and statements are not silently substituted for that implementation. Low-budget rankings can mislead search. Random exploration, density estimation and finite candidate sets do not give an unconditional finite-budget optimum, universal speedup or independent generalization guarantee. No author implementation was executed.
+
+### Independent configuration draws and evaluation scope
+
+consistency: supported. Targets: AIMech:RandomSearchHyperparameterOptimization.
+
+Retain nonadaptive configuration sampling with its distribution and validation context.
+
+Independence applies to trial configuration draws, not shared-data evaluation scores or every coordinate in conditional spaces. Log-domain and categorical settings are explicit examples. The method does not mandate equal run cost or prohibit a per-trial stopping rule. A validation winner is not guaranteed to minimize test/population risk.
+
+### Finite-horizon counts, budgets and returned configuration
+
+consistency: supported. Targets: AIMech:Hyperband.
+
+Retain the bracketed allocation identity and preserve the printed count inconsistency.
+
+Algorithm1 uses a ceiling count and r=R*eta^(−s), with increasing per-configuration resource and successive elimination. Table1 has different counts for intermediate brackets. The return rule is the lowest intermediate loss, not necessarily the best full-budget evaluation. The theoretical overview was read but proofs were not independently checked. Infinite-horizon Hyperband remains a separate lead.
+
+### Budget-specific proposal density and implementation conventions
+
+consistency: supported. Targets: AIMech:BOHB.
+
+Retain KDE-based BOHB with explicit paper/code distinctions.
+
+The highest available modeled budget guides proposals; observations are not indiscriminately pooled across fidelities. Paper Equation2 reverses the density conditioning, and Algorithm1 prints a positive initial-budget exponent. Code uses bounded negative-exponent budgets, floor-factor counts with an outer integer conversion, disjoint fit slices and continuous-coordinate proposal widening. These correct source interpretation without claiming an author-issued erratum or equality to the original experiment revision.
+
+### Search algorithms, training strategy, tasks and models
+
+grounding: supported. Targets: AIMech:RandomSearchHyperparameterOptimization, AIMech:Hyperband, AIMech:BOHB.
+
+Retain three source-distinct native concepts with related AIO mappings.
+
+All three hyperparameter algorithms relate to TrainingStrategy. Because the pinned definition treats training strategy as preprocessing, this is related_match, not an is-a claim. The methods are not preprocessing transforms, broad prediction tasks, RL language models, Bayesian graphical networks, prediction ensembles or evolutionary LLMs. The native TPE, PBT/PBA, Gaussian-process regression, genetic algorithm and fairness-specific grid reduction have different proposal, inheritance, prediction or task mechanisms.
+
+## Findings
+
+### bohb-integer-conversion: BOHB draft omits the final integer conversion in its pinned count formula.
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-BOHB-outer-integer-conversion.
+
+The uncommitted draft gives floor((s_max+1)/(s+1))*eta^s without the outer int conversion in the cited implementation. Noninteger eta can therefore produce a noninteger purported configuration count. Correct the transcription and add a diagnostic distinguishing the product from the implemented count. The method identity and main branch are unaffected.
+
+Disposition: The maintained claim now includes the outer integer conversion; its noninteger eta2.5 example returns15 rather than15.625. The discovery ledger, finite diagnostic and append-only history were updated, changed bytes reinspected, and required checks passed.
+
+### bohb-uncited-reference: BOHB draft declares an uncited original Hyperband source.
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-BOHB-uncited-hyperband-reference.
+
+The original Hyperband source was retained for its allocation/budget context but was not connected to a definition or claim. Link it precisely as context for the allocation mechanism without changing the validator or misrepresenting it as evidence for KDE details.
+
+Disposition: The method claim now cites the original Hyperband Algorithm1 with context relation and a precise allocation locator. The source is not misrepresented as KDE evidence. The full maintained-record and repository checks pass without validator changes.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:RandomSearchHyperparameterOptimization, AIMech:Hyperband, AIMech:BOHB. Independent configuration sampling, bracketed resource allocation and KDE-guided configuration proposals have distinct mechanisms. A shared component does not equate the complete named algorithms.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T112845Z-hyperparameter-search-and-allocation.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 256 preceding maintained IDs/names/aliases, including within-candidate normalized uniqueness. No identity match was found. Full-checkout fixed-string searches included ignored/hidden files in worktree and main and returned two lines each: prior random-search leads. Additional broad searches for random search, successive halving, Hyperband, BOHB and randomsearch returned only those leads (before main fast-forward: two worktree/one main). Nine exact AIO CLASS nodes with synonyms/outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Nine exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection | supports | All three hyperparameter algorithms relate to TrainingStrategy. Because the pinned definition treats training strategy as preprocessing, this is related_match, not an is-a claim. The methods are not preprocessing transforms, broad prediction tasks, RL language models, Bayesian graphical networks, prediction ensembles or evolutionary LLMs. The native TPE, PBT/PBA, Gaussian-process regression, genetic algorithm and fairness-specific grid reduction have different proposal, inheritance, prediction or task mechanisms. |
+| neighbors | research/discovery/20261011T112845Z-hyperparameter-search-and-allocation.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Read TPE, PBT, PBA, Gaussian-process regression, genetic algorithm and fairness-specific grid reduction mechanisms. Shared components do not equate their proposal, inheritance, prediction or allocation procedures. |
+| finite-conventions | research/discovery/hyperparameter-search-boundaries.py; calculate(): bracket counts, initial budget sign, KDE fit sets, independent-draw coverage and noninteger count | supports | Original finite arithmetic distinguishes printed Hyperband counts from its table and pinned BOHB schedule; tests the positive/negative budget exponent; distinguishes overlapping paper sets from code eligibility; and exposes the outer integer conversion for eta2.5. These are arithmetic diagnostics, not author-code execution or training. |
+| randomsearchhyperparameteroptimization-source-0 | https://jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf; Section 1, Equations (2)–(4) and Figure1, PDF pp.2–4 (printed282–284); sampling in Section2.4, PDF pp.10–11 (290–291), and Section5, pp.18–19 (298–299); limitations/conclusion pp.21–23 (301–303) | supports | Random Search for Hyper-Parameter Optimization. JMLR 13(10), 281–305, 2012; 25-page publisher PDF. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+| hyperband-source-0 | https://jmlr.org/papers/volume18/16-558/16-558.pdf; Sections3.1–3.6, PDF/printed pp.6–12; Algorithm1 on p.8 and Table1 on p.9; sampling generalization in Section2.1 on p.5 | supports | Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization. JMLR 18(185), 1–52, 2018; 52-page publisher PDF. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+| bohb-source-0 | https://proceedings.mlr.press/v80/falkner18a/falkner18a.pdf; Sections3.1–4.2, PDF pp.3–5; Equations(2)–(3), Algorithms1–2 and accompanying descriptions | supports | BOHB: Robust and Efficient Hyperparameter Optimization at Scale. ICML 2018, PMLR 80:1437–1446; 10-page proceedings PDF. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+| bohb-source-1 | https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/bohb.py; Lines96–103 and135–141; Lines96–103 and135–141: geometric budgets and bracket counts | supports | HpBandSter author implementation: hpbandster/optimizers/bohb.py. automl/HpBandSter commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+| bohb-source-2 | https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/config_generators/bohb.py; Lines119–234 and300–354; Lines54–80,94–234 and267–354: model selection, candidate sampling and KDE construction | supports | HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py. automl/HpBandSter commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+| bohb-source-3 | https://jmlr.org/papers/volume18/16-558/16-558.pdf; Algorithm1, PDF/printed p.8: r=R*eta^(−s) and geometrically increasing allocation; original component context, not KDE evidence | supports | Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization. JMLR 18(185), 1–52, 2018; 52-page publisher PDF. The actual PDF/code reading scopes are declared in the ledger; extraction and rendering do not themselves attest inspection. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Only declared PDF pages and static source paths were inspected. No training, benchmark, full theoretical proof or author-code execution was performed.
+- Paper and pinned implementation versions are explicitly distinguished. Source qualifications are not claimed as author-issued errata.
+- The initial full gate rejected an uncited source after passing239 tests and generated-record validation. Its evidence is retained in the initial review and ledger; corrected full validation passed.
+- Initial vendored validation failed on sandbox DNS; a network-enabled retry passed. Both attempts are retained privately and the failure is recorded here.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T113512Z-hyperparameter-search-and-allocation
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of hyperparameter search and allocation
+started_at: '2026-10-11T11:32:10Z'
+finished_at: '2026-10-11T11:35:12Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all three records
+    against the declared primary methods, rendered pages, pinned HpBandSter source,
+    nine exact AIO nodes and six neighboring records, and checked original finite
+    arithmetic. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain random search, Hyperband and BOHB with explicit sampling, allocation,
+  source-formula and implementation boundaries. Resolve the BOHB draft integer-conversion
+  and uncited-reference findings after correction and verification.
+source:
+  git_revision: 2f52990807e09e4f9b6fd0c498200ba6e549a76d
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/EnsembleLearning.yaml
+    sha256: cf9435e5a799d84072222190c2d681c53b22bf9e7094891405008ebe398a39ed
+    role: context
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/BOHB.yaml
+    sha256: bb965b104107d30a9d74f4ac4eaa0aa72023cdf676afb53528d3a1b41bebf291
+    role: target
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GeneticAlgorithm.yaml
+    sha256: d40bf1a03e29a3ca6bf88f6553f18c6b1559baf56da6a21d63b54163f4752ceb
+    role: context
+  - path: data/curated/GridSearchFairClassification.yaml
+    sha256: 2c39ead283f70921f413eaba9f53f05ac26675b77c359d690974a23eacec6eb8
+    role: context
+  - path: data/curated/Hyperband.yaml
+    sha256: ed8dae09ccd45becb03f2e0ad41aa4c2898ecafc999e6b2ba9637c7d8b311e56
+    role: target
+  - path: data/curated/PopulationBasedAugmentation.yaml
+    sha256: f15ab39eed88283c4cdf7b85880f4e9169299b95577eb70d9a4afa3fa14703ed
+    role: context
+  - path: data/curated/PopulationBasedTraining.yaml
+    sha256: 4a0fff56bd5ccb2d2b21cea0c533bd0fa83e1601a035b1c0b5dbf796e7e81261
+    role: context
+  - path: data/curated/RandomSearchHyperparameterOptimization.yaml
+    sha256: 24dde2b9d19169c383b403742ea355727c2f167ae8aa21970fbda34e832c89fd
+    role: target
+  - path: data/curated/TreeStructuredParzenEstimator.yaml
+    sha256: bdd8130958b93502ecd3bf0cd73f411dfb4aecb5d6d2ab2e01454dee9bae2737
+    role: context
+  - path: research/discovery/20261011T112845Z-hyperparameter-search-and-allocation.json
+    sha256: d588f73d900578ecbacab008a05127c1cc64573777d80eef30cd3955af6b402e
+    role: context
+  - path: research/discovery/hyperparameter-search-boundaries.py
+    sha256: f0bbfc4b048fea49974734341bc270614ba02c0fc03582bf5594ccd99c96d607
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:RandomSearchHyperparameterOptimization
+  path: data/curated/RandomSearchHyperparameterOptimization.yaml
+  label: Random Search for Hyperparameter Optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RandomSearchHyperparameterOptimization.yaml
+    role: maintained
+- target_id: AIMech:Hyperband
+  path: data/curated/Hyperband.yaml
+  label: Hyperband
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/Hyperband.yaml
+    role: maintained
+- target_id: AIMech:BOHB
+  path: data/curated/BOHB.yaml
+  label: BOHB
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BOHB.yaml
+    role: maintained
+scope:
+  description: All fields of the three newly maintained hyperparameter records.
+  selection: Exact three IDs from the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were read for identity and boundaries, not a complete new review
+      of the older corpus.
+  - target: Unread papers, pages, outcomes and implementation paths
+    reason: Only declared source scopes were inspected; no model or downloaded implementation
+      was executed.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 96.51s (0:01:36)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 259 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 61 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 59,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: finite-arithmetic
+  name: Finite hyperparameter-search calculations
+  command: python3 research/discovery/hyperparameter-search-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"brackets": [{"s": 4, "paper_algorithm_n": 81, "table_and_pinned_code_n":
+    81, "initial_resource": 1, "paper_round_sizes": [81, 27, 9, 3, 1]}, {"s": 3, "paper_algorithm_n":
+    34, "table_and_pinned_code_n": 27, "initial_resource": 3, "paper_round_sizes":
+    [34, 11, 3, 1]}, {"s": 2, "paper_algorithm_n": 15, "table_and_pinned_code_n":
+    9, "initial_resource": 9, "paper_round_sizes": [15, 5, 1]}, {"s": 1, "paper_algorithm_n":
+    8, "table_and_pinned_code_n": 6, "initial_resource": 27, "paper_round_sizes":
+    [8, 2]}, {"s": 0, "paper_algorithm_n": 5, "table_and_pinned_code_n": 5, "initial_resource":
+    81, "paper_round_sizes": [5]}], "noninteger_reduction": {"eta": 2.5, "s_max":
+    4, "s": 3, "product": 15.625, "count": 15}, "initial_budget_sign": {"printed_bohb":
+    6561, "bounded_geometric": 1.0, "maximum": 81}, "small_sample_kde": {"dimension":
+    4, "minimum": 5, "observations": 7, "paper_overlap": 3, "pinned_code_bad_set_size":
+    2, "pinned_code_model_construction_passes": false}, "independent_sampling": {"region_probability":
+    0.01, "trials": 100, "probability_at_least_one_hit": 0.6339676587267709, "zero_mass_region_hit_probability":
+    0}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T112845Z-hyperparameter-search-and-allocation.json
+  accessed_at: '2026-10-11T11:32:10Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 256 preceding maintained
+    IDs/names/aliases, including within-candidate normalized uniqueness. No identity
+    match was found. Full-checkout fixed-string searches included ignored/hidden files
+    in worktree and main and returned two lines each: prior random-search leads. Additional
+    broad searches for random search, successive halving, Hyperband, BOHB and randomsearch
+    returned only those leads (before main fast-forward: two worktree/one main). Nine
+    exact AIO CLASS nodes with synonyms/outgoing edges and six native neighboring
+    mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 256 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored/hidden files; candidate-internal
+    normalized identity uniqueness.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Nine exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T11:32:10Z'
+  support: supports
+  summary: All three hyperparameter algorithms relate to TrainingStrategy. Because
+    the pinned definition treats training strategy as preprocessing, this is related_match,
+    not an is-a claim. The methods are not preprocessing transforms, broad prediction
+    tasks, RL language models, Bayesian graphical networks, prediction ensembles or
+    evolutionary LLMs. The native TPE, PBT/PBA, Gaussian-process regression, genetic
+    algorithm and fairness-specific grid reduction have different proposal, inheritance,
+    prediction or task mechanisms.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T112845Z-hyperparameter-search-and-allocation.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T11:32:10Z'
+  support: supports
+  summary: Read TPE, PBT, PBA, Gaussian-process regression, genetic algorithm and
+    fairness-specific grid reduction mechanisms. Shared components do not equate their
+    proposal, inheritance, prediction or allocation procedures.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/hyperparameter-search-boundaries.py
+  locator: 'calculate(): bracket counts, initial budget sign, KDE fit sets, independent-draw
+    coverage and noninteger count'
+  accessed_at: '2026-10-11T11:32:10Z'
+  snapshot_sha256: f0bbfc4b048fea49974734341bc270614ba02c0fc03582bf5594ccd99c96d607
+  support: supports
+  summary: Original finite arithmetic distinguishes printed Hyperband counts from
+    its table and pinned BOHB schedule; tests the positive/negative budget exponent;
+    distinguishes overlapping paper sets from code eligibility; and exposes the outer
+    integer conversion for eta2.5. These are arithmetic diagnostics, not author-code
+    execution or training.
+- evidence_id: randomsearchhyperparameteroptimization-source-0
+  kind: primary_source
+  reference: https://jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf
+  locator: Section 1, Equations (2)–(4) and Figure1, PDF pp.2–4 (printed282–284);
+    sampling in Section2.4, PDF pp.10–11 (290–291), and Section5, pp.18–19 (298–299);
+    limitations/conclusion pp.21–23 (301–303)
+  accessed_at: '2026-10-11T11:24:25Z'
+  snapshot_sha256: 01e88a175a36afa399e05dc97dce9c5de980130445269cc0e5100d0471887029
+  support: supports
+  summary: Random Search for Hyper-Parameter Optimization. JMLR 13(10), 281–305, 2012;
+    25-page publisher PDF. The actual PDF/code reading scopes are declared in the
+    ledger; extraction and rendering do not themselves attest inspection.
+- evidence_id: hyperband-source-0
+  kind: primary_source
+  reference: https://jmlr.org/papers/volume18/16-558/16-558.pdf
+  locator: Sections3.1–3.6, PDF/printed pp.6–12; Algorithm1 on p.8 and Table1 on p.9;
+    sampling generalization in Section2.1 on p.5
+  accessed_at: '2026-10-11T11:24:25Z'
+  snapshot_sha256: 09c14cb28ec214e63378c8c0e952cecc7edf12796dda0dbadc698d2a3587307b
+  support: supports
+  summary: 'Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization.
+    JMLR 18(185), 1–52, 2018; 52-page publisher PDF. The actual PDF/code reading scopes
+    are declared in the ledger; extraction and rendering do not themselves attest
+    inspection.'
+- evidence_id: bohb-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v80/falkner18a/falkner18a.pdf
+  locator: Sections3.1–4.2, PDF pp.3–5; Equations(2)–(3), Algorithms1–2 and accompanying
+    descriptions
+  accessed_at: '2026-10-11T11:24:25Z'
+  snapshot_sha256: 774cc0ce958873154145bbd87e8b1d99ee282adb4599a8fdf30df314a63c5fa2
+  support: supports
+  summary: 'BOHB: Robust and Efficient Hyperparameter Optimization at Scale. ICML
+    2018, PMLR 80:1437–1446; 10-page proceedings PDF. The actual PDF/code reading
+    scopes are declared in the ledger; extraction and rendering do not themselves
+    attest inspection.'
+- evidence_id: bohb-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/bohb.py
+  locator: 'Lines96–103 and135–141; Lines96–103 and135–141: geometric budgets and
+    bracket counts'
+  accessed_at: '2026-10-11T11:25:42Z'
+  snapshot_sha256: 23e1345406791add6c67d7b8aab83cc612d56a9016c0e5715f4c4d8bf6ccddf6
+  support: supports
+  summary: 'HpBandSter author implementation: hpbandster/optimizers/bohb.py. automl/HpBandSter
+    commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a. The actual PDF/code reading scopes
+    are declared in the ledger; extraction and rendering do not themselves attest
+    inspection.'
+- evidence_id: bohb-source-2
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/config_generators/bohb.py
+  locator: 'Lines119–234 and300–354; Lines54–80,94–234 and267–354: model selection,
+    candidate sampling and KDE construction'
+  accessed_at: '2026-10-11T11:25:42Z'
+  snapshot_sha256: fc00e64eec04dfb7a490cb8cbad292bd6a9a07d1bc42c5e359b3100d4c53612c
+  support: supports
+  summary: 'HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py.
+    automl/HpBandSter commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a. The actual
+    PDF/code reading scopes are declared in the ledger; extraction and rendering do
+    not themselves attest inspection.'
+- evidence_id: bohb-source-3
+  kind: primary_source
+  reference: https://jmlr.org/papers/volume18/16-558/16-558.pdf
+  locator: 'Algorithm1, PDF/printed p.8: r=R*eta^(−s) and geometrically increasing
+    allocation; original component context, not KDE evidence'
+  accessed_at: '2026-10-11T11:24:25Z'
+  snapshot_sha256: 09c14cb28ec214e63378c8c0e952cecc7edf12796dda0dbadc698d2a3587307b
+  support: supports
+  summary: 'Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization.
+    JMLR 18(185), 1–52, 2018; 52-page publisher PDF. The actual PDF/code reading scopes
+    are declared in the ledger; extraction and rendering do not themselves attest
+    inspection.'
+assessments:
+- assessment_id: randomsearchhyperparameteroptimization
+  area: evidence
+  topic: Identity, definition, method, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - randomsearchhyperparameteroptimization-source-0
+  summary: This identity is random sampling for model hyperparameter selection, not
+    stochastic gradient descent, random graph traversal, a quasi-random low-discrepancy
+    design, or every randomized optimizer. Independence concerns configuration draws,
+    not statistical independence of scores measured on shared validation data. Unlike
+    TPE and BOHB, past scores do not fit a proposal model; unlike PBT, the search
+    does not copy trained weights between population members. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding
+    native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+    and hidden files in both worktree and main checkout, returning 2 lines in each
+    checkout. These were prior random-search candidate leads, not existing records
+    for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges
+    and six neighboring native mechanisms were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.
+  details: 'Specify the valid hyperparameter space and its sampling distribution,
+    independently sample a finite set of configurations, train/evaluate each under
+    the chosen protocol, and select by validation loss. The paper initially describes
+    uniform sampling in search coordinates, while its concrete neural-network and
+    DBN spaces include categorical choices, log-domain draws and conditional architecture
+    settings. Therefore uniformity in raw numerical values and independent activation
+    of every coordinate are not defining requirements. More trials extend the same
+    search distribution without requiring a Cartesian grid. The sampling rule does
+    not itself prescribe equal runtime or forbid per-trial early stopping; the neural-network
+    case study includes a validation-based stopping rule. Test performance is evaluated
+    separately from the validation criterion used to choose a configuration. Limits:
+    Coverage depends on the chosen distribution, parameterization and budget; a region
+    assigned zero probability cannot be discovered by these draws. Low effective dimensionality
+    explains a possible advantage over grids, not a universal performance guarantee.
+    An observed validation winner need not be the best test or population-risk model.
+    The cited experiments and uncertainty-reporting procedure are context, not reproduced
+    performance results. The record retains the nonadaptive configuration-sampling
+    procedure; score-adaptive proposals, population inheritance and cross-trial resource
+    scheduling are additional mechanisms.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A defined hyperparameter sampling or resource-allocation algorithm,
+      not a trained checkpoint, architecture or broad learning task.
+    evidence_ids:
+    - randomsearchhyperparameteroptimization-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:TrainingStrategy'
+    definition: This procedure organizes hyperparameter selection or allocation of
+      model-training resources. The pinned AIO target describes training strategies
+      as preprocessing; the relation connects these scopes without asserting that
+      this search algorithm is preprocessing, an identical concept, or a subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: hyperband
+  area: evidence
+  topic: Identity, definition, method, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:Hyperband
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - hyperband-source-0
+  summary: Hyperband is the bracketed allocation procedure, distinct from one successive-halving
+    run, independent random search, TPE proposal fitting and PBT weight inheritance.
+    The inspected finite-horizon algorithm samples configurations independently; the
+    paper also discusses other samplers and a separate infinite-horizon formulation.
+    Pure-exploration bandit terminology does not make this an RL-trained language
+    model. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in both worktree and main checkout,
+    returning 2 lines in each checkout. These were prior random-search candidate leads,
+    not existing records for these identities. Nine exact AIO CLASS nodes with synonyms
+    and outgoing edges and six neighboring native mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.
+  details: 'Choose a maximum per-configuration resource R and reduction factor eta.
+    In the finite-horizon Algorithm1, set s_max=floor(log_eta(R)) and B=(s_max+1)*R.
+    For each bracket s from s_max down to zero, start with n=ceil((B/R)*eta^s/(s+1))
+    configurations and r=R*eta^(−s) resource units. Evaluate current candidates at
+    geometrically increasing resource levels and retain the best approximately 1/eta
+    fraction after each comparison. The s=0 bracket evaluates its candidates directly
+    at R. Algorithm1 returns the configuration with the smallest intermediate loss
+    observed, rather than specifying selection only among maximum-budget evaluations.
+    Brackets address uncertainty about how many configurations to start and how long
+    to evaluate before elimination. Resources can denote iterations, time, data or
+    features; actual computational cost and whether work can be resumed depend on
+    that choice. Limits: Table1 is not a numeric instantiation of the printed Algorithm1
+    count formula: for R=81 and eta=3, Algorithm1 starts with 81,34,15,8,5 configurations,
+    while Table1 lists 81,27,9,6,5. These conventions are retained separately; approximate
+    bracket budgets are not asserted as exact equality. Poor early rankings can discard
+    a configuration that would improve later. The inspected theoretical overview does
+    not establish an unconditional finite-budget optimum or universal speedup. The
+    record describes the finite-horizon method. The paper’s separate infinite-horizon
+    version and alternative samplers are not interchangeable implementations of the
+    exact recorded pseudocode.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A defined hyperparameter sampling or resource-allocation algorithm,
+      not a trained checkpoint, architecture or broad learning task.
+    evidence_ids:
+    - hyperband-source-0
+  - name: aio-relations
+    value: 'related_match: AIO:TrainingStrategy'
+    definition: This procedure organizes hyperparameter selection or allocation of
+      model-training resources. The pinned AIO target describes training strategies
+      as preprocessing; the relation connects these scopes without asserting that
+      this search algorithm is preprocessing, an identical concept, or a subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: bohb
+  area: evidence
+  topic: Identity, definition, method, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:BOHB
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - bohb-source-0
+  - bohb-source-1
+  - bohb-source-2
+  - bohb-source-3
+  summary: BOHB denotes the KDE-based method of Falkner, Klein and Hutter. It differs
+    from pure random-sampling Hyperband and the original tree-structured one-dimensional
+    TPE estimator. It is not every combination of Bayesian optimization and early
+    stopping, a Gaussian-process surrogate, a Bayesian network, or the entire HpBandSter
+    software framework. Paper and pinned implementation conventions are distinguished.
+    No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in both worktree and main checkout,
+    returning 2 lines in each checkout. These were prior random-search candidate leads,
+    not existing records for these identities. Nine exact AIO CLASS nodes with synonyms
+    and outgoing edges and six neighboring native mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.
+  details: 'Keep observations separated by evaluation budget. For proposals, use the
+    highest budget with enough data to build better- and worse-performing configuration
+    densities. The paper uses multivariate KDEs, a loss-quantile split with minimum
+    set sizes, and finite candidate sampling from an expanded better-performing density,
+    selecting a candidate with favorable l(x)/g(x). Retain a positive fraction of
+    random configurations, and fall back to random sampling when no model is available.
+    Hyperband brackets and successive halving then allocate increasing resources to
+    surviving candidates. Observations are shared across brackets, but the proposal
+    density is not fitted by pooling all fidelity levels indiscriminately. The method
+    can schedule multiple brackets and concurrent evaluations; the paper’s worker
+    policy favors waiting smaller-budget jobs. Numerical model-building and sampling
+    details differ in the pinned implementation, as recorded separately. The pinned
+    scheduler uses geometrically spaced budgets b_max*eta^(−s) and computes its initial
+    bracket count with int(floor((s_max+1)/(s+1))*eta^s), which differs from the paper’s
+    ceiling convention. The proposal generator selects the largest available model
+    budget, minimizes a numerically floored g/l ratio over finite samples, expands
+    continuous-coordinate bandwidths, and samples randomly from ConfigSpace when needed.
+    KDEs fit disjoint best/remainder slices and are created only when each actual
+    slice contains more rows than dimensions. This implementation does not reproduce
+    the paper’s small-sample overlapping-set rule. These are static source observations,
+    not a runtime or compatibility result. Limits: The paper’s Equation(2) reverses
+    the conditioning relative to configuration densities fitted from better/worse
+    subsets. Its Algorithm1 prints eta^s*b_max as the initial budget, exceeding b_max
+    for s>0. The recorded density interpretation and bounded geometric budgets follow
+    the method prose, original Hyperband and inspected code; these are curator qualifications,
+    not an author-issued erratum. Paper Equation(3) permits overlapping fit sets with
+    few observations; the pinned code instead takes disjoint sorted slices and requires
+    both actual slices to have more observations than dimensions. Its bandwidth widening
+    applies to continuous proposal coordinates. Paper defaults and statements are
+    not silently substituted for that implementation. Low-budget rankings can mislead
+    search. Random exploration, density estimation and finite candidate sets do not
+    give an unconditional finite-budget optimum, universal speedup or independent
+    generalization guarantee. No author implementation was executed.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A defined hyperparameter sampling or resource-allocation algorithm,
+      not a trained checkpoint, architecture or broad learning task.
+    evidence_ids:
+    - bohb-source-0
+    - bohb-source-1
+    - bohb-source-2
+    - bohb-source-3
+  - name: aio-relations
+    value: 'related_match: AIO:TrainingStrategy'
+    definition: This procedure organizes hyperparameter selection or allocation of
+      model-training resources. The pinned AIO target describes training strategies
+      as preprocessing; the relation connects these scopes without asserting that
+      this search algorithm is preprocessing, an identical concept, or a subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: sampling-boundaries
+  area: consistency
+  topic: Independent configuration draws and evaluation scope
+  outcome: supported
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  evidence_ids:
+  - randomsearchhyperparameteroptimization-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain nonadaptive configuration sampling with its distribution and validation
+    context.
+  details: Independence applies to trial configuration draws, not shared-data evaluation
+    scores or every coordinate in conditional spaces. Log-domain and categorical settings
+    are explicit examples. The method does not mandate equal run cost or prohibit
+    a per-trial stopping rule. A validation winner is not guaranteed to minimize test/population
+    risk.
+- assessment_id: bracket-boundaries
+  area: consistency
+  topic: Finite-horizon counts, budgets and returned configuration
+  outcome: supported
+  target_ids:
+  - AIMech:Hyperband
+  evidence_ids:
+  - hyperband-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the bracketed allocation identity and preserve the printed count
+    inconsistency.
+  details: Algorithm1 uses a ceiling count and r=R*eta^(−s), with increasing per-configuration
+    resource and successive elimination. Table1 has different counts for intermediate
+    brackets. The return rule is the lowest intermediate loss, not necessarily the
+    best full-budget evaluation. The theoretical overview was read but proofs were
+    not independently checked. Infinite-horizon Hyperband remains a separate lead.
+- assessment_id: density-boundaries
+  area: consistency
+  topic: Budget-specific proposal density and implementation conventions
+  outcome: supported
+  target_ids:
+  - AIMech:BOHB
+  evidence_ids:
+  - bohb-source-0
+  - bohb-source-1
+  - bohb-source-2
+  - bohb-source-3
+  - finite-conventions
+  - neighbors
+  summary: Retain KDE-based BOHB with explicit paper/code distinctions.
+  details: The highest available modeled budget guides proposals; observations are
+    not indiscriminately pooled across fidelities. Paper Equation2 reverses the density
+    conditioning, and Algorithm1 prints a positive initial-budget exponent. Code uses
+    bounded negative-exponent budgets, floor-factor counts with an outer integer conversion,
+    disjoint fit slices and continuous-coordinate proposal widening. These correct
+    source interpretation without claiming an author-issued erratum or equality to
+    the original experiment revision.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Search algorithms, training strategy, tasks and models
+  outcome: supported
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three source-distinct native concepts with related AIO mappings.
+  details: All three hyperparameter algorithms relate to TrainingStrategy. Because
+    the pinned definition treats training strategy as preprocessing, this is related_match,
+    not an is-a claim. The methods are not preprocessing transforms, broad prediction
+    tasks, RL language models, Bayesian graphical networks, prediction ensembles or
+    evolutionary LLMs. The native TPE, PBT/PBA, Gaussian-process regression, genetic
+    algorithm and fairness-specific grid reduction have different proposal, inheritance,
+    prediction or task mechanisms.
+findings:
+- finding_id: bohb-integer-conversion
+  issue_key: CultureBotAI-AIMech-BOHB-outer-integer-conversion
+  category: consistency
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:BOHB
+  field_paths:
+  - claims[claim_id=pinned-implementation].statement
+  evidence_ids:
+  - bohb-source-1
+  - finite-conventions
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BOHB.yaml
+    role: maintained
+  title: BOHB draft omits the final integer conversion in its pinned count formula.
+  description: The uncommitted draft gives floor((s_max+1)/(s+1))*eta^s without the
+    outer int conversion in the cited implementation. Noninteger eta can therefore
+    produce a noninteger purported configuration count. Correct the transcription
+    and add a diagnostic distinguishing the product from the implemented count. The
+    method identity and main branch are unaffected.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/68
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T113100Z-bohb-integer-conversion
+    finding_id: bohb-integer-conversion
+  disposition_reason: The maintained claim now includes the outer integer conversion;
+    its noninteger eta2.5 example returns15 rather than15.625. The discovery ledger,
+    finite diagnostic and append-only history were updated, changed bytes reinspected,
+    and required checks passed.
+- finding_id: bohb-uncited-reference
+  issue_key: CultureBotAI-AIMech-BOHB-uncited-hyperband-reference
+  category: consistency
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:BOHB
+  field_paths:
+  - evidence_sources
+  - claims[claim_id=method].evidence
+  evidence_ids:
+  - bohb-source-3
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BOHB.yaml
+    role: maintained
+  title: BOHB draft declares an uncited original Hyperband source.
+  description: The original Hyperband source was retained for its allocation/budget
+    context but was not connected to a definition or claim. Link it precisely as context
+    for the allocation mechanism without changing the validator or misrepresenting
+    it as evidence for KDE details.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/68
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T113134Z-bohb-uncited-reference
+    finding_id: bohb-uncited-reference
+  disposition_reason: The method claim now cites the original Hyperband Algorithm1
+    with context relation and a precise allocation locator. The source is not misrepresented
+    as KDE evidence. The full maintained-record and repository checks pass without
+    validator changes.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:RandomSearchHyperparameterOptimization
+  - AIMech:Hyperband
+  - AIMech:BOHB
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - randomsearchhyperparameteroptimization-source-0
+  - hyperband-source-0
+  - bohb-source-0
+  - bohb-source-1
+  - bohb-source-2
+  - bohb-source-3
+  rationale: Independent configuration sampling, bracketed resource allocation and
+    KDE-guided configuration proposals have distinct mechanisms. A shared component
+    does not equate the complete named algorithms.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Only declared PDF pages and static source paths were inspected. No training, benchmark,
+  full theoretical proof or author-code execution was performed.
+- Paper and pinned implementation versions are explicitly distinguished. Source qualifications
+  are not claimed as author-issued errata.
+- The initial full gate rejected an uncited source after passing239 tests and generated-record
+  validation. Its evidence is retained in the initial review and ledger; corrected
+  full validation passed.
+- Initial vendored validation failed on sandbox DNS; a network-enabled retry passed.
+  Both attempts are retained privately and the failure is recorded here.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+tags:
+- native-concepts
+- hyperparameter-search
+- source-conventions
+- self-review
+- discovery-ongoing
+links:
+- https://github.com/CultureBotAI/AIMech/issues/68
+```
