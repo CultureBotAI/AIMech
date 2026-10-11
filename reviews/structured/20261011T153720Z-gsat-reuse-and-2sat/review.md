@@ -1,0 +1,803 @@
+# Scientific self-review of GSAT reuse and randomized 2-SAT search
+
+- Review: 20261011T153720Z-gsat-reuse-and-2sat
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T15:33:30Z
+- Finished UTC: 2026-10-11T15:37:20Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain GSAT clause weighting, GSAT averaging-in and Papadimitriou’s 2-SAT random walk as distinct DRAFT concepts. The GSAT extensions have bounded AIO no-match assessments; the 2-SAT procedure has a related MarkovChain association. Primary method pages and original finite calculations support the scoped updates and guarantee. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three maintained GSAT-extension and randomized 2-SAT concepts.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base aa91390305f5783ae963030decfcb795092ecd44.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GSATClauseWeighting | data/curated/GSATClauseWeighting.yaml | maintained | GSAT clause-weighting strategy |
+| AIMech:GSATAveragingIn | data/curated/GSATAveragingIn.yaml | maintained | GSAT averaging-in strategy |
+| AIMech:Papadimitriou2SATRandomWalk | data/curated/Papadimitriou2SATRandomWalk.yaml | maintained | Papadimitriou 2-SAT random walk |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 111.66s (0:01:51)<br>Checked 442 record(s); 0 failed.<br>Checked 322 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 87 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 85,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk | Command exited0 with no output. |
+| Finite gsat-reuse-and-2sat boundary examples | passed | True | AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk | {"current_assignment_weights": [2, 1, 2, 1], "retained_assignment_weights": [1, 2, 2, 1], "averaging_agreements": {"0": 0}, "averaging_disagreements": [1, 2], "finite_2sat_misses": [{"flips": 2, "miss_probability": "1/2"}, {"flips": 4, "miss_probability": "1/4"}, {"flips": 6, "miss_probability": "1/8"}, {"flips": 8, "miss_probability": "1/16"}], "interpretation": "The finite 2-CNF starts at a fixed assignment, chooses the first unsatisfied clause and samples its two literals uniformly. This exact small transition calculation is not a general runtime proof. Clause weights distinguish the current assignment from a hypothetical retained assignment; averaging does not require arithmetic real-valued variables."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:GSATClauseWeighting.
+
+This is Strategy I of Selman and Kautz’s 1993 GSAT extensions. The adaptive weights guide solving the original SAT formula; they are not externally supplied weighted MAX-SAT preferences. The update occurs between attempts and uses the current end-of-attempt assignment, unlike Breakout’s reweighting at non-solution local minima within a run or Fill’s state-specific cost lifts. The paper credits Morris with an independently proposed similar approach rather than claiming exclusive invention. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 11 and 11 lines respectively. All eleven unique lines were inspected, and the sorted checkout hit sets were identical: source-title references and saved review/ledger frontier leads, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Initialize all clause weights to 1. During a GSAT attempt, count a clause according to its positive integer weight when evaluating the change in satisfied-clause score from a variable flip. Choose a best weighted-score flip with the underlying GSAT tie convention. A clause of weight L therefore contributes as if it occurred L times. At the end of an unsuccessful attempt, increment by K the weights of every clause unsatisfied by the current assignment, retain the resulting weights and begin the next attempt under the selected initialization rule. The paper normally uses K=1. Satisfaction of the original formula remains the stopping goal; adaptive weights alter move ranking but do not change which assignments satisfy all clauses. The source’s update names the current assignment, not the best assignment seen earlier in that attempt. Limits: The source reports an empirical search extension, not a completeness or polynomial-time guarantee. Unsuccessful finite search does not certify UNSAT, and Fill’s separate completeness theorem must not be transferred to these shared clause weights. The update schedule matters: raising weights at every local minimum, at every flip, or according to a stored best assignment implements a different rule. The source does not prescribe a decay, cap or automatic normalization of these retained weights. K=1 is a reported usual choice, not a universal optimum. Positive integer weights preserve the source’s repeated-clause interpretation; arbitrary real, negative or externally fixed weights require a separate formulation. Attempt budgets, initialization, tie handling and the original GSAT final-flip test boundary remain implementation choices to declare. Combining the extension with other strategies does not justify inventing their interaction or reset semantics. No source solver or numerical experiment was run.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:GSATAveragingIn.
+
+This is Strategy II, Averaging in, in the 1993 GSAT extensions paper. The word averaging denotes Boolean agreement preservation and random filling of disagreements, not arithmetic averaging into fractional truth values. It reuses selected earlier near-solutions in a sequence of GSAT attempts; it is not a full genetic algorithm with population selection, crossover and mutation, although the authors note related features. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 11 and 11 lines respectively. All eleven unique lines were inspected, and the sorted checkout hit sets were identical: source-title references and saved review/ledger frontier leads, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Within a reset block, start the first GSAT attempt from a random complete assignment and retain the best assignment encountered, defined by the fewest unsatisfied clauses. Form the second attempt’s initial assignment by averaging the first initial assignment with that first best assignment. For attempt i from 3 through RESET-TRIES, average the best assignments from attempts i−1 and i−2 to obtain its initial assignment, run the GSAT inner loop, and retain its best assignment. Averaging preserves a bit when both inputs agree and randomly assigns a truth value when they disagree. After the reset block, begin again from a fresh random assignment. The source motivates periodic resets because reused starts and best assignments can become similar; no diversity guarantee follows from the operation alone. Limits: The first two attempts use a different recurrence from later attempts: initial2 combines initial1 with best1, while initiali for i&gt;=3 combines the two preceding best assignments. Substituting terminal states for best states, or using the same pair rule from the first attempt onward, changes the specification. The pseudocode explicitly performs the first two attempts before its i=3 loop. An implementation must declare RESET-TRIES and budget boundary conventions, including a budget too small to complete that prefix, rather than silently infer arbitrary one-attempt behavior. The inspected source says discrepant positions receive random truth values but does not fully specify joint random-number coupling or tied-best-assignment retention. No particular implementation of those boundaries is certified here. Assignment reuse can concentrate starts and does not prove faster convergence, eventual SAT success or an UNSAT result on failure. The reported reset settings are empirical choices, not universal constants; no numerical benchmark claim is curated.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:Papadimitriou2SATRandomWalk.
+
+The record captures the 2-SAT application and Theorem 5 of Papadimitriou’s 1991 paper. It is distinct from that paper’s more general preference-graph and undominated-model problems, from greedy/random mixtures in GWSAT, from WalkSAT/SKC’s zero-break priority, and from later bounded-walk/restart algorithms for general k-SAT. The original short rule permits any starting assignment and does not demand a uniformly random clause-selection rule. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 11 and 11 lines respectively. All eleven unique lines were inspected, and the sorted checkout hit sets were identical: source-title references and saved review/ledger frontier leads, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For a CNF formula whose clauses contain at most two literals, keep a complete assignment. If it satisfies every clause, return that assignment. Otherwise choose an unsatisfied nonempty clause, sample one of its literals uniformly, flip the corresponding variable and repeat. The selected clause becomes satisfied, although other clauses can become unsatisfied. Theorem 5 states that on a satisfiable 2-SAT formula, enough O(n²) such moves find a model with probability arbitrarily close to one, where n is the number of variables. Its proof sketch fixes a satisfying witness and compares Hamming distance to a reflecting gambler’s-ruin walk: a step is at least as likely to reduce that distance as increase it, and distance is bounded above by n. The hidden time factor depends on the chosen confidence; the record interprets O(n²) as a move-count statement for fixed desired error, not one constant for arbitrarily small failure probabilities. Limits: A verified satisfying assignment is a sound positive result. Failure within a finite budget can occur on a satisfiable formula and is not a proof of unsatisfiability; the theorem describes a one-sided randomized search/decision guarantee. The 2-SAT analysis does not establish the same bound for general CNF, greedy mixtures, SKC priorities or arbitrary biased literal selection. A chosen clause-selection policy and formula representation must be explicit; the literal choice is random even when clause choice is deterministic. The source’s bound counts moves and does not make locating an unsatisfied clause or updating formula data structures free in wall-clock complexity. The short proof is a sketch, not a fully specified executable implementation or a numerical benchmark. Empty clauses provide no literal to flip and need separate handling. An empty conjunction is already satisfied. The inspected method does not prescribe a restart schedule, mandatory random initialization or a universal fixed cutoff constant. The primary paper motivates related random walks through Markov chains. With a clause-selection policy depending only on the current assignment, the transition rule is a Markov chain; arbitrary history-dependent choices need not have that property on the assignment state alone. This does not identify the algorithm with a neural network.
+
+### Retained clause penalties and update timing
+
+consistency: supported. Targets: AIMech:GSATClauseWeighting.
+
+Retain across-attempt weighting as distinct from Breakout and Fill.
+
+The source initializes each weight to one and increases weights of clauses unsatisfied by the CURRENT assignment at the END of a try. The finite bookkeeping example produces different weights if a retained assignment is substituted. The source uses positive integer repetition weights and typically K=1; it does not specify automatic decay or establish completeness. Original SAT models are unchanged.
+
+### Second-try prefix, later recurrence and resets
+
+consistency: supported. Targets: AIMech:GSATAveragingIn.
+
+Retain the exact assignment-reuse recurrence.
+
+Strategy II forms initial2 from initial1 and best1, then forms initiali from best(i-1) and best(i-2). Agreement bits persist and disagreements receive random truth values. The record keeps periodic fresh resets and explicitly leaves tied-best and random coupling conventions unspecified. A bitwise average is not arithmetic averaging, a complete genetic algorithm, or a convergence guarantee.
+
+### Random literal choice, confidence and finite failure
+
+consistency: supported. Targets: AIMech:Papadimitriou2SATRandomWalk.
+
+Retain the original 2-SAT method and scope its theorem.
+
+The complete theorem and proof sketch on printed168 allow any initial assignment and an unsatisfied clause, without requiring random clause selection. Random literal selection underlies the witness-distance comparison. O(n²) counts moves at fixed desired confidence; its hidden constant is not independent of arbitrarily small error. A two-variable example has nonzero failure at every inspected finite even budget. No general-CNF, mandatory restart, source-code, or wall-clock guarantee is inferred.
+
+### SAT history reuse versus stochastic-process analysis
+
+grounding: supported. Targets: AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk.
+
+Retain two bounded no-match assessments and one related process mapping.
+
+Eight exact AIO CLASS nodes were inspected with scoped synonyms and edges. The two GSAT reuse/weighting extensions have no suitable target in this bounded neighborhood: fixed-formula adaptation is not automatically model training or an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related. The Papadimitriou source explicitly develops a Markov-chain interpretation and a reflecting-walk comparison, supporting a related algorithm-to-process association with MarkovChain, not an is-a/network architecture assertion. A memoryless clause-selection policy yields a state-based chain; arbitrary history-dependent selection need not. Six full native neighbors distinguish GSAT flips, Breakout local-minimum penalties, Fill state lifting, genetic populations, SKC priorities and focused GSAT noise. GeneticAlgorithm’s older task mapping is contextual, not newly approved. WeightedLayer was inspected completely after the semantic label/synonym scan; its values apply to neural cells or neurons, not SAT clause penalties.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:GSATClauseWeighting, AIMech:GSATAveragingIn, AIMech:Papadimitriou2SATRandomWalk. Across-attempt clause penalties, near-solution reuse and a random-literal 2-SAT walk have distinct update rules and guarantees. Similar SAT applications or retained search information do not establish identity.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T153306Z-gsat-reuse-and-2sat.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases; no normalized match. Full-checkout text searches included ignored and hidden files and returned eleven lines each. All eleven unique lines were inspected and sorted outputs were identical: source-title references and saved review/ledger frontier leads, not existing candidate records. Eight exact AIO nodes and six complete native neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Eight exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Eight exact AIO CLASS nodes were inspected with scoped synonyms and edges. The two GSAT reuse/weighting extensions have no suitable target in this bounded neighborhood: fixed-formula adaptation is not automatically model training or an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related. The Papadimitriou source explicitly develops a Markov-chain interpretation and a reflecting-walk comparison, supporting a related algorithm-to-process association with MarkovChain, not an is-a/network architecture assertion. A memoryless clause-selection policy yields a state-based chain; arbitrary history-dependent selection need not. Six full native neighbors distinguish GSAT flips, Breakout local-minimum penalties, Fill state lifting, genetic populations, SKC priorities and focused GSAT noise. GeneticAlgorithm’s older task mapping is contextual, not newly approved. WeightedLayer was inspected completely after the semantic label/synonym scan; its values apply to neural cells or neurons, not SAT clause penalties. |
+| neighbors | research/discovery/20261011T153306Z-gsat-reuse-and-2sat.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full GSAT, BreakoutMethod, FillAlgorithm, GeneticAlgorithm, WalkSAT and GSATWithRandomWalk records distinguish base flips, local-minimum penalties, state lifting, population operations, SKC priorities and focused noise. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/gsat-reuse-and-2sat-boundaries.py; calculate(): terminal-state clause weights, Boolean agreement coordinates and exact finite-budget 2-SAT miss probabilities | supports | Original finite calculations distinguish current from retained-best assignment weight updates, identify agreement/disagreement positions in Boolean averaging, and compute exact finite-step failure probabilities for a two-variable satisfiable formula. These are not author solver runs, numerical benchmarks or a general complexity proof. |
+| gsatclauseweighting-source-0 | https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf; Section 2 and Figure 1, PDF1–2, base GSAT; Section 3.1, PDF2–3, positive-integer clause interpretation and Strategy I; Figure 3 and discussion PDF4 | supports | Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability Problems. Six-page author-hosted manuscript marked to appear in Proceedings of IJCAI-93. PDF page numbers identify this inspected version; final proceedings pagination is not substituted. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| gsataveragingin-source-0 | https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf; Section 3.2, PDF4, Strategy II pseudocode, definition of bitwise average and periodic reset explanation; Section 2/Figure 1, PDF1–2, base GSAT attempt | supports | Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability Problems. Six-page author-hosted manuscript marked to appear in Proceedings of IJCAI-93. PDF page numbers identify this inspected version; final proceedings pagination is not substituted. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| papadimitriou2satrandomwalk-source-0 | https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Papadimitriou91.pdf; PDF6 / printed168, clause-based randomized rule, Theorem 5 and complete proof sketch; PDF1 / printed163, abstract and problem context | supports | On Selecting a Satisfying Truth Assignment (Extended Abstract). FOCS 1991 proceedings, pp.163–169; seven-page IEEE scan hosted in the UBCSAT academic archive. The printed 1991 publication is distinct from the PDF creation metadata dated 1998. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Finite search failure is not an UNSAT proof. The random-walk theorem is scoped to 2-SAT and fixed-confidence move counts, not general-CNF or constant-time clause processing.
+- Reset interactions, tied-best retention and random coupling are not silently inferred where the inspected source leaves them unspecified.
+- Only declared paper sections/images were inspected. The preference/default definitions and the Gent/Walsh paper remain unreviewed. No author solver or numerical benchmark was executed.
+- There are 186 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T153720Z-gsat-reuse-and-2sat
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of GSAT reuse and randomized 2-SAT search
+started_at: '2026-10-11T15:33:30Z'
+finished_at: '2026-10-11T15:37:20Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all new fields against
+    primary method sections, critical PDF images, eight exact AIO nodes, six full
+    neighboring records and original finite counterexamples. Current-versus-best updates,
+    second-attempt initialization, confidence-dependent move counts and finite-failure
+    boundaries were preserved before record creation. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain GSAT clause weighting, GSAT averaging-in and Papadimitriou’s 2-SAT
+  random walk as distinct DRAFT concepts. The GSAT extensions have bounded AIO no-match
+  assessments; the 2-SAT procedure has a related MarkovChain association. Primary
+  method pages and original finite calculations support the scoped updates and guarantee.
+  No actionable curation finding remains in the declared scope.
+source:
+  git_revision: aa91390305f5783ae963030decfcb795092ecd44
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/WeightedLayer.yaml
+    sha256: 3ac38fd11bc092d55a3d4fc72ef1f95bc2fe09f5743973f0bcc6bed3c6053909
+    role: context
+  - path: data/curated/BreakoutMethod.yaml
+    sha256: 4f01c052be52cf8a9ba18b8787e6ac6595edb22a03dc45157909212fc272ee32
+    role: context
+  - path: data/curated/FillAlgorithm.yaml
+    sha256: d80b4b0686bb6e12ee3c8eb69f70dcfc8c928c13677255da5cacbe19d1e70a68
+    role: context
+  - path: data/curated/GSAT.yaml
+    sha256: cfad196dde77b2b47bb3cbc2f1cce46bafe138025d937d744fd5404c5bcaeb80
+    role: context
+  - path: data/curated/GSATAveragingIn.yaml
+    sha256: 82f6394571bf5987c5e26f4a658886382a7f33adf0571edf55e8cb9a6267ddd8
+    role: target
+  - path: data/curated/GSATClauseWeighting.yaml
+    sha256: 9b61c9942fd481aacde5ff8ff172de57c1e3e5bc6c1c282c57304a1fa5d2af75
+    role: target
+  - path: data/curated/GSATWithRandomWalk.yaml
+    sha256: 5d63a89898da6fa4b60fd75387c72505f9390a3bba23aa423a7e2de3f6eed27b
+    role: context
+  - path: data/curated/GeneticAlgorithm.yaml
+    sha256: d40bf1a03e29a3ca6bf88f6553f18c6b1559baf56da6a21d63b54163f4752ceb
+    role: context
+  - path: data/curated/Papadimitriou2SATRandomWalk.yaml
+    sha256: 0199e6b8b1a50b128e1e8d32c064552f6af39b8463cdfe8d0f225ca32221ce79
+    role: target
+  - path: data/curated/WalkSAT.yaml
+    sha256: 7f28176fc24fe30c94bfd14a74304cae1021787abf87ebcfdbde6b19bc11fd23
+    role: context
+  - path: research/discovery/20261011T153306Z-gsat-reuse-and-2sat.json
+    sha256: a899d5e2e3b8c47c5291941cb5c971f6b1fdc4d8ec7a61280520cac805164f8f
+    role: context
+  - path: research/discovery/gsat-reuse-and-2sat-boundaries.py
+    sha256: f8a18750e637898e2b0ae5ec7e770a5f003e6b5304257aefed6a7c2611de4b86
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GSATClauseWeighting
+  path: data/curated/GSATClauseWeighting.yaml
+  label: GSAT clause-weighting strategy
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GSATClauseWeighting.yaml
+    role: maintained
+- target_id: AIMech:GSATAveragingIn
+  path: data/curated/GSATAveragingIn.yaml
+  label: GSAT averaging-in strategy
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GSATAveragingIn.yaml
+    role: maintained
+- target_id: AIMech:Papadimitriou2SATRandomWalk
+  path: data/curated/Papadimitriou2SATRandomWalk.yaml
+  label: Papadimitriou 2-SAT random walk
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/Papadimitriou2SATRandomWalk.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained GSAT-extension and randomized 2-SAT
+    concepts.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust SAT search or execute original solvers. The
+      broader undominated-model procedure and remaining UBCSAT variants are frontier
+      leads.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 111.66s (0:01:51)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 322 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 87 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 85,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Finite gsat-reuse-and-2sat boundary examples
+  command: python3 research/discovery/gsat-reuse-and-2sat-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"current_assignment_weights": [2, 1, 2, 1], "retained_assignment_weights":
+    [1, 2, 2, 1], "averaging_agreements": {"0": 0}, "averaging_disagreements": [1,
+    2], "finite_2sat_misses": [{"flips": 2, "miss_probability": "1/2"}, {"flips":
+    4, "miss_probability": "1/4"}, {"flips": 6, "miss_probability": "1/8"}, {"flips":
+    8, "miss_probability": "1/16"}], "interpretation": "The finite 2-CNF starts at
+    a fixed assignment, chooses the first unsatisfied clause and samples its two literals
+    uniformly. This exact small transition calculation is not a general runtime proof.
+    Clause weights distinguish the current assignment from a hypothetical retained
+    assignment; averaging does not require arithmetic real-valued variables."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T153306Z-gsat-reuse-and-2sat.json
+  accessed_at: '2026-10-11T15:33:30Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 319 preceding native
+    IDs/names/aliases; no normalized match. Full-checkout text searches included ignored
+    and hidden files and returned eleven lines each. All eleven unique lines were
+    inspected and sorted outputs were identical: source-title references and saved
+    review/ledger frontier leads, not existing candidate records. Eight exact AIO
+    nodes and six complete native neighbors were inspected. Absence is bounded to
+    this snapshot and semantic neighborhood.'
+  search_scope: 'All 442 pinned AIO labels/scoped synonyms and 319 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. All
+    eleven unique text hits inspected and sorted outputs identical: source-title references
+    and saved review/ledger leads, not existing candidate records.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Eight exact CLASS nodes with scoped synonyms/comments/outgoing edges in
+    source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T15:33:30Z'
+  support: supports
+  summary: 'Eight exact AIO CLASS nodes were inspected with scoped synonyms and edges.
+    The two GSAT reuse/weighting extensions have no suitable target in this bounded
+    neighborhood: fixed-formula adaptation is not automatically model training or
+    an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related. The
+    Papadimitriou source explicitly develops a Markov-chain interpretation and a reflecting-walk
+    comparison, supporting a related algorithm-to-process association with MarkovChain,
+    not an is-a/network architecture assertion. A memoryless clause-selection policy
+    yields a state-based chain; arbitrary history-dependent selection need not. Six
+    full native neighbors distinguish GSAT flips, Breakout local-minimum penalties,
+    Fill state lifting, genetic populations, SKC priorities and focused GSAT noise.
+    GeneticAlgorithm’s older task mapping is contextual, not newly approved. WeightedLayer
+    was inspected completely after the semantic label/synonym scan; its values apply
+    to neural cells or neurons, not SAT clause penalties.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T153306Z-gsat-reuse-and-2sat.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T15:33:30Z'
+  support: supports
+  summary: Full GSAT, BreakoutMethod, FillAlgorithm, GeneticAlgorithm, WalkSAT and
+    GSATWithRandomWalk records distinguish base flips, local-minimum penalties, state
+    lifting, population operations, SKC priorities and focused noise. Their prior
+    mappings are contextual, not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/gsat-reuse-and-2sat-boundaries.py
+  locator: 'calculate(): terminal-state clause weights, Boolean agreement coordinates
+    and exact finite-budget 2-SAT miss probabilities'
+  accessed_at: '2026-10-11T15:33:30Z'
+  snapshot_sha256: f8a18750e637898e2b0ae5ec7e770a5f003e6b5304257aefed6a7c2611de4b86
+  support: supports
+  summary: Original finite calculations distinguish current from retained-best assignment
+    weight updates, identify agreement/disagreement positions in Boolean averaging,
+    and compute exact finite-step failure probabilities for a two-variable satisfiable
+    formula. These are not author solver runs, numerical benchmarks or a general complexity
+    proof.
+- evidence_id: gsatclauseweighting-source-0
+  kind: primary_source
+  reference: https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf
+  locator: Section 2 and Figure 1, PDF1–2, base GSAT; Section 3.1, PDF2–3, positive-integer
+    clause interpretation and Strategy I; Figure 3 and discussion PDF4
+  accessed_at: '2026-10-11T15:08:36Z'
+  snapshot_sha256: f301bd7ff353fbcc3b7d089e43be34fa8d224a10dbfcfbca4bb2cfad3b35e4c3
+  support: supports
+  summary: 'Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability
+    Problems. Six-page author-hosted manuscript marked to appear in Proceedings of
+    IJCAI-93. PDF page numbers identify this inspected version; final proceedings
+    pagination is not substituted. Actual paper and HTML reading scopes are declared
+    in source_analysis; extraction, rendering and a full-text access label do not
+    establish that every page was read.'
+- evidence_id: gsataveragingin-source-0
+  kind: primary_source
+  reference: https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf
+  locator: Section 3.2, PDF4, Strategy II pseudocode, definition of bitwise average
+    and periodic reset explanation; Section 2/Figure 1, PDF1–2, base GSAT attempt
+  accessed_at: '2026-10-11T15:08:36Z'
+  snapshot_sha256: f301bd7ff353fbcc3b7d089e43be34fa8d224a10dbfcfbca4bb2cfad3b35e4c3
+  support: supports
+  summary: 'Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability
+    Problems. Six-page author-hosted manuscript marked to appear in Proceedings of
+    IJCAI-93. PDF page numbers identify this inspected version; final proceedings
+    pagination is not substituted. Actual paper and HTML reading scopes are declared
+    in source_analysis; extraction, rendering and a full-text access label do not
+    establish that every page was read.'
+- evidence_id: papadimitriou2satrandomwalk-source-0
+  kind: primary_source
+  reference: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Papadimitriou91.pdf
+  locator: PDF6 / printed168, clause-based randomized rule, Theorem 5 and complete
+    proof sketch; PDF1 / printed163, abstract and problem context
+  accessed_at: '2026-10-11T15:20:41Z'
+  snapshot_sha256: c7d6013bff13ae626a3e111524fa855963863186ceb5455e977c2cf744ffec1c
+  support: supports
+  summary: On Selecting a Satisfying Truth Assignment (Extended Abstract). FOCS 1991
+    proceedings, pp.163–169; seven-page IEEE scan hosted in the UBCSAT academic archive.
+    The printed 1991 publication is distinct from the PDF creation metadata dated
+    1998. Actual paper and HTML reading scopes are declared in source_analysis; extraction,
+    rendering and a full-text access label do not establish that every page was read.
+assessments:
+- assessment_id: gsatclauseweighting
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gsatclauseweighting-source-0
+  summary: 'This is Strategy I of Selman and Kautz’s 1993 GSAT extensions. The adaptive
+    weights guide solving the original SAT formula; they are not externally supplied
+    weighted MAX-SAT preferences. The update occurs between attempts and uses the
+    current end-of-attempt assignment, unlike Breakout’s reweighting at non-solution
+    local minima within a run or Fill’s state-specific cost lifts. The paper credits
+    Morris with an independently proposed similar approach rather than claiming exclusive
+    invention. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 11
+    and 11 lines respectively. All eleven unique lines were inspected, and the sorted
+    checkout hit sets were identical: source-title references and saved review/ledger
+    frontier leads, not existing candidate records. Eight exact AIO CLASS nodes with
+    scoped synonyms/comments and outgoing edges and six full native neighboring records
+    were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  details: 'Initialize all clause weights to 1. During a GSAT attempt, count a clause
+    according to its positive integer weight when evaluating the change in satisfied-clause
+    score from a variable flip. Choose a best weighted-score flip with the underlying
+    GSAT tie convention. A clause of weight L therefore contributes as if it occurred
+    L times. At the end of an unsuccessful attempt, increment by K the weights of
+    every clause unsatisfied by the current assignment, retain the resulting weights
+    and begin the next attempt under the selected initialization rule. The paper normally
+    uses K=1. Satisfaction of the original formula remains the stopping goal; adaptive
+    weights alter move ranking but do not change which assignments satisfy all clauses.
+    The source’s update names the current assignment, not the best assignment seen
+    earlier in that attempt. Limits: The source reports an empirical search extension,
+    not a completeness or polynomial-time guarantee. Unsuccessful finite search does
+    not certify UNSAT, and Fill’s separate completeness theorem must not be transferred
+    to these shared clause weights. The update schedule matters: raising weights at
+    every local minimum, at every flip, or according to a stored best assignment implements
+    a different rule. The source does not prescribe a decay, cap or automatic normalization
+    of these retained weights. K=1 is a reported usual choice, not a universal optimum.
+    Positive integer weights preserve the source’s repeated-clause interpretation;
+    arbitrary real, negative or externally fixed weights require a separate formulation.
+    Attempt budgets, initialization, tie handling and the original GSAT final-flip
+    test boundary remain implementation choices to declare. Combining the extension
+    with other strategies does not justify inventing their interaction or reset semantics.
+    No source solver or numerical experiment was run.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - gsatclauseweighting-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Eight exact AIO CLASS nodes were inspected with scoped synonyms and
+      edges. The two GSAT reuse/weighting extensions have no suitable target in this
+      bounded neighborhood: fixed-formula adaptation is not automatically model training
+      or an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related.
+      The Papadimitriou source explicitly develops a Markov-chain interpretation and
+      a reflecting-walk comparison, supporting a related algorithm-to-process association
+      with MarkovChain, not an is-a/network architecture assertion. A memoryless clause-selection
+      policy yields a state-based chain; arbitrary history-dependent selection need
+      not. Six full native neighbors distinguish GSAT flips, Breakout local-minimum
+      penalties, Fill state lifting, genetic populations, SKC priorities and focused
+      GSAT noise. GeneticAlgorithm’s older task mapping is contextual, not newly approved.
+      WeightedLayer was inspected completely after the semantic label/synonym scan;
+      its values apply to neural cells or neurons, not SAT clause penalties.'
+    evidence_ids:
+    - mapping
+- assessment_id: gsataveragingin
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:GSATAveragingIn
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gsataveragingin-source-0
+  summary: 'This is Strategy II, Averaging in, in the 1993 GSAT extensions paper.
+    The word averaging denotes Boolean agreement preservation and random filling of
+    disagreements, not arithmetic averaging into fractional truth values. It reuses
+    selected earlier near-solutions in a sequence of GSAT attempts; it is not a full
+    genetic algorithm with population selection, crossover and mutation, although
+    the authors note related features. No normalized identity match was found across
+    all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 11 and 11 lines respectively. All eleven unique lines were
+    inspected, and the sorted checkout hit sets were identical: source-title references
+    and saved review/ledger frontier leads, not existing candidate records. Eight
+    exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six
+    full native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  details: 'Within a reset block, start the first GSAT attempt from a random complete
+    assignment and retain the best assignment encountered, defined by the fewest unsatisfied
+    clauses. Form the second attempt’s initial assignment by averaging the first initial
+    assignment with that first best assignment. For attempt i from 3 through RESET-TRIES,
+    average the best assignments from attempts i−1 and i−2 to obtain its initial assignment,
+    run the GSAT inner loop, and retain its best assignment. Averaging preserves a
+    bit when both inputs agree and randomly assigns a truth value when they disagree.
+    After the reset block, begin again from a fresh random assignment. The source
+    motivates periodic resets because reused starts and best assignments can become
+    similar; no diversity guarantee follows from the operation alone. Limits: The
+    first two attempts use a different recurrence from later attempts: initial2 combines
+    initial1 with best1, while initiali for i>=3 combines the two preceding best assignments.
+    Substituting terminal states for best states, or using the same pair rule from
+    the first attempt onward, changes the specification. The pseudocode explicitly
+    performs the first two attempts before its i=3 loop. An implementation must declare
+    RESET-TRIES and budget boundary conventions, including a budget too small to complete
+    that prefix, rather than silently infer arbitrary one-attempt behavior. The inspected
+    source says discrepant positions receive random truth values but does not fully
+    specify joint random-number coupling or tied-best-assignment retention. No particular
+    implementation of those boundaries is certified here. Assignment reuse can concentrate
+    starts and does not prove faster convergence, eventual SAT success or an UNSAT
+    result on failure. The reported reset settings are empirical choices, not universal
+    constants; no numerical benchmark claim is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - gsataveragingin-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Eight exact AIO CLASS nodes were inspected with scoped synonyms and
+      edges. The two GSAT reuse/weighting extensions have no suitable target in this
+      bounded neighborhood: fixed-formula adaptation is not automatically model training
+      or an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related.
+      The Papadimitriou source explicitly develops a Markov-chain interpretation and
+      a reflecting-walk comparison, supporting a related algorithm-to-process association
+      with MarkovChain, not an is-a/network architecture assertion. A memoryless clause-selection
+      policy yields a state-based chain; arbitrary history-dependent selection need
+      not. Six full native neighbors distinguish GSAT flips, Breakout local-minimum
+      penalties, Fill state lifting, genetic populations, SKC priorities and focused
+      GSAT noise. GeneticAlgorithm’s older task mapping is contextual, not newly approved.
+      WeightedLayer was inspected completely after the semantic label/synonym scan;
+      its values apply to neural cells or neurons, not SAT clause penalties.'
+    evidence_ids:
+    - mapping
+- assessment_id: papadimitriou2satrandomwalk
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:Papadimitriou2SATRandomWalk
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - papadimitriou2satrandomwalk-source-0
+  summary: 'The record captures the 2-SAT application and Theorem 5 of Papadimitriou’s
+    1991 paper. It is distinct from that paper’s more general preference-graph and
+    undominated-model problems, from greedy/random mixtures in GWSAT, from WalkSAT/SKC’s
+    zero-break priority, and from later bounded-walk/restart algorithms for general
+    k-SAT. The original short rule permits any starting assignment and does not demand
+    a uniformly random clause-selection rule. No normalized identity match was found
+    across all 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 11 and 11 lines respectively. All eleven unique lines were
+    inspected, and the sorted checkout hit sets were identical: source-title references
+    and saved review/ledger frontier leads, not existing candidate records. Eight
+    exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six
+    full native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  details: 'For a CNF formula whose clauses contain at most two literals, keep a complete
+    assignment. If it satisfies every clause, return that assignment. Otherwise choose
+    an unsatisfied nonempty clause, sample one of its literals uniformly, flip the
+    corresponding variable and repeat. The selected clause becomes satisfied, although
+    other clauses can become unsatisfied. Theorem 5 states that on a satisfiable 2-SAT
+    formula, enough O(n²) such moves find a model with probability arbitrarily close
+    to one, where n is the number of variables. Its proof sketch fixes a satisfying
+    witness and compares Hamming distance to a reflecting gambler’s-ruin walk: a step
+    is at least as likely to reduce that distance as increase it, and distance is
+    bounded above by n. The hidden time factor depends on the chosen confidence; the
+    record interprets O(n²) as a move-count statement for fixed desired error, not
+    one constant for arbitrarily small failure probabilities. Limits: A verified satisfying
+    assignment is a sound positive result. Failure within a finite budget can occur
+    on a satisfiable formula and is not a proof of unsatisfiability; the theorem describes
+    a one-sided randomized search/decision guarantee. The 2-SAT analysis does not
+    establish the same bound for general CNF, greedy mixtures, SKC priorities or arbitrary
+    biased literal selection. A chosen clause-selection policy and formula representation
+    must be explicit; the literal choice is random even when clause choice is deterministic.
+    The source’s bound counts moves and does not make locating an unsatisfied clause
+    or updating formula data structures free in wall-clock complexity. The short proof
+    is a sketch, not a fully specified executable implementation or a numerical benchmark.
+    Empty clauses provide no literal to flip and need separate handling. An empty
+    conjunction is already satisfied. The inspected method does not prescribe a restart
+    schedule, mandatory random initialization or a universal fixed cutoff constant.
+    The primary paper motivates related random walks through Markov chains. With a
+    clause-selection policy depending only on the current assignment, the transition
+    rule is a Markov chain; arbitrary history-dependent choices need not have that
+    property on the assignment state alone. This does not identify the algorithm with
+    a neural network.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - papadimitriou2satrandomwalk-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'Eight exact AIO CLASS nodes were inspected with scoped synonyms and
+      edges. The two GSAT reuse/weighting extensions have no suitable target in this
+      bounded neighborhood: fixed-formula adaptation is not automatically model training
+      or an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related.
+      The Papadimitriou source explicitly develops a Markov-chain interpretation and
+      a reflecting-walk comparison, supporting a related algorithm-to-process association
+      with MarkovChain, not an is-a/network architecture assertion. A memoryless clause-selection
+      policy yields a state-based chain; arbitrary history-dependent selection need
+      not. Six full native neighbors distinguish GSAT flips, Breakout local-minimum
+      penalties, Fill state lifting, genetic populations, SKC priorities and focused
+      GSAT noise. GeneticAlgorithm’s older task mapping is contextual, not newly approved.
+      WeightedLayer was inspected completely after the semantic label/synonym scan;
+      its values apply to neural cells or neurons, not SAT clause penalties.'
+    evidence_ids:
+    - mapping
+- assessment_id: weighting-boundaries
+  area: consistency
+  topic: Retained clause penalties and update timing
+  outcome: supported
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  evidence_ids:
+  - gsatclauseweighting-source-0
+  - finite-conventions
+  summary: Retain across-attempt weighting as distinct from Breakout and Fill.
+  details: The source initializes each weight to one and increases weights of clauses
+    unsatisfied by the CURRENT assignment at the END of a try. The finite bookkeeping
+    example produces different weights if a retained assignment is substituted. The
+    source uses positive integer repetition weights and typically K=1; it does not
+    specify automatic decay or establish completeness. Original SAT models are unchanged.
+- assessment_id: reuse-boundaries
+  area: consistency
+  topic: Second-try prefix, later recurrence and resets
+  outcome: supported
+  target_ids:
+  - AIMech:GSATAveragingIn
+  evidence_ids:
+  - gsataveragingin-source-0
+  - finite-conventions
+  summary: Retain the exact assignment-reuse recurrence.
+  details: Strategy II forms initial2 from initial1 and best1, then forms initiali
+    from best(i-1) and best(i-2). Agreement bits persist and disagreements receive
+    random truth values. The record keeps periodic fresh resets and explicitly leaves
+    tied-best and random coupling conventions unspecified. A bitwise average is not
+    arithmetic averaging, a complete genetic algorithm, or a convergence guarantee.
+- assessment_id: walk-boundaries
+  area: consistency
+  topic: Random literal choice, confidence and finite failure
+  outcome: supported
+  target_ids:
+  - AIMech:Papadimitriou2SATRandomWalk
+  evidence_ids:
+  - papadimitriou2satrandomwalk-source-0
+  - finite-conventions
+  summary: Retain the original 2-SAT method and scope its theorem.
+  details: The complete theorem and proof sketch on printed168 allow any initial assignment
+    and an unsatisfied clause, without requiring random clause selection. Random literal
+    selection underlies the witness-distance comparison. O(n²) counts moves at fixed
+    desired confidence; its hidden constant is not independent of arbitrarily small
+    error. A two-variable example has nonzero failure at every inspected finite even
+    budget. No general-CNF, mandatory restart, source-code, or wall-clock guarantee
+    is inferred.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: SAT history reuse versus stochastic-process analysis
+  outcome: supported
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain two bounded no-match assessments and one related process mapping.
+  details: 'Eight exact AIO CLASS nodes were inspected with scoped synonyms and edges.
+    The two GSAT reuse/weighting extensions have no suitable target in this bounded
+    neighborhood: fixed-formula adaptation is not automatically model training or
+    an EvolutionaryLLM, whose evolutionary-algorithms synonym is only related. The
+    Papadimitriou source explicitly develops a Markov-chain interpretation and a reflecting-walk
+    comparison, supporting a related algorithm-to-process association with MarkovChain,
+    not an is-a/network architecture assertion. A memoryless clause-selection policy
+    yields a state-based chain; arbitrary history-dependent selection need not. Six
+    full native neighbors distinguish GSAT flips, Breakout local-minimum penalties,
+    Fill state lifting, genetic populations, SKC priorities and focused GSAT noise.
+    GeneticAlgorithm’s older task mapping is contextual, not newly approved. WeightedLayer
+    was inspected completely after the semantic label/synonym scan; its values apply
+    to neural cells or neurons, not SAT clause penalties.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:GSATClauseWeighting
+  - AIMech:GSATAveragingIn
+  - AIMech:Papadimitriou2SATRandomWalk
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gsatclauseweighting-source-0
+  - gsataveragingin-source-0
+  - papadimitriou2satrandomwalk-source-0
+  rationale: Across-attempt clause penalties, near-solution reuse and a random-literal
+    2-SAT walk have distinct update rules and guarantees. Similar SAT applications
+    or retained search information do not establish identity.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Finite search failure is not an UNSAT proof. The random-walk theorem is scoped to
+  2-SAT and fixed-confidence move counts, not general-CNF or constant-time clause
+  processing.
+- Reset interactions, tied-best retention and random coupling are not silently inferred
+  where the inspected source leaves them unspecified.
+- Only declared paper sections/images were inspected. The preference/default definitions
+  and the Gent/Walsh paper remain unreviewed. No author solver or numerical benchmark
+  was executed.
+- There are 186 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- sat-search
+- self-review
+- discovery-ongoing
+```

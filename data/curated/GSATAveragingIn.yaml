@@ -1,0 +1,109 @@
+name: GSAT averaging-in strategy
+definition: A GSAT restart-initialization strategy that reuses agreements between earlier complete assignments,
+  randomizes their differing positions, and periodically resets to a fresh random start.
+concept_kind: algorithm
+identity_notes: 'This is Strategy II, Averaging in, in the 1993 GSAT extensions paper. The word averaging
+  denotes Boolean agreement preservation and random filling of disagreements, not arithmetic averaging
+  into fractional truth values. It reuses selected earlier near-solutions in a sequence of GSAT attempts;
+  it is not a full genetic algorithm with population selection, crossover and mutation, although the authors
+  note related features. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 11 and 11 lines respectively. All eleven unique lines
+  were inspected, and the sorted checkout hit sets were identical: source-title references and saved review/ledger
+  frontier leads, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.'
+limitations:
+- 'The first two attempts use a different recurrence from later attempts: initial2 combines initial1 with
+  best1, while initiali for i>=3 combines the two preceding best assignments. Substituting terminal states
+  for best states, or using the same pair rule from the first attempt onward, changes the specification.'
+- The pseudocode explicitly performs the first two attempts before its i=3 loop. An implementation must
+  declare RESET-TRIES and budget boundary conventions, including a budget too small to complete that prefix,
+  rather than silently infer arbitrary one-attempt behavior.
+- The inspected source says discrepant positions receive random truth values but does not fully specify
+  joint random-number coupling or tied-best-assignment retention. No particular implementation of those
+  boundaries is certified here.
+- Assignment reuse can concentrate starts and does not prove faster convergence, eventual SAT success
+  or an UNSAT result on failure. The reported reset settings are empirical choices, not universal constants;
+  no numerical benchmark claim is curated.
+id: AIMech:GSATAveragingIn
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2, PDF4, Strategy II pseudocode, definition of bitwise average and periodic reset
+    explanation; Section 2/Figure 1, PDF1–2, base GSAT attempt
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Within a reset block, start the first GSAT attempt from a random complete assignment and
+    retain the best assignment encountered, defined by the fewest unsatisfied clauses. Form the second
+    attempt’s initial assignment by averaging the first initial assignment with that first best assignment.
+    For attempt i from 3 through RESET-TRIES, average the best assignments from attempts i−1 and i−2 to
+    obtain its initial assignment, run the GSAT inner loop, and retain its best assignment. Averaging
+    preserves a bit when both inputs agree and randomly assigns a truth value when they disagree. After
+    the reset block, begin again from a fresh random assignment. The source motivates periodic resets
+    because reused starts and best assignments can become similar; no diversity guarantee follows from
+    the operation alone.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, PDF4, Strategy II pseudocode, definition of bitwise average and periodic reset
+      explanation; Section 2/Figure 1, PDF1–2, base GSAT attempt
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability Problems'
+  authors:
+  - Bart Selman
+  - Henry Kautz
+  source_type: primary_paper
+  url: https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf
+  version: Six-page author-hosted manuscript marked to appear in Proceedings of IJCAI-93. PDF page numbers
+    identify this inspected version; final proceedings pagination is not substituted.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:08:36Z'
+  sha256: f301bd7ff353fbcc3b7d089e43be34fa8d224a10dbfcfbca4bb2cfad3b35e4c3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases;
+    both full checkouts including ignored and hidden text; semantic search for SAT/search, weighting,
+    assignment reuse, stochastic processes and evolutionary terminology; eight exact AIO CLASS nodes and
+    six complete native neighbors.
+  rationale: No suitable AIO target was established for this GSAT search extension in the inspected snapshot
+    and semantic neighborhood. Search-history reuse and adaptive penalties do not justify a forced learning-task
+    or language-model mapping.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: Solving a supplied CNF formula does not require a language model that performs language-task
+      reasoning.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The procedure adjusts search costs or initialization rather than requiring preprocessing
+      to train a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Retaining solver information between attempts does not by itself identify a process
+      of developing a reusable method that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Adaptive clause weights or assignment reuse are not learned reward/action-value
+      policies merely because they use search history.
+  - target: AIO:MarkovChain
+    rejection_reason: A state representation can include search memory, but that mathematical representation
+      alone does not ground this particular retained-weight or retained-assignment algorithm in the pinned
+      network/model class.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The method operates on Boolean assignments and clause scores, not a network of artificial
+      neurons.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a language model optimized with evolutionary computation. Its related
+      evolutionary-algorithms synonym does not make Boolean assignment averaging a language-model architecture.
+  - target: AIO:WeightedLayer
+    rejection_reason: Weights on SAT clauses are not values applied to cells or neurons in a network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:33:06Z'
+  updated_at: '2026-10-11T15:33:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

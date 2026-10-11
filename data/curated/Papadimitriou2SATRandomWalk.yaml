@@ -1,0 +1,89 @@
+name: Papadimitriou 2-SAT random walk
+definition: A randomized 2-SAT search procedure that starts from any complete truth assignment and repeatedly
+  selects an unsatisfied clause and flips a uniformly chosen literal’s variable until a satisfying assignment
+  is reached or a selected move budget ends.
+concept_kind: algorithm
+identity_notes: 'The record captures the 2-SAT application and Theorem 5 of Papadimitriou’s 1991 paper.
+  It is distinct from that paper’s more general preference-graph and undominated-model problems, from
+  greedy/random mixtures in GWSAT, from WalkSAT/SKC’s zero-break priority, and from later bounded-walk/restart
+  algorithms for general k-SAT. The original short rule permits any starting assignment and does not demand
+  a uniformly random clause-selection rule. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 319 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 11 and 11 lines respectively. All
+  eleven unique lines were inspected, and the sorted checkout hit sets were identical: source-title references
+  and saved review/ledger frontier leads, not existing candidate records. Eight exact AIO CLASS nodes
+  with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- A verified satisfying assignment is a sound positive result. Failure within a finite budget can occur
+  on a satisfiable formula and is not a proof of unsatisfiability; the theorem describes a one-sided randomized
+  search/decision guarantee.
+- The 2-SAT analysis does not establish the same bound for general CNF, greedy mixtures, SKC priorities
+  or arbitrary biased literal selection. A chosen clause-selection policy and formula representation must
+  be explicit; the literal choice is random even when clause choice is deterministic.
+- The source’s bound counts moves and does not make locating an unsatisfied clause or updating formula
+  data structures free in wall-clock complexity. The short proof is a sketch, not a fully specified executable
+  implementation or a numerical benchmark.
+- Empty clauses provide no literal to flip and need separate handling. An empty conjunction is already
+  satisfied. The inspected method does not prescribe a restart schedule, mandatory random initialization
+  or a universal fixed cutoff constant.
+- The primary paper motivates related random walks through Markov chains. With a clause-selection policy
+  depending only on the current assignment, the transition rule is a Markov chain; arbitrary history-dependent
+  choices need not have that property on the assignment state alone. This does not identify the algorithm
+  with a neural network.
+id: AIMech:Papadimitriou2SATRandomWalk
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: PDF6 / printed168, clause-based randomized rule, Theorem 5 and complete proof sketch; PDF1
+    / printed163, abstract and problem context
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For a CNF formula whose clauses contain at most two literals, keep a complete assignment.
+    If it satisfies every clause, return that assignment. Otherwise choose an unsatisfied nonempty clause,
+    sample one of its literals uniformly, flip the corresponding variable and repeat. The selected clause
+    becomes satisfied, although other clauses can become unsatisfied. Theorem 5 states that on a satisfiable
+    2-SAT formula, enough O(n²) such moves find a model with probability arbitrarily close to one, where
+    n is the number of variables. Its proof sketch fixes a satisfying witness and compares Hamming distance
+    to a reflecting gambler’s-ruin walk: a step is at least as likely to reduce that distance as increase
+    it, and distance is bounded above by n. The hidden time factor depends on the chosen confidence; the
+    record interprets O(n²) as a move-count statement for fixed desired error, not one constant for arbitrarily
+    small failure probabilities.'
+  evidence:
+  - source_id: method-source
+    locator: PDF6 / printed168, clause-based randomized rule, Theorem 5 and complete proof sketch; PDF1
+      / printed163, abstract and problem context
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Selecting a Satisfying Truth Assignment (Extended Abstract)
+  authors:
+  - Christos H. Papadimitriou
+  source_type: primary_paper
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Papadimitriou91.pdf
+  version: FOCS 1991 proceedings, pp.163–169; seven-page IEEE scan hosted in the UBCSAT academic archive.
+    The printed 1991 publication is distinct from the PDF creation metadata dated 1998.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:20:41Z'
+  sha256: c7d6013bff13ae626a3e111524fa855963863186ceb5455e977c2cf744ffec1c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The primary paper explicitly develops a Markov-chain interpretation and uses a reflecting
+    random-walk comparison for the 2-SAT theorem. This is an algorithm-to-stochastic-process association,
+    not equivalence or an is-a mapping to the pinned Network hierarchy. A clause-selection policy based
+    only on the current assignment gives a state-based chain; history-dependent choices require additional
+    state and are not silently assumed memoryless.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:33:06Z'
+  updated_at: '2026-10-11T15:33:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
