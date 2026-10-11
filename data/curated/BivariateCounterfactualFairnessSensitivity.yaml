@@ -1,0 +1,74 @@
+name: Bivariate counterfactual-fairness sensitivity analysis
+definition: A model-based sensitivity procedure that varies the correlation between two structural error
+  terms and measures how a predictor built under an unconfounded additive-noise model changes on counterfactual
+  data generated under the alternative confounded model.
+concept_kind: evaluation_method
+identity_notes: This record denotes the paper’s two-error grid-based sensitivity procedure. The mean squared
+  discrepancy is its output, not another fairness criterion. The multivariate MAXCFU optimizer is separately
+  represented because it searches a matrix of correlations with a different algorithm. All 442 pinned
+  AIO labels/scoped synonyms and 99 preceding native identities were compared, together with hidden/ignored-inclusive
+  searches of both checkouts; source citations and pending frontier mentions were distinguished from existing
+  concept identities.
+limitations:
+- Alternative Model B is a hypothetical data-generating model, not an identified causal ground truth;
+  the sensitivity parameter and acceptable discrepancy require domain judgment.
+- The inspected construction uses specified additive-noise structural functions, embeddings and Gaussian
+  error covariance, rather than arbitrary hidden confounding.
+- Fitting, covariance invertibility and numerical grid resolution matter. The record does not certify
+  a global maximum over all admissible models or extrapolate the source’s bivariate boundary statement
+  to multiple error terms.
+- Squared prediction differences depend on the prediction scale and assessed sample; they are not automatically
+  calibrated probabilities of discrimination or a universal fairness score.
+aliases:
+- Kilbertus grid-based counterfactual-fairness sensitivity
+id: AIMech:BivariateCounterfactualFairnessSensitivity
+definition_evidence:
+- source_id: original-paper
+  locator: 'Section 3, Tool #1: grid-based; Sections 3.1–3.4, equations (2)–(6), PDF pp. 3–6; Section
+    5, PDF p. 8 for grid use'
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Fit an unconfounded working model and a predictor of its residuals. At a selected error correlation,
+    fit an alternative additive-noise model, retain its inferred errors while changing the protected attribute,
+    and propagate the intervention through the causal ordering. Recompute residuals of these counterfactual
+    features using the original working-model coefficients, apply the fixed original predictor and average
+    squared prediction differences. Repeat across correlations to obtain a sensitivity curve.
+  evidence:
+  - source_id: original-paper
+    locator: 'Section 3, Tool #1: grid-based; Sections 3.1–3.4, equations (2)–(6), PDF pp. 3–6; Section
+      5, PDF p. 8 for grid use'
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: The Sensitivity of Counterfactual Fairness to Unmeasured Confounding
+  authors:
+  - Niki Kilbertus
+  - Philip J. Ball
+  - Matt J. Kusner
+  - Adrian Weller
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v115/kilbertus20a/kilbertus20a.pdf
+  version: PMLR 115:616–626, published 2020; UAI 2019 conference
+  persistent_id: https://proceedings.mlr.press/v115/kilbertus20a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T04:45:31Z'
+  sha256: f7083ab492a2afafe2eb6e44d7b42f72971be8080c95eef4c05d23ad326cc815
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CausalGraphicalModel
+  relation: related_match
+  rationale: Evaluates predictor sensitivity using alternative causal graphical models and their counterfactuals.
+    This evaluation procedure is not itself a causal model family or a type of bias.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:57:48Z'
+  updated_at: '2026-10-11T04:57:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,73 @@
+name: FAIRLEARNING
+definition: A causal-model-dependent learning procedure that minimizes predictive loss averaged over inferred
+  background variables, restricting the latent predictor to those variables and observed non-descendants
+  of protected attributes.
+concept_kind: algorithm
+identity_notes: The named training algorithm is distinct from CounterfactualFairness, the causal model
+  supplied to it and any particular fitted predictor. The source distinguishes the latent predictor from
+  its posterior-averaged reported prediction; this record preserves that distinction. All 442 pinned AIO
+  labels/scoped synonyms and 99 preceding native identities were compared, together with hidden/ignored-inclusive
+  searches of both checkouts; source citations and pending frontier mentions were distinguished from existing
+  concept identities.
+limitations:
+- A causal model is an input, and compatible observed distributions need not identify its counterfactual
+  assumptions.
+- Lemma 1 applies to functions of non-descendants in the posited model. This record does not turn that
+  lemma into an unconditional guarantee for an arbitrary deployed posterior-mean predictor or a misspecified
+  model.
+- Posterior inference and Monte Carlo or optimization approximations introduce computational and estimation
+  dependencies; no exact finite-sample guarantee is asserted.
+- Protected attributes and descendant features can inform latent posterior inference even though the latent
+  predictive function is restricted; excluding a raw feature alone is a different procedure.
+aliases:
+- Kusner counterfactual fair learning
+id: AIMech:FairLearning
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3.2 Lemma 1, Section 4.1 FAIRLEARNING pseudocode and prediction rule, Section 4.2 causal-model
+    assumptions, PDF pp. 5–7
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Given a causal model and each training case, infer the posterior of background variables
+    conditioned on observed features and protected attributes. Approximate the expected loss with MCMC
+    samples when needed, expand the training cases with these latent samples, and fit a predictor using
+    the sampled background variables and observed non-descendants. The paper reports predictions by posterior-averaging
+    the fitted latent predictor for a new case.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3.2 Lemma 1, Section 4.1 FAIRLEARNING pseudocode and prediction rule, Section 4.2
+      causal-model assumptions, PDF pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Counterfactual Fairness
+  authors:
+  - Matt J. Kusner
+  - Joshua R. Loftus
+  - Chris Russell
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1703.06856v3
+  version: arXiv:1703.06856v3, revised 2018-03-08
+  persistent_id: arXiv:1703.06856
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:06Z'
+  sha256: 2d7371209e44943bcb2852f23a889b710e2903b2d8830295ff98ab8f730db5bf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CausalGraphicalModel
+  relation: related_match
+  rationale: Requires a causal graphical model to infer background variables and identify non-descendants.
+    It is a learning algorithm using the model, not a causal model family or an AIO subclass claim.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:57:48Z'
+  updated_at: '2026-10-11T04:57:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

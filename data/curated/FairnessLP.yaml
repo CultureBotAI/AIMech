@@ -1,0 +1,73 @@
+name: Fairness LP
+definition: A finite-population optimization procedure that assigns outcome distributions to individuals
+  to minimize expected loss under pairwise Lipschitz similarity constraints, expressible as a linear program
+  for the total-variation or relative-infinity distribution distances used by Dwork et al.
+concept_kind: algorithm
+identity_notes: The source names this optimization formulation Fairness LP. It is a procedure enforcing
+  LipschitzIndividualFairness, not the criterion itself, a generic linear-program solver or a learned
+  similarity metric. The two documented distribution-distance choices are retained as configurations of
+  one formulation. All 442 pinned AIO labels/scoped synonyms and 99 preceding native identities were compared,
+  together with hidden/ignored-inclusive searches of both checkouts; source citations and pending frontier
+  mentions were distinguished from existing concept identities.
+limitations:
+- The individual metric and utility loss are inputs; solving the program does not establish that either
+  is normatively appropriate.
+- The cited polynomial-size result concerns a finite set of individuals and outcomes with the specified
+  distribution distances, not arbitrary metrics on output distributions or an unrestricted population.
+- Extrapolating from sampled individuals to unseen individuals is a separate challenge explicitly noted
+  in Remark 2.1.
+- Individual constraints do not automatically imply demographic parity without additional assumptions
+  about the population and metric.
+aliases:
+- Dwork fairness linear program
+id: AIMech:FairnessLP
+definition_evidence:
+- source_id: original-paper
+  locator: Section 2 and Section 2.1, Figure 1 equations (2)–(4), Lemmas 2.1–2.2 and Remark 2.1, PDF pp.
+    5–6 (printed pp. 4–5)
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Choose a probability vector for each individual and minimize the supplied expected loss.
+    Enforce normalization, nonnegativity and distribution distances bounded by the supplied task metric
+    for every individual pair. Total-variation constraints admit a linear-program formulation; the relative-infinity
+    choice yields pairwise linear probability-ratio bounds with fixed metric-dependent coefficients.
+  evidence:
+  - source_id: original-paper
+    locator: Section 2 and Section 2.1, Figure 1 equations (2)–(4), Lemmas 2.1–2.2 and Remark 2.1, PDF
+      pp. 5–6 (printed pp. 4–5)
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Fairness Through Awareness
+  authors:
+  - Cynthia Dwork
+  - Moritz Hardt
+  - Toniann Pitassi
+  - Omer Reingold
+  - Richard Zemel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1104.3913v2
+  version: arXiv:1104.3913v2, revised 2011-11-29; downloaded PDF title-page date 2024-11-26
+  persistent_id: arXiv:1104.3913
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: 0a5afde6e5a29b3013a8d899d0abd4a6ce929d3be8c68e5f7cea7abfe54d1805
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: Computes a randomized classification assignment. Classification denotes the task, while this
+    record denotes its constrained optimization procedure; MetricLearning instead learns representations
+    and does not denote this supplied-metric program.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:57:48Z'
+  updated_at: '2026-10-11T04:57:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
