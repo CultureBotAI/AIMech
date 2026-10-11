@@ -1,7 +1,7 @@
 # AIMech
 
-AIO-grounded records for artificial intelligence concepts, their relationships,
-and evidence-backed review. AIMech extends the Mech curation workflow to AI;
+AIO-grounded imports and maintained, evidence-backed artificial intelligence
+concept records. AIMech extends the Mech curation workflow to AI;
 it is not a fork of the upstream ontology or a claim that ontology membership
 demonstrates a model's performance, safety, or causal mechanism.
 
@@ -26,6 +26,11 @@ context, not blanket evidence for every imported claim. The retained source
 snapshot preserves the complete original export; the projection is not an OWL
 reasoner and does not replace that export.
 
+Concepts absent from AIO can be curated under `data/curated/` with stable
+`AIMech:` IDs, inspected primary evidence, claim-specific citations and explicit
+AIO mappings. These maintained records remain `DRAFT`; scientific reviews are
+saved separately. See [curated concepts](docs/curated-concepts.md).
+
 ## Work Locally
 
 ```bash
@@ -35,6 +40,7 @@ just vendored-check                     # verify the public, immutable CLAW pin
 uv run --locked aimech seed              # read-only preview
 uv run --locked aimech seed --check      # verify byte-for-byte reproduction
 uv run --locked aimech validate
+uv run --locked aimech validate-curated
 ```
 
 `just check` is the offline local and CI quality gate. CI additionally runs
@@ -52,19 +58,22 @@ explicit, reviewed changes to the snapshot and manifest, not automatic pulls.
 | `src/aimech/schema/aimech.yaml` | Native LinkML contract |
 | `src/aimech/importer.py` | Deterministic source-to-record projection |
 | `data/aio/*.yaml` | Generated per-concept records; do not hand-edit |
+| `data/curated/*.yaml` | Maintained AIMech-native concepts, evidence and AIO mappings |
+| `src/aimech/schema/curated_concept.yaml` | Native curated-record contract |
 | `.claude/skills/` | Record/category review and repository workflows |
 | `reviews/structured/` | Timestamped schema-validated review YAML and derived Markdown |
 | `history/` | Append-only curation-session sidecars created when work occurs |
 
-Review issues belong to the upstream concept, importer, or future maintained
-curation layer, not hand-edits to generated outputs. See
+Review issues belong to the upstream concept, importer, or maintained native
+record, according to ownership. See
 [the review profile](docs/record-review-profile.md) and
 [source policy](docs/sources.md). No website, benchmark evaluator, or live
 model-execution capability is claimed by this bootstrap.
 
 Use [$aimech-add-record](.claude/skills/aimech-add-record/SKILL.md) to resolve a
-concept, check for duplicates, and add a missing record from the pinned source
-or prepare an upstream-term/source-update proposal. The skill is also exposed
+concept, search the web and literature, inspect abstracts and PDFs, check for
+duplicates, and add an evidence-backed native record or restore a missing AIO
+record. It also supports upstream-term/source-update proposals. The skill is exposed
 through the repository's `.agents/skills` link.
 
 ## Licensing

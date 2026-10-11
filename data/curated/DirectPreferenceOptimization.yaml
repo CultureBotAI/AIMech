@@ -1,0 +1,63 @@
+id: AIMech:DirectPreferenceOptimization
+name: Direct preference optimization
+definition: Preference-based policy fitting using a classification objective on policy-to-reference probability
+  ratios for preferred and dispreferred responses.
+concept_kind: algorithm
+identity_notes: A training algorithm, not an instruction-tuned language-model instance or a synonym for
+  all reinforcement learning from human feedback.
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4, equations 4–7, PDF/printed p. 4
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: A reward-to-policy reparameterization yields a logistic preference loss that trains the policy
+    without separately fitting an explicit reward model.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4, equations 4–7, PDF/printed p. 4
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Direct Preference Optimization: Your Language Model is Secretly a Reward Model'
+  authors:
+  - Rafael Rafailov
+  - Archit Sharma
+  - Eric Mitchell
+  - Stefano Ermon
+  - Christopher D. Manning
+  - Chelsea Finn
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2305.18290v3
+  persistent_id: arXiv:2305.18290v3
+  version: 2305.18290v3
+  access_level: full_text
+  accessed_at: '2026-10-11T02:58:44Z'
+  sha256: 92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: DPO is a policy-fitting procedure. The target discusses training strategies but uses a preprocessing
+    genus, so a subclass claim is withheld.
+- target: AIO:ReinforcementLearningLLM
+  relation: related_match
+  rationale: DPO is motivated by preference-based language-model alignment but its derived training objective
+    does not require the separate RL optimization loop described for conventional RLHF.
+limitations:
+- The derivation uses a specified preference model and KL-regularized reference-policy objective; it is
+  not a guarantee of universally correct human preferences.
+- No benchmark superiority or general safety claim is curated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:02:19Z'
+  updated_at: '2026-10-11T03:02:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- DPO

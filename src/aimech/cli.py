@@ -53,6 +53,7 @@ def main(argv=None):
     modes.add_argument("--check", action="store_true")
     modes.add_argument("--write", action="store_true")
     commands.add_parser("check-source", help="check the pinned source checksum and release")
+    commands.add_parser("validate-curated", help="validate maintained concepts and AIO mappings")
     from aimech.history import add_commands
     add_commands(commands)
     args = parser.parse_args(argv)
@@ -65,6 +66,9 @@ def main(argv=None):
             source, _ = load_source(Path.cwd())
             print(f"Verified AIO {source['version_iri']} at {source['commit']}")
             return 0
+        if args.command == "validate-curated":
+            from aimech.curated import validate_curated
+            return validate_curated(Path.cwd())
         return args.handler(args)
     except (OSError, ValueError, KeyError, TypeError, yaml.YAMLError) as exc:
         print(f"ERROR: {exc}")

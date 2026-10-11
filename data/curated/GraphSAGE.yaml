@@ -1,0 +1,58 @@
+name: GraphSAGE
+definition: An inductive graph representation architecture that learns neighborhood aggregation functions
+  to generate node embeddings from features.
+concept_kind: architecture
+identity_notes: GraphSAGE learns an embedding-generating function, unlike individually fitted transductive
+  node embeddings. The broad AIO graph-convolutional category does not require the named sampling-and-aggregation
+  framework.
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned aggregation and transformation layers form an artificial neural network; this target
+    is broader than the specific graph architecture.
+- target: AIO:GraphConvolutionalNetwork
+  relation: related_match
+  rationale: The pinned definition broadly describes learning on graph structure, but GraphSAGE has its
+    own inductive sampling/aggregation construction; a narrower GCN algorithm is not equated with it.
+limitations:
+- The paper describes multiple aggregators; no single mean or pooling variant defines the entire framework.
+- Inductive construction does not guarantee accurate embeddings for every unseen graph or feature distribution.
+id: AIMech:GraphSAGE
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3.1, Algorithm 1 and Neighborhood definition, PDF/printed pp. 3–4
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: At each depth, sampled neighbor representations are aggregated and combined with a node's
+    current representation through learned transformations; parameters are shared across nodes.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3.1, Algorithm 1 and Neighborhood definition, PDF/printed pp. 3–4
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Inductive Representation Learning on Large Graphs
+  authors:
+  - William L. Hamilton
+  - Rex Ying
+  - Jure Leskovec
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1706.02216v4
+  version: 1706.02216v4
+  access_level: full_text
+  accessed_at: '2026-10-11T03:09:20Z'
+  sha256: e1f354eb12011cde24af1eb500d72463fc971b09d26b55688c7f918a86e31ce8
+  persistent_id: arXiv:1706.02216v4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:12:53Z'
+  updated_at: '2026-10-11T03:12:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -9,6 +9,26 @@ state because an import, check, or review-document validator passed.
 
 ## Inputs and Ownership
 
+### Maintained AIMech-native concepts
+
+For `data/curated/*.yaml`, use `record_class: CuratedAIConcept` and
+`kind: maintained`; the local record is the maintained owner. Inspect and hash
+the selected YAML, `src/aimech/schema/curated_concept.yaml`,
+`src/aimech/curated.py`, the pinned AIO source/manifest used for mappings, and
+any local evidence inputs. Read `docs/curated-concepts.md`. Validate with
+`uv run --locked aimech validate-curated` in addition to the checks below.
+
+Review claim-to-source support, precise locators, access level, source version,
+definition distinctness, concept kind and mapping direction. Resolve primary
+evidence and inspect the cited method/definition passages; an abstract does
+not establish unseen PDF contents. Mapping rationale is a curator inference,
+not an upstream AIO assertion. Preserve limitations and contradictory evidence.
+Keep `DRAFT`; a saved passing review does not implement a status-promotion gate.
+For native fixes, record `CultureBotAI/AIMech:data/curated/<local-ID>.yaml` as
+owner rather than redirecting scientific changes to the AIO importer.
+
+### Generated AIO concepts
+
 `data/aio/*.yaml` is generated from the pinned `sources/aio/aio.json` snapshot.
 `sources/aio/source.yaml` owns its version and integrity metadata;
 `src/aimech/importer.py` owns AIMech's transformation;
@@ -94,6 +114,11 @@ as evidence-linked dimensions. A provenance-only review sets
 and must not present deterministic seed checks as scientific validation.
 
 ## Category Boundaries
+
+A maintained-concept cohort can use an explicit local-ID set or concept-kind
+predicate. Account for every selected native target and compare relevant AIO
+neighbors, without assuming a mapping is an asserted subclass edge. The same
+evidence, coverage and lump/split/defer requirements apply to both collections.
 
 Use a reproducible cohort predicate and state its denominator. Assess within-
 category coherence, distinction from neighboring concepts, intended abstraction

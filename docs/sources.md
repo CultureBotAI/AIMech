@@ -47,7 +47,10 @@ separate immutable observations.
 5. Run `just check`, save structured review findings, append actual session
    history, and publish through the normal PR process.
 
-Future evidence enrichment should use a maintained overlay rather than edits
-to generated records. New model-instance, benchmark, or intervention schemas
+New concepts absent from AIO use the maintained `data/curated/` collection,
+with local identifiers and explicit mappings described in
+[curated concepts](curated-concepts.md). Existing AIO records remain generated;
+evidence enrichment must not rewrite their source assertions. Model-instance,
+benchmark, or intervention schemas
 need their own evidence rules and scope decision; this bootstrap does not
 silently reinterpret ontology classes as those entities.

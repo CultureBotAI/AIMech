@@ -1,0 +1,70 @@
+id: AIMech:LoRA
+name: Low-rank adaptation
+definition: A parameter-efficient adaptation method that freezes pretrained weights and learns additive
+  low-rank matrix updates.
+concept_kind: algorithm
+identity_notes: A method for adapting model parameters, not a pretrained checkpoint or the LoRA software
+  package. AIO:TransferLearning is a broader task description and does not specify this weight-update
+  factorization.
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4.1, equation 3, PDF/printed p. 4
+  relation: supports
+claims:
+- claim_id: mechanism
+  kind: mechanism
+  statement: An adapted linear transformation uses W0x + BAx, with W0 fixed and the lower-rank factors
+    A and B trainable.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.1, equation 3, PDF/printed p. 4
+    relation: supports
+- claim_id: merged-adapter-batching
+  kind: limitation
+  statement: Merging a task-specific BA update into the base weights complicates batching inputs requiring
+    different adapters in one forward pass.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.2, Practical Benefits and Limitations, PDF/printed p. 5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'LoRA: Low-Rank Adaptation of Large Language Models'
+  authors:
+  - Edward J. Hu
+  - Yelong Shen
+  - Phillip Wallis
+  - Zeyuan Allen-Zhu
+  - Yuanzhi Li
+  - Shean Wang
+  - Lu Wang
+  - Weizhu Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.09685v2
+  persistent_id: arXiv:2106.09685v2
+  version: 2106.09685v2
+  access_level: full_text
+  accessed_at: '2026-10-11T02:58:44Z'
+  sha256: e9a0d3128767db616085dc0f4e6e455e672e89af823e8ed1282793682787395a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TransferLearning
+  relation: related_match
+  rationale: LoRA implements an adaptation procedure; the AIO target denotes the general transfer-learning
+    task rather than this factorization algorithm.
+limitations:
+- The inspected paper focuses its experiments on attention-weight adaptation; no universal task-performance
+  claim is made.
+- Scope is original LoRA; quantized, adaptive-rank and other later variants need separate identity assessment.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:02:19Z'
+  updated_at: '2026-10-11T03:02:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- LoRA
