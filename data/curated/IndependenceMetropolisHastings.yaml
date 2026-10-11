@@ -1,0 +1,74 @@
+name: Independence Metropolis–Hastings sampling
+definition: A Metropolis–Hastings sampler whose proposal distribution is fixed independently of the current
+  state, with proposal-density ratios still included in acceptance.
+concept_kind: algorithm
+identity_notes: Independence describes the proposal q(y), not independence of the retained Markov-chain
+  states. This specializes Metropolis–Hastings and differs from estimating an expectation using separately
+  weighted independent importance samples or from a state-centered random-walk proposal. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 153 prior native IDs/names/aliases.
+  Both checkout text searches included ignored and hidden files and returned no matches for the selected
+  exact IDs, full labels, aliases and source titles. Existing HMM and Markov random field records describe
+  probability models, not these sampling or tuning procedures.
+limitations:
+- The proposal must cover the target support required for irreducibility, and its probability or density
+  must be evaluable for the ratio.
+- 'Independent candidates do not imply independent retained draws: rejection leaves the chain at the same
+  state.'
+- The ratio shows why a state with very large pi(x)/g(x) can be hard to leave for ordinary candidates.
+  This is an algebraic caution, not a measured mixing rate or a universal convergence theorem.
+- Unweighted retained-chain averages and importance-weighted independent-sample estimates are different
+  procedures. Validity still requires appropriate chain and integrability conditions.
+- Adaptive or learned changing proposals are outside this fixed-proposal definition and require their
+  own validity arguments.
+id: AIMech:IndependenceMetropolisHastings
+aliases:
+- Independence Metropolis sampler
+- IMH
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.2 and 2.5, Metropolis choice and final paragraph setting q_ij=pi_prime_j, printed
+    pp. 99–101 and 103 / PDF pp. 3–5 and 7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose a fixed proposal density or mass g and draw each candidate y from g independently
+    of the current state x. Substitute q(y|x)=g(y) into the Metropolis–Hastings ratio, obtaining alpha=min(1,pi(y)g(x)/(pi(x)g(y)))=min(1,w(y)/w(x))
+    for w=pi/g where defined. Accept y or retain x. Hastings Section 2.5 explicitly chooses q_ij=pi_prime_j
+    while keeping pi, rather than pi_prime, as the chain’s stationary target. The displayed acceptance
+    formula here is the substitution into his Section 2.2 rule.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.2 and 2.5, Metropolis choice and final paragraph setting q_ij=pi_prime_j, printed
+      pp. 99–101 and 103 / PDF pp. 3–5 and 7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Monte Carlo sampling methods using Markov chains and their applications
+  authors:
+  - W. K. Hastings
+  source_type: primary_paper
+  url: https://probability.ca/hastings/hastings.pdf
+  version: Biometrika 57(1), 1970, printed pp. 97–109; 13-page published scan hosted by probability.ca
+  persistent_id: doi:10.1093/biomet/57.1.97
+  access_level: full_text
+  accessed_at: '2026-10-11T06:40:06Z'
+  sha256: dc620d3651d30029729646649e9a26780f1a415d7fd251433b6a270a143de47c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure constructs transitions of a Markov chain to sample a specified target distribution.
+    The exact AIO CLASS describes a stochastic process/model with dependence on the preceding state and
+    is exported beneath Network. The method-to-process relationship is related_match, not equivalence,
+    subclass membership or a claim that the sampler is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:48:02Z'
+  updated_at: '2026-10-11T06:48:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

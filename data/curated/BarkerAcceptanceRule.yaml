@@ -1,0 +1,70 @@
+name: Barker acceptance rule
+definition: An acceptance-probability rule for reversible Monte Carlo proposals that uses R/(1+R), where
+  R is the target-density ratio times the reverse-to-forward proposal ratio.
+concept_kind: mathematical_method
+identity_notes: The record covers Hastings’s s_ij=1 form, which reduces to Barker’s 1965 rule for symmetric
+  proposals. It is a scalar decision rule used inside a sampler, not a complete choice of proposal, a
+  logistic-regression model, or the Metropolis min(1,R) rule. The original 1965 plasma paper was located
+  but its full text has not been inspected for this record. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 153 prior native IDs/names/aliases. Both checkout text
+  searches included ignored and hidden files and returned no matches for the selected exact IDs, full
+  labels, aliases and source titles. Existing HMM and Markov random field records describe probability
+  models, not these sampling or tuning procedures.
+limitations:
+- The asymmetric-proposal formula is an explicit algebraic restatement of Hastings’s general construction,
+  not a claim that the inspected source is Barker’s original paper.
+- The rule alone supplies neither a proposal distribution nor an ergodic or rapidly mixing chain. Support,
+  boundary cases and numerical evaluation still require specification.
+- The same ratio generally gives different acceptance probabilities under Barker and Metropolis rules.
+  A lower or higher acceptance probability alone does not prove a universal computational-efficiency ordering.
+- No claim is made about newer methods called Barker proposals or gradient-based Barker samplers; those
+  can use different proposal mechanisms and need separate identity review.
+id: AIMech:BarkerAcceptanceRule
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.2, Equation (6) and s_ij^(B)=1, with symmetric-proposal alpha_ij^(B), printed pp.
+    99–100 / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a current state x and proposed state y with positive finite denominator, compute R=pi(y)q(x|y)/(pi(x)q(y|x))
+    and accept with alpha=R/(1+R). This follows algebraically by choosing s_ij=1 in Hastings Equation
+    (6). With a symmetric proposal alpha=pi(y)/(pi(x)+pi(y)). Pairing the rule with the proposal and retaining
+    x on rejection yields detailed balance. At equal positive target weights and symmetric q, acceptance
+    is one half rather than the Metropolis value one.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, Equation (6) and s_ij^(B)=1, with symmetric-proposal alpha_ij^(B), printed pp.
+      99–100 / PDF pp. 3–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Monte Carlo sampling methods using Markov chains and their applications
+  authors:
+  - W. K. Hastings
+  source_type: primary_paper
+  url: https://probability.ca/hastings/hastings.pdf
+  version: Biometrika 57(1), 1970, printed pp. 97–109; 13-page published scan hosted by probability.ca
+  persistent_id: doi:10.1093/biomet/57.1.97
+  access_level: full_text
+  accessed_at: '2026-10-11T06:40:06Z'
+  sha256: dc620d3651d30029729646649e9a26780f1a415d7fd251433b6a270a143de47c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The acceptance rule constructs target-invariant Markov transitions when paired with a proposal
+    and rejection self-transition. AIO MarkovChain describes the stochastic process/model, not this scalar
+    acceptance function. This is a rule-to-process related match, not equivalence or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:48:02Z'
+  updated_at: '2026-10-11T06:48:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
