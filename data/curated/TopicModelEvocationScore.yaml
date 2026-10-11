@@ -1,0 +1,120 @@
+name: Topic-model evocation score
+definition: A topic-model evaluation method that orders judged word pairs by model-derived weights and
+  sums their human evocation ratings over a chosen number of highest-ranked pairs, with alternative aggregations
+  across topics.
+concept_kind: evaluation_method
+identity_notes: This record denotes the top-m scoring procedure and its Evoc-1/Evoc-2 aggregation choices,
+  not the human evocation dataset, a word-similarity embedding, a distance-metric learning algorithm or
+  an empirical score achieved by a trained model. Human evocation measures how strongly one term brings
+  another to mind; it need not mean synonymy. The two aggregations are retained as explicitly different
+  operations within the scoring method rather than asserted as synonymous numerical quantities. No normalized
+  identity match was found across all 442 pinned AIO labels and scoped synonyms and 421 preceding native
+  IDs, names and aliases. Full-checkout fixed-string searches in worktree and main included ignored and
+  hidden files. Ten matched lines in each checkout concern prior discovery references, raw search/abstract
+  captures and downloaded-source metadata; these were classified by their file/field context and matched
+  excerpts, not treated as ontology identities. All 192 semantic label/synonym hits were read. Nineteen
+  exact annotated CLASS nodes and outgoing edges were inspected, with 13 verified equal to prior reading
+  and six newly read. Thirty-four contextual YAMLs comprise 19 AIO and 15 native records; eight were fully
+  read here, three final round99 records were hash-verified after full reading, and 23 were byte-verified
+  after earlier full reading. Absence is bounded to the pinned snapshot, maintained corpus and inspected
+  semantic neighborhood.
+limitations:
+- The score depends on the judged-pair subset, rating scale, m and tie convention. Unjudged pairs are
+  excluded rather than automatically assigned zero. A larger sum is not a calibrated probability, a distance
+  satisfying metric axioms or an estimate of all possible word-pair quality.
+- Evoc-1 and Evoc-2 generally differ. Individual rank invariance does not justify independently changing
+  topic scales before computing Evoc-2. The source does not fully specify every fallback and tie-handling
+  detail, so numerical replication requires additional implementation conventions.
+- Human evocation can be directional, whereas the historical evaluation symmetrizes it and collapses word
+  senses to word/POS. These choices discard information and need not fit every application or language.
+- Human annotation and pair selection can bias coverage. Tuning on one half of pair judgments and evaluating
+  on the other does not establish an unseen-document or unseen-vocabulary test. Topic labels, selected
+  word-pair examples and authors superiority claims do not guarantee semantic validity.
+- No evocation dataset was analyzed and no author evaluation script or benchmark was executed. The mathematical
+  witnesses are synthetic checks of ranking and aggregation only.
+aliases:
+- Top-m evocation metric
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, PDF/printed pp.5-6, Equation (4), Evoc-1 and Evoc-2
+  relation: supports
+claims:
+- claim_id: score-and-aggregation
+  kind: mechanism
+  statement: Let E be a finite set of word pairs with human scores h_e and model weights M_e, and choose
+    an integer m with 0<=m<=|E|. Order E by descending M using an explicit tie convention, and set Evoc_m(M,h)=sum_{r=1}^m
+    h_{pi_M(r)}. For K topics, Evoc-1 is the unweighted mean of the K separate top-m scores; Evoc-2 is
+    the top-m score after averaging their weight vectors over the same judged pairs. The paper derives
+    APM weights mainly from edge coefficients, with node-based fallback for insufficient nonzero edges,
+    and uses products of topic-word probabilities for independent multinomial topic models. A strictly
+    increasing transformation of one weight vector preserves its rank-based score under the same tie handling.
+    Separately rescaling topics before their weight vectors are averaged can change Evoc-2 even when every
+    individual score and Evoc-1 stays unchanged.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, PDF/printed pp.5-6, Equation (4), ranking invariance, pair weights and topic aggregation
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The reported evaluation maps human-rated synsets to word/POS entries, averages two directed
+    ratings to obtain undirected pair scores, and retains 1646 such entries across 4049 BNC documents.
+    Human-scored pairs are split equally between tuning and testing for model selection; this is distinct
+    from holding out all test documents from unsupervised fitting. The reported comparisons use m=50,
+    selected topic counts and model-specific parameter grids. Those design choices specify this historical
+    evaluation and do not establish universal topic coherence, causal relations or performance on unjudged
+    word pairs.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1-4.2, PDF/printed pp.6-8; Figure 2 and Table 1
+    relation: supports
+  - source_id: method-supplement
+    locator: Appendix C, printed p.11 / supplemental PDF p.2, Table 2; Appendix E, p.13 / PDF p.4, Table
+      3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Paper.pdf
+  version: NIPS 2014 official nine-page paper; printed and PDF pages 1-9 agree. All nine pages visually
+    read, including figures, Table 1 and bibliography; extracted pages 3,5,6 also read.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:10:15Z'
+  sha256: f38e285409069950c68e016bcfb6a139a7d4003215bb3eb1727d11707896fb17
+- source_id: method-supplement
+  title: Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs — Supplementary
+    Material
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Supplemental.zip
+  version: Official four-page supplementary PDF apm-nips2014.10-13.pdf inside the linked ZIP. Printed
+    page = PDF page +9. All four visual and extracted pages read. SHA256 identifies the PDF member; archive
+    SHA256 f97ca9b49ede8e4730de8190576ed4711276b66db032c44ade2dff348bc13fef.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:24:42Z'
+  sha256: 97c115b77a7026340546cc0734cfa832534d15e45409a2b9649eaf950d744fa0
+aio_mappings:
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: This evaluation procedure directly assesses word-pair structure represented by topic models.
+    The task-scoped AIO class is related to the assessed object, not a broader evaluation criterion or
+    an equivalent score.
+id: AIMech:TopicModelEvocationScore
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T23:32:13Z'
+  updated_at: '2026-10-11T23:32:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
