@@ -1,0 +1,86 @@
+name: Neural autoregressive distribution estimator
+definition: A fully visible autoregressive density model whose ordered variable conditionals are computed
+  by neural networks that share input-to-hidden parameters and recursively reuse prefix computations.
+concept_kind: architecture
+identity_notes: 'This record covers the original binary NADE construction of Larochelle and Murray. Its
+  neural hidden activations are deterministic functions of the visible prefix, not stochastic latent variables
+  to be summed out. Mean-field RBM calculations motivate the parameterization; NADE is a separately normalized
+  directed model and does not require a pretrained RBM. Later order-agnostic, real-valued, document and
+  conditional variants need their own scope assessments. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 343 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 7 and 7 lines
+  respectively. All 6 unique matched line contents were inspected in full: RWS component-model distinctions,
+  its saved review and the carried sigmoid/autoregressive discovery lead, not existing candidate records.
+  Exact checkout counts and differences are retained in the ledger. Thirteen exact AIO CLASS nodes with
+  scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- Exact joint evaluation and ancestral generation are properties of the specified NADE distribution, not
+  evidence that it equals an RBM distribution or the data-generating distribution. Arbitrary missing-variable
+  conditionals are not all directly available as forward prefix conditionals.
+- The variable ordering, hidden capacity and optimization affect the fitted model. Original single-hidden-layer
+  complexity does not automatically apply to deeper or order-agnostic variants.
+- 'The inspected publisher PDF contains inconsistent executable-looking notation: Algorithm 1 initializes
+  a multiplicatively updated probability to zero and places a plus between the two Bernoulli factors;
+  the displayed accumulator-difference equation on printed p.31 uses i+1 where the prefix difference requires
+  i. The curated formulas follow the chain-rule definition, Equations (9)–(11), and the accumulator update
+  in Algorithm 1. These are disclosed mathematical interpretations, not an audit of author software.'
+- The nonlinear hidden computation distinguishes NADE from a fully visible sigmoid belief network with
+  only a logistic-linear conditional. Sigmoid hidden activations are the original choice, not a necessity
+  for every valid neural conditional family.
+- No universal density-estimation advantage, fitted-model accuracy or training convergence guarantee is
+  asserted.
+id: AIMech:NeuralAutoregressiveDistributionEstimator
+aliases:
+- NADE
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–5, Equations (3), (9)–(11), Figure 1 and Algorithm 1, printed pp.30–33 / PDF pp.2–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Fix an ordering of D binary observations. For each position i compute h_i=sigmoid(c+W[:,<i]
+    x_<i) and r_i=P(x_i=1|x_<i)=sigmoid(b_i+V[i,:] h_i). The original motivation ties V to the transpose
+    of W, while the paper explicitly also learns separate output weights V; sharing W and c across positions
+    is retained. The joint probability is the product over i of r_i raised to x_i times (1-r_i) raised
+    to (1-x_i). Initialize the hidden preactivation accumulator a_1=c and update a_(i+1)=a_i+W[:,i] x_i
+    after evaluating position i. This reuses prefix work and supports O(DH) evaluation for the original
+    one-hidden-layer construction with H hidden units. Train by differentiating the exact average negative
+    log joint probability. Generate by sampling each visible bit from its prefix conditional in order;
+    no stochastic hidden-state inference or RBM partition function is needed for these operations.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–5, Equations (3), (9)–(11), Figure 1 and Algorithm 1, printed pp.30–33 / PDF pp.2–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Neural Autoregressive Distribution Estimator
+  authors:
+  - Hugo Larochelle
+  - Iain Murray
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
+  version: AISTATS 2011, PMLR 15:29–37; nine-page publisher PDF. Printed page = PDF page + 28.
+  persistent_id: pmlr-v15-larochelle11a
+  access_level: full_text
+  accessed_at: '2026-10-11T17:14:24Z'
+  sha256: b1fe502ea1b3f84875d5e13aefec479827b3a33ab1ebdcf3eb4a3d71a5a4ea9a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: 'The original paper explicitly defines NADE as a fully visible Bayesian network: ordered
+    visible variables form an acyclic dependency graph with normalized neural conditional factors. The
+    pinned AIO target is broader than this shared-parameter autoregressive architecture. Deterministic
+    hidden computations parameterize the factors and do not introduce latent random variables.'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:27:17Z'
+  updated_at: '2026-10-11T17:27:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

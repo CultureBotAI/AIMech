@@ -1,0 +1,102 @@
+name: Deep autoregressive network
+definition: A generative neural architecture that combines directed stochastic hidden layers with autoregressive
+  within-layer conditional dependencies and a separately parameterized recognition network for approximate
+  latent inference.
+concept_kind: architecture
+identity_notes: 'This is the DARN family introduced by Gregor and colleagues, not every deep autoregressive
+  model or a time-series forecasting method with a similar name. Its defining latent architecture differs
+  from the fully visible original NADE model and extends paired encoder/decoder modeling with within-layer
+  autoregression. The paper also permits deterministic layers, different conditional parameterizations,
+  non-autoregressive recognition conditionals and an autoregression-free visible layer. Its zero-stochastic-hidden-layer
+  limiting example is the fully visible sigmoid belief network. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 343 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 7 and 7 lines
+  respectively. All 6 unique matched line contents were inspected in full: RWS component-model distinctions,
+  its saved review and the carried sigmoid/autoregressive discovery lead, not existing candidate records.
+  Exact checkout counts and differences are retained in the ledger. Thirteen exact AIO CLASS nodes with
+  scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- Efficient ancestral sampling of the joint model does not imply tractable exact marginal likelihood or
+  posterior inference. The source uses explicit latent enumeration for small models and importance estimates
+  for larger ones.
+- The practical estimator can be biased for non-quadratic downstream functions; a curator cubic example
+  checks that boundary. The isolated-unit calculation does not certify all gradient paths of the complete
+  multilayer implementation, variance reduction or convergence.
+- A restricted recognition family may not contain the true posterior. Minimizing the variational objective
+  within that family does not remove its approximation gap automatically.
+- Within-layer autoregression is directed and ordered, not an undirected recurrent connection. Exact model
+  samples do not establish causal semantics or fidelity to observed data.
+- Equation (4) in the publisher PDF prints the visible dimension as the upper product index for recognition
+  hidden variables; this record interprets the product over the declared hidden units, consistent with
+  the surrounding definition and multilayer Equation (8). No author-code behavior is inferred.
+- The supplement contains generated sample images, not the gradient derivation; Appendix A of the main
+  paper supplies that derivation. No benchmark ranking, universal runtime advantage or trained-model result
+  is curated.
+id: AIMech:DeepAutoregressiveNetwork
+aliases:
+- DARN
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–4, Equations (1)–(15), PDF pp.2–5; marginal-likelihood scope, Section 5, p.5; Appendix
+    A, Equations (17)–(24), pp.7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the decoder, factor the top hidden prior along a fixed within-layer order. Each lower
+    stochastic layer conditions each unit on the preceding units in that layer and the complete driving
+    layer above, ending with the visible variables. The basic binary factors are logistic regressions;
+    additional deterministic transformations or more expressive neural conditionals are optional. The
+    recognition model proceeds bottom-up and can likewise be autoregressive within a layer, although the
+    paper usually omits those recognition dependencies. Decoder ancestral sampling follows the top-down
+    layer and within-layer orders and draws exact samples from the specified model; recognition sampling
+    is exact for q but generally only approximate for the model posterior. Jointly train encoder and decoder
+    toward the free-energy cost E_q[log q(h|x)-log p(x,h)], using the paper’s approximate gradient procedure
+    through stochastic units. In Appendix A’s isolated Bernoulli calculation, with probability p depending
+    on parameter theta and downstream f otherwise independent of theta, its final estimator is grad_theta(p)
+    f-prime(h)/(2 q(h)), with h sampled from q. Its expectation equals grad_theta(p) times the average
+    of the endpoint derivatives. This matches the finite-difference gradient for linear or quadratic f
+    but need not for higher-order functions. The record distinguishes this approximation from the exact
+    variational identity.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–4, Equations (1)–(15), PDF pp.2–5; marginal-likelihood scope, Section 5, p.5;
+      Appendix A, Equations (17)–(24), pp.7–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Deep AutoRegressive Networks
+  authors:
+  - Karol Gregor
+  - Ivo Danihelka
+  - Andriy Mnih
+  - Charles Blundell
+  - Daan Wierstra
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/gregor14.pdf
+  version: ICML 2014, PMLR 32(2):1242–1250; nine-page publisher PDF with Appendix A on PDF pp.7–8. Printed
+    proceedings page numbers are absent.
+  persistent_id: pmlr-v32-gregor14
+  access_level: full_text
+  accessed_at: '2026-10-11T17:14:27Z'
+  sha256: 6b917b288dc41b57972d86d1e86e7710e1d3ca55627cb0b8a0940d0ebb1dee89
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The decoder is a directed acyclic probabilistic model with ordered within-layer factors,
+    matching the AIO target at the generative-model component level. The curated DARN identity also includes
+    a separate recognition network and their paired architecture. A related match expresses this component
+    relationship without equating the whole encoder/decoder system with a single Bayesian network or asserting
+    an algorithm-to-network subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:27:17Z'
+  updated_at: '2026-10-11T17:27:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
