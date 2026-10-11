@@ -1,0 +1,135 @@
+name: Novelty SAT heuristic
+definition: A clause-based SAT local-search heuristic that ranks candidate flips by total violation count
+  with oldest-variable tie breaks, normally selects the best candidate, and sometimes selects the second-best
+  when the best was the most recently flipped variable in that clause.
+concept_kind: algorithm
+identity_notes: 'This is the Novelty SAT heuristic introduced by McAllester, Selman and Kautz in 1997,
+  not the general idea of novelty or novelty-search objectives in evolutionary computation. It ranks only
+  variables of a selected unsatisfied clause by the global post-flip objective. Its age-conditional choice
+  differs from HSAT’s global best-score tie selection, WalkSAT/SKC’s break-only score and freebie priority,
+  and tabu inadmissibility. Novelty+ adds a separate random-walk branch and is not an exact alias. No
+  normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 322 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 52 and 53 lines respectively. All twenty unique hit contents were inspected: neighboring
+  variant references, saved reviews and discovery leads, generic novelty wording and an ignored Sphinx
+  comment, not existing candidate records. The checkout differences are retained in the ledger. Nine exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring records
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- 'Hoos’s 1999 Theorem 3 shows that Novelty without random restart is essentially incomplete for every
+  noise setting: there are satisfiable inputs and reachable search states from which a model is never
+  found. This statement is about the unrestarted heuristic, not every solver that wraps it in an unbounded
+  random-restart scheme.'
+- A verified model is a sound positive result, but exhausting a finite budget is not an UNSAT certificate.
+  The 1997 empirical noise-level and optimality invariants are not general convergence theorems or guaranteed
+  optimal tuning rules.
+- The two-candidate rule needs an explicit convention for unit clauses and for initial/tied timestamps
+  among never-flipped variables. Empty clauses require separate handling. The short source description
+  does not certify an executable choice for every such boundary.
+- A nonrecent best candidate is selected even when p=1; a score tie is first resolved by age. No SKC zero-break
+  priority, tabu prohibition or R-Novelty score-gap formula is silently inserted. Weighted MAX-SAT extensions
+  and later Novelty variants need separate scope.
+id: AIMech:Novelty
+aliases:
+- Novelty
+definition_evidence:
+- source_id: method-source
+  locator: PDF2 / printed322, Local Search Procedures for Boolean Satisfiability and NOVELTY rule; PDF3
+    / printed323, intuition and empirical noise discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Begin from a complete assignment and, while it is unsatisfying, randomly choose an unsatisfied
+    clause. Rank its candidate variables by the total number of unsatisfied clauses that would remain
+    after each flip, preferring a less recently flipped variable when objective scores tie. Let the first
+    two candidates be best and second-best. If the best is not the most recently flipped variable anywhere
+    in the selected clause, choose it. Otherwise choose the second-best with probability p and the best
+    with probability 1−p, for p in [0,1]. Flip the chosen variable, update its timestamp and repeat under
+    the chosen outer search and stopping policy. The score uses the global net effect of a flip, not breakcount
+    alone. The noise coin is conditional on recency; it is not an unconditional random selection from
+    all clause variables.
+  evidence:
+  - source_id: method-source
+    locator: PDF2 / printed322, Local Search Procedures for Boolean Satisfiability and NOVELTY rule; PDF3
+      / printed323, intuition and empirical noise discussion
+    relation: supports
+- claim_id: unrestarted-incompleteness
+  kind: limitation
+  statement: The unrestarted Novelty heuristic can remain confined to nonsatisfying assignments on a satisfiable
+    formula, regardless of its noise parameter. Hoos1999 gives an explicit five-variable counterexample;
+    the theorem does not assert that an unbounded uniform random-restart wrapper is also incomplete.
+  evidence:
+  - source_id: additional-1
+    locator: PDF3, definition of PAC and pure no-restart scope; PDF4, Theorem 3 and F2 proof
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Evidence for Invariants in Local Search
+  authors:
+  - David McAllester
+  - Bart Selman
+  - Henry Kautz
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1997/AAAI97-050.pdf
+  version: Six-page AAAI-97 proceedings scan from the publisher, pp.321–326. The 1997 R-Novelty description
+    includes a periodic random clause-variable flip every 100 moves.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:35:13Z'
+  sha256: 79821a112c8ca937583164161be118c3ebb9795e5cfa494a55536881233852a8
+- source_id: additional-1
+  title: On the Run-time Behaviour of Stochastic Local Search Algorithms for SAT
+  authors:
+  - Holger H. Hoos
+  source_type: primary_paper
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/Hoos99b.pdf
+  version: Six-page AAAI-99 paper with 1999 AAAI copyright, hosted in the UBCSAT academic archive. The
+    inspected pages have no printed proceedings page numbers, so PDF locators are used.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:36:52Z'
+  sha256: eb69383aef4a0de6dba9ba0f6f5dc3dfcc0c019caf3539af3ec8dc802f32d3d4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 322 preceding maintained IDs/names/aliases;
+    ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for search,
+    satisfiability, heuristics, reasoning, novelty, memory and recurrence; nine exact AIO CLASS nodes
+    and five complete native neighbors.
+  rationale: No suitable AIO target was established in this pinned snapshot and inspected semantic neighborhood.
+    Search memory, novelty naming and stochastic exploration do not justify forced neural-memory, language-model
+    or learning-task mappings.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: Selecting Boolean variable flips is not a language model performing reasoning in
+      language tasks.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The method searches a supplied formula rather than prescribing preprocessing or
+      training a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Remembering a move timestamp does not itself turn fixed-formula search into development
+      of a method that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Age-based move selection and a noise parameter do not require a learned reward policy
+      or action-value function.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented state could include timestamps and step phase, but that representation
+      alone does not identify the named SAT heuristic with the pinned stochastic network/model class.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: Boolean assignments, clause scores and flip timestamps are not a network of artificial
+      neurons.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: External memory in a language model is different from retaining SAT variable ages;
+      the related external-memory synonym does not broaden the target to every algorithm using memory.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A neural layer of cells with internal state or weights is not a variable-age table.
+  - target: AIO:LongShortTermMemory
+    rejection_reason: A recurrent neural architecture processing sequences is not a SAT move-history heuristic.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:45:43Z'
+  updated_at: '2026-10-11T15:45:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
