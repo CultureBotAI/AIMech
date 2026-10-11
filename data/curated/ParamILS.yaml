@@ -1,0 +1,108 @@
+name: ParamILS
+definition: An iterated-local-search framework for algorithm configuration that searches finite parameter
+  settings through one-parameter neighborhood moves, perturbations and random restarts, with a replaceable
+  procedure for comparing configurations on target-algorithm runs.
+concept_kind: algorithm
+identity_notes: This record denotes the algorithmic framework in the 2009 paper, not its Ruby software
+  package or a configured SAT/MIP solver. BasicILS and FocusedILS are distinct concrete instantiations
+  of its comparison procedure and are not aliases. The framework optimizes one configuration over a supplied
+  instance distribution, rather than selecting a different solver per instance or adapting a target solver
+  during its own run. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 265 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in both worktree and main checkout, returning 20 lines in the worktree and 25 in main.
+  These were prior candidate leads, source references, neighboring-method mentions and five unrelated
+  ROAR namespace entries in ignored dependencies, not existing records for these identities. Seven exact
+  AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The 2009 formulation has a finite configuration domain; numerical parameters require discretization.
+  Objective, run cutoff and training-instance distribution affect the selected configuration. Independent
+  held-out evaluation is needed to assess generalization; no universal solver speedup is asserted.
+- The printed first-improvement loop accepts the supplied non-strict comparison. Equal-cost neighboring
+  configurations can therefore cycle under a literal reading; this record does not assert unconditional
+  termination of that loop or executable equivalence to a software release.
+- Adaptive capping is a separable acceleration, not the defining identity of this search/comparison method.
+  Section4 describes trajectory-preserving and more aggressive alternatives. Procedure4 prints a max operation
+  inconsistent with shortening the run cutoff described in the prose, and uses inconsistent cutoff symbols;
+  the printed routine is not treated as verified executable code.
+id: AIMech:ParamILS
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–3.1, PDF pp.3–8 (printed269–274), especially Algorithm Framework1; Sections4 and5.1,
+    PDF pp.11–15; Section10, PDF pp.34–36
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Compare a supplied initial configuration with a fixed number of random configurations, then
+    perform randomized first-acceptable one-exchange local search. Exclude moves that change only a currently
+    inactive conditional parameter. Repeatedly perturb the current search configuration by a fixed number
+    of random neighborhood moves, apply the local-search routine, and accept the resulting configuration
+    when the chosen comparison procedure judges it at least as good. Independently restart the search
+    configuration at random with a specified probability. Maintain an overall incumbent and return it
+    at termination. The framework deliberately leaves comparison and objective estimation to an instantiation
+    such as BasicILS or FocusedILS.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–3.1, PDF pp.3–8 (printed269–274), especially Algorithm Framework1; Sections4 and5.1,
+      PDF pp.11–15; Section10, PDF pp.34–36
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'ParamILS: An Automatic Algorithm Configuration Framework'
+  authors:
+  - Frank Hutter
+  - Holger H. Hoos
+  - Kevin Leyton-Brown
+  - Thomas Stützle
+  source_type: primary_paper
+  url: https://www.cs.ubc.ca/labs/algorithms/Projects/MIP-Config/papers/09-JAIR-ParamILS.pdf
+  version: JAIR 36:267–306, 2009; author-hosted 40-page article
+  persistent_id: doi:10.1613/jair.2861
+  access_level: full_text
+  accessed_at: '2026-10-11T11:56:17Z'
+  sha256: 3a1223d28e13b289771ff59c3bf7967c883137346b23d1d69887359f797e4bd4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 265 preceding maintained
+    identities, ignored/hidden checkout text, and semantic inspection of seven AIO targets plus neighboring
+    configuration/resource-allocation methods.
+  rationale: No inspected AIO target captures this general algorithm-configuration procedure or a defining
+    component. The local algorithm remains supported by its primary source; this is a bounded mapping
+    assessment, not absence from all ontologies.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing/training of machine-learning models.
+      This method configures target algorithms generally; an optional use for model tuning does not establish
+      a training-strategy identity or necessary relation.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is a broad process for building methods that learn from data. Configuring
+      an arbitrary solver over instances need not build such a learning method; shared use of observations
+      does not justify equivalence or subclassing.
+  - target: AIO:MetaLearning
+    rejection_reason: The pinned task learns from metadata about machine-learning experiments. These methods
+      require no collection of ML experiments or learned cross-task prior; solver configuration alone
+      is not that identity.
+  - target: AIO:ActiveLearning
+    rejection_reason: The pinned task queries labels for data points. Choosing configuration evaluations
+      or instance runs is not label acquisition in that defined sense.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Exploration and empirical feedback do not by themselves establish the pinned learning-task
+      identity; no reward-learning agent or policy-learning component is required by these configurators.
+  - target: AIO:RandomForest
+    rejection_reason: These methods contain no defining decision-tree ensemble surrogate; random sampling,
+      randomized local search and rank tests are not random forests.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias concept, not a configuration algorithm. Potential overfitting or
+      distribution mismatch is a limitation rather than an identity mapping.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:04:49Z'
+  updated_at: '2026-10-11T12:04:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

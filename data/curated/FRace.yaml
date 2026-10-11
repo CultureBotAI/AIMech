@@ -1,0 +1,107 @@
+name: F-Race
+definition: A statistical racing method for configuring metaheuristics that evaluates a finite candidate
+  set on shared problem-instance blocks and eliminates candidates judged worse through a Friedman rank
+  test followed by comparisons with the best-ranked candidate.
+concept_kind: algorithm
+identity_notes: This record covers the original 2002 F-Race method. It uses a fixed starting candidate
+  pool and nested survivor sets, not iterative resampling of configurations as in later iterated racing
+  methods. It differs from ROAR’s challenger-incumbent heuristic comparisons, fixed-fraction successive
+  halving and a standalone Friedman test without sequential resource allocation. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 265 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 20 lines in the worktree and 25 in main. These were prior candidate leads, source references,
+  neighboring-method mentions and five unrelated ROAR namespace entries in ignored dependencies, not existing
+  records for these identities. Seven exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring
+  native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The method assumes independent instance blocks and appropriate within-block comparability. The aggregate
+  test uses an approximate chi-square reference distribution, followed by the paper’s Student-t-based
+  pairwise rule. No implementation-level small-sample correction or sequential family-wise error guarantee
+  was verified.
+- Rank comparisons discard cost magnitudes. Better rank sums need not identify the lowest arithmetic mean
+  cost, so the method is not asserted to certify the minimizer of the expected-cost objective stated in
+  Section2. Repeated significance decisions and early elimination do not ensure that the best configuration
+  survives.
+- A finite initial candidate pool limits what can be selected, and the time budget can expire with multiple
+  survivors. The inspected method does not establish a unique returned configuration in every such case.
+  No general superiority over parametric racing methods or replicated TSP result is claimed.
+id: AIMech:FRace
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–3.3, PDF pp.2–5, especially Section3.1 racing and Section3.2 Friedman/post-hoc comparisons;
+    Section6, PDFp.8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Start with a finite set of candidate configurations and draw a sequence of training instances
+    independently from the selected instance distribution. At each racing step, evaluate every surviving
+    candidate on the same new instance and append its observed solution cost. Rank surviving candidates
+    by cost within each accumulated instance block, using average ranks for ties. Apply the paper’s Friedman
+    aggregate rank statistic to the accumulated blocks. If its null is not rejected, retain all survivors;
+    if rejected, compare each candidate with the best-ranked one using the stated post-hoc rank-difference
+    test and discard candidates found worse. Repeat with the reduced candidate set until one remains or
+    the prescribed total computation budget stops further evaluation.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–3.3, PDF pp.2–5, especially Section3.1 racing and Section3.2 Friedman/post-hoc
+      comparisons; Section6, PDFp.8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Racing Algorithm for Configuring Metaheuristics
+  authors:
+  - Mauro Birattari
+  - Thomas Stützle
+  - Luis Paquete
+  - Klaus Varrentrapp
+  source_type: primary_paper
+  url: https://iridia.ulb.ac.be/~stuetzle/publications/GECCO02.pdf
+  version: GECCO 2002, pp.11–18; author-hosted eight-page paper
+  access_level: full_text
+  accessed_at: '2026-10-11T11:57:05Z'
+  sha256: 4e67ab87a580dce69be5a2f484712f8173dfac1096e2343c3e89bfce16c162ad
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 265 preceding maintained
+    identities, ignored/hidden checkout text, and semantic inspection of seven AIO targets plus neighboring
+    configuration/resource-allocation methods.
+  rationale: No inspected AIO target captures this general algorithm-configuration procedure or a defining
+    component. The local algorithm remains supported by its primary source; this is a bounded mapping
+    assessment, not absence from all ontologies.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing/training of machine-learning models.
+      This method configures target algorithms generally; an optional use for model tuning does not establish
+      a training-strategy identity or necessary relation.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is a broad process for building methods that learn from data. Configuring
+      an arbitrary solver over instances need not build such a learning method; shared use of observations
+      does not justify equivalence or subclassing.
+  - target: AIO:MetaLearning
+    rejection_reason: The pinned task learns from metadata about machine-learning experiments. These methods
+      require no collection of ML experiments or learned cross-task prior; solver configuration alone
+      is not that identity.
+  - target: AIO:ActiveLearning
+    rejection_reason: The pinned task queries labels for data points. Choosing configuration evaluations
+      or instance runs is not label acquisition in that defined sense.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Exploration and empirical feedback do not by themselves establish the pinned learning-task
+      identity; no reward-learning agent or policy-learning component is required by these configurators.
+  - target: AIO:RandomForest
+    rejection_reason: These methods contain no defining decision-tree ensemble surrogate; random sampling,
+      randomized local search and rank tests are not random forests.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias concept, not a configuration algorithm. Potential overfitting or
+      distribution mismatch is a limitation rather than an identity mapping.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:04:49Z'
+  updated_at: '2026-10-11T12:04:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
