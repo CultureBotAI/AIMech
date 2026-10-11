@@ -1,0 +1,59 @@
+name: Graph attention network v2
+definition: A graph neural architecture whose neighborhood attention scorer applies a learned scalar projection
+  after a nonlinear transformation of the query-neighbor pair, allowing attention rankings to depend on
+  the query node.
+concept_kind: architecture
+identity_notes: GATv2 changes the scoring-function operation order of the original GAT. It is a distinct
+  architecture, not a software version label or a synonym for every graph attention network.
+limitations:
+- Dynamic attention is an expressiveness property of the parameterized scorer, not a guarantee that any
+  trained instance learns useful node-specific rankings.
+- This record supports the architecture and operation order, not universal benchmark superiority or a
+  causal interpretation of attention coefficients.
+aliases:
+- GATv2
+id: AIMech:GATv2
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.2 and 3.3, equations 3–4 and 7 with footnote 5, PDF/printed pp. 3 and 5
+  relation: supports
+claims:
+- claim_id: architecture-mechanism
+  kind: mechanism
+  statement: Concatenate query and neighbor features, apply a learned affine transformation and LeakyReLU,
+    and then project to an attention score; normalize scores over the neighborhood with softmax and use
+    them to aggregate transformed neighbor features.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.2 and 3.3, equations 3–4 and 7 with footnote 5, PDF/printed pp. 3 and 5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: How Attentive are Graph Attention Networks?
+  authors:
+  - Shaked Brody
+  - Uri Alon
+  - Eran Yahav
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2105.14491v3
+  version: 2105.14491v3; ICLR 2022 author manuscript
+  access_level: full_text
+  accessed_at: '2026-10-11T04:04:55Z'
+  sha256: d316a7d23d735becf0c31d2b73c3426bb2aa5ec592705ce559d79a740abf53ec
+  persistent_id: arXiv:2105.14491v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The specified graph attentional layers form an artificial neural architecture, so the artificial-neural-network
+    target is broader.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:11:44Z'
+  updated_at: '2026-10-11T04:11:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
