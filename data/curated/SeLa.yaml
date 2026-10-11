@@ -1,0 +1,129 @@
+name: SeLa
+definition: A self-supervised representation-learning procedure that alternates neural pseudo-label prediction
+  and dataset-wide self-labelling through an entropy-regularized balanced optimal-transport assignment.
+concept_kind: algorithm
+identity_notes: SeLa denotes Asano et al.’s simultaneous clustering and representation-learning procedure.
+  It differs from k-means-based DeepCluster and online cross-view SwAV. Its global transport formulation
+  and the author implementation’s hardening of soft assignments are distinguished explicitly. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 195 prior native IDs/names/aliases.
+  Ignored-inclusive, word-delimited searches of both full checkouts found nine prior discovery/review
+  references in each plus six unrelated language-stemmer tokens in the main environment. An initial substring
+  search also matched unrelated layer-name suffixes. Neighboring k-means, SwAV, Barlow Twins and VICReg
+  mechanisms and exact AIO definitions/edges were inspected; shared components do not establish identity.
+limitations:
+- The paper’s displayed reciprocal Sinkhorn updates omit marginal factors; this record states the 1/K
+  and 1/N factors required by its constraints and confirmed in the pinned CPU and GPU implementations.
+  Probabilities, log probabilities and mass-normalized joint matrices must not be conflated.
+- 'The original hard equal-size partition assumes K divides N. For other N≥K it needs integer count capacities
+  differing by at most one. With integer count capacities, the unregularized transport problem admits
+  an extreme optimum for which NQ is an integral one-hot assignment matrix: the mass-normalized Q has
+  entries 0 or 1/N. Arbitrary tied optimal mixtures and entropy-regularized plans need not be hard assignments.'
+- Finite regularization and finite iteration approximate the original combinatorial assignment. Columnwise
+  argmax can destroy balance; uniform soft plans are feasible. The paper’s ideal alternating-objective
+  convergence claim is not a guarantee for this approximate hard-label/SGD implementation or against every
+  collapsed state.
+- The mutual-information interpretation concerns labels and data indices under the stated marginal and
+  fitted-model assumptions, not a measured mutual information between continuous embeddings.
+- Global prediction storage and reassignment scale with images and classes. Cluster count, augmentation,
+  optimization and the balanced-class prior affect the learned grouping; semantic labels and universal
+  benchmark improvements are not guaranteed.
+id: AIMech:SeLa
+aliases:
+- Self-labelling via simultaneous clustering and representation learning
+- Self-labeling via simultaneous clustering and representation learning
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–3.5, Equations (1)–(8), PDF pp. 3–6, especially marginal constraints on p. 3 and
+    alternating optimization on p. 4
+  relation: supports
+- source_id: additional-1
+  locator: 'sinkhornknopp.py lines 16–45, 112–138 and 150–191: full-dataset predictions, prescribed marginal
+    factors and hard argmax labels'
+  relation: supports
+- source_id: additional-2
+  locator: 'main.py lines 79–102: no-gradient reassignment and cross-entropy training of one or several
+    heads'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let p_ki be the network softmax probability for class k on image i, for N images and K classes.
+    At a self-labelling step hold model parameters fixed and form P_ki=p_ki/N. Approximately minimize
+    <Q,−log P>+(1/lambda) KL(Q||r c^T), lambda>0, over nonnegative K-by-N Q with row masses r_k=1/K and
+    column masses c_i=1/N. With A=P^lambda, obtain Q=diag(alpha) A diag(beta) by alternating alpha=r/(A
+    beta) and beta=c/(A^T alpha), using elementwise division. A conditional soft code would be N Q_:i;
+    the pinned author implementation instead takes y_i=argmax_k Q_ki, without gradients through assignment,
+    and trains the encoder and head on these hard pseudo-labels using cross-entropy and image augmentation
+    until the next global reassignment. This practical hardening need not preserve exact equal class counts.
+    Multiple heads can supply separate self-labellings sharing one feature extractor.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–3.5, Equations (1)–(8), PDF pp. 3–6, especially marginal constraints on p. 3 and
+      alternating optimization on p. 4
+    relation: supports
+  - source_id: additional-1
+    locator: 'sinkhornknopp.py lines 16–45, 112–138 and 150–191: full-dataset predictions, prescribed
+      marginal factors and hard argmax labels'
+    relation: supports
+  - source_id: additional-2
+    locator: 'main.py lines 79–102: no-gradient reassignment and cross-entropy training of one or several
+      heads'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Self-labelling via simultaneous clustering and representation learning
+  authors:
+  - Yuki Markus Asano
+  - Christian Rupprecht
+  - Andrea Vedaldi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1911.05371v3
+  version: ICLR 2020; arXiv:1911.05371v3, 2020-02-19; 22 PDF pages
+  persistent_id: https://arxiv.org/abs/1911.05371v3
+  access_level: full_text
+  accessed_at: '2026-10-11T08:07:46Z'
+  sha256: 784ac85aaf168c68aded25bd4ff55a74d14418ceaee0dc335629016a2d037f61
+- source_id: additional-1
+  title: 'yukimasano/self-label author implementation: sinkhornknopp.py'
+  authors:
+  - yukimasano/self-label contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/yukimasano/self-label/3891e376a82d1e4ac6de6d39505b692b8885c971/sinkhornknopp.py
+  version: yukimasano/self-label commit 3891e376a82d1e4ac6de6d39505b692b8885c971
+  persistent_id: https://github.com/yukimasano/self-label/blob/3891e376a82d1e4ac6de6d39505b692b8885c971/sinkhornknopp.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:12:27Z'
+  sha256: cbf89a32a5c656c27728724cff7a5199f349ab48971833630a08f1d3bf82af23
+- source_id: additional-2
+  title: 'yukimasano/self-label author implementation: main.py'
+  authors:
+  - yukimasano/self-label contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/yukimasano/self-label/3891e376a82d1e4ac6de6d39505b692b8885c971/main.py
+  version: yukimasano/self-label commit 3891e376a82d1e4ac6de6d39505b692b8885c971
+  persistent_id: https://github.com/yukimasano/self-label/blob/3891e376a82d1e4ac6de6d39505b692b8885c971/main.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:12:28Z'
+  sha256: 9fe71e682454ed83a7cb3a99096e006a1e733769f2ed82801ace27c5d82d4f5c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This algorithm learns from self-generated targets or relationships between unlabeled inputs.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: This procedure uses or directly learns unlabeled image cluster assignments. The pinned target
+    is an unlabeled clustering task; this is a related algorithm-to-task association, not equivalence,
+    a semantic class-label guarantee or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:15:29Z'
+  updated_at: '2026-10-11T08:17:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
