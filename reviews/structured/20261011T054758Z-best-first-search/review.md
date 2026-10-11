@@ -1,0 +1,989 @@
+# Scientific self-review of six best-first search concepts
+
+- Review: 20261011T054758Z-best-first-search
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T05:47:58Z
+- Finished UTC: 2026-10-11T05:47:58Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+All six algorithm identities and scoped mechanisms are supported by inspected primary methods, with explicit no-match assessments against six AIO candidates. The review retained original-versus-inflated ordering, conditional value inheritance, branching/storage and theorem assumptions. No actionable unresolved record defect was found.
+
+## Scope And Provenance
+
+Full scientific self-review of generic best-first, greedy best-first, Weighted A-star, SRBFS, RBFS and RBFS with controlled re-expansion.
+
+Selection: Exactly the six maintained IDs in the best-first-search discovery report; no sampling.
+Coverage: full; 6 reviewed / 6 in the declared population.
+Source: working_tree at Git base 4d0433b9921d77b13cb470412254eb5534783f14.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BestFirstSearch | data/curated/BestFirstSearch.yaml | maintained | Best-first search |
+| AIMech:GreedyBestFirstSearch | data/curated/GreedyBestFirstSearch.yaml | maintained | Greedy best-first search |
+| AIMech:WeightedAStar | data/curated/WeightedAStar.yaml | maintained | Weighted A-star search |
+| AIMech:SimpleRecursiveBestFirstSearch | data/curated/SimpleRecursiveBestFirstSearch.yaml | maintained | Simple recursive best-first search |
+| AIMech:RecursiveBestFirstSearch | data/curated/RecursiveBestFirstSearch.yaml | maintained | Recursive best-first search |
+| AIMech:RBFSControlledReexpansion | data/curated/RBFSControlledReexpansion.yaml | maintained | Recursive best-first search with controlled re-expansion |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli check-source | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | Checked 442 record(s); 0 failed.<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate-curated | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | Checked 130 curated concept record(s); 0 error(s).<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli seed --check | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate-history --base HEAD | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | Checked 25 history record(s); 0 error(s).<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python scripts/record_review.py check | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | {<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 24,<br>  "coverage": "declared_scopes_only"<br>}<br>topClass is deprecated - use top_class<br> |
+| just check | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | All checks passed!<br>........................................................................ [ 31%]<br>........................................................................ [ 63%]<br>........................................................................ [ 94%]<br>.........sss                                                             [100%]<br>225 passed, 3 skipped in 52.15s<br>Checked 442 record(s); 0 failed.<br>Checked 130 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 25 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 24,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+
+## Scientific And Domain Assessments
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:BestFirstSearch.
+
+This record describes the canonical global minimum-f form, with lower values defined as better. A-star, heuristic-only greedy best-first search and weighted A-star choose different evaluation rules. Broader literature also calls restricted-candidate-set policies best-first; their extra selection rules are not part of this core procedure. BFS is not an alias here because it identifies breadth-first search in AIMech. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+A minimum evaluation value alone does not guarantee minimum solution cost; the meaning and assumptions of the evaluation rule matter. Maintaining the full frontier and explored-state information can require substantial memory. Recursive or bounded-memory variants change what is retained. Tie-breaking, duplicate updates and termination conditions are additional algorithm choices; the generic strategy does not settle them or guarantee completion on an infinite space.
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:GreedyBestFirstSearch.
+
+The identity is heuristic-only global best-first selection, not every algorithm described as greedy. Hill climbing and beam search restrict the available candidates differently. The accumulated cost may still be stored for reconstructing or measuring a solution; it is omitted from the primary priority key. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+The priority rule supplies no user-chosen fixed bound on solution suboptimality. Any post-hoc bound requires additional lower-bound information and assumptions. Tie-breaking and duplicate handling remain consequential implementation choices. Completeness is not asserted for arbitrary infinite spaces or memory-pruned variants. A strong cost-to-go heuristic does not by itself establish universally fast search; no empirical correlation threshold is treated as a general theorem.
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:WeightedAStar.
+
+The record concerns fixed-weight Weighted A-star, not a depth-dependent weight schedule, an anytime schedule of repeated searches, or weighted IDA-star. Pohl’s original expression (1−omega)g+omega h uses a different parameterization; for omega less than one, dividing by the positive factor (1−omega) gives w=omega/(1−omega), so w&gt;1 corresponds to omega&gt;1/2. This algebraic equivalence concerns priority ordering, not duplicate-policy equivalence. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+Increasing the weight does not guarantee faster search or fewer expansions. The cited study’s empirical conditions are not asserted as necessary-and-sufficient conditions on all search spaces. A w-suboptimality guarantee requires an admissible heuristic and appropriate graph-search and termination conditions. It must not be inferred from the priority formula alone or an implementation that indiscriminately drops improved duplicates. The weight is finite and fixed in this record; w=1 gives the A-star priority, while a heuristic-only priority is curated separately.
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:SimpleRecursiveBestFirstSearch.
+
+SRBFS is Korf’s simple recursive algorithm, not an alias for the full RBFS refinement. It resets regenerated children to their static values instead of conditionally inheriting a previously backed-up parent value. This distinction can cause additional regeneration. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+Resetting regenerated child values can repeat already explored work before reaching a previously established frontier. Full RBFS adds a conditional inheritance rule to mitigate this. Path cycles and termination require appropriate graph and evaluation assumptions or explicit path checks; the displayed procedure is not a complete production implementation for every graph. The recursive representation retains the path and sibling alternatives. Linear-in-depth memory is conditional on bounded branching and fixed-size node information; it is not full-frontier storage.
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:RecursiveBestFirstSearch.
+
+RBFS denotes Korf’s full refinement of SRBFS. A backed-up value greater than the node’s static value signals previous exploration; only then do child values inherit the maximum of that backed-up value and their own static evaluations. Unconditionally replacing every child value by the maximum with its parent’s value would lose this distinction for nonmonotone evaluation functions. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+The paper’s best-first-order statement concerns newly expanded search-tree nodes. Previously expanded paths may be regenerated in depth-first order. Path and sibling storage is O(bd) for branching factor b and maximum depth d under the paper’s model; linear-in-depth storage assumes bounded b and fixed-size node data. Numerous distinct evaluation values can cause substantial regeneration overhead. The memory saving does not establish an A-star-equivalent runtime bound. If a cycle does not increase the evaluation value, explicit current-path cycle checking is needed to avoid looping; the method is not a global closed-list duplicate-elimination algorithm.
+
+### Evaluation order, recursive value semantics, resource assumptions and AIO no-match assessment
+
+evidence: supported. Targets: AIMech:RBFSControlledReexpansion.
+
+RBFS_CR is the histogram-based controlled re-expansion method of Hatem, Kiesel and Ruml. It is distinct from their fixed-tolerance RBFS-epsilon and weighted-root RBFS-kth-root heuristics. Its inflated ordering can depart from strict best-first order in the original evaluation values. No normalized identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental dependency substrings, not existing concept records.
+
+The published O(N) expansion analysis is conditional on accurate subtree histograms, enough counts to choose appropriate backups, and a bound of O(N) on extra unique nodes beyond optimal solution cost. N is the specified A-star search-tree expansion count without duplicate pruning and with worst-case ties. The implementation’s finite histogram buckets estimate distributions; they do not automatically satisfy the analysis’s exact-distribution assumption on every problem. The paper retains one histogram per current-path node. Its depth-linear storage argument assumes bounded per-node histogram and successor storage; an added unbounded transposition table changes the memory scope. Liberal thresholds require continuing branch-and-bound after finding an incumbent to establish optimality under admissible bounds. The first encountered solution is not automatically certified optimal. The record does not certify the pseudocode as a complete executable implementation or claim universal speed improvement.
+
+### Counterexamples to overbroad speed, quality and memory claims
+
+scope: supported. Targets: AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion.
+
+The final records withstand the scoped challenges: heuristic amplification is not guaranteed to accelerate search; duplicate-discarding does not automatically preserve a w-bound; original-f and inflated-f ordering differ; O(bd) is not an unconditional O(d); and finite histograms or an unlimited transposition table do not establish the conditional controlled-re-expansion theorem.
+
+The generic best-first record explicitly limits itself to global minimum-f selection while retaining wider restricted-set family usage as context. The SRBFS and RBFS pseudocode differ exactly at conditional inheritance of stored values. No complete proof or execution audit is claimed.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:BestFirstSearch, AIMech:GreedyBestFirstSearch, AIMech:WeightedAStar, AIMech:SimpleRecursiveBestFirstSearch, AIMech:RecursiveBestFirstSearch, AIMech:RBFSControlledReexpansion. Retain the generic ordering strategy and five narrower procedures: h-only priority, fixed g+w*h priority, recursive static-value reset, conditional inherited values and histogram-inflated backups. A family and its defined variants are different scopes, not duplicate identities. Shared search tasks, papers or memory motivation do not establish equivalence.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T054555Z-best-first-search.json | supports | No normalized identity match across all 442 AIO labels/scoped synonyms and 124 prior native records. Ignored/hidden-inclusive searches returned 68 worktree and 72 main-checkout lines: prior frontier leads, citations and best-first versus breadth-first discussion, plus four incidental dependency substrings. None denotes an existing record for these six identities. |
+| mapping | sources/aio/aio.json; Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction and ReinforcementLearning | supports | Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction and ReinforcementLearning were inspected. The semantic label scan also covered search, planning, heuristic, path, traversal, symbolic, reasoning and graph terms. All six use bounded aio_no_match assessments: learned graph/language models, learning tasks and mathematical functions do not denote these search procedures. |
+| bestfirstsearch-0 | https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf; Introduction, printed p. 533 / PDF p. 1: open/closed lists, minimum-f expansion and special cases | supports | A search strategy that repeatedly expands the open node with the best value under a specified evaluation rule, adding eligible successors to the open frontier. Source version: AAAI-92 proceedings, 533–538 (1992); official conference PDF. Rendered pages actually inspected: 1. |
+| bestfirstsearch-1 | https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf; Introduction and Best-First Search, PDF pp. 1–2 | supports | Global frontier selection differs from choosing only a current node’s neighbor or discarding nodes to enforce a beam width. Some named best-first variants additionally restrict selection to a privileged subset of the frontier. Source version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 2. |
+| greedybestfirstsearch-0 | https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf; Best-First Search: Greedy best-first search and Ignoring Duplicates, PDF p. 2; family distinctions on PDF p. 1 | supports | A best-first search algorithm that prioritizes open nodes by a heuristic estimate of remaining cost to a goal, without adding the cost already incurred to that priority. Source version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 2. |
+| greedybestfirstsearch-1 | https://www.cs.unh.edu/~ruml/papers/wted-astar-socs-12.pdf; Abstract and Introduction, PDF p. 1; Discussion and Conclusion, PDF p. 8 | supports | Heuristic-only ordering is the greedy endpoint discussed in weighted-search studies. The cited study cautions that moving toward this endpoint need not reduce search effort; its empirical explanations are not universal runtime guarantees. Source version: SoCS 3(1), 137–144 (2012); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 1. |
+| weightedastar-0 | https://www.cs.unh.edu/~ruml/papers/wted-astar-socs-12.pdf; Introduction, PDF p. 1: f-prime(n)=g(n)+w h(n), w in (1,infinity) | supports | A heuristic best-first search algorithm that orders open nodes by g+w h using a fixed finite weight w greater than one, where g is path cost so far and h estimates remaining cost. Source version: SoCS 3(1), 137–144 (2012); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 1. |
+| weightedastar-1 | https://cse.sc.edu/~mgv/csce580sp17/gradPres/pohl_HeuristicSearch_Weighted1970.pdf; Heuristic Path Algorithm, printed p. 196 / PDF p. 4; HPA+ update, printed p. 199 / PDF p. 7; Final Observations, printed p. 202 / PDF p. 10 | supports | The original paper combines cost-to-date and heuristic terms with complementary weights. Its basic graph model counts edges; it separately describes HPA+ updates that revise an open node or reopen an expanded node after a better route. These distinctions prevent treating every weighted priority implementation as the same graph algorithm. Source version: Artificial Intelligence 1(3–4), 193–204 (1970); university-hosted scan. Rendered pages actually inspected: 4, 7, 10. |
+| weightedastar-2 | https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf; Weighted A-star and Ignoring Duplicates, PDF p. 2 | supports | The comparison paper distinguishes the advertised weighted-search quality bound from its own duplicate-discarding experimental implementation, noting that ignoring duplicate improvements can relax the bound. Source version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 2. |
+| simplerecursivebestfirstsearch-0 | https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf; Simple Recursive Best-First Search, printed pp. 534–535 / PDF pp. 2–3; SRBFS pseudocode and Figure 3 | supports | A recursive best-first search procedure that initializes generated children from their static evaluation values, explores the best child within an alternative-derived bound, and backs up returned values to decide which subtree to revisit. Source version: AAAI-92 proceedings, 533–538 (1992); official conference PDF. Rendered pages actually inspected: 2, 3. |
+| simplerecursivebestfirstsearch-1 | https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf; Full Recursive Best-First Search, printed p. 535 / PDF p. 3; Theoretical Results, printed p. 536 / PDF p. 4 | supports | The full RBFS refinement preserves previously backed-up information when regenerating children. The paper distinguishes ordering all SRBFS expansions from ordering first-time RBFS expansions, because RBFS traverses previously expanded paths in depth-first order. Source version: AAAI-92 proceedings, 533–538 (1992); official conference PDF. Rendered pages actually inspected: 3, 4. |
+| recursivebestfirstsearch-0 | https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf; Full Recursive Best-First Search, printed p. 535 / PDF p. 3; Theoretical Results, printed p. 536 / PDF p. 4 | supports | A recursive search algorithm that explores the best stored subtree alternative within an upper bound and conditionally passes a previously backed-up value to regenerated children, retaining path and sibling information instead of the full best-first frontier. Source version: AAAI-92 proceedings, 533–538 (1992); official conference PDF. Rendered pages actually inspected: 3, 4. |
+| recursivebestfirstsearch-1 | https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf; Previous Work: Recursive Best-First Search and Figure 1, PDF p. 2 | supports | The later primary paper reproduces the conditional inheritance rule and the bound obtained from competing stored subtree values before introducing separate re-expansion-control variants. Source version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 2. |
+| rbfscontrolledreexpansion-0 | https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf; RBFS with Controlled Re-expansion, Figure 2 and discussion, PDF pp. 3–4; Assumptions 1–3 and Theorem 2, PDF pp. 4–5 | supports | An RBFS variant that estimates subtree evaluation-value distributions and inflates backed-up values to make later visits expand geometrically more nodes, while retaining original lower-bound information for solution-cost pruning. Source version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 3, 4, 5. |
+| rbfscontrolledreexpansion-1 | https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf; Assumptions 1–3, PDF p. 4; Theorem 2, PDF p. 5; Dockyard Robot Planning and Conclusion, PDF p. 6 | supports | The overhead theorem relies on explicit distribution and extra-node assumptions. The paper also explains that relaxing original best-first order is intentional and that its Dockyard experiment uses an unlimited transposition table; those experiments do not demonstrate the memory bound of a path-only implementation. Source version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered PDF pages. Rendered pages actually inspected: 4, 5. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review, not independent approval. All six records remain DRAFT.
+- The initial authoring validator rejected one redundant punctuation-only alias; it was removed before input inspection and formal review, and final checks pass. The discovery report retains the failed attempt.
+- The 2010 and 2012 empirical papers support precise algorithm descriptions and limitations, not universal domain-selection rules or current implementation guarantees.
+- Pohl’s priority-parameter conversion is explicit curator algebra; it does not equate HPA duplicate rules with every modern Weighted A-star implementation.
+- SRBFS and RBFS are inspected in the 1992 proceedings version; the 2015 paper corroborates RBFS, but the full 1993 journal expansion was not inspected.
+- RBFS controlled re-expansion uses conditional analysis with exact-distribution, sufficient-count and extra-node assumptions. Practical finite buckets and an unlimited experimental table have distinct scopes.
+- Repeated evidence-source identifiers for different passages of one paper do not represent independent studies.
+- The exact PDF reading scope and byte hashes are saved in the discovery report. An extraction manifest alone is not visual or scientific validation.
+- No puzzle solving, model execution, complete proof certification or implementation audit was performed.
+- The inaccessible Korf erratum and restricted weighted-search paper remain leads; no claims rely on their unseen contents.
+- All required final structural checks passed. Prior and newly discovered candidates remain; discovery has not saturated.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T054758Z-best-first-search
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of six best-first search concepts
+started_at: '2026-10-11T05:47:58Z'
+finished_at: '2026-10-11T05:47:58Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed its own records against
+    inspected primary methods; no independent approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: All six algorithm identities and scoped mechanisms are supported by inspected
+  primary methods, with explicit no-match assessments against six AIO candidates.
+  The review retained original-versus-inflated ordering, conditional value inheritance,
+  branching/storage and theorem assumptions. No actionable unresolved record defect
+  was found.
+source:
+  git_revision: 4d0433b9921d77b13cb470412254eb5534783f14
+  state: working_tree
+  inputs:
+  - path: data/curated/BestFirstSearch.yaml
+    sha256: d43811f831e3a4d2c08e861f5a973c03ec481c1b406d724c042847b7dbb426bf
+    role: target
+  - path: data/curated/GreedyBestFirstSearch.yaml
+    sha256: ec49328f0c41b8205dfe2816c9a01fdb50fa1e1292eacee71fc2872c7cc54020
+    role: target
+  - path: data/curated/RBFSControlledReexpansion.yaml
+    sha256: 6ed34a212cc75612117ef1daf276ba4b5e7a65eeb3c7fbb4a2a9890adccef8e4
+    role: target
+  - path: data/curated/RecursiveBestFirstSearch.yaml
+    sha256: 8ec921263592df64c798eed093ffc2b454c5e1c79c915edcb154bef63dbae6ab
+    role: target
+  - path: data/curated/SimpleRecursiveBestFirstSearch.yaml
+    sha256: ed513766e81bbf1801453eb8053bf999bc91666bcbae5bb7fd48f20bc2052c19
+    role: target
+  - path: data/curated/WeightedAStar.yaml
+    sha256: a5bf05341f6076ecdd8f1ee22f4f6edb8fd87307320d2998a63bee1da8982ae2
+    role: target
+  - path: research/discovery/20261011T054555Z-best-first-search.json
+    sha256: 4d527783af0e0f75abe1179df198f3c219ac161d272bb0f5316a329e8e6dd122
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BestFirstSearch
+  path: data/curated/BestFirstSearch.yaml
+  label: Best-first search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BestFirstSearch.yaml
+    role: maintained_record
+- target_id: AIMech:GreedyBestFirstSearch
+  path: data/curated/GreedyBestFirstSearch.yaml
+  label: Greedy best-first search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GreedyBestFirstSearch.yaml
+    role: maintained_record
+- target_id: AIMech:WeightedAStar
+  path: data/curated/WeightedAStar.yaml
+  label: Weighted A-star search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WeightedAStar.yaml
+    role: maintained_record
+- target_id: AIMech:SimpleRecursiveBestFirstSearch
+  path: data/curated/SimpleRecursiveBestFirstSearch.yaml
+  label: Simple recursive best-first search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SimpleRecursiveBestFirstSearch.yaml
+    role: maintained_record
+- target_id: AIMech:RecursiveBestFirstSearch
+  path: data/curated/RecursiveBestFirstSearch.yaml
+  label: Recursive best-first search
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RecursiveBestFirstSearch.yaml
+    role: maintained_record
+- target_id: AIMech:RBFSControlledReexpansion
+  path: data/curated/RBFSControlledReexpansion.yaml
+  label: Recursive best-first search with controlled re-expansion
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RBFSControlledReexpansion.yaml
+    role: maintained_record
+scope:
+  description: Full scientific self-review of generic best-first, greedy best-first,
+    Weighted A-star, SRBFS, RBFS and RBFS with controlled re-expansion.
+  selection: Exactly the six maintained IDs in the best-first-search discovery report;
+    no sampling.
+  coverage: full
+  population_size: 6
+  reviewed_target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exclusions:
+  - target: Complete theorem certification, all implementation variants and benchmark
+      reproduction
+    reason: The review assesses cited methods, identities and limitations, not a formal
+      verification or execution study.
+  - target: Other memory-bounded, beam, anytime, real-time and learned search variants
+    reason: The remaining frontier requires separate identity and primary-method assessment.
+checks:
+- check_id: required-0
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-1
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 130 curated concept record(s); 0 error(s).
+
+    '
+- check_id: required-3
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    '
+- check_id: required-4
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base HEAD
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 25 history record(s); 0 error(s).
+
+    '
+- check_id: required-5
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    scripts/record_review.py check
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 24,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}\ntopClass is deprecated - use top_class\n"
+- check_id: required-6
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 31%]\n........................................................................\
+    \ [ 63%]\n........................................................................\
+    \ [ 94%]\n.........sss                                                       \
+    \      [100%]\n225 passed, 3 skipped in 52.15s\nChecked 442 record(s); 0 failed.\n\
+    Checked 130 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 25 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 24,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-7
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T054555Z-best-first-search.json
+  accessed_at: '2026-10-11T05:47:58Z'
+  support: supports
+  summary: 'No normalized identity match across all 442 AIO labels/scoped synonyms
+    and 124 prior native records. Ignored/hidden-inclusive searches returned 68 worktree
+    and 72 main-checkout lines: prior frontier leads, citations and best-first versus
+    breadth-first discussion, plus four incidental dependency substrings. None denotes
+    an existing record for these six identities.'
+  search_scope: All 442 pinned AIO identities and scoped synonyms, 124 preceding native
+    records, and both complete checkouts including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM,
+    MachineLearningTask, MathematicalFunction and ReinforcementLearning
+  accessed_at: '2026-10-11T05:47:58Z'
+  support: supports
+  summary: 'Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM,
+    MachineLearningTask, MathematicalFunction and ReinforcementLearning were inspected.
+    The semantic label scan also covered search, planning, heuristic, path, traversal,
+    symbolic, reasoning and graph terms. All six use bounded aio_no_match assessments:
+    learned graph/language models, learning tasks and mathematical functions do not
+    denote these search procedures.'
+- evidence_id: bestfirstsearch-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  locator: 'Introduction, printed p. 533 / PDF p. 1: open/closed lists, minimum-f
+    expansion and special cases'
+  accessed_at: '2026-10-11T05:28:08Z'
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+  support: supports
+  summary: 'A search strategy that repeatedly expands the open node with the best
+    value under a specified evaluation rule, adding eligible successors to the open
+    frontier. Source version: AAAI-92 proceedings, 533–538 (1992); official conference
+    PDF. Rendered pages actually inspected: 1.'
+- evidence_id: bestfirstsearch-1
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  locator: Introduction and Best-First Search, PDF pp. 1–2
+  accessed_at: '2026-10-11T05:39:45Z'
+  snapshot_sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  support: supports
+  summary: 'Global frontier selection differs from choosing only a current node’s
+    neighbor or discarding nodes to enforce a beam width. Some named best-first variants
+    additionally restrict selection to a privileged subset of the frontier. Source
+    version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF
+    pages. Rendered pages actually inspected: 2.'
+- evidence_id: greedybestfirstsearch-0
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  locator: 'Best-First Search: Greedy best-first search and Ignoring Duplicates, PDF
+    p. 2; family distinctions on PDF p. 1'
+  accessed_at: '2026-10-11T05:39:45Z'
+  snapshot_sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  support: supports
+  summary: 'A best-first search algorithm that prioritizes open nodes by a heuristic
+    estimate of remaining cost to a goal, without adding the cost already incurred
+    to that priority. Source version: SoCS 1(1), 129–136 (2010); author-hosted manuscript
+    with unnumbered PDF pages. Rendered pages actually inspected: 2.'
+- evidence_id: greedybestfirstsearch-1
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/wted-astar-socs-12.pdf
+  locator: Abstract and Introduction, PDF p. 1; Discussion and Conclusion, PDF p.
+    8
+  accessed_at: '2026-10-11T05:39:45Z'
+  snapshot_sha256: f1cd583c7e8f176747df6da711ca173c44f398080593dd206c1eceb202b11c93
+  support: supports
+  summary: 'Heuristic-only ordering is the greedy endpoint discussed in weighted-search
+    studies. The cited study cautions that moving toward this endpoint need not reduce
+    search effort; its empirical explanations are not universal runtime guarantees.
+    Source version: SoCS 3(1), 137–144 (2012); author-hosted manuscript with unnumbered
+    PDF pages. Rendered pages actually inspected: 1.'
+- evidence_id: weightedastar-0
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/wted-astar-socs-12.pdf
+  locator: 'Introduction, PDF p. 1: f-prime(n)=g(n)+w h(n), w in (1,infinity)'
+  accessed_at: '2026-10-11T05:39:45Z'
+  snapshot_sha256: f1cd583c7e8f176747df6da711ca173c44f398080593dd206c1eceb202b11c93
+  support: supports
+  summary: 'A heuristic best-first search algorithm that orders open nodes by g+w
+    h using a fixed finite weight w greater than one, where g is path cost so far
+    and h estimates remaining cost. Source version: SoCS 3(1), 137–144 (2012); author-hosted
+    manuscript with unnumbered PDF pages. Rendered pages actually inspected: 1.'
+- evidence_id: weightedastar-1
+  kind: primary_source
+  reference: https://cse.sc.edu/~mgv/csce580sp17/gradPres/pohl_HeuristicSearch_Weighted1970.pdf
+  locator: Heuristic Path Algorithm, printed p. 196 / PDF p. 4; HPA+ update, printed
+    p. 199 / PDF p. 7; Final Observations, printed p. 202 / PDF p. 10
+  accessed_at: '2026-10-11T05:23:51Z'
+  snapshot_sha256: ac04fba0ca8b6a12b815595e0b860873a59c1869f3e0cdf2c018ec50f5d9850c
+  support: supports
+  summary: 'The original paper combines cost-to-date and heuristic terms with complementary
+    weights. Its basic graph model counts edges; it separately describes HPA+ updates
+    that revise an open node or reopen an expanded node after a better route. These
+    distinctions prevent treating every weighted priority implementation as the same
+    graph algorithm. Source version: Artificial Intelligence 1(3–4), 193–204 (1970);
+    university-hosted scan. Rendered pages actually inspected: 4, 7, 10.'
+- evidence_id: weightedastar-2
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  locator: Weighted A-star and Ignoring Duplicates, PDF p. 2
+  accessed_at: '2026-10-11T05:39:45Z'
+  snapshot_sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  support: supports
+  summary: 'The comparison paper distinguishes the advertised weighted-search quality
+    bound from its own duplicate-discarding experimental implementation, noting that
+    ignoring duplicate improvements can relax the bound. Source version: SoCS 1(1),
+    129–136 (2010); author-hosted manuscript with unnumbered PDF pages. Rendered pages
+    actually inspected: 2.'
+- evidence_id: simplerecursivebestfirstsearch-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  locator: Simple Recursive Best-First Search, printed pp. 534–535 / PDF pp. 2–3;
+    SRBFS pseudocode and Figure 3
+  accessed_at: '2026-10-11T05:28:08Z'
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+  support: supports
+  summary: 'A recursive best-first search procedure that initializes generated children
+    from their static evaluation values, explores the best child within an alternative-derived
+    bound, and backs up returned values to decide which subtree to revisit. Source
+    version: AAAI-92 proceedings, 533–538 (1992); official conference PDF. Rendered
+    pages actually inspected: 2, 3.'
+- evidence_id: simplerecursivebestfirstsearch-1
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  locator: Full Recursive Best-First Search, printed p. 535 / PDF p. 3; Theoretical
+    Results, printed p. 536 / PDF p. 4
+  accessed_at: '2026-10-11T05:28:08Z'
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+  support: supports
+  summary: 'The full RBFS refinement preserves previously backed-up information when
+    regenerating children. The paper distinguishes ordering all SRBFS expansions from
+    ordering first-time RBFS expansions, because RBFS traverses previously expanded
+    paths in depth-first order. Source version: AAAI-92 proceedings, 533–538 (1992);
+    official conference PDF. Rendered pages actually inspected: 3, 4.'
+- evidence_id: recursivebestfirstsearch-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  locator: Full Recursive Best-First Search, printed p. 535 / PDF p. 3; Theoretical
+    Results, printed p. 536 / PDF p. 4
+  accessed_at: '2026-10-11T05:28:08Z'
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+  support: supports
+  summary: 'A recursive search algorithm that explores the best stored subtree alternative
+    within an upper bound and conditionally passes a previously backed-up value to
+    regenerated children, retaining path and sibling information instead of the full
+    best-first frontier. Source version: AAAI-92 proceedings, 533–538 (1992); official
+    conference PDF. Rendered pages actually inspected: 3, 4.'
+- evidence_id: recursivebestfirstsearch-1
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  locator: 'Previous Work: Recursive Best-First Search and Figure 1, PDF p. 2'
+  accessed_at: '2026-10-11T05:38:35Z'
+  snapshot_sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  support: supports
+  summary: 'The later primary paper reproduces the conditional inheritance rule and
+    the bound obtained from competing stored subtree values before introducing separate
+    re-expansion-control variants. Source version: AAAI 29(1), 1151–1157 (2015); author-hosted
+    manuscript with unnumbered PDF pages. Rendered pages actually inspected: 2.'
+- evidence_id: rbfscontrolledreexpansion-0
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  locator: RBFS with Controlled Re-expansion, Figure 2 and discussion, PDF pp. 3–4;
+    Assumptions 1–3 and Theorem 2, PDF pp. 4–5
+  accessed_at: '2026-10-11T05:38:35Z'
+  snapshot_sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  support: supports
+  summary: 'An RBFS variant that estimates subtree evaluation-value distributions
+    and inflates backed-up values to make later visits expand geometrically more nodes,
+    while retaining original lower-bound information for solution-cost pruning. Source
+    version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered
+    PDF pages. Rendered pages actually inspected: 3, 4, 5.'
+- evidence_id: rbfscontrolledreexpansion-1
+  kind: primary_source
+  reference: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  locator: Assumptions 1–3, PDF p. 4; Theorem 2, PDF p. 5; Dockyard Robot Planning
+    and Conclusion, PDF p. 6
+  accessed_at: '2026-10-11T05:38:35Z'
+  snapshot_sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  support: supports
+  summary: 'The overhead theorem relies on explicit distribution and extra-node assumptions.
+    The paper also explains that relaxing original best-first order is intentional
+    and that its Dockyard experiment uses an unlimited transposition table; those
+    experiments do not demonstrate the memory bound of a path-only implementation.
+    Source version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered
+    PDF pages. Rendered pages actually inspected: 4, 5.'
+assessments:
+- assessment_id: bestfirstsearch
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:BestFirstSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - bestfirstsearch-0
+  - bestfirstsearch-1
+  summary: This record describes the canonical global minimum-f form, with lower values
+    defined as better. A-star, heuristic-only greedy best-first search and weighted
+    A-star choose different evaluation rules. Broader literature also calls restricted-candidate-set
+    policies best-first; their extra selection rules are not part of this core procedure.
+    BFS is not an alias here because it identifies breadth-first search in AIMech.
+    No normalized identity match was found across the 442 AIO and 124 prior native
+    records; ignored-inclusive text hits in the main checkout were prior discovery
+    leads, source citations and search-order contrasts, plus incidental dependency
+    substrings, not existing concept records.
+  details: A minimum evaluation value alone does not guarantee minimum solution cost;
+    the meaning and assumptions of the evaluation rule matter. Maintaining the full
+    frontier and explored-state information can require substantial memory. Recursive
+    or bounded-memory variants change what is retained. Tie-breaking, duplicate updates
+    and termination conditions are additional algorithm choices; the generic strategy
+    does not settle them or guarantee completion on an infinite space.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - bestfirstsearch-0
+    - bestfirstsearch-1
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: greedybestfirstsearch
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:GreedyBestFirstSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - greedybestfirstsearch-0
+  - greedybestfirstsearch-1
+  summary: The identity is heuristic-only global best-first selection, not every algorithm
+    described as greedy. Hill climbing and beam search restrict the available candidates
+    differently. The accumulated cost may still be stored for reconstructing or measuring
+    a solution; it is omitted from the primary priority key. No normalized identity
+    match was found across the 442 AIO and 124 prior native records; ignored-inclusive
+    text hits in the main checkout were prior discovery leads, source citations and
+    search-order contrasts, plus incidental dependency substrings, not existing concept
+    records.
+  details: The priority rule supplies no user-chosen fixed bound on solution suboptimality.
+    Any post-hoc bound requires additional lower-bound information and assumptions.
+    Tie-breaking and duplicate handling remain consequential implementation choices.
+    Completeness is not asserted for arbitrary infinite spaces or memory-pruned variants.
+    A strong cost-to-go heuristic does not by itself establish universally fast search;
+    no empirical correlation threshold is treated as a general theorem.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - greedybestfirstsearch-0
+    - greedybestfirstsearch-1
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: weightedastar
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:WeightedAStar
+  evidence_ids:
+  - identity
+  - mapping
+  - weightedastar-0
+  - weightedastar-1
+  - weightedastar-2
+  summary: The record concerns fixed-weight Weighted A-star, not a depth-dependent
+    weight schedule, an anytime schedule of repeated searches, or weighted IDA-star.
+    Pohl’s original expression (1−omega)g+omega h uses a different parameterization;
+    for omega less than one, dividing by the positive factor (1−omega) gives w=omega/(1−omega),
+    so w>1 corresponds to omega>1/2. This algebraic equivalence concerns priority
+    ordering, not duplicate-policy equivalence. No normalized identity match was found
+    across the 442 AIO and 124 prior native records; ignored-inclusive text hits in
+    the main checkout were prior discovery leads, source citations and search-order
+    contrasts, plus incidental dependency substrings, not existing concept records.
+  details: Increasing the weight does not guarantee faster search or fewer expansions.
+    The cited study’s empirical conditions are not asserted as necessary-and-sufficient
+    conditions on all search spaces. A w-suboptimality guarantee requires an admissible
+    heuristic and appropriate graph-search and termination conditions. It must not
+    be inferred from the priority formula alone or an implementation that indiscriminately
+    drops improved duplicates. The weight is finite and fixed in this record; w=1
+    gives the A-star priority, while a heuristic-only priority is curated separately.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - weightedastar-0
+    - weightedastar-1
+    - weightedastar-2
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: simplerecursivebestfirstsearch
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:SimpleRecursiveBestFirstSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - simplerecursivebestfirstsearch-0
+  - simplerecursivebestfirstsearch-1
+  summary: SRBFS is Korf’s simple recursive algorithm, not an alias for the full RBFS
+    refinement. It resets regenerated children to their static values instead of conditionally
+    inheriting a previously backed-up parent value. This distinction can cause additional
+    regeneration. No normalized identity match was found across the 442 AIO and 124
+    prior native records; ignored-inclusive text hits in the main checkout were prior
+    discovery leads, source citations and search-order contrasts, plus incidental
+    dependency substrings, not existing concept records.
+  details: Resetting regenerated child values can repeat already explored work before
+    reaching a previously established frontier. Full RBFS adds a conditional inheritance
+    rule to mitigate this. Path cycles and termination require appropriate graph and
+    evaluation assumptions or explicit path checks; the displayed procedure is not
+    a complete production implementation for every graph. The recursive representation
+    retains the path and sibling alternatives. Linear-in-depth memory is conditional
+    on bounded branching and fixed-size node information; it is not full-frontier
+    storage.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - simplerecursivebestfirstsearch-0
+    - simplerecursivebestfirstsearch-1
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: recursivebestfirstsearch
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:RecursiveBestFirstSearch
+  evidence_ids:
+  - identity
+  - mapping
+  - recursivebestfirstsearch-0
+  - recursivebestfirstsearch-1
+  summary: RBFS denotes Korf’s full refinement of SRBFS. A backed-up value greater
+    than the node’s static value signals previous exploration; only then do child
+    values inherit the maximum of that backed-up value and their own static evaluations.
+    Unconditionally replacing every child value by the maximum with its parent’s value
+    would lose this distinction for nonmonotone evaluation functions. No normalized
+    identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive
+    text hits in the main checkout were prior discovery leads, source citations and
+    search-order contrasts, plus incidental dependency substrings, not existing concept
+    records.
+  details: The paper’s best-first-order statement concerns newly expanded search-tree
+    nodes. Previously expanded paths may be regenerated in depth-first order. Path
+    and sibling storage is O(bd) for branching factor b and maximum depth d under
+    the paper’s model; linear-in-depth storage assumes bounded b and fixed-size node
+    data. Numerous distinct evaluation values can cause substantial regeneration overhead.
+    The memory saving does not establish an A-star-equivalent runtime bound. If a
+    cycle does not increase the evaluation value, explicit current-path cycle checking
+    is needed to avoid looping; the method is not a global closed-list duplicate-elimination
+    algorithm.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - recursivebestfirstsearch-0
+    - recursivebestfirstsearch-1
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: rbfscontrolledreexpansion
+  area: evidence
+  topic: Evaluation order, recursive value semantics, resource assumptions and AIO
+    no-match assessment
+  outcome: supported
+  target_ids:
+  - AIMech:RBFSControlledReexpansion
+  evidence_ids:
+  - identity
+  - mapping
+  - rbfscontrolledreexpansion-0
+  - rbfscontrolledreexpansion-1
+  summary: RBFS_CR is the histogram-based controlled re-expansion method of Hatem,
+    Kiesel and Ruml. It is distinct from their fixed-tolerance RBFS-epsilon and weighted-root
+    RBFS-kth-root heuristics. Its inflated ordering can depart from strict best-first
+    order in the original evaluation values. No normalized identity match was found
+    across the 442 AIO and 124 prior native records; ignored-inclusive text hits in
+    the main checkout were prior discovery leads, source citations and search-order
+    contrasts, plus incidental dependency substrings, not existing concept records.
+  details: The published O(N) expansion analysis is conditional on accurate subtree
+    histograms, enough counts to choose appropriate backups, and a bound of O(N) on
+    extra unique nodes beyond optimal solution cost. N is the specified A-star search-tree
+    expansion count without duplicate pruning and with worst-case ties. The implementation’s
+    finite histogram buckets estimate distributions; they do not automatically satisfy
+    the analysis’s exact-distribution assumption on every problem. The paper retains
+    one histogram per current-path node. Its depth-linear storage argument assumes
+    bounded per-node histogram and successor storage; an added unbounded transposition
+    table changes the memory scope. Liberal thresholds require continuing branch-and-bound
+    after finding an incumbent to establish optimality under admissible bounds. The
+    first encountered solution is not automatically certified optimal. The record
+    does not certify the pseudocode as a complete executable implementation or claim
+    universal speed improvement.
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A search strategy or defined algorithm, not a trained model, benchmark
+      outcome or task instance.
+    evidence_ids:
+    - rbfscontrolledreexpansion-0
+    - rbfscontrolledreexpansion-1
+  - name: aio-mapping
+    value: explicit no-match
+    definition: Six exact AIO targets were inspected and rejected for stated scope
+      mismatches. This bounds the assessment to the pinned source.
+    evidence_ids:
+    - mapping
+    - identity
+- assessment_id: adversarial-scope
+  area: scope
+  topic: Counterexamples to overbroad speed, quality and memory claims
+  outcome: supported
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  evidence_ids:
+  - weightedastar-0
+  - weightedastar-1
+  - weightedastar-2
+  - recursivebestfirstsearch-0
+  - rbfscontrolledreexpansion-0
+  - rbfscontrolledreexpansion-1
+  summary: 'The final records withstand the scoped challenges: heuristic amplification
+    is not guaranteed to accelerate search; duplicate-discarding does not automatically
+    preserve a w-bound; original-f and inflated-f ordering differ; O(bd) is not an
+    unconditional O(d); and finite histograms or an unlimited transposition table
+    do not establish the conditional controlled-re-expansion theorem.'
+  details: The generic best-first record explicitly limits itself to global minimum-f
+    selection while retaining wider restricted-set family usage as context. The SRBFS
+    and RBFS pseudocode differ exactly at conditional inheritance of stored values.
+    No complete proof or execution audit is claimed.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:BestFirstSearch
+  - AIMech:GreedyBestFirstSearch
+  - AIMech:WeightedAStar
+  - AIMech:SimpleRecursiveBestFirstSearch
+  - AIMech:RecursiveBestFirstSearch
+  - AIMech:RBFSControlledReexpansion
+  evidence_ids:
+  - identity
+  - mapping
+  - bestfirstsearch-0
+  - bestfirstsearch-1
+  - greedybestfirstsearch-0
+  - greedybestfirstsearch-1
+  - weightedastar-0
+  - weightedastar-1
+  - weightedastar-2
+  - simplerecursivebestfirstsearch-0
+  - simplerecursivebestfirstsearch-1
+  - recursivebestfirstsearch-0
+  - recursivebestfirstsearch-1
+  - rbfscontrolledreexpansion-0
+  - rbfscontrolledreexpansion-1
+  rationale: 'Retain the generic ordering strategy and five narrower procedures: h-only
+    priority, fixed g+w*h priority, recursive static-value reset, conditional inherited
+    values and histogram-inflated backups. A family and its defined variants are different
+    scopes, not duplicate identities. Shared search tasks, papers or memory motivation
+    do not establish equivalence.'
+limitations:
+- Adversarial author self-review, not independent approval. All six records remain
+  DRAFT.
+- The initial authoring validator rejected one redundant punctuation-only alias; it
+  was removed before input inspection and formal review, and final checks pass. The
+  discovery report retains the failed attempt.
+- The 2010 and 2012 empirical papers support precise algorithm descriptions and limitations,
+  not universal domain-selection rules or current implementation guarantees.
+- Pohl’s priority-parameter conversion is explicit curator algebra; it does not equate
+  HPA duplicate rules with every modern Weighted A-star implementation.
+- SRBFS and RBFS are inspected in the 1992 proceedings version; the 2015 paper corroborates
+  RBFS, but the full 1993 journal expansion was not inspected.
+- RBFS controlled re-expansion uses conditional analysis with exact-distribution,
+  sufficient-count and extra-node assumptions. Practical finite buckets and an unlimited
+  experimental table have distinct scopes.
+- Repeated evidence-source identifiers for different passages of one paper do not
+  represent independent studies.
+- The exact PDF reading scope and byte hashes are saved in the discovery report. An
+  extraction manifest alone is not visual or scientific validation.
+- No puzzle solving, model execution, complete proof certification or implementation
+  audit was performed.
+- The inaccessible Korf erratum and restricted weighted-search paper remain leads;
+  no claims rely on their unseen contents.
+- All required final structural checks passed. Prior and newly discovered candidates
+  remain; discovery has not saturated.
+tags:
+- native-concepts
+- search-algorithms
+- self-review
+- primary-papers
+- discovery-ongoing
+```

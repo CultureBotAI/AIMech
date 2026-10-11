@@ -1,0 +1,108 @@
+name: Greedy best-first search
+definition: A best-first search algorithm that prioritizes open nodes by a heuristic estimate of remaining
+  cost to a goal, without adding the cost already incurred to that priority.
+concept_kind: algorithm
+identity_notes: The identity is heuristic-only global best-first selection, not every algorithm described
+  as greedy. Hill climbing and beam search restrict the available candidates differently. The accumulated
+  cost may still be stored for reconstructing or measuring a solution; it is omitted from the primary
+  priority key. No normalized identity match was found across the 442 AIO and 124 prior native records;
+  ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order
+  contrasts, plus incidental dependency substrings, not existing concept records.
+limitations:
+- The priority rule supplies no user-chosen fixed bound on solution suboptimality. Any post-hoc bound
+  requires additional lower-bound information and assumptions.
+- Tie-breaking and duplicate handling remain consequential implementation choices. Completeness is not
+  asserted for arbitrary infinite spaces or memory-pruned variants.
+- A strong cost-to-go heuristic does not by itself establish universally fast search; no empirical correlation
+  threshold is treated as a general theorem.
+id: AIMech:GreedyBestFirstSearch
+aliases:
+- GBFS
+definition_evidence:
+- source_id: method-source
+  locator: 'Best-First Search: Greedy best-first search and Ignoring Duplicates, PDF p. 2; family distinctions
+    on PDF p. 1'
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Select a node with minimum heuristic value h from the open frontier, expand it, and place
+    eligible successors on that frontier until a selected goal or another stopping condition is reached.
+    The cost-to-date g does not contribute to this heuristic-only primary ranking.
+  evidence:
+  - source_id: method-source
+    locator: 'Best-First Search: Greedy best-first search and Ignoring Duplicates, PDF p. 2; family distinctions
+      on PDF p. 1'
+    relation: supports
+- claim_id: speed-qualification
+  kind: limitation
+  statement: Heuristic-only ordering is the greedy endpoint discussed in weighted-search studies. The
+    cited study cautions that moving toward this endpoint need not reduce search effort; its empirical
+    explanations are not universal runtime guarantees.
+  evidence:
+  - source_id: weighted-search-study
+    locator: Abstract and Introduction, PDF p. 1; Discussion and Conclusion, PDF p. 8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Comparison of Greedy Search Algorithms
+  authors:
+  - Christopher Wilt
+  - Jordan Thayer
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:39:45Z'
+  sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  persistent_id: doi:10.1609/socs.v1i1.18182
+- source_id: weighted-search-study
+  title: When Does Weighted A* Fail?
+  authors:
+  - Christopher Wilt
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/wted-astar-socs-12.pdf
+  version: SoCS 3(1), 137–144 (2012); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:39:45Z'
+  sha256: f1cd583c7e8f176747df6da711ca173c44f398080593dd206c1eceb202b11c93
+  persistent_id: doi:10.1609/socs.v3i1.18250
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 124 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:44:44Z'
+  updated_at: '2026-10-11T05:44:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
