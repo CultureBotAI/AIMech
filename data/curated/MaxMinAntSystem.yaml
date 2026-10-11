@@ -1,0 +1,115 @@
+name: MAX–MIN Ant System
+definition: An ant-colony optimization algorithm that reinforces solution components from a single selected
+  best ant per iteration, constrains pheromone trails between lower and upper limits, and initializes
+  trails high to encourage early exploration.
+concept_kind: algorithm
+identity_notes: This record denotes MAX–MIN Ant System as described in the inspected 1999 author preprint
+  associated with the 2000 journal article. It retains the defining bounded-trail and single-best reinforcement
+  mechanism. Iteration-best, global-best and mixed schedules are specified choices; local search, candidate
+  lists and pheromone smoothing are optional configurations. It is not the unbounded all-ant Ant System
+  update or the selected ACS greedy/local-update rule. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively.
+  Every text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and
+  outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot
+  and semantic neighborhood.
+limitations:
+- Positive lower trails provide nonzero probabilities only for choices that remain eligible and have positive
+  finite heuristic weights with a finite positive normalizer. The paper’s optional nearest-neighbor candidate
+  lists exclude otherwise feasible choices, and its fallback is deterministic maximization; positive bounds
+  therefore do not prove full tour support for that implementation.
+- The p_best lower-limit heuristic assumes the simplified TSP branching model, alpha=1 and negligible
+  heuristic differences; changing the pheromone exponent changes the displayed probability relation. Choosing
+  p_best=1 yields tau_min=0 in the displayed formula, which does not satisfy a strict positive-bound premise.
+  Small n, changing branch counts and numerical underflow require additional configuration decisions.
+- The geometric-series argument bounds a recurrence under a maximum deposit. That argument alone does
+  not establish that every changing trail sequence has a limit, nor that a finite run reaches the global
+  optimum. The source’s trail-bound notion of convergence must not be equated with optimality or all ants
+  taking the same tour.
+- Equal high pheromone does not imply uniform construction when heuristic weights differ. Best-so-far
+  reinforcement, iteration-best mixing, candidate lists, local search, smoothing and restart rules affect
+  behavior and must be declared. The reported TSP/QAP comparisons are not reproduced and no universal
+  performance guarantee is asserted.
+id: AIMech:MaxMinAntSystem
+aliases:
+- MMAS
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.3 and 4.1–4.3, PDF pp.5–6 and 13–18, Equations 2–11 (lower-limit heuristic in Equations
+    8–11); optional variants, PDF pp.21–23; conclusions, PDF pp.32–34
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Construct solutions by choosing feasible components with probabilities proportional to tau^alpha*eta^beta,
+    as in Ant System. For positive-cost minimization, select one iteration-best or best-so-far solution
+    according to the declared reinforcement schedule. Evaporate every trail using retention rho and add
+    1/f(best) only to components of that selected solution, with zero deposit elsewhere. Clip the resulting
+    trails to [tau_min,tau_max] after each iteration. The source initializes trails at a high value that
+    is brought to the upper limit; this preserves initial exploration pressure relative to low trails.
+    Its upper-limit estimate is tau_max=1/((1−rho)*f(best_so_far)), updated when the best cost improves.
+    For the source’s TSP lower-limit heuristic, n is the number of cities and avg=n/2 approximates the
+    number of choices at each step. The displayed formula uses unit pheromone exponent alpha=1, equal
+    decision probabilities and negligible heuristic differences: with p_dec=p_best^(1/n), tau_min=tau_max*(1−p_dec)/((avg−1)*p_dec),
+    capped at tau_max if larger. This is an approximate configuration rule, not the exact probability
+    of reconstructing a real tour. Positive limits, 0<=rho<1, a valid denominator and declared handling
+    of boundary parameters are required for this account.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.3 and 4.1–4.3, PDF pp.5–6 and 13–18, Equations 2–11 (lower-limit heuristic in
+      Equations 8–11); optional variants, PDF pp.21–23; conclusions, PDF pp.32–34
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: MAX–MIN Ant System
+  authors:
+  - Thomas Stützle
+  - Holger H. Hoos
+  source_type: primary_paper
+  url: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  version: 38-page author preprint dated 5 November 1999, linked as almost-final on Hoos’s publication
+    page for the 2000 journal article
+  persistent_id: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:08:25Z'
+  sha256: 0d4052ac21364e50e5b6aefb5fe2eda14e9c376698435aa81e4ab500dcb1b53a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO identities/scoped synonyms, all 288 preceding native identities, ignored/hidden
+    full-checkout text, and six exact AIO targets plus five native neighboring algorithms.
+  rationale: No suitable mapping was found for this specific constructive ant algorithm in the inspected
+    pin. Reinforcement and evolutionary analogies were evaluated explicitly; they do not by themselves
+    establish a suitable class relation. Absence is bounded to this source snapshot and inspected semantic
+    neighborhood.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not define their identity.
+  - target: AIO:MachineLearningTask
+    rejection_reason: This task class does not represent a specific pheromone-based algorithm, and combinatorial
+      search need not be the construction of methods that learn from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The source’s reinforcement analogy and Ant-Q connection were considered. The selected
+      algorithms reinforce construction components; those observations do not establish equivalence or
+      an is-a relationship to this machine-learning task. The ACS tau0 baseline is specifically distinct
+      from the Q-learning-inspired alternative.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The target is a language model fine-tuned by rewards. Neither artificial ants nor
+      tour construction establish language-model identity.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a large language model using evolutionary computation; its related
+      evolutionary-algorithms synonym does not include every nature-inspired optimizer as the same concept.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation is possible but too generic to identify
+      the defining pheromone construction/update mechanism. The exported network/model class is not an
+      appropriate semantic parent or equivalent algorithm.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:17:12Z'
+  updated_at: '2026-10-11T13:20:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,108 @@
+name: Ant System
+definition: A constructive combinatorial optimization method in which artificial ants sample solution
+  components using shared pheromone trails and problem-specific heuristic information, then modify those
+  trails through reinforcement and evaporation.
+concept_kind: algorithm
+identity_notes: This record covers Ant System through its canonical ant-cycle traveling-salesman formulation.
+  Ant-density and ant-quantity are named variants in the same source; their per-step deposits are not
+  substituted for the ant-cycle update. Ant System is a specific predecessor within ant-colony optimization,
+  not an alias for every later ant algorithm. Its visited-city list enforces tour feasibility and is not
+  the generic Tabu Search framework. No normalized identity match was found across all 442 pinned AIO
+  labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively. Every
+  text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+  edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.
+limitations:
+- The displayed inverse-distance and inverse-tour-length expressions require positive finite distances
+  and tour lengths. Probability normalization needs finite nonnegative weights with a positive total.
+  Zero pheromone, underflow or infeasible candidates require explicit handling.
+- Setting alpha=0 removes pheromone dependence; it leaves heuristic-weighted random selection, not a deterministic
+  nearest-neighbor rule. Equal initial pheromone likewise does not imply uniform selection when heuristic
+  values differ.
+- All-ant reinforcement can concentrate search prematurely. A best-so-far archive is not an optimality
+  certificate; the source’s empirical convergence discussion does not establish a general finite-budget
+  optimum. Evaporation alone does not ensure every feasible solution retains positive sampling probability.
+- Representation, heuristic, parameters, start placement, constraints, tie conventions, stopping and update
+  order define a concrete implementation. The natural-ant analogy and the source’s application claims
+  are not independent validation or a universal performance guarantee.
+id: AIMech:AntSystem
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections II–III, PDF pp.5–8, Equations 1–4 and ant-cycle pseudocode; discussion and conclusions,
+    PDF pp.22–24
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the inspected positive-distance traveling-salesman formulation, place m ants at starting
+    cities and initialize pheromone trails. An ant at city i samples an unvisited city j with probability
+    proportional to tau_ij^alpha * eta_ij^beta, where eta_ij=1/d_ij; normalize over the currently unvisited
+    cities. Each ant stores its visited cities and returns to its start after visiting every city. After
+    all tours are complete, the ant-cycle rule updates every trail as tau_ij_new=rho*tau_ij+sum_k delta_tau_ij_k,
+    with delta_tau_ij_k=Q/L_k if ant k used that edge and zero otherwise. Here rho is retention, 1−rho
+    is evaporation, and L_k is the completed tour length. Reset tour-specific visited lists and deposit
+    accumulators for the next iteration while retaining the best tour found. Ant-density instead deposits
+    a constant Q per traversed edge at each step; ant-quantity deposits Q/d_ij per step. Those variants
+    do not use the ant-cycle complete-tour deposit.
+  evidence:
+  - source_id: method-source
+    locator: Sections II–III, PDF pp.5–8, Equations 1–4 and ant-cycle pseudocode; discussion and conclusions,
+      PDF pp.22–24
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'The Ant System: Optimization by a colony of cooperating agents'
+  authors:
+  - Marco Dorigo
+  - Vittorio Maniezzo
+  - Alberto Colorni
+  source_type: primary_paper
+  url: https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf
+  version: 1996 author-formatted manuscript, 26 PDF pages, hosted in the University of Washington swarm
+    bibliography; manuscript header pagination differs from journal pagination
+  persistent_id: https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:08:25Z'
+  sha256: 2bc5a12060fa03be772f9dbfa466e1ae4bccc5ddd22f05f53b58322193847394
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO identities/scoped synonyms, all 288 preceding native identities, ignored/hidden
+    full-checkout text, and six exact AIO targets plus five native neighboring algorithms.
+  rationale: No suitable mapping was found for this specific constructive ant algorithm in the inspected
+    pin. Reinforcement and evolutionary analogies were evaluated explicitly; they do not by themselves
+    establish a suitable class relation. Absence is bounded to this source snapshot and inspected semantic
+    neighborhood.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not define their identity.
+  - target: AIO:MachineLearningTask
+    rejection_reason: This task class does not represent a specific pheromone-based algorithm, and combinatorial
+      search need not be the construction of methods that learn from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The source’s reinforcement analogy and Ant-Q connection were considered. The selected
+      algorithms reinforce construction components; those observations do not establish equivalence or
+      an is-a relationship to this machine-learning task. The ACS tau0 baseline is specifically distinct
+      from the Q-learning-inspired alternative.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The target is a language model fine-tuned by rewards. Neither artificial ants nor
+      tour construction establish language-model identity.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a large language model using evolutionary computation; its related
+      evolutionary-algorithms synonym does not include every nature-inspired optimizer as the same concept.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation is possible but too generic to identify
+      the defining pheromone construction/update mechanism. The exported network/model class is not an
+      appropriate semantic parent or equivalent algorithm.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:17:12Z'
+  updated_at: '2026-10-11T13:17:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

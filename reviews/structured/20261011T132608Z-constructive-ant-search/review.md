@@ -1,0 +1,855 @@
+# Scientific self-review of constructive ant search
+
+- Review: 20261011T132608Z-constructive-ant-search
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T13:20:58Z
+- Finished UTC: 2026-10-11T13:26:08Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Ant System, ACS and MAX–MIN with explicit update conventions and bounded AIO assessments. One minor formula-scope finding is resolved; no actionable finding remains in this scope.
+
+## Scope And Provenance
+
+All fields of the three newly maintained constructive ant algorithms.
+
+Selection: Exact three IDs in the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base c694a649a01f4fbd3979c6aadc0df44125c71182.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AntSystem | data/curated/AntSystem.yaml | maintained | Ant System |
+| AIMech:AntColonySystem | data/curated/AntColonySystem.yaml | maintained | Ant Colony System |
+| AIMech:MaxMinAntSystem | data/curated/MaxMinAntSystem.yaml | maintained | MAX–MIN Ant System |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 133.12s (0:02:13)<br>Checked 442 record(s); 0 failed.<br>Checked 291 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 73 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 71,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech check-source | passed | True | AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem | Command exited 0 with no output. |
+| Finite constructive-ant boundary calculations | passed | True | AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem | {"ant_cycle": 1.975, "mistaken_evaporation_convention": 0.7749999999999999, "unequal_initial_probabilities": [0.6666666666666666, 0.3333333333333333], "acs_local_increase": 0.18000000000000002, "acs_two_local_updates": 0.24400000000000002, "acs_off_best_unchanged": 0.8, "all_edge_evaporation_alternative": 0.6400000000000001, "excluded_candidate_weight": 0.0, "zero_heuristic_weight": 0.0, "mmas_heuristic_lower": 0.17464142383678166, "simplified_tour_probability": 0.04999999999999999, "exponent_two_probability": 0.7404941146568779, "changed_heuristic_probability": 0.005002378082068718, "bounded_recurrence_two_cycle": [0.6666666666666666, 1.3333333333333333]} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, primary conventions and AIO assessment
+
+evidence: supported. Targets: AIMech:AntSystem.
+
+This record covers Ant System through its canonical ant-cycle traveling-salesman formulation. Ant-density and ant-quantity are named variants in the same source; their per-step deposits are not substituted for the ant-cycle update. Ant System is a specific predecessor within ant-colony optimization, not an alias for every later ant algorithm. Its visited-city list enforces tour feasibility and is not the generic Tabu Search framework. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+In the inspected positive-distance traveling-salesman formulation, place m ants at starting cities and initialize pheromone trails. An ant at city i samples an unvisited city j with probability proportional to tau_ij^alpha * eta_ij^beta, where eta_ij=1/d_ij; normalize over the currently unvisited cities. Each ant stores its visited cities and returns to its start after visiting every city. After all tours are complete, the ant-cycle rule updates every trail as tau_ij_new=rho*tau_ij+sum_k delta_tau_ij_k, with delta_tau_ij_k=Q/L_k if ant k used that edge and zero otherwise. Here rho is retention, 1−rho is evaporation, and L_k is the completed tour length. Reset tour-specific visited lists and deposit accumulators for the next iteration while retaining the best tour found. Ant-density instead deposits a constant Q per traversed edge at each step; ant-quantity deposits Q/d_ij per step. Those variants do not use the ant-cycle complete-tour deposit. Limits: The displayed inverse-distance and inverse-tour-length expressions require positive finite distances and tour lengths. Probability normalization needs finite nonnegative weights with a positive total. Zero pheromone, underflow or infeasible candidates require explicit handling. Setting alpha=0 removes pheromone dependence; it leaves heuristic-weighted random selection, not a deterministic nearest-neighbor rule. Equal initial pheromone likewise does not imply uniform selection when heuristic values differ. All-ant reinforcement can concentrate search prematurely. A best-so-far archive is not an optimality certificate; the source’s empirical convergence discussion does not establish a general finite-budget optimum. Evaporation alone does not ensure every feasible solution retains positive sampling probability. Representation, heuristic, parameters, start placement, constraints, tie conventions, stopping and update order define a concrete implementation. The natural-ant analogy and the source’s application claims are not independent validation or a universal performance guarantee.
+
+### Identity, definition, mechanism, primary conventions and AIO assessment
+
+evidence: supported. Targets: AIMech:AntColonySystem.
+
+The selected baseline is the paper’s global-best ACS with local interpolation toward the initial trail tau0. It is distinct from Ant System’s all-ant deposits, MAX–MIN trail clipping, and the Ant-Q variant whose local target uses a discounted maximum future trail. Iteration-best reinforcement and ACS with local search are explicitly described variants, not silently incorporated into the baseline. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For a traveling-salesman tour, at each construction decision draw q uniformly in [0,1]. If q&lt;=q0, choose an unvisited city maximizing tau_ij*eta_ij^beta; otherwise sample proportionally to those same weights over the unvisited set. Apply the selected local rule tau_ij_new=(1−rho)*tau_ij+rho*tau0 to traversed edges during construction. After all tours finish, update edges belonging to the shortest tour found so far with tau_ij_new=(1−alpha)*tau_ij+alpha/L_best. The scope of this global step follows Section III’s explicit best-tour-edge restriction; edges outside that tour do not undergo this global update. Figure 3 organizes construction into steps. Appendix A has all ants choose a step before its local-update loop, so sequential whole-tour construction is not assumed. Retain the best-so-far tour and reset per-tour feasibility state before the next iteration. Parameter settings, tie handling and repeated updates to an edge must be declared for an executable implementation. Limits: The local update moves a trail toward tau0: it decreases a trail only when that trail exceeds tau0, increases it below tau0, and leaves equality unchanged. It is not unconditional evaporation. At q0=1 the displayed decision uses only maximization, apart from tie handling, so positive trails alone do not supply probabilistic exploration. There is a source presentation ambiguity: Equation 4 defines zero deposit off the best tour, while Section III explicitly restricts the global update to best-tour edges. Appendix A’s global loop uses stale ant-indexed endpoints inside a generic edge loop, and its repeat jump does not explicitly reset all tour state. The record follows the main-text scope and supplies the necessary state-reset qualification; it does not claim the appendix is directly executable or that an official erratum was checked. Random initial cities, heuristic powers, q0, alpha, rho and tau0 are configuration choices. Repeated local updates and their ordering affect trails; independent construction of entire tours is not an equivalent schedule. Zero distances, zero denominators, constraints and numerical underflow need handling. The paper’s task-specific comparisons, optional local search and qualitative improvement claims do not establish universal superiority or finite-run global optimality. Ant-Q’s reinforcement-learning connection does not make the selected tau0 rule a Bellman update.
+
+### Identity, definition, mechanism, primary conventions and AIO assessment
+
+evidence: supported. Targets: AIMech:MaxMinAntSystem.
+
+This record denotes MAX–MIN Ant System as described in the inspected 1999 author preprint associated with the 2000 journal article. It retains the defining bounded-trail and single-best reinforcement mechanism. Iteration-best, global-best and mixed schedules are specified choices; local search, candidate lists and pheromone smoothing are optional configurations. It is not the unbounded all-ant Ant System update or the selected ACS greedy/local-update rule. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Construct solutions by choosing feasible components with probabilities proportional to tau^alpha*eta^beta, as in Ant System. For positive-cost minimization, select one iteration-best or best-so-far solution according to the declared reinforcement schedule. Evaporate every trail using retention rho and add 1/f(best) only to components of that selected solution, with zero deposit elsewhere. Clip the resulting trails to [tau_min,tau_max] after each iteration. The source initializes trails at a high value that is brought to the upper limit; this preserves initial exploration pressure relative to low trails. Its upper-limit estimate is tau_max=1/((1−rho)*f(best_so_far)), updated when the best cost improves. For the source’s TSP lower-limit heuristic, n is the number of cities and avg=n/2 approximates the number of choices at each step. The displayed formula uses unit pheromone exponent alpha=1, equal decision probabilities and negligible heuristic differences: with p_dec=p_best^(1/n), tau_min=tau_max*(1−p_dec)/((avg−1)*p_dec), capped at tau_max if larger. This is an approximate configuration rule, not the exact probability of reconstructing a real tour. Positive limits, 0&lt;=rho&lt;1, a valid denominator and declared handling of boundary parameters are required for this account. Limits: Positive lower trails provide nonzero probabilities only for choices that remain eligible and have positive finite heuristic weights with a finite positive normalizer. The paper’s optional nearest-neighbor candidate lists exclude otherwise feasible choices, and its fallback is deterministic maximization; positive bounds therefore do not prove full tour support for that implementation. The p_best lower-limit heuristic assumes the simplified TSP branching model, alpha=1 and negligible heuristic differences; changing the pheromone exponent changes the displayed probability relation. Choosing p_best=1 yields tau_min=0 in the displayed formula, which does not satisfy a strict positive-bound premise. Small n, changing branch counts and numerical underflow require additional configuration decisions. The geometric-series argument bounds a recurrence under a maximum deposit. That argument alone does not establish that every changing trail sequence has a limit, nor that a finite run reaches the global optimum. The source’s trail-bound notion of convergence must not be equated with optimality or all ants taking the same tour. Equal high pheromone does not imply uniform construction when heuristic weights differ. Best-so-far reinforcement, iteration-best mixing, candidate lists, local search, smoothing and restart rules affect behavior and must be declared. The reported TSP/QAP comparisons are not reproduced and no universal performance guarantee is asserted.
+
+### All-ant ant-cycle deposits and per-step variants
+
+consistency: supported. Targets: AIMech:AntSystem.
+
+Retain Ant System with canonical ant-cycle scope and explicitly named variants.
+
+Rho is retention in the displayed ant-cycle formula; each ant deposits according to its complete tour. Ant-density/quantity use per-step deposits. Alpha=0 and equal trails do not imply deterministic nearest-neighbor or uniform sampling. The feasibility list is not generic Tabu Search. The definition is interpreted with its explicit canonical identity and mechanism, not as equivalence to all ACO algorithms.
+
+### Construction mixture, local target, global scope and appendix ambiguities
+
+consistency: supported. Targets: AIMech:AntColonySystem.
+
+Retain the selected ACS baseline with source presentation limitations.
+
+The q0 mixture and local interpolation to tau0 differ from Ant System and Ant-Q. Local interpolation is not necessarily decreasing. Best-tour-only global scope follows the explicit main text and the MMAS comparison, rather than reading zero off-tour deposit as a global all-edge evaporation instruction. Appendix stale indices and incomplete reset presentation are qualified. Repeated local visits can cause repeated updates; no whole-tour independence is asserted.
+
+### Single-best reinforcement, trail limits and approximation assumptions
+
+consistency: supported. Targets: AIMech:MaxMinAntSystem.
+
+Retain MAX–MIN with the corrected TSP/unit-exponent heuristic scope.
+
+The record separates single-best reinforcement, clipping and high initialization from optional local search/candidate lists/smoothing. Positive bounds do not rescue excluded or zero-weight choices. The corrected bound states n cities, avg=n/2, alpha=1 and negligible heuristic differences; the exact locator includes Equations 8–11. The exponent counterexample meets issue 80’s acceptance criterion. A bounded geometric envelope does not establish a limit for every changing trail sequence or finite global optimality.
+
+### General constructive search versus learning tasks and language models
+
+grounding: supported. Targets: AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem.
+
+Retain three native algorithms with bounded no-match assessments.
+
+All three records have bounded no-match assessments after inspecting six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges. Genetic Algorithm, Differential Evolution, PSO, simulated annealing and CE optimization were read for mechanism boundaries. Ant-Q’s related learning formulation is not silently mapped onto ACS’s selected local-baseline rule.
+
+## Findings
+
+### maxmin-bound-assumptions: MAX–MIN lower-bound formula omits its TSP and unit-exponent scope.
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-MaxMinAntSystem-bound-assumptions.
+
+The initial draft omitted the TSP/unit-exponent scope and used an incomplete equation locator. The maintained record now corrects both; the original review remains immutable.
+
+Disposition: The maintained method now defines n as the TSP city count, labels avg=n/2 as approximate, states alpha=1 and negligible heuristic differences, and cites Equations 8–11. The finite diagnostic gives .05 for alpha=1 versus about .74049 for alpha=2 under the same simplified bound. The corrected ledger/history and post-fix required checks were inspected.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:AntSystem, AIMech:AntColonySystem, AIMech:MaxMinAntSystem. All-ant ant-cycle reinforcement, ACS local and restricted global updates, and MAX–MIN single-best reinforcement with bounded trails define distinct procedures. Shared pheromone construction, task applications and terminology do not establish equivalence.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T131757Z-constructive-ant-search.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases, including candidate-internal normalized uniqueness. No identity match was found. Full-checkout fixed-string searches included ignored/hidden files and returned 10 worktree and 10 main lines; every hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and five native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Six exact CLASS nodes and scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | All three records have bounded no-match assessments after inspecting six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges. Genetic Algorithm, Differential Evolution, PSO, simulated annealing and CE optimization were read for mechanism boundaries. Ant-Q’s related learning formulation is not silently mapped onto ACS’s selected local-baseline rule. |
+| neighbors | research/discovery/20261011T131757Z-constructive-ant-search.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Genetic Algorithm, Differential Evolution, PSO, simulated annealing and CE optimization were read for scope. Selection/recombination, vector differences, remembered velocity, temperature acceptance and elite-distribution fitting differ from constructive pheromone search. |
+| finite-conventions | research/discovery/ant-search-boundaries.py; calculate(): retention, local interpolation, update multiplicity, support exclusions, lower-limit heuristic and changing recurrence | supports | Original finite arithmetic distinguishes retention from evaporation, weighted from uniform initialization, ACS local interpolation and repeated updates, best-edge versus all-edge global updates, and MMAS eligibility and heuristic assumptions. A bounded alternating recurrence illustrates why a geometric envelope alone does not prove convergence. These are local algebraic examples, not executions of the full algorithms or empirical benchmarks. The alpha=2 example checks the added unit-exponent qualification. |
+| antsystem-source-0 | https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf; Sections II–III, PDF pp.5–8, Equations 1–4 and ant-cycle pseudocode; discussion and conclusions, PDF pp.22–24 | supports | The Ant System: Optimization by a colony of cooperating agents. 1996 author-formatted manuscript, 26 PDF pages, hosted in the University of Washington swarm bibliography; manuscript header pagination differs from journal pagination. Actual reading scopes are declared in the ledger. Critical equations and ACS appendix were checked visually; no author code was run. |
+| antcolonysystem-source-0 | https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf; Section III.A–D, PDF pp.5–8, Equations 1 and 3–5 and Figure 3; Appendix A, PDF p.23; discussion, PDF pp.20–22 | supports | Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem. TR/IRIDIA/1996-5, accepted for IEEE Transactions on Evolutionary Computation 1(1), 1997; 26-page technical-report version. Actual reading scopes are declared in the ledger. Critical equations and ACS appendix were checked visually; no author code was run. |
+| antcolonysystem-source-1 | https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf; Section 5, PDF p.23, explicit distinction between all-matrix evaporation in MAX–MIN and ACS | supports | MAX–MIN Ant System. 38-page author preprint dated 5 November 1999, linked as almost-final on Hoos’s publication page for the 2000 journal article. Actual reading scopes are declared in the ledger. Critical equations and ACS appendix were checked visually; no author code was run. |
+| maxminantsystem-source-0 | https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf; Sections 2.3 and 4.1–4.3, PDF pp.5–6 and 13–18, Equations 2–11 (lower-limit heuristic in Equations 8–11); optional variants, PDF pp.21–23; conclusions, PDF pp.32–34 | supports | MAX–MIN Ant System. 38-page author preprint dated 5 November 1999, linked as almost-final on Hoos’s publication page for the 2000 journal article. Actual reading scopes are declared in the ledger. Critical equations and ACS appendix were checked visually; no author code was run. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared pages were inspected. No benchmark, author-code execution or separate asymptotic-convergence proof audit was performed.
+- Source version and equation ambiguities remain explicitly qualified. Publisher challenge pages supplied no evidence.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T132608Z-constructive-ant-search
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of constructive ant search
+started_at: '2026-10-11T13:20:58Z'
+finished_at: '2026-10-11T13:26:08Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all three records
+    against declared primary methods and page images, six exact AIO nodes, five native
+    neighbors and original finite arithmetic. Issue 80 was saved and fixed with an
+    explicit successor disposition. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Ant System, ACS and MAX–MIN with explicit update conventions and bounded
+  AIO assessments. One minor formula-scope finding is resolved; no actionable finding
+  remains in this scope.
+source:
+  git_revision: c694a649a01f4fbd3979c6aadc0df44125c71182
+  state: working_tree
+  inputs:
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AntColonySystem.yaml
+    sha256: 9069dd63cc6c1710594246d2817d162b6cd42f2ee383ad84e9cb7a17f94dfc2f
+    role: target
+  - path: data/curated/AntSystem.yaml
+    sha256: 89aa5c8e5a5d8ae3717bcd5c3be94d32543402900872533c1c4a6bbdf41f506c
+    role: target
+  - path: data/curated/CrossEntropyOptimization.yaml
+    sha256: b2d993224f56b48738bbecc23df28fe0bc1e16e54c658979fdd28fc1924ba269
+    role: context
+  - path: data/curated/DifferentialEvolution.yaml
+    sha256: 8c937f585818445a809f6aa26c51c4195e1fe2e3a634d349762322f89e97ff68
+    role: context
+  - path: data/curated/GeneticAlgorithm.yaml
+    sha256: d40bf1a03e29a3ca6bf88f6553f18c6b1559baf56da6a21d63b54163f4752ceb
+    role: context
+  - path: data/curated/MaxMinAntSystem.yaml
+    sha256: 6f50bb6ce0399ffeeeab89c1ebc7ab94e2360da5708618f7ac2ff2d3dad37837
+    role: target
+  - path: data/curated/ParticleSwarmOptimization.yaml
+    sha256: bd0c2298ecb01d94702f09f6ef1766c3b51216b4a4dbca9ae1c99142f5807d08
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: research/discovery/20261011T131757Z-constructive-ant-search.json
+    sha256: 9b8872169e54083fd281ecacc307135d2e36db5f78303ec38527a3834b552d19
+    role: context
+  - path: research/discovery/ant-search-boundaries.py
+    sha256: 6749fa1095f20f3611a89bbec3e202430403248af653db9536f95e4a57f81441
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AntSystem
+  path: data/curated/AntSystem.yaml
+  label: Ant System
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AntSystem.yaml
+    role: maintained
+- target_id: AIMech:AntColonySystem
+  path: data/curated/AntColonySystem.yaml
+  label: Ant Colony System
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AntColonySystem.yaml
+    role: maintained
+- target_id: AIMech:MaxMinAntSystem
+  path: data/curated/MaxMinAntSystem.yaml
+  label: MAX–MIN Ant System
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MaxMinAntSystem.yaml
+    role: maintained
+scope:
+  description: All fields of the three newly maintained constructive ant algorithms.
+  selection: Exact three IDs in the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were inspected for boundaries, not a complete new review of
+      the earlier corpus.
+  - target: Unread pages, outcomes and implementations
+    reason: Only declared primary pages and finite curator calculations were inspected;
+      no author code or benchmark was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 133.12s (0:02:13)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 291 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 73 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 71,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Finite constructive-ant boundary calculations
+  command: python3 research/discovery/ant-search-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"ant_cycle": 1.975, "mistaken_evaporation_convention": 0.7749999999999999,
+    "unequal_initial_probabilities": [0.6666666666666666, 0.3333333333333333], "acs_local_increase":
+    0.18000000000000002, "acs_two_local_updates": 0.24400000000000002, "acs_off_best_unchanged":
+    0.8, "all_edge_evaporation_alternative": 0.6400000000000001, "excluded_candidate_weight":
+    0.0, "zero_heuristic_weight": 0.0, "mmas_heuristic_lower": 0.17464142383678166,
+    "simplified_tour_probability": 0.04999999999999999, "exponent_two_probability":
+    0.7404941146568779, "changed_heuristic_probability": 0.005002378082068718, "bounded_recurrence_two_cycle":
+    [0.6666666666666666, 1.3333333333333333]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T131757Z-constructive-ant-search.json
+  accessed_at: '2026-10-11T13:20:58Z'
+  support: supports
+  summary: Compared all 442 pinned AIO labels/scoped synonyms and 288 preceding native
+    IDs/names/aliases, including candidate-internal normalized uniqueness. No identity
+    match was found. Full-checkout fixed-string searches included ignored/hidden files
+    and returned 10 worktree and 10 main lines; every hit was a prior candidate lead.
+    Six exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and five
+    native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 288 preceding maintained
+    IDs/names/aliases; full checkouts including ignored/hidden files; candidate-internal
+    normalized uniqueness.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Six exact CLASS nodes and scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T13:20:58Z'
+  support: supports
+  summary: All three records have bounded no-match assessments after inspecting six
+    exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges. Genetic
+    Algorithm, Differential Evolution, PSO, simulated annealing and CE optimization
+    were read for mechanism boundaries. Ant-Q’s related learning formulation is not
+    silently mapped onto ACS’s selected local-baseline rule.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T131757Z-constructive-ant-search.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T13:20:58Z'
+  support: supports
+  summary: Genetic Algorithm, Differential Evolution, PSO, simulated annealing and
+    CE optimization were read for scope. Selection/recombination, vector differences,
+    remembered velocity, temperature acceptance and elite-distribution fitting differ
+    from constructive pheromone search.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/ant-search-boundaries.py
+  locator: 'calculate(): retention, local interpolation, update multiplicity, support
+    exclusions, lower-limit heuristic and changing recurrence'
+  accessed_at: '2026-10-11T13:20:58Z'
+  snapshot_sha256: 6749fa1095f20f3611a89bbec3e202430403248af653db9536f95e4a57f81441
+  support: supports
+  summary: Original finite arithmetic distinguishes retention from evaporation, weighted
+    from uniform initialization, ACS local interpolation and repeated updates, best-edge
+    versus all-edge global updates, and MMAS eligibility and heuristic assumptions.
+    A bounded alternating recurrence illustrates why a geometric envelope alone does
+    not prove convergence. These are local algebraic examples, not executions of the
+    full algorithms or empirical benchmarks. The alpha=2 example checks the added
+    unit-exponent qualification.
+- evidence_id: antsystem-source-0
+  kind: primary_source
+  reference: https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf
+  locator: Sections II–III, PDF pp.5–8, Equations 1–4 and ant-cycle pseudocode; discussion
+    and conclusions, PDF pp.22–24
+  accessed_at: '2026-10-11T13:08:25Z'
+  snapshot_sha256: 2bc5a12060fa03be772f9dbfa466e1ae4bccc5ddd22f05f53b58322193847394
+  support: supports
+  summary: 'The Ant System: Optimization by a colony of cooperating agents. 1996 author-formatted
+    manuscript, 26 PDF pages, hosted in the University of Washington swarm bibliography;
+    manuscript header pagination differs from journal pagination. Actual reading scopes
+    are declared in the ledger. Critical equations and ACS appendix were checked visually;
+    no author code was run.'
+- evidence_id: antcolonysystem-source-0
+  kind: primary_source
+  reference: https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf
+  locator: Section III.A–D, PDF pp.5–8, Equations 1 and 3–5 and Figure 3; Appendix
+    A, PDF p.23; discussion, PDF pp.20–22
+  accessed_at: '2026-10-11T13:08:25Z'
+  snapshot_sha256: c19212f9a31a85634c9c380a645442c07b672aa01d93b61eded8b3e035972faa
+  support: supports
+  summary: 'Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman
+    Problem. TR/IRIDIA/1996-5, accepted for IEEE Transactions on Evolutionary Computation
+    1(1), 1997; 26-page technical-report version. Actual reading scopes are declared
+    in the ledger. Critical equations and ACS appendix were checked visually; no author
+    code was run.'
+- evidence_id: antcolonysystem-source-1
+  kind: primary_source
+  reference: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  locator: Section 5, PDF p.23, explicit distinction between all-matrix evaporation
+    in MAX–MIN and ACS
+  accessed_at: '2026-10-11T13:08:25Z'
+  snapshot_sha256: 0d4052ac21364e50e5b6aefb5fe2eda14e9c376698435aa81e4ab500dcb1b53a
+  support: supports
+  summary: MAX–MIN Ant System. 38-page author preprint dated 5 November 1999, linked
+    as almost-final on Hoos’s publication page for the 2000 journal article. Actual
+    reading scopes are declared in the ledger. Critical equations and ACS appendix
+    were checked visually; no author code was run.
+- evidence_id: maxminantsystem-source-0
+  kind: primary_source
+  reference: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  locator: Sections 2.3 and 4.1–4.3, PDF pp.5–6 and 13–18, Equations 2–11 (lower-limit
+    heuristic in Equations 8–11); optional variants, PDF pp.21–23; conclusions, PDF
+    pp.32–34
+  accessed_at: '2026-10-11T13:08:25Z'
+  snapshot_sha256: 0d4052ac21364e50e5b6aefb5fe2eda14e9c376698435aa81e4ab500dcb1b53a
+  support: supports
+  summary: MAX–MIN Ant System. 38-page author preprint dated 5 November 1999, linked
+    as almost-final on Hoos’s publication page for the 2000 journal article. Actual
+    reading scopes are declared in the ledger. Critical equations and ACS appendix
+    were checked visually; no author code was run.
+assessments:
+- assessment_id: antsystem
+  area: evidence
+  topic: Identity, definition, mechanism, primary conventions and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:AntSystem
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - antsystem-source-0
+  summary: This record covers Ant System through its canonical ant-cycle traveling-salesman
+    formulation. Ant-density and ant-quantity are named variants in the same source;
+    their per-step deposits are not substituted for the ant-cycle update. Ant System
+    is a specific predecessor within ant-colony optimization, not an alias for every
+    later ant algorithm. Its visited-city list enforces tour feasibility and is not
+    the generic Tabu Search framework. No normalized identity match was found across
+    all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate
+    lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges
+    and five native neighboring mechanisms were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.
+  details: 'In the inspected positive-distance traveling-salesman formulation, place
+    m ants at starting cities and initialize pheromone trails. An ant at city i samples
+    an unvisited city j with probability proportional to tau_ij^alpha * eta_ij^beta,
+    where eta_ij=1/d_ij; normalize over the currently unvisited cities. Each ant stores
+    its visited cities and returns to its start after visiting every city. After all
+    tours are complete, the ant-cycle rule updates every trail as tau_ij_new=rho*tau_ij+sum_k
+    delta_tau_ij_k, with delta_tau_ij_k=Q/L_k if ant k used that edge and zero otherwise.
+    Here rho is retention, 1−rho is evaporation, and L_k is the completed tour length.
+    Reset tour-specific visited lists and deposit accumulators for the next iteration
+    while retaining the best tour found. Ant-density instead deposits a constant Q
+    per traversed edge at each step; ant-quantity deposits Q/d_ij per step. Those
+    variants do not use the ant-cycle complete-tour deposit. Limits: The displayed
+    inverse-distance and inverse-tour-length expressions require positive finite distances
+    and tour lengths. Probability normalization needs finite nonnegative weights with
+    a positive total. Zero pheromone, underflow or infeasible candidates require explicit
+    handling. Setting alpha=0 removes pheromone dependence; it leaves heuristic-weighted
+    random selection, not a deterministic nearest-neighbor rule. Equal initial pheromone
+    likewise does not imply uniform selection when heuristic values differ. All-ant
+    reinforcement can concentrate search prematurely. A best-so-far archive is not
+    an optimality certificate; the source’s empirical convergence discussion does
+    not establish a general finite-budget optimum. Evaporation alone does not ensure
+    every feasible solution retains positive sampling probability. Representation,
+    heuristic, parameters, start placement, constraints, tie conventions, stopping
+    and update order define a concrete implementation. The natural-ant analogy and
+    the source’s application claims are not independent validation or a universal
+    performance guarantee.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An optimization algorithm with construction state and pheromone updates,
+      not a trained model or an empirical outcome.
+    evidence_ids:
+    - antsystem-source-0
+  - name: aio-relations
+    value: aio_no_match
+    definition: No suitable mapping was found for this specific constructive ant algorithm
+      in the inspected pin. Reinforcement and evolutionary analogies were evaluated
+      explicitly; they do not by themselves establish a suitable class relation. Absence
+      is bounded to this source snapshot and inspected semantic neighborhood. The
+      target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not
+      define their identity. This task class does not represent a specific pheromone-based
+      algorithm, and combinatorial search need not be the construction of methods
+      that learn from data. The source’s reinforcement analogy and Ant-Q connection
+      were considered. The selected algorithms reinforce construction components;
+      those observations do not establish equivalence or an is-a relationship to this
+      machine-learning task. The ACS tau0 baseline is specifically distinct from the
+      Q-learning-inspired alternative. The target is a language model fine-tuned by
+      rewards. Neither artificial ants nor tour construction establish language-model
+      identity. The target is a large language model using evolutionary computation;
+      its related evolutionary-algorithms synonym does not include every nature-inspired
+      optimizer as the same concept. An augmented-state stochastic representation
+      is possible but too generic to identify the defining pheromone construction/update
+      mechanism. The exported network/model class is not an appropriate semantic parent
+      or equivalent algorithm.
+    evidence_ids:
+    - mapping
+- assessment_id: antcolonysystem
+  area: evidence
+  topic: Identity, definition, mechanism, primary conventions and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:AntColonySystem
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - antcolonysystem-source-0
+  - antcolonysystem-source-1
+  summary: The selected baseline is the paper’s global-best ACS with local interpolation
+    toward the initial trail tau0. It is distinct from Ant System’s all-ant deposits,
+    MAX–MIN trail clipping, and the Ant-Q variant whose local target uses a discounted
+    maximum future trail. Iteration-best reinforcement and ACS with local search are
+    explicitly described variants, not silently incorporated into the baseline. No
+    normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+    and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+    included ignored and hidden files in worktree and main, returning 10 and 10 lines
+    respectively. Every text hit was a prior candidate lead. Six exact AIO CLASS nodes
+    with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms
+    were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+  details: 'For a traveling-salesman tour, at each construction decision draw q uniformly
+    in [0,1]. If q<=q0, choose an unvisited city maximizing tau_ij*eta_ij^beta; otherwise
+    sample proportionally to those same weights over the unvisited set. Apply the
+    selected local rule tau_ij_new=(1−rho)*tau_ij+rho*tau0 to traversed edges during
+    construction. After all tours finish, update edges belonging to the shortest tour
+    found so far with tau_ij_new=(1−alpha)*tau_ij+alpha/L_best. The scope of this
+    global step follows Section III’s explicit best-tour-edge restriction; edges outside
+    that tour do not undergo this global update. Figure 3 organizes construction into
+    steps. Appendix A has all ants choose a step before its local-update loop, so
+    sequential whole-tour construction is not assumed. Retain the best-so-far tour
+    and reset per-tour feasibility state before the next iteration. Parameter settings,
+    tie handling and repeated updates to an edge must be declared for an executable
+    implementation. Limits: The local update moves a trail toward tau0: it decreases
+    a trail only when that trail exceeds tau0, increases it below tau0, and leaves
+    equality unchanged. It is not unconditional evaporation. At q0=1 the displayed
+    decision uses only maximization, apart from tie handling, so positive trails alone
+    do not supply probabilistic exploration. There is a source presentation ambiguity:
+    Equation 4 defines zero deposit off the best tour, while Section III explicitly
+    restricts the global update to best-tour edges. Appendix A’s global loop uses
+    stale ant-indexed endpoints inside a generic edge loop, and its repeat jump does
+    not explicitly reset all tour state. The record follows the main-text scope and
+    supplies the necessary state-reset qualification; it does not claim the appendix
+    is directly executable or that an official erratum was checked. Random initial
+    cities, heuristic powers, q0, alpha, rho and tau0 are configuration choices. Repeated
+    local updates and their ordering affect trails; independent construction of entire
+    tours is not an equivalent schedule. Zero distances, zero denominators, constraints
+    and numerical underflow need handling. The paper’s task-specific comparisons,
+    optional local search and qualitative improvement claims do not establish universal
+    superiority or finite-run global optimality. Ant-Q’s reinforcement-learning connection
+    does not make the selected tau0 rule a Bellman update.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An optimization algorithm with construction state and pheromone updates,
+      not a trained model or an empirical outcome.
+    evidence_ids:
+    - antcolonysystem-source-0
+    - antcolonysystem-source-1
+  - name: aio-relations
+    value: aio_no_match
+    definition: No suitable mapping was found for this specific constructive ant algorithm
+      in the inspected pin. Reinforcement and evolutionary analogies were evaluated
+      explicitly; they do not by themselves establish a suitable class relation. Absence
+      is bounded to this source snapshot and inspected semantic neighborhood. The
+      target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not
+      define their identity. This task class does not represent a specific pheromone-based
+      algorithm, and combinatorial search need not be the construction of methods
+      that learn from data. The source’s reinforcement analogy and Ant-Q connection
+      were considered. The selected algorithms reinforce construction components;
+      those observations do not establish equivalence or an is-a relationship to this
+      machine-learning task. The ACS tau0 baseline is specifically distinct from the
+      Q-learning-inspired alternative. The target is a language model fine-tuned by
+      rewards. Neither artificial ants nor tour construction establish language-model
+      identity. The target is a large language model using evolutionary computation;
+      its related evolutionary-algorithms synonym does not include every nature-inspired
+      optimizer as the same concept. An augmented-state stochastic representation
+      is possible but too generic to identify the defining pheromone construction/update
+      mechanism. The exported network/model class is not an appropriate semantic parent
+      or equivalent algorithm.
+    evidence_ids:
+    - mapping
+- assessment_id: maxminantsystem
+  area: evidence
+  topic: Identity, definition, mechanism, primary conventions and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:MaxMinAntSystem
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - maxminantsystem-source-0
+  summary: This record denotes MAX–MIN Ant System as described in the inspected 1999
+    author preprint associated with the 2000 journal article. It retains the defining
+    bounded-trail and single-best reinforcement mechanism. Iteration-best, global-best
+    and mixed schedules are specified choices; local search, candidate lists and pheromone
+    smoothing are optional configurations. It is not the unbounded all-ant Ant System
+    update or the selected ACS greedy/local-update rule. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 10 and 10 lines respectively. Every text
+    hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments
+    and outgoing edges and five native neighboring mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.
+  details: 'Construct solutions by choosing feasible components with probabilities
+    proportional to tau^alpha*eta^beta, as in Ant System. For positive-cost minimization,
+    select one iteration-best or best-so-far solution according to the declared reinforcement
+    schedule. Evaporate every trail using retention rho and add 1/f(best) only to
+    components of that selected solution, with zero deposit elsewhere. Clip the resulting
+    trails to [tau_min,tau_max] after each iteration. The source initializes trails
+    at a high value that is brought to the upper limit; this preserves initial exploration
+    pressure relative to low trails. Its upper-limit estimate is tau_max=1/((1−rho)*f(best_so_far)),
+    updated when the best cost improves. For the source’s TSP lower-limit heuristic,
+    n is the number of cities and avg=n/2 approximates the number of choices at each
+    step. The displayed formula uses unit pheromone exponent alpha=1, equal decision
+    probabilities and negligible heuristic differences: with p_dec=p_best^(1/n), tau_min=tau_max*(1−p_dec)/((avg−1)*p_dec),
+    capped at tau_max if larger. This is an approximate configuration rule, not the
+    exact probability of reconstructing a real tour. Positive limits, 0<=rho<1, a
+    valid denominator and declared handling of boundary parameters are required for
+    this account. Limits: Positive lower trails provide nonzero probabilities only
+    for choices that remain eligible and have positive finite heuristic weights with
+    a finite positive normalizer. The paper’s optional nearest-neighbor candidate
+    lists exclude otherwise feasible choices, and its fallback is deterministic maximization;
+    positive bounds therefore do not prove full tour support for that implementation.
+    The p_best lower-limit heuristic assumes the simplified TSP branching model, alpha=1
+    and negligible heuristic differences; changing the pheromone exponent changes
+    the displayed probability relation. Choosing p_best=1 yields tau_min=0 in the
+    displayed formula, which does not satisfy a strict positive-bound premise. Small
+    n, changing branch counts and numerical underflow require additional configuration
+    decisions. The geometric-series argument bounds a recurrence under a maximum deposit.
+    That argument alone does not establish that every changing trail sequence has
+    a limit, nor that a finite run reaches the global optimum. The source’s trail-bound
+    notion of convergence must not be equated with optimality or all ants taking the
+    same tour. Equal high pheromone does not imply uniform construction when heuristic
+    weights differ. Best-so-far reinforcement, iteration-best mixing, candidate lists,
+    local search, smoothing and restart rules affect behavior and must be declared.
+    The reported TSP/QAP comparisons are not reproduced and no universal performance
+    guarantee is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An optimization algorithm with construction state and pheromone updates,
+      not a trained model or an empirical outcome.
+    evidence_ids:
+    - maxminantsystem-source-0
+  - name: aio-relations
+    value: aio_no_match
+    definition: No suitable mapping was found for this specific constructive ant algorithm
+      in the inspected pin. Reinforcement and evolutionary analogies were evaluated
+      explicitly; they do not by themselves establish a suitable class relation. Absence
+      is bounded to this source snapshot and inspected semantic neighborhood. The
+      target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not
+      define their identity. This task class does not represent a specific pheromone-based
+      algorithm, and combinatorial search need not be the construction of methods
+      that learn from data. The source’s reinforcement analogy and Ant-Q connection
+      were considered. The selected algorithms reinforce construction components;
+      those observations do not establish equivalence or an is-a relationship to this
+      machine-learning task. The ACS tau0 baseline is specifically distinct from the
+      Q-learning-inspired alternative. The target is a language model fine-tuned by
+      rewards. Neither artificial ants nor tour construction establish language-model
+      identity. The target is a large language model using evolutionary computation;
+      its related evolutionary-algorithms synonym does not include every nature-inspired
+      optimizer as the same concept. An augmented-state stochastic representation
+      is possible but too generic to identify the defining pheromone construction/update
+      mechanism. The exported network/model class is not an appropriate semantic parent
+      or equivalent algorithm.
+    evidence_ids:
+    - mapping
+- assessment_id: ant-system-boundaries
+  area: consistency
+  topic: All-ant ant-cycle deposits and per-step variants
+  outcome: supported
+  target_ids:
+  - AIMech:AntSystem
+  evidence_ids:
+  - antsystem-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain Ant System with canonical ant-cycle scope and explicitly named variants.
+  details: Rho is retention in the displayed ant-cycle formula; each ant deposits
+    according to its complete tour. Ant-density/quantity use per-step deposits. Alpha=0
+    and equal trails do not imply deterministic nearest-neighbor or uniform sampling.
+    The feasibility list is not generic Tabu Search. The definition is interpreted
+    with its explicit canonical identity and mechanism, not as equivalence to all
+    ACO algorithms.
+- assessment_id: acs-boundaries
+  area: consistency
+  topic: Construction mixture, local target, global scope and appendix ambiguities
+  outcome: supported
+  target_ids:
+  - AIMech:AntColonySystem
+  evidence_ids:
+  - antcolonysystem-source-0
+  - antcolonysystem-source-1
+  - finite-conventions
+  summary: Retain the selected ACS baseline with source presentation limitations.
+  details: The q0 mixture and local interpolation to tau0 differ from Ant System and
+    Ant-Q. Local interpolation is not necessarily decreasing. Best-tour-only global
+    scope follows the explicit main text and the MMAS comparison, rather than reading
+    zero off-tour deposit as a global all-edge evaporation instruction. Appendix stale
+    indices and incomplete reset presentation are qualified. Repeated local visits
+    can cause repeated updates; no whole-tour independence is asserted.
+- assessment_id: maxmin-boundaries
+  area: consistency
+  topic: Single-best reinforcement, trail limits and approximation assumptions
+  outcome: supported
+  target_ids:
+  - AIMech:MaxMinAntSystem
+  evidence_ids:
+  - maxminantsystem-source-0
+  - finite-conventions
+  summary: Retain MAX–MIN with the corrected TSP/unit-exponent heuristic scope.
+  details: The record separates single-best reinforcement, clipping and high initialization
+    from optional local search/candidate lists/smoothing. Positive bounds do not rescue
+    excluded or zero-weight choices. The corrected bound states n cities, avg=n/2,
+    alpha=1 and negligible heuristic differences; the exact locator includes Equations
+    8–11. The exponent counterexample meets issue 80’s acceptance criterion. A bounded
+    geometric envelope does not establish a limit for every changing trail sequence
+    or finite global optimality.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: General constructive search versus learning tasks and language models
+  outcome: supported
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three native algorithms with bounded no-match assessments.
+  details: All three records have bounded no-match assessments after inspecting six
+    exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges. Genetic
+    Algorithm, Differential Evolution, PSO, simulated annealing and CE optimization
+    were read for mechanism boundaries. Ant-Q’s related learning formulation is not
+    silently mapped onto ACS’s selected local-baseline rule.
+findings:
+- finding_id: maxmin-bound-assumptions
+  issue_key: CultureBotAI-AIMech-MaxMinAntSystem-bound-assumptions
+  category: consistency
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:MaxMinAntSystem
+  field_paths:
+  - claims[claim_id=method].statement
+  - definition_evidence
+  - claims[claim_id=method].evidence
+  evidence_ids:
+  - maxminantsystem-source-0
+  - finite-conventions
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MaxMinAntSystem.yaml
+    role: maintained
+  title: MAX–MIN lower-bound formula omits its TSP and unit-exponent scope.
+  description: The initial draft omitted the TSP/unit-exponent scope and used an incomplete
+    equation locator. The maintained record now corrects both; the original review
+    remains immutable.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/80
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T131940Z-maxmin-bound-assumptions
+    finding_id: maxmin-bound-assumptions
+  disposition_reason: The maintained method now defines n as the TSP city count, labels
+    avg=n/2 as approximate, states alpha=1 and negligible heuristic differences, and
+    cites Equations 8–11. The finite diagnostic gives .05 for alpha=1 versus about
+    .74049 for alpha=2 under the same simplified bound. The corrected ledger/history
+    and post-fix required checks were inspected.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:AntSystem
+  - AIMech:AntColonySystem
+  - AIMech:MaxMinAntSystem
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - antsystem-source-0
+  - antcolonysystem-source-0
+  - antcolonysystem-source-1
+  - maxminantsystem-source-0
+  rationale: All-ant ant-cycle reinforcement, ACS local and restricted global updates,
+    and MAX–MIN single-best reinforcement with bounded trails define distinct procedures.
+    Shared pheromone construction, task applications and terminology do not establish
+    equivalence.
+limitations:
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared pages were inspected. No benchmark, author-code execution or separate
+  asymptotic-convergence proof audit was performed.
+- Source version and equation ambiguities remain explicitly qualified. Publisher challenge
+  pages supplied no evidence.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/80
+tags:
+- native-concepts
+- ant-colony-optimization
+- source-conventions
+- self-review
+- discovery-ongoing
+```

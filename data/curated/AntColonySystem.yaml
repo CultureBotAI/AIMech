@@ -1,0 +1,126 @@
+name: Ant Colony System
+definition: An ant-colony optimization algorithm that combines a greedy-or-proportional construction rule,
+  local pheromone updates during construction, and global pheromone updates restricted to a selected best
+  tour.
+concept_kind: algorithm
+identity_notes: The selected baseline is the paper’s global-best ACS with local interpolation toward the
+  initial trail tau0. It is distinct from Ant System’s all-ant deposits, MAX–MIN trail clipping, and the
+  Ant-Q variant whose local target uses a discounted maximum future trail. Iteration-best reinforcement
+  and ACS with local search are explicitly described variants, not silently incorporated into the baseline.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate lead. Six exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- 'The local update moves a trail toward tau0: it decreases a trail only when that trail exceeds tau0,
+  increases it below tau0, and leaves equality unchanged. It is not unconditional evaporation. At q0=1
+  the displayed decision uses only maximization, apart from tie handling, so positive trails alone do
+  not supply probabilistic exploration.'
+- 'There is a source presentation ambiguity: Equation 4 defines zero deposit off the best tour, while
+  Section III explicitly restricts the global update to best-tour edges. Appendix A’s global loop uses
+  stale ant-indexed endpoints inside a generic edge loop, and its repeat jump does not explicitly reset
+  all tour state. The record follows the main-text scope and supplies the necessary state-reset qualification;
+  it does not claim the appendix is directly executable or that an official erratum was checked.'
+- Random initial cities, heuristic powers, q0, alpha, rho and tau0 are configuration choices. Repeated
+  local updates and their ordering affect trails; independent construction of entire tours is not an equivalent
+  schedule. Zero distances, zero denominators, constraints and numerical underflow need handling.
+- The paper’s task-specific comparisons, optional local search and qualitative improvement claims do not
+  establish universal superiority or finite-run global optimality. Ant-Q’s reinforcement-learning connection
+  does not make the selected tau0 rule a Bellman update.
+id: AIMech:AntColonySystem
+aliases:
+- ACS
+definition_evidence:
+- source_id: method-source
+  locator: Section III.A–D, PDF pp.5–8, Equations 1 and 3–5 and Figure 3; Appendix A, PDF p.23; discussion,
+    PDF pp.20–22
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a traveling-salesman tour, at each construction decision draw q uniformly in [0,1]. If
+    q<=q0, choose an unvisited city maximizing tau_ij*eta_ij^beta; otherwise sample proportionally to
+    those same weights over the unvisited set. Apply the selected local rule tau_ij_new=(1−rho)*tau_ij+rho*tau0
+    to traversed edges during construction. After all tours finish, update edges belonging to the shortest
+    tour found so far with tau_ij_new=(1−alpha)*tau_ij+alpha/L_best. The scope of this global step follows
+    Section III’s explicit best-tour-edge restriction; edges outside that tour do not undergo this global
+    update. Figure 3 organizes construction into steps. Appendix A has all ants choose a step before its
+    local-update loop, so sequential whole-tour construction is not assumed. Retain the best-so-far tour
+    and reset per-tour feasibility state before the next iteration. Parameter settings, tie handling and
+    repeated updates to an edge must be declared for an executable implementation.
+  evidence:
+  - source_id: method-source
+    locator: Section III.A–D, PDF pp.5–8, Equations 1 and 3–5 and Figure 3; Appendix A, PDF p.23; discussion,
+      PDF pp.20–22
+    relation: supports
+  - source_id: comparison-source
+    locator: Section 5, PDF p.23, explicit distinction between all-matrix evaporation in MAX–MIN and ACS
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem'
+  authors:
+  - Marco Dorigo
+  - Luca Maria Gambardella
+  source_type: author_technical_report
+  url: https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf
+  version: TR/IRIDIA/1996-5, accepted for IEEE Transactions on Evolutionary Computation 1(1), 1997; 26-page
+    technical-report version
+  persistent_id: https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:08:25Z'
+  sha256: c19212f9a31a85634c9c380a645442c07b672aa01d93b61eded8b3e035972faa
+- source_id: comparison-source
+  title: MAX–MIN Ant System
+  authors:
+  - Thomas Stützle
+  - Holger H. Hoos
+  source_type: primary_paper
+  url: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  version: 38-page author preprint dated 5 November 1999, linked as almost-final on Hoos’s publication
+    page for the 2000 journal article
+  persistent_id: https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:08:25Z'
+  sha256: 0d4052ac21364e50e5b6aefb5fe2eda14e9c376698435aa81e4ab500dcb1b53a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO identities/scoped synonyms, all 288 preceding native identities, ignored/hidden
+    full-checkout text, and six exact AIO targets plus five native neighboring algorithms.
+  rationale: No suitable mapping was found for this specific constructive ant algorithm in the inspected
+    pin. Reinforcement and evolutionary analogies were evaluated explicitly; they do not by themselves
+    establish a suitable class relation. Absence is bounded to this source snapshot and inspected semantic
+    neighborhood.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The target concerns preprocessing/training machine-learning models. These are general
+      constructive combinatorial optimizers; possible learning applications do not define their identity.
+  - target: AIO:MachineLearningTask
+    rejection_reason: This task class does not represent a specific pheromone-based algorithm, and combinatorial
+      search need not be the construction of methods that learn from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The source’s reinforcement analogy and Ant-Q connection were considered. The selected
+      algorithms reinforce construction components; those observations do not establish equivalence or
+      an is-a relationship to this machine-learning task. The ACS tau0 baseline is specifically distinct
+      from the Q-learning-inspired alternative.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The target is a language model fine-tuned by rewards. Neither artificial ants nor
+      tour construction establish language-model identity.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a large language model using evolutionary computation; its related
+      evolutionary-algorithms synonym does not include every nature-inspired optimizer as the same concept.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation is possible but too generic to identify
+      the defining pheromone construction/update mechanism. The exported network/model class is not an
+      appropriate semantic parent or equivalent algorithm.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:17:12Z'
+  updated_at: '2026-10-11T13:17:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
