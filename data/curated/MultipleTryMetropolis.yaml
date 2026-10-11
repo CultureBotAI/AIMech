@@ -1,0 +1,77 @@
+name: Multiple-try Metropolis
+definition: A Metropolis sampling algorithm that selects a candidate from several weighted forward proposals,
+  draws a backward reference set containing the original state, and corrects acceptance using the ratio
+  of their total weights.
+concept_kind: algorithm
+identity_notes: This record covers Liu–Liang–Wong Section 2 finite-k MTM with one proposal kernel and
+  a symmetric weight factor. It is not simple selection of the highest-density candidate, importance resampling
+  without a correction, or the general auxiliary-variable extension in Section 3.1. No normalized match
+  was found across all 442 pinned AIO labels/scoped synonyms and 175 prior native IDs/names/aliases. Full-checkout
+  searches included ignored and hidden files in both worktrees; the only text hit was an unrelated installed-package
+  checksum substring. Existing general Metropolis-Hastings, Metropolis-within-Gibbs and random-walk records
+  were inspected to resolve these specialization boundaries.
+limitations:
+- Weight sums must be finite and usable. If all forward candidates have zero target weight, the transition
+  can be completed by retaining x; weighted selection is not performed with a zero denominator.
+- The number of proposals and target evaluations grows with k. Larger k does not imply universal improvement
+  per unit computation or independent retained draws.
+- The auxiliary-variable extension in Section 3.1 prints selection weights with an argument order inconsistent
+  with Section 2 and its own acceptance expression. That extension is not asserted by this record.
+- Target invariance under the stated construction does not alone establish irreducibility or a mixing
+  rate.
+id: AIMech:MultipleTryMetropolis
+aliases:
+- MTM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations (2)–(5), numbered algorithm and Theorem 1, printed p. 122 / PDF p. 2;
+    Section 7 discussion, p. 133 / PDF p. 13; Section 3.1 weight-order discrepancy, p. 123 / PDF p. 3
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose k≥1, a proposal T with T(a,b)>0 iff T(b,a)>0, and nonnegative symmetric lambda positive
+    wherever T is positive. Define w(a,b)=pi(a)T(a,b)lambda(a,b). From current x, draw k independent yj
+    from T(x,·), and select y with probabilities proportional to w(yj,x). Draw k−1 independent xj* from
+    T(y,·), and append xk*=x. Accept y with min(1,sum_j w(yj,x)/sum_j w(xj*,y)); otherwise retain x. For
+    k=1 the symmetric lambda cancels, recovering Metropolis-Hastings. Selection and the backward reference
+    set are essential to this correction.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations (2)–(5), numbered algorithm and Theorem 1, printed p. 122 / PDF p. 2;
+      Section 7 discussion, p. 133 / PDF p. 13; Section 3.1 weight-order discrepancy, p. 123 / PDF p.
+      3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Multiple-Try Method and Local Optimization in Metropolis Sampling
+  authors:
+  - Jun S. Liu
+  - Faming Liang
+  - Wing Hung Wong
+  source_type: primary_paper
+  url: https://www.stat.purdue.edu/~fmliang/papers/2000/Mtry.pdf
+  version: Journal of the American Statistical Association 95(449), 2000, pp. 121–134; fourteen-page author-hosted
+    published scan
+  persistent_id: doi:10.1080/01621459.2000.10473908
+  access_level: full_text
+  accessed_at: '2026-10-11T07:17:23Z'
+  sha256: 5329c50b3760ba8ae6eafcec205ae0e62ab42c56f4a63d0609162c86cf065cdb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure defines target-invariant Markov transitions under its stated assumptions. AIO
+    MarkovChain describes a stochastic process/model and is exported beneath Network. This method-to-process
+    related match is not equivalence, an is-a assertion or a claim of independent samples or a trained
+    network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:26:59Z'
+  updated_at: '2026-10-11T07:27:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

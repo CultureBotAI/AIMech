@@ -1,0 +1,74 @@
+name: Symmetric delayed rejection
+definition: The delayed-rejection specialization using the same symmetric proposal kernel at every stage,
+  centered through the last rejected candidate, with acceptance determined by the largest previous rejected
+  target density.
+concept_kind: algorithm
+identity_notes: This record is the fixed-kernel specialization in Mira Section 3. The next proposal depends
+  on the last rejected point rather than being recentered on the unchanged chain state. Stage-dependent
+  variances and generic symmetric proposals do not automatically satisfy the cancellations used by this
+  simplified rule. No normalized match was found across all 442 pinned AIO labels/scoped synonyms and
+  175 prior native IDs/names/aliases. Full-checkout searches included ignored and hidden files in both
+  worktrees; the only text hit was an unrelated installed-package checksum substring. Existing general
+  Metropolis-Hastings, Metropolis-within-Gibbs and random-walk records were inspected to resolve these
+  specialization boundaries.
+limitations:
+- Figure 1 prints pi(x)/pi(y1) for its first-stage nontrivial acceptance region, reversing the correct
+  pi(y1)/pi(x) in the preceding text. This record uses the text and general Metropolis formula; the figure
+  discrepancy was visually inspected.
+- The later suggestion to decrease variance by stage is not treated as permission to use this simplified
+  acceptance with arbitrary changing q. Such proposals need the general delayed-rejection correction.
+- A candidate whose target density is no larger than the maximum target density among previous rejected
+  candidates is rejected. No finite-time eventual-acceptance or universal efficiency guarantee is asserted.
+- Detailed balance is not a substitute for support, irreducibility and numerical-stability checks.
+id: AIMech:SymmetricDelayedRejection
+aliases:
+- Symmetric delaying rejection algorithm
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, displayed fixed-kernel assumption and Equations (6)–(9), printed pp. 234–236 / PDF
+    pp. 4–6; Figure 1 and continuation discussion, pp. 237–238 / PDF pp. 7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let q(a,b)=q(b,a) be the same kernel at every stage. Starting from x, propose y1 from q(x,·)
+    and accept with min(1,pi(y1)/pi(x)). After i−1 rejections, propose yi from q(y(i−1),·), set M=max_{j<i}
+    pi(yj), and accept with min(1,max(0,(pi(yi)−M)/(pi(x)−M))). On a reachable rejection path, M<pi(x).
+    If a chosen finite stage limit is exhausted, retain x. Accepted candidates end the transition; rejected
+    candidates do not become chain states. The formula follows cancellation of the forward and reverse
+    path terms under the fixed symmetric-kernel assumption.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, displayed fixed-kernel assumption and Equations (6)–(9), printed pp. 234–236 /
+      PDF pp. 4–6; Figure 1 and continuation discussion, pp. 237–238 / PDF pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Metropolis-Hastings algorithms with delayed rejection
+  authors:
+  - Antonietta Mira
+  source_type: primary_paper
+  url: https://www.dss.uniroma1.it/RePec/mtn/articoli/2001-LIX-3_4-16.pdf
+  version: Metron LIX (3–4), 2001, pp. 231–241; eleven-page publisher PDF
+  persistent_id: https://www.dss.uniroma1.it/RePec/mtn/articoli/2001-LIX-3_4-16.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T07:18:11Z'
+  sha256: cd857ff8d7f74887797c2959ddc626ea30cdf2eadad4756c781bce91776e01ff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure defines target-invariant Markov transitions under its stated assumptions. AIO
+    MarkovChain describes a stochastic process/model and is exported beneath Network. This method-to-process
+    related match is not equivalence, an is-a assertion or a claim of independent samples or a trained
+    network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:26:59Z'
+  updated_at: '2026-10-11T07:27:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

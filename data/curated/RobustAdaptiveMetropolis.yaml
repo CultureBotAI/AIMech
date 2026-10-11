@@ -1,0 +1,80 @@
+name: Robust adaptive Metropolis
+definition: An adaptive random-walk Metropolis algorithm that updates the proposal shape factor by a rank-one
+  transformation driven by the proposal direction and the difference between its acceptance probability
+  and a chosen target rate.
+concept_kind: algorithm
+identity_notes: This is Vihola’s RAM update, which avoids estimating the target covariance. It differs
+  from covariance-based adaptive Metropolis, scale-only adaptation and a fixed random-walk kernel. RAM
+  here denotes this sampler, not computer memory. The history-dependent state sequence is not assumed
+  to be a homogeneous Markov chain. No normalized match was found across all 442 pinned AIO labels/scoped
+  synonyms and 175 prior native IDs/names/aliases. Full-checkout searches included ignored and hidden
+  files in both worktrees; the only text hit was an unrelated installed-package checksum substring. Existing
+  general Metropolis-Hastings, Metropolis-within-Gibbs and random-walk records were inspected to resolve
+  these specialization boundaries.
+limitations:
+- Spherical continuous proposals make U=0 a null event; numerical implementations still need a zero-norm
+  guard and stable factor updates.
+- Positive definiteness of each update does not prove long-run stability. The source’s strong-law result
+  assumes target/proposal regularity and step-size conditions and holds on an event where shape eigenvalues
+  stay bounded away from zero and infinity.
+- The paper explicitly leaves unrestricted stability unproved. Enforcing fixed eigenvalue bounds by rejecting
+  a proposed shape update is a separate safeguard that can alter the limiting shape.
+- A chosen acceptance rate is a tuning target, not a universal optimum or convergence diagnostic. Strong
+  multimodality can remain difficult; no benchmark or arbitrary-heavy-tail convergence guarantee is asserted.
+- The exact inspected arXiv v2 bytes have a later title-page footer date. This record does not claim to
+  have inspected the later journal version.
+id: AIMech:RobustAdaptiveMetropolis
+aliases:
+- RAM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, steps R1–R3 and Equation (1), Proposition 1 and Remarks 2–4, PDF pp. 3–5; Section
+    4, Assumptions 12–16, Theorem 17 and Remark 19, pp. 11–13; Section 6, pp. 16–17
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let q be a spherical density, S a lower-triangular factor with positive diagonal, x satisfy
+    pi(x)>0, eta_n lie in (0,1] and decay to zero, and alpha_star lie in (0,1). Draw U from q and propose
+    y=x+S U. Set alpha=min(1,pi(y)/pi(x)), accept y with this probability or retain x. Whether accepted
+    or rejected, choose the next positive-diagonal Cholesky factor S_new satisfying S_new S_new^T=S[I+eta_n(alpha−alpha_star)UU^T/||U||²]S^T.
+    The update uses the acceptance probability, not the binary acceptance outcome; the normalized direction
+    U determines the rank-one adjustment. It expands that component when alpha exceeds the target and
+    contracts it when alpha is smaller.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, steps R1–R3 and Equation (1), Proposition 1 and Remarks 2–4, PDF pp. 3–5; Section
+      4, Assumptions 12–16, Theorem 17 and Remark 19, pp. 11–13; Section 6, pp. 16–17
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Robust adaptive Metropolis algorithm with coerced acceptance rate
+  authors:
+  - Matti Vihola
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1011.4381v2
+  version: arXiv:1011.4381v2, submitted 2011-05-27; 21-page PDF with title-page footer dated 2018-10-23;
+    inspected bytes identified by hash
+  persistent_id: arXiv:1011.4381v2
+  access_level: full_text
+  accessed_at: '2026-10-11T07:17:23Z'
+  sha256: dc508f247e17005930079c2fefc789f936b9217eb7038de48d96195c2c170a93
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: RAM adapts a family of random-walk Metropolis transition kernels, each target-invariant at
+    a fixed shape. Its history-dependent sampled-state sequence is not assumed to be a homogeneous Markov
+    chain. AIO MarkovChain describes the underlying process/model concept beneath Network, so this is
+    a related method-to-process mapping, not equivalence, a subclass assertion or a proof of adaptive
+    convergence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:26:59Z'
+  updated_at: '2026-10-11T07:26:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
