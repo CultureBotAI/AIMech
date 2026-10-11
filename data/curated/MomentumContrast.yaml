@@ -1,0 +1,85 @@
+name: Momentum contrast
+definition: A contrastive representation-learning mechanism that maintains a queue of encoded negative
+  keys and produces new keys with an encoder updated by an exponential moving average of the query encoder.
+concept_kind: algorithm
+identity_notes: This is original MoCo from the 2020 paper, with its image instance-discrimination realization.
+  The momentum acts on encoder parameters, not on per-example memory-bank embeddings. It is distinct from
+  MoCo v2/v3 and from large-batch end-to-end contrastive training. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive
+  searches of both full checkouts found no discovery-checkout hits and nine unrelated main-environment
+  substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms and
+  incident edges were inspected; task/network vocabulary does not make these algorithms equivalent.
+limitations:
+- Queued keys were encoded at different parameter states. A slow update aims to improve consistency; it
+  does not make historical keys identical to recomputed current-encoder outputs.
+- The image realization treats different images as negatives. This is instance discrimination, not verification
+  that all negative pairs belong to different semantic classes.
+- The paper’s distributed ResNet implementation shuffles the key minibatch across GPUs and restores correspondence
+  after encoding to reduce batch-normalization leakage. Other normalization choices need their own reproduction
+  checks.
+- The displayed algorithm abstracts queue initialization and requires a valid finite dictionary. Temperature,
+  queue length, momentum and augmentation are tuning choices; no single setting is universally optimal.
+- This record specifies the original paper’s update order and scope. It does not import later MoCo variants,
+  claim independent samples, or reproduce benchmark training.
+id: AIMech:MomentumContrast
+aliases:
+- MoCo
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.3, Equations (1)–(2), Figure 2 and Algorithm 1, printed pp. 9730–9732 / PDF
+    pp. 2–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize key-encoder parameters from the query encoder and maintain a finite FIFO queue
+    of K≥1 encoded keys. For each image draw two augmented views, form normalized query q and current
+    positive key k+, and use loss −log[exp(q·k+/tau)/(exp(q·k+/tau)+sum_(k in queue)exp(q·k/tau))] with
+    tau>0. Stop gradients through the key outputs and queue; update the query encoder from the minibatch
+    loss. In paper Algorithm 1, next update key parameters as theta_k←m theta_k+(1−m)theta_q, m in [0,1),
+    enqueue the keys already computed for this batch, and remove the oldest batch to maintain the queue.
+    The queue decouples dictionary size from current minibatch size; the momentum encoder reduces changes
+    between key representations created at different iterations.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.3, Equations (1)–(2), Figure 2 and Algorithm 1, printed pp. 9730–9732 / PDF
+      pp. 2–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Momentum Contrast for Unsupervised Visual Representation Learning
+  authors:
+  - Kaiming He
+  - Haoqi Fan
+  - Yuxin Wu
+  - Saining Xie
+  - Ross Girshick
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_CVPR_2020/papers/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.pdf
+  version: CVPR 2020, pp. 9729–9738; ten-page proceedings PDF; original MoCo
+  persistent_id: https://openaccess.thecvf.com/content_CVPR_2020/html/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.html
+  access_level: full_text
+  accessed_at: '2026-10-11T07:45:10Z'
+  sha256: 69e11f076c82bb046cdb5efeec4ecc779fef00a6e67c0da6991dd6416d0a6871
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This is an algorithm for learning representations from relationships between unlabeled views.
+    The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence
+    or an is-a assertion.
+- target: AIO:ContrastiveLearning
+  relation: related_match
+  rationale: The algorithm implements positive/negative representation comparisons. The pinned AIO target
+    is exported beneath DeepNeuralNetwork; this related mapping preserves the algorithm versus network/approach
+    distinction rather than asserting equivalence or subclass membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:53:16Z'
+  updated_at: '2026-10-11T07:54:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
