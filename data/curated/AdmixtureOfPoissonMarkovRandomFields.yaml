@@ -1,0 +1,148 @@
+name: Admixture of Poisson Markov random fields
+definition: A probabilistic topic-model family that draws each document from a proper Poisson-MRF base
+  distribution whose canonical unary and interaction parameters are convex combinations of topic parameters
+  under document-specific simplex weights.
+concept_kind: model_family
+identity_notes: 'APM denotes the Poisson-MRF admixture construction in this source. It mixes parameters
+  within one document-specific distribution, rather than choosing one topic for the entire document or
+  summing independently drawn fixed-total topic vectors. Its narrow canonical-space form differs from
+  LDA probability-space mixing and from the broader transformed-parameter admixture framework in the same
+  paper. Shared words such as sparse, graphical or softmax do not identify it with SAGE, Replicated Softmax
+  or a neural output layer. No normalized identity match was found across all 442 pinned AIO labels and
+  all scoped synonyms and 415 preceding native IDs, names and aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, yielding six and three matched lines; all five
+  unique contents were read and describe existing frontier references, not records of these identities.
+  The three-character APM acronym was checked in normalized identities but omitted from broad text search;
+  the longer LPMRF acronym was included. Preparation included the three final GRM records before their
+  merge; their inspected bytes are unchanged. All 188 semantic label/synonym hits were read. Fifty-one
+  fully annotated exact CLASS nodes and outgoing edges were inspected: 46 byte-verified against prior
+  reading and five fully read here. Seventy-eight full contextual YAMLs comprise 51 generated and 27 native
+  records: six were fully read during this preparation and 72 byte-verified after prior full reading.
+  Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+limitations:
+- Topic components must share the same statistics, support and reference measure before averaging their
+  natural parameters. Unrestricted positive raw-count Poisson interactions are not normalizable; positive-edge
+  plots do not remove that restriction.
+- The source uses simplified PMRF notation while stating that a modified-statistic model is used. Its
+  precise positive-edge estimator and implementation were not inspected, so no implementation behavior
+  or reproducible positive-edge fit is certified.
+- 'The proposed prior’s claimed beta->beta+x posterior closure is not generally valid for its interaction
+  coefficient: beta*beta^T+x*x^T differs from (beta+x)*(beta+x)^T. Its Gamma analogy also depends on the
+  reference measure, gamma and the quadratic penalty. No exact conjugacy or calibrated posterior claim
+  is adopted.'
+- The displayed approximate-posterior expression is a sum of log-like terms despite being labeled as a
+  posterior. Pseudolikelihood, l1 regularization and FISTA-like proximal updates are approximate fitting
+  machinery; their availability does not make the jointly coupled topic/weight objective globally convex.
+- Canonical mixing generally differs from LDA arithmetic probability mixing. The 2015 fixed-length paper
+  explicitly treats APM as an indirect relaxation and its summed-topic construction as a different model.
+  Neither a single-document Poisson identity nor a coherence comparison proves equality of the full Bayesian
+  models.
+- The preliminary 20 Newsgroup experiment used only 200 words and reported final APM fits with no interaction
+  edges. Those coherence scores do not validate recovered dependency structure. Grolier graph illustrations
+  were manually filtered and are qualitative, not causal or held-out performance evidence. No author code,
+  fitting or benchmark was reproduced.
+id: AIMech:AdmixtureOfPoissonMarkovRandomFields
+aliases:
+- Admixture of Poisson MRFs
+- APM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, PDF p. 2, normalization restriction and modified-statistic qualification; Sections
+    2.2–3, pp. 3–4, Poisson–multinomial identity, proposed prior and transformed admixtures; Section 4,
+    p. 4, Equation (3), canonical APM; Sections 5–6, pp. 5–7, approximate fitting and experiments
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For k topics sharing a specified proper Poisson-MRF exponential-family base, sufficient statistics
+    and count support, let topic natural parameters be (theta_j,Theta_j). Draw document weights w from
+    Dirichlet(alpha), alpha_j>0, and form theta_bar=sum_j w_j*theta_j and Theta_bar=sum_j w_j*Theta_j.
+    Draw x from the normalized base law at these averaged canonical parameters. The paper also proposes
+    priors on topic parameters; this construction requires those priors to be proper on an admissible
+    parameter domain. Convex combinations of finite natural parameters of the same exponential family
+    remain in its finite-partition domain by Holder’s inequality. In the raw-count, unbounded, zero-diagonal
+    PMRF case, symmetric off-diagonal interactions must be nonpositive. The paper states that its positive-interaction
+    implementation instead uses modified sufficient statistics from Yang et al. 2013 while retaining abbreviated
+    raw-PMRF notation. Those modifications must be specified consistently; averaging invalid positive
+    raw-count parameters does not make them proper. In the raw-count Poisson case with all interactions
+    zero, canonical mixing averages log rates and hence geometrically mixes rates. A modified sufficient
+    statistic need not give an ordinary independent Poisson law. LDA mixes word probabilities arithmetically
+    for the same weights; the Poisson-total/multinomial identity alone does not equate these document-weight
+    parameterizations.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF p. 2, normalization restriction and modified-statistic qualification; Sections
+      2.2–3, pp. 3–4, Poisson–multinomial identity, proposed prior and transformed admixtures; Section
+      4, p. 4, Equation (3), canonical APM; Sections 5–6, pp. 5–7, approximate fitting and experiments
+    relation: supports
+  - source_id: comparison
+    locator: Introduction, PDF/printed p. 3; Section 3, p. 5, canonical-parameter APM versus summed fixed-length
+      topic distributions and LDA reduction
+    relation: context
+  - source_id: supplement
+    locator: Supplemental PDF p. 1, Figure 6; p. 2, Tables 1–2, qualitative graphs and topic-word/coherence
+      context
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: 'Admixture of Poisson MRFs: A Topic Model with Word Dependencies'
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/inouye14.pdf
+  version: ICML 2014, PMLR 32(1):683–691, official nine-page proceedings PDF. All nine pages, Figures
+    1–5 and bibliography visually read; extracted PDF pages 3–5 also read. Numeric printed page labels
+    are not visible, so locators use PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-11T22:55:24Z'
+  sha256: 38ba6916cfa0086163cacd500f0648c873e46ffe0e1123c6b2973f1d06bbce25
+- source_id: comparison
+  title: 'Fixed-Length Poisson MRF: Adding Dependencies to the Multinomial'
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2015/file/f39ae9ff3a81f499230c4126e01f421b-Paper.pdf
+  version: NeurIPS 2015 official nine-page proceedings PDF. All nine pages, Figures 1–4, Table 1 and bibliography
+    visually read; extracted text of pages 4 and 6 also read. Printed and PDF pages agree.
+  access_level: full_text
+  accessed_at: '2026-10-11T22:55:19Z'
+  sha256: 3b60adcf8ab21b7db4fbfe82a489dfcc8b70fdaa9510e6de418f94c715ad79ab
+- source_id: supplement
+  title: Admixture of Poisson MRFs — Supplementary Material
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/inouye14-supp.pdf
+  version: 'Official two-page proceedings supplement. Both pages visually read: Figure 6 topic graphs
+    and Tables 1–2 word lists/coherence values. Context only; no new model derivation is supplied.'
+  access_level: full_text
+  accessed_at: '2026-10-11T22:55:28Z'
+  sha256: 3a49790ce255983944efcf49cf97a7f4f3148296ef394832c13e89a0d54d275e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This is a specified family of probability distributions, within the broader mathematical
+    representations described by Model. Its fitting procedure or application does not replace its distributional
+    identity.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The primary source explicitly defines a probabilistic topic-model construction for document
+    counts. The pinned AIO topic-model target lies under MachineLearningTask, so related_match records
+    that modeling context without treating a model family as a task or equating different topic constructions.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T23:06:04Z'
+  updated_at: '2026-10-11T23:06:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
