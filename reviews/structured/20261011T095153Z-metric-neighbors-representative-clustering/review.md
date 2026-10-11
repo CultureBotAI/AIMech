@@ -1,0 +1,889 @@
+# Scientific self-review of NCA, lifted loss, CURE and ROCK
+
+- Review: 20261011T095153Z-metric-neighbors-representative-clustering
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T09:47:29Z
+- Finished UTC: 2026-10-11T09:51:53Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain four distinct source-backed DRAFT concepts with explicit related mappings. Issue 55 is fixed in the reviewed record. No actionable finding remains within this declared four-record scope.
+
+## Scope And Provenance
+
+All fields of four new maintained concepts covering supervised metric learning and representative/shared-neighbor clustering.
+
+Selection: Exact four added IDs in the discovery report; no sampling.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base 1d3bb38795e42f56b28756ac2fd775e3e165418e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NeighborhoodComponentsAnalysis | data/curated/NeighborhoodComponentsAnalysis.yaml | maintained | Neighbourhood components analysis |
+| AIMech:LiftedStructuredEmbeddingLoss | data/curated/LiftedStructuredEmbeddingLoss.yaml | maintained | Lifted structured embedding loss |
+| AIMech:CUREClustering | data/curated/CUREClustering.yaml | maintained | CURE clustering |
+| AIMech:ROCKClustering | data/curated/ROCKClustering.yaml | maintained | ROCK clustering |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NeighborhoodComponentsAnalysis, AIMech:LiftedStructuredEmbeddingLoss, AIMech:CUREClustering, AIMech:ROCKClustering | All checks passed!<br>........................................................................ [ 30%]<br>........................................................................ [ 61%]<br>........................................................................ [ 91%]<br>................sss                                                      [100%]<br>232 passed, 3 skipped in 81.16s (0:01:21)<br>Checked 442 record(s); 0 failed.<br>Checked 227 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 49 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 46,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NeighborhoodComponentsAnalysis, AIMech:LiftedStructuredEmbeddingLoss, AIMech:CUREClustering, AIMech:ROCKClustering | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| ROCK worked neighbor-count reconstruction | passed | True | AIMech:ROCKClustering | {"sample_size": 14, "jaccard_threshold": "1/2", "include_self_results": {"False": {"first_pair_count": 5, "first_pair_common_neighbors": [[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 6, 7], [2, 6, 7]], "second_pair_count": 3}, "True": {"first_pair_count": 7, "first_pair_common_neighbors": [[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 2, 6], [1, 2, 7], [1, 6, 7], [2, 6, 7]], "second_pair_count": 5}}, "interpretation": "The published counts 5 and 3 match self-excluding neighborhoods."} |
+
+## Scientific And Domain Assessments
+
+### Identity, mechanism, evidence, limitations and mapping
+
+evidence: supported. Targets: AIMech:NeighborhoodComponentsAnalysis.
+
+NCA is Goldberger et al.’s transformation-learning procedure, not ordinary k-nearest-neighbor voting or an unsupervised local-coordinate reconstruction. Its main objective sums correct-class probabilities; the paper also discusses a sum-of-log-probabilities alternative, which is a different objective. A rectangular transformation enables supervised dimensionality reduction. The AIO MetricLearning node is explicitly a deep neural network, so the original linear NCA procedure is not treated as its subclass. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges were inspected.
+
+For labeled vectors x_i, choose a matrix A, possibly rectangular, and use squared transformed distance d_ij=&#124;&#124;A(x_i−x_j)&#124;&#124;², with Q=A^T A positive semidefinite. For j!=i set p_ij=exp(−d_ij)/sum_(k!=i)exp(−d_ik), and set p_ii=0. Define p_i=sum_(j:c_j=c_i)p_ij. Optimize f(A)=sum_i p_i by a gradient-based method; this is the expected number of correct labels when each training point selects one other point as its neighbor according to p_ij. For dimensionality reduction use A with d rows, store Ax_i and classify a new projected point using ordinary Euclidean k-nearest-neighbor voting. Learning the scale of A changes the softness of the training neighbor distribution; it does not uniquely determine the later integer k. Limitations: Training uses class labels and a smooth stochastic surrogate, not the discontinuous deterministic k-nearest-neighbor accuracy. Improving its training objective does not certify held-out classification accuracy. The objective is nonconvex in A; initialization and the optimizer affect its result. A=0 is a stationary point of the displayed gradient, so a claim that any initialization learns a useful metric would be unwarranted. At least two observations are needed for the leave-one-out denominator. A class represented by a singleton has p_i=0 and contributes no correct-class reward; the paper’s logarithmic alternative is undefined for that point. Rectangular or rank-deficient A yields a positive-semidefinite squared distance with possible collapsed directions. It need not define a strictly positive distance between distinct original points. No global optimum, absence of overfitting or benchmark advantage is asserted.
+
+### Identity, mechanism, evidence, limitations and mapping
+
+evidence: supported. Targets: AIMech:LiftedStructuredEmbeddingLoss.
+
+This record covers Song et al.’s lifted structured embedding loss, including the original maximum construction and the practically optimized log-sum-exp upper-bound form. These two forms are distinguished, not asserted numerically identical. The objective is separate from the full network, image preprocessing, hard-negative batch construction and optimizer. It is not N-pair-mc’s one-anchor dot-product categorical loss or N-pair-ovo’s sum of binary softplus comparisons. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges were inspected.
+
+For labeled embeddings let D_ij=&#124;&#124;z_i−z_j&#124;&#124;_2. The original Equation (3) uses full-training-set positive pairs Phat and negative pairs Nhat. For positive (i,j), define J_ij=D_ij+max({alpha−D_ik:(i,k) in Nhat} union {alpha−D_jl:(j,l) in Nhat}), then average max(0,J_ij)^2 with divisor 2&#124;Phat&#124;. The practical Equation (4) instead uses a supplied minibatch: let P be its unordered same-class pairs and use Jtilde_ij=D_ij+log[sum_(k:y_k!=y_i)exp(alpha−D_ik)+sum_(l:y_l!=y_j)exp(alpha−D_jl)], summing only batch examples. Its loss is (1/(2&#124;P&#124;))sum_(i,j in P)max(0,Jtilde_ij)^2. Both endpoint-specific terms enter even when the same negative example belongs to both pools. Log-sum-exp bounds a hard maximum over the same terms; changing to a mined minibatch does not make its value a certified bound on the full-data objective. A dense pairwise distance matrix supports the batch computation. Loss distances are Euclidean norms, not squared distances; the squared matrix is only an intermediate. Limitations: The stated minibatch expression needs at least one positive pair and a nonempty negative pool for each evaluated pair. The paper’s loss definition does not itself provide an empty-batch fallback. For a fixed candidate pool, log-sum-exp upper-bounds and smooths the inner maximum. It is not the same loss and depends on the number of negative terms. The Euclidean norm still requires care at zero distance when differentiating with respect to embeddings. The original author loss file enumerates all same-label unordered pairs and both different-label endpoint pools in the supplied batch. That does not imply exhaustive mining over the whole training dataset or any particular sampling distribution. This objective imposes neither a cosine normalization nor an InfoNCE positive-containing denominator. Margin, representation, batch composition and optimization affect results. No model training or benchmark was reproduced.
+
+### Identity, mechanism, evidence, limitations and mapping
+
+evidence: supported. Targets: AIMech:CUREClustering.
+
+CURE uses a set of representative locations, unlike centroid-only k-means or graph-cut normalization in CHAMELEON. This record describes the original vector-data clustering rule and explicitly qualifies the faster representative-reuse and sampled-data enhancements. Recomputing representatives from all merged observations and selecting from old representatives need not give identical merges. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges were inspected.
+
+Start with singleton clusters. Represent a cluster C by up to c selected points, with c a positive integer: choose the first farthest from its mean, then choose each next point to maximize its minimum distance to already selected points. Shrink every selected p to p+alpha(mean(C)−p), for a chosen shrink fraction in [0,1]. Define cluster distance as the minimum distance between a representative from each cluster, repeatedly merge the closest pair and stop at the requested count. In the original merge procedure recompute the mean with observation-count weights and select scattered points from the merged observations. The improved merge considers the at-most-2c old scattered points, recovered from their shrunken representatives when unshrinking is defined, and then shrinks new selections toward the merged mean. Large-data enhancements cluster a random sample, optionally partially cluster sample partitions before merging their partial clusters, and label remaining observations by the nearest selected final representative. Limitations: The mean-and-shrink description assumes a vector representation with a meaningful distance and arithmetic mean. The source’s mention of nonmetric similarities does not make the same operations defined for arbitrary categorical objects. The improved representative-reuse step restricts the candidate set and can alter the selected representatives and later merges. Unshrinking from locations alone is undefined at alpha=1; it requires alpha&lt;1 or retained original scattered points. Sampling and partial partition clustering may miss rare groups or irreversibly combine points before the final pass. The paper’s two-stage small-cluster outlier removal is heuristic and can remove genuine small clusters. Representative count, shrink fraction, sampling, partitioning, distance, outlier rules and target count matter. The method does not guarantee recovery of arbitrary true shapes or universal outlier robustness, and its indexing/runtime claims are dimension-dependent. No implementation or benchmark was reproduced.
+
+### Identity, mechanism, evidence, limitations and mapping
+
+evidence: supported. Targets: AIMech:ROCKClustering.
+
+ROCK is Guha et al.’s RObust Clustering using linKs procedure, designed for categorical or other similarity-based data. Links count common neighbors rather than direct similarities or graph cut weights. The normalized goodness is a heuristic and is not simply maximum shared-neighbor count. The record follows the 1999 conference article, not an uninspected expanded journal version. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges were inspected.
+
+On the clustering sample choose a symmetric similarity in [0,1] and threshold theta. Define N(i)={j!=i:sim(i,j)&gt;=theta} and link(i,j)=&#124;N(i) intersect N(j)&#124;; excluding each point from its own neighbor list reproduces the paper’s worked link counts. For clusters A,B set Link(A,B)=sum_(i in A,j in B)link(i,j). Starting from singletons, merge the pair maximizing g(A,B)=Link(A,B)/[(&#124;A&#124;+&#124;B&#124;)^(1+2f)−&#124;A&#124;^(1+2f)−&#124;B&#124;^(1+2f)]. The paper’s experimental configuration uses f(theta)=(1−theta)/(1+theta); use 0&lt;=theta&lt;1 so f&gt;0 and the denominator is positive. Update cross-cluster links additively after a merge. Stop at the requested cluster count or when every remaining cross-cluster link count is zero. The optional large-data procedure clusters a random sample and labels other observations using representative subsets L_i, choosing the cluster maximizing its threshold-neighbor count divided by (&#124;L_i&#124;+1)^f. Limitations: The paper introduces a neighborhood-size model and chooses f(theta) for its experiments; the normalization is not a universal theorem for every supplied similarity or data distribution. theta=1 makes the displayed experimental-normalization denominator zero. The graph and shared-neighbor counts depend on the supplied sample, similarity and threshold. Categorical attribute-value encoding with Jaccard similarity is one stated construction; shared-neighbor links do not guarantee semantic clustering. The source’s prose explicitly allows termination above the requested count when all cross-links vanish. Forcing arbitrary zero-link merges changes that stopping convention. Sampling and outlier details omitted from the conference article are deferred to its cited full report. This record does not invent those procedures or claim a benchmark/runtime advantage. No clustering implementation was executed.
+
+### Stochastic leave-one-out reward, alternative logarithmic objective and projection scope
+
+consistency: supported. Targets: AIMech:NeighborhoodComponentsAnalysis.
+
+Retain the supervised transformation-learning algorithm with its main sum-of-probabilities objective.
+
+Self probability is zero and the denominator excludes the query point. The expectation concerns one stochastically selected neighbor, not deterministic k-nearest-neighbor accuracy. The sum-of-log alternative is not identified with the main objective. Rectangular A enables supervised projection; PSD distance can collapse directions, the displayed gradient has A=0 stationary, and singleton classes have zero correct-class probability. AIO deep-network MetricLearning and the unsupervised placement of dimensionality reduction are not forced as is-a parents.
+
+### Full-training maximum versus minibatch relaxation and pair conventions
+
+scope: supported. Targets: AIMech:LiftedStructuredEmbeddingLoss.
+
+Retain the named objective family while distinguishing candidate pools and numerical forms.
+
+Equation 3 uses full-data pair sets; Equation 4 and the pinned CPU implementation use supplied minibatch pairs. The log-sum-exp bound applies only to the same collection of terms. Both positive endpoints supply negative edges, distances are Euclidean norms and the final positive-pair hinge is squared with divisor 2&#124;P&#124;. A shared negative contributes two endpoint terms. The inner relaxation does not remove all zero-distance derivative concerns, and no empty-pool behavior or universal information bound is invented.
+
+### Scattered representatives, shrinkage and sampled-data enhancements
+
+consistency: supported. Targets: AIMech:CUREClustering.
+
+Retain the original vector-data procedure and explicitly qualify representative reuse.
+
+Original representative selection considers merged observations: first farthest from the mean, then farthest from the selected set in the max-min sense. Reusing at most 2c old scattered points restricts candidates and can change future merges. Weighted means and shrinkage require an appropriate vector space. Unshrinking locations at alpha=1 is undefined without retained original points. Sampling, partial partition clustering, subset representative labeling and heuristic small-cluster removal do not imply exact whole-data equivalence or universal outlier robustness.
+
+### Self exclusion, goodness normalization, early termination and labeling
+
+consistency: supported. Targets: AIMech:ROCKClustering.
+
+Retain shared-neighbor linkage with source-specific experimental normalization and stopping.
+
+The original worked counts support self-excluding neighborhoods. Cluster links sum cross-point common-neighbor counts and update additively. The denominator uses exponent 1+2f; the experimental f(theta)=(1-theta)/(1+theta) is qualified rather than asserted universally. At theta=1 the formula degenerates. Source prose permits early termination when cross-links vanish. Out-of-sample labeling instead uses threshold-neighbor counts normalized by (&#124;L_i&#124;+1)^f, not the merging link count. The conference paper defers sampling/outlier details to its full report.
+
+### Algorithm, objective, task and supervision boundaries
+
+grounding: supported. Targets: AIMech:NeighborhoodComponentsAnalysis, AIMech:LiftedStructuredEmbeddingLoss, AIMech:CUREClustering, AIMech:ROCKClustering.
+
+Related mappings preserve differences in abstraction and supervision.
+
+NCA relates to the nearest-neighbor classification task and the dimensionality-reduction operation while retaining its supervised learning scope; it is not asserted beneath AIO’s deep-network MetricLearning or unsupervised reduction branch. Lifted loss relates to neural MetricLearning as an objective used by that approach. CURE and ROCK relate to UnsupervisedClustering and HierarchicalClustering tasks. All mappings are related, not equivalence or subclass claims.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:NeighborhoodComponentsAnalysis, AIMech:LiftedStructuredEmbeddingLoss, AIMech:CUREClustering, AIMech:ROCKClustering. NCA learns a linear metric using stochastic leave-one-out reward; lifted loss is a two-endpoint distance objective; CURE merges shrunken representative sets; ROCK merges normalized shared-neighbor links. These supported mechanisms remain distinct from each other and the inspected existing records. Documented variants stay qualified within their named procedure. No AIO identifier, class assertion or DRAFT status is changed.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json | supports | No normalized identity match across442 AIO labels/scoped synonyms and223 preceding native IDs/names/aliases. Full ignored/hidden-inclusive searches returned2 worktree discovery lines and6 main-checkout lines, including four unrelated ignored dependency matches. Six native neighbors and nine exact AIO nodes were compared. NCA and nearest-neighbor voting, lifted and N-pair objectives, centroid clustering and representative/shared-neighbor linkage remain distinct. |
+| mapping | sources/aio/aio.json; Nine exact CLASS nodes listed in source_analysis.aio_mapping_inspection: definitions, scoped synonyms and outgoing edges | supports | NCA relates to the nearest-neighbor classification task and the dimensionality-reduction operation while retaining its supervised learning scope; it is not asserted beneath AIO’s deep-network MetricLearning or unsupervised reduction branch. Lifted loss relates to neural MetricLearning as an objective used by that approach. CURE and ROCK relate to UnsupervisedClustering and HierarchicalClustering tasks. All mappings are related, not equivalence or subclass claims. |
+| neighbors | research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | MultiClassNPairLoss, OneVsOneNPairLoss, CHAMELEONClustering, KMeans, UMAP and LocallyLinearEmbedding were compared. Supervised neighbor probabilities, a two-endpoint Euclidean objective, shrunken representatives and normalized shared-neighbor links have distinct mechanisms. |
+| correction | research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json; review_refinements: issue 55, actual edit time and before/after SHA-256 | supports | Issue 55 separates the original full-training hard-max objective from the practical minibatch log-sum-exp expression and limits the upper-bound comparison to identical candidate pools. Final record bytes were reread and re-inspected. This is a current-state assessment, not a fabricated predecessor finding. |
+| neighborhoodcomponentsanalysis-source | https://papers.nips.cc/paper/2566-neighbourhood-components-analysis.pdf; Sections 2–3, PDF pp. 1–4, Equations (1)–(7); rectangular projection and test-time classification at pp. 3–4 | supports | Neighbourhood Components Analysis. NIPS 2004 proceedings, Advances in Neural Information Processing Systems 17; 8-page PDF; author order follows PDF title. Text pages read: []; actual image pages read: [1, 2, 3, 4]. A supervised metric-learning algorithm that learns a linear transformation by maximizing the expected number of correctly classified training examples under stochastic leave-one-out neighbor selection. |
+| liftedstructuredembeddingloss-source | https://openaccess.thecvf.com/content_cvpr_2016/papers/Song_Deep_Metric_Learning_CVPR_2016_paper.pdf; Section 4, PDF pp. 3–4 (printed 4006–4007), Equations (3)–(7), Algorithm 1; Section 5, PDF p. 5, implementation context | supports | Deep Metric Learning via Lifted Structured Feature Embedding. CVPR 2016, pp. 4004–4012; 9-page CVF open-access proceedings PDF. Text pages read: []; actual image pages read: [1, 2, 3, 4, 5]. A metric-learning objective that penalizes a positive pair’s Euclidean distance against negative distances incident to either endpoint, using a squared hinge and a hard maximum or its log-sum-exp relaxation. |
+| cureclustering-source | https://www2.cs.sfu.ca/CourseCentral/459/han/papers/guha98.pdf; Sections 3.1–3.3, PDF pp. 4–6 (printed 76–78), Figures 5–6 and improved merge procedure; Sections 4.1–4.4, PDF pp. 6–8, sampling, partitioning, labeling and outliers | supports | CURE: An Efficient Clustering Algorithm for Large Databases. SIGMOD 1998, pp. 73–84; 12-page proceedings article hosted by Simon Fraser University. Text pages read: []; actual image pages read: [1, 4, 5, 6, 7, 8]. An agglomerative clustering procedure that represents each cluster by several scattered points shrunk toward its mean and merges the pair with the smallest distance between their representative points. |
+| rockclustering-source | https://theory.stanford.edu/~sudipto/mypapers/categorical.pdf; Sections 3.1–3.3 and 4.1–4.6, PDF pp. 4–8 (printed 515–519), Figures 3–4; worked common-neighbor example in Section 3.2, p. 5; experimental f(theta) in Section 5, p. 8 | supports | ROCK: A Robust Clustering Algorithm for Categorical Attributes. ICDE 1999, pp. 512–521; 10-page author-hosted scan, inspected through page images. Text pages read: []; actual image pages read: [1, 3, 4, 5, 6, 7, 8]. An agglomerative clustering procedure that merges clusters using shared-neighbor link counts divided by a cluster-size normalization derived from a neighborhood model. |
+| author-code | https://raw.githubusercontent.com/rksltnl/Caffe-Deep-Metric-Learning-CVPR16/0efd7544a9846f58df923c8b992198ba5c355454/src/caffe/layers/lifted_struct_similarity_softmax_layer.cpp; Complete 219-line CPU loss source: Forward_cpu and Backward_cpu | supports | Pinned author Caffe submodule commit 0efd7544a9846f58df923c8b992198ba5c355454. The inspected file enumerates unordered same-label pairs and both different-label endpoint pools, uses Euclidean distances and stable log-sum-exp, then normalizes squared hinges by twice the positive-pair count. No compilation, execution or GPU-source inspection is claimed. |
+| rock-calculation | research/discovery/rock-neighbor-counts.py; calculate(): exact rational Jaccard threshold and finite neighbor-set intersections | supports | Original finite arithmetic reconstructs the 14 transactions of ROCK Figure 1. At Jaccard threshold 1/2, self-excluding neighborhoods produce the two reported shared-neighbor counts 5 and 3; self-inclusion produces 7 and 5. This checks the interpretation of Section 3.2, not a clustering implementation or general performance claim. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all four records remain DRAFT.
+- Only declared PDF pages and the pinned complete CPU loss source were inspected. Scanned ROCK evidence was read through rendered images.
+- The ROCK calculation checks two finite example counts and self-neighbor convention only; it does not validate a clustering implementation or empirical accuracy.
+- The original lifted-loss scope conflated full-data and minibatch pair sets; issue 55 records the correction and the discovery report preserves before/after hashes.
+- Prior immutable reviews are unchanged. The issue fix is assessed in the final current state without inventing an earlier structured finding.
+- Four positive additions and remaining candidates leave discovery active; no saturation is claimed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T095153Z-metric-neighbors-representative-clustering
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of NCA, lifted loss, CURE and ROCK
+started_at: '2026-10-11T09:47:29Z'
+finished_at: '2026-10-11T09:51:53Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all four current records
+    against original method equations, scanned pages, pinned author CPU loss code,
+    exact AIO nodes and neighboring records. The corrected lifted-loss scope was reread
+    and re-inspected. No independent approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain four distinct source-backed DRAFT concepts with explicit related mappings.
+  Issue 55 is fixed in the reviewed record. No actionable finding remains within this
+  declared four-record scope.
+source:
+  git_revision: 1d3bb38795e42f56b28756ac2fd775e3e165418e
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/ContrastiveLearning.yaml
+    sha256: f8100e15621b6dd3335dc0bc8253da0197719faf6ac00f1369ebbc455a6fa645
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/KnearestNeighborAlgorithm.yaml
+    sha256: cdb4ab16dea60d54981c94dd2474ac427ffd0e35b728b6356e12cecf87b7a5c0
+    role: context
+  - path: data/aio/KnearestNeighborClassificationAlgorithm.yaml
+    sha256: c45f4eca7cc4e11444cc9be90d2622f8fd37c5296b0b01ffb7a0b7e7ac17af2a
+    role: context
+  - path: data/aio/MetricLearning.yaml
+    sha256: 9497c86ecf87bce4abc89095d2b6b3e9290c15ec8a853f4f9c91a3b8d041f3fc
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/CHAMELEONClustering.yaml
+    sha256: 4e3440079afa10c2b7280c6c2c5073509039014a67a3a6fa71ca59a0117886e6
+    role: context
+  - path: data/curated/CUREClustering.yaml
+    sha256: ab437b2bd33b77ed821e8695bc15ba90de4fc216d4cafff09da7e48060d42cba
+    role: target
+  - path: data/curated/KMeans.yaml
+    sha256: 50fc1d8d18403a8f314636f68b6812ffd15fec2dfaaf4c32aaad423dfa7ffa03
+    role: context
+  - path: data/curated/LiftedStructuredEmbeddingLoss.yaml
+    sha256: fbfa4bf9e8910269a90d0f4e866c2f9b8cf7be7512302e1a0debb21154838764
+    role: target
+  - path: data/curated/LocallyLinearEmbedding.yaml
+    sha256: 621f5e3eb78c5d7ae59dbdc639ed778e52e1845e63e9dbff1922d02220e8e55d
+    role: context
+  - path: data/curated/MultiClassNPairLoss.yaml
+    sha256: 530dc708100618d552ac603c69bdb3fe49c6acc1f1763a188556fb9dd316f828
+    role: context
+  - path: data/curated/NeighborhoodComponentsAnalysis.yaml
+    sha256: 9aa5fa5229196181f23e7ba5910dba00623a60e558b97233e6cefc1f0fbbd577
+    role: target
+  - path: data/curated/OneVsOneNPairLoss.yaml
+    sha256: d16207c0d4fc9a43b3a95d1e0094849f4fe4269522406cdf9b0bf0727be58bb4
+    role: context
+  - path: data/curated/ROCKClustering.yaml
+    sha256: 5be4a00f39b229a245cd86e01d80e2b39cf2f09bb26487d7b911ca9d95625bec
+    role: target
+  - path: data/curated/UMAP.yaml
+    sha256: d4190c4444d179e6e1b5fbe9ca71b5bc70fe35345d3e56815bc4803f4eed1d52
+    role: context
+  - path: research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json
+    sha256: c280698351af1eeda0883a70ada3356106be380dfc22357be3ec89cbadc3da26
+    role: context
+  - path: research/discovery/rock-neighbor-counts.py
+    sha256: af7d85bc22f50428160d40cbeeddd098f66013dd0a7e3f58edaf69d69d04fd99
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NeighborhoodComponentsAnalysis
+  path: data/curated/NeighborhoodComponentsAnalysis.yaml
+  label: Neighbourhood components analysis
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NeighborhoodComponentsAnalysis.yaml
+    role: maintained
+- target_id: AIMech:LiftedStructuredEmbeddingLoss
+  path: data/curated/LiftedStructuredEmbeddingLoss.yaml
+  label: Lifted structured embedding loss
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LiftedStructuredEmbeddingLoss.yaml
+    role: maintained
+- target_id: AIMech:CUREClustering
+  path: data/curated/CUREClustering.yaml
+  label: CURE clustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CUREClustering.yaml
+    role: maintained
+- target_id: AIMech:ROCKClustering
+  path: data/curated/ROCKClustering.yaml
+  label: ROCK clustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ROCKClustering.yaml
+    role: maintained
+scope:
+  description: All fields of four new maintained concepts covering supervised metric
+    learning and representative/shared-neighbor clustering.
+  selection: Exact four added IDs in the discovery report; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  - AIMech:LiftedStructuredEmbeddingLoss
+  - AIMech:CUREClustering
+  - AIMech:ROCKClustering
+  exclusions:
+  - target: Remaining discovery frontier and older records
+    reason: These need separate primary-method and identity reviews; the verdict does
+      not extrapolate to them.
+  - target: Unread source pages, uninspected code and performance outcomes
+    reason: Only declared method pages and the complete pinned CPU loss file were
+      read. No model training or clustering benchmark was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  - AIMech:LiftedStructuredEmbeddingLoss
+  - AIMech:CUREClustering
+  - AIMech:ROCKClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 30%]\n........................................................................\
+    \ [ 61%]\n........................................................................\
+    \ [ 91%]\n................sss                                                \
+    \      [100%]\n232 passed, 3 skipped in 81.16s (0:01:21)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 227 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 49 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 46,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  - AIMech:LiftedStructuredEmbeddingLoss
+  - AIMech:CUREClustering
+  - AIMech:ROCKClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: rock-arithmetic
+  name: ROCK worked neighbor-count reconstruction
+  command: python3 research/discovery/rock-neighbor-counts.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ROCKClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"sample_size": 14, "jaccard_threshold": "1/2", "include_self_results":
+    {"False": {"first_pair_count": 5, "first_pair_common_neighbors": [[1, 2, 3], [1,
+    2, 4], [1, 2, 5], [1, 6, 7], [2, 6, 7]], "second_pair_count": 3}, "True": {"first_pair_count":
+    7, "first_pair_common_neighbors": [[1, 2, 3], [1, 2, 4], [1, 2, 5], [1, 2, 6],
+    [1, 2, 7], [1, 6, 7], [2, 6, 7]], "second_pair_count": 5}}, "interpretation":
+    "The published counts 5 and 3 match self-excluding neighborhoods."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json
+  accessed_at: '2026-10-11T09:47:29Z'
+  support: supports
+  summary: No normalized identity match across442 AIO labels/scoped synonyms and223
+    preceding native IDs/names/aliases. Full ignored/hidden-inclusive searches returned2
+    worktree discovery lines and6 main-checkout lines, including four unrelated ignored
+    dependency matches. Six native neighbors and nine exact AIO nodes were compared.
+    NCA and nearest-neighbor voting, lifted and N-pair objectives, centroid clustering
+    and representative/shared-neighbor linkage remain distinct.
+  search_scope: All 442 AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases,
+    plus both complete checkouts including ignored and hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-11T09:47:29Z'
+  support: supports
+  locator: 'Nine exact CLASS nodes listed in source_analysis.aio_mapping_inspection:
+    definitions, scoped synonyms and outgoing edges'
+  summary: NCA relates to the nearest-neighbor classification task and the dimensionality-reduction
+    operation while retaining its supervised learning scope; it is not asserted beneath
+    AIO’s deep-network MetricLearning or unsupervised reduction branch. Lifted loss
+    relates to neural MetricLearning as an objective used by that approach. CURE and
+    ROCK relate to UnsupervisedClustering and HierarchicalClustering tasks. All mappings
+    are related, not equivalence or subclass claims.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json
+  accessed_at: '2026-10-11T09:47:29Z'
+  support: supports
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  summary: MultiClassNPairLoss, OneVsOneNPairLoss, CHAMELEONClustering, KMeans, UMAP
+    and LocallyLinearEmbedding were compared. Supervised neighbor probabilities, a
+    two-endpoint Euclidean objective, shrunken representatives and normalized shared-neighbor
+    links have distinct mechanisms.
+- evidence_id: correction
+  kind: record_content
+  reference: research/discovery/20261011T094708Z-metric-neighbors-representative-clustering.json
+  accessed_at: '2026-10-11T09:47:29Z'
+  support: supports
+  locator: 'review_refinements: issue 55, actual edit time and before/after SHA-256'
+  summary: Issue 55 separates the original full-training hard-max objective from the
+    practical minibatch log-sum-exp expression and limits the upper-bound comparison
+    to identical candidate pools. Final record bytes were reread and re-inspected.
+    This is a current-state assessment, not a fabricated predecessor finding.
+- evidence_id: neighborhoodcomponentsanalysis-source
+  kind: primary_source
+  reference: https://papers.nips.cc/paper/2566-neighbourhood-components-analysis.pdf
+  locator: Sections 2–3, PDF pp. 1–4, Equations (1)–(7); rectangular projection and
+    test-time classification at pp. 3–4
+  accessed_at: '2026-10-11T09:37:36Z'
+  snapshot_sha256: 13831bbd3e691251dadba09b8da4d5ae456d2b03c2af6422e944b4d5a2fa974d
+  support: supports
+  summary: 'Neighbourhood Components Analysis. NIPS 2004 proceedings, Advances in
+    Neural Information Processing Systems 17; 8-page PDF; author order follows PDF
+    title. Text pages read: []; actual image pages read: [1, 2, 3, 4]. A supervised
+    metric-learning algorithm that learns a linear transformation by maximizing the
+    expected number of correctly classified training examples under stochastic leave-one-out
+    neighbor selection.'
+- evidence_id: liftedstructuredembeddingloss-source
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_cvpr_2016/papers/Song_Deep_Metric_Learning_CVPR_2016_paper.pdf
+  locator: Section 4, PDF pp. 3–4 (printed 4006–4007), Equations (3)–(7), Algorithm
+    1; Section 5, PDF p. 5, implementation context
+  accessed_at: '2026-10-11T09:37:36Z'
+  snapshot_sha256: b24d5a9d88cc7cb6caee30ed7497204ec4883cf822c146943d3d6c5094f607de
+  support: supports
+  summary: 'Deep Metric Learning via Lifted Structured Feature Embedding. CVPR 2016,
+    pp. 4004–4012; 9-page CVF open-access proceedings PDF. Text pages read: []; actual
+    image pages read: [1, 2, 3, 4, 5]. A metric-learning objective that penalizes
+    a positive pair’s Euclidean distance against negative distances incident to either
+    endpoint, using a squared hinge and a hard maximum or its log-sum-exp relaxation.'
+- evidence_id: cureclustering-source
+  kind: primary_source
+  reference: https://www2.cs.sfu.ca/CourseCentral/459/han/papers/guha98.pdf
+  locator: Sections 3.1–3.3, PDF pp. 4–6 (printed 76–78), Figures 5–6 and improved
+    merge procedure; Sections 4.1–4.4, PDF pp. 6–8, sampling, partitioning, labeling
+    and outliers
+  accessed_at: '2026-10-11T09:37:36Z'
+  snapshot_sha256: 4207acc2deb769e9b2f2e9e68c48dc0ca878a8be3b8f7c8aee89e0382d0d47b8
+  support: supports
+  summary: 'CURE: An Efficient Clustering Algorithm for Large Databases. SIGMOD 1998,
+    pp. 73–84; 12-page proceedings article hosted by Simon Fraser University. Text
+    pages read: []; actual image pages read: [1, 4, 5, 6, 7, 8]. An agglomerative
+    clustering procedure that represents each cluster by several scattered points
+    shrunk toward its mean and merges the pair with the smallest distance between
+    their representative points.'
+- evidence_id: rockclustering-source
+  kind: primary_source
+  reference: https://theory.stanford.edu/~sudipto/mypapers/categorical.pdf
+  locator: Sections 3.1–3.3 and 4.1–4.6, PDF pp. 4–8 (printed 515–519), Figures 3–4;
+    worked common-neighbor example in Section 3.2, p. 5; experimental f(theta) in
+    Section 5, p. 8
+  accessed_at: '2026-10-11T09:38:19Z'
+  snapshot_sha256: 735b0e5275f204cb68ea3459ffada29436a992727f0befeec8d3b6ebcd7ff735
+  support: supports
+  summary: 'ROCK: A Robust Clustering Algorithm for Categorical Attributes. ICDE 1999,
+    pp. 512–521; 10-page author-hosted scan, inspected through page images. Text pages
+    read: []; actual image pages read: [1, 3, 4, 5, 6, 7, 8]. An agglomerative clustering
+    procedure that merges clusters using shared-neighbor link counts divided by a
+    cluster-size normalization derived from a neighborhood model.'
+- evidence_id: author-code
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/rksltnl/Caffe-Deep-Metric-Learning-CVPR16/0efd7544a9846f58df923c8b992198ba5c355454/src/caffe/layers/lifted_struct_similarity_softmax_layer.cpp
+  locator: 'Complete 219-line CPU loss source: Forward_cpu and Backward_cpu'
+  accessed_at: '2026-10-11T09:43:40Z'
+  snapshot_sha256: 74c78bfb9f3e5e0ea6e47fec4604899e84872013ca5274a2abd0fa50a804d9a8
+  support: supports
+  summary: Pinned author Caffe submodule commit 0efd7544a9846f58df923c8b992198ba5c355454.
+    The inspected file enumerates unordered same-label pairs and both different-label
+    endpoint pools, uses Euclidean distances and stable log-sum-exp, then normalizes
+    squared hinges by twice the positive-pair count. No compilation, execution or
+    GPU-source inspection is claimed.
+- evidence_id: rock-calculation
+  kind: record_content
+  reference: research/discovery/rock-neighbor-counts.py
+  locator: 'calculate(): exact rational Jaccard threshold and finite neighbor-set
+    intersections'
+  accessed_at: '2026-10-11T09:47:29Z'
+  snapshot_sha256: af7d85bc22f50428160d40cbeeddd098f66013dd0a7e3f58edaf69d69d04fd99
+  support: supports
+  summary: Original finite arithmetic reconstructs the 14 transactions of ROCK Figure
+    1. At Jaccard threshold 1/2, self-excluding neighborhoods produce the two reported
+    shared-neighbor counts 5 and 3; self-inclusion produces 7 and 5. This checks the
+    interpretation of Section 3.2, not a clustering implementation or general performance
+    claim.
+assessments:
+- assessment_id: neighborhoodcomponentsanalysis
+  area: evidence
+  topic: Identity, mechanism, evidence, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - neighborhoodcomponentsanalysis-source
+  summary: NCA is Goldberger et al.’s transformation-learning procedure, not ordinary
+    k-nearest-neighbor voting or an unsupervised local-coordinate reconstruction.
+    Its main objective sums correct-class probabilities; the paper also discusses
+    a sum-of-log-probabilities alternative, which is a different objective. A rectangular
+    transformation enables supervised dimensionality reduction. The AIO MetricLearning
+    node is explicitly a deep neural network, so the original linear NCA procedure
+    is not treated as its subclass. No normalized identity match was found across
+    all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases.
+    Word-delimited fixed-string searches of both full checkouts, including ignored
+    and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout
+    lines including four unrelated ignored dependency matches. Six neighboring native
+    records and nine exact AIO nodes with scoped synonyms and outgoing edges were
+    inspected.
+  details: 'For labeled vectors x_i, choose a matrix A, possibly rectangular, and
+    use squared transformed distance d_ij=||A(x_i−x_j)||², with Q=A^T A positive semidefinite.
+    For j!=i set p_ij=exp(−d_ij)/sum_(k!=i)exp(−d_ik), and set p_ii=0. Define p_i=sum_(j:c_j=c_i)p_ij.
+    Optimize f(A)=sum_i p_i by a gradient-based method; this is the expected number
+    of correct labels when each training point selects one other point as its neighbor
+    according to p_ij. For dimensionality reduction use A with d rows, store Ax_i
+    and classify a new projected point using ordinary Euclidean k-nearest-neighbor
+    voting. Learning the scale of A changes the softness of the training neighbor
+    distribution; it does not uniquely determine the later integer k. Limitations:
+    Training uses class labels and a smooth stochastic surrogate, not the discontinuous
+    deterministic k-nearest-neighbor accuracy. Improving its training objective does
+    not certify held-out classification accuracy. The objective is nonconvex in A;
+    initialization and the optimizer affect its result. A=0 is a stationary point
+    of the displayed gradient, so a claim that any initialization learns a useful
+    metric would be unwarranted. At least two observations are needed for the leave-one-out
+    denominator. A class represented by a singleton has p_i=0 and contributes no correct-class
+    reward; the paper’s logarithmic alternative is undefined for that point. Rectangular
+    or rank-deficient A yields a positive-semidefinite squared distance with possible
+    collapsed directions. It need not define a strictly positive distance between
+    distinct original points. No global optimum, absence of overfitting or benchmark
+    advantage is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Named algorithm or mathematical objective, not a trained model instance
+      or empirical result.
+    evidence_ids:
+    - neighborhoodcomponentsanalysis-source
+  - name: aio-relations
+    value: 'related_match: AIO:KnearestNeighborClassificationAlgorithm; related_match:
+      AIO:DimensionalityReduction'
+    definition: NCA learns the distance used by a nearest-neighbor classifier and
+      explicitly applies voting after projection. It is distinct from the AIO voting
+      task, so this is a related method-to-task association. The rectangular NCA configuration
+      learns a lower-dimensional projection using labels. The AIO target is placed
+      under UnsupervisedLearning; this related association preserves the shared reduction
+      operation without asserting that supervised NCA is an unsupervised subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: liftedstructuredembeddingloss
+  area: evidence
+  topic: Identity, mechanism, evidence, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:LiftedStructuredEmbeddingLoss
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - liftedstructuredembeddingloss-source
+  - author-code
+  - correction
+  summary: This record covers Song et al.’s lifted structured embedding loss, including
+    the original maximum construction and the practically optimized log-sum-exp upper-bound
+    form. These two forms are distinguished, not asserted numerically identical. The
+    objective is separate from the full network, image preprocessing, hard-negative
+    batch construction and optimizer. It is not N-pair-mc’s one-anchor dot-product
+    categorical loss or N-pair-ovo’s sum of binary softplus comparisons. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of
+    both full checkouts, including ignored and hidden files, returned 2 worktree lines
+    in discovery context and 6 main-checkout lines including four unrelated ignored
+    dependency matches. Six neighboring native records and nine exact AIO nodes with
+    scoped synonyms and outgoing edges were inspected.
+  details: 'For labeled embeddings let D_ij=||z_i−z_j||_2. The original Equation (3)
+    uses full-training-set positive pairs Phat and negative pairs Nhat. For positive
+    (i,j), define J_ij=D_ij+max({alpha−D_ik:(i,k) in Nhat} union {alpha−D_jl:(j,l)
+    in Nhat}), then average max(0,J_ij)^2 with divisor 2|Phat|. The practical Equation
+    (4) instead uses a supplied minibatch: let P be its unordered same-class pairs
+    and use Jtilde_ij=D_ij+log[sum_(k:y_k!=y_i)exp(alpha−D_ik)+sum_(l:y_l!=y_j)exp(alpha−D_jl)],
+    summing only batch examples. Its loss is (1/(2|P|))sum_(i,j in P)max(0,Jtilde_ij)^2.
+    Both endpoint-specific terms enter even when the same negative example belongs
+    to both pools. Log-sum-exp bounds a hard maximum over the same terms; changing
+    to a mined minibatch does not make its value a certified bound on the full-data
+    objective. A dense pairwise distance matrix supports the batch computation. Loss
+    distances are Euclidean norms, not squared distances; the squared matrix is only
+    an intermediate. Limitations: The stated minibatch expression needs at least one
+    positive pair and a nonempty negative pool for each evaluated pair. The paper’s
+    loss definition does not itself provide an empty-batch fallback. For a fixed candidate
+    pool, log-sum-exp upper-bounds and smooths the inner maximum. It is not the same
+    loss and depends on the number of negative terms. The Euclidean norm still requires
+    care at zero distance when differentiating with respect to embeddings. The original
+    author loss file enumerates all same-label unordered pairs and both different-label
+    endpoint pools in the supplied batch. That does not imply exhaustive mining over
+    the whole training dataset or any particular sampling distribution. This objective
+    imposes neither a cosine normalization nor an InfoNCE positive-containing denominator.
+    Margin, representation, batch composition and optimization affect results. No
+    model training or benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: Named algorithm or mathematical objective, not a trained model instance
+      or empirical result.
+    evidence_ids:
+    - liftedstructuredembeddingloss-source
+  - name: aio-relations
+    value: 'related_match: AIO:MetricLearning'
+    definition: The loss trains neural representations so positive examples are closer
+      than negatives. AIO MetricLearning is a deep-network representation-learning
+      concept; this objective-to-training-approach relation is related only, not equivalence
+      or subclass membership.
+    evidence_ids:
+    - mapping
+- assessment_id: cureclustering
+  area: evidence
+  topic: Identity, mechanism, evidence, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:CUREClustering
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - cureclustering-source
+  summary: CURE uses a set of representative locations, unlike centroid-only k-means
+    or graph-cut normalization in CHAMELEON. This record describes the original vector-data
+    clustering rule and explicitly qualifies the faster representative-reuse and sampled-data
+    enhancements. Recomputing representatives from all merged observations and selecting
+    from old representatives need not give identical merges. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding
+    native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts,
+    including ignored and hidden files, returned 2 worktree lines in discovery context
+    and 6 main-checkout lines including four unrelated ignored dependency matches.
+    Six neighboring native records and nine exact AIO nodes with scoped synonyms and
+    outgoing edges were inspected.
+  details: 'Start with singleton clusters. Represent a cluster C by up to c selected
+    points, with c a positive integer: choose the first farthest from its mean, then
+    choose each next point to maximize its minimum distance to already selected points.
+    Shrink every selected p to p+alpha(mean(C)−p), for a chosen shrink fraction in
+    [0,1]. Define cluster distance as the minimum distance between a representative
+    from each cluster, repeatedly merge the closest pair and stop at the requested
+    count. In the original merge procedure recompute the mean with observation-count
+    weights and select scattered points from the merged observations. The improved
+    merge considers the at-most-2c old scattered points, recovered from their shrunken
+    representatives when unshrinking is defined, and then shrinks new selections toward
+    the merged mean. Large-data enhancements cluster a random sample, optionally partially
+    cluster sample partitions before merging their partial clusters, and label remaining
+    observations by the nearest selected final representative. Limitations: The mean-and-shrink
+    description assumes a vector representation with a meaningful distance and arithmetic
+    mean. The source’s mention of nonmetric similarities does not make the same operations
+    defined for arbitrary categorical objects. The improved representative-reuse step
+    restricts the candidate set and can alter the selected representatives and later
+    merges. Unshrinking from locations alone is undefined at alpha=1; it requires
+    alpha<1 or retained original scattered points. Sampling and partial partition
+    clustering may miss rare groups or irreversibly combine points before the final
+    pass. The paper’s two-stage small-cluster outlier removal is heuristic and can
+    remove genuine small clusters. Representative count, shrink fraction, sampling,
+    partitioning, distance, outlier rules and target count matter. The method does
+    not guarantee recovery of arbitrary true shapes or universal outlier robustness,
+    and its indexing/runtime claims are dimension-dependent. No implementation or
+    benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Named algorithm or mathematical objective, not a trained model instance
+      or empirical result.
+    evidence_ids:
+    - cureclustering-source
+  - name: aio-relations
+    value: 'related_match: AIO:UnsupervisedClustering; related_match: AIO:HierarchicalClustering'
+    definition: CURE groups unlabeled observations using a specified agglomerative
+      procedure. The AIO target is a task; this association does not assert algorithm/task
+      equivalence or subclass membership. CURE repeatedly merges clusters to construct
+      a hierarchy, while the target does not specify its linkage, initialization or
+      stopping rule.
+    evidence_ids:
+    - mapping
+- assessment_id: rockclustering
+  area: evidence
+  topic: Identity, mechanism, evidence, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ROCKClustering
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - rockclustering-source
+  - rock-calculation
+  summary: ROCK is Guha et al.’s RObust Clustering using linKs procedure, designed
+    for categorical or other similarity-based data. Links count common neighbors rather
+    than direct similarities or graph cut weights. The normalized goodness is a heuristic
+    and is not simply maximum shared-neighbor count. The record follows the 1999 conference
+    article, not an uninspected expanded journal version. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native
+    IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts,
+    including ignored and hidden files, returned 2 worktree lines in discovery context
+    and 6 main-checkout lines including four unrelated ignored dependency matches.
+    Six neighboring native records and nine exact AIO nodes with scoped synonyms and
+    outgoing edges were inspected.
+  details: 'On the clustering sample choose a symmetric similarity in [0,1] and threshold
+    theta. Define N(i)={j!=i:sim(i,j)>=theta} and link(i,j)=|N(i) intersect N(j)|;
+    excluding each point from its own neighbor list reproduces the paper’s worked
+    link counts. For clusters A,B set Link(A,B)=sum_(i in A,j in B)link(i,j). Starting
+    from singletons, merge the pair maximizing g(A,B)=Link(A,B)/[(|A|+|B|)^(1+2f)−|A|^(1+2f)−|B|^(1+2f)].
+    The paper’s experimental configuration uses f(theta)=(1−theta)/(1+theta); use
+    0<=theta<1 so f>0 and the denominator is positive. Update cross-cluster links
+    additively after a merge. Stop at the requested cluster count or when every remaining
+    cross-cluster link count is zero. The optional large-data procedure clusters a
+    random sample and labels other observations using representative subsets L_i,
+    choosing the cluster maximizing its threshold-neighbor count divided by (|L_i|+1)^f.
+    Limitations: The paper introduces a neighborhood-size model and chooses f(theta)
+    for its experiments; the normalization is not a universal theorem for every supplied
+    similarity or data distribution. theta=1 makes the displayed experimental-normalization
+    denominator zero. The graph and shared-neighbor counts depend on the supplied
+    sample, similarity and threshold. Categorical attribute-value encoding with Jaccard
+    similarity is one stated construction; shared-neighbor links do not guarantee
+    semantic clustering. The source’s prose explicitly allows termination above the
+    requested count when all cross-links vanish. Forcing arbitrary zero-link merges
+    changes that stopping convention. Sampling and outlier details omitted from the
+    conference article are deferred to its cited full report. This record does not
+    invent those procedures or claim a benchmark/runtime advantage. No clustering
+    implementation was executed.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Named algorithm or mathematical objective, not a trained model instance
+      or empirical result.
+    evidence_ids:
+    - rockclustering-source
+  - name: aio-relations
+    value: 'related_match: AIO:UnsupervisedClustering; related_match: AIO:HierarchicalClustering'
+    definition: ROCK groups unlabeled observations using a specified agglomerative
+      procedure. The AIO target is a task; this association does not assert algorithm/task
+      equivalence or subclass membership. ROCK repeatedly merges clusters to construct
+      a hierarchy, while the target does not specify its linkage, initialization or
+      stopping rule.
+    evidence_ids:
+    - mapping
+- assessment_id: nca-objective
+  area: consistency
+  topic: Stochastic leave-one-out reward, alternative logarithmic objective and projection
+    scope
+  outcome: supported
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  evidence_ids:
+  - neighborhoodcomponentsanalysis-source
+  - neighbors
+  - mapping
+  summary: Retain the supervised transformation-learning algorithm with its main sum-of-probabilities
+    objective.
+  details: Self probability is zero and the denominator excludes the query point.
+    The expectation concerns one stochastically selected neighbor, not deterministic
+    k-nearest-neighbor accuracy. The sum-of-log alternative is not identified with
+    the main objective. Rectangular A enables supervised projection; PSD distance
+    can collapse directions, the displayed gradient has A=0 stationary, and singleton
+    classes have zero correct-class probability. AIO deep-network MetricLearning and
+    the unsupervised placement of dimensionality reduction are not forced as is-a
+    parents.
+- assessment_id: lifted-scope
+  area: scope
+  topic: Full-training maximum versus minibatch relaxation and pair conventions
+  outcome: supported
+  target_ids:
+  - AIMech:LiftedStructuredEmbeddingLoss
+  evidence_ids:
+  - liftedstructuredembeddingloss-source
+  - author-code
+  - correction
+  - neighbors
+  summary: Retain the named objective family while distinguishing candidate pools
+    and numerical forms.
+  details: Equation 3 uses full-data pair sets; Equation 4 and the pinned CPU implementation
+    use supplied minibatch pairs. The log-sum-exp bound applies only to the same collection
+    of terms. Both positive endpoints supply negative edges, distances are Euclidean
+    norms and the final positive-pair hinge is squared with divisor 2|P|. A shared
+    negative contributes two endpoint terms. The inner relaxation does not remove
+    all zero-distance derivative concerns, and no empty-pool behavior or universal
+    information bound is invented.
+- assessment_id: cure-variants
+  area: consistency
+  topic: Scattered representatives, shrinkage and sampled-data enhancements
+  outcome: supported
+  target_ids:
+  - AIMech:CUREClustering
+  evidence_ids:
+  - cureclustering-source
+  - neighbors
+  summary: Retain the original vector-data procedure and explicitly qualify representative
+    reuse.
+  details: 'Original representative selection considers merged observations: first
+    farthest from the mean, then farthest from the selected set in the max-min sense.
+    Reusing at most 2c old scattered points restricts candidates and can change future
+    merges. Weighted means and shrinkage require an appropriate vector space. Unshrinking
+    locations at alpha=1 is undefined without retained original points. Sampling,
+    partial partition clustering, subset representative labeling and heuristic small-cluster
+    removal do not imply exact whole-data equivalence or universal outlier robustness.'
+- assessment_id: rock-links
+  area: consistency
+  topic: Self exclusion, goodness normalization, early termination and labeling
+  outcome: supported
+  target_ids:
+  - AIMech:ROCKClustering
+  evidence_ids:
+  - rockclustering-source
+  - rock-calculation
+  - neighbors
+  summary: Retain shared-neighbor linkage with source-specific experimental normalization
+    and stopping.
+  details: The original worked counts support self-excluding neighborhoods. Cluster
+    links sum cross-point common-neighbor counts and update additively. The denominator
+    uses exponent 1+2f; the experimental f(theta)=(1-theta)/(1+theta) is qualified
+    rather than asserted universally. At theta=1 the formula degenerates. Source prose
+    permits early termination when cross-links vanish. Out-of-sample labeling instead
+    uses threshold-neighbor counts normalized by (|L_i|+1)^f, not the merging link
+    count. The conference paper defers sampling/outlier details to its full report.
+- assessment_id: mapping-scope
+  area: grounding
+  topic: Algorithm, objective, task and supervision boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  - AIMech:LiftedStructuredEmbeddingLoss
+  - AIMech:CUREClustering
+  - AIMech:ROCKClustering
+  evidence_ids:
+  - mapping
+  - identity
+  - neighbors
+  summary: Related mappings preserve differences in abstraction and supervision.
+  details: NCA relates to the nearest-neighbor classification task and the dimensionality-reduction
+    operation while retaining its supervised learning scope; it is not asserted beneath
+    AIO’s deep-network MetricLearning or unsupervised reduction branch. Lifted loss
+    relates to neural MetricLearning as an objective used by that approach. CURE and
+    ROCK relate to UnsupervisedClustering and HierarchicalClustering tasks. All mappings
+    are related, not equivalence or subclass claims.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:NeighborhoodComponentsAnalysis
+  - AIMech:LiftedStructuredEmbeddingLoss
+  - AIMech:CUREClustering
+  - AIMech:ROCKClustering
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - correction
+  - neighborhoodcomponentsanalysis-source
+  - liftedstructuredembeddingloss-source
+  - cureclustering-source
+  - rockclustering-source
+  - author-code
+  - rock-calculation
+  rationale: NCA learns a linear metric using stochastic leave-one-out reward; lifted
+    loss is a two-endpoint distance objective; CURE merges shrunken representative
+    sets; ROCK merges normalized shared-neighbor links. These supported mechanisms
+    remain distinct from each other and the inspected existing records. Documented
+    variants stay qualified within their named procedure. No AIO identifier, class
+    assertion or DRAFT status is changed.
+limitations:
+- Adversarial author self-review only; all four records remain DRAFT.
+- Only declared PDF pages and the pinned complete CPU loss source were inspected.
+  Scanned ROCK evidence was read through rendered images.
+- The ROCK calculation checks two finite example counts and self-neighbor convention
+  only; it does not validate a clustering implementation or empirical accuracy.
+- The original lifted-loss scope conflated full-data and minibatch pair sets; issue
+  55 records the correction and the discovery report preserves before/after hashes.
+- Prior immutable reviews are unchanged. The issue fix is assessed in the final current
+  state without inventing an earlier structured finding.
+- Four positive additions and remaining candidates leave discovery active; no saturation
+  is claimed.
+tags:
+- native-concepts
+- metric-learning
+- clustering
+- self-review
+- discovery-ongoing
+```

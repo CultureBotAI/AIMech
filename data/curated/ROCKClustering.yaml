@@ -1,0 +1,85 @@
+name: ROCK clustering
+definition: An agglomerative clustering procedure that merges clusters using shared-neighbor link counts
+  divided by a cluster-size normalization derived from a neighborhood model.
+concept_kind: algorithm
+identity_notes: ROCK is Guha et al.’s RObust Clustering using linKs procedure, designed for categorical
+  or other similarity-based data. Links count common neighbors rather than direct similarities or graph
+  cut weights. The normalized goodness is a heuristic and is not simply maximum shared-neighbor count.
+  The record follows the 1999 conference article, not an uninspected expanded journal version. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases.
+  Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned
+  2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency
+  matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges
+  were inspected.
+limitations:
+- The paper introduces a neighborhood-size model and chooses f(theta) for its experiments; the normalization
+  is not a universal theorem for every supplied similarity or data distribution. theta=1 makes the displayed
+  experimental-normalization denominator zero.
+- The graph and shared-neighbor counts depend on the supplied sample, similarity and threshold. Categorical
+  attribute-value encoding with Jaccard similarity is one stated construction; shared-neighbor links do
+  not guarantee semantic clustering.
+- The source’s prose explicitly allows termination above the requested count when all cross-links vanish.
+  Forcing arbitrary zero-link merges changes that stopping convention.
+- Sampling and outlier details omitted from the conference article are deferred to its cited full report.
+  This record does not invent those procedures or claim a benchmark/runtime advantage. No clustering implementation
+  was executed.
+id: AIMech:ROCKClustering
+aliases:
+- ROCK
+- Robust Clustering using linKs
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.3 and 4.1–4.6, PDF pp. 4–8 (printed 515–519), Figures 3–4; worked common-neighbor
+    example in Section 3.2, p. 5; experimental f(theta) in Section 5, p. 8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: On the clustering sample choose a symmetric similarity in [0,1] and threshold theta. Define
+    N(i)={j!=i:sim(i,j)>=theta} and link(i,j)=|N(i) intersect N(j)|; excluding each point from its own
+    neighbor list reproduces the paper’s worked link counts. For clusters A,B set Link(A,B)=sum_(i in
+    A,j in B)link(i,j). Starting from singletons, merge the pair maximizing g(A,B)=Link(A,B)/[(|A|+|B|)^(1+2f)−|A|^(1+2f)−|B|^(1+2f)].
+    The paper’s experimental configuration uses f(theta)=(1−theta)/(1+theta); use 0<=theta<1 so f>0 and
+    the denominator is positive. Update cross-cluster links additively after a merge. Stop at the requested
+    cluster count or when every remaining cross-cluster link count is zero. The optional large-data procedure
+    clusters a random sample and labels other observations using representative subsets L_i, choosing
+    the cluster maximizing its threshold-neighbor count divided by (|L_i|+1)^f.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.3 and 4.1–4.6, PDF pp. 4–8 (printed 515–519), Figures 3–4; worked common-neighbor
+      example in Section 3.2, p. 5; experimental f(theta) in Section 5, p. 8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'ROCK: A Robust Clustering Algorithm for Categorical Attributes'
+  authors:
+  - Sudipto Guha
+  - Rajeev Rastogi
+  - Kyuseok Shim
+  source_type: primary_paper
+  url: https://theory.stanford.edu/~sudipto/mypapers/categorical.pdf
+  version: ICDE 1999, pp. 512–521; 10-page author-hosted scan, inspected through page images
+  persistent_id: https://doi.org/10.1109/ICDE.1999.754967
+  access_level: full_text
+  accessed_at: '2026-10-11T09:38:19Z'
+  sha256: 735b0e5275f204cb68ea3459ffada29436a992727f0befeec8d3b6ebcd7ff735
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: ROCK groups unlabeled observations using a specified agglomerative procedure. The AIO target
+    is a task; this association does not assert algorithm/task equivalence or subclass membership.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: ROCK repeatedly merges clusters to construct a hierarchy, while the target does not specify
+    its linkage, initialization or stopping rule.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:45:04Z'
+  updated_at: '2026-10-11T09:45:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
