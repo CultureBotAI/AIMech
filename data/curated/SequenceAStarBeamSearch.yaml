@@ -1,0 +1,100 @@
+name: A-star beam search for sequence decoding
+definition: A sequence-decoding beam framework that ranks active hypotheses by accumulated score plus
+  an optimistic future-score heuristic, uses shorter length to break score ties, and limits accepted expansions
+  to k hypotheses per sequence length.
+concept_kind: algorithm
+identity_notes: This names the finite-beam A-star decoding framework in Meister, Vieira and Cotterell,
+  not every algorithm informally called A-star beam search. The h=0 specialization has its own per-length
+  best-first record. A finite per-length budget distinguishes the framework from unpruned A* and from
+  a whole-frontier capacity cap. No normalized identity match was found across the 442 AIO and 135 prior
+  native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source
+  citations, scope contrasts and DCBSS substring matches, plus seven public certificate-data substring
+  matches, not existing concept records.
+limitations:
+- The finite beam is an approximation to exact sequence-model decoding; equality to a specified beam procedure
+  is not global MAP optimality.
+- Sequence length limits, EOS handling and compatible deterministic tie conventions are part of the comparison.
+  Arbitrary implementations with different stopping or tie rules need not return identical hypotheses.
+- Queue counts are counts of retained hypotheses, not total bytes including neural states, model parameters,
+  backpointers and temporary successors. No numerical speedup or benchmark-quality claim is curated.
+- Admissibility of h does not preserve the zero-heuristic beam’s output after finite pruning. This is
+  explicitly acknowledged in Section 4.1.
+- Unpruned A-star guarantees cannot be transferred to the finite-beam framework merely because its heuristic
+  is admissible. No unrestricted nonmonotonic stopping theorem is asserted.
+- Application to a particular score requires checking the direction and validity of its future-reward
+  bound, terminal behavior and stopping policy.
+id: AIMech:SequenceAStarBeamSearch
+aliases:
+- A* beam search for sequence decoding
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, Algorithm 2 and Table 1; Definition 3.1; printed pp. 797–798 / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: 'Use Algorithm 2 with the A-star beam settings in Table 1: prioritize the sum of current
+    score and h, maintain a separate length counter, and suppress expansions beyond that length’s k budget.
+    For maximization, an admissible h is optimistic about achievable future reward. The framework’s top-completed-hypothesis
+    stopping rule operates over this already-pruned agenda; a finite beam can exclude globally superior
+    paths.'
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Algorithm 2 and Table 1; Definition 3.1; printed pp. 797–798 / PDF pp. 3–4
+    relation: supports
+- claim_id: finite-beam-heuristic
+  kind: limitation
+  statement: With finite pruning, even an admissible future-score heuristic can alter which hypotheses
+    survive compared with ordinary width-k beam search. The paper distinguishes the zero-heuristic equivalence
+    result from this more general framework.
+  evidence:
+  - source_id: finite-beam-heuristic
+    locator: Section 4.1, A Note on Heuristics, printed p. 801 / PDF p. 7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+- source_id: finite-beam-heuristic
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines these decoding procedures for sequential structured prediction
+    and develops them around natural-language transduction. The exact AIO CLASS describes the language-processing
+    task. This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion;
+    the decoder is not a trained language model and can also be used outside NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:16:04Z'
+  updated_at: '2026-10-11T06:16:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

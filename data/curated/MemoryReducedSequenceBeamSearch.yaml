@@ -1,0 +1,97 @@
+name: Memory-reduced best-first beam search for sequence decoding
+definition: A capacity-limited variant of per-length best-first sequence beam search that, when its chosen
+  total queue capacity is reached, removes the worst-scoring active hypothesis from the earliest active
+  sequence length.
+concept_kind: algorithm
+identity_notes: This is the memory-reduced variant in Meister, Vieira and Cotterell Section 3.3. Its eviction
+  first chooses the earliest active length, so it differs from globally removing the worst-ranked hypothesis.
+  It also differs from the base per-length best-first procedure, which can retain hypotheses at several
+  lengths without this extra capacity pruning. No normalized identity match was found across the 442 AIO
+  and 135 prior native records; ignored-inclusive text hits in the main checkout were prior discovery
+  leads, source citations, scope contrasts and DCBSS substring matches, plus seven public certificate-data
+  substring matches, not existing concept records.
+limitations:
+- The finite beam is an approximation to exact sequence-model decoding; equality to a specified beam procedure
+  is not global MAP optimality.
+- Sequence length limits, EOS handling and compatible deterministic tie conventions are part of the comparison.
+  Arbitrary implementations with different stopping or tie rules need not return identical hypotheses.
+- Queue counts are counts of retained hypotheses, not total bytes including neural states, model parameters,
+  backpointers and temporary successors. No numerical speedup or benchmark-quality claim is curated.
+- Additional capacity eviction can remove paths retained by the unmodified beam procedure, so its same-output
+  guarantee is not inherited. The memory/quality tradeoff is empirical and problem dependent.
+- The queue cap does not bound the entire decoder or neural model memory. The earliest-length eviction
+  is not a global worst-score eviction rule.
+- No guarantee for arbitrary nonmonotonic scores or globally optimal sequence decoding is asserted.
+id: AIMech:MemoryReducedSequenceBeamSearch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.3, Memory-Reduced Best-First Beam Search, printed pp. 799–800 / PDF pp. 5–6
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Organize active hypotheses in queues for their sequence lengths and prioritize lengths by
+    their best available score. Apply the base per-length beam limits and an additional total active-queue
+    capacity. To make room, evict the minimum-scoring item in the earliest nonempty length queue; then
+    continue decoding the surviving agenda.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.3, Memory-Reduced Best-First Beam Search, printed pp. 799–800 / PDF pp. 5–6
+    relation: supports
+- claim_id: capacity-boundary
+  kind: limitation
+  statement: The variant adds pruning to the base decoder by limiting queue capacity and targeting the
+    earliest active time step for eviction. The paper presents it as a separate memory-reduced method,
+    not as the unchanged monotone-beam equivalence construction.
+  evidence:
+  - source_id: capacity-boundary
+    locator: Section 3.3 memory-reduced variant, printed pp. 799–800 / PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+- source_id: capacity-boundary
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines these decoding procedures for sequential structured prediction
+    and develops them around natural-language transduction. The exact AIO CLASS describes the language-processing
+    task. This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion;
+    the decoder is not a trained language model and can also be used outside NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:16:04Z'
+  updated_at: '2026-10-11T06:16:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
