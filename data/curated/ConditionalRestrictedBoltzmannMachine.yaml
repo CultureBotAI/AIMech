@@ -1,0 +1,99 @@
+name: Conditional restricted Boltzmann machine
+definition: A conditional neural probability model that represents an output vector with an RBM whose
+  biases or interactions are determined by a supplied conditioning vector.
+concept_kind: architecture
+identity_notes: 'This is the general input-conditioned RBM family described by Mnih, Larochelle and Hinton,
+  with their affine-bias binary formulation as the explicitly curated mechanism. The conditioning vector
+  need not be temporal history. Autoregressive CRBM fixes it to earlier frames and RNN-RBM derives it
+  from a recurrent state; these are narrower constructions, not aliases for the entire family. HashCRBM
+  and CD-PercLoss are separate training or prediction constructions and do not define every conditional
+  RBM. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared,
+  with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files
+  in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including
+  58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references
+  and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and
+  22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete
+  native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded
+  to this snapshot and inspected neighborhood.'
+limitations:
+- The model specifies p(v|u), not the input marginal p(u). Normalizing outputs for one conditioning vector
+  does not supply a shared partition for every other input or a joint model over arbitrary inputs.
+- Factorial block conditionals do not make the output marginal factorial or its partition, joint mode
+  and coordinate marginals generally tractable. Tiny output spaces or deliberately restricted support
+  are special cases.
+- A small data-started CD update can reflect poor mixing near the observed output rather than accurate
+  predictions from u alone. Finite CD is not generally the exact conditional likelihood gradient or the
+  gradient of a single fixed objective.
+- Persistent samples from one conditioning input cannot simply be treated as equilibrium samples for another.
+  The paper’s discussion of persistent-chain impracticality is scoped to its input-specific distributions
+  and training setting; it is not a proof that every conditional persistent method is impossible.
+- The general family can condition biases or interactions, while the displayed mechanism holds W_vh fixed
+  and changes biases affinely. Gaussian outputs, input-dependent interactions, retrieved-support HashCRBM
+  and perceptron-style training need separate conventions. No historical-priority, universal prediction-quality
+  or author-code claim is asserted.
+id: AIMech:ConditionalRestrictedBoltzmannMachine
+aliases:
+- CRBM
+- Conditional RBM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–5, Figure 1 and Equations (8)–(13), PDF pp.2–4; conditional family versus affine-bias
+    specialization in Section 3, p.3; restricted-support and prediction-loss alternatives, Sections 6.1–6.2,
+    pp.5–7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Hold conditioning vector u fixed. In the paper’s binary affine-bias specialization, set a(u)=b_v+(W_uv)^T
+    u and c(u)=b_h+(W_uh)^T u, with visible-by-hidden interaction matrix W_vh. Define E(v,h;u)=-v^T W_vh
+    h-a(u)^T v-c(u)^T h. Marginalizing binary h gives F(v,u)=-a(u)^T v-sum_j log(1+exp(c_j(u)+(W_vh^T
+    v)_j)). Normalize exp(-F(v,u)) over output configurations v to obtain p(v|u), with a partition depending
+    on u. Hidden units given v,u and visible units given h,u have factorial logistic conditionals, but
+    outputs after hidden marginalization can be dependent. Conditional likelihood gradients contrast data-posterior
+    and model expectations at the same u. The paper discusses finite CD as an approximation and separate
+    alternatives for restricted output support or prediction-based training. Prediction may seek the joint
+    conditional mode or coordinate-wise marginal modes according to the loss; those are different decisions.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–5, Figure 1 and Equations (8)–(13), PDF pp.2–4; conditional family versus affine-bias
+      specialization in Section 3, p.3; restricted-support and prediction-loss alternatives, Sections
+      6.1–6.2, pp.5–7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Conditional Restricted Boltzmann Machines for Structured Output Prediction
+  authors:
+  - Volodymyr Mnih
+  - Hugo Larochelle
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf
+  version: Nine-page author-hosted UAI 2011 paper. ArXiv metadata identifies report UAI-P-2011-PG-514-522
+    and a 14 February 2012 upload; the conference year is 2011. The inspected PDF has no printed page
+    numbers.
+  persistent_id: arXiv:1202.3748
+  access_level: full_text
+  accessed_at: '2026-10-11T18:43:08Z'
+  sha256: e7811677aa0f48e97931e1a5b60497d7ec0f2a22c19ab06ce1e15b8f366df4ac
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The local family is a specific stochastic neural conditional model with weighted visible–hidden
+    interactions and input-controlled parameters. The pinned ArtificialNeuralNetwork is broader. Classification
+    and regression are possible uses, while their task-scoped AIO classes do not identify this architecture.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The construction uses a conditional RBM as its output distribution. This related mapping
+    identifies that component or conditioned-family relationship without asserting that the whole input-conditioned
+    or recurrent model is one unconditioned symmetric RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:53:57Z'
+  updated_at: '2026-10-11T18:53:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
