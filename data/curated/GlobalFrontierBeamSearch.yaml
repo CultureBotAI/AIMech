@@ -1,0 +1,128 @@
+name: Best-first beam search with a global frontier cap
+definition: A best-first search procedure that limits the entire open frontier to a fixed number of nodes
+  by discarding the worst-ranked frontier nodes when that capacity is exceeded.
+concept_kind: algorithm
+identity_notes: 'The qualified name identifies the global frontier truncation described in the 2005 and
+  2010 search papers. The unqualified phrase best-first beam search is intentionally not an identity alias:
+  Meister, Vieira and Cotterell use that phrase in 2020 for a decoding procedure with a per-sequence-length
+  path limit. A shared name does not equate those pruning rules. No normalized identity match was found
+  across the 442 AIO and 130 prior native records; ignored-inclusive text hits in the main checkout were
+  prior discovery leads, source citations and search-order contrasts, plus incidental lightbulb and wet-bulb
+  dependency substrings, not existing concept records.'
+limitations:
+- Global frontier pruning can permanently remove a needed path; the cap alone establishes neither completeness
+  nor optimality.
+- The cap applies to the open frontier, not automatically to closed tables, predecessor storage, generated
+  successors or the total program memory.
+- No equivalence to breadth-first beam output, monotonic quality with larger width, or universal runtime
+  advantage is asserted.
+id: AIMech:GlobalFrontierBeamSearch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: 'Beam Search, PDF p. 4: best-first versus breadth-first beams'
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Select the best-ranked node from the current open frontier and add its eligible successors.
+    Whenever the frontier exceeds the chosen capacity, discard its worst-ranked nodes until it fits. Candidates
+    from different depths can therefore compete for the same finite frontier slots.
+  evidence:
+  - source_id: method-source
+    locator: 'Beam Search, PDF p. 4: best-first versus breadth-first beams'
+    relation: supports
+- claim_id: historical-scope
+  kind: scope
+  statement: The beam-stack paper distinguishes its layer-based beam from the broader usage that truncates
+    a best-first open list after adding successors.
+  evidence:
+  - source_id: earlier-description
+    locator: 'Background: Beam search, PDF p. 1, broader best-first use'
+    relation: supports
+- claim_id: name-disambiguation
+  kind: scope
+  statement: The later NLP paper controls how many paths of each sequence length are considered. That
+    per-length counter is a different rule from limiting the total open frontier, so the same phrase does
+    not identify the global-cap procedure without qualification.
+  evidence:
+  - source_id: nlp-name-boundary
+    locator: Algorithm 2, printed p. 797 / PDF p. 3; Section 3.1 choice point 3 and Table 1, printed p.
+      798 / PDF p. 4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Comparison of Greedy Search Algorithms
+  authors:
+  - Christopher Wilt
+  - Jordan Thayer
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:39:45Z'
+  sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  persistent_id: doi:10.1609/socs.v1i1.18182
+- source_id: earlier-description
+  title: 'Beam-Stack Search: Integrating Backtracking with Beam Search'
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf
+  version: ICAPS 2005 proceedings, 90–98; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: eb2ac12fea9da9d376764a1959dbdbd14929962cf5b34c28e4dd20771b8d90b9
+- source_id: nlp-name-boundary
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 130 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:01:43Z'
+  updated_at: '2026-10-11T06:01:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

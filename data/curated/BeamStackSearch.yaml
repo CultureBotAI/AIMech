@@ -1,0 +1,110 @@
+name: Beam-stack search
+definition: A layer-based beam search augmented with a stack of admitted evaluation ranges so that backtracking
+  systematically revisits successors previously discarded by beam-width pruning.
+concept_kind: algorithm
+identity_notes: Beam-stack search combines breadth-first beam expansion with chronological backtracking
+  and an incumbent solution-cost bound. It is distinct from permanent beam pruning, limited-discrepancy
+  beam backtracking, and the separately named iterative-deepening BSIDA-star variant. No normalized identity
+  match was found across the 442 AIO and 130 prior native records; ignored-inclusive text hits in the
+  main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental
+  lightbulb and wet-bulb dependency substrings, not existing concept records.
+limitations:
+- The paper’s termination and optimality argument assumes finite branching, a positive lower bound on
+  operator cost and a finite initial upper bound supplied by an actual solution, together with admissible
+  pruning. It is not a guarantee for arbitrary zero-cost cycles, an infinite bound or arbitrary duplicate
+  policies.
+- Ties require a consistent ordering, or enough beam capacity to retain the unbroken tie group; a bare
+  numeric range with unresolved ties is insufficient.
+- The baseline retains up to a beam of nodes per depth layer plus the beam stack. O(w*d) node storage
+  does not mean a fixed total-memory cap independent of search depth.
+- The initially supplied solution must remain available if no improvement is found. An upper-bound number
+  alone is not a returned path; this record does not certify the displayed pseudocode as a complete implementation.
+id: AIMech:BeamStackSearch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Beam-stack search, PDF pp. 2–3; Theorem 1, PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Use an admissible cost estimate f=g+h and an incumbent upper bound U. For each expanded layer,
+    store a range of successor evaluations admitted to the next beam. Width pruning records the smallest
+    rejected evaluation as the upper endpoint. On backtracking, advance the deepest unfinished range and
+    regenerate that layer’s successors. Improved solutions lower U; exhaustion of the stack ends the improvement
+    search.
+  evidence:
+  - source_id: method-source
+    locator: Beam-stack search, PDF pp. 2–3; Theorem 1, PDF pp. 3–4
+    relation: supports
+- claim_id: bound-and-incumbent-scope
+  kind: limitation
+  statement: The basic method starts from a bound corresponding to an actual solution, while the paper
+    introduces a separate iterative-deepening version when such a bound is unavailable. As an implementation
+    obligation inferred from the displayed initialization and return logic, a wrapper must preserve the
+    initial incumbent when the improvement search finds no better path.
+  evidence:
+  - source_id: memory-and-implementation
+    locator: Memory efficiency, PDF p. 4; Figure 1, PDF p. 5, initialization and return path; Beam-stack
+      iterative-deepening A-star, PDF p. 6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Beam-Stack Search: Integrating Backtracking with Beam Search'
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf
+  version: ICAPS 2005 proceedings, 90–98; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: eb2ac12fea9da9d376764a1959dbdbd14929962cf5b34c28e4dd20771b8d90b9
+- source_id: memory-and-implementation
+  title: 'Beam-Stack Search: Integrating Backtracking with Beam Search'
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf
+  version: ICAPS 2005 proceedings, 90–98; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: eb2ac12fea9da9d376764a1959dbdbd14929962cf5b34c28e4dd20771b8d90b9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 130 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:01:43Z'
+  updated_at: '2026-10-11T06:05:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
