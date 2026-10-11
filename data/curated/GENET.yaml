@@ -1,0 +1,89 @@
+name: GENET
+definition: A connectionist architecture for finite constraint satisfaction that represents variable assignments
+  by active label nodes and alternates input-maximizing assignment updates with increased inhibitory weights
+  on violated constraints when the network stabilizes without a solution.
+concept_kind: architecture
+identity_notes: This is the GENET constraint-satisfaction architecture described by Davenport, Tsang,
+  Wang and Zhu, including the general-constraint extension. It is not a biological genetic network, genetic
+  algorithm, trained classifier or synonym of GLS. The binary network has inhibitory nogood connections,
+  while the general-constraint extension includes constraint nodes and asymmetric fixed/adaptive connections.
+  A Hopfield identity or globally symmetric network mapping would overstate that general architecture.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 307 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 4 and 4 lines respectively. All eight text hits were prior discovery leads in the
+  two checkouts, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- 'The source explicitly says GENET is not complete: learning may create other local minima. It supplies
+  no guarantee of finding a satisfying assignment or proving unsatisfiability within a finite budget.'
+- Exactly synchronous updates can oscillate; the source footnote excludes that interpretation of the parallel
+  pseudocode. Ties can change assignments without strict objective improvement, distinguishing this mechanism
+  from the strict hill-climbing record.
+- The 1994 experiments use a sequential C++ simulation. Proposed speedups from future VLSI implementations
+  are expectations, not measured hardware results curated here. The GENET2 conflicted-variable variant
+  is not silently treated as the default variable-selection rule.
+- General-constraint output functions and representations require care. At an atmost bound, activation
+  in the same variable cluster must account for all participating values; independently inhibiting each
+  inactive value can introduce a false penalty. No numerical benchmark result is curated.
+id: AIMech:GENET
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: PDF pp.1–4 (printed325–328), architecture, convergence/learning algorithms, footnote2, Equations1–9,
+    and Generalised Constraint Representation; limitations and implementation discussion p.6 (printed330)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Create one cluster for each finite-domain variable and one label node per possible value,
+    with exactly one active label per cluster. In the binary formulation, incompatible label pairs have
+    inhibitory connections initially weighted −1; a label input sums the weights from currently active
+    connected labels. A cluster activates a label of maximal input, breaking ties randomly. These updates
+    need not be strict improvements. The described parallel implementation is explicitly not exactly synchronous,
+    and the reported simulator selects variables sequentially. When an update cycle leaves the assignment
+    unchanged, terminate if all active-label inputs are zero; otherwise reinforce violated connections,
+    using W_new=W−V_i*V_j in the binary case. The extension represents higher-order constraints by constraint
+    nodes with fixed label-to-constraint inputs and adaptive inhibitory outputs to labels. For a violated
+    general constraint, all its outgoing connection weights are decremented according to Equation5; this
+    must not be silently replaced by the binary active-endpoint rule. The paper defines distinct output
+    functions for forbidden tuples and atmost constraints.
+  evidence:
+  - source_id: method-source
+    locator: PDF pp.1–4 (printed325–328), architecture, convergence/learning algorithms, footnote2, Equations1–9,
+      and Generalised Constraint Representation; limitations and implementation discussion p.6 (printed330)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'GENET: A Connectionist Architecture for Solving Constraint Satisfaction Problems by Iterative
+    Improvement'
+  authors:
+  - Andrew Davenport
+  - Edward Tsang
+  - Chang J. Wang
+  - Kangmin Zhu
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1994/AAAI94-049.pdf
+  version: AAAI-94 proceedings, pp.325–330; six-page publisher PDF; method locators use PDF pages 1–6.
+  access_level: full_text
+  accessed_at: '2026-10-11T14:30:00Z'
+  sha256: 5dfc2658b9e86ca60a45cef17d4538792fe7b092b737104a1fadd8b67cb8c6f0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The pinned target is a network of connected artificial-neuron units. GENET is a specific
+    connectionist network of label/constraint nodes with activation and inhibitory weight-update rules,
+    so the AIO target is broader than this local architecture. No content-addressable Hopfield identity
+    is asserted, and general constraint connections are asymmetric; the broader ANN mapping does not imply
+    universal symmetric connectivity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:42:39Z'
+  updated_at: '2026-10-11T14:42:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
