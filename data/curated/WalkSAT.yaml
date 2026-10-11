@@ -1,0 +1,138 @@
+name: WalkSAT
+definition: A clause-focused SAT local-search algorithm, in its classical SKC formulation, that first
+  selects an unsatisfied clause, prioritizes a variable with zero breakcount, and otherwise mixes a random
+  variable flip with a minimum-breakcount flip within that clause.
+concept_kind: algorithm
+identity_notes: 'This record curates the classical SKC variable-selection rule under the commonly used
+  WalkSAT name. It does not equate every later WalkSAT heuristic, the earlier underspecified WSAT family
+  description, pure clause-first random walk, or global GSAT-with-walk selection with that exact rule.
+  The 1994 source gives the clause-first lineage; the authors’ 2004 solver description explicitly supplies
+  the zero-break priority and breakcount-based choice. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 316 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 7 and 7 lines respectively.
+  All seven unique lines were inspected, and the sorted checkout hit sets were identical: neighboring
+  GSAT/WalkSAT mentions and saved review/ledger references, not existing candidate records. Eight exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The zero-break branch precedes the noise coin, including at p=1. That setting is therefore not generally
+  identical to a pure random-clause/random-variable walk. Removing the priority changes the specified
+  SKC heuristic.
+- Candidate selection is restricted to the chosen clause and can miss the globally best net-gain flip.
+  Minimizing breakcount is different from minimizing breakcount minus makecount; replacing one by the
+  other changes the heuristic.
+- A finite unsuccessful run does not prove UNSAT, and the pure 2-CNF random-walk guarantee is not automatically
+  a guarantee for this SKC policy on general formulas. The noise setting and restart strategy are not
+  universal constants.
+- The move rule needs a nonempty selected clause and a declared formula representation. Empty clauses
+  require separate handling; duplicate clauses, literal normalization and weighted extensions can change
+  counts or sampling and are not silently normalized here.
+- AutoWalksat, Rnovelty, Rnovelty+ and later software additions are distinct procedures or configurations,
+  not exact aliases of this SKC record. No author implementation or numerical solver benchmark was run.
+id: AIMech:WalkSAT
+aliases:
+- WalkSAT/SKC
+- SKC WalkSAT
+definition_evidence:
+- source_id: method-source
+  locator: PDF/printed1, breakcount/makecount definitions and SKC steps1–3; PDF/printed2, variant distinctions
+    and single-run/no-restart competition configuration
+  relation: supports
+- source_id: earlier-wsat-context
+  locator: Modifying the Random Walk Strategy, PDF5 / printed341, clause-first WSAT lineage and sampling
+    contrast
+  relation: context
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a complete truth assignment and stop successfully when all clauses are satisfied.
+    Otherwise randomly choose an unsatisfied nonempty clause. For each candidate variable in that clause,
+    its breakcount is the number of currently satisfied clauses that would become unsatisfied if it were
+    flipped. If any candidate has breakcount zero, choose one such candidate at random. Only when there
+    is no zero-break candidate, choose a random variable from the selected clause with probability p;
+    with probability 1−p choose a candidate of minimum breakcount, breaking ties randomly. Flip the chosen
+    variable and repeat under the application’s stopping budget. Breakcount omits how many previously
+    unsatisfied clauses become satisfied, so it need not rank candidates like GSAT’s global net-gain score.
+    Random restarts are an optional outer strategy; the described 2004 competition configuration uses
+    one long run.
+  evidence:
+  - source_id: method-source
+    locator: PDF/printed1, breakcount/makecount definitions and SKC steps1–3; PDF/printed2, variant distinctions
+      and single-run/no-restart competition configuration
+    relation: supports
+  - source_id: earlier-wsat-context
+    locator: Modifying the Random Walk Strategy, PDF5 / printed341, clause-first WSAT lineage and sampling
+      contrast
+    relation: context
+evidence_sources:
+- source_id: method-source
+  title: Walksat in the 2004 SAT Competition
+  authors:
+  - Henry Kautz
+  - Bart Selman
+  - David McAllester
+  source_type: author_technical_report
+  url: https://www.cs.virginia.edu/~rmw7my/papers/walksat.pdf
+  version: Two-page author-hosted SAT Competition 2004 solver description, printed/PDF pp.1–2. Defines
+    the SKC rule and distinguishes AutoWalksat and Rnovelty+; this is not documentation for every later
+    software version.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:10:47Z'
+  sha256: 525f46d2f9fd9d32cc46daee6b15a0ece5fcef17af614e74d6143643ed2cf74f
+- source_id: earlier-wsat-context
+  title: Noise Strategies for Improving Local Search
+  authors:
+  - Bart Selman
+  - Henry A. Kautz
+  - Bram Cohen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1994/AAAI94-051.pdf
+  version: AAAI-94 proceedings, pp.337–343; seven-page publisher scan. The source compares specific parameter
+    settings and instance classes, not a universal dominance result.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:07:33Z'
+  sha256: fd839ba6780a260e0bcfebcdf169f381ba5b88c27c17981ef4b3dacd144ff1f9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 316 preceding maintained IDs/names/aliases;
+    ignored/hidden full-checkout text in main and worktree; semantic labels for search, heuristics, satisfiability,
+    logic, reasoning, noise and randomness; eight exact AIO CLASS nodes and four complete native neighbors.
+  rationale: No suitable target was established for these symbolic SAT-search variants in the inspected
+    snapshot and semantic neighborhood. Stochastic moves, noise terminology and logical formulas do not
+    justify a forced learning-task, neural-layer or language-model mapping.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model performing reasoning during language tasks is not a CNF assignment-search
+      algorithm.
+  - target: AIO:TrainingStrategy
+    rejection_reason: These SAT procedures do not require preprocessing or training a machine-learning
+      model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Searching a supplied formula for a model does not itself require developing a method
+      that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Random exploration and greedy clause scores do not make this fixed-formula search
+      a reinforcement-learning task or a learned action-value method.
+  - target: AIO:MarkovChain
+    rejection_reason: Fixed configurations can admit a Markov description, but that representation does
+      not establish this named algorithm’s identity or a specific semantic mapping to the pinned network/model
+      class. No transition-model concept is curated here.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The described mechanisms manipulate Boolean assignments and clause counts, without
+      requiring a network of artificial neurons.
+  - target: AIO:NoiseDenseLayer
+    rejection_reason: Random variable flips in SAT search are not noise injection into dense-layer weights
+      for neural regularization.
+  - target: AIO:GaussianNoiseLayer
+    rejection_reason: The noise is a choice of discrete search move, not additive zero-centered Gaussian
+      regularization of neural inputs.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:17:13Z'
+  updated_at: '2026-10-11T15:17:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,149 @@
+name: GSAT with random walk
+definition: A GSAT variant that mixes a uniformly chosen flip from the distinct variables currently occurring
+  in unsatisfied clauses with a globally best GSAT flip, using a fixed probability to choose the focused
+  random move.
+concept_kind: algorithm
+identity_notes: 'This is the mixed random-walk extension of GSAT described by Selman and Kautz and clarified
+  in the later noise paper. Its focused move samples a duplicate-free union of eligible variables, not
+  a clause followed by one of its variables. The latter distribution underlies the separately described
+  WSAT family. It is also distinct from unrestricted GSAT random noise and from a pure clause-first walk
+  for 2-SAT. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  316 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+  files in worktree and main, returning 7 and 7 lines respectively. All seven unique lines were inspected,
+  and the sorted checkout hit sets were identical: neighboring GSAT/WalkSAT mentions and saved review/ledger
+  references, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.'
+limitations:
+- The focused random branch and the global greedy branch use different candidate sets. Replacing the former
+  by random-clause-then-random-variable sampling changes the transition distribution, even at p=1. Shared
+  behavior at p=0 does not make the full variant identical to basic GSAT.
+- Finite search failure is not a proof of unsatisfiability. The polynomial analysis cited for pure random
+  walks on satisfiable 2-CNF does not establish a corresponding general-CNF bound for this mixture.
+- The noise parameter, CNF encoding, initialization and outer budgets affect behavior. No single best
+  p, universal speedup or numerical benchmark claim is curated. Empty clauses or empty candidate sets
+  require explicit handling outside the described nonempty-variable flip rule.
+- The record curates the move policy and its stated GSAT context, not an executed solver or a certification
+  of every loop boundary. The original GSAT pre-flip-only pseudocode boundary remains an implementation
+  choice to declare.
+id: AIMech:GSATWithRandomWalk
+aliases:
+- GWSAT
+definition_evidence:
+- source_id: method-source
+  locator: The Random Walk Strategy, PDF2 / printed338; Modifying the Random Walk Strategy, PDF5 / printed341,
+    duplicate-free variable list versus clause-first WSAT sampling
+  relation: supports
+- source_id: original-extension
+  locator: Section3.3 and StrategyIII, PDF4; Section2 and Figure1, PDF1–2, GSAT context
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a complete assignment of the variables in the input CNF formula. Stop successfully
+    when it satisfies the formula. Otherwise, with fixed probability p, select uniformly from the distinct
+    variables appearing in at least one currently unsatisfied clause and flip the chosen variable. With
+    probability 1−p, evaluate all single-variable flips and choose a largest increase in the total number
+    of satisfied clauses, breaking tied best choices randomly as in GSAT. The random and greedy branches
+    can make non-improving moves. The extension can use the GSAT outer random-initialization, per-attempt
+    flip budget and restart/attempt budget. The 1994 paper explicitly explains the duplicate-free variable
+    list, which gives equal probabilities to eligible variables even when their clause occurrence counts
+    differ.
+  evidence:
+  - source_id: method-source
+    locator: The Random Walk Strategy, PDF2 / printed338; Modifying the Random Walk Strategy, PDF5 / printed341,
+      duplicate-free variable list versus clause-first WSAT sampling
+    relation: supports
+  - source_id: original-extension
+    locator: Section3.3 and StrategyIII, PDF4; Section2 and Figure1, PDF1–2, GSAT context
+    relation: supports
+- claim_id: documented-name
+  kind: scope
+  statement: The UBCSAT project documents GWSAT as GSAT with Random Walk and associates that named implementation
+    with the Selman–Kautz extension.
+  evidence:
+  - source_id: algorithm-documentation
+    locator: 'GWSAT: GSAT with Random Walk entry; algorithm identifier gwsat'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Noise Strategies for Improving Local Search
+  authors:
+  - Bart Selman
+  - Henry A. Kautz
+  - Bram Cohen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1994/AAAI94-051.pdf
+  version: AAAI-94 proceedings, pp.337–343; seven-page publisher scan. The source compares specific parameter
+    settings and instance classes, not a universal dominance result.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:07:33Z'
+  sha256: fd839ba6780a260e0bcfebcdf169f381ba5b88c27c17981ef4b3dacd144ff1f9
+- source_id: original-extension
+  title: 'Domain-Independent Extensions to GSAT: Solving Large Structured Satisfiability Problems'
+  authors:
+  - Bart Selman
+  - Henry Kautz
+  source_type: primary_paper
+  url: https://www.cs.cornell.edu/selman/papers/pdf/93.ijcai.gsatext.pdf
+  version: Six-page author-hosted manuscript marked to appear in Proceedings of IJCAI-93. PDF page numbers
+    identify this inspected version; final proceedings pagination is not substituted.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:08:36Z'
+  sha256: f301bd7ff353fbcc3b7d089e43be34fa8d224a10dbfcfbca4bb2cfad3b35e4c3
+- source_id: algorithm-documentation
+  title: Algorithms in UBCSAT
+  authors:
+  - UBCSAT project
+  source_type: official_documentation
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/
+  version: Undated archived project algorithm documentation, HTTP snapshot captured during this curation.
+    Only the GWSAT entry and relevant index headings were inspected for naming and discovery; catalog
+    bibliographic text is not authoritative publication metadata.
+  access_level: documentation
+  accessed_at: '2026-10-11T15:12:59Z'
+  sha256: 032a526131abb5d2a325a7e3fb4e8aa50d807cdba73121a71466e442931f1193
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 316 preceding maintained IDs/names/aliases;
+    ignored/hidden full-checkout text in main and worktree; semantic labels for search, heuristics, satisfiability,
+    logic, reasoning, noise and randomness; eight exact AIO CLASS nodes and four complete native neighbors.
+  rationale: No suitable target was established for these symbolic SAT-search variants in the inspected
+    snapshot and semantic neighborhood. Stochastic moves, noise terminology and logical formulas do not
+    justify a forced learning-task, neural-layer or language-model mapping.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model performing reasoning during language tasks is not a CNF assignment-search
+      algorithm.
+  - target: AIO:TrainingStrategy
+    rejection_reason: These SAT procedures do not require preprocessing or training a machine-learning
+      model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Searching a supplied formula for a model does not itself require developing a method
+      that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Random exploration and greedy clause scores do not make this fixed-formula search
+      a reinforcement-learning task or a learned action-value method.
+  - target: AIO:MarkovChain
+    rejection_reason: Fixed configurations can admit a Markov description, but that representation does
+      not establish this named algorithm’s identity or a specific semantic mapping to the pinned network/model
+      class. No transition-model concept is curated here.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The described mechanisms manipulate Boolean assignments and clause counts, without
+      requiring a network of artificial neurons.
+  - target: AIO:NoiseDenseLayer
+    rejection_reason: Random variable flips in SAT search are not noise injection into dense-layer weights
+      for neural regularization.
+  - target: AIO:GaussianNoiseLayer
+    rejection_reason: The noise is a choice of discrete search move, not additive zero-centered Gaussian
+      regularization of neural inputs.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:17:13Z'
+  updated_at: '2026-10-11T15:17:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
