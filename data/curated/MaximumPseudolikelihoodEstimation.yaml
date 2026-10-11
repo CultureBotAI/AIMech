@@ -1,0 +1,98 @@
+name: Maximum pseudolikelihood estimation
+definition: A parameter-estimation method that maximizes the product of a specified model’s sitewise full
+  conditional probabilities or densities evaluated at the observed configuration.
+concept_kind: algorithm
+identity_notes: 'The classical full-conditional pseudolikelihood uses every observed site. It is an estimation
+  objective and does not specify a unique numerical optimizer. It is distinct from full joint maximum
+  likelihood, independent-site coding likelihood, iterative conditional modes for state optimization,
+  and iterative conditional estimation for incomplete-data parameters. A general loss assembled from unrelated
+  conditionals is not automatically the pseudolikelihood of a compatible joint model. The paper discusses
+  fixed-site spatial models without assuming stationarity or homogeneity; the local graph and parameterization
+  must still be specified. No normalized identity match was found across all 442 pinned AIO labels and
+  all scoped synonyms and 400 preceding native IDs, names and aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, yielding 35 and 35 matched lines; all 23 unique
+  contents were read. Hits are citations, contextual statements and discovery leads rather than records
+  of these identities. All 182 semantic label/synonym hits were read. Thirty-one fully annotated exact
+  CLASS nodes and outgoing edges were inspected: 23 byte-equivalent to prior inspected nodes and eight
+  freshly read. Thirty-nine contextual YAMLs comprise 31 generated and eight native records: 29 byte-verified
+  after prior reading and 10 freshly read. Short acronyms were included in the normalized identity comparison.
+  Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+limitations:
+- The product of normalized full conditionals is generally not a normalized joint distribution over x.
+  Its maximizer need not equal the joint-likelihood maximizer. Dividing that product by a parameter-dependent
+  joint normalizer changes the objective.
+- Conditionals must be compatible with the intended joint model and parameters must lie in its valid domain.
+  Optimizing local expressions without these restrictions can produce inadmissible joint parameters. Gaussian
+  variance positivity and precision positive definiteness remain necessary.
+- The source gives a consistency sketch for an infinite bounded-degree site system with growing coding
+  classes and additional regularity and boundary conditions. It is not a universal theorem for arbitrary
+  growing graphs, fixed finite samples, misspecified models or every parameterization.
+- Efficiency, uncertainty estimates and likelihood-ratio calibration do not automatically follow ordinary
+  independent-sample likelihood formulas. Strong dependence, limited information, boundaries and model
+  mismatch require separate assessment; the source offers no universal efficiency advantage.
+- Gaussian least-squares expressions apply to the stated common-variance and compatible symmetric interaction
+  parameterization. Design inverses, ratio denominators, finite maximizers and nonzero residual variance
+  require checks. Alternating algebraic updates are not a proof of a global optimum.
+- A partition into coding sets does not make the corresponding estimators or test statistics independent.
+  The pseudolikelihood maximizer is not generally the arithmetic mean of coding-set maximizers. Original
+  finite objective comparisons demonstrate this distinction; no empirical fitting, author code or benchmark
+  was run.
+id: AIMech:MaximumPseudolikelihoodEstimation
+aliases:
+- MPLE
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.4, printed pp. 188–193 / PDF pp. 11–16; especially Section 3.3, pp. 190–192
+    / PDF pp. 13–15, Equations (3.2)–(3.10) and consistency sketch
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For an observed configuration x and a compatible family p_theta with well-defined full conditionals,
+    form PL(theta;x)=product_i p_theta(x_i|x_(-i)) and maximize sum_i log p_theta(x_i|x_(-i)) over the
+    admissible parameter space. In a Markov field, each factor depends only on the site’s neighbors; a
+    global joint partition function cancels from that factor, although its local normalizer still must
+    be evaluated. If the sites are partitioned into nonneighbor coding sets, the log pseudolikelihood
+    is the sum of their conditional log likelihoods. This identity combines objectives, not the separately
+    fitted parameter values. For the source’s proper common-conditional-variance Gaussian model with mean
+    D*a, symmetric B=I-phi*H and variance sigma^2, the residual term is (x-D*a)^T B^2(x-D*a)/sigma^2.
+    Its joint Gaussian likelihood instead includes log|B| and a single-B quadratic. Complete independence
+    is a special case in which the product of full conditionals equals the joint likelihood.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.4, printed pp. 188–193 / PDF pp. 11–16; especially Section 3.3, pp. 190–192
+      / PDF pp. 13–15, Equations (3.2)–(3.10) and consistency sketch
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Statistical Analysis of Non-Lattice Data
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~sschmid/Courses/Stat376/Papers/GibbsFieldEst/BesagPseudoLik1975.pdf
+  version: The Statistician 24(3):179–195, September 1975; university-hosted 18-page scan including JSTOR
+    wrapper. All 18 pages visually read, including all equations and references. Printed page=PDF page+177.
+    Publisher metadata corroborates title, author, pages, date and DOI. No full extracted-text or OCR
+    reading is asserted.
+  persistent_id: doi:10.2307/2987782
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:22Z'
+  sha256: 0db3c34554e1c4ce64921d70e74506f4e0a373afa91c4b89db5864499ba73724
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The inspected method estimates parameters of compatible spatial graphical probability models
+    from their full conditionals. The pinned target describes a machine-learning task; a related mapping
+    captures this graphical-model learning role without making an estimation algorithm a model or a subtype
+    of the task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:02:22Z'
+  updated_at: '2026-10-11T22:02:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
