@@ -1,0 +1,170 @@
+name: Fast AutoAugment
+definition: An augmentation-policy search procedure that evaluates candidate transformations on held-out
+  training examples using a fixed classifier trained on another split, combines high-scoring policies
+  across splits and uses them for final classifier training.
+concept_kind: algorithm
+identity_notes: Fast AutoAugment is a policy-search algorithm, distinct from AutoAugment’s controller
+  rewards after child-model training, PBA’s evolving schedules, CTAugment’s online parameter feedback
+  and the separately named Faster AutoAugment. It is not a single transform, density estimator or trained
+  checkpoint. Paper and pinned implementation conventions are represented separately. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 247 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 6 lines in the worktree and 6 in main. These were prior candidate leads, not concept records.
+  Twelve exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- High predictive scores on augmented held-out examples do not prove label preservation, equality of data
+  distributions, global optimality or improved final generalization.
+- Section3.2.1 describes split-model training without augmentation, whereas Section3.3 specifies default
+  augmentation rules. The pinned data loader retains baseline crop/flip transformations; the record does
+  not assert an absence of all augmentation.
+- The paper’s Equation4 prints expected min(loss−threshold,0), a nonpositive quantity. It should not be
+  silently identified with the usual nonnegative improvement or assigned an unstated maximization direction.
+  The method-level record identifies TPE search without asserting an author-issued correction.
+- Paper and code differ in scoring, active operation count and search repetitions. No claim that the inspected
+  code exactly reproduces the paper experiment or that any-view correctness is deployable test accuracy
+  is made.
+- Search settings, baseline transforms, proxy/full-data choices and policy transfer depend on the task.
+  No speedup, benchmark outcome or author-code execution is claimed.
+- The inspected evaluator squeezes correctness arrays before taking their length; this code-profile description
+  is scoped to non-singleton validation batches and does not assert successful execution for every batch
+  size. The logged loss also depends on batch grouping, unlike an ordinary mean of per-example losses.
+id: AIMech:FastAutoAugment
+aliases:
+- FAA
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, Equations (1)–(4), Figure 2 and Algorithm 1, PDF pp. 3–6; Section 4 setup on p.
+    6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Form repeated stratified train/exploration splits. Train a classifier on each model-training
+    split, then hold its weights fixed while exploring augmentation policies on that split’s held-out
+    labeled examples. A subpolicy composes image operations with individual application probabilities
+    and magnitudes; the published search uses continuous probability and normalized magnitude values in
+    [0,1]. Use Bayesian hyperparameter optimization, implemented with a tree-structured Parzen estimator,
+    to propose policies according to their predictive scores. The paper frames the goal as maximizing
+    augmented-split accuracy and states that its practical objective minimizes categorical cross-entropy.
+    Select top policies from each search stage and split, merge their subpolicies, and train the final
+    classifier on the full training data with the selected augmentation. The published configuration uses
+    two operations per subpolicy and five subpolicies per candidate policy, but these are protocol choices.
+    The method uses classifier predictions as a proxy for matching distributions; it does not directly
+    compute a distributional divergence. Its essential efficiency distinction is reuse of fixed model
+    weights during candidate scoring, while initial and final classifier training are still required.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations (1)–(4), Figure 2 and Algorithm 1, PDF pp. 3–6; Section 4 setup on p.
+      6
+    relation: supports
+- claim_id: implementation-profile
+  kind: mechanism
+  statement: 'The pinned search.py evaluates a saved model in evaluation mode on multiple stochastic augmented
+    views of held-out examples. For non-singleton validation batches, its default top1_valid reward is
+    the mean indicator that any view of each example is classified correctly. Its logged minus_loss has
+    a different reduction: each unreduced cross-entropy array has shape(batch,), concatenation flattens
+    views and examples into one vector, and min(axis=0) yields one minimum for the whole batch. The Accumulator
+    sums the negatives of those batch-wide scalar minima and divides by the total example count. This
+    is neither ordinary mean cross-entropy nor a mean of per-example best-view losses. Search and selection
+    use top1_valid by default, not this logged loss. data.py samples a subpolicy for each image and keeps
+    baseline training transforms for these held-out views. The active augment_list(False) contains 15
+    operations, with SamplePairing commented out, while the paper lists 16. The inspected search loop
+    performs one repetition per split rather than the paper’s reported two. These are version-specific
+    conventions, not silently combined definitions.'
+  evidence:
+  - source_id: faa-search
+    locator: 'FastAutoAugment/search.py lines70–134 and214–271: fixed-weight evaluation, repeated-view
+      reductions, reward selection and final training'
+    relation: supports
+  - source_id: faa-data
+    locator: 'FastAutoAugment/data.py lines37–120,192–225 and253–264: baseline transforms, stratified
+      splits and stochastic subpolicy sampling'
+    relation: supports
+  - source_id: faa-augmentations
+    locator: 'FastAutoAugment/augmentations.py lines156–194: active operation list and magnitude scaling'
+    relation: supports
+  - source_id: method-source
+    locator: Section 3, Equations (1)–(4), Figure 2 and Algorithm 1, PDF pp. 3–6; Section 4 setup on p.
+      6
+    relation: supports
+  - source_id: faa-metrics
+    locator: 'FastAutoAugment/metrics.py lines49–85: additive accumulation and division by the named count
+      metric'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Fast AutoAugment
+  authors:
+  - Sungbin Lim
+  - Ildoo Kim
+  - Taesup Kim
+  - Chiheon Kim
+  - Sungwoong Kim
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2019/file/6add07cf50424b14fdf649da87843d01-Paper.pdf
+  version: NeurIPS 2019 proceedings; eleven-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:50:28Z'
+  sha256: 9c7e1cb35352cf201d7d16ed63a89f6a5e008971abb436968eea1e31b8c625a0
+- source_id: faa-search
+  title: Fast AutoAugment author code — policy evaluation and search
+  authors:
+  - kakaobrain/fast-autoaugment contributors
+  source_type: official_documentation
+  url: https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/search.py
+  version: Public author repository at commit 2424224291616a2158a2265069ee95a78a2d13d9, FastAutoAugment/search.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:51:59Z'
+  sha256: adc734216013b6612de7fcb83147851b3a66298d291c4f5e24f96f5e6ffadb1f
+- source_id: faa-data
+  title: Fast AutoAugment author code — data splits and stochastic policies
+  authors:
+  - kakaobrain/fast-autoaugment contributors
+  source_type: official_documentation
+  url: https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/data.py
+  version: Public author repository at commit 2424224291616a2158a2265069ee95a78a2d13d9, FastAutoAugment/data.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:51:59Z'
+  sha256: beabc7d6665b04f146226bb49b4a152b1e6a9cf42ffff988fee25aeba73c00c2
+- source_id: faa-augmentations
+  title: Fast AutoAugment author code — operation inventory
+  authors:
+  - kakaobrain/fast-autoaugment contributors
+  source_type: official_documentation
+  url: https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/augmentations.py
+  version: Public author repository at commit 2424224291616a2158a2265069ee95a78a2d13d9, FastAutoAugment/augmentations.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:52:25Z'
+  sha256: 835e2f3f641c3b2c71b4334e10440c2004ca3b1a5cdc858bcdd99f99b3802ffb
+- source_id: faa-metrics
+  title: Fast AutoAugment author code — metric accumulation and normalization
+  authors:
+  - kakaobrain/fast-autoaugment contributors
+  source_type: official_documentation
+  url: https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/metrics.py
+  version: Public author repository at commit 2424224291616a2158a2265069ee95a78a2d13d9, FastAutoAugment/metrics.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:56:43Z'
+  sha256: e719b40f593b891b02ab11a98a192a4524f9c4056a40b5ef99e73f4bf62a0a3c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm learns transformations or synthetic examples for training. The AIO target
+    denotes augmentation in the preprocessing branch; the local procedure includes policy learning and
+    model training, so the association is related rather than equivalent or an asserted subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:55:22Z'
+  updated_at: '2026-10-11T10:58:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

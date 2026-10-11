@@ -1,0 +1,132 @@
+name: Population Based Augmentation
+definition: An augmentation-schedule learning procedure that jointly trains a population of child classifiers
+  and evolves their augmentation hyperparameters by copying successful members and perturbing their policies
+  over training time.
+concept_kind: algorithm
+identity_notes: PBA learns a time-dependent augmentation schedule using population-based training; it
+  is not identical to general PBT, fixed-policy AutoAugment, fixed-model Fast AutoAugment scoring, or
+  a population ensemble used at inference. The transferred artifact is the schedule, not the child model
+  checkpoint. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 247 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in both worktree and main checkout, returning 6 lines in the worktree and 6 in main. These
+  were prior candidate leads, not concept records. Twelve exact AIO CLASS nodes with synonyms and outgoing
+  edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.
+limitations:
+- The count distribution sets a maximum number of successful applications, not a guarantee of exactly
+  that many operations. At zero probabilities no operation is applied even when the cap is positive; this
+  is distinct from sampling exactly two operations.
+- Each probability perturbation operates on an integer tenths-grid index, not by adding an unscaled integer
+  to a probability in[0,1]. Some operations ignore magnitude.
+- The retained schedule can change non-monotonically; a hypothesis that augmentation should strengthen
+  through training is not a monotonicity constraint.
+- Validation-guided population selection and schedule transfer can depend on population size, search data,
+  model, duration and transformation choices. No guaranteed schedule quality, universal transfer, cost
+  ratio or benchmark advantage is asserted.
+- The source PDF and arXiv author list place Xi Chen last; the PMLR landing metadata orders the authors
+  differently. Bibliographic order here follows the inspected primary PDF.
+id: AIMech:PopulationBasedAugmentation
+aliases:
+- PBA
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.4, Algorithms 1–2, PDF pp. 3–5; schedule initialization and transfer in Section
+    4.1, PDF pp. 5–6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Train a population of randomly initialized child classifiers and periodically compare their
+    validation performance. In the published truncation-selection configuration, a bottom-quartile member
+    copies the weights and augmentation hyperparameters of a top-quartile member, then perturbs those
+    hyperparameters and continues training without reinitializing the copied weights. Each policy has
+    two entries for each of 15 operation types, excluding SamplePairing, with one magnitude and one application
+    probability per entry: 60 scalar hyperparameters. The probability grid is 0 to 1 in tenths and magnitude
+    indices are 0 through 9. To augment an image, shuffle the 30 entries, draw an operation-count cap
+    of 0,1 or 2 with probabilities 0.2,0.3 or 0.5, then scan entries and probabilistically apply each
+    until that many operations have actually been applied or the list is exhausted. Each hyperparameter
+    is reset uniformly with probability 0.2; otherwise its integer grid index is shifted up or down by
+    a uniformly sampled amount in {0,1,2,3} and clipped to its domain. The source uses an epoch per step,
+    an exploit/explore interval of three epochs and initially zero probabilities/magnitudes. Retain the
+    selected schedule along the winning training lineage and discard the child weights when training the
+    final model; schedules can be stretched to a different training duration. These numerical settings
+    are the published configuration, not universal PBT requirements.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.4, Algorithms 1–2, PDF pp. 3–5; schedule initialization and transfer in Section
+      4.1, PDF pp. 5–6
+    relation: supports
+- claim_id: integer-grid-and-cap
+  kind: mechanism
+  statement: The pinned exploration code stores probability indices as integers0..10 and magnitude indices
+    as integers0..9, applies reset or signed local perturbations and clips to the matching bounds. The
+    augmentation function decrements its sampled cap only after an operation passes its probability test,
+    stopping at zero or the end of the shuffled list. Repeated operation types are possible because the
+    policy contains two entries per type; applying the same type twice does not require sampling with
+    replacement from a one-entry-per-type list.
+  evidence:
+  - source_id: pba-search
+    locator: 'pba/search.py lines42–83: integer-grid mutations and validation-reward PBT setup'
+    relation: supports
+  - source_id: pba-augmentations
+    locator: 'pba/augmentation_transforms_hp.py lines37–102 and146–166: stochastic application cap, transform
+      probability and operation inventory'
+    relation: supports
+  - source_id: method-source
+    locator: Sections 3.1–3.4, Algorithms 1–2, PDF pp. 3–5; schedule initialization and transfer in Section
+      4.1, PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Population Based Augmentation: Efficient Learning of Augmentation Policy Schedules'
+  authors:
+  - Daniel Ho
+  - Eric Liang
+  - Ion Stoica
+  - Pieter Abbeel
+  - Xi Chen
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/ho19b/ho19b.pdf
+  version: ICML 2019, PMLR 97:2731–2741; eleven-page PDF; author order follows the inspected PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:50:28Z'
+  sha256: f21e4fd91284b25e50fd24fc9498b2496144077a04506247dccb6bc100e8efad
+- source_id: pba-search
+  title: PBA author code — grid perturbation and search
+  authors:
+  - arcelien/pba contributors
+  source_type: official_documentation
+  url: https://github.com/arcelien/pba/blob/a9cc308d936dee488aab7e3582ab7a47167b587a/pba/search.py
+  version: Public author repository at commit a9cc308d936dee488aab7e3582ab7a47167b587a, pba/search.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:51:59Z'
+  sha256: a00106ff73b6d31033de8a9e7d6b0eb39e649fde0dadb2c616640476b93e3b08
+- source_id: pba-augmentations
+  title: PBA author code — capped operation application
+  authors:
+  - arcelien/pba contributors
+  source_type: official_documentation
+  url: https://github.com/arcelien/pba/blob/a9cc308d936dee488aab7e3582ab7a47167b587a/pba/augmentation_transforms_hp.py
+  version: Public author repository at commit a9cc308d936dee488aab7e3582ab7a47167b587a, pba/augmentation_transforms_hp.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:52:25Z'
+  sha256: 9397c41a2a1d537ed6e641d9f83712eff9672f936d7832a1a5c13597643b0e3c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm learns transformations or synthetic examples for training. The AIO target
+    denotes augmentation in the preprocessing branch; the local procedure includes policy learning and
+    model training, so the association is related rather than equivalent or an asserted subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:55:22Z'
+  updated_at: '2026-10-11T10:55:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
