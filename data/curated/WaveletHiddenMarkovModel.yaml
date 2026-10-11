@@ -1,0 +1,124 @@
+name: Wavelet-domain hidden Markov model
+definition: A statistical wavelet-coefficient model family using latent mixture states to represent coefficient
+  distributions and Markov dependencies among those states to capture within-scale clustering or cross-scale
+  persistence.
+concept_kind: model_family
+identity_notes: This is the wavelet-domain framework of Crouse, Nowak and Baraniuk, including independent-mixture,
+  within-scale hidden-chain and cross-scale hidden-tree constructions. The independent mixture is its
+  no-dependence special case. The source also discusses richer hidden graphs; a generic family member
+  is not necessarily a sequential HMM or a Bayesian network with the same graph. Generic hidden Markov
+  trees and chains provide structural components, while wavelet coefficients, mixture emissions and scale
+  organization specify this family. A trained parameter instance, a wavelet transform alone, wavelet shrinkage
+  in general and a neural hidden layer are different identities. No normalized identity match was found
+  across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases
+  for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations
+  and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were
+  read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after
+  prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28
+  byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches.
+  Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the
+  pin, native collection and inspected semantic neighborhood.
+limitations:
+- Wavelet decorrelation does not imply independence. Zero-mean conditional Gaussian coefficients can be
+  uncorrelated while their squared magnitudes remain dependent through hidden states. Marginalizing the
+  states does not generally leave an observed Markov process.
+- The two zero-mean states and chosen graph are modeling choices, not universal properties of wavelets.
+  More states, nonzero means and alternative emissions are possible. Scaling coefficients may be modeled
+  separately or left unchanged in a particular application. Directed dependence does not establish intervention
+  causality.
+- With K states and dense transitions, exact chain/tree message cost is O(edges*K^2). Richer or loopy
+  graphs need separate inference and complexity analysis; linearity in graph size for chordal models also
+  depends on bounded clique and state sizes. Parameter tying imposes equality constraints and requires
+  pooled sufficient statistics with proper normalization.
+- Exact EM under suitable model and optimization conditions does not ensure a global likelihood optimum.
+  Empty posterior components, zero transition occupancy, singular Gaussian variances and constrained parameters
+  need explicit handling. The record does not certify an author implementation or fit any parameters.
+- Appendix A in the inspected 1997 preprint contains inconsistent parent/child epsilon indices in Equations
+  (19) and(22), a finest/coarsest initialization typo and missing or inconsistent state indices in the
+  downward recursion. This record uses the stated normalized model factorization; an asymmetric three-node
+  finite example verifies consistent messages against complete enumeration rather than copying those displays
+  literally.
+- The denoising formula assumes the stated orthonormal transform and independent white Gaussian noise.
+  Subtracting a noise estimate from fitted noisy variances and clipping at zero is a plug-in procedure,
+  not a general constrained-maximum-likelihood theorem. The zero signal-variance boundary is degenerate.
+  Estimated parameters and noise are treated as fixed, rather than integrated out.
+- Reported denoising, classification and change-detection examples do not establish universal superiority.
+  Table 1 does not make the tree best for every signal, and selected comparator numbers are imported from
+  other work. Comparing class likelihoods alone assumes the appropriate prior-and-cost threshold is one;
+  unequal priors or costs generally change that threshold.
+- The fully inspected source is the 31-page author preprint revised August 1997. The 1998 journal article
+  DOI 10.1109/78.668544 is corroborating bibliographic context, not an assertion that those journal PDF
+  bytes were read. No first-invention date, benchmark reproduction or author-code execution is asserted.
+id: AIMech:WaveletHiddenMarkovModel
+aliases:
+- Wavelet hidden Markov model
+- Wavelet-domain HMM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1.3 and 3, printed pp. 4–11 / PDF pp. 5–12, independent-mixture/chain/tree constructions;
+    Section 4, pp. 11–15 / PDF pp. 12–16, inference, EM and tying; Section 5.1, pp. 16–18 / PDF pp. 17–19,
+    denoising Equation (9); Appendix A, pp. 26–29 / PDF pp. 27–30, with index qualifications
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Transform a signal into wavelet coefficients W_i and assign each coefficient a finite hidden
+    mixture state S_i. Given all states, the coefficient emissions factor by site. The canonical two-state
+    emission uses zero-mean Gaussian components with a narrow and a wide variance. A hidden chain models
+    within-scale dependence; a hidden tree models parent-to-child persistence across scales. For a rooted
+    tree, p(s,w)=pi(s_root)*product_edges A_child(s_child|s_parent)*product_i N(w_i;mu_i(s_i),v_i(s_i)),
+    with normalized root and transition laws and positive emission variances. Upward subtree likelihoods
+    and a downward pass yield exact node and edge state posteriors for a tree; chains admit the corresponding
+    forward/backward inference. Those expectations support EM updates and optional parameter tying over
+    explicitly selected sites or scales. In the source’s orthonormal-wavelet additive white Gaussian noise
+    model, noise variance adds to each conditional coefficient variance. For zero-mean signal components,
+    the posterior-mean coefficient estimate averages the state-specific gain v_signal/(v_signal+v_noise)
+    times the noisy coefficient using state probabilities conditioned on all observed coefficients in
+    the modeled dependency component.
+  evidence:
+  - source_id: method-source
+    locator: Sections 1.3 and 3, printed pp. 4–11 / PDF pp. 5–12, independent-mixture/chain/tree constructions;
+      Section 4, pp. 11–15 / PDF pp. 12–16, inference, EM and tying; Section 5.1, pp. 16–18 / PDF pp.
+      17–19, denoising Equation (9); Appendix A, pp. 26–29 / PDF pp. 27–30, with index qualifications
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Wavelet-Based Statistical Signal Processing Using Hidden Markov Models
+  authors:
+  - Matthew S. Crouse
+  - Robert D. Nowak
+  - Richard G. Baraniuk
+  source_type: primary_paper
+  url: https://www.ece.rice.edu/dsp/publicationsold/pub/wmarkov2.pdf
+  version: 'Author preprint, submitted January 1997 and revised August 1997, 31 PDF pages including title
+    page; all 31 visually read. Printed page=PDF page−1. Related journal publication: IEEE Transactions
+    on Signal Processing 46(4), April 1998, DOI 10.1109/78.668544, verified as bibliographic context only.
+    The journal repository download failed and these author-preprint bytes are not substituted as an inspected
+    journal version.'
+  access_level: full_text
+  accessed_at: '2026-10-11T21:23:28Z'
+  sha256: 957ff225f5705014a0d05fef10f96c199f7c8aff95033bb219021285cca0983f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The family specifies mathematical probability models of wavelet coefficients using latent
+    mixture states and specified dependency graphs. The pinned Model class is broader than this wavelet-domain
+    family. A BayesianNetwork target would not uniformly preserve graph scope across the richer hidden
+    graphs discussed by the source.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The hidden-state graphs and conditional emissions connect this family to probabilistic graphical
+    modeling. The pinned target is defined as a machine-learning task, so this connection is related rather
+    than an is-a mapping from a model family to a task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:41:53Z'
+  updated_at: '2026-10-11T21:43:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

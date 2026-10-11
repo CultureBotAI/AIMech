@@ -1,0 +1,98 @@
+name: Otsu thresholding
+definition: A histogram-based threshold-selection algorithm that partitions ordered gray levels by maximizing
+  class-weighted between-class variance, equivalently minimizing within-class variance for a fixed histogram.
+concept_kind: algorithm
+identity_notes: The binary method chooses a global intensity threshold without labeled training data or
+  a fitted parametric intensity density. Its ordered multilevel extension jointly selects several thresholds
+  using the same variance decomposition. It is not a supervised classifier, a learned activation threshold,
+  adaptive spatial thresholding or a guarantee of semantically correct image segmentation. The threshold
+  search depends on intensity counts and order, not spatial adjacency. Thresholds with the same partition
+  can be equivalent even when their numeric values differ. No normalized identity match was found across
+  all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for
+  these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations
+  and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were
+  read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after
+  prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28
+  byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches.
+  Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the
+  pin, native collection and inspected semantic neighborhood.
+limitations:
+- An empty histogram has no probability distribution. A constant-intensity histogram has no admissible
+  nonempty binary split and has zero total variance, so the separability ratio is undefined without an
+  added convention. Implementations must state how they handle these cases.
+- Multiple thresholds can maximize the objective. The paper does not prescribe a universal tie rule such
+  as averaging all maximizing thresholds. Quantization, bin selection and intensity transformations can
+  affect the result; the stated invariance is for corresponding affine intensity transformations, not
+  arbitrary nonlinear remapping.
+- 'Section III D suggests that the objective is always unimodal while acknowledging no proof. That universal
+  claim is not adopted: the original finite histogram with equal counts at 0, 10, 11, 21 has two separated
+  maximizing threshold plateaus with a lower objective at 10. A full scan preserves the global objective;
+  an assumed-unimodal local search need not.'
+- The variance criterion measures statistical separation in intensity space. It does not require visibly
+  bimodal histograms and does not ensure that the selected classes correspond to the desired objects.
+  Spatial connectivity, texture and semantic labels are absent from this objective.
+- The multilevel criterion requires a joint ordered-threshold optimization or another justified optimizer.
+  The linear scan complexity above is for the binary case, not every multilevel search.
+- The three small illustrative character, texture and cell images are application examples, not a modern
+  accuracy benchmark or a universal comparison. The PDF shares pages with unrelated articles and a book
+  review; those passages are excluded from evidence. No author implementation or image evaluation was
+  run.
+id: AIMech:OtsuThresholding
+aliases:
+- Otsu’s method
+- Otsu threshold selection
+definition_evidence:
+- source_id: method-source
+  locator: Section II, printed pp. 62–64 / PDF pp. 1–3, Equations (1)–(18); Section III B, p. 64 / PDF
+    p. 3, multilevel extension; Section III D, p. 66 / PDF p. 5, unproved unimodality suggestion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For nonnegative counts n_i at ordered gray levels i with positive total N, use p_i=n_i/N
+    and total mean mu_T=sum_i i*p_i. For every binary threshold k admitting two nonempty classes, set
+    w=sum_(i<=k) p_i and m=sum_(i<=k) i*p_i. Compute between-class variance B(k)=(mu_T*w-m)^2/[w*(1-w)]
+    and choose a global maximizer. Cumulative counts and first moments give an O(L) scan over L gray levels
+    after histogram construction. At fixed total variance T, within-class variance is T-B(k); if T>0,
+    maximizing the separability ratio B(k)/T gives the same maximizers. The source’s multilevel extension
+    jointly partitions the ordered levels into nonempty classes and maximizes sum_c w_c*(mu_c-mu_T)^2;
+    recursive binary splitting is not automatically equivalent to that joint optimum.
+  evidence:
+  - source_id: method-source
+    locator: Section II, printed pp. 62–64 / PDF pp. 1–3, Equations (1)–(18); Section III B, p. 64 / PDF
+      p. 3, multilevel extension; Section III D, p. 66 / PDF p. 5, unproved unimodality suggestion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Threshold Selection Method from Gray-Level Histograms
+  authors:
+  - Nobuyuki Otsu
+  source_type: primary_paper
+  url: https://skynet.ecn.purdue.edu/~ace/vip/A_Threshold_Selection_Method_from_Gray-Level_Histograms_otsu.pdf
+  version: IEEE Transactions on Systems, Man, and Cybernetics SMC-9(1):62–66, January 1979; university-hosted
+    5-page journal scan. All 5 pages visually read; printed page=PDF page+61. Unrelated preceding ship-tracking
+    text on PDF p. 1 and following book-review text on p. 5 are excluded. DOI resolves to IEEE document
+    4310076; no additional article full text was obtained from that endpoint.
+  persistent_id: doi:10.1109/TSMC.1979.4310076
+  access_level: full_text
+  accessed_at: '2026-10-11T21:23:24Z'
+  sha256: 24fd73e56dca2cb2ea1bbcd8c7f8b92d19920059618e26599ddc064f2ae8a700
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The method groups unlabeled intensities into ordered classes by a between/within-class variance
+    criterion. The AIO target describes an unsupervised grouping task; related_match connects that role
+    without equating this specific threshold-selection algorithm with the task or requiring supervised
+    classification.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:41:53Z'
+  updated_at: '2026-10-11T21:43:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
