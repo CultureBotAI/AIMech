@@ -1,0 +1,103 @@
+name: Vanilla sequence beam decoding
+definition: 'A layer-based sequence beam decoder in which completed and unfinished hypotheses compete
+  for the same k beam slots: finished hypotheses are carried forward unchanged, unfinished hypotheses
+  are extended, and the top-scoring candidates form the next beam.'
+concept_kind: algorithm
+identity_notes: This is the vanilla sequence-decoding policy contrasted with FCFS by Kasai and colleagues.
+  It specializes generic breadth-first beam search by specifying EOS retention and competition for active
+  slots. Finished outputs are not accumulated in a separate permanent set, and the procedure is not the
+  score-prioritized per-length best-first decoder. No normalized identity match was found across the 442
+  AIO and 141 prior native records; ignored-inclusive text hits in the main checkout were prior discovery
+  leads and incidental substrings such as builds in records, source text and dependencies, not existing
+  concept records.
+limitations:
+- A completed hypothesis can later fall off the beam because it competes with unfinished candidates. Its
+  discovery alone does not reserve an output slot.
+- Finite beam pruning is not exact global MAP decoding. Different tie, length-score and maximum-length
+  policies can change outputs.
+- At the length limit, an implementation must specify what to return if no retained hypothesis is EOS-complete;
+  the simplified figures do not provide a universal failure policy.
+- Figure 2 in the 2024 paper omits initialization/reset of its temporary H pool. The fresh-per-layer interpretation
+  is supported by the layer-based prose and the explicit reset in Meister et al. 2020 Algorithm 1; the
+  record does not certify the 2024 figure as executable code.
+- The name identifies the source-defined policy, not a claim that all libraries or all uses of beam search
+  implement it.
+id: AIMech:VanillaSequenceBeamDecoding
+aliases:
+- Vanilla beam decoding
+definition_evidence:
+- source_id: method-source
+  locator: Section 2 and Figures 2–3, printed pp. 78–79 / PDF pp. 2–3
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: At each sequence length, construct a fresh candidate pool from carried-forward EOS-complete
+    hypotheses and one-token extensions of unfinished beam members. Select up to k highest-scoring candidates
+    for the next beam. The 2024 description stops when all retained hypotheses are complete, or at the
+    maximum length. The 2020 standard-beam pseudocode explicitly resets the candidate pool at each layer
+    and carries finished hypotheses unchanged.
+  evidence:
+  - source_id: method-source
+    locator: Section 2 and Figures 2–3, printed pp. 78–79 / PDF pp. 2–3
+    relation: supports
+  - source_id: fresh-layer-pool
+    locator: Algorithm 1 and footnotes, printed p. 797 / PDF p. 3
+    relation: supports
+- claim_id: fresh-layer-pool
+  kind: mechanism
+  statement: The standard sequence-beam algorithm initializes an empty candidate pool for each time step,
+    carries EOS-complete hypotheses unchanged, extends unfinished hypotheses and selects the next top-k
+    beam. This supplies an explicit layer-pool scope for the later vanilla-policy description.
+  evidence:
+  - source_id: fresh-layer-pool
+    locator: Algorithm 1 and footnotes, printed p. 797 / PDF p. 3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'A Call for Clarity in Beam Search: How It Works and When It Stops'
+  authors:
+  - Jungo Kasai
+  - Keisuke Sakaguchi
+  - Ronan Le Bras
+  - Dragomir Radev
+  - Yejin Choi
+  - Noah A. Smith
+  source_type: primary_paper
+  url: https://aclanthology.org/2024.lrec-main.7.pdf
+  version: LREC-COLING 2024, 77–90; published ACL Anthology PDF (distinct from the 2022 arXiv version)
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 7d090ee35511ac9fdcdb52ca92cad5d2e96075635de73ada84abd042362a9fec
+- source_id: fresh-layer-pool
+  title: Best-First Beam Search
+  authors:
+  - Clara Meister
+  - Tim Vieira
+  - Ryan Cotterell
+  source_type: primary_paper
+  url: https://aclanthology.org/2020.tacl-1.51.pdf
+  version: Transactions of the Association for Computational Linguistics 8, 795–809 (2020); ACL Anthology
+    published PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:59:59Z'
+  sha256: 46728395bd4f2e7eb8abea7c42f9e3260e28ba8958bde3b7e77414db617352d4
+  persistent_id: doi:10.1162/tacl_a_00346
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines these sequence-decoding policies for natural-language generation,
+    including translation and summarization. The exact AIO CLASS describes the language-processing task.
+    This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the
+    decoder is not a trained language model and can also be used outside NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:26:52Z'
+  updated_at: '2026-10-11T06:29:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,103 @@
+name: First-come, first-served beam decoding
+definition: The sequence beam-decoding procedure described by Kasai and colleagues that stores completed
+  hypotheses separately from the continuing beam and stops when the accumulated number of completed hypotheses
+  reaches the beam width, returning the highest-scoring stored completion.
+concept_kind: algorithm
+identity_notes: FCFS here names a sequence-decoding policy, not first-in-first-out queue scheduling. Completed
+  sequences leave the active beam and remain in a separate set. This differs from the paper’s vanilla
+  beam decoder, where finished and unfinished hypotheses compete for the same beam slots, and from score-prioritized
+  per-length best-first beam search. The original policy is the patience-controlled family’s p=1 case.
+  No normalized identity match was found across the 442 AIO and 141 prior native records; ignored-inclusive
+  text hits in the main checkout were prior discovery leads and incidental substrings such as builds in
+  records, source text and dependencies, not existing concept records.
+limitations:
+- The count-based stopping rule can discard unfinished candidates and is not a global optimality certificate
+  or a guarantee of equality to vanilla beam decoding.
+- The record identifies the paper’s specified procedure. Claims about particular library defaults are
+  historical context, not assertions about current software versions.
+- The simplified pseudocode assumes that candidate selection and completion return are defined. Exhausted
+  candidate pools, absence of any EOS completion, ties and maximum-length handling require explicit implementation
+  policies.
+- The score and any length penalty affect candidate selection and comparison of completed outputs. A fixed
+  beam width alone does not determine output quality.
+- The paper’s favorable comparisons are task/model dependent; no numerical benchmark gain or universal
+  generation-quality claim is curated.
+id: AIMech:FCFSBeamDecoding
+aliases:
+- FCFS beam decoding
+definition_evidence:
+- source_id: method-source
+  locator: Figure 1 with p=1, printed p. 77 / PDF p. 1; Section 2 and Figures 2–3, printed pp. 78–79 /
+    PDF pp. 2–3
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: At each sequence length, expand the continuing hypotheses and scan the candidate pool in
+    decreasing score order. Move an encountered EOS-ending hypothesis into the persistent finished set;
+    otherwise keep it in the next continuing beam, up to width k. Stop during this selection when k completed
+    hypotheses have accumulated and return the best stored completion. The paper also imposes a maximum
+    generation length.
+  evidence:
+  - source_id: method-source
+    locator: Figure 1 with p=1, printed p. 77 / PDF p. 1; Section 2 and Figures 2–3, printed pp. 78–79
+      / PDF pp. 2–3
+    relation: supports
+- claim_id: finished-versus-active
+  kind: scope
+  statement: Finished hypotheses accumulate outside the k-wide continuing beam in FCFS. In the contrasted
+    vanilla procedure, completed hypotheses remain among the beam candidates and can later fall out. These
+    are different search policies despite a shared beam width.
+  evidence:
+  - source_id: finished-versus-active
+    locator: Section 2 and Figures 1–3, printed pp. 77–79 / PDF pp. 1–3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'A Call for Clarity in Beam Search: How It Works and When It Stops'
+  authors:
+  - Jungo Kasai
+  - Keisuke Sakaguchi
+  - Ronan Le Bras
+  - Dragomir Radev
+  - Yejin Choi
+  - Noah A. Smith
+  source_type: primary_paper
+  url: https://aclanthology.org/2024.lrec-main.7.pdf
+  version: LREC-COLING 2024, 77–90; published ACL Anthology PDF (distinct from the 2022 arXiv version)
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 7d090ee35511ac9fdcdb52ca92cad5d2e96075635de73ada84abd042362a9fec
+- source_id: finished-versus-active
+  title: 'A Call for Clarity in Beam Search: How It Works and When It Stops'
+  authors:
+  - Jungo Kasai
+  - Keisuke Sakaguchi
+  - Ronan Le Bras
+  - Dragomir Radev
+  - Yejin Choi
+  - Noah A. Smith
+  source_type: primary_paper
+  url: https://aclanthology.org/2024.lrec-main.7.pdf
+  version: LREC-COLING 2024, 77–90; published ACL Anthology PDF (distinct from the 2022 arXiv version)
+  access_level: full_text
+  accessed_at: '2026-10-11T06:19:44Z'
+  sha256: 7d090ee35511ac9fdcdb52ca92cad5d2e96075635de73ada84abd042362a9fec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines these sequence-decoding policies for natural-language generation,
+    including translation and summarization. The exact AIO CLASS describes the language-processing task.
+    This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the
+    decoder is not a trained language model and can also be used outside NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:26:52Z'
+  updated_at: '2026-10-11T06:26:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
