@@ -1,0 +1,76 @@
+name: Parallel tempering
+definition: A population Monte Carlo method that combines within-temperature target-preserving updates
+  with corrected exchanges between replicas targeting differently tempered densities.
+concept_kind: algorithm
+identity_notes: The record identifies fixed-temperature parallel tempering, with the source’s adjacent-swap
+  and random-walk realization as an explicit example. The population state includes all replicas; the
+  beta=1 replica targets the original distribution. It differs from a single-chain simulated-temperature
+  state and from adapting the temperature ladder. No normalized identity match was found across all 442
+  pinned AIO labels/scoped synonyms and 181 prior native IDs/names/aliases. Ignored-inclusive searches
+  of both full checkouts found prior discovery leads, neighboring sampler discussions and unrelated author-name/environment
+  substrings. Existing random-walk Metropolis, delayed-rejection, fixed symmetric delayed-rejection and
+  RAM records were inspected; shared components do not make these procedures equivalent.
+limitations:
+- All tempered densities must be normalizable; flattening a target by taking a positive power below one
+  need not preserve integrability.
+- Target invariance alone does not establish irreducibility, mixing speed, finite-run convergence or independence
+  of cold-replica samples.
+- The source calls the composed chain reversible. Composition of two reversible kernels need not be reversible
+  without additional conditions; this record asserts only their directly justified invariance.
+- The original distribution is the cold replica’s marginal, not the pooled unweighted population distribution.
+- Other valid local kernels and exchange schedules require their own conditions. The record’s explicit
+  Gaussian and adjacent-swap realization is not a claim that all implementations use it.
+id: AIMech:ParallelTempering
+aliases:
+- Replica exchange Monte Carlo
+- Metropolis-coupled Markov chain Monte Carlo
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1–2.1, Equations (1)–(10), PDF pp. 1–4; Section 2.4 implementation remarks, p. 7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose a fixed L≥2 and inverse temperatures 1=beta1>...>betaL>0 for which each integral Z_beta=integral
+    pi(x)^beta dx is finite. Initialize replicas in positive target support. The joint target is the product
+    of pi(x_l)^beta_l/Z_beta_l. In the inspected realization, choose j uniformly from adjacent pairs and
+    propose swapping x_j and x_(j+1), with probability min(1,[pi(x_(j+1))/pi(x_j)]^(beta_j−beta_(j+1))).
+    Then apply a Gaussian random-walk Metropolis update at every level using acceptance min(1,[pi(y_l)/pi(x_l)]^beta_l);
+    rejected moves retain their current replica state. Both steps preserve the joint target, so their
+    composition does also; samples at beta1=1 have the desired stationary marginal.
+  evidence:
+  - source_id: method-source
+    locator: Sections 1–2.1, Equations (1)–(10), PDF pp. 1–4; Section 2.4 implementation remarks, p. 7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Adaptive parallel tempering algorithm
+  authors:
+  - Błażej Miasojedow
+  - Eric Moulines
+  - Matti Vihola
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1205.1076v1
+  version: arXiv:1205.1076v1, submitted 2012-05-04; 33-page preprint
+  persistent_id: arXiv:1205.1076v1
+  access_level: full_text
+  accessed_at: '2026-10-11T07:31:49Z'
+  sha256: 4c0f3ba8a5a8dcf5001e1c95954638ab43790ba6eeb2abf72db367c0495d3af8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: At fixed temperatures and proposal settings, the complete replica population follows a Markov
+    transition preserving a product of tempered targets. AIO MarkovChain denotes the stochastic process/model
+    beneath Network. This is a related algorithm-to-process mapping, not equivalence, subclass membership
+    or an assertion of independent cold-replica samples.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:40:20Z'
+  updated_at: '2026-10-11T07:41:38Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,103 @@
+name: Delayed-rejection adaptive Metropolis
+definition: An adaptive Metropolis procedure combining history-based Gaussian proposal covariance updates
+  between transitions with corrected delayed-rejection proposal stages within a transition.
+concept_kind: algorithm
+identity_notes: 'DRAM combines two distinct mechanisms: retained-history covariance learning across iterations
+  and reversed-path acceptance corrections for additional attempts after rejection. The inspected author
+  implementation supplies the explicit Gaussian-stage realization; it is not merely repeated ordinary
+  Metropolis tests. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 181 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found prior
+  discovery leads, neighboring sampler discussions and unrelated author-name/environment substrings. Existing
+  random-walk Metropolis, delayed-rejection, fixed symmetric delayed-rejection and RAM records were inspected;
+  shared components do not make these procedures equivalent.'
+limitations:
+- The original 2006 article metadata was located but its complete method PDF was not obtained. This record
+  is supported by the named author’s pinned implementation and its covariance helper, not a claim to have
+  read that article.
+- The Gaussian factors remain fixed within a delayed-rejection transition. Recomputing adaptation from
+  rejected internal candidates or ignoring reverse-path factors would require different justification.
+- The implementation defaults to two attempts and adaptation every 100 iterations; its usage comment about
+  three stages is inconsistent with those executable defaults. These counts are options, not the concept
+  identity.
+- Optional covariance pseudoweights, fixed nonadapted coordinates, early rejection-rate scaling, variance
+  sampling and hierarchical updates are outside the simple fixed-target account here.
+- Jitter only on factorization failure differs from always adding a positive regularizer. Source-code
+  inspection alone establishes neither correctness for arbitrary targets nor adaptive ergodicity; no MATLAB
+  execution or performance comparison was performed.
+- Initialize within positive target support. Zero reverse-path probability gives zero acceptance; numerical
+  evaluation must handle vanishing densities and log ratios without invalid divisions.
+id: AIMech:DelayedRejectionAdaptiveMetropolis
+aliases:
+- DRAM
+definition_evidence:
+- source_id: method-source
+  locator: mcmcrun.m lines 119–168 (method controls), 339–380 (factors), 497–603 (proposals and retained
+    chain), 661–717 (covariance adaptation), 854–905 (alphafun, qfun, lfun)
+  relation: supports
+- source_id: additional-1
+  locator: 'covupd.m complete function: weighted mean and unbiased empirical covariance updates, including
+    old-state accumulation'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At fixed proposal settings for a transition, first propose y1 from N(x,C1) and use the Metropolis
+    target ratio. After rejection propose y2 from N(x,C2), centered at the original x, with C2=C1/d1²
+    for a positive stage scale d1 (d1>1 narrows the proposal). Let q_i(a,b) denote the Gaussian proposal
+    density at b from a and a1(a,b)=min(1,pi(b)/pi(a)). On a reachable rejection path, accept y2 with
+    min(1, [pi(y2)q1(y2,y1)q2(y2,x)(1−a1(y2,y1))]/[pi(x)q1(x,y1)q2(x,y2)(1−a1(x,y1))]). Higher stages
+    use the recursive forward/reverse rejection products and earlier-stage Gaussian proposal ratios. Retain
+    x after all capped stages reject. At scheduled iterations, update the empirical covariance from stored
+    retained states including repeats, scale its Cholesky factor, and recompute stage factors for later
+    transitions. In the inspected implementation diagonal jitter is attempted only when factorization
+    fails; if that attempt also fails, the previous proposal factor is retained.
+  evidence:
+  - source_id: method-source
+    locator: mcmcrun.m lines 119–168 (method controls), 339–380 (factors), 497–603 (proposals and retained
+      chain), 661–717 (covariance adaptation), 854–905 (alphafun, qfun, lfun)
+    relation: supports
+  - source_id: additional-1
+    locator: 'covupd.m complete function: weighted mean and unbiased empirical covariance updates, including
+      old-state accumulation'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'MCMCSTAT mcmcrun: author implementation of adaptive and delayed-rejection Metropolis'
+  authors:
+  - Marko Laine
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/mjlaine/mcmcstat/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2/mcmcrun.m
+  version: mjlaine/mcmcstat commit ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2
+  persistent_id: https://github.com/mjlaine/mcmcstat/tree/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2
+  access_level: documentation
+  accessed_at: '2026-10-11T07:35:25Z'
+  sha256: d665a2f3bd6df31ae576472f0ea18b48f65f2b08393f1cdeda5d1b8b6ad037e6
+- source_id: additional-1
+  title: 'MCMCSTAT covupd: recursive weighted empirical covariance'
+  authors:
+  - Marko Laine
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/mjlaine/mcmcstat/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2/covupd.m
+  version: mjlaine/mcmcstat commit ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2
+  persistent_id: https://github.com/mjlaine/mcmcstat/tree/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2
+  access_level: documentation
+  accessed_at: '2026-10-11T07:35:25Z'
+  sha256: 7663509eccba2f93a0a667d056ff8e4745829343996244aeac35cc8aa0f597ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure adapts a family of Markov transition kernels that are target-invariant at
+    frozen settings. Its sampled-state history is not assumed to be a homogeneous Markov chain, and adaptive
+    validity requires separate assumptions. AIO MarkovChain is a process/model beneath Network; this is
+    a related method-to-process mapping, not equivalence, an is-a assertion or a convergence guarantee.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:40:20Z'
+  updated_at: '2026-10-11T07:41:38Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

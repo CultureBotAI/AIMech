@@ -1,0 +1,89 @@
+name: Adaptive parallel tempering
+definition: A parallel-tempering algorithm that adapts temperature gaps and within-replica random-walk
+  proposal parameters through projected stochastic approximation.
+concept_kind: algorithm
+identity_notes: This record is the fixed-replica-count Miasojedow–Moulines–Vihola 2012 construction. Its
+  multiplicative inverse-temperature parameterization and all-pair swap-probability updates differ from
+  later author software using increments of reciprocal temperatures and updates for selected pairs. No
+  normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 181 prior native
+  IDs/names/aliases. Ignored-inclusive searches of both full checkouts found prior discovery leads, neighboring
+  sampler discussions and unrelated author-name/environment substrings. Existing random-walk Metropolis,
+  delayed-rejection, fixed symmetric delayed-rejection and RAM records were inspected; shared components
+  do not make these procedures equivalent.
+limitations:
+- The record uses projected covariance and log-scale adaptation with separate step sequences; the mean
+  recursion itself is not projected. Finite rho bounds keep ordered positive inverse temperatures, and
+  the replica count is fixed.
+- Every rho update uses a hypothetical adjacent swap probability at the post-propagation state, not just
+  the pair actually selected or a binary swap outcome.
+- The strong-law and temperature-convergence results have different hypotheses. Temperature convergence
+  additionally needs stronger step conditions and the target solution inside the projection bounds; projection
+  alone does not guarantee the desired rate is attainable.
+- The continuous-target results assume the stated tail/contour, moment and step-size conditions. Experiments
+  omitting projections do not prove unrestricted adaptive validity.
+- The optional RAM proposal variant in Section 2.3 uses a physical increment where the original RAM paper
+  uses a standardized proposal direction. That variant is excluded here; the covariance-based construction
+  is the inspected core.
+- No changing-replica-count method, unrestricted adaptive convergence, universal efficiency claim or benchmark
+  reproduction is asserted.
+id: AIMech:AdaptiveParallelTempering
+aliases:
+- Adaptive parallel tempering algorithm
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3, Equations (1)–(24), PDF pp. 3–6; assumptions A1–A3 and Theorems 5 and 10,
+    pp. 8–11
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: With fixed L≥2, alpha_star in (0,1) and epsilon in (0,1), set beta1=1 and beta_(l+1)=beta_l
+    exp(−exp(rho_l)). Initialize within the parameter constraint sets and positive target support. At
+    each iteration use the previous temperatures and proposal covariances for an adjacent exchange followed
+    by local Gaussian Metropolis moves. From the retained post-propagation population X_new, compute every
+    adjacent hypothetical exchange probability h_l=min(1,[pi(X_(l+1))/pi(X_l)]^(beta_l−beta_(l+1))). Update
+    each rho_l by projection of rho_l+gamma1_n(h_l−alpha_star) onto a fixed finite interval. For each
+    replica update mu_l=(1−gamma2_n)mu_l+gamma2_n X_new,l, and project (1−gamma2_n)Gamma_l+gamma2_n(X_new,l−mu_old,l)(X_new,l−mu_old,l)^T
+    onto matrices with eigenvalues in [epsilon,epsilon^−1]. Update T_l by interval projection of T_l+gamma3_n(alpha_local,l−alpha_star),
+    where alpha_local is that iteration’s local proposal acceptance probability. Use Sigma_l=exp(T_l)Gamma_l
+    for later Gaussian proposals. Thus T is log variance, not log standard deviation; all adaptation follows
+    the completed transition.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3, Equations (1)–(24), PDF pp. 3–6; assumptions A1–A3 and Theorems 5 and 10,
+      pp. 8–11
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Adaptive parallel tempering algorithm
+  authors:
+  - Błażej Miasojedow
+  - Eric Moulines
+  - Matti Vihola
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1205.1076v1
+  version: arXiv:1205.1076v1, submitted 2012-05-04; 33-page preprint
+  persistent_id: arXiv:1205.1076v1
+  access_level: full_text
+  accessed_at: '2026-10-11T07:31:49Z'
+  sha256: 4c0f3ba8a5a8dcf5001e1c95954638ab43790ba6eeb2abf72db367c0495d3af8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure adapts a family of Markov transition kernels that are target-invariant at
+    frozen settings. Its sampled-state history is not assumed to be a homogeneous Markov chain, and adaptive
+    validity requires separate assumptions. AIO MarkovChain is a process/model beneath Network; this is
+    a related method-to-process mapping, not equivalence, an is-a assertion or a convergence guarantee.
+    The frozen joint population target depends on the ladder; the cold marginal remains pi. This does
+    not assert one invariant joint law throughout adaptation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:40:20Z'
+  updated_at: '2026-10-11T07:41:38Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
