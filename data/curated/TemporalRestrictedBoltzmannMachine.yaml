@@ -1,0 +1,116 @@
+name: Temporal restricted Boltzmann machine
+definition: A neural sequence architecture that multiplies time-indexed conditional RBM distributions
+  whose visible and hidden biases depend on preceding visible and hidden states through shared temporal
+  weights.
+concept_kind: architecture
+identity_notes: 'This record covers the original single-layer temporal RBM construction of Sutskever and
+  Hinton, with its finite lag window and omitted-edge special cases. The full architecture has visible-to-visible,
+  visible-to-hidden and hidden-to-hidden history connections. It is distinct from temporal FRBM’s factored
+  categorical-word construction, RTRBM’s deterministic recurrent state, and the observed-history-only
+  autoregressive CRBM. Multilayer stacking is an extension rather than part of this single-layer identity;
+  a filtering algorithm does not define the latent probabilistic model. All 442 pinned AIO labels/scoped
+  synonyms and 361 preceding native IDs/names/aliases were compared, with no normalized identity match.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning
+  24 lines each. All 18 unique matched contents were read: temporal FRBM source references, model contrasts,
+  a discovery lead and saved review context, rather than existing candidate records. All 44 semantic label/synonym
+  hits and 21 exact AIO nodes were inspected, alongside corresponding generated records and four complete
+  native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded
+  to this snapshot and inspected neighborhood.'
+limitations:
+- The conditional partition depends on history, including previous hidden states. It is not one sequence-independent
+  global constant, and exact posterior Gibbs updates can require ratios of such partitions.
+- A factorial posterior given known latent history does not imply factorial or exact filtering after uncertain
+  history is marginalized. Mean substitution through nonlinear normalized factors is generally approximate,
+  and future observations can revise earlier hidden-state posteriors.
+- The paper explicitly notes that changing its parameter-dependent approximate posterior can reduce the
+  variational bound. Finite CD, mean visible reconstructions and ignoring future evidence provide no monotonic
+  bound or likelihood guarantee.
+- TRBM-HH denotes the variant with hidden-to-hidden links omitted, not one retaining only those links.
+  For fully observed visible sequences its hidden posterior is factorial; missing observations and multilayer
+  compositions change that inference problem.
+- The displayed construction has no past-hidden-to-current-visible links; a footnote mentions those as
+  a possible extension. Gaussian visible units, deeper compositions and different lag structures require
+  their own stated assumptions. No empirical ranking, long-memory guarantee or author-code behavior is
+  certified.
+id: AIMech:TemporalRestrictedBoltzmannMachine
+aliases:
+- TRBM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.4, Figure 2 and Equations (10)–(18), PDF pp.2–5; omitted-edge naming and exact
+    no-HH special case, Section 3, p.5; multilayer qualifications, Sections 4.2–5, pp.7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For binary vectors v_t and h_t, set the visible bias a_t=a+sum_k A_k^T v_(t-k) and hidden
+    bias b_t=b+sum_k B_k^T h_(t-k)+sum_k C_k^T v_(t-k). Define p(v_t,h_t|history)=exp(v_t^T C_0 h_t+a_t^T
+    v_t+b_t^T h_t)/Z_t(history), and multiply these normalized factors over time using shared parameters
+    and the source’s learned initial contributions for unavailable earlier states. Conditional on observed
+    current and previous visibles and known previous hidden states, the current hidden posterior factorizes
+    with probabilities sigmoid(C_0^T v_t+b_t). Unknown previous hidden states generally require marginalization;
+    the proposed online filter instead substitutes their inferred probability vectors in b_t. Learning
+    treats these approximate filtered states as context and uses per-step contrastive-divergence updates.
+    The original paper distinguishes this approximation from smoothing with future observations and from
+    an exact likelihood gradient.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.4, Figure 2 and Equations (10)–(18), PDF pp.2–5; omitted-edge naming and exact
+      no-HH special case, Section 3, p.5; multilayer qualifications, Sections 4.2–5, pp.7–8
+    relation: supports
+  - source_id: posterior-context
+    locator: Section 3, Equations (4)–(5) and discussion of posterior Gibbs updates and conditional partition
+      ratios, PDF p.3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning Multilevel Distributed Representations for High-Dimensional Sequences
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v2/sutskever07a/sutskever07a.pdf
+  version: AISTATS 2007 / PMLR 2:548–555 proceedings PDF, eight pages. No printed page numbers appear
+    on the inspected pages; use PDF-page locators.
+  persistent_id: pmlr-v2-sutskever07a
+  access_level: full_text
+  accessed_at: '2026-10-11T18:17:21Z'
+  sha256: 8b8b19704c753dc7e52bcefb32eb218c87d84f772c390c3810445a644749897b
+- source_id: posterior-context
+  title: The Recurrent Temporal Restricted Boltzmann Machine
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  - Graham Taylor
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/9ad6aaed513b73148b7d49f70afcfb32-Paper.pdf
+  version: Eight-page proceedings PDF, Advances in Neural Information Processing Systems 21, conference
+    NIPS 2008; author bibliography lists the volume publication in 2009. Use PDF-page locators.
+  persistent_id: neurips-2008-9ad6aaed513b73148b7d49f70afcfb32
+  access_level: full_text
+  accessed_at: '2026-10-11T18:29:52Z'
+  sha256: 7ef2f7679831a4c8ac4079b47b622bb82cda8f8045148f436e6554c79d0137f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The pinned AIO class is broader than this particular neural sequence architecture with nonlinear
+    stochastic units and weighted connections. This mapping does not claim equivalence to a symmetric
+    Boltzmann machine, a pure directed Bayesian network or an autoregressive language model. The latter
+    is language-specific, while this model supports general vector sequences.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Each time step uses a conditional RBM with undirected visible–hidden interactions. The entire
+    sequence construction additionally has directed history connections and a separate conditional normalizer
+    per step; a related mapping records the component relationship without equating the whole temporal
+    architecture to one unconditioned symmetric RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:40:25Z'
+  updated_at: '2026-10-11T18:40:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
