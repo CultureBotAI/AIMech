@@ -1,0 +1,64 @@
+name: Layer-wise relevance propagation
+definition: A prediction-decomposition framework that redistributes relevance backward through a classifier's
+  computational layers toward its input features.
+concept_kind: mathematical_method
+identity_notes: LRP is a family of constrained relevance-propagation constructions, demonstrated for neural
+  networks and kernel-based Bag-of-Words classifiers; it is not a single gradient formula or a classifier-training
+  algorithm.
+limitations:
+- Conservation alone does not uniquely determine meaningful attributions; the original paper gives a counterexample.
+- Bias terms and epsilon stabilization can absorb relevance, so exact conservation is not asserted for
+  every practical rule.
+aliases:
+- LRP
+id: AIMech:LayerWiseRelevancePropagation
+definition_evidence:
+- source_id: original-paper
+  locator: Layer-wise relevance propagation, equation 2, PDF/printed pp. 3–4; Layer-wise relevance backpropagation,
+    equations 55–62 and Algorithm 2, pp. 20–21
+  relation: supports
+claims:
+- claim_id: attribution-method
+  kind: mechanism
+  statement: Starting from an output score, layer-specific rules allocate relevance messages to preceding
+    units and sum incoming messages until the input is reached. The neural-network procedure supplies
+    stabilized and positive/negative contribution rules.
+  evidence:
+  - source_id: original-paper
+    locator: Layer-wise relevance propagation, equation 2, PDF/printed pp. 3–4; Layer-wise relevance backpropagation,
+      equations 55–62 and Algorithm 2, pp. 20–21
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise Relevance Propagation
+  authors:
+  - Sebastian Bach
+  - Alexander Binder
+  - Grégoire Montavon
+  - Frederick Klauschen
+  - Klaus-Robert Müller
+  - Wojciech Samek
+  source_type: primary_paper
+  url: https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0130140&type=printable
+  version: PLOS ONE 10(7):e0130140 (2015), publisher version
+  access_level: full_text
+  accessed_at: '2026-10-11T03:50:24Z'
+  sha256: 212147782b3e3efe13b583d34a6ec414557863009232d43739179985a7cfa655
+  persistent_id: doi:10.1371/journal.pone.0130140
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: The paper explicitly constructs LRP for artificial neural networks. This related mapping
+    records that supported analysis relationship while retaining LRP's additional kernel-classifier scope;
+    it asserts neither equivalence nor exclusive applicability.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:54:14Z'
+  updated_at: '2026-10-11T03:54:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,57 @@
+name: Integrated gradients
+definition: A feature-attribution method that integrates a prediction's input gradients along the straight
+  path from a chosen baseline to the input.
+concept_kind: mathematical_method
+identity_notes: Straight-path gradient integration differs from a gradient at one input, layer-wise contribution
+  propagation and Shapley averaging across feature orderings.
+limitations:
+- Attributions depend on the baseline; an arbitrary zero-score baseline need not give a meaningful absence
+  of signal.
+- Numerical integration is approximate. This record makes no universal causal-faithfulness or superiority
+  claim.
+aliases:
+- IG
+id: AIMech:IntegratedGradients
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, equation 1, PDF p. 3; Section 5, equation 3 and baseline selection, PDF pp. 5–6
+  relation: supports
+claims:
+- claim_id: attribution-method
+  kind: mechanism
+  statement: Each feature receives its input-minus-baseline difference multiplied by the integral of that
+    feature's partial derivative along the path; the paper approximates the integral with a finite gradient
+    sum.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, equation 1, PDF p. 3; Section 5, equation 3 and baseline selection, PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Axiomatic Attribution for Deep Networks
+  authors:
+  - Mukund Sundararajan
+  - Ankur Taly
+  - Qiqi Yan
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/sundararajan17a/sundararajan17a.pdf
+  version: ICML 2017 / PMLR 70:3319–3328 proceedings version
+  access_level: full_text
+  accessed_at: '2026-10-11T03:50:23Z'
+  sha256: b17d267e7b8f7c5e9198030932ef184d93d6c2dd90e47ab996ed395fd673443f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: The method attributes outputs of artificial neural networks to their inputs in the defining
+    paper. This direct analysis relationship does not make the method a neural-network architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:54:14Z'
+  updated_at: '2026-10-11T03:54:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
