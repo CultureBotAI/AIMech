@@ -1,0 +1,113 @@
+name: Temporal-difference learning
+definition: A family of prediction-learning methods that assign temporal credit using discrepancies between
+  successive, recursively related predictions of future outcomes, with intervening costs or rewards included
+  when the target is cumulative.
+concept_kind: learning_paradigm
+identity_notes: 'This family-level record covers temporal-difference prediction and the original TD(lambda)
+  construction, including TD(0) and TD(1) endpoints. It is not a policy optimizer, the GAE advantage estimator,
+  backpropagation as a way to compute derivatives, a Markov-chain model, or every sequential prediction
+  problem. TD(lambda) is treated here as a specified family member rather than a synonym for the whole
+  paradigm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+  files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were
+  inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved
+  reports/reviews. These were references to methods rather than existing candidate records. Six exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The prediction targets must obey the declared temporal recursion. Consecutive forecasts of different
+  future events cannot simply be subtracted; Section 5.3 embeds fixed-horizon forecasts in a larger set
+  of related predictions. Terminal-outcome and cumulative-outcome formulations use different terminal
+  conventions.
+- The original linear TD(0) theorem is convergence in expected value for an absorbing Markov setting,
+  linearly independent state observation vectors, and sufficiently small constant step size, with weight
+  changes after each sequence. It is not an almost-sure convergence theorem for arbitrary online nonlinear
+  networks or a finite-data guarantee; the proof appendix was not independently audited.
+- TD(1)’s fixed-weight per-sequence equivalence does not make all TD methods identical to Monte Carlo
+  or supervised learning. Updating weights within a sequence changes predictions and traces; Section 5.2
+  warns against mixing predictions computed with inconsistent parameter versions.
+- Temporal credit assignment and structural backpropagation are compatible but distinct. The method family
+  alone supplies neither a control policy nor an exploration strategy. No claim of universal accuracy,
+  lower computation, or benchmark superiority is curated.
+id: AIMech:TemporalDifferenceLearning
+aliases:
+- TD learning
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3, PDF pp.5–8 / journal pp.13–16, Equations 1–4 and trace recursion; Theorem
+    2 statement, PDF pp.16–17; Sections 5.1–5.3, PDF pp.25–28 / journal pp.33–36; Section 6.2, PDF pp.29–30
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For the original terminal-outcome problem, predictions P_t=P(x_t,w) estimate the same eventual
+    scalar outcome z and P_(m+1)=z. With weights held fixed within a sequence, compute increments Delta
+    w_t=alpha*(P_(t+1)−P_t)*e_t, where e_t=sum_(k=1..t) lambda^(t−k)*grad_w P_k and 0<=lambda<=1; apply
+    their sum after the sequence. The trace can be maintained recursively as e_t=grad_w P_t+lambda*e_(t−1).
+    TD(0) uses only the current prediction gradient, whereas TD(1) gives the same per-sequence changes
+    as the corresponding supervised outcome-error update under the fixed-weight convention. In the cumulative-outcome
+    extension, replace the difference with c_(t+1)+P_(t+1)−P_t and set the terminal remaining prediction
+    to zero. This is the source’s undiscounted cumulative formulation, not an implicit insertion of a
+    discount factor. Intra-sequence weight updates are a separate extension requiring consistent parameter
+    timing; simple algebraic equivalence at fixed weights does not establish equality of online trajectories.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3, PDF pp.5–8 / journal pp.13–16, Equations 1–4 and trace recursion; Theorem
+      2 statement, PDF pp.16–17; Sections 5.1–5.3, PDF pp.25–28 / journal pp.33–36; Section 6.2, PDF pp.29–30
+    relation: supports
+- claim_id: control-application
+  kind: scope
+  statement: TD prediction can supply value estimates in a reinforcement-learning control procedure. The
+    author exposition estimates the current behavior policy’s action values using TD updates while improving
+    that policy toward greedy choices. Prediction alone does not specify the action-selection and policy-improvement
+    components of a complete control algorithm.
+  evidence:
+  - source_id: author-book-draft
+    locator: Section 6.4, PDF pp.155–156 / printed pp.137–138, TD prediction applied to on-policy control
+      and Sarsa pseudocode
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning to predict by the methods of temporal differences
+  authors:
+  - Richard S. Sutton
+  source_type: primary_paper
+  url: https://jmvidal.cse.sc.edu/library/sutton88a.pdf
+  version: Machine Learning 3:9–44 (1988), 36-page journal article; university-hosted copy. Publisher
+    metadata confirms August 1988 and DOI.
+  persistent_id: doi:10.1007/BF00115009
+  access_level: full_text
+  accessed_at: '2026-10-11T13:51:20Z'
+  sha256: f1153204158bffd641cdd5ac23995cbdb4c74c34cb92022de4b54e8be6739d6e
+- source_id: author-book-draft
+  title: 'Reinforcement Learning: An Introduction'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  source_type: author_technical_report
+  url: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  version: Author-hosted second-edition work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover
+    copyright 2014–2016. This is the September 2016 draft, not the final 2018 edition. Public HTTP copy
+    used after HTTPS certificate verification failed; verification was not disabled.
+  persistent_id: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:53:08Z'
+  sha256: 94b195c3d5f73878039453d8fc771494df0c140fd6978fd0c6d29178a56023b5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: TD prediction supplies value estimates for reinforcement-learning control, as directly illustrated
+    by the author book’s Section 6.4. The local family also covers prediction without action selection.
+    The pinned AIO target is a learning task; this connection asserts neither equivalence nor that every
+    TD prediction problem is a control task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:02:32Z'
+  updated_at: '2026-10-11T14:05:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

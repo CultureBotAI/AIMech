@@ -1,0 +1,88 @@
+name: Q-routing
+definition: A distributed adaptive packet-routing algorithm that learns destination-specific delivery-time
+  estimates by combining observed local queue and transmission delays with a neighboring node’s estimate
+  of remaining delivery time.
+concept_kind: algorithm
+identity_notes: 'This record denotes Boyan and Littman’s original tabular Q-routing method. It minimizes
+  predicted delivery time using local bootstrapped information, unlike AntNet’s measured complete forward-trip
+  feedback and probabilistic routing-table reinforcement. The exploratory full-echo scheme is a distinct
+  variant, not an unmentioned mandatory part of the baseline. A neural approximation was explored but
+  is not the defining original representation. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All
+  17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary
+  statements, and their saved reports/reviews. These were references to methods rather than existing candidate
+  records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring
+  mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The greedy baseline has no deliberate exploration once its initial policy is established. Overestimated
+  unused alternatives can remain stale, impeding rediscovery of shortcuts when load decreases; the source
+  explicitly reports this weakness. Full echo changes the information and update scheme and may introduce
+  oscillation under heavy traffic.
+- Queue-dependent delays, other adaptive routers and changing traffic make the environment nonstationary
+  relative to a destination/neighbor table. The record imports no stationary tabular Q-learning convergence
+  theorem, optimality certificate, loop-freedom guarantee or universal routing superiority.
+- The displayed interior-node update needs declared destination-boundary, initialization, tie-breaking,
+  disconnected-network and message-delay conventions in an executable implementation. The method text
+  does not fully specify all these cases, and a simulator or complete protocol is not supplied by this
+  conceptual record.
+- Results come from a simplified discrete-event network simulation; the paper explicitly says it is not
+  fully realistic. The neural-network experiments were inconclusive. No empirical performance claim or
+  deployment validation is curated.
+id: AIMech:QRouting
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF p.2 / proceedings p.672, local estimate and update equations; Section 3.2, PDF
+    pp.6–7 / proceedings pp.676–677, greedy exploration failure and full-echo variant; Section 4, PDF
+    p.7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At node x, maintain Q_x(d,y), the estimated time to deliver a packet to destination d through
+    neighbor y, including waiting in x’s queue. Route using the neighbor with the smallest current estimate.
+    Upon sending the packet to y, obtain its estimate t=min_z Q_y(d,z). With observed waiting time q at
+    x and link-transmission time s from x to y, update the used table entry by Q_x(d,y)_new=Q_x(d,y)+eta*(q+s+t−Q_x(d,y)).
+    This is an asynchronous local cost backup; it uses a minimum because delivery times are costs and
+    the displayed target has no discount factor. The baseline only updates the selected neighbor entry.
+    The full-echo extension separately queries all neighbors and updates their estimates, under a simulation
+    assumption that the extra queries do not themselves congest the network.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF p.2 / proceedings p.672, local estimate and update equations; Section 3.2,
+      PDF pp.6–7 / proceedings pp.676–677, greedy exploration failure and full-echo variant; Section 4,
+      PDF p.7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Packet Routing in Dynamically Changing Networks: A Reinforcement Learning Approach'
+  authors:
+  - Justin A. Boyan
+  - Michael L. Littman
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1993/file/4ea06fbc83cdd0a06020c35d50e1e89a-Paper.pdf
+  version: Official NIPS 1993 archive, Advances in Neural Information Processing Systems 6, pp.671–678,
+    eight-page proceedings article. Conference year is distinguished from later proceedings bibliographic
+    dates.
+  persistent_id: https://papers.nips.cc/paper_files/paper/1993/hash/4ea06fbc83cdd0a06020c35d50e1e89a-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T13:51:20Z'
+  sha256: d85e5660aa4eae68384d809320a80ae87b70e3b6d5cec1cb6c94020b08b703e2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The primary method embeds local reinforcement-learning updates in packet routers. The AIO
+    target is the task category, not the same algorithm, a network model, or a theorem guaranteeing adaptive
+    network convergence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:02:32Z'
+  updated_at: '2026-10-11T14:02:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
