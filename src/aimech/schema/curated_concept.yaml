@@ -53,10 +53,12 @@ classes:
         inlined: true
       aio_mappings:
         range: AIOMapping
-        required: true
         multivalued: true
         inlined_as_list: true
         minimum_cardinality: 1
+      aio_no_match:
+        range: NoAIOMatch
+        inlined: true
       limitations: {required: true, multivalued: true, minimum_cardinality: 1}
       review_status: {range: CuratedReviewStatus, required: true}
       curation: {range: CurationProvenance, required: true, inlined: true}
@@ -110,6 +112,21 @@ classes:
       target: {required: true, pattern: '^AIO:[A-Za-z0-9]+(?![\s\S])'}
       relation: {range: MappingRelation, required: true}
       rationale: {required: true}
+  NoAIOMatch:
+    description: An explicit assessment that the inspected AIO snapshot has no suitable mapping, not evidence that the local concept is absent from all ontologies.
+    attributes:
+      search_scope: {required: true}
+      rationale: {required: true}
+      examined_targets:
+        range: AIOExaminedTarget
+        required: true
+        multivalued: true
+        inlined_as_list: true
+        minimum_cardinality: 1
+  AIOExaminedTarget:
+    attributes:
+      target: {required: true, pattern: '^AIO:[A-Za-z0-9]+(?![\s\S])'}
+      rejection_reason: {required: true}
   CurationProvenance:
     attributes:
       created_at: {range: UTCDateTime, required: true}

@@ -1,0 +1,54 @@
+name: AdamNC
+definition: An Adam-family optimization method that uses time-dependent first- and second-moment decay
+  schedules.
+identity_notes: AdamNC changes the moment schedules rather than taking AMSGrad's historical maximum. The
+  named method is distinct from an arbitrary claim that any changing Adam hyperparameters ensures convergence.
+limitations:
+- The paper's guarantees require additional conditions on schedules, gradients and the feasible region;
+  no guarantee is asserted for arbitrary schedules or nonconvex training.
+- No performance comparison or experimental replication is curated.
+id: AIMech:AdamNC
+concept_kind: algorithm
+definition_evidence:
+- source_id: original-paper
+  locator: Section 5.1, PDF/printed p. 8; Algorithm 3, PDF/printed p. 19
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: Both moment accumulators use iteration-indexed decay coefficients; the original method scales
+    the first-moment step by the square root of the second moment and projects it onto the feasible set.
+  evidence:
+  - source_id: original-paper
+    locator: Section 5.1, PDF/printed p. 8; Algorithm 3, PDF/printed p. 19
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: On the Convergence of Adam and Beyond
+  authors:
+  - Sashank J. Reddi
+  - Satyen Kale
+  - Sanjiv Kumar
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.09237v1
+  persistent_id: arXiv:1904.09237v1
+  version: 1904.09237v1
+  access_level: full_text
+  accessed_at: '2026-10-11T03:27:02Z'
+  sha256: 75a949b0751e81c490e7eee76efadd1eb8868c64f44275d8d1542a8f42cb7c01
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: An optimizer can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus; no equivalence or subclass relationship is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:33:00Z'
+  updated_at: '2026-10-11T03:33:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -36,9 +36,16 @@ def validate_curated_record(record):
         errors.append("name/aliases: duplicate normalized identity")
     if any(not normalized_name(name) for name in names):
         errors.append("name/aliases: identity must contain letters or digits")
-    mappings = [m["target"] for m in record["aio_mappings"]]
+    mappings = [m["target"] for m in record.get("aio_mappings", [])]
+    no_match = record.get("aio_no_match")
+    if bool(mappings) == bool(no_match):
+        errors.append("provide exactly one of aio_mappings or aio_no_match")
     if len(set(mappings)) != len(mappings):
         errors.append("aio_mappings: duplicate or contradictory target mapping")
+    if no_match:
+        examined = [item["target"] for item in no_match["examined_targets"]]
+        if len(set(examined)) != len(examined):
+            errors.append("aio_no_match: duplicate examined target")
     cited = set()
 
     def check_citations(citations, location, require_full=False):
@@ -141,9 +148,12 @@ def validate_curated(root: Path):
                 errors.append(f"curated filename does not match ID: {path}")
             if record["aio_snapshot"] != {"commit": source["commit"], "sha256": source["sha256"]}:
                 errors.append(f"{identifier}: AIO mapping snapshot differs from the current pin")
-            for mapping in record["aio_mappings"]:
+            for mapping in record.get("aio_mappings", []):
                 if mapping["target"] not in aio_nodes:
                     errors.append(f"{identifier}: unresolved AIO mapping {mapping['target']}")
+            for examined in record.get("aio_no_match", {}).get("examined_targets", []):
+                if examined["target"] not in aio_nodes:
+                    errors.append(f"{identifier}: unresolved examined AIO target {examined['target']}")
             for name in [record["name"], *record.get("aliases", [])]:
                 key = normalized_name(name)
                 collisions = identities[key] - {identifier}

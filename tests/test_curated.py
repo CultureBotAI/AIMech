@@ -116,3 +116,53 @@ def test_quality_gate_includes_native_collection():
     spec.loader.exec_module(module)
     assert any(command[-2:] == ["aimech", "validate-curated"]
                for command in module.commands({}))
+
+
+@pytest.fixture
+def unmapped(record):
+    record.pop("aio_mappings")
+    record["aio_no_match"] = {
+        "search_scope": "All pinned AIO labels, synonyms and candidate definitions; test fixture.",
+        "rationale": "No suitable counterpart was identified in the inspected snapshot.",
+        "examined_targets": [{"target": "AIO:MachineLearningTask",
+                              "rejection_reason": "This test concept is not a learning task."}],
+    }
+    return record
+
+
+def test_no_match_assessment_passes_without_weakening_evidence(unmapped, corpus):
+    assert validate_curated_record(unmapped) == []
+    (corpus / "data/curated/ExampleMethod.yaml").write_text(yaml.safe_dump(unmapped))
+    assert validate_curated(corpus) == 0
+    unmapped["evidence_sources"][0]["access_level"] = "abstract_only"
+    assert any("abstract-only" in error for error in validate_curated_record(unmapped))
+
+
+@pytest.mark.parametrize("mutation,fragment", [
+    (lambda r: r.pop("aio_no_match"), "exactly one"),
+    (lambda r: r.update(aio_mappings=[{"target": "AIO:MachineLearningTask",
+                                     "relation": "related_match", "rationale": "Conflicting."}]),
+     "exactly one"),
+    (lambda r: r["aio_no_match"].pop("search_scope"), "search_scope"),
+    (lambda r: r["aio_no_match"].update(rationale=" "), "rationale"),
+    (lambda r: r["aio_no_match"].update(examined_targets=[]), "examined_targets"),
+    (lambda r: r["aio_no_match"]["examined_targets"][0].pop("rejection_reason"), "rejection_reason"),
+    (lambda r: r["aio_no_match"]["examined_targets"].append(
+        deepcopy(r["aio_no_match"]["examined_targets"][0])), "duplicate examined target"),
+])
+def test_rejects_missing_or_conflicting_mapping_assessment(unmapped, mutation, fragment):
+    mutation(unmapped)
+    assert any(fragment in error for error in validate_curated_record(unmapped))
+
+
+@pytest.mark.parametrize("mutation,fragment", [
+    (lambda r: r["aio_no_match"]["examined_targets"][0].update(target="AIO:DoesNotExist"),
+     "unresolved examined AIO target"),
+    (lambda r: r["aio_snapshot"].update(commit="0" * 40), "snapshot differs"),
+    (lambda r: r.update(name="Cluster analysis"), "collides"),
+])
+def test_no_match_still_enforces_pin_and_identity(unmapped, corpus, mutation, fragment, capsys):
+    mutation(unmapped)
+    (corpus / "data/curated/ExampleMethod.yaml").write_text(yaml.safe_dump(unmapped))
+    assert validate_curated(corpus) == 1
+    assert fragment in capsys.readouterr().out

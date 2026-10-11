@@ -19,7 +19,9 @@ any local evidence inputs. Read `docs/curated-concepts.md`. Validate with
 `uv run --locked aimech validate-curated` in addition to the checks below.
 
 Review claim-to-source support, precise locators, access level, source version,
-definition distinctness, concept kind and mapping direction. Resolve primary
+definition distinctness, concept kind and mapping direction. For `aio_no_match`,
+inspect the searched scope, rejected targets and reasons rather than treating
+no match as a validated mapping. Resolve primary
 evidence and inspect the cited method/definition passages; an abstract does
 not establish unseen PDF contents. Mapping rationale is a curator inference,
 not an upstream AIO assertion. Preserve limitations and contradictory evidence.

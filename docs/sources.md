@@ -48,7 +48,7 @@ separate immutable observations.
    history, and publish through the normal PR process.
 
 New concepts absent from AIO use the maintained `data/curated/` collection,
-with local identifiers and explicit mappings described in
+with local identifiers and explicit mapping assessments described in
 [curated concepts](curated-concepts.md). Existing AIO records remain generated;
 evidence enrichment must not rewrite their source assertions. Model-instance,
 benchmark, or intervention schemas

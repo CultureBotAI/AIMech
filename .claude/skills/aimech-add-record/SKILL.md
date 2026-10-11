@@ -1,13 +1,13 @@
 ---
 name: aimech-add-record
-description: Discover and add evidence-backed AI concepts to AIMech using web searches, publication abstracts, and full-text PDFs. Restore generated AIO records or curate AIMech-native concepts with explicit AIO mappings. Use for concept additions and iterative discovery, not standalone trained-model instances or read-only reviews.
+description: Discover and add evidence-backed AI concepts to AIMech using web searches, publication abstracts, and full-text PDFs. Restore generated AIO records or curate AIMech-native concepts with explicit AIO mapping assessments. Use for concept additions and iterative discovery, not standalone trained-model instances or read-only reviews.
 ---
 
 # Add an AIMech Record
 
 Use inside AIMech. `AIConcept` records in `data/aio/` are generated from the
 pinned AIO source. `CuratedAIConcept` records in `data/curated/` are maintained
-locally with `AIMech:` IDs, inspected evidence and explicit AIO mappings. Keep
+locally with `AIMech:` IDs, inspected evidence and explicit AIO mapping assessments. Keep
 these ownership and identity systems distinct. A local concept does not receive
 an AIO ID or become an accepted upstream class.
 
@@ -57,7 +57,7 @@ Do not interpret a failure to access an upstream source as absence there.
 | Exact class is in the pin, but its generated file is missing | Generate the missing record from the pinned source using the procedure below. |
 | Class exists only in a different upstream revision | Prepare a pinned source update using [source updates](references/source-updates.md). Its effects extend beyond the new class. |
 | Exact concept already has a matching maintained record in `data/curated/` | Reuse its stable local ID; assess new evidence without creating a duplicate. |
-| Concept is absent from AIO and supported by inspected evidence | Curate a native record in `data/curated/` with an `AIMech:` ID and explicit, justified AIO mappings; an upstream-term proposal is optional follow-up. |
+| Concept is absent from AIO and supported by inspected evidence | Curate a native record in `data/curated/` with an `AIMech:` ID and justified AIO mappings, or an explicit no-match assessment when no target fits; an upstream-term proposal is optional follow-up. |
 | Concept identity, scope, or evidence remains unresolved | Retain the candidate and the missing discriminating evidence in the discovery ledger; do not turn it into an asserted record. |
 | Request is for a particular trained model, dataset, benchmark result or empirical claim | Explain the representation gap and prepare a scoped schema/overlay proposal if needed; these are not currently standalone AIConcept records. |
 
@@ -111,7 +111,12 @@ searched identity context. Use `DRAFT`; a schema check is not scientific review.
 Record AIO mapping direction explicitly: a broad match means the AIO target is
 broader than the local concept. Use a related match when abstraction levels
 differ, and explain it; do not force an algorithm beneath a task as an is-a
-assertion. Preserve the AIO snapshot used for mapping.
+assertion. Preserve the AIO snapshot used for mapping. When no suitable target
+exists, use `aio_no_match` instead of a forced link. Record the ignored-inclusive
+identity search, semantic search scope, examined AIO targets and why each was
+rejected. Shared words or an incidental application do not establish a mapping.
+Keep the no-match assessment bounded to the inspected snapshot and review it
+scientifically alongside positive mappings.
 
 Use stable local IDs and canonical filenames with exclusive creation. Never
 overwrite an existing record to make an addition succeed. Validate the complete
