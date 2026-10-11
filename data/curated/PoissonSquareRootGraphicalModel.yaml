@@ -1,0 +1,132 @@
+name: Poisson square root graphical model
+definition: A square-root graphical model on unbounded nonnegative integer counts with factorial base
+  measures, unary square-root and linear count terms and pairwise products of square roots of counts,
+  normalizable for all finite symmetric interaction and unary parameters on a finite graph.
+concept_kind: model_family
+identity_notes: 'Poisson SQR is the Poisson-base specialization of the SQR construction. It preserves
+  the factorial count base measure and changes the interaction statistic to square roots. It is distinct
+  from the classical auto-Poisson field, finite TPGM, factorial-free QPGM and bounded-statistic SPGM.
+  Taking square roots of observed counts and fitting a Gaussian is a different model: the sample space,
+  base measure and conditional law must be retained. No normalized identity match was found across all
+  442 pinned AIO labels and all scoped synonyms and 409 preceding native IDs, names and aliases. Fixed-string
+  full-checkout searches included ignored and hidden files in worktree and main, yielding 15 and 12 matched
+  lines; all nine unique contents were read. They describe prior square-root/temporal-square-root leads
+  and publication links, not existing records of these identities. Search preparation included the three
+  preceding modified-count records before their merge; their bytes are retained unchanged. All 186 semantic
+  label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges were inspected:
+  45 byte-equivalent to prior inspected nodes and one freshly read. Sixty-four contextual YAMLs comprise
+  46 generated and 18 native records: 59 byte-verified after prior reading and five fully read during
+  this preparation. The three-character SQR acronym was checked in normalized identities and omitted from
+  broad text searches. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic
+  neighborhood.'
+limitations:
+- The factorial base measure is essential to the unrestricted finite-parameter normalization result. Removing
+  it or changing support requires a new validity analysis. No statement about infinite graphs or unbounded
+  parameter limits follows.
+- The conditional normalizer is generally an infinite sum, and existence alone does not certify any cutoff
+  or numerical approximation. exp(eta_i) is not its general conditional mean.
+- The direct factorial-domination argument avoids treating the paper’s directional summations as a complete
+  change-of-measure proof. It is a curator derivation consistent with the stated finite-parameter model,
+  not an empirical reproduction.
+- The graph is finite and Phi is symmetric; an off-diagonal matrix entry contributes twice in the quadratic
+  form. Separately estimated node regressions need not agree on one symmetric joint parameterization.
+- The node conditionals usually have two sufficient statistics and differ from the original univariate
+  base family. A base-family name is not a claim about every conditional or marginal distribution, and
+  an edge parameter is not a universal marginal-correlation or causal-effect statement.
+- The printed radial formulas omit the Jacobian needed to interpret x=z*v as a change of continuous coordinates.
+  In p dimensions the L1-radius transformation contributes z^(p-1); a bare ray kernel is not generally
+  the radius distribution. Discrete directions require a counting-measure treatment. The normalization
+  arguments stated here use direct joint domination instead.
+- The paper proposes nodewise l1-penalized fitting, numerical conditional partitions and annealed importance
+  sampling. Model existence does not establish finite-data graph recovery, sampler mixing, numerical accuracy
+  or optimizer convergence; no author code, empirical fitting or benchmark was reproduced.
+- Reported synthetic and airport-delay experiments are contextual. The paper’s synthetic description prints
+  a positive diagonal while calling the matrix negative definite, an inconsistent sign convention that
+  must be resolved before reproducing that generator. Airport associations and fitted likelihoods do not
+  establish causal effects or held-out predictive performance.
+id: AIMech:PoissonSquareRootGraphicalModel
+aliases:
+- Poisson SQR
+- Poisson square root Markov random field
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, PDF pp. 3–4, joint and node-conditional definitions; Section 4.2, p. 7, Poisson
+    SQR and unrestricted finite-parameter normalization; Section 2, pp. 2–3, comparison with modified
+    Poisson fields
+  relation: supports
+- source_id: supplement
+  locator: Appendix B, supplemental PDF p. 2, Poisson tail comparison and gamma-ratio asymptotic
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For X_i in {0,1,...}, a finite symmetric matrix Phi and finite theta, define p(x)=Z^(-1)*exp[sum_i
+    theta_i*sqrt(x_i)+sum_i Phi_ii*x_i+2*sum_(i<j) Phi_ij*sqrt(x_i*x_j)-sum_i log(x_i!)]. The full conditional
+    at i is proportional to exp[Phi_ii*k+eta_i*sqrt(k)]/k!, k>=0, where eta_i=theta_i+2*sum_(j!=i) Phi_ij*sqrt(x_j).
+    All finite parameters are admissible on a finite graph. To see this directly, use 2*sqrt(x_i*x_j)<=x_i+x_j
+    and sqrt(x_i)<=1+x_i to bound the parameter-dependent exponent by C+sum_i d_i*x_i for finite C,d_i.
+    The joint kernel is then bounded by exp(C)*product_i exp(d_i*x_i)/x_i!, whose sum is exp(C+sum_i exp(d_i)).
+    For theta=0 and diagonal Phi, the independent Poisson means are exp(Phi_ii). For nonzero eta_i the
+    conditional is generally not an ordinary Poisson law.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, PDF pp. 3–4, joint and node-conditional definitions; Section 4.2, p. 7, Poisson
+      SQR and unrestricted finite-parameter normalization; Section 2, pp. 2–3, comparison with modified
+      Poisson fields
+    relation: supports
+  - source_id: supplement
+    locator: Appendix B, supplemental PDF p. 2, Poisson tail comparison and gamma-ratio asymptotic
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Square Root Graphical Models: Multivariate Generalizations of Univariate Exponential Families
+    that Permit Positive Dependencies'
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/inouye16.pdf
+  version: ICML 2016, PMLR 48:2445–2453; official nine-page proceedings PDF. All nine PDF pages, all five
+    figures and the bibliography visually read; extracted text of PDF pages 6 and 7 also read. Locators
+    use PDF pages because printed page numbers are not visible. The separately downloaded author version
+    is comparison context, not substituted for this hashed proceedings file.
+  access_level: full_text
+  accessed_at: '2026-10-11T22:33:38Z'
+  sha256: e864091d4bed528de7d855d66f63fe667138690d075a339f8562f6413783b7a7
+- source_id: supplement
+  title: Square Root Graphical Models — Supplementary Material
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/inouye16-supp.pdf
+  version: 'Official two-page ICML 2016 supplement; both pages visually read. Appendix A reverses the
+    main text’s eta1/eta2 roles: its eta1 multiplies the square root and eta2 the linear term. Some expressions
+    call raw integrals log partitions. Locators and formulas in the records keep explicit conventions.'
+  access_level: full_text
+  accessed_at: '2026-10-11T22:33:40Z'
+  sha256: 0e6e7115b6dcb209090fa36f0b4fa60f6c8f17c4381f313021af53cb22da0f57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This concept denotes a specified family of joint probability distributions and therefore
+    falls within the broader mathematical representation described by Model. Particular estimation algorithms
+    and data applications do not define its identity.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The construction encodes undirected probabilistic dependencies. The pinned AIO target is
+    task-scoped, so related_match connects the model family to graphical modeling without asserting a
+    model is-a task relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:41:59Z'
+  updated_at: '2026-10-11T22:42:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
