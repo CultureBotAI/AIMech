@@ -1,0 +1,113 @@
+name: Covariance Matrix Adaptation Evolution Strategy
+definition: An evolution strategy for continuous optimization that samples a multivariate normal search
+  distribution and adapts its mean, covariance and global step size from ranked offspring and accumulated
+  selected-step paths.
+concept_kind: algorithm
+identity_notes: This record describes CMA-ES through the 2001 weighted-recombination algorithm and its
+  author-supplied errata. That algorithm’s covariance update is based on a rank-one evolution-path outer
+  product; later rank-mu, active covariance, restart and limited-memory variants are not silently imported.
+  The search distribution is not a predictive model of objective values. Derandomized adaptation does
+  not make offspring sampling deterministic. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 270 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 19 and 19 lines respectively. These
+  were prior candidate leads, source discussions and neighboring DEHB/FABOLAS method mentions. Eight exact
+  AIO CLASS nodes with scoped synonyms and outgoing edges and seven native neighboring mechanisms were
+  inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- This is a source-specific account of the 2001 algorithm, not an exact implementation contract for all
+  contemporary CMA-ES software. Its positive recombination weights, rank-one covariance update and cumulative
+  step-size rule are distinguished from later extensions. The author errata qualify the default weight
+  formula when the selected-parent count exceeds half the offspring population and revise a suggested
+  ordering of cumulation parameters.
+- Initial mean and step size matter. Weak, noisy or selection-irrelevant feedback and numerical conditioning
+  can impair covariance adaptation or collapse short search directions. Full covariance storage grows
+  quadratically with dimension; eigendecomposition and expensive function evaluations add computational
+  costs.
+- Constraint handling and termination require explicit choices. The paper discusses resampling feasible
+  offspring but cautions about boundary optima. Ranking and distribution adaptation do not guarantee a
+  global optimum, monotonic improvement of every generation, or a calibrated inverse-Hessian estimate.
+  No benchmark speedup or author-code execution is asserted.
+id: AIMech:CovarianceMatrixAdaptationEvolutionStrategy
+aliases:
+- CMA-ES
+definition_evidence:
+- source_id: method-source
+  locator: Section4 cumulation, PDF pp.15–18; Section5 and Equations13–17, PDF pp.18–23 (article pp.16–21);
+    prefixed errata PDFp.1; conclusion PDF pp.34–35
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize a search mean, positive global step size, identity covariance and zero evolution
+    paths. Sample a generation of Gaussian offspring with covariance equal to the global step size squared
+    times the covariance matrix. Rank offspring by the minimization objective and recombine the selected
+    best offspring with positive normalized weights to set the next mean. Accumulate a normalized selected
+    mean displacement into a covariance evolution path. In the inspected 2001 procedure, blend the old
+    covariance with the outer product of that path. Accumulate a separate path with covariance scaling
+    removed and adjust the global step size exponentially according to its length relative to the expected
+    length of a standard normal vector. Obtain the covariance axes and scales by eigendecomposition for
+    subsequent sampling and repeat under the chosen stopping criterion. No derivatives of the objective
+    are required.
+  evidence:
+  - source_id: method-source
+    locator: Section4 cumulation, PDF pp.15–18; Section5 and Equations13–17, PDF pp.18–23 (article pp.16–21);
+      prefixed errata PDFp.1; conclusion PDF pp.34–35
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Completely Derandomized Self-Adaptation in Evolution Strategies
+  authors:
+  - Nikolaus Hansen
+  - Andreas Ostermeier
+  source_type: primary_paper
+  url: https://www.cmap.polytechnique.fr/~nikolaus.hansen/cmaartic.pdf
+  version: Evolutionary Computation 9(2):159–195, 2001; 39-page author copy with prefixed errata and blank
+    page; article begins at PDFp.3
+  access_level: full_text
+  accessed_at: '2026-10-11T12:07:35Z'
+  sha256: 423664eab4f67c106ccd0fed616bbcaf9bf7faf23c13c917f5af578b1dddba6f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 270 preceding maintained
+    identities, ignored/hidden checkout text, and semantic inspection of eight exact AIO targets plus
+    seven neighboring native mechanisms.
+  rationale: No inspected AIO target captures this general optimization procedure or a defining component.
+    The assessment distinguishes evolutionary language models, learning/training tasks and predictive
+    models from the native algorithm; it is bounded to this pinned vocabulary.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The CLASS definition is a large language model with evolutionary optimization. Its
+      broad related synonym evolutionary algorithms does not make a general continuous optimizer a language
+      model or an exact vocabulary match.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing/training of machine-learning models.
+      General black-box continuous optimization is not inherently model training; an optional application
+      does not establish a necessary mapping.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target denotes building methods that learn from data. These algorithms can optimize
+      arbitrary evaluated functions without a learning task, so shared optimization vocabulary alone is
+      insufficient.
+  - target: AIO:MetaLearning
+    rejection_reason: Adapting a search distribution or optimizer state does not require learning from
+      metadata about machine-learning experiments as in the pinned definition.
+  - target: AIO:ActiveLearning
+    rejection_reason: Candidate evaluation is not the defined task of querying labels for data points.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A possible policy-search application does not turn the general optimizer into the
+      pinned learning task; no environment/reward-policy interface is inherent to the full identity.
+  - target: AIO:RandomForest
+    rejection_reason: Population members and search distributions are not a predictive decision-tree ensemble;
+      no random-forest surrogate is required.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias concept, not the optimizer. Possible evaluation or sampling problems
+      are limitations rather than identity mappings.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:18:29Z'
+  updated_at: '2026-10-11T12:18:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

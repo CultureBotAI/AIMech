@@ -1,0 +1,116 @@
+name: Natural Evolution Strategies
+definition: A family of black-box optimization algorithms that adapts a parameterized search distribution
+  using estimates of the natural gradient of expected fitness with respect to the distribution parameters.
+concept_kind: algorithm
+identity_notes: NES is the shared natural-gradient search-distribution framework, not a single Gaussian
+  implementation, a trained neural network or ordinary stochastic gradient descent on model weights. Its
+  canonical method differentiates the search distribution’s log density, not the black-box objective itself.
+  Exponential NES and separable NES are concrete variants with additional parameterization and computational
+  choices; the framework record does not equate them. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 270 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 19 and 19 lines respectively.
+  These were prior candidate leads, source discussions and neighboring DEHB/FABOLAS method mentions. Eight
+  exact AIO CLASS nodes with scoped synonyms and outgoing edges and seven native neighboring mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The score identity and Fisher construction require suitable regularity, integrability and a usable parameterization.
+  The empirical Fisher matrix can be singular or numerically unstable even when the population Fisher
+  is invertible; a small batch does not automatically support the displayed inverse.
+- Natural-gradient invariance describes the local direction under the appropriate exact metric. It is
+  not an assertion that every finite, sampled parameter update is invariant under arbitrary reparameterization,
+  stays in a valid distribution domain or improves expected fitness. Variant-specific parameterizations
+  and learning rates matter.
+- Rank-based shaping changes the weighting criterion; its update should not be described as an unbiased
+  estimate of the raw expected-fitness gradient in general. A Gaussian search distribution, exponential
+  covariance update and adaptation sampling are not mandatory features of every NES family member.
+- Only the declared method and discussion pages were inspected. The record does not certify every displayed
+  variant formula, an executable xNES/SNES implementation, universal benchmark superiority or a finite-budget
+  global optimum.
+id: AIMech:NaturalEvolutionStrategies
+aliases:
+- NES
+definition_evidence:
+- source_id: method-source
+  locator: Sections1.2 and2–2.3, PDF pp.3–10 (printed951–958), especially Equations1–5 and Algorithm3;
+    fitness shaping in Section3.1, pp.10–11; variants and scope in Sections3.3–3.4, pp.13–16; discussion
+    pp.27–28
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Draw candidate points from a parameterized search distribution and evaluate their fitness.
+    Compute the log-density derivative, or score, of each sample with respect to distribution parameters.
+    In the canonical raw-fitness formulation, estimate the expected-fitness gradient by averaging score
+    vectors weighted by fitness. Obtain the Fisher information of the distribution, analytically when
+    available or through score outer products, and use its inverse action to transform the search gradient
+    into a natural-gradient direction. Update the distribution parameters with a chosen learning rate
+    and repeat. The paper additionally describes rank-based fitness shaping, which replaces raw fitness
+    by ordered utility weights, and specialized distribution parameterizations that avoid a literal general
+    Fisher-matrix inversion.
+  evidence:
+  - source_id: method-source
+    locator: Sections1.2 and2–2.3, PDF pp.3–10 (printed951–958), especially Equations1–5 and Algorithm3;
+      fitness shaping in Section3.1, pp.10–11; variants and scope in Sections3.3–3.4, pp.13–16; discussion
+      pp.27–28
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Natural Evolution Strategies
+  authors:
+  - Daan Wierstra
+  - Tom Schaul
+  - Tobias Glasmachers
+  - Yi Sun
+  - Jan Peters
+  - Jürgen Schmidhuber
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume15/wierstra14a/wierstra14a.pdf
+  version: JMLR 15(27):949–980, 2014; 32-page journal PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T12:07:35Z'
+  sha256: 80ec84951836e76f3db0ce5d245d73ceecf8b233069cca387ed97f157bae08d6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 270 preceding maintained
+    identities, ignored/hidden checkout text, and semantic inspection of eight exact AIO targets plus
+    seven neighboring native mechanisms.
+  rationale: No inspected AIO target captures this general optimization procedure or a defining component.
+    The assessment distinguishes evolutionary language models, learning/training tasks and predictive
+    models from the native algorithm; it is bounded to this pinned vocabulary.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The CLASS definition is a large language model with evolutionary optimization. Its
+      broad related synonym evolutionary algorithms does not make a general continuous optimizer a language
+      model or an exact vocabulary match.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing/training of machine-learning models.
+      General black-box continuous optimization is not inherently model training; an optional application
+      does not establish a necessary mapping.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target denotes building methods that learn from data. These algorithms can optimize
+      arbitrary evaluated functions without a learning task, so shared optimization vocabulary alone is
+      insufficient.
+  - target: AIO:MetaLearning
+    rejection_reason: Adapting a search distribution or optimizer state does not require learning from
+      metadata about machine-learning experiments as in the pinned definition.
+  - target: AIO:ActiveLearning
+    rejection_reason: Candidate evaluation is not the defined task of querying labels for data points.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A possible policy-search application does not turn the general optimizer into the
+      pinned learning task; no environment/reward-policy interface is inherent to the full identity.
+  - target: AIO:RandomForest
+    rejection_reason: Population members and search distributions are not a predictive decision-tree ensemble;
+      no random-forest surrogate is required.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias concept, not the optimizer. Possible evaluation or sampling problems
+      are limitations rather than identity mappings.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:18:29Z'
+  updated_at: '2026-10-11T12:18:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,110 @@
+name: Differential Evolution
+definition: A population-based continuous optimization method that generates trial vectors using scaled
+  differences between population members, combines mutant and target coordinates, and selects replacements
+  through target-trial objective comparisons.
+concept_kind: algorithm
+identity_notes: This record denotes differential evolution, with the 1997 DE/rand/1/bin procedure as its
+  explicitly inspected core. Mutation/crossover variants are distinguished by the source’s DE/x/y/z notation
+  rather than treated as identical executable rules. It differs from generic genetic algorithms, a fitted
+  Gaussian search distribution, objective-gradient descent, and DEHB’s additional budget-specific populations
+  and Hyperband scheduling. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 270 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 19 and 19 lines respectively. These were prior candidate
+  leads, source discussions and neighboring DEHB/FABOLAS method mentions. Eight exact AIO CLASS nodes
+  with scoped synonyms and outgoing edges and seven native neighboring mechanisms were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The prose specifies replacement for a strictly smaller objective, whereas the displayed C-style Figure3
+  uses <=. The tie policy must therefore be identified when implementing or comparing versions; these
+  source statements are not treated as identical code. A forced mutant coordinate need not change its
+  numerical value.
+- DE/rand/1/bin needs at least four population members for its distinct-index rule. Difference-vector
+  proposals can leave the initialization range; that range is not a hard feasible-domain boundary. Bound
+  repair, general constraint handling, noise treatment and categorical encodings are additional choices.
+- The method uses function evaluations, not derivatives of the objective. Population collapse can eliminate
+  difference-vector variation, and finite-budget greedy selection does not certify a global optimum. The
+  source’s control-variable suggestions and comparative results are empirical, not universal guarantees
+  or reproduced experiments.
+id: AIMech:DifferentialEvolution
+aliases:
+- DE
+definition_evidence:
+- source_id: method-source
+  locator: Section2, PDF pp.3–7 (printed343–347), especially Equations2–4 and Figure3; Section4, PDF pp.16–17;
+    Section5, PDF pp.17–18
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a fixed-size population of real-valued vectors. In the inspected DE/rand/1/bin scheme,
+    for each target select three mutually distinct current-generation population indices that also differ
+    from the target index. Add a scaled difference of two selected vectors to the third to form a mutant.
+    Build a trial by independently choosing mutant or target coordinates according to the crossover probability,
+    forcing one randomly selected coordinate to come from the mutant. Evaluate the trial and use a greedy
+    comparison against its target to choose the next-generation member. Complete all target comparisons
+    using the old population before replacing it with the next population. Repeat until the configured
+    stopping criterion is met. Population size, mutation scale, crossover probability and initialization
+    are configuration choices.
+  evidence:
+  - source_id: method-source
+    locator: Section2, PDF pp.3–7 (printed343–347), especially Equations2–4 and Figure3; Section4, PDF
+      pp.16–17; Section5, PDF pp.17–18
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Differential Evolution – A Simple and Efficient Heuristic for Global Optimization over Continuous
+    Spaces
+  authors:
+  - Rainer Storn
+  - Kenneth Price
+  source_type: primary_paper
+  url: https://groups.csail.mit.edu/EVO-DesignOpt/pb/uploads/Site/differentialEv.pdf
+  version: Journal of Global Optimization 11:341–359, 1997; 19-page article hosted by MIT CSAIL
+  access_level: full_text
+  accessed_at: '2026-10-11T12:07:35Z'
+  sha256: d8bd6c0f8030790d9d172076b57119bc94fd861bbca79c94ae6b680363239f12
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 270 preceding maintained
+    identities, ignored/hidden checkout text, and semantic inspection of eight exact AIO targets plus
+    seven neighboring native mechanisms.
+  rationale: No inspected AIO target captures this general optimization procedure or a defining component.
+    The assessment distinguishes evolutionary language models, learning/training tasks and predictive
+    models from the native algorithm; it is bounded to this pinned vocabulary.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The CLASS definition is a large language model with evolutionary optimization. Its
+      broad related synonym evolutionary algorithms does not make a general continuous optimizer a language
+      model or an exact vocabulary match.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing/training of machine-learning models.
+      General black-box continuous optimization is not inherently model training; an optional application
+      does not establish a necessary mapping.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target denotes building methods that learn from data. These algorithms can optimize
+      arbitrary evaluated functions without a learning task, so shared optimization vocabulary alone is
+      insufficient.
+  - target: AIO:MetaLearning
+    rejection_reason: Adapting a search distribution or optimizer state does not require learning from
+      metadata about machine-learning experiments as in the pinned definition.
+  - target: AIO:ActiveLearning
+    rejection_reason: Candidate evaluation is not the defined task of querying labels for data points.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A possible policy-search application does not turn the general optimizer into the
+      pinned learning task; no environment/reward-policy interface is inherent to the full identity.
+  - target: AIO:RandomForest
+    rejection_reason: Population members and search distributions are not a predictive decision-tree ensemble;
+      no random-forest surrogate is required.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias concept, not the optimizer. Possible evaluation or sampling problems
+      are limitations rather than identity mappings.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:18:29Z'
+  updated_at: '2026-10-11T12:18:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
