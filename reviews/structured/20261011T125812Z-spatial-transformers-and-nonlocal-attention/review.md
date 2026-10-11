@@ -1,0 +1,772 @@
+# Scientific self-review of spatial transformers and non-local attention
+
+- Review: 20261011T125812Z-spatial-transformers-and-nonlocal-attention
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T12:54:21Z
+- Finished UTC: 2026-10-11T12:58:12Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Spatial Transformer, Residual Attention Network and Non-local block with explicit component/architecture boundaries, source conventions, invariance limits and mappings. No actionable record defect was found in this scope.
+
+## Scope And Provenance
+
+All fields of the three newly maintained geometric and attention concepts.
+
+Selection: Exact three IDs in the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base e877bd2a76491c90b93bd108fcbebe924edca27e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SpatialTransformer | data/curated/SpatialTransformer.yaml | maintained | Spatial Transformer |
+| AIMech:ResidualAttentionNetwork | data/curated/ResidualAttentionNetwork.yaml | maintained | Residual Attention Network |
+| AIMech:NonLocalBlock | data/curated/NonLocalBlock.yaml | maintained | Non-local block |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SpatialTransformer, AIMech:ResidualAttentionNetwork, AIMech:NonLocalBlock | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 58.42s<br>Checked 442 record(s); 0 failed.<br>Checked 285 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 70 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 68,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SpatialTransformer, AIMech:ResidualAttentionNetwork, AIMech:NonLocalBlock | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| Finite geometric, residual and pairwise aggregation calculations | passed | True | AIMech:SpatialTransformer, AIMech:ResidualAttentionNetwork, AIMech:NonLocalBlock | {"spatial_sampler": {"bilinear_weights": [0.30000000000000004, 0.1, 0.44999999999999996, 0.15], "output": 2.6, "input_element_derivative": 0.29999999995311555, "sum_of_all_weights": 1.0, "source_ramp_samples_at_positive_half_pixel_offset": [0.5, 1.5], "nearest_neighbor_local_difference": 0, "interpretation": "A fixed input element has its own coefficient; target coordinates select source samples; nearest sampling can have zero local coordinate response."}, "channel_alignment": {"original_channel_sums": [1, 0], "transformed_channel_sums": [0, 1], "interpretation": "A shared spatial permutation cannot restore changed channel identities; this is a finite example, not the full general invariance theorem."}, "residual_attention": {"one_plus_mask_times_trunk": 3.5999999999999996, "input_plus_mask_times_trunk": 1.6, "zero_mask_output": 3.0, "fixed_mask_trunk_derivative": 1.2, "interpretation": "The skip preserves trunk features and does not suppress a fixed-mask trunk gradient below one."}, "nonlocal": {"raw_dot_weights": [2.0, -1.0], "softmax_weights": [0.9975273768433653, 0.0024726231566347748], "raw_dot_aggregate": 5.0, "softmax_aggregate": 1.992582130530096, "zero_scale_nonzero_offset_branch": 0.5, "interpretation": "Count-normalized raw dot products need not be probabilities or convex averages; zero normalization scale alone does not cancel a nonzero offset."}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:SpatialTransformer.
+
+This record denotes the 2015 spatial-transformer module, composed of localization, grid generation and sampling. A spatial transformer network contains one or more such components; it is not a single fixed classifier or checkpoint. This geometric sampler is distinct from the later token-attention Transformer architecture and from multiplying a feature map by a spatial gate. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 2 and 2 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+A localization network reads the input tensor and predicts parameters of a configured spatial transformation. A grid generator applies that transformation to regular output-grid coordinates to obtain source sampling coordinates in the input. The paper illustrates a six-parameter 2D affine transform, while allowing other differentiable parameterizations. A sampler interpolates the input at the generated coordinates, using the same spatial warp for every channel; output height and width are configured separately from input size. With bilinear sampling, weighted neighboring pixels determine each output value and piecewise derivatives pass the task loss through the sampling coordinates and transformation parameters to the localization network. The module can therefore be trained jointly using the surrounding task objective, without requiring separate transformation labels in the source setup. Transformation type, localization network, sampler and placement are choices. A spatial transformer that acts identically on all feature channels cannot generally align feature maps of a transformed image with those of the original. The later analysis identifies changes in channel responses and receptive-field geometry as obstacles even under ideal pose prediction. It distinguishes translation-covariant features and special invariant-feature cases, and does not deny that a network can benefit or achieve some invariant classification by other means. The broader rigorous proof referenced by that paper was not inspected. Limits: The transformation maps output-grid coordinates to source sample locations; reversing this direction changes the operation. Coordinate normalization, pixel-center convention and boundary treatment must be specified for executable reproduction. The paper’s compact formulas are not a guarantee that every framework uses identical sampling conventions. The printed Equation6 retains sums over n,m in a derivative with respect to a particular input element U_nm. For a fixed element, the derivative is its own interpolation coefficient; the record follows the forward bilinear expression rather than copying that inconsistent displayed derivative. No author-issued erratum is asserted. Bilinear sampling is piecewise differentiable; integer nearest-neighbor sampling has zero coordinate derivative almost everywhere and is not interchangeable as a useful localization-gradient mechanism. Cropping, out-of-bounds samples and small-support downsampling can lose information or cause aliasing. Learnability does not guarantee a correct canonical pose or invertibility. A shared spatial warp cannot generally undo changes across feature channels or receptive fields caused by rotating or scaling the input. Translation-covariant or specially invariant features are qualified exceptions. Failure of feature-map alignment does not prove that every downstream classifier lacks invariance or that spatial transformers cannot help. The source’s parallel-module construction has a configured number of attended outputs; it does not establish unlimited object discovery, universal accuracy improvement or negligible runtime on all systems. No author implementation or model was executed.
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:ResidualAttentionNetwork.
+
+This record covers the 2017 architecture with its canonical mixed sigmoid masks and attention residual learning. It is a network construction rather than a single attention block, trained model or generic ResNet. Named depths such as Attention-56 and Attention-92 configure this architecture; constrained channel/spatial mask variants are not silently substituted for the selected mixed-mask procedure. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 2 and 2 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Stack attention modules at successive network stages. Within a module, a trunk branch computes convolutional features while a mask branch pools down to broader context and upsamples through a top-down path, with skip connections between scales. The source uses max pooling, bilinear interpolation, intermediate feature-processing units, two final 1-by-1 convolutions and an elementwise sigmoid to form a mask matching the trunk tensor in spatial positions and channels. Combine them as one-plus-mask multiplied elementwise by the trunk output. This retains the trunk signal when the mask approaches zero while allowing input-dependent relative emphasis. The source composes these modules with feature-processing units and a classifier; numbers of modules, stage widths, branch depths and basic units are architecture choices. The bottom-up/top-down process is implemented in a single feedforward computation, not an iterative recurrent feedback loop. Limits: Attention residual learning uses (1+M)*T, not raw-input addition x+M*T and not the naive product M*T. A near-zero mask preserves the trunk output T, which need not equal the module input x. Residual units within the trunk are a separate architectural choice. For the selected sigmoid mask, one-plus-mask lies between one and two for finite real logits. Immediate trunk magnitudes are therefore not attenuated; noise suppression in the source is a relative or network-level interpretation. The source’s L2-normalized channel-mask variant does not necessarily obey these sigmoid bounds. The gradient formula with factor M in Equation2 describes the naive product. For fixed mask and separate trunk parameters, the residual formulation instead has factor1+M. It does not by itself prevent an erroneous-label gradient or guarantee robustness, gradient stability or monotonically improving accuracy with depth. Masks are learned feature weights, not calibrated object probabilities or causal explanations. The paper’s classification and noisy-label experiments have specific conditions; detection/segmentation are proposed follow-up applications. No benchmark superiority, unlimited depth or author-code execution is asserted.
+
+### Identity, definition, mechanism, source conventions and AIO relations
+
+evidence: supported. Targets: AIMech:NonLocalBlock.
+
+This record denotes the residual non-local block introduced in the 2018 paper, not an entire non-local network, classical non-local-means denoiser, fixed dense layer or a particular trained video classifier. Its operator family includes softmax and non-softmax pairwise functions; an embedded-Gaussian instance overlaps self-attention without making every family member identical to a Transformer layer. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 2 and 2 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+At each output position, evaluate a pairwise scalar function between that position and source positions across space, time or spacetime. Use those scalars to aggregate learned value embeddings of source features, with a normalizer chosen for the pairwise function. The paper’s Gaussian and embedded-Gaussian variants exponentiate dot products and normalize each query over source positions, yielding softmax weights. Its raw embedded dot-product and ReLU-on-concatenated-embeddings variants divide by the number of source positions instead. Project the aggregate back to the input channel count and add the original feature at the output position. A zero residual branch can initialize the block as identity. The source reduces embedding width and optionally max-pools the projected source branches to reduce pairwise work while retaining the output query grid; this changes the sampled context but retains long-range aggregation. Limits: Non-softmax weights need not sum to one, and raw dot-product weights can be negative. Their aggregate need not be a convex average or calibrated attention distribution. The paper’s Gaussian terminology refers to its exponential dot-product formula, not a required Euclidean radial-basis kernel. The embedded-Gaussian formula lacks an explicit inverse-square-root dimension factor and is not a complete multi-head Transformer architecture. Subsampling projected source branches does not generally reproduce the full-resolution all-pairs result or commute with projection and pooling. Zero output projection in the stated residual formula gives identity only when all residual contributions vanish. In the source’s batch-normalized implementation, zero scale also needs zero offset to make the branch zero; later training changes this state. Explicit pairwise computation can require a query-by-source matrix and becomes expensive at high resolution. Bottleneck width, subsampling, placement and the chosen implementation determine costs; global reach does not imply linear complexity or universal speedup. No benchmark replication, source-code execution or proof of causal interpretability is asserted.
+
+### Coordinate direction, sampling derivatives and feature-map invariance
+
+consistency: supported. Targets: AIMech:SpatialTransformer.
+
+Retain the 2015 geometric sampling module.
+
+Localization parameters map output grid points to source sampling positions, with the same warp across channels. Bilinear coefficients and piecewise coordinate derivatives do not justify the printed summed fixed-element derivative or useful nearest-neighbor gradients. The later analysis limits general feature-map alignment, with explicit translation/invariant-feature exceptions; it does not prove absence of every possible invariant classifier. Aliasing, learned pose and implementation conventions remain qualified.
+
+### Stacked architecture, mask geometry and trunk-preserving residual gates
+
+consistency: supported. Targets: AIMech:ResidualAttentionNetwork.
+
+Retain the original mixed-mask convolutional architecture.
+
+The mask branch computes full channel/spatial gates through downsampling and upsampling in a single feedforward graph. The core output is (1+M)*T, not x+M*T or M*T. It preserves trunk features at zero mask and its fixed-mask trunk derivative is 1+M. Source noisy-label interpretations do not provide a general gradient-suppression guarantee. The source channel-normalized variant does not automatically inherit sigmoid bounds. Depth and basic-unit choices are configurations rather than separate trained-model records.
+
+### Pairwise function, normalization and residual/subsampling scope
+
+consistency: supported. Targets: AIMech:NonLocalBlock.
+
+Retain the residual non-local block family.
+
+Softmax over embedded dot products is one instance; raw dot-product and concatenation functions use count normalization. Signed raw weights can produce an aggregate outside the value convex hull. Residual initialization must cancel all branch contributions, including offsets. Projected source pooling changes context and is not exact full-resolution aggregation. A generic Layer broad match and a qualified AttentionLayer relation preserve these variant boundaries.
+
+### Component versus architecture and geometric versus token attention
+
+grounding: supported. Targets: AIMech:SpatialTransformer, AIMech:ResidualAttentionNetwork, AIMech:NonLocalBlock.
+
+Retain distinct components and architecture with explicit broad and related mappings.
+
+Spatial Transformer and Non-local block map broadly to Layer. Residual Attention Network maps broadly to DeepConvolutionalNetwork and relates to ResidualNeuralNetwork, preserving the different attention-residual expression. Non-local block relates to AttentionLayer only through its embedded-dot-product softmax instance. Ten exact AIO nodes were inspected: TransformerLanguageModel denotes token attention; the named TransformerNetwork and its broad attention wording do not establish identity with the 2015 geometric sampler; SpatialRegression models spatial relationships rather than defining this component; convolutional/dense/pooling layers are ingredients, not equivalent composite mechanisms. Five native neighbors distinguish channel/spatial gates, exact attention computation and post-hoc localization.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:SpatialTransformer, AIMech:ResidualAttentionNetwork, AIMech:NonLocalBlock. Geometric resampling, a stacked residual-attention architecture and a global pairwise residual block differ in transformation and abstraction level. The words attention and transformer, residual notation and shared benchmarks do not establish equivalence.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T125415Z-spatial-transformers-and-nonlocal-attention.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 282 preceding native IDs/names/aliases, including candidate-internal normalized uniqueness. No identity match was found. Full-checkout fixed-string searches included ignored/hidden files and returned 2 worktree and 2 main lines; every hit was a candidate or related-variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Ten exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection | supports | Spatial Transformer and Non-local block map broadly to Layer. Residual Attention Network maps broadly to DeepConvolutionalNetwork and relates to ResidualNeuralNetwork, preserving the different attention-residual expression. Non-local block relates to AttentionLayer only through its embedded-dot-product softmax instance. Ten exact AIO nodes were inspected: TransformerLanguageModel denotes token attention; the named TransformerNetwork and its broad attention wording do not establish identity with the 2015 geometric sampler; SpatialRegression models spatial relationships rather than defining this component; convolutional/dense/pooling layers are ingredients, not equivalent composite mechanisms. Five native neighbors distinguish channel/spatial gates, exact attention computation and post-hoc localization. |
+| neighbors | research/discovery/20261011T125415Z-spatial-transformers-and-nonlocal-attention.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Read SE, CBAM, bottleneck attention, FlashAttention and Grad-CAM. Feature recalibration, exact attention computation and gradient-based localization establish boundaries from geometric resampling, a stacked residual-attention architecture and a residual non-local operator family. |
+| finite-conventions | research/discovery/spatial-and-nonlocal-boundaries.py; calculate(): bilinear input derivatives and grid direction, channel-alignment counterexample, trunk preservation and signed versus softmax pairwise aggregation | supports | Original finite examples check bilinear input derivatives, source-coordinate sampling, channel-alignment limits, trunk-preserving residual attention and non-probabilistic raw dot-product aggregation. No author algorithm or model was executed. |
+| spatialtransformer-source-0 | https://proceedings.neurips.cc/paper_files/paper/2015/file/33ceb07bf4eeb3da587e268d663aba1a-Paper.pdf; Section3, Equations1–7 and Figure2, PDF pp.3–5; architecture/aliasing limits Section3.4, PDFp.5; conclusion PDFp.8 | supports | Spatial Transformer Networks. Advances in Neural Information Processing Systems28, 2015; 9-page proceedings PDF. Actual PDF reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+| spatialtransformer-source-1 | https://arxiv.org/pdf/2004.11678v5; SectionII including assumptions and exceptions, PDF pp.2–4; Figures1–2, PDF pp.1,3; SectionV, PDFp.8 | supports | Understanding when spatial transformer networks do not support invariance, and what to do about it. arXiv2004.11678v5, 18 May 2021; 13-page extended author version, with a shortened ICPR2020 publication noted. Actual PDF reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+| residualattentionnetwork-source-0 | https://openaccess.thecvf.com/content_cvpr_2017/papers/Wang_Residual_Attention_Network_CVPR_2017_paper.pdf; Section3 and Sections3.1–3.3, Equations1–6/Figures2–3, PDF pp.3–5 (printed3158–3160); noisy-label discussion Section4.1, PDFp.7; discussion PDFp.8 | supports | Residual Attention Network for Image Classification. CVPR2017, CVF proceedings pp.3156–3164; 9-page PDF. Actual PDF reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+| nonlocalblock-source-0 | https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Non-Local_Neural_Networks_CVPR_2018_paper.pdf; Sections3.1–3.3, Equations1–6 and Figure2, PDF pp.2–4 (printed7795–7797); implementation initialization Section4.1, PDFp.5; conclusion PDFp.8 | supports | Non-local Neural Networks. CVPR2018, pp.7794–7803; 10-page proceedings PDF. Actual PDF reading scopes are declared in the ledger. Source rendering alone does not attest inspection. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared primary and critical-analysis PDF pages were inspected. No training, benchmark or author-code execution was performed.
+- CVF landing-page access failures were followed by successful primary PDF retrieval. Source formula qualifications and invariance exceptions remain explicit. No broader proof audit, code execution or universal efficacy claim is made.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T125812Z-spatial-transformers-and-nonlocal-attention
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of spatial transformers and non-local attention
+started_at: '2026-10-11T12:54:21Z'
+finished_at: '2026-10-11T12:58:12Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all three records
+    against the declared primary methods, rendered pages, a later primary invariance
+    analysis, ten exact AIO nodes, five native neighbors and original finite arithmetic.
+    This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Spatial Transformer, Residual Attention Network and Non-local block
+  with explicit component/architecture boundaries, source conventions, invariance
+  limits and mappings. No actionable record defect was found in this scope.
+source:
+  git_revision: e877bd2a76491c90b93bd108fcbebe924edca27e
+  state: working_tree
+  inputs:
+  - path: data/aio/AttentionLayer.yaml
+    sha256: ace47f724bab8a1aec9f963f7d8121f148134e5bbcce7c23a3a1f62c9c83619b
+    role: context
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/DeepConvolutionalNetwork.yaml
+    sha256: b2be73a895ae3890ca0ba464c1d0de55e41960f33ec53dcab4547abfe1159c62
+    role: context
+  - path: data/aio/DenseLayer.yaml
+    sha256: 28507f5bea308e1fc74242756c40e21dbbd5bab5ed3d8a35e8988be21c7c541e
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/aio/ResidualNeuralNetwork.yaml
+    sha256: 46855f48bc672169007ca212c92ee049f8089e649db9cfa272a3df61fa98ab3e
+    role: context
+  - path: data/aio/SpatialRegression.yaml
+    sha256: 88d7d2d80262e45a56d05abcff674c3240be7ea2799782c64ba7ea1740250a37
+    role: context
+  - path: data/aio/TransformerLanguageModel.yaml
+    sha256: f2640e39684046c54ca6582c5860c9db9b84310ce671b710c2a9f54eda4f02fb
+    role: context
+  - path: data/aio/TransformerNetwork.yaml
+    sha256: fa6c2b7fa53bc85f7d5a202afaaac0071fdb275240fad6421c1c0c9b8abdcb81
+    role: context
+  - path: data/curated/BottleneckAttentionModule.yaml
+    sha256: 465518e5c03eba3a2922b8e5494ebfd5ad945e4dfdfb159f997dc120786500b9
+    role: context
+  - path: data/curated/ConvolutionalBlockAttentionModule.yaml
+    sha256: ece8d0432112916c5f158b484b24e6f316a9c3edfe07233fefeae5b454a96b96
+    role: context
+  - path: data/curated/FlashAttention.yaml
+    sha256: 227618e46e070c5d5aa6f78f8587763b3d1bc739b457adcc0621779c5b89930d
+    role: context
+  - path: data/curated/GradCAM.yaml
+    sha256: 7a6a87057b93ca219687f6707f42ecf05ed8d597c461c6ed7e24c1086a4374e8
+    role: context
+  - path: data/curated/NonLocalBlock.yaml
+    sha256: 180ecca21c251528bc2385e3fd2d687025e4646aff37528070193b76927434c2
+    role: target
+  - path: data/curated/ResidualAttentionNetwork.yaml
+    sha256: 3ad3025b0c489ab95a22a114aaca48256ec08254dadda987ed3da71e4150ebb2
+    role: target
+  - path: data/curated/SpatialTransformer.yaml
+    sha256: 12e13d1c2862dd2a9e2bd983b8b818ec284ea481f090083925b150cd06cbb675
+    role: target
+  - path: data/curated/SqueezeAndExcitationBlock.yaml
+    sha256: e91da402137dfbda2cc38257b36587771d8a9b924488690dfeeb5bf70625fac8
+    role: context
+  - path: research/discovery/20261011T125415Z-spatial-transformers-and-nonlocal-attention.json
+    sha256: 8edddcaf7a02780795921c36acae2e9ac2e6fc443ab535ff917a8be6e039e4b2
+    role: context
+  - path: research/discovery/spatial-and-nonlocal-boundaries.py
+    sha256: 80a505fb472dd3640ca47d5e032343c09f9dd9a63ed2f0639b98c39db8a5d1f7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SpatialTransformer
+  path: data/curated/SpatialTransformer.yaml
+  label: Spatial Transformer
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SpatialTransformer.yaml
+    role: maintained
+- target_id: AIMech:ResidualAttentionNetwork
+  path: data/curated/ResidualAttentionNetwork.yaml
+  label: Residual Attention Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ResidualAttentionNetwork.yaml
+    role: maintained
+- target_id: AIMech:NonLocalBlock
+  path: data/curated/NonLocalBlock.yaml
+  label: Non-local block
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonLocalBlock.yaml
+    role: maintained
+scope:
+  description: All fields of the three newly maintained geometric and attention concepts.
+  selection: Exact three IDs in the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were inspected for boundaries, not a complete new review of
+      the earlier corpus.
+  - target: Unread pages, proofs, outcomes and implementations
+    reason: Only declared primary-source pages, the later invariance-analysis pages
+      and finite curator calculations were inspected. No author code or model was
+      executed.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 58.42s\nChecked 442 record(s); 0 failed.\n\
+    Checked 285 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 70 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 68,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: finite-arithmetic
+  name: Finite geometric, residual and pairwise aggregation calculations
+  command: python3 research/discovery/spatial-and-nonlocal-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"spatial_sampler": {"bilinear_weights": [0.30000000000000004, 0.1, 0.44999999999999996,
+    0.15], "output": 2.6, "input_element_derivative": 0.29999999995311555, "sum_of_all_weights":
+    1.0, "source_ramp_samples_at_positive_half_pixel_offset": [0.5, 1.5], "nearest_neighbor_local_difference":
+    0, "interpretation": "A fixed input element has its own coefficient; target coordinates
+    select source samples; nearest sampling can have zero local coordinate response."},
+    "channel_alignment": {"original_channel_sums": [1, 0], "transformed_channel_sums":
+    [0, 1], "interpretation": "A shared spatial permutation cannot restore changed
+    channel identities; this is a finite example, not the full general invariance
+    theorem."}, "residual_attention": {"one_plus_mask_times_trunk": 3.5999999999999996,
+    "input_plus_mask_times_trunk": 1.6, "zero_mask_output": 3.0, "fixed_mask_trunk_derivative":
+    1.2, "interpretation": "The skip preserves trunk features and does not suppress
+    a fixed-mask trunk gradient below one."}, "nonlocal": {"raw_dot_weights": [2.0,
+    -1.0], "softmax_weights": [0.9975273768433653, 0.0024726231566347748], "raw_dot_aggregate":
+    5.0, "softmax_aggregate": 1.992582130530096, "zero_scale_nonzero_offset_branch":
+    0.5, "interpretation": "Count-normalized raw dot products need not be probabilities
+    or convex averages; zero normalization scale alone does not cancel a nonzero offset."}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T125415Z-spatial-transformers-and-nonlocal-attention.json
+  accessed_at: '2026-10-11T12:54:21Z'
+  support: supports
+  summary: Compared all 442 pinned AIO labels/scoped synonyms and 282 preceding native
+    IDs/names/aliases, including candidate-internal normalized uniqueness. No identity
+    match was found. Full-checkout fixed-string searches included ignored/hidden files
+    and returned 2 worktree and 2 main lines; every hit was a candidate or related-variant
+    lead. Ten exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and
+    five native neighboring mechanisms were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 282 preceding maintained
+    IDs/names/aliases; full checkouts including ignored/hidden files; candidate-internal
+    normalized uniqueness.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Ten exact CLASS nodes and their scoped synonyms/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T12:54:21Z'
+  support: supports
+  summary: 'Spatial Transformer and Non-local block map broadly to Layer. Residual
+    Attention Network maps broadly to DeepConvolutionalNetwork and relates to ResidualNeuralNetwork,
+    preserving the different attention-residual expression. Non-local block relates
+    to AttentionLayer only through its embedded-dot-product softmax instance. Ten
+    exact AIO nodes were inspected: TransformerLanguageModel denotes token attention;
+    the named TransformerNetwork and its broad attention wording do not establish
+    identity with the 2015 geometric sampler; SpatialRegression models spatial relationships
+    rather than defining this component; convolutional/dense/pooling layers are ingredients,
+    not equivalent composite mechanisms. Five native neighbors distinguish channel/spatial
+    gates, exact attention computation and post-hoc localization.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T125415Z-spatial-transformers-and-nonlocal-attention.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T12:54:21Z'
+  support: supports
+  summary: Read SE, CBAM, bottleneck attention, FlashAttention and Grad-CAM. Feature
+    recalibration, exact attention computation and gradient-based localization establish
+    boundaries from geometric resampling, a stacked residual-attention architecture
+    and a residual non-local operator family.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/spatial-and-nonlocal-boundaries.py
+  locator: 'calculate(): bilinear input derivatives and grid direction, channel-alignment
+    counterexample, trunk preservation and signed versus softmax pairwise aggregation'
+  accessed_at: '2026-10-11T12:54:21Z'
+  snapshot_sha256: 80a505fb472dd3640ca47d5e032343c09f9dd9a63ed2f0639b98c39db8a5d1f7
+  support: supports
+  summary: Original finite examples check bilinear input derivatives, source-coordinate
+    sampling, channel-alignment limits, trunk-preserving residual attention and non-probabilistic
+    raw dot-product aggregation. No author algorithm or model was executed.
+- evidence_id: spatialtransformer-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2015/file/33ceb07bf4eeb3da587e268d663aba1a-Paper.pdf
+  locator: Section3, Equations1–7 and Figure2, PDF pp.3–5; architecture/aliasing limits
+    Section3.4, PDFp.5; conclusion PDFp.8
+  accessed_at: '2026-10-11T12:45:24Z'
+  snapshot_sha256: fe27a3a0fafff2be319d4a0b0740cb48491eafe8af710c7d0014233e20601a10
+  support: supports
+  summary: Spatial Transformer Networks. Advances in Neural Information Processing
+    Systems28, 2015; 9-page proceedings PDF. Actual PDF reading scopes are declared
+    in the ledger. Source rendering alone does not attest inspection.
+- evidence_id: spatialtransformer-source-1
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2004.11678v5
+  locator: SectionII including assumptions and exceptions, PDF pp.2–4; Figures1–2,
+    PDF pp.1,3; SectionV, PDFp.8
+  accessed_at: '2026-10-11T12:45:24Z'
+  snapshot_sha256: 770e65b007e72859dd33156b79833f055f1411409f9883904319846469033e02
+  support: supports
+  summary: Understanding when spatial transformer networks do not support invariance,
+    and what to do about it. arXiv2004.11678v5, 18 May 2021; 13-page extended author
+    version, with a shortened ICPR2020 publication noted. Actual PDF reading scopes
+    are declared in the ledger. Source rendering alone does not attest inspection.
+- evidence_id: residualattentionnetwork-source-0
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_cvpr_2017/papers/Wang_Residual_Attention_Network_CVPR_2017_paper.pdf
+  locator: Section3 and Sections3.1–3.3, Equations1–6/Figures2–3, PDF pp.3–5 (printed3158–3160);
+    noisy-label discussion Section4.1, PDFp.7; discussion PDFp.8
+  accessed_at: '2026-10-11T12:45:24Z'
+  snapshot_sha256: 51451a968e818ec2f4b5b21f57eca9ee57901fe91fd29445f38cd05f5a857951
+  support: supports
+  summary: Residual Attention Network for Image Classification. CVPR2017, CVF proceedings
+    pp.3156–3164; 9-page PDF. Actual PDF reading scopes are declared in the ledger.
+    Source rendering alone does not attest inspection.
+- evidence_id: nonlocalblock-source-0
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_cvpr_2018/papers/Wang_Non-Local_Neural_Networks_CVPR_2018_paper.pdf
+  locator: Sections3.1–3.3, Equations1–6 and Figure2, PDF pp.2–4 (printed7795–7797);
+    implementation initialization Section4.1, PDFp.5; conclusion PDFp.8
+  accessed_at: '2026-10-11T12:45:24Z'
+  snapshot_sha256: c593aef4c3bc30f2e84c06a61dc4a4336fac549594dca7fdde2647f41a17b6de
+  support: supports
+  summary: Non-local Neural Networks. CVPR2018, pp.7794–7803; 10-page proceedings
+    PDF. Actual PDF reading scopes are declared in the ledger. Source rendering alone
+    does not attest inspection.
+assessments:
+- assessment_id: spatialtransformer
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:SpatialTransformer
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - spatialtransformer-source-0
+  - spatialtransformer-source-1
+  summary: This record denotes the 2015 spatial-transformer module, composed of localization,
+    grid generation and sampling. A spatial transformer network contains one or more
+    such components; it is not a single fixed classifier or checkpoint. This geometric
+    sampler is distinct from the later token-attention Transformer architecture and
+    from multiplying a feature map by a spatial gate. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 282 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 2 and 2 lines respectively. Every text hit
+    was a prior candidate lead or a closely related variant lead. Ten exact AIO CLASS
+    nodes with scoped synonyms/comments and outgoing edges and five native neighboring
+    mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+  details: 'A localization network reads the input tensor and predicts parameters
+    of a configured spatial transformation. A grid generator applies that transformation
+    to regular output-grid coordinates to obtain source sampling coordinates in the
+    input. The paper illustrates a six-parameter 2D affine transform, while allowing
+    other differentiable parameterizations. A sampler interpolates the input at the
+    generated coordinates, using the same spatial warp for every channel; output height
+    and width are configured separately from input size. With bilinear sampling, weighted
+    neighboring pixels determine each output value and piecewise derivatives pass
+    the task loss through the sampling coordinates and transformation parameters to
+    the localization network. The module can therefore be trained jointly using the
+    surrounding task objective, without requiring separate transformation labels in
+    the source setup. Transformation type, localization network, sampler and placement
+    are choices. A spatial transformer that acts identically on all feature channels
+    cannot generally align feature maps of a transformed image with those of the original.
+    The later analysis identifies changes in channel responses and receptive-field
+    geometry as obstacles even under ideal pose prediction. It distinguishes translation-covariant
+    features and special invariant-feature cases, and does not deny that a network
+    can benefit or achieve some invariant classification by other means. The broader
+    rigorous proof referenced by that paper was not inspected. Limits: The transformation
+    maps output-grid coordinates to source sample locations; reversing this direction
+    changes the operation. Coordinate normalization, pixel-center convention and boundary
+    treatment must be specified for executable reproduction. The paper’s compact formulas
+    are not a guarantee that every framework uses identical sampling conventions.
+    The printed Equation6 retains sums over n,m in a derivative with respect to a
+    particular input element U_nm. For a fixed element, the derivative is its own
+    interpolation coefficient; the record follows the forward bilinear expression
+    rather than copying that inconsistent displayed derivative. No author-issued erratum
+    is asserted. Bilinear sampling is piecewise differentiable; integer nearest-neighbor
+    sampling has zero coordinate derivative almost everywhere and is not interchangeable
+    as a useful localization-gradient mechanism. Cropping, out-of-bounds samples and
+    small-support downsampling can lose information or cause aliasing. Learnability
+    does not guarantee a correct canonical pose or invertibility. A shared spatial
+    warp cannot generally undo changes across feature channels or receptive fields
+    caused by rotating or scaling the input. Translation-covariant or specially invariant
+    features are qualified exceptions. Failure of feature-map alignment does not prove
+    that every downstream classifier lacks invariance or that spatial transformers
+    cannot help. The source’s parallel-module construction has a configured number
+    of attended outputs; it does not establish unlimited object discovery, universal
+    accuracy improvement or negligible runtime on all systems. No author implementation
+    or model was executed.'
+  dimensions:
+  - name: concept-kind
+    value: layer
+    definition: A representation-transforming component or a defined convolutional-network
+      architecture, distinguished from a trained checkpoint or post-hoc explanation
+      algorithm.
+    evidence_ids:
+    - spatialtransformer-source-0
+    - spatialtransformer-source-1
+  - name: aio-relations
+    value: 'broad_match: AIO:Layer'
+    definition: The native concept is a defined representation-transforming component
+      within a neural network, so the generic Layer class has broader scope.
+    evidence_ids:
+    - mapping
+- assessment_id: residualattentionnetwork
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:ResidualAttentionNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - residualattentionnetwork-source-0
+  summary: This record covers the 2017 architecture with its canonical mixed sigmoid
+    masks and attention residual learning. It is a network construction rather than
+    a single attention block, trained model or generic ResNet. Named depths such as
+    Attention-56 and Attention-92 configure this architecture; constrained channel/spatial
+    mask variants are not silently substituted for the selected mixed-mask procedure.
+    No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 2 and
+    2 lines respectively. Every text hit was a prior candidate lead or a closely related
+    variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+    edges and five native neighboring mechanisms were inspected. Absence is bounded
+    to this snapshot and semantic neighborhood.
+  details: 'Stack attention modules at successive network stages. Within a module,
+    a trunk branch computes convolutional features while a mask branch pools down
+    to broader context and upsamples through a top-down path, with skip connections
+    between scales. The source uses max pooling, bilinear interpolation, intermediate
+    feature-processing units, two final 1-by-1 convolutions and an elementwise sigmoid
+    to form a mask matching the trunk tensor in spatial positions and channels. Combine
+    them as one-plus-mask multiplied elementwise by the trunk output. This retains
+    the trunk signal when the mask approaches zero while allowing input-dependent
+    relative emphasis. The source composes these modules with feature-processing units
+    and a classifier; numbers of modules, stage widths, branch depths and basic units
+    are architecture choices. The bottom-up/top-down process is implemented in a single
+    feedforward computation, not an iterative recurrent feedback loop. Limits: Attention
+    residual learning uses (1+M)*T, not raw-input addition x+M*T and not the naive
+    product M*T. A near-zero mask preserves the trunk output T, which need not equal
+    the module input x. Residual units within the trunk are a separate architectural
+    choice. For the selected sigmoid mask, one-plus-mask lies between one and two
+    for finite real logits. Immediate trunk magnitudes are therefore not attenuated;
+    noise suppression in the source is a relative or network-level interpretation.
+    The source’s L2-normalized channel-mask variant does not necessarily obey these
+    sigmoid bounds. The gradient formula with factor M in Equation2 describes the
+    naive product. For fixed mask and separate trunk parameters, the residual formulation
+    instead has factor1+M. It does not by itself prevent an erroneous-label gradient
+    or guarantee robustness, gradient stability or monotonically improving accuracy
+    with depth. Masks are learned feature weights, not calibrated object probabilities
+    or causal explanations. The paper’s classification and noisy-label experiments
+    have specific conditions; detection/segmentation are proposed follow-up applications.
+    No benchmark superiority, unlimited depth or author-code execution is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: A representation-transforming component or a defined convolutional-network
+      architecture, distinguished from a trained checkpoint or post-hoc explanation
+      algorithm.
+    evidence_ids:
+    - residualattentionnetwork-source-0
+  - name: aio-relations
+    value: 'broad_match: AIO:DeepConvolutionalNetwork; related_match: AIO:ResidualNeuralNetwork'
+    definition: The source explicitly constructs a deep convolutional image-recognition
+      network, which fits this broader architecture category. Its learned multiscale
+      attention modules provide the narrower identity. The source uses residual building
+      blocks and relates attention residual learning to ResNet. Its (1+mask)*trunk
+      formulation is not itself an identity skip over the module input, and the framework
+      permits different basic units, so the relationship is not equivalence.
+    evidence_ids:
+    - mapping
+- assessment_id: nonlocalblock
+  area: evidence
+  topic: Identity, definition, mechanism, source conventions and AIO relations
+  outcome: supported
+  target_ids:
+  - AIMech:NonLocalBlock
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - nonlocalblock-source-0
+  summary: This record denotes the residual non-local block introduced in the 2018
+    paper, not an entire non-local network, classical non-local-means denoiser, fixed
+    dense layer or a particular trained video classifier. Its operator family includes
+    softmax and non-softmax pairwise functions; an embedded-Gaussian instance overlaps
+    self-attention without making every family member identical to a Transformer layer.
+    No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 2 and
+    2 lines respectively. Every text hit was a prior candidate lead or a closely related
+    variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+    edges and five native neighboring mechanisms were inspected. Absence is bounded
+    to this snapshot and semantic neighborhood.
+  details: 'At each output position, evaluate a pairwise scalar function between that
+    position and source positions across space, time or spacetime. Use those scalars
+    to aggregate learned value embeddings of source features, with a normalizer chosen
+    for the pairwise function. The paper’s Gaussian and embedded-Gaussian variants
+    exponentiate dot products and normalize each query over source positions, yielding
+    softmax weights. Its raw embedded dot-product and ReLU-on-concatenated-embeddings
+    variants divide by the number of source positions instead. Project the aggregate
+    back to the input channel count and add the original feature at the output position.
+    A zero residual branch can initialize the block as identity. The source reduces
+    embedding width and optionally max-pools the projected source branches to reduce
+    pairwise work while retaining the output query grid; this changes the sampled
+    context but retains long-range aggregation. Limits: Non-softmax weights need not
+    sum to one, and raw dot-product weights can be negative. Their aggregate need
+    not be a convex average or calibrated attention distribution. The paper’s Gaussian
+    terminology refers to its exponential dot-product formula, not a required Euclidean
+    radial-basis kernel. The embedded-Gaussian formula lacks an explicit inverse-square-root
+    dimension factor and is not a complete multi-head Transformer architecture. Subsampling
+    projected source branches does not generally reproduce the full-resolution all-pairs
+    result or commute with projection and pooling. Zero output projection in the stated
+    residual formula gives identity only when all residual contributions vanish. In
+    the source’s batch-normalized implementation, zero scale also needs zero offset
+    to make the branch zero; later training changes this state. Explicit pairwise
+    computation can require a query-by-source matrix and becomes expensive at high
+    resolution. Bottleneck width, subsampling, placement and the chosen implementation
+    determine costs; global reach does not imply linear complexity or universal speedup.
+    No benchmark replication, source-code execution or proof of causal interpretability
+    is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: layer
+    definition: A representation-transforming component or a defined convolutional-network
+      architecture, distinguished from a trained checkpoint or post-hoc explanation
+      algorithm.
+    evidence_ids:
+    - nonlocalblock-source-0
+  - name: aio-relations
+    value: 'broad_match: AIO:Layer; related_match: AIO:AttentionLayer'
+    definition: The native concept is a defined representation-transforming component
+      within a neural network, so the generic Layer class has broader scope. The embedded-Gaussian
+      instance computes a softmax of pairwise embedded dot products and is directly
+      related to the pinned dot-product attention layer. The native record also covers
+      non-softmax functions and a residual wrapper, so the relationship is not family-wide
+      equivalence or a forced subclass.
+    evidence_ids:
+    - mapping
+- assessment_id: spatial-boundaries
+  area: consistency
+  topic: Coordinate direction, sampling derivatives and feature-map invariance
+  outcome: supported
+  target_ids:
+  - AIMech:SpatialTransformer
+  evidence_ids:
+  - spatialtransformer-source-0
+  - spatialtransformer-source-1
+  - finite-conventions
+  - neighbors
+  summary: Retain the 2015 geometric sampling module.
+  details: Localization parameters map output grid points to source sampling positions,
+    with the same warp across channels. Bilinear coefficients and piecewise coordinate
+    derivatives do not justify the printed summed fixed-element derivative or useful
+    nearest-neighbor gradients. The later analysis limits general feature-map alignment,
+    with explicit translation/invariant-feature exceptions; it does not prove absence
+    of every possible invariant classifier. Aliasing, learned pose and implementation
+    conventions remain qualified.
+- assessment_id: residual-attention-boundaries
+  area: consistency
+  topic: Stacked architecture, mask geometry and trunk-preserving residual gates
+  outcome: supported
+  target_ids:
+  - AIMech:ResidualAttentionNetwork
+  evidence_ids:
+  - residualattentionnetwork-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the original mixed-mask convolutional architecture.
+  details: The mask branch computes full channel/spatial gates through downsampling
+    and upsampling in a single feedforward graph. The core output is (1+M)*T, not
+    x+M*T or M*T. It preserves trunk features at zero mask and its fixed-mask trunk
+    derivative is 1+M. Source noisy-label interpretations do not provide a general
+    gradient-suppression guarantee. The source channel-normalized variant does not
+    automatically inherit sigmoid bounds. Depth and basic-unit choices are configurations
+    rather than separate trained-model records.
+- assessment_id: nonlocal-boundaries
+  area: consistency
+  topic: Pairwise function, normalization and residual/subsampling scope
+  outcome: supported
+  target_ids:
+  - AIMech:NonLocalBlock
+  evidence_ids:
+  - nonlocalblock-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the residual non-local block family.
+  details: Softmax over embedded dot products is one instance; raw dot-product and
+    concatenation functions use count normalization. Signed raw weights can produce
+    an aggregate outside the value convex hull. Residual initialization must cancel
+    all branch contributions, including offsets. Projected source pooling changes
+    context and is not exact full-resolution aggregation. A generic Layer broad match
+    and a qualified AttentionLayer relation preserve these variant boundaries.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Component versus architecture and geometric versus token attention
+  outcome: supported
+  target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain distinct components and architecture with explicit broad and related
+    mappings.
+  details: 'Spatial Transformer and Non-local block map broadly to Layer. Residual
+    Attention Network maps broadly to DeepConvolutionalNetwork and relates to ResidualNeuralNetwork,
+    preserving the different attention-residual expression. Non-local block relates
+    to AttentionLayer only through its embedded-dot-product softmax instance. Ten
+    exact AIO nodes were inspected: TransformerLanguageModel denotes token attention;
+    the named TransformerNetwork and its broad attention wording do not establish
+    identity with the 2015 geometric sampler; SpatialRegression models spatial relationships
+    rather than defining this component; convolutional/dense/pooling layers are ingredients,
+    not equivalent composite mechanisms. Five native neighbors distinguish channel/spatial
+    gates, exact attention computation and post-hoc localization.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:SpatialTransformer
+  - AIMech:ResidualAttentionNetwork
+  - AIMech:NonLocalBlock
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - spatialtransformer-source-0
+  - spatialtransformer-source-1
+  - residualattentionnetwork-source-0
+  - nonlocalblock-source-0
+  rationale: Geometric resampling, a stacked residual-attention architecture and a
+    global pairwise residual block differ in transformation and abstraction level.
+    The words attention and transformer, residual notation and shared benchmarks do
+    not establish equivalence.
+limitations:
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared primary and critical-analysis PDF pages were inspected. No training,
+  benchmark or author-code execution was performed.
+- CVF landing-page access failures were followed by successful primary PDF retrieval.
+  Source formula qualifications and invariance exceptions remain explicit. No broader
+  proof audit, code execution or universal efficacy claim is made.
+- Three additions and a nonempty inherited/new frontier leave discovery active.
+tags:
+- native-concepts
+- geometric-sampling
+- residual-attention
+- nonlocal-aggregation
+- source-conventions
+- self-review
+- discovery-ongoing
+```
