@@ -1,0 +1,84 @@
+name: Synthetic Minority Over-sampling Technique
+definition: A minority-class oversampling method that generates synthetic labeled feature vectors by interpolating
+  between an observed minority example and selected neighbors from the same class.
+concept_kind: preprocessing_method
+identity_notes: This record denotes the original continuous-feature SMOTE method. It generates training
+  examples rather than fitting a classifier. It differs from replacement sampling, majority undersampling,
+  cross-class input/label mixing in MixUp, and hidden-representation mixing. SMOTE-NC and the proposed
+  nominal-only SMOTE-N extension require separate feature-distance and synthesis rules. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 273 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  18 and 18 lines respectively. Every text hit was a prior candidate lead. Eleven exact AIO CLASS nodes
+  with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The Section4.2 prose and Table1 describe one random scalar per synthetic vector, placing it on a line
+  segment. Pseudocode line21 draws gap inside the attribute loop; independent per-coordinate draws generally
+  produce a point in the coordinatewise rectangle rather than on that segment. The record follows the
+  stated interpolation mechanism and does not certify these descriptions as identical executable code.
+- Interpolation requires a meaningful continuous feature space and suitable neighbor distances. It does
+  not guarantee a new distinct vector, a plausible observation, or a point inside the true minority-class
+  support; identical endpoints and overlap with majority regions can defeat those interpretations.
+- The original paper’s nominal-continuous and nominal-only extensions are distinct from this core method.
+  Sampling percentages and tie/neighbor conventions need implementation choices; the pseudocode is not
+  a complete contract for every modern library.
+- The source discusses possible overlap with majority-class space and results that vary by dataset and
+  learner. Synthetic labels are an inductive assumption, not new observed ground truth, and oversampling
+  does not universally improve minority detection or calibrated probabilities. No comparative performance
+  result is asserted.
+id: AIMech:SyntheticMinorityOversamplingTechnique
+aliases:
+- SMOTE
+definition_evidence:
+- source_id: method-source
+  locator: Section4.2, PDF pp.8–10 (printed328–330), especially Algorithm SMOTE and Table1; Section4.3,
+    PDFp.11; limitations and extensions in Section6, PDF pp.28–32
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For each selected minority-class training example, find a configured number k of nearest
+    neighbors within the minority class and randomly choose neighbors according to the requested oversampling
+    amount. In the prose and Table1 formulation, construct a synthetic vector as the original vector plus
+    a random fraction between zero and one of the neighbor-minus-original vector, retaining the minority-class
+    label. The paper uses k=5 in its implementation, but k and the oversampling amount are parameters.
+    Its pseudocode treats percentages below100 by selecting a random subset of minority examples; higher
+    amounts are expressed as integral multiples of100. Majority-class undersampling is a separately described
+    operation that may be combined with SMOTE, not a required step of synthetic generation.
+  evidence:
+  - source_id: method-source
+    locator: Section4.2, PDF pp.8–10 (printed328–330), especially Algorithm SMOTE and Table1; Section4.3,
+      PDFp.11; limitations and extensions in Section6, PDF pp.28–32
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'SMOTE: Synthetic Minority Over-sampling Technique'
+  authors:
+  - Nitesh V. Chawla
+  - Kevin W. Bowyer
+  - Lawrence O. Hall
+  - W. Philip Kegelmeyer
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/afs/cs.cmu.edu/project/jair/pub/volume16/chawla02a.pdf
+  version: Journal of Artificial Intelligence Research 16:321–357, 2002; 37-page journal PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T12:17:50Z'
+  sha256: 8eece9837dbc7719b42d1c89be2030a5c0d328723612b05cd170d2c83854899f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: broad_match
+  rationale: SMOTE constructs additional minority-class training vectors by transforming existing examples
+    through within-class interpolation. The pinned augmentation class is broader than this particular
+    continuous-feature synthesis procedure; this is a local-to-broader mapping, not identity or an upstream
+    ontology edit.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:27:02Z'
+  updated_at: '2026-10-11T12:27:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
