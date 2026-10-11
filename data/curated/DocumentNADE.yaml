@@ -1,0 +1,119 @@
+name: Document NADE
+definition: A neural autoregressive document model that predicts successive words from shared additive
+  embeddings of the preceding words, using normalized word conditionals and a deterministic document representation.
+concept_kind: architecture
+identity_notes: 'This is Larochelle and Lauly’s original Document NADE. The final construction uses binary-tree
+  word probabilities, with a flat-softmax intermediate derivation. It is inspired by Replicated Softmax
+  but is a separately normalized directed model with deterministic hidden features, not the same undirected
+  latent-variable model. Its full-document representation is invariant to word permutation, while its
+  unsymmetrized sequence probability need not be. Supervised and distributional-prior extensions require
+  separate scope decisions. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 349 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 5 and 5 lines respectively. All 3 unique matched line
+  contents were inspected in full: the prior NADE-variant lead, RNADE source URL and previous review exclusion,
+  not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen
+  exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring
+  records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- Order invariance of the summed document representation does not imply exchangeability of the sequence
+  likelihood. The symmetrized probability of each sequence differs from its count-vector probability by
+  the number of distinct permutations; duplicate words change that number.
+- For a word whose tree path has length L, conditional output work is O(HL). The claimed logarithmic vocabulary
+  scaling requires suitable tree depth or average depth; a full binary tree alone can have linear depth.
+  The record does not assert a logarithmic worst case for every full tree.
+- The main paper’s text below Equation (11) retains vi=1 in the joint product although words are categorical.
+  The curated likelihood uses the observed word and its branch path, consistent with Equations (9) and
+  (11) and the supplement’s probability computation.
+- For Bernoulli tree training, the negative-log-likelihood derivative is the probability of the right
+  branch minus the observed branch indicator. The supplement’s p(actual branch)-indicator notation must
+  not be read literally as the probability of the observed left branch when that indicator is zero. No
+  author implementation behavior is inferred.
+- The stated model is conditional on document length and does not supply a learned document-length distribution.
+  Shared additive prefix features discard order within the observed prefix. Hidden topic features are
+  deterministic representations, not posterior latent-topic probabilities.
+- No classification/retrieval advantage, semantic quality guarantee, exact symmetrized-mixture training
+  gradient or implementation certification is asserted.
+id: AIMech:DocumentNADE
+aliases:
+- DocNADE
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4–4.1, Equations (9)–(12), PDF/printed pp.4–6; Figure 1 and model distinctions, pp.2–4;
+    activation alternatives, Section 6 opening, p.6
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For a document of given length D, form h_i=sigmoid(c+sum_(k<i) W[:,v_k]); the same word
+    embedding and output parameters are reused across positions, and the preactivation is updated by adding
+    the newly observed word’s embedding. A flat softmax can normalize the next-word distribution. The
+    paper’s final model replaces it with a binary tree whose leaves are vocabulary words: each internal
+    node predicts the probability of taking its right branch, and a word probability is the product of
+    its observed left/right branch probabilities. Multiply all observed-word conditionals to obtain a
+    normalized probability over length-D sequences. Train by differentiating their negative log likelihood.
+    After all words, h(v)=sigmoid(c+sum_i W[:,v_i]) is an order-invariant document representation; tanh
+    is also tested. For count-vector input, the paper samples word occurrences without replacement to
+    produce uniformly random distinct orderings and trains on those sequences. Its separate symmetrized
+    sequence model averages probabilities over distinct permutations; training on sampled order log losses
+    is a surrogate for that log mixture. A count-vector probability instead sums the unsymmetrized sequence
+    probabilities over its distinct permutations.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 4–4.1, Equations (9)–(12), PDF/printed pp.4–6; Figure 1 and model distinctions,
+      pp.2–4; activation alternatives, Section 6 opening, p.6
+    relation: supports
+  - source_id: supplement-source
+    locator: Section 1, probability and gradient pseudocode, PDF/printed p.1; branch-gradient notation
+      qualified. Page 2 visualization inspected only at figure/caption level.
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Neural Autoregressive Topic Model
+  authors:
+  - Hugo Larochelle
+  - Stanislas Lauly
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2012/file/b495ce63ede0f4efc9eec62cb947c162-Paper.pdf
+  version: NIPS 2012 proceedings PDF, nine pages, with printed page numbers 1–9 matching PDF pages.
+  persistent_id: https://proceedings.neurips.cc/paper/2012/hash/b495ce63ede0f4efc9eec62cb947c162-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:42:14Z'
+  sha256: 7811d256a50c387c4390ef0be70c656601a3cf7769689339a92647dc6fd88f1d
+- source_id: supplement-source
+  title: 'Supplementary Material: A Neural Autoregressive Topic Model'
+  authors:
+  - Hugo Larochelle
+  - Stanislas Lauly
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2012/file/b495ce63ede0f4efc9eec62cb947c162-Supplemental.zip
+  version: Three-page nips_2012_supplementary_camera_ready.pdf member of the NIPS 2012 Supplemental.zip.
+    The SHA-256 identifies the extracted PDF member; archive SHA-256 is 448690e59ba26ab921dbd78ce054e3098eda0c8ec26649b5ff788f0c91827c72.
+    Printed and PDF page numbers agree.
+  persistent_id: https://proceedings.neurips.cc/paper/2012/hash/b495ce63ede0f4efc9eec62cb947c162-Abstract.html#supplement
+  access_level: full_text
+  accessed_at: '2026-10-11T17:45:32Z'
+  sha256: fa234cf5c16917379b70347d3f6d6f97ca03cac802090c7f22b479c293cfabee
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: For a given length, the observed-word variables have ordered directed conditional factors,
+    giving a fully visible Bayesian network. The AIO target is broader than this shared additive-embedding
+    and tree-output architecture. Deterministic topic features do not add stochastic latent nodes.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The source explicitly develops a probabilistic document/topic representation model, matching
+    the topical-analysis context. The pinned AIO target lies in a task hierarchy and mentions themes and
+    temporal changes, whereas this native identity specifies one architecture without requiring temporal
+    modeling. A related match preserves that abstraction difference without forcing an architecture-to-task
+    subclass or equating hidden features with normalized topic distributions.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:49:48Z'
+  updated_at: '2026-10-11T17:49:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

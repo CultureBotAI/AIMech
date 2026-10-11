@@ -1,0 +1,113 @@
+name: Real-valued neural autoregressive density estimator
+definition: A fully visible neural autoregressive density architecture for real-valued vectors that shares
+  input-to-hidden parameters across ordered scalar conditional mixture-density models.
+concept_kind: architecture
+identity_notes: 'This record denotes Uria, Murray and Larochelle’s original RNADE family. It extends binary
+  NADE by replacing Bernoulli outputs with real-valued mixture conditionals. Deterministic prefix features
+  and NADE-style input sharing distinguish it from separate untied conditional networks and from a stochastic
+  latent RBM. Mixture-of-Gaussians and mixture-of-Laplace outputs are reported variants, not identity
+  aliases for every Gaussian or Laplace mixture. No normalized identity match was found across all 442
+  pinned AIO labels/scoped synonyms and 349 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively.
+  All 3 unique matched line contents were inspected in full: the prior NADE-variant lead, RNADE source
+  URL and previous review exclusion, not existing candidate records. Exact checkout counts and differences
+  are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+  edges and five full native neighboring records were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.'
+limitations:
+- The variable ordering, conditional family, hidden capacity, component count and optimization restrict
+  the fitted density. Exact density evaluation does not make arbitrary missing-variable posterior inference
+  a forward pass or establish data-model agreement.
+- Linear scaling in dimensionality holds with fixed hidden and mixture sizes; it does not omit their cost.
+  The final prefix update is unnecessary, consistent with the declared H by (D-1) input-weight matrix.
+- The supplement labels several log-density derivative formulas as derivatives of p rather than log p.
+  Its Algorithm 2 also uses a log-shaped expression with a positive squared-residual term as if it were
+  a component density in responsibilities, and has prefix/index ambiguities. A literal finite example
+  produces invalid responsibilities. The curated mechanism follows the main-paper normalized densities
+  and prefix equations; this is not a claim about author-code behavior.
+- The experimental standard-deviation gradient rescaling is not the raw likelihood gradient or Newton’s
+  variance scaling. Exponential scales remain susceptible to approaching zero; regularization and model
+  selection matter.
+- No performance ranking, convergence guarantee, exact posterior claim or full executable implementation
+  validation is included.
+id: AIMech:RealValuedNeuralAutoregressiveDensityEstimator
+aliases:
+- RNADE
+- Real-valued autoregressive density estimator
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(8), PDF/printed pp.2–3; training/model-selection context and untied
+    baseline, p.4; limitations discussion, p.8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For an ordered real-valued vector x, evaluate p(x)=product_d p(x_d|x_<d). Start a_1=c and
+    update a_(d+1)=a_d+x_d W[:,d] when another conditional remains. At each position, a learned scalar
+    rho_d rescales the shared prefix preactivation; sigmoid or rectified-linear units produce deterministic
+    hidden features h_d. Separate position-specific output matrices map those features to scalar-mixture
+    parameters. In RNADE-MoG, softmax gives component weights, linear outputs give means, and exponentials
+    give positive standard deviations. Summing the normalized scalar Gaussian components gives each conditional
+    density; multiplying the conditionals yields a normalized joint without a global partition-function
+    estimate. Complete-vector log densities and their derivatives are directly evaluable; prefix recurrence
+    and fixed hidden/component sizes give cost linear in the number of dimensions, with output work O(DHK).
+    Ancestral generation samples each scalar from the mixture conditioned on previously generated values.
+    The experimental mean-output gradient rescaling by component standard deviation is a training heuristic,
+    separate from the exact log-density derivative. The paper also substitutes Laplace mixture conditionals.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(8), PDF/printed pp.2–3; training/model-selection context and
+      untied baseline, p.4; limitations discussion, p.8
+    relation: supports
+  - source_id: supplement-source
+    locator: Density Algorithm 1, p.1; derivative notation, Equations (3)–(18), p.2; Algorithm 2, p.3.
+      Full supplement read; printed inconsistencies are qualified.
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'RNADE: The real-valued neural autoregressive density-estimator'
+  authors:
+  - Benigno Uria
+  - Iain Murray
+  - Hugo Larochelle
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/53adaf494dc89ef7196d73636eb2451b-Paper.pdf
+  version: NIPS 2013 proceedings PDF, nine pages, with printed page numbers 1–9 matching PDF pages. This
+    is the proceedings file, not an unspecified arXiv revision.
+  persistent_id: https://proceedings.neurips.cc/paper/2013/hash/53adaf494dc89ef7196d73636eb2451b-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:42:13Z'
+  sha256: 37ae0b99e5c32bcd542e268fd8b002fd16840e4dafa06cce3e062567072cc7ca
+- source_id: supplement-source
+  title: 'RNADE: The real-valued neural autoregressive density-estimator — Supplementary material'
+  authors:
+  - Benigno Uria
+  - Iain Murray
+  - Hugo Larochelle
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/53adaf494dc89ef7196d73636eb2451b-Supplemental.zip
+  version: Three-page supplement.pdf member of the NIPS 2013 Supplemental.zip. The SHA-256 identifies
+    the extracted PDF member; archive SHA-256 is 773fafd920a51b9a64fb2c59d2f2c1031d3e88ce88e6593ee6806905946811fe.
+    Printed and PDF page numbers agree.
+  persistent_id: https://proceedings.neurips.cc/paper/2013/hash/53adaf494dc89ef7196d73636eb2451b-Abstract.html#supplement
+  access_level: full_text
+  accessed_at: '2026-10-11T17:45:31Z'
+  sha256: 011b51237254fe9551634de5b7f3cc070f1166c821da1612f3eb4749ed9f19d2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: The primary paper explicitly gives the ordered real-valued factorization as a fully visible
+    Bayesian network. The AIO target is broader than this shared-parameter neural mixture-conditional
+    architecture. Hidden neural activations parameterize factors and are not unobserved random variables.
+    A time-series autoregression or language-model label does not define the same identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:49:48Z'
+  updated_at: '2026-10-11T17:49:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
