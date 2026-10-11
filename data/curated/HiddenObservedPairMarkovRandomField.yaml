@@ -1,0 +1,100 @@
+name: Hidden–observed pair Markov random field
+definition: A latent-variable spatial-model family in which each site contains a hidden label and an observation,
+  and their joint paired field has a normalized Gibbs factorization on a specified neighborhood graph,
+  without requiring either marginal field to be Markov on that graph.
+concept_kind: model_family
+identity_notes: This is the hidden–observed process-pair construction called pairwise Markov random fields
+  by Pieczynski and Tebbache. Pairwise denotes Z_s=(X_s,Y_s), not a restriction to two-site clique potentials
+  or the generic pairwise Markov property. The descriptive local label avoids those homonyms. The existing
+  generic MarkovRandomField record does not specify this hidden–observed partition or its conditional-field
+  construction. Classical hidden Markov fields with a Markov label prior and independent site emissions
+  are a constrained special case; pairwise Markov chains and trees impose different graph topologies.
+  No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and
+  391 preceding native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string
+  searches included ignored and hidden files in both worktree and main, yielding 9 and 9 matched lines;
+  all 7 unique contents were read. Hits are prior leads and references, not records of the proposed identities.
+  All 89 semantic label/synonym hits and 21 fully annotated exact AIO CLASS nodes with outgoing edges
+  were read. Twenty-two contextual YAMLs were byte-verified after prior full reading and five freshly
+  read, totaling 21 generated and six native contextual records. Short acronym identities were compared
+  across the complete normalized inventory. Absence is bounded to the pinned source, maintained collection
+  and inspected semantic neighborhood.
+limitations:
+- The definition presupposes a proper joint distribution. For the continuous Gaussian examples, each hidden
+  configuration needs a positive-definite observation precision matrix and a finite joint partition function;
+  positive single-site conditional variances alone do not ensure this.
+- The source’s Gaussian displays contain normalization, completed-square and variance inconsistencies.
+  For a local energy alpha+beta*y+delta*y^2 with delta>0, integrating exp(-energy) gives sqrt(pi/delta)*exp(-alpha+beta^2/(4*delta));
+  its conditional mean is -beta/(2*delta) and variance is 1/(2*delta). Off-diagonal precision makes inverse
+  diagonal precision differ from marginal variance. This record does not certify the printed Gaussian
+  sampling implementation.
+- 'The first eight-neighbor example requires particular caution: under unit diagonal precision and -0.2
+  on each unordered neighbor edge, a 4-by-4 open grid has a negative constant-vector quadratic form. This
+  is a curator calculation under explicit counting and boundary conventions, not a claim about uninspected
+  author code.'
+- Posterior Markov structure is not a guarantee of efficient exact inference on a loopy field, Gibbs mixing,
+  parameter identifiability or a globally optimal segmentation. Per-site marginal modes and a joint maximum-probability
+  configuration are different objectives.
+- Section 5 leaves observation-only parameter estimation through iterative conditional estimation as future
+  work. The synthetic texture illustrations and inconsistent sampling-count caption do not support a universal
+  performance claim.
+- The inspected PDF footer says Machine GRAPHICS & VISION 9(4), 2000, pp.705–718 and its proof header
+  is dated February 13, 2001; the author bibliography and later citations say issue 3. The exact inspected
+  bytes and this discrepancy are retained.
+id: AIMech:HiddenObservedPairMarkovRandomField
+aliases:
+- Pairwise hidden–observed Markov field
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–3.2, printed pp.706–713 / PDF pp.2–9, especially Equations(13)–(22) and Remarks
+    3.2–3.3; Sections 4–5, pp.713–717 / PDF pp.9–13, Gaussian examples and future parameter estimation
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a finite site set and specified undirected neighborhood graph, assign clique energies
+    phi_c(x_c,y_c) and define p(x,y)=Z^(-1)*exp(-sum_c phi_c(x_c,y_c)), with a finite positive partition
+    function. At fixed complete y, the posterior p(x|y) retains clique factors on the same graph; fixing
+    x likewise gives a local conditional observation field. Summing over one field can introduce dependencies
+    beyond that graph, so neither p(x) nor p(y) is required to retain its Markov structure. A classical
+    hidden Markov field p(x)*product_s b_(x_s)(y_s) is recovered by selecting label-clique and site-emission
+    energies. This construction permits spatially correlated observation models without separately specifying
+    a conditional likelihood whose configuration-dependent normalization could destroy locality of the
+    label posterior. Local conditional probabilities support Gibbs sampling of hidden labels and approximation
+    of sitewise posterior marginals; preserving the exact model factorization does not make finite sampling
+    exact.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–3.2, printed pp.706–713 / PDF pp.2–9, especially Equations(13)–(22) and Remarks
+      3.2–3.3; Sections 4–5, pp.713–717 / PDF pp.9–13, Gaussian examples and future parameter estimation
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Pairwise Markov random fields and segmentation of textured images
+  authors:
+  - Wojciech Pieczynski
+  - Abdel-Nasser Tebbache
+  source_type: primary_paper
+  url: https://www-public.imtbs-tsp.eu/~pieczyn/A22.pdf
+  version: 'Author-hosted 14-page proof/journal PDF. Footer: Machine GRAPHICS & VISION 9(4), 2000, pp.705–718;
+    proof header February 13, 2001. Author bibliography cites issue 3. All 14 pages visually read; printed
+    page=PDF page+704.'
+  access_level: full_text
+  accessed_at: '2026-10-11T20:48:48Z'
+  sha256: 6a1094681753eeaa83c164690379c35a5793164d02fe6c10fd6da13d7ec8f8b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The paired field is an undirected graphical probability model. In this AIO snapshot ProbabilisticGraphicalModel
+    is defined and parented as a machine-learning task, so a related mapping records the graphical-model
+    connection without making this model family a subtype of that task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:03:30Z'
+  updated_at: '2026-10-11T21:03:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,98 @@
+name: Triplet Markov field
+definition: A latent-variable spatial-model family that introduces an auxiliary field so the complete
+  hidden, auxiliary and observed triplet has a normalized Gibbs factorization on a specified neighborhood
+  graph, while its hidden–observed projection need not remain Markov on that graph.
+concept_kind: model_family
+identity_notes: The inspected construction uses finite target labels X_s and auxiliary states U_s with
+  observed Y_s, and imposes spatial Markov structure on T_s=(X_s,U_s,Y_s). Triplet refers to three processes
+  at each site, not three-site clique size. A pair field embeds through a constant or redundant auxiliary
+  coordinate; general triplet fields can have projections outside that pair-field family. This is distinct
+  from a triplet Markov chain, a neural hidden layer or an emitted-symbol memory mechanism. No normalized
+  identity match was found across all 442 pinned AIO labels and all scoped synonyms and 391 preceding
+  native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string searches included
+  ignored and hidden files in both worktree and main, yielding 9 and 9 matched lines; all 7 unique contents
+  were read. Hits are prior leads and references, not records of the proposed identities. All 89 semantic
+  label/synonym hits and 21 fully annotated exact AIO CLASS nodes with outgoing edges were read. Twenty-two
+  contextual YAMLs were byte-verified after prior full reading and five freshly read, totaling 21 generated
+  and six native contextual records. Short acronym identities were compared across the complete normalized
+  inventory. Absence is bounded to the pinned source, maintained collection and inspected semantic neighborhood.
+limitations:
+- The augmented joint law must be normalizable and the observed evidence positive. A finite-site Gibbs
+  factorization does not itself make marginal likelihoods, posterior probabilities or sampling computationally
+  easy.
+- Marginalizing U can induce additional interactions; an implementation cannot assume p(X|Y) retains the
+  original local graph. Maximizing over U before choosing X can disagree with summing over U, and sitewise
+  marginal decoding differs from global configuration MAP.
+- The experiments restrict the (X,U) prior to a Potts-style field and use sitewise Gaussian observations.
+  Those restrictions are examples, not defining requirements of every triplet field. Non-Gaussian and
+  broader graphical extensions in the conclusion are follow-up work.
+- ICE is conditional expectation of a complete-data estimator, whereas EM optimizes an expected complete
+  log likelihood. The interchange needed to identify them is not automatic; likelihood monotonicity and
+  global convergence are not guaranteed merely by the ICE name. Gibbs/Metropolis feasibility does not
+  establish exact independent finite samples.
+- The least-squares spatial estimator used in the example is referenced rather than fully derived here.
+  Empty empirical classes, constrained parameter values, initialization and sampling convergence need
+  explicit handling in an implementation.
+- The synthetic examples and one radar-image grouping compare particular fitted or chosen baselines. They
+  do not establish the paper’s broad suggestion of universal superiority, and no numerical performance
+  claim or author-code reproduction is curated.
+id: AIMech:TripletMarkovField
+aliases:
+- TMF
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3.1, PDF pp.2–4, Equations(2.1)–(3.3), Example 3.1 and Remark 3.1; Sections 3.2
+    and 4.1–4.2, PDF pp.4–8, Equation(3.4), ICE steps and Remark 4.1; conclusion PDF p.9
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose clique energies over T=(X,U,Y) on a finite neighborhood graph and normalize p(x,u,y)
+    proportional to exp(-sum_c phi_c(x_c,u_c,y_c)). At observed y, the augmented hidden field V_s=(X_s,U_s)
+    has a Gibbs posterior on that graph, even when the marginalized target posterior p(x|y) does not.
+    Sample or otherwise infer that augmented posterior, then sum p(X_s=x,U_s=u|y) over u at fixed x to
+    obtain the target-site posterior; its maximizer is the sitewise marginal-posterior-mode estimate.
+    The paper illustrates a Markov auxiliary field with local conditionally independent X and Y, and experiments
+    with a more restricted Markov V field and independent Gaussian site observations. Neither p(x,u) nor
+    p(x,y) is required to be Markov in the general joint-triplet definition. The proposed parameter-estimation
+    use of ICE averages a chosen complete-data estimator under the current augmented posterior, exactly
+    when that expectation is available or approximately from posterior samples.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3.1, PDF pp.2–4, Equations(2.1)–(3.3), Example 3.1 and Remark 3.1; Sections 3.2
+      and 4.1–4.2, PDF pp.4–8, Equation(3.4), ICE steps and Remark 4.1; conclusion PDF p.9
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Statistical image segmentation using Triplet Markov fields
+  authors:
+  - Wojciech Pieczynski
+  - Dalila Benboudjema
+  - Pierre Lanchantin
+  source_type: primary_paper
+  url: https://www-public.imtbs-tsp.eu/~pieczyn/C50.pdf
+  version: Ten-page author manuscript headed SPIE International Symposium on Remote Sensing, September
+    22–27, Crete, Greece, 2002. The author homepage identifies this conference version. All ten pages
+    visually read; locators use PDF pages. Secondary metadata suggests SPIE 4885:92–101 (2003) and DOI
+    10.1117/12.463182, but the publisher DOI endpoint was inaccessible and is not treated as independently
+    verified metadata.
+  access_level: full_text
+  accessed_at: '2026-10-11T20:53:07Z'
+  sha256: 144192c695d952e2fe6aa0c70a1565975792fa76ea9b87d3a3ae4b11bd9b5b05
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The triplet construction represents conditional dependencies through an undirected graph
+    over augmented states. AIO types ProbabilisticGraphicalModel as a machine-learning task; related_match
+    preserves that abstraction-level distinction instead of asserting this model as a subtype of a task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:03:30Z'
+  updated_at: '2026-10-11T21:03:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
