@@ -1,0 +1,120 @@
+name: Autoregressive conditional restricted Boltzmann machine
+definition: A neural sequence architecture that models each current vector with a conditional RBM whose
+  visible and hidden biases are affine functions of a fixed window of preceding observed vectors, without
+  hidden-to-hidden temporal links.
+concept_kind: architecture
+identity_notes: 'This record is scoped to Taylor, Hinton and Roweis’s autoregressive CRBM construction
+  for vector sequences, particularly its Gaussian-visible, binary-hidden formulation. The general label
+  conditional RBM and acronym CRBM are not claimed as exclusive aliases because other conditional RBMs
+  condition on arbitrary inputs or use different parameterizations. This is the observed-history specialization
+  related to TRBM-HH; RTRBM and full TRBM also propagate hidden history. A stacked multilevel construction
+  is not silently included in the single-layer record. All 442 pinned AIO labels/scoped synonyms and 361
+  preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string
+  searches included ignored and hidden files in both worktree and main, returning 24 lines each. All 18
+  unique matched contents were read: temporal FRBM source references, model contrasts, a discovery lead
+  and saved review context, rather than existing candidate records. All 44 semantic label/synonym hits
+  and 21 exact AIO nodes were inspected, alongside corresponding generated records and four complete native
+  neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this
+  snapshot and inspected neighborhood.'
+limitations:
+- The single-layer visible conditional depends on the fixed observed lag window. Nonlinear hidden features
+  do not introduce an unbounded latent temporal memory path; deeper stacked models are separate compositions.
+- 'Sections 2–2.1 explicitly give exact factorial hidden inference for fully observed frames. Section
+  2.2’s broad statement about omitted smoothing must not override that graph-specific result: future factors
+  contain no earlier hidden state once the visible sequence is fixed. Missing visible data and multilevel
+  models can require smoothing; the reported online missing-data procedure is approximate.'
+- Replacing Gaussian visible samples by conditional means removes conditional sampling variance and is
+  not exact Gibbs sampling from the stated Gaussian model. Finite CD is not an exact likelihood gradient
+  or a convergence guarantee.
+- The general energy in Equation (1) includes visible standard deviations and scaled interactions; the
+  displayed mechanism deliberately adopts the source’s sigma_i=1 convention. Rescaling arbitrary variances
+  without transforming weights changes the distribution.
+- A conditional RBM is richer than a linear autoregression, although removing the hidden interactions
+  leaves an autoregressive Gaussian special case. Initial-frame distributions, missing-data posterior
+  integration, phase disambiguation and transition coverage need separate modeling assumptions. No benchmark
+  ranking or author-code certification is asserted.
+id: AIMech:AutoregressiveConditionalRestrictedBoltzmannMachine
+aliases:
+- Autoregressive CRBM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–2.2, Equations (1)–(7) and Figure 2, PDF pp.2–4; initialized generation and online
+    missing-data procedure, Sections 4 and 4.4, pp.5–6; higher-level extension and scope limits, Sections
+    5–6, pp.7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Condition on preceding visible frames and compute dynamic biases d_t=c+sum_k A_k^T v_(t-k)
+    and e_t=b+sum_k D_k^T v_(t-k), allowing different lag windows for the two sums. In the source’s unit-variance
+    Gaussian formulation, E(v_t,h_t|history)=one-half times ||v_t-d_t|| squared minus e_t^T h_t minus
+    v_t^T W h_t. Thus hidden probabilities are sigmoid(e_t+W^T v_t), and visible coordinates given h_t
+    are independent unit-variance Gaussians with mean d_t+W h_t. The partition is conditional on the fixed
+    history. For fully observed frames the hidden posterior factorizes, and likelihood gradients contrast
+    data and conditional-model statistics; the paper approximates them by CD while holding earlier frames
+    fixed. Its implementation description samples positive-phase binary hidden states, uses hidden probabilities
+    for negative-phase statistics, and uses mean visible reconstructions in place of Gaussian draws. Generation
+    starts from supplied initial frames and repeatedly samples the current conditional RBM; the original
+    conditional training does not model the first lag-window frames.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–2.2, Equations (1)–(7) and Figure 2, PDF pp.2–4; initialized generation and online
+      missing-data procedure, Sections 4 and 4.4, pp.5–6; higher-level extension and scope limits, Sections
+      5–6, pp.7–8
+    relation: supports
+  - source_id: no-hidden-history-context
+    locator: Section 3, TRBM-HH omitted-edge definition and exact-inference qualification, PDF p.5; Section
+      4.2, fully observed no-HH posterior qualification, p.7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Modeling Human Motion Using Binary Latent Variables
+  authors:
+  - Graham W. Taylor
+  - Geoffrey E. Hinton
+  - Sam Roweis
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/3078-modeling-human-motion-using-binary-latent-variables.pdf
+  version: Eight-page proceedings PDF, Advances in Neural Information Processing Systems 19, conference
+    NIPS 2006, volume published in 2007. The PDF has no visible printed page numbers; use PDF-page locators.
+  persistent_id: neurips-2006-1091660f3dff84fd648efe31391c5524
+  access_level: full_text
+  accessed_at: '2026-10-11T18:29:53Z'
+  sha256: 7613916f0695ce3d8899550b6711f3fead075b0cfa8b06d1706fdb8c95b4e2c8
+- source_id: no-hidden-history-context
+  title: Learning Multilevel Distributed Representations for High-Dimensional Sequences
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v2/sutskever07a/sutskever07a.pdf
+  version: AISTATS 2007 / PMLR 2:548–555 proceedings PDF, eight pages. No printed page numbers appear
+    on the inspected pages; use PDF-page locators.
+  persistent_id: pmlr-v2-sutskever07a
+  access_level: full_text
+  accessed_at: '2026-10-11T18:17:21Z'
+  sha256: 8b8b19704c753dc7e52bcefb32eb218c87d84f772c390c3810445a644749897b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The pinned AIO class is broader than this particular neural sequence architecture with nonlinear
+    stochastic units and weighted connections. This mapping does not claim equivalence to a symmetric
+    Boltzmann machine, a pure directed Bayesian network or an autoregressive language model. The latter
+    is language-specific, while this model supports general vector sequences.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Each time step uses a conditional RBM with undirected visible–hidden interactions. The entire
+    sequence construction additionally has directed history connections and a separate conditional normalizer
+    per step; a related mapping records the component relationship without equating the whole temporal
+    architecture to one unconditioned symmetric RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:40:25Z'
+  updated_at: '2026-10-11T18:40:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

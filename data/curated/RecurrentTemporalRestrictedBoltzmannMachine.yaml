@@ -1,0 +1,104 @@
+name: Recurrent temporal restricted Boltzmann machine
+definition: A recurrent neural sequence architecture whose deterministic state is a conditional RBM hidden-probability
+  vector and sets the next step’s hidden bias, with visible observations drawn from that step’s RBM marginal.
+concept_kind: architecture
+identity_notes: 'This is Sutskever, Hinton and Taylor’s 2008 RTRBM, with a real-valued recurrent state
+  and separate binary within-step RBM hidden variables. Replacing a sampled TRBM hidden state by a deterministic
+  probability vector changes the generative model; exact inference in RTRBM is not exact inference in
+  the original stochastic TRBM. The recurrent update and conditional RBM share weights in this architecture.
+  The real-valued state must not be conflated with the binary hidden variables integrated out of each
+  output RBM. All 442 pinned AIO labels/scoped synonyms and 361 preceding native IDs/names/aliases were
+  compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and
+  hidden files in both worktree and main, returning 24 lines each. All 18 unique matched contents were
+  read: temporal FRBM source references, model contrasts, a discovery lead and saved review context, rather
+  than existing candidate records. All 44 semantic label/synonym hits and 21 exact AIO nodes were inspected,
+  alongside corresponding generated records and four complete native neighbors. Previously read contextual
+  files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.'
+limitations:
+- Exact deterministic-state inference requires the visible sequence to be observed. Missing observations
+  require marginalizing uncertainty in visible values and induced recurrent states; the exact-inference
+  statement does not automatically extend to that problem.
+- Within-step binary hidden variables are stochastic even though the recurrent summary is deterministic.
+  Exact state reconstruction does not make RBM partition functions, equilibrium sampling or finite-CD
+  gradients exact or generally tractable.
+- The printed Equation (12) local-score index differs from its surrounding next-step prose. Equation (13)
+  displays a recurrence contribution but omits the direct current-RBM dependence through its dynamic hidden
+  bias; a complete objective derivative must include it. The curated description follows the normalized
+  generative definition and chain rule, checked by original finite differences, rather than treating Equations
+  (12)–(14) as a verified implementation. No author-code defect or official erratum is asserted.
+- A finite recurrent vector permits temporal dependence but does not guarantee successful learning of
+  arbitrarily long dependencies. The source’s sample-quality comparisons do not establish universal superiority
+  or exact likelihood learning.
+- The source shares parameters between recurrence and output RBMs. A separate recurrent network that independently
+  controls RBM parameters is a distinct neighboring construction; this record does not equate every RNN–RBM
+  hybrid to RTRBM.
+id: AIMech:RecurrentTemporalRestrictedBoltzmannMachine
+aliases:
+- RTRBM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–4.3, Equations (1)–(14), Figure 2 and Algorithms 2–4, PDF pp.2–6; Equation (12)
+    indexing and Equation (13) direct-parameter contribution qualified against Equations (6), (8)–(11);
+    limitations and conclusion, pp.6–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Use column vectors, visible-by-hidden weights W and recurrent hidden-by-hidden weights U.
+    Given r_(t-1), let the current binary RBM have joint mass proportional to exp(v_t^T W z_t+a^T v_t+(b+U
+    r_(t-1))^T z_t), with binary z_t marginalized for the visible distribution. After observing or sampling
+    v_t, set r_t=sigmoid(W^T v_t+b+U r_(t-1)); the first step uses the specified initial bias contribution.
+    This update is deterministic by definition, so a fully observed visible sequence fixes the recurrent
+    trajectory exactly and later observations cannot alter its already determined states. The visible-sequence
+    log likelihood is the sum of the conditional RBM log marginals. Differentiate that objective through
+    the recurrence and through each RBM’s direct parameter dependence. In particular, a recurrent weight
+    affects the current output distribution through its hidden bias as well as later recurrent states.
+    Backpropagation through time propagates these dependencies, while the paper approximates conditional
+    RBM model expectations with contrastive divergence. A Gaussian-visible version replaces the binary
+    visible base measure with a quadratic Gaussian term.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–4.3, Equations (1)–(14), Figure 2 and Algorithms 2–4, PDF pp.2–6; Equation (12)
+      indexing and Equation (13) direct-parameter contribution qualified against Equations (6), (8)–(11);
+      limitations and conclusion, pp.6–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Recurrent Temporal Restricted Boltzmann Machine
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  - Graham Taylor
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/9ad6aaed513b73148b7d49f70afcfb32-Paper.pdf
+  version: Eight-page proceedings PDF, Advances in Neural Information Processing Systems 21, conference
+    NIPS 2008; author bibliography lists the volume publication in 2009. Use PDF-page locators.
+  persistent_id: neurips-2008-9ad6aaed513b73148b7d49f70afcfb32
+  access_level: full_text
+  accessed_at: '2026-10-11T18:29:52Z'
+  sha256: 7ef2f7679831a4c8ac4079b47b622bb82cda8f8045148f436e6554c79d0137f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: 'The pinned target is broader: a neural network with directed temporal connections. RTRBM
+    has an explicit deterministic recurrent update and a recurrent-network likelihood objective, with
+    the additional defining restriction that its tied conditional RBM marginal supplies the output distribution.
+    This is a structural mapping, not equivalence to every recurrent network or an empirical performance
+    claim.'
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Each time step uses a conditional RBM with undirected visible–hidden interactions. The entire
+    sequence construction additionally has directed history connections and a separate conditional normalizer
+    per step; a related mapping records the component relationship without equating the whole temporal
+    architecture to one unconditioned symmetric RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:40:25Z'
+  updated_at: '2026-10-11T18:40:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
