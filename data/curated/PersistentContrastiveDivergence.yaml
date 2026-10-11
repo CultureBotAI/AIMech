@@ -1,0 +1,116 @@
+name: Persistent contrastive divergence
+definition: A learning algorithm that estimates an energy model’s negative-phase statistics with Markov
+  chains whose states persist across parameter updates, rather than restarting those chains at the current
+  data minibatch.
+concept_kind: algorithm
+identity_notes: This is persistent contrastive divergence as presented for RBMs by Tieleman. Persistence
+  refers to the fantasy-particle sampling state across learning updates, not continual-learning tasks
+  or recurrent sequence-model state. It is an instance of persistent-chain stochastic-approximation learning,
+  not the original data-restarted CD-k rule. Fast PCD adds temporary sampling parameters and remains a
+  separate variant. All 442 pinned AIO labels/scoped synonyms and 370 preceding native IDs/names/aliases
+  were compared, with no normalized identity match. Fixed-string searches included ignored and hidden
+  files throughout both worktree and main, returning 29 lines each; all 22 unique matched contents were
+  read. Hits described CD as a training component, a pending lead or a boundary from CD-PercLoss, not
+  an existing candidate record. All 61 semantic label/synonym hits, 21 exact annotated AIO nodes with
+  outgoing edges, corresponding generated records and four native neighbors were inspected. Previously
+  fully read contextual files were verified byte-identical. Absence is bounded to this snapshot and inspected
+  neighborhood.
+limitations:
+- Finite transitions, correlated particles and changing parameters can leave negative statistics biased
+  for the current equilibrium expectation. The small-learning-rate justification depends on mixing relative
+  to parameter drift; it is not a guarantee at every finite step size.
+- A persistent chain is neither an independent model sample at each iteration nor a proof of rapid mixing.
+  The original paper discusses difficulties when strong dependencies or large weights slow exploration,
+  and the regularization and learning-rate schedule affect behavior.
+- Exact positive-phase inference is available for the binary RBM formulation inspected here; that property
+  does not transfer automatically to models with interacting latent variables. The paper also examines
+  fully visible MRFs with different update costs and sampling structure.
+- The fixed-R contrastive expression is an instantaneous derivative description. Particle evolution and
+  parameter adaptation remain coupled; the ordinary data-restarted contrastive-divergence objective does
+  not describe that entire process.
+- The retained particles and one-step experimental choice do not imply that conditional models with changing
+  conditioning inputs have the same tracking problem as an unconditional RBM. No universal superiority,
+  global convergence or author-code behavior is certified.
+id: AIMech:PersistentContrastiveDivergence
+aliases:
+- PCD
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, likelihood statistics and persistent contrastive divergence, PDF pp.2–3; experimental
+    chain conventions, Section 4.4, p.3; limitations, Sections 5–6, pp.5–7
+  relation: supports
+- source_id: persistent-chain-analysis
+  locator: Sections 2–3, Equation (10) and footnotes, PDF pp.2–3; source explains fixed current particle
+    distribution and learning–mixing interaction
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a collection of fantasy-particle configurations independently of which data minibatch
+    is currently presented. Compute positive-phase sufficient statistics from that minibatch, using exact
+    hidden conditional expectations for an RBM. Advance the existing fantasy particles by a small number
+    of Gibbs transitions under the current model parameters and estimate negative-phase statistics from
+    those particles. Update the model parameters from the positive-minus-negative difference and retain
+    the particle states for subsequent iterations. The 2008 experiments use one full Gibbs step per update,
+    one particle per minibatch member and no chain resets; those are specified experimental choices, while
+    persistence is the defining distinction. If the chain distribution tracks the current equilibrium
+    sufficiently closely, its negative statistics approximate those of the model. For fixed particle-distribution
+    R, the instantaneous update can be expressed as the negative derivative of KL(q_data||p_theta)-KL(R||p_theta),
+    with R held fixed; this does not make the whole coupled adaptive process descent on one fixed objective.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, likelihood statistics and persistent contrastive divergence, PDF pp.2–3; experimental
+      chain conventions, Section 4.4, p.3; limitations, Sections 5–6, pp.5–7
+    relation: supports
+  - source_id: persistent-chain-analysis
+    locator: Sections 2–3, Equation (10) and footnotes, PDF pp.2–3; source explains fixed current particle
+      distribution and learning–mixing interaction
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient
+  authors:
+  - Tijmen Tieleman
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~tijmen/pcd/pcd.pdf
+  version: ICML 2008 author-hosted eight-page paper; all pages visually inspected. This PDF has no printed
+    page numbers; locators use PDF pages.
+  persistent_id: doi:10.1145/1390156.1390290
+  access_level: full_text
+  accessed_at: '2026-10-11T19:07:35Z'
+  sha256: 058ecdda8050dd0c80d8e91b8ab6769ec1133de094077f070a8ce1a65cc7f2c9
+- source_id: persistent-chain-analysis
+  title: Using Fast Weights to Improve Persistent Contrastive Divergence
+  authors:
+  - Tijmen Tieleman
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~tijmen/fpcd/fpcd.pdf
+  version: ICML 2009 author-hosted eight-page paper; all pages visually inspected. This PDF has no printed
+    page numbers; locators use PDF pages.
+  persistent_id: doi:10.1145/1553374.1553506
+  access_level: full_text
+  accessed_at: '2026-10-11T19:07:37Z'
+  sha256: ce5abe1d4bfa5b4f417d54de5f00863251e6d17398a7fc2ac70338dddcb18d50
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The inspected algorithm trains RBM parameters, but is not itself the model architecture.
+    CD also applies beyond RBMs. This is a training-method to model-family association, not equivalence
+    or subclass identity.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Markov transitions supply the negative-phase configurations used by the parameter-update
+    procedure. The AIO target denotes the stochastic process/model, not the learning algorithm or a guarantee
+    of equilibrium sampling during adaptation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:18:34Z'
+  updated_at: '2026-10-11T19:18:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
