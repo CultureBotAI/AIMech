@@ -1,0 +1,134 @@
+name: Real-time A*
+definition: A real-time heuristic search algorithm that moves to a neighbor with minimum edge-cost-plus-heuristic
+  estimate and stores the second-best such estimate at the state it leaves, using bounded lookahead or
+  initial heuristics for previously unvisited states.
+concept_kind: algorithm
+identity_notes: 'The record identifies the basic RTA* control algorithm with a second-best backup, not
+  ordinary A* frontier search, IDA* repeated cost-bounded passes, LRTA* minimum-value learning, or the
+  additional graph-correction procedure sketched in the 1988 paper. Distances used to choose the next
+  move are relative to the current state rather than the original start. No normalized identity match
+  was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were
+  identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing
+  candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+  four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.'
+limitations:
+- A finite reachable goal from the initial state alone is insufficient if an irreversible move can enter
+  a region with no route to any goal. Infinite spaces, zero/negative cost cycles and infinite heuristic
+  barriers are outside the stated completeness theorem.
+- The 1990 tree local-optimality theorem does not extend unchanged to graphs with cycles. The 1988 paper
+  separately sketches a recursive correction of stored values and omits its proof for space; the 1990
+  article says significant modifications would be required. That variant is not silently included in basic
+  RTA*.
+- Real-time work depends on a fixed lookahead/resource policy and manageable branching and heuristic evaluation.
+  The method is not a uniform constant-time implementation for arbitrary successor sets or lookahead depths,
+  and the visited-state table can grow with execution.
+- The second-best rule assumes alternatives from which that value can be obtained. The inspected method
+  description does not state a general single-successor fallback; an executable implementation must declare
+  this boundary rather than invent an undocumented convention here.
+- Second-best backups can overestimate remaining goal distance when reused across trials. The source motivates
+  LRTA* as a separate multi-trial learning modification. No puzzle benchmark or complete graph-correction
+  proof was audited.
+id: AIMech:RealTimeAStar
+aliases:
+- RTA*
+- Real-time A-star
+definition_evidence:
+- source_id: method-source
+  locator: Section5, PDF11–15 / printed199–203; core procedure, Figure3, Theorem1 and Theorem2; Section7
+    opening, PDF18–19 / printed206–207
+  relation: supports
+- source_id: earlier-conference-paper
+  locator: Section3.2 RTA* on a Graph and Section3.3 completeness, PDF4 / printed142; Section4 opening
+    and continuation PDF4–5 / printed142–143
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain a table for states actually visited. At the current non-goal state, enumerate neighboring
+    states and evaluate edge cost plus the stored heuristic of a visited neighbor or a heuristic estimate,
+    optionally produced by bounded minimin lookahead, for a new neighbor. Move to a neighbor with minimum
+    resulting score, resolving ties among minima, and store the second-best score at the old state. With
+    tied best alternatives, the second-best score may equal the best. The table persists during the search
+    and allows revisits and backtracking. Only roots actually visited need enter this table; lookahead
+    descendants need not all be retained. The 1990 paper proves eventual goal finding for a finite problem
+    space with positive edge costs, finite heuristic values and a goal reachable from every state. Its
+    local-optimality theorem concerns decisions relative to the cumulative searched frontier on a tree,
+    not globally shortest returned paths.
+  evidence:
+  - source_id: method-source
+    locator: Section5, PDF11–15 / printed199–203; core procedure, Figure3, Theorem1 and Theorem2; Section7
+      opening, PDF18–19 / printed206–207
+    relation: supports
+  - source_id: earlier-conference-paper
+    locator: Section3.2 RTA* on a Graph and Section3.3 completeness, PDF4 / printed142; Section4 opening
+      and continuation PDF4–5 / printed142–143
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Real-Time Heuristic Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf
+  version: Artificial Intelligence 42(2–3):189–211, March 1990; 23-page journal scan hosted by Drexel
+    University. The requested URL and file hash identify this copy; a final redirect URL was not logged.
+  persistent_id: doi:10.1016/0004-3702(90)90054-4
+  access_level: full_text
+  accessed_at: '2026-10-11T14:56:19Z'
+  sha256: 8cf1b89fb48727bf945a2cb709dcccdf786529544a12a4a6ac71f27ed3dc2a92
+- source_id: earlier-conference-paper
+  title: 'Real-Time Heuristic Search: New Results'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf
+  version: AAAI-88 proceedings, pp.139–144; six-page conference paper hosted by McGill University. Its
+    graph-correction sketch is distinct from the basic algorithm and the later journal presentation.
+  access_level: full_text
+  accessed_at: '2026-10-11T14:55:51Z'
+  sha256: ab17a837c83ea0deb4dff951e4da929824f832f5085661f51d3dbf841108aca8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 313 preceding maintained IDs/names/aliases;
+    ignored/hidden text in both full checkouts; semantic label search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning, graph, reinforcement and learning-task terminology; seven exact
+    AIO CLASS nodes and four complete native neighbors.
+  rationale: No suitable AIO counterpart was established for this basic state-space search procedure in
+    the inspected snapshot and neighborhood. Shared graph, reasoning or heuristic words do not justify
+    a model/task mapping.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Operating on a state-space graph does not make this procedure a language model over
+      graph representations.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is a language model with reasoning during language tasks, not a general
+      path or constraint search algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: This procedure does not require neural language modeling or a neuro-symbolic language-model
+      architecture.
+  - target: AIO:MachineLearningTask
+    rejection_reason: This basic single-search procedure adjusts search bookkeeping; it does not require
+      learning a reusable predictor from multiple problem-solving trials. The separately curated LRTA*
+      extension explicitly does that.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The algorithm uses and updates a cost function; it is not identical to the mathematical
+      function itself.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Search, revisitation and adaptive costs alone do not identify the basic procedure
+      with a learning task balancing exploration and exploitation. Multi-trial heuristic learning is separately
+      represented.
+  - target: AIO:TrainingStrategy
+    rejection_reason: This algorithm does not require preprocessing or training a machine-learning model.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:04:45Z'
+  updated_at: '2026-10-11T15:04:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

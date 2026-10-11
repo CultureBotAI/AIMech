@@ -1,0 +1,822 @@
+# Scientific self-review of state-cost-search methods
+
+- Review: 20261011T150815Z-state-cost-search
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T15:05:27Z
+- Finished UTC: 2026-10-11T15:08:15Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Fill, basic RTA* and LRTA* as distinct DRAFT concepts. Fill and RTA* have bounded no-match assessments; LRTA* has an evidence-backed related task mapping. State-specific lifting, best/second-best backups, source-version differences and conditional learning guarantees are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three maintained state-cost-search and SAT-search concepts.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base adc12e0f5eff01ad344cf6b847f187b1fb46af85.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FillAlgorithm | data/curated/FillAlgorithm.yaml | maintained | Fill algorithm |
+| AIMech:RealTimeAStar | data/curated/RealTimeAStar.yaml | maintained | Real-time A* |
+| AIMech:LearningRealTimeAStar | data/curated/LearningRealTimeAStar.yaml | maintained | Learning real-time A* |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 87.56s (0:01:27)<br>Checked 442 record(s); 0 failed.<br>Checked 316 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 85 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 83,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar | Command exited0 with no output. |
+| Finite state-cost-search boundary examples | passed | True | AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar | {"successor_scores": [2, 3, 4], "rta_backup": 3, "lrta_backup": 2, "admissible_inconsistent_case": {"old": 3, "new": 1, "true_cost": 4}, "unit_fill_lift": {"current": 2, "neighbor": 2, "goal": 0}, "bounded_increment_prefix": "1048575/1048576", "bounded_increment_limit": 1, "interpretation": "Finite substitutions distinguish backup rules and state-specific lifting. The geometric-series limit explains why merely positive increments do not establish unbounded lifting. No original solver or benchmark was run."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:FillAlgorithm.
+
+This is Morris’s named Fill algorithm, introduced to distinguish state-specific cost lifting from Breakout’s shared nogood reweighting. It is not flood fill, image inpainting, or LRTA*. Fill permits any lower-cost neighbor, while LRTA* selects a minimum estimated path-cost successor and backs up its value even away from local minima. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Initialize a modifiable cost for complete assignments using the original constraint-violation cost. Test the current assignment for satisfaction. If a single-variable change strictly reduces its stored cost, take any such change; otherwise increase the stored cost of that current assignment alone and continue. Costs of other assignments do not change as a side effect. Retain raised costs for later revisits. Figure 3 specifies an increase without fixing its magnitude; the finite-CSP completeness proof relies on repeated lifts of an endlessly visited minimum eventually exceeding every fixed neighboring cost. Positive unit increments satisfy that intended lifting property. The theorem concerns eventual arrival at a solution when one exists on the finite complete-assignment space with the stated single-variable adjacency. Limits: The source’s theorem is not a finite-budget guarantee or an unsatisfiability decision procedure. Restricting moves so a solution is unreachable, or replacing the finite assignment space with an infinite one, is outside that theorem. Figure 3 does not prescribe a numerical increment. Curator qualification: arbitrary positive increments with a bounded cumulative sum need not satisfy the proof’s unbounded-lifting step; completeness should not be transferred to such an implementation without a separate argument. State-specific costs must survive revisits. They can require storage growing with encountered local minima; the compact shared-nogood representation used by Breakout changes the method and does not inherit Fill’s theorem. The constraint-violation score need not be an admissible estimate of distance to a solution. The method is not a shortest-path optimality algorithm. No runtime advantage, numerical experiment or author implementation is asserted.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:RealTimeAStar.
+
+The record identifies the basic RTA* control algorithm with a second-best backup, not ordinary A* frontier search, IDA* repeated cost-bounded passes, LRTA* minimum-value learning, or the additional graph-correction procedure sketched in the 1988 paper. Distances used to choose the next move are relative to the current state rather than the original start. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Maintain a table for states actually visited. At the current non-goal state, enumerate neighboring states and evaluate edge cost plus the stored heuristic of a visited neighbor or a heuristic estimate, optionally produced by bounded minimin lookahead, for a new neighbor. Move to a neighbor with minimum resulting score, resolving ties among minima, and store the second-best score at the old state. With tied best alternatives, the second-best score may equal the best. The table persists during the search and allows revisits and backtracking. Only roots actually visited need enter this table; lookahead descendants need not all be retained. The 1990 paper proves eventual goal finding for a finite problem space with positive edge costs, finite heuristic values and a goal reachable from every state. Its local-optimality theorem concerns decisions relative to the cumulative searched frontier on a tree, not globally shortest returned paths. Limits: A finite reachable goal from the initial state alone is insufficient if an irreversible move can enter a region with no route to any goal. Infinite spaces, zero/negative cost cycles and infinite heuristic barriers are outside the stated completeness theorem. The 1990 tree local-optimality theorem does not extend unchanged to graphs with cycles. The 1988 paper separately sketches a recursive correction of stored values and omits its proof for space; the 1990 article says significant modifications would be required. That variant is not silently included in basic RTA*. Real-time work depends on a fixed lookahead/resource policy and manageable branching and heuristic evaluation. The method is not a uniform constant-time implementation for arbitrary successor sets or lookahead depths, and the visited-state table can grow with execution. The second-best rule assumes alternatives from which that value can be obtained. The inspected method description does not state a general single-successor fallback; an executable implementation must declare this boundary rather than invent an undocumented convention here. Second-best backups can overestimate remaining goal distance when reused across trials. The source motivates LRTA* as a separate multi-trial learning modification. No puzzle benchmark or complete graph-correction proof was audited.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:LearningRealTimeAStar.
+
+This is Korf’s LRTA* formulation with a minimum-value backup rather than basic RTA*’s second-best backup. It learns state cost-to-go estimates from search experience; it is not ordinary A*, a trained neural network, Fill’s local-minimum-only cost increments, or Q-learning’s sampled action-value update. The inspected formulation is direct assignment of the minimum backup, not an added maximum with the state’s old value. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+At each non-goal state n, use stored or initial heuristic values for its neighbors and form k(n,n′)+h(n′), where k is the edge cost. Move to a neighbor attaining the minimum and assign that minimum to h(n). Preserve the table across subsequent trials in the same problem space with the same goal set. This best-value backup replaces RTA*’s second-best backup. It can change values even when the state is not a local minimum and can decrease an initially inconsistent estimate. The source gives the same finite-space, positive-edge, finite-heuristic and everywhere-goal-reachable conditions for eventual goal finding as basic RTA*. For learning convergence, it additionally assumes non-overestimating initial estimates, zero estimates at goals, repeated random sampling of the initial states and random tie handling so the relevant alternatives continue to be explored. Under those conditions, its theorem concerns exact learned values along every optimal path from the sampled initial-state set to a goal over repeated trials. Limits: The learning result does not say every state in an arbitrary graph is learned exactly, nor that a fixed finite number of trials certifies convergence. Random initial-state sampling and random tie resolution provide the repeated exploration used in the proof. Non-overestimation matters: an initially overestimated state can be avoided and remain uncorrected. The 1988 proof explicitly assumes h(goal)=0; the 1990 proof uses the same equality. Non-overestimation alone would not imply that equality if negative goal estimates were permitted. LRTA* can repeatedly traverse a heuristic depression before escaping and does not inherit basic RTA*’s tree local-optimality theorem. Good asymptotic estimates do not ensure that an early trial follows a shortest path. Replacing h(n) with max(old h(n), minimum backup) is an additional convention not asserted as the same literal source update. The direct minimum can decrease an admissible but inconsistent initial value; that does not contradict preservation of non-overestimation. The table stores state estimates, and the method evaluates successor costs. It is not Q-learning’s model-free sampled state-action update. No stochastic-transition extension, function-approximation guarantee, convergence rate or numerical puzzle result is curated.
+
+### State-specific lifting and conditional completeness
+
+consistency: supported. Targets: AIMech:FillAlgorithm.
+
+Retain Fill distinct from practical Breakout and LRTA*.
+
+Figure3 chooses any strictly cheaper single-variable neighbor, otherwise increasing only the current state cost. Theorem1 uses a finite CSP and unbounded repeated lifts, with revisitation allowed. The increment size is not fixed in the figure. The record explicitly qualifies the theorem rather than extending it to arbitrarily small summable positive increments. The original geometric-series example demonstrates that gap in such an extension. No UNSAT, shortest-path or finite-budget guarantee is asserted.
+
+### Second-best control and source-version boundaries
+
+consistency: supported. Targets: AIMech:RealTimeAStar.
+
+Retain the basic control procedure with scoped guarantees.
+
+The stored value is the second-best successor score including edge cost from the current position. Completeness requires a finite space, positive edge costs, finite heuristic values and a goal reachable from every state. Tree-relative local optimality is not global path optimality or graph local optimality. The 1988 graph-fix sketch differs from the 1990 presentation and remains a separate frontier lead. The single-successor convention is not supplied by the inspected core method; the record discloses that executable boundary. Fixed lookahead does not mean arbitrary branching is constant work.
+
+### Minimum backup and repeated-trial learning
+
+consistency: supported. Targets: AIMech:LearningRealTimeAStar.
+
+Retain LRTA* and its zero-goal/exploration conditions.
+
+The direct minimum backup can reduce an admissible inconsistent estimate and is not automatically max(old,backup). The 1988 proof explicitly assumes zero goal estimates; the 1990 proof uses that equality, which does not follow from non-overestimation alone if negative estimates are permitted. Repeated random starts and ties support exploration of optimal paths from the initial-state set. The record does not imply all states converge under arbitrary sampling, or that early trials are optimal. The related MachineLearningTask mapping records actual multi-trial heuristic learning without promoting an algorithm to a task hierarchy.
+
+### State search versus learned heuristic task
+
+grounding: supported. Targets: AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar.
+
+Retain two bounded no-match assessments and one task association.
+
+Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing edges were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod and QLearning records. Fill and basic RTA* have bounded no-match assessments: graph traversal, search bookkeeping and cost lifting do not require a language model, mathematical-function identity or reusable learning task. LRTA* receives a related match to MachineLearningTask because the source explicitly learns reusable heuristic estimates from repeated search experience. This is an algorithm-to-task association, not equivalence or an is-a link. No stronger reinforcement-learning mapping is asserted from this source inspection. Native neighbors distinguish open-frontier search, repeated cost thresholds, shared nogood weights and sampled action-value learning; their existing mappings are context, not a renewed audit.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:FillAlgorithm, AIMech:RealTimeAStar, AIMech:LearningRealTimeAStar. State-specific lifting at local minima, second-best successor backup and repeated-trial minimum-value learning have distinct state updates and guarantees. Related cost-raising behavior does not establish identity.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T150445Z-state-cost-search.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases; no normalized identity match. Both full-checkout searches included ignored and hidden files and returned 24 lines each. All unique lines were inspected and sorted outputs were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers. Seven exact AIO nodes and four full native neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Seven exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing edges were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod and QLearning records. Fill and basic RTA* have bounded no-match assessments: graph traversal, search bookkeeping and cost lifting do not require a language model, mathematical-function identity or reusable learning task. LRTA* receives a related match to MachineLearningTask because the source explicitly learns reusable heuristic estimates from repeated search experience. This is an algorithm-to-task association, not equivalence or an is-a link. No stronger reinforcement-learning mapping is asserted from this source inspection. Native neighbors distinguish open-frontier search, repeated cost thresholds, shared nogood weights and sampled action-value learning; their existing mappings are context, not a renewed audit. |
+| neighbors | research/discovery/20261011T150445Z-state-cost-search.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full AStarSearch, IterativeDeepeningAStar, BreakoutMethod and QLearning records distinguish open-frontier search, repeated cost thresholds, shared nogood weights and sampled action-value learning. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/state-cost-search-boundaries.py; calculate(): best/second-best backups, admissible inconsistent decrease, state-specific lifting and bounded positive increments | supports | Original finite substitutions distinguish best/second-best backups, an admissible inconsistent estimate that decreases, and state-specific lifting. A geometric-series calculation explains why positive but summably bounded increments do not establish the unbounded-lifting step in Fill’s proof. These are not author implementations, benchmark results or independent convergence proofs. |
+| fillalgorithm-source-0 | https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf; A Complete Algorithm, PDF4–5 / printed43–44; Figure3, Theorem1 and proof, plus explicit Fill/LRTA* comparison on PDF5 | supports | The Breakout Method For Escaping From Local Minima. AAAI-93 proceedings, pp.40–45; six-page publisher scan. The later website posting date is not the paper publication date. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| realtimeastar-source-0 | https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf; Section5, PDF11–15 / printed199–203; core procedure, Figure3, Theorem1 and Theorem2; Section7 opening, PDF18–19 / printed206–207 | supports | Real-Time Heuristic Search. Artificial Intelligence 42(2–3):189–211, March 1990; 23-page journal scan hosted by Drexel University. The requested URL and file hash identify this copy; a final redirect URL was not logged. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| realtimeastar-source-1 | https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf; Section3.2 RTA* on a Graph and Section3.3 completeness, PDF4 / printed142; Section4 opening and continuation PDF4–5 / printed142–143 | supports | Real-Time Heuristic Search: New Results. AAAI-88 proceedings, pp.139–144; six-page conference paper hosted by McGill University. Its graph-correction sketch is distinct from the basic algorithm and the later journal presentation. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| learningrealtimeastar-source-0 | https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf; Section7, PDF18–21 / printed206–209, best-value replacement and Theorem3 with assumptions and proof; Section5.1, PDF13–14 / printed201–202, inherited completeness conditions | supports | Real-Time Heuristic Search. Artificial Intelligence 42(2–3):189–211, March 1990; 23-page journal scan hosted by Drexel University. The requested URL and file hash identify this copy; a final redirect URL was not logged. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| learningrealtimeastar-source-1 | https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf; Section4 Learning-RTA* and Section4.1, PDF4–5 / printed142–143; best-value backup and explicit zero-goal assumption in Theorem3 proof | supports | Real-Time Heuristic Search: New Results. AAAI-88 proceedings, pp.139–144; six-page conference paper hosted by McGill University. Its graph-correction sketch is distinct from the basic algorithm and the later journal presentation. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Finite-space goal reachability and positive costs condition the RTA*/LRTA* completeness statements. Fill’s proof requires unbounded repeated lifting rather than merely positive summable increments.
+- The learning theorem needs admissible initial estimates, zero goal estimates and repeated exploration. Basic RTA* local optimality is tree-relative; the graph-fix sketch is not included.
+- Only declared source pages were read, and no author implementation, graph-correction proof or numerical benchmark was audited.
+- There are183 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T150815Z-state-cost-search
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of state-cost-search methods
+started_at: '2026-10-11T15:05:27Z'
+finished_at: '2026-10-11T15:08:15Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all new fields against
+    primary method sections, critical PDF images, seven exact AIO nodes, four full
+    neighboring records and original finite counterexamples. State-specific lifting,
+    source-version differences, backup conventions and conditional convergence assumptions
+    were preserved before record creation. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Fill, basic RTA* and LRTA* as distinct DRAFT concepts. Fill and RTA*
+  have bounded no-match assessments; LRTA* has an evidence-backed related task mapping.
+  State-specific lifting, best/second-best backups, source-version differences and
+  conditional learning guarantees are explicit. No actionable curation finding remains
+  in the declared scope.
+source:
+  git_revision: adc12e0f5eff01ad344cf6b847f187b1fb46af85
+  state: working_tree
+  inputs:
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AStarSearch.yaml
+    sha256: 685cfd5d6b4eaf0811d597e93e117ad065857d5707f0040420d3e6885f520b8d
+    role: context
+  - path: data/curated/BreakoutMethod.yaml
+    sha256: 4f01c052be52cf8a9ba18b8787e6ac6595edb22a03dc45157909212fc272ee32
+    role: context
+  - path: data/curated/FillAlgorithm.yaml
+    sha256: d80b4b0686bb6e12ee3c8eb69f70dcfc8c928c13677255da5cacbe19d1e70a68
+    role: target
+  - path: data/curated/IterativeDeepeningAStar.yaml
+    sha256: 0a9b9b571f3e7179658db63ce60f2e4febac10c4470212b5b0270b86b9eeac6c
+    role: context
+  - path: data/curated/LearningRealTimeAStar.yaml
+    sha256: 189cfd138de434f3bf350bcf5a18684712c602fc96b3f4ba0abeed5f80e65ceb
+    role: target
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/RealTimeAStar.yaml
+    sha256: 4c3378011e027f000c548f4fc56cd67b139c821cc157efe2f1bcf19d6ee3e7d3
+    role: target
+  - path: research/discovery/20261011T150445Z-state-cost-search.json
+    sha256: 1a7d036b8c28f4b3d345fbdb0939299972d406f27bc08c005e2b4bdd1c511bf7
+    role: context
+  - path: research/discovery/state-cost-search-boundaries.py
+    sha256: 5447d0ce23f634e6e0906d3fa33029f1af8f33d3dafba14860186901c4de9b29
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FillAlgorithm
+  path: data/curated/FillAlgorithm.yaml
+  label: Fill algorithm
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FillAlgorithm.yaml
+    role: maintained
+- target_id: AIMech:RealTimeAStar
+  path: data/curated/RealTimeAStar.yaml
+  label: Real-time A*
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RealTimeAStar.yaml
+    role: maintained
+- target_id: AIMech:LearningRealTimeAStar
+  path: data/curated/LearningRealTimeAStar.yaml
+  label: Learning real-time A*
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LearningRealTimeAStar.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained state-cost-search and SAT-search concepts.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust heuristic search or execute original solvers.
+      Minimin/alpha pruning and graph-corrected RTA* remain frontier leads.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 87.56s (0:01:27)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 316 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 85 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 83,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Finite state-cost-search boundary examples
+  command: python3 research/discovery/state-cost-search-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"successor_scores": [2, 3, 4], "rta_backup": 3, "lrta_backup": 2, "admissible_inconsistent_case":
+    {"old": 3, "new": 1, "true_cost": 4}, "unit_fill_lift": {"current": 2, "neighbor":
+    2, "goal": 0}, "bounded_increment_prefix": "1048575/1048576", "bounded_increment_limit":
+    1, "interpretation": "Finite substitutions distinguish backup rules and state-specific
+    lifting. The geometric-series limit explains why merely positive increments do
+    not establish unbounded lifting. No original solver or benchmark was run."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T150445Z-state-cost-search.json
+  accessed_at: '2026-10-11T15:05:27Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 313 preceding native
+    IDs/names/aliases; no normalized identity match. Both full-checkout searches included
+    ignored and hidden files and returned 24 lines each. All unique lines were inspected
+    and sorted outputs were identical: prior leads, neighboring Breakout descriptions
+    and their saved reviews/ledgers. Seven exact AIO nodes and four full native neighbors
+    were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  search_scope: All442 pinned AIO labels/scoped synonyms and313 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. All24
+    unique hit lines inspected; both sorted checkout hit sets identical. Hits were
+    prior leads, neighboring descriptions and saved reviews/ledgers.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Seven exact CLASS nodes with scoped synonyms/comments/outgoing edges in
+    source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T15:05:27Z'
+  support: supports
+  summary: 'Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing edges
+    were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod
+    and QLearning records. Fill and basic RTA* have bounded no-match assessments:
+    graph traversal, search bookkeeping and cost lifting do not require a language
+    model, mathematical-function identity or reusable learning task. LRTA* receives
+    a related match to MachineLearningTask because the source explicitly learns reusable
+    heuristic estimates from repeated search experience. This is an algorithm-to-task
+    association, not equivalence or an is-a link. No stronger reinforcement-learning
+    mapping is asserted from this source inspection. Native neighbors distinguish
+    open-frontier search, repeated cost thresholds, shared nogood weights and sampled
+    action-value learning; their existing mappings are context, not a renewed audit.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T150445Z-state-cost-search.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T15:05:27Z'
+  support: supports
+  summary: Full AStarSearch, IterativeDeepeningAStar, BreakoutMethod and QLearning
+    records distinguish open-frontier search, repeated cost thresholds, shared nogood
+    weights and sampled action-value learning. Their prior mappings are contextual,
+    not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/state-cost-search-boundaries.py
+  locator: 'calculate(): best/second-best backups, admissible inconsistent decrease,
+    state-specific lifting and bounded positive increments'
+  accessed_at: '2026-10-11T15:05:27Z'
+  snapshot_sha256: 5447d0ce23f634e6e0906d3fa33029f1af8f33d3dafba14860186901c4de9b29
+  support: supports
+  summary: Original finite substitutions distinguish best/second-best backups, an
+    admissible inconsistent estimate that decreases, and state-specific lifting. A
+    geometric-series calculation explains why positive but summably bounded increments
+    do not establish the unbounded-lifting step in Fill’s proof. These are not author
+    implementations, benchmark results or independent convergence proofs.
+- evidence_id: fillalgorithm-source-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf
+  locator: A Complete Algorithm, PDF4–5 / printed43–44; Figure3, Theorem1 and proof,
+    plus explicit Fill/LRTA* comparison on PDF5
+  accessed_at: '2026-10-11T14:45:43Z'
+  snapshot_sha256: 9f853b6831403bb69376f88c6f96c6d788f49e79323ef59c6780fdcafa42959d
+  support: supports
+  summary: The Breakout Method For Escaping From Local Minima. AAAI-93 proceedings,
+    pp.40–45; six-page publisher scan. The later website posting date is not the paper
+    publication date. Actual text, OCR and visual scopes are declared in source_analysis;
+    extraction and rendering alone are not reading.
+- evidence_id: realtimeastar-source-0
+  kind: primary_source
+  reference: https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf
+  locator: Section5, PDF11–15 / printed199–203; core procedure, Figure3, Theorem1
+    and Theorem2; Section7 opening, PDF18–19 / printed206–207
+  accessed_at: '2026-10-11T14:56:19Z'
+  snapshot_sha256: 8cf1b89fb48727bf945a2cb709dcccdf786529544a12a4a6ac71f27ed3dc2a92
+  support: supports
+  summary: Real-Time Heuristic Search. Artificial Intelligence 42(2–3):189–211, March
+    1990; 23-page journal scan hosted by Drexel University. The requested URL and
+    file hash identify this copy; a final redirect URL was not logged. Actual text,
+    OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.
+- evidence_id: realtimeastar-source-1
+  kind: primary_source
+  reference: https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf
+  locator: Section3.2 RTA* on a Graph and Section3.3 completeness, PDF4 / printed142;
+    Section4 opening and continuation PDF4–5 / printed142–143
+  accessed_at: '2026-10-11T14:55:51Z'
+  snapshot_sha256: ab17a837c83ea0deb4dff951e4da929824f832f5085661f51d3dbf841108aca8
+  support: supports
+  summary: 'Real-Time Heuristic Search: New Results. AAAI-88 proceedings, pp.139–144;
+    six-page conference paper hosted by McGill University. Its graph-correction sketch
+    is distinct from the basic algorithm and the later journal presentation. Actual
+    text, OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.'
+- evidence_id: learningrealtimeastar-source-0
+  kind: primary_source
+  reference: https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf
+  locator: Section7, PDF18–21 / printed206–209, best-value replacement and Theorem3
+    with assumptions and proof; Section5.1, PDF13–14 / printed201–202, inherited completeness
+    conditions
+  accessed_at: '2026-10-11T14:56:19Z'
+  snapshot_sha256: 8cf1b89fb48727bf945a2cb709dcccdf786529544a12a4a6ac71f27ed3dc2a92
+  support: supports
+  summary: Real-Time Heuristic Search. Artificial Intelligence 42(2–3):189–211, March
+    1990; 23-page journal scan hosted by Drexel University. The requested URL and
+    file hash identify this copy; a final redirect URL was not logged. Actual text,
+    OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.
+- evidence_id: learningrealtimeastar-source-1
+  kind: primary_source
+  reference: https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf
+  locator: Section4 Learning-RTA* and Section4.1, PDF4–5 / printed142–143; best-value
+    backup and explicit zero-goal assumption in Theorem3 proof
+  accessed_at: '2026-10-11T14:55:51Z'
+  snapshot_sha256: ab17a837c83ea0deb4dff951e4da929824f832f5085661f51d3dbf841108aca8
+  support: supports
+  summary: 'Real-Time Heuristic Search: New Results. AAAI-88 proceedings, pp.139–144;
+    six-page conference paper hosted by McGill University. Its graph-correction sketch
+    is distinct from the basic algorithm and the later journal presentation. Actual
+    text, OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.'
+assessments:
+- assessment_id: fillalgorithm
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:FillAlgorithm
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - fillalgorithm-source-0
+  summary: 'This is Morris’s named Fill algorithm, introduced to distinguish state-specific
+    cost lifting from Breakout’s shared nogood reweighting. It is not flood fill,
+    image inpainting, or LRTA*. Fill permits any lower-cost neighbor, while LRTA*
+    selects a minimum estimated path-cost successor and backs up its value even away
+    from local minima. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 24 and 24 lines respectively. All 24 unique lines were inspected, and
+    the sorted checkout hit sets were identical: prior leads, neighboring Breakout
+    descriptions and their saved reviews/ledgers, not existing candidate records.
+    Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+    four full native neighboring records were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.'
+  details: 'Initialize a modifiable cost for complete assignments using the original
+    constraint-violation cost. Test the current assignment for satisfaction. If a
+    single-variable change strictly reduces its stored cost, take any such change;
+    otherwise increase the stored cost of that current assignment alone and continue.
+    Costs of other assignments do not change as a side effect. Retain raised costs
+    for later revisits. Figure 3 specifies an increase without fixing its magnitude;
+    the finite-CSP completeness proof relies on repeated lifts of an endlessly visited
+    minimum eventually exceeding every fixed neighboring cost. Positive unit increments
+    satisfy that intended lifting property. The theorem concerns eventual arrival
+    at a solution when one exists on the finite complete-assignment space with the
+    stated single-variable adjacency. Limits: The source’s theorem is not a finite-budget
+    guarantee or an unsatisfiability decision procedure. Restricting moves so a solution
+    is unreachable, or replacing the finite assignment space with an infinite one,
+    is outside that theorem. Figure 3 does not prescribe a numerical increment. Curator
+    qualification: arbitrary positive increments with a bounded cumulative sum need
+    not satisfy the proof’s unbounded-lifting step; completeness should not be transferred
+    to such an implementation without a separate argument. State-specific costs must
+    survive revisits. They can require storage growing with encountered local minima;
+    the compact shared-nogood representation used by Breakout changes the method and
+    does not inherit Fill’s theorem. The constraint-violation score need not be an
+    admissible estimate of distance to a solution. The method is not a shortest-path
+    optimality algorithm. No runtime advantage, numerical experiment or author implementation
+    is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - fillalgorithm-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing
+      edges were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod
+      and QLearning records. Fill and basic RTA* have bounded no-match assessments:
+      graph traversal, search bookkeeping and cost lifting do not require a language
+      model, mathematical-function identity or reusable learning task. LRTA* receives
+      a related match to MachineLearningTask because the source explicitly learns
+      reusable heuristic estimates from repeated search experience. This is an algorithm-to-task
+      association, not equivalence or an is-a link. No stronger reinforcement-learning
+      mapping is asserted from this source inspection. Native neighbors distinguish
+      open-frontier search, repeated cost thresholds, shared nogood weights and sampled
+      action-value learning; their existing mappings are context, not a renewed audit.'
+    evidence_ids:
+    - mapping
+- assessment_id: realtimeastar
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:RealTimeAStar
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - realtimeastar-source-0
+  - realtimeastar-source-1
+  summary: 'The record identifies the basic RTA* control algorithm with a second-best
+    backup, not ordinary A* frontier search, IDA* repeated cost-bounded passes, LRTA*
+    minimum-value learning, or the additional graph-correction procedure sketched
+    in the 1988 paper. Distances used to choose the next move are relative to the
+    current state rather than the original start. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 24 and 24 lines respectively. All 24 unique
+    lines were inspected, and the sorted checkout hit sets were identical: prior leads,
+    neighboring Breakout descriptions and their saved reviews/ledgers, not existing
+    candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and
+    outgoing edges and four full native neighboring records were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.'
+  details: 'Maintain a table for states actually visited. At the current non-goal
+    state, enumerate neighboring states and evaluate edge cost plus the stored heuristic
+    of a visited neighbor or a heuristic estimate, optionally produced by bounded
+    minimin lookahead, for a new neighbor. Move to a neighbor with minimum resulting
+    score, resolving ties among minima, and store the second-best score at the old
+    state. With tied best alternatives, the second-best score may equal the best.
+    The table persists during the search and allows revisits and backtracking. Only
+    roots actually visited need enter this table; lookahead descendants need not all
+    be retained. The 1990 paper proves eventual goal finding for a finite problem
+    space with positive edge costs, finite heuristic values and a goal reachable from
+    every state. Its local-optimality theorem concerns decisions relative to the cumulative
+    searched frontier on a tree, not globally shortest returned paths. Limits: A finite
+    reachable goal from the initial state alone is insufficient if an irreversible
+    move can enter a region with no route to any goal. Infinite spaces, zero/negative
+    cost cycles and infinite heuristic barriers are outside the stated completeness
+    theorem. The 1990 tree local-optimality theorem does not extend unchanged to graphs
+    with cycles. The 1988 paper separately sketches a recursive correction of stored
+    values and omits its proof for space; the 1990 article says significant modifications
+    would be required. That variant is not silently included in basic RTA*. Real-time
+    work depends on a fixed lookahead/resource policy and manageable branching and
+    heuristic evaluation. The method is not a uniform constant-time implementation
+    for arbitrary successor sets or lookahead depths, and the visited-state table
+    can grow with execution. The second-best rule assumes alternatives from which
+    that value can be obtained. The inspected method description does not state a
+    general single-successor fallback; an executable implementation must declare this
+    boundary rather than invent an undocumented convention here. Second-best backups
+    can overestimate remaining goal distance when reused across trials. The source
+    motivates LRTA* as a separate multi-trial learning modification. No puzzle benchmark
+    or complete graph-correction proof was audited.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - realtimeastar-source-0
+    - realtimeastar-source-1
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing
+      edges were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod
+      and QLearning records. Fill and basic RTA* have bounded no-match assessments:
+      graph traversal, search bookkeeping and cost lifting do not require a language
+      model, mathematical-function identity or reusable learning task. LRTA* receives
+      a related match to MachineLearningTask because the source explicitly learns
+      reusable heuristic estimates from repeated search experience. This is an algorithm-to-task
+      association, not equivalence or an is-a link. No stronger reinforcement-learning
+      mapping is asserted from this source inspection. Native neighbors distinguish
+      open-frontier search, repeated cost thresholds, shared nogood weights and sampled
+      action-value learning; their existing mappings are context, not a renewed audit.'
+    evidence_ids:
+    - mapping
+- assessment_id: learningrealtimeastar
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:LearningRealTimeAStar
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - learningrealtimeastar-source-0
+  - learningrealtimeastar-source-1
+  summary: 'This is Korf’s LRTA* formulation with a minimum-value backup rather than
+    basic RTA*’s second-best backup. It learns state cost-to-go estimates from search
+    experience; it is not ordinary A*, a trained neural network, Fill’s local-minimum-only
+    cost increments, or Q-learning’s sampled action-value update. The inspected formulation
+    is direct assignment of the minimum backup, not an added maximum with the state’s
+    old value. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 24
+    and 24 lines respectively. All 24 unique lines were inspected, and the sorted
+    checkout hit sets were identical: prior leads, neighboring Breakout descriptions
+    and their saved reviews/ledgers, not existing candidate records. Seven exact AIO
+    CLASS nodes with scoped synonyms/comments and outgoing edges and four full native
+    neighboring records were inspected. Absence is bounded to this snapshot and semantic
+    neighborhood.'
+  details: 'At each non-goal state n, use stored or initial heuristic values for its
+    neighbors and form k(n,n′)+h(n′), where k is the edge cost. Move to a neighbor
+    attaining the minimum and assign that minimum to h(n). Preserve the table across
+    subsequent trials in the same problem space with the same goal set. This best-value
+    backup replaces RTA*’s second-best backup. It can change values even when the
+    state is not a local minimum and can decrease an initially inconsistent estimate.
+    The source gives the same finite-space, positive-edge, finite-heuristic and everywhere-goal-reachable
+    conditions for eventual goal finding as basic RTA*. For learning convergence,
+    it additionally assumes non-overestimating initial estimates, zero estimates at
+    goals, repeated random sampling of the initial states and random tie handling
+    so the relevant alternatives continue to be explored. Under those conditions,
+    its theorem concerns exact learned values along every optimal path from the sampled
+    initial-state set to a goal over repeated trials. Limits: The learning result
+    does not say every state in an arbitrary graph is learned exactly, nor that a
+    fixed finite number of trials certifies convergence. Random initial-state sampling
+    and random tie resolution provide the repeated exploration used in the proof.
+    Non-overestimation matters: an initially overestimated state can be avoided and
+    remain uncorrected. The 1988 proof explicitly assumes h(goal)=0; the 1990 proof
+    uses the same equality. Non-overestimation alone would not imply that equality
+    if negative goal estimates were permitted. LRTA* can repeatedly traverse a heuristic
+    depression before escaping and does not inherit basic RTA*’s tree local-optimality
+    theorem. Good asymptotic estimates do not ensure that an early trial follows a
+    shortest path. Replacing h(n) with max(old h(n), minimum backup) is an additional
+    convention not asserted as the same literal source update. The direct minimum
+    can decrease an admissible but inconsistent initial value; that does not contradict
+    preservation of non-overestimation. The table stores state estimates, and the
+    method evaluates successor costs. It is not Q-learning’s model-free sampled state-action
+    update. No stochastic-transition extension, function-approximation guarantee,
+    convergence rate or numerical puzzle result is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - learningrealtimeastar-source-0
+    - learningrealtimeastar-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing
+      edges were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod
+      and QLearning records. Fill and basic RTA* have bounded no-match assessments:
+      graph traversal, search bookkeeping and cost lifting do not require a language
+      model, mathematical-function identity or reusable learning task. LRTA* receives
+      a related match to MachineLearningTask because the source explicitly learns
+      reusable heuristic estimates from repeated search experience. This is an algorithm-to-task
+      association, not equivalence or an is-a link. No stronger reinforcement-learning
+      mapping is asserted from this source inspection. Native neighbors distinguish
+      open-frontier search, repeated cost thresholds, shared nogood weights and sampled
+      action-value learning; their existing mappings are context, not a renewed audit.'
+    evidence_ids:
+    - mapping
+- assessment_id: fill-boundaries
+  area: consistency
+  topic: State-specific lifting and conditional completeness
+  outcome: supported
+  target_ids:
+  - AIMech:FillAlgorithm
+  evidence_ids:
+  - fillalgorithm-source-0
+  - finite-conventions
+  summary: Retain Fill distinct from practical Breakout and LRTA*.
+  details: Figure3 chooses any strictly cheaper single-variable neighbor, otherwise
+    increasing only the current state cost. Theorem1 uses a finite CSP and unbounded
+    repeated lifts, with revisitation allowed. The increment size is not fixed in
+    the figure. The record explicitly qualifies the theorem rather than extending
+    it to arbitrarily small summable positive increments. The original geometric-series
+    example demonstrates that gap in such an extension. No UNSAT, shortest-path or
+    finite-budget guarantee is asserted.
+- assessment_id: rta-boundaries
+  area: consistency
+  topic: Second-best control and source-version boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:RealTimeAStar
+  evidence_ids:
+  - realtimeastar-source-0
+  - realtimeastar-source-1
+  - finite-conventions
+  summary: Retain the basic control procedure with scoped guarantees.
+  details: The stored value is the second-best successor score including edge cost
+    from the current position. Completeness requires a finite space, positive edge
+    costs, finite heuristic values and a goal reachable from every state. Tree-relative
+    local optimality is not global path optimality or graph local optimality. The
+    1988 graph-fix sketch differs from the 1990 presentation and remains a separate
+    frontier lead. The single-successor convention is not supplied by the inspected
+    core method; the record discloses that executable boundary. Fixed lookahead does
+    not mean arbitrary branching is constant work.
+- assessment_id: lrta-boundaries
+  area: consistency
+  topic: Minimum backup and repeated-trial learning
+  outcome: supported
+  target_ids:
+  - AIMech:LearningRealTimeAStar
+  evidence_ids:
+  - learningrealtimeastar-source-0
+  - learningrealtimeastar-source-1
+  - finite-conventions
+  summary: Retain LRTA* and its zero-goal/exploration conditions.
+  details: The direct minimum backup can reduce an admissible inconsistent estimate
+    and is not automatically max(old,backup). The 1988 proof explicitly assumes zero
+    goal estimates; the 1990 proof uses that equality, which does not follow from
+    non-overestimation alone if negative estimates are permitted. Repeated random
+    starts and ties support exploration of optimal paths from the initial-state set.
+    The record does not imply all states converge under arbitrary sampling, or that
+    early trials are optimal. The related MachineLearningTask mapping records actual
+    multi-trial heuristic learning without promoting an algorithm to a task hierarchy.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: State search versus learned heuristic task
+  outcome: supported
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain two bounded no-match assessments and one task association.
+  details: 'Seven exact AIO CLASS nodes, scoped synonyms/comments and outgoing edges
+    were inspected, plus complete AStarSearch, IterativeDeepeningAStar, BreakoutMethod
+    and QLearning records. Fill and basic RTA* have bounded no-match assessments:
+    graph traversal, search bookkeeping and cost lifting do not require a language
+    model, mathematical-function identity or reusable learning task. LRTA* receives
+    a related match to MachineLearningTask because the source explicitly learns reusable
+    heuristic estimates from repeated search experience. This is an algorithm-to-task
+    association, not equivalence or an is-a link. No stronger reinforcement-learning
+    mapping is asserted from this source inspection. Native neighbors distinguish
+    open-frontier search, repeated cost thresholds, shared nogood weights and sampled
+    action-value learning; their existing mappings are context, not a renewed audit.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:FillAlgorithm
+  - AIMech:RealTimeAStar
+  - AIMech:LearningRealTimeAStar
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - fillalgorithm-source-0
+  - realtimeastar-source-0
+  - realtimeastar-source-1
+  - learningrealtimeastar-source-0
+  - learningrealtimeastar-source-1
+  rationale: State-specific lifting at local minima, second-best successor backup
+    and repeated-trial minimum-value learning have distinct state updates and guarantees.
+    Related cost-raising behavior does not establish identity.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Finite-space goal reachability and positive costs condition the RTA*/LRTA* completeness
+  statements. Fill’s proof requires unbounded repeated lifting rather than merely
+  positive summable increments.
+- The learning theorem needs admissible initial estimates, zero goal estimates and
+  repeated exploration. Basic RTA* local optimality is tree-relative; the graph-fix
+  sketch is not included.
+- Only declared source pages were read, and no author implementation, graph-correction
+  proof or numerical benchmark was audited.
+- There are183 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- heuristic-search
+- self-review
+- discovery-ongoing
+```
