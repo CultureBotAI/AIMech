@@ -1,0 +1,1137 @@
+# Scientific self-review of conditional modes, Otsu thresholding and wavelet hidden states
+
+- Review: 20261011T214734Z-local-modes-thresholds-wavelets
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T21:45:22Z
+- Finished UTC: 2026-10-11T21:47:34Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain two DRAFT algorithms and one DRAFT wavelet hidden-state model family. Fixed-objective conditional updates, exhaustive histogram thresholding, graph scope and hidden-state inference are supported with precise source/version qualifications. Draft refinements strengthened direct edge-posterior verification and clarified complexity and decision thresholds. No actionable curation finding remains in this selected batch.
+
+## Scope And Provenance
+
+All fields of three selected maintained concepts for conditional-mode inference, threshold selection and wavelet hidden-state modeling.
+
+Selection: Exact maintained IDs IteratedConditionalModes, OtsuThresholding and WaveletHiddenMarkovModel; complete selected batch without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 34e4a85c47ce8a45081404c935c4c4dc354c8f7b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:IteratedConditionalModes | data/curated/IteratedConditionalModes.yaml | maintained | Iterated conditional modes |
+| AIMech:OtsuThresholding | data/curated/OtsuThresholding.yaml | maintained | Otsu thresholding |
+| AIMech:WaveletHiddenMarkovModel | data/curated/WaveletHiddenMarkovModel.yaml | maintained | Wavelet-domain hidden Markov model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 119.12s (0:01:59)<br>Checked 442 record(s); 0 failed.<br>Checked 400 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 114 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 111,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel | Command exited 0 with no output. |
+| Conditional-mode, threshold-variance and wavelet-state calculations | passed | True | AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel | {"icm": {"weights": {"(0, 0)": 4, "(0, 1)": 2, "(1, 0)": 1, "(1, 1)": 3}, "left_first": [[0, 1], [1, 1], [1, 1]], "right_first": [[0, 1], [0, 0], [0, 0]], "synchronous_cycle": [[0, 1], [1, 0], [0, 1]], "arbitrary_tie_cycle": [0, 1, 0]}, "otsu": {"gray_values": [0, 10, 11, 21], "total_variance": "221/4", "scores_at_0_10_11": ["147/4", "121/4", "147/4"], "maximizing_binary_thresholds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], "three_class_max_between_variance": "441/8"}, "wavelet_tree": {"evidence_density": 0.018197095815847265, "posterior_marginals": [[0.8732609427806721, 0.12673905721932774], [0.6258577502274387, 0.3741422497725611], [0.8956352302985252, 0.10436476970147467]], "transposed_edge_mass": 1.251393784441534, "pooled_transition": [[0.8357049829171336, 0.1642950170828666], [0.2442654196226687, 0.7557345803773312]], "coefficient_cross_covariance": 0, "squared_coefficient_covariance": 2.0671875, "root_high_given_local_only": 0.10353103779827498}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:IteratedConditionalModes.
+
+ICM is a label or state optimization procedure, not the hidden Markov random field it can optimize and not iterative conditional estimation of model parameters. It is a probability-based coordinate-ascent instance related to hill climbing; Gibbs sampling instead draws a conditional random value. The classical image implementation uses local Markov neighbors and site emissions, but the conditional-mode principle also applies when an observation affects several sites or when the posterior neighborhood is wider. Single-site ICM is the defining scope; joint block updates are a stated extension. The paper credits earlier work and does not establish a 1986 first-invention claim. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood.
+
+For fixed observed y and model parameters theta, start at a configuration x with a defined positive posterior. In a sequential sweep, replace x_i by an element of argmax_u p(x_i=u &#124; x_(-i),y,theta), using already updated values at earlier sites. Equivalently maximize the joint posterior with all other coordinates held fixed. For an MRF prior and independent local emissions the score is b_i(y_i&#124;u)*p_i(u&#124;x_neighbors); shared observation factors require every factor affected by the coordinate. Each exact update cannot decrease the fixed joint objective. On a finite configuration space, requiring strict improvement for a changed value, or retaining the current value on a tie, yields finite termination at a coordinatewise mode. This need not be a global joint MAP solution. Joint updates on conditionally independent coding sets can be parallelized; simultaneously updating interacting sites from stale neighbors has no such monotonicity guarantee. A block extension maximizes over a selected block given its complement. ICM can remain at an initialization-dependent local mode and does not generally quantify uncertainty or guarantee the globally optimal segmentation; the source’s illustrative parameter settings are not universal prescriptions. Limitations: Initialization and update order can change the resulting mode. A coordinatewise optimum can have lower posterior probability than another configuration. ICM does not provide posterior uncertainty or the sitewise marginal posterior mode merely by returning a joint labeling. The monotonicity and finite-state termination statements require a fixed objective, valid exact conditionals and the stated tie policy. Arbitrary switching among tied states can cycle; continuous-valued coordinate ascent need not terminate in finitely many steps. The source’s simultaneous image updates and its changing interaction parameter are practical variants, not a proof for fully synchronous updates or a changing posterior. Alternating estimated labels and fitted parameters, especially pseudolikelihood fitting, does not inherit exact EM monotonicity. For independent site observations, the local emission factor is sufficient for a coordinate update. Correlated observations, blur, tomography and shared likelihood factors can enlarge the required conditional neighborhood. A product containing only the updated site’s emission would then generally be wrong. Strong coupling and fine structures can produce initialization dependence and artifacts. The illustrative interaction strength 1.5 and a few reported sweeps are not universal defaults or convergence bounds. The author’s reply explicitly limits optimality and empirical claims. The paper’s main image examples and discussion establish method context, not universal segmentation superiority. No author code, image benchmark or parameter fitting was reproduced. A separate finite probability witness tests update order, synchronous oscillation and tie behavior.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:OtsuThresholding.
+
+The binary method chooses a global intensity threshold without labeled training data or a fitted parametric intensity density. Its ordered multilevel extension jointly selects several thresholds using the same variance decomposition. It is not a supervised classifier, a learned activation threshold, adaptive spatial thresholding or a guarantee of semantically correct image segmentation. The threshold search depends on intensity counts and order, not spatial adjacency. Thresholds with the same partition can be equivalent even when their numeric values differ. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood.
+
+For nonnegative counts n_i at ordered gray levels i with positive total N, use p_i=n_i/N and total mean mu_T=sum_i i*p_i. For every binary threshold k admitting two nonempty classes, set w=sum_(i&lt;=k) p_i and m=sum_(i&lt;=k) i*p_i. Compute between-class variance B(k)=(mu_T*w-m)^2/[w*(1-w)] and choose a global maximizer. Cumulative counts and first moments give an O(L) scan over L gray levels after histogram construction. At fixed total variance T, within-class variance is T-B(k); if T&gt;0, maximizing the separability ratio B(k)/T gives the same maximizers. The source’s multilevel extension jointly partitions the ordered levels into nonempty classes and maximizes sum_c w_c*(mu_c-mu_T)^2; recursive binary splitting is not automatically equivalent to that joint optimum. Limitations: An empty histogram has no probability distribution. A constant-intensity histogram has no admissible nonempty binary split and has zero total variance, so the separability ratio is undefined without an added convention. Implementations must state how they handle these cases. Multiple thresholds can maximize the objective. The paper does not prescribe a universal tie rule such as averaging all maximizing thresholds. Quantization, bin selection and intensity transformations can affect the result; the stated invariance is for corresponding affine intensity transformations, not arbitrary nonlinear remapping. Section III D suggests that the objective is always unimodal while acknowledging no proof. That universal claim is not adopted: the original finite histogram with equal counts at 0, 10, 11, 21 has two separated maximizing threshold plateaus with a lower objective at 10. A full scan preserves the global objective; an assumed-unimodal local search need not. The variance criterion measures statistical separation in intensity space. It does not require visibly bimodal histograms and does not ensure that the selected classes correspond to the desired objects. Spatial connectivity, texture and semantic labels are absent from this objective. The multilevel criterion requires a joint ordered-threshold optimization or another justified optimizer. The linear scan complexity above is for the binary case, not every multilevel search. The three small illustrative character, texture and cell images are application examples, not a modern accuracy benchmark or a universal comparison. The PDF shares pages with unrelated articles and a book review; those passages are excluded from evidence. No author implementation or image evaluation was run.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:WaveletHiddenMarkovModel.
+
+This is the wavelet-domain framework of Crouse, Nowak and Baraniuk, including independent-mixture, within-scale hidden-chain and cross-scale hidden-tree constructions. The independent mixture is its no-dependence special case. The source also discusses richer hidden graphs; a generic family member is not necessarily a sequential HMM or a Bayesian network with the same graph. Generic hidden Markov trees and chains provide structural components, while wavelet coefficients, mixture emissions and scale organization specify this family. A trained parameter instance, a wavelet transform alone, wavelet shrinkage in general and a neural hidden layer are different identities. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood.
+
+Transform a signal into wavelet coefficients W_i and assign each coefficient a finite hidden mixture state S_i. Given all states, the coefficient emissions factor by site. The canonical two-state emission uses zero-mean Gaussian components with a narrow and a wide variance. A hidden chain models within-scale dependence; a hidden tree models parent-to-child persistence across scales. For a rooted tree, p(s,w)=pi(s_root)*product_edges A_child(s_child&#124;s_parent)*product_i N(w_i;mu_i(s_i),v_i(s_i)), with normalized root and transition laws and positive emission variances. Upward subtree likelihoods and a downward pass yield exact node and edge state posteriors for a tree; chains admit the corresponding forward/backward inference. Those expectations support EM updates and optional parameter tying over explicitly selected sites or scales. In the source’s orthonormal-wavelet additive white Gaussian noise model, noise variance adds to each conditional coefficient variance. For zero-mean signal components, the posterior-mean coefficient estimate averages the state-specific gain v_signal/(v_signal+v_noise) times the noisy coefficient using state probabilities conditioned on all observed coefficients in the modeled dependency component. Limitations: Wavelet decorrelation does not imply independence. Zero-mean conditional Gaussian coefficients can be uncorrelated while their squared magnitudes remain dependent through hidden states. Marginalizing the states does not generally leave an observed Markov process. The two zero-mean states and chosen graph are modeling choices, not universal properties of wavelets. More states, nonzero means and alternative emissions are possible. Scaling coefficients may be modeled separately or left unchanged in a particular application. Directed dependence does not establish intervention causality. With K states and dense transitions, exact chain/tree message cost is O(edges*K^2). Richer or loopy graphs need separate inference and complexity analysis; linearity in graph size for chordal models also depends on bounded clique and state sizes. Parameter tying imposes equality constraints and requires pooled sufficient statistics with proper normalization. Exact EM under suitable model and optimization conditions does not ensure a global likelihood optimum. Empty posterior components, zero transition occupancy, singular Gaussian variances and constrained parameters need explicit handling. The record does not certify an author implementation or fit any parameters. Appendix A in the inspected 1997 preprint contains inconsistent parent/child epsilon indices in Equations (19) and(22), a finest/coarsest initialization typo and missing or inconsistent state indices in the downward recursion. This record uses the stated normalized model factorization; an asymmetric three-node finite example verifies consistent messages against complete enumeration rather than copying those displays literally. The denoising formula assumes the stated orthonormal transform and independent white Gaussian noise. Subtracting a noise estimate from fitted noisy variances and clipping at zero is a plug-in procedure, not a general constrained-maximum-likelihood theorem. The zero signal-variance boundary is degenerate. Estimated parameters and noise are treated as fixed, rather than integrated out. Reported denoising, classification and change-detection examples do not establish universal superiority. Table 1 does not make the tree best for every signal, and selected comparator numbers are imported from other work. Comparing class likelihoods alone assumes the appropriate prior-and-cost threshold is one; unequal priors or costs generally change that threshold. The fully inspected source is the 31-page author preprint revised August 1997. The 1998 journal article DOI 10.1109/78.668544 is corroborating bibliographic context, not an assertion that those journal PDF bytes were read. No first-invention date, benchmark reproduction or author-code execution is asserted.
+
+### Conditional optimization versus parameter estimation or sampling
+
+consistency: supported. Targets: AIMech:IteratedConditionalModes.
+
+Retain ICM as a distinct optimization algorithm.
+
+The main paper and author reply support sequential posterior conditional modes with local-optimum and initialization limitations. Fixed-objective nondecrease does not imply a global optimum or uncertainty estimate. Strict improvement or retaining current tied values gives finite-state termination with repeated complete sweeps. The finite witness reaches different modes in different coordinate orders; fully synchronous interacting-site updates cycle and can decrease posterior weight. A tied single-site always-switch rule also cycles. ICE averages complete-data parameter estimators, Gibbs draws random conditional values and hill climbing is more generic. Main-paper and discussion DOIs are separately identified.
+
+### Global histogram variance criterion and threshold search
+
+consistency: supported. Targets: AIMech:OtsuThresholding.
+
+Retain Otsu thresholding as an algorithm.
+
+Class-weighted between/within variance decomposition and cumulative moment formula agree for every valid binary threshold in the finite histogram. Empty classes are excluded; constant images have no valid two-class split. Equal masses at 0, 10, 11 and 21 produce separated maximizing plateaus, contradicting the paper’s explicitly unproved universal-unimodality suggestion. The record specifies a full scan and does not invent a universal tie rule. A joint multilevel objective is not assumed equivalent to recursive binary splitting. Unlabeled intensity grouping is related to an unsupervised task, not supervised classification or a neural activation threshold.
+
+### Wavelet hidden mixtures, graph scope and inference
+
+consistency: supported. Targets: AIMech:WaveletHiddenMarkovModel.
+
+Retain the wavelet-domain model family.
+
+The source’s framework includes independent mixtures, within-scale chains and cross-scale trees, with richer hidden graphs discussed separately. Generic HMT and HMM are structural relatives, not duplicates of this wavelet observation/state construction. Exact tree node and every edge-state probability agree with enumeration; a reversed asymmetric transition index fails normalization. Shared hidden states yield dependent squared coefficients despite zero coefficient covariance. Parameter tying requires pooled expected counts, and arbitrary graph inference is not given a tree complexity bound. The denoiser uses full-component state posteriors under fixed fitted parameters and stated orthonormal white-noise assumptions. Appendix errors, mixture fitting limits and classification thresholds are qualified. Only the revised 1997 preprint was fully read, not the 1998 journal PDF.
+
+### Directional AIO mappings and neighboring identities
+
+grounding: supported. Targets: AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel.
+
+Retain all three native identities with scoped AIO mappings.
+
+ICM maps related to ProbabilisticGraphicalModel for conditional-mode inference; the pinned target is task-scoped and is not an algorithm superclass. Otsu maps related to UnsupervisedClustering for unlabeled ordered-intensity grouping; supervised Classification, BinaryClassification and MulticlassClassification do not define this algorithm. Clustering is more general and SupervisedClustering assumes labels. Wavelet hidden-state models map broad to Model and related to ProbabilisticGraphicalModel; Model supplies a genuine broader representation class, while the latter is a task. A BayesianNetwork mapping is not forced for the whole wavelet framework, which discusses richer hidden graphs as well as trees and chains. CausalGraph does not license intervention claims. MarkovChain cannot cover all branching or richer graphs. DecisionTree, HierarchicalClassification and HierarchicalClustering concern decisions/grouping rather than hidden stochastic dependence. HierarchicalLanguageModel, EnergyBasedLLM and ImplicitLanguageModel add language scope. BoltzmannMachineNetwork, RestrictedBoltzmannMachine and HopfieldNetwork impose particular neural/state semantics. SpatialRegression, RegressionAnalysis and ThresholdAutoregressive are regression/time-series classes. GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer, ProbabilisticHiddenLayer, ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer are components rather than these algorithms or statistical model family. MaximumLayer is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization are text-scoped. ModeConfusionBias concerns human-interface bias rather than posterior modes. DataPreparation, Preprocessing and TrainingStrategy have workflow scope that does not define global image segmentation or every wavelet model; SupervisedLearning, UnsupervisedLearning and MachineLearningTask likewise do not identify these specific mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam pruning distinguish the model, conditional optimizer, estimator, sampler, temperature procedure and score-pruning threshold. Context reading does not renew their scientific approval.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:IteratedConditionalModes, AIMech:OtsuThresholding, AIMech:WaveletHiddenMarkovModel. ICM optimizes coordinate conditionals of a fixed joint distribution; Otsu selects ordered histogram partitions by a variance criterion; the wavelet framework defines a latent-state probability family whose parameters and states require separate inference. Shared imaging applications or optimization subroutines do not make these identities equivalent. Preserve local IDs and directional AIO mappings.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T214236Z-local-modes-thresholds-wavelets.json | supports | No normalized identity match was found across all442 pinned AIO labels and all scoped synonyms and397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding12 and12 matched lines; all9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and16 freshly read. Fifty contextual YAMLs comprise40 generated and10 native records:28 byte-verified after prior reading and22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood. |
+| mapping | sources/aio/aio.json; 40 exact CLASS nodes and outgoing edges, and 161 semantic label/synonym hits in source_analysis.aio_mapping_inspection | supports | ICM maps related to ProbabilisticGraphicalModel for conditional-mode inference; the pinned target is task-scoped and is not an algorithm superclass. Otsu maps related to UnsupervisedClustering for unlabeled ordered-intensity grouping; supervised Classification, BinaryClassification and MulticlassClassification do not define this algorithm. Clustering is more general and SupervisedClustering assumes labels. Wavelet hidden-state models map broad to Model and related to ProbabilisticGraphicalModel; Model supplies a genuine broader representation class, while the latter is a task. A BayesianNetwork mapping is not forced for the whole wavelet framework, which discusses richer hidden graphs as well as trees and chains. CausalGraph does not license intervention claims. MarkovChain cannot cover all branching or richer graphs. DecisionTree, HierarchicalClassification and HierarchicalClustering concern decisions/grouping rather than hidden stochastic dependence. HierarchicalLanguageModel, EnergyBasedLLM and ImplicitLanguageModel add language scope. BoltzmannMachineNetwork, RestrictedBoltzmannMachine and HopfieldNetwork impose particular neural/state semantics. SpatialRegression, RegressionAnalysis and ThresholdAutoregressive are regression/time-series classes. GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer, ProbabilisticHiddenLayer, ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer are components rather than these algorithms or statistical model family. MaximumLayer is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization are text-scoped. ModeConfusionBias concerns human-interface bias rather than posterior modes. DataPreparation, Preprocessing and TrainingStrategy have workflow scope that does not define global image segmentation or every wavelet model; SupervisedLearning, UnsupervisedLearning and MachineLearningTask likewise do not identify these specific mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam pruning distinguish the model, conditional optimizer, estimator, sampler, temperature procedure and score-pruning threshold. Context reading does not renew their scientific approval. |
+| neighbors | research/discovery/20261011T214236Z-local-modes-thresholds-wavelets.json; source_analysis.aio_mapping_inspection.native_neighbors and context_reading | supports | Ten complete native contextual records read or byte-verified after prior full reading: MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam pruning. They distinguish graphical model, conditional optimizer, parameter estimator, sampler, temperature search and score pruning. This context reading does not renew scientific approval of those records. |
+| finite-conventions | research/discovery/local-modes-thresholds-wavelets-boundaries.py; Two-variable conditional-mode schedules; exact histogram variances; asymmetric three-node wavelet hidden-state tree | supports | Original finite calculations use a normalized two-variable distribution with unnormalized weights00:4,01:2,10:1,11:3. Sequential ICM from01 reaches11 or00 depending on coordinate order; fully synchronous updates cycle01–10–01 and can lower the objective. Arbitrary tie switching also cycles. Equal histogram counts at gray values0,10,11,21 have total variance221/4 and between-class scores147/4,121/4,147/4 at thresholds0,10,11, producing separated global-maximizer plateaus. Exact variance decomposition and cumulative formulas agree; joint three-class optimum is441/8, and a constant histogram has no valid nonempty binary split. An earlier bounded five-bin positive-count search found no counterexample; the later spaced four-value search produced the reported witness. An asymmetric three-node two-state Gaussian wavelet tree has evidence density0.018197095815847265; upward/downward node and edge probabilities agree with all8state configurations. Root high-state posterior0.1267390572 differs from its local-only value0.1035310378. Reversing edge indices produces total edge mass1.2513937844 instead of1. Pooled expected transition rows normalize. Zero coefficient covariance coexists with squared-coefficient covariance2.0671875. These are fixed original mathematical checks, not author-code reproduction, model fitting, benchmark evaluation or general convergence proofs. |
+| iteratedconditionalmodes-source-0 | https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf; Section 2.5, printed pp. 264–266 / PDF pp. 7–9, especially Equation (5); Section 2.6, pp. 266–267 / PDF pp. 9–10; Sections 4–5, pp. 273–279 / PDF pp. 16–22, conditional dependence and parameter estimation | supports | On the Statistical Analysis of Dirty Pictures. Journal of the Royal Statistical Society, Series B 48(3):259–279, 1986. The inspected university-hosted 45-page scan contains a JSTOR cover, the main paper and separately published discussion through p. 302. Main-paper printed page=PDF page+257. All 45 pages visually read, including the rotated figure page 26 after correction. The definition and mechanism cite the main paper; discussion is identified separately. All target-defining pages visually read. The source-analysis notes preserve full reading scope, source errors, access failures and version distinctions. |
+| iteratedconditionalmodes-source-1 | https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf; Author’s reply, printed pp. 298–299 / PDF pp. 41–42 | supports | Discussion of Professor Besag’s Paper: author’s reply. Author’s reply within the separately published discussion, Journal of the Royal Statistical Society, Series B 48(3):280–302, 1986; reply pp. 296–301 / PDF pp. 39–44 in the same 45-page scan. Other discussants are not attributed to Besag. Publisher metadata distinguishes the discussion DOI from the main-paper DOI. All target-defining pages visually read. The source-analysis notes preserve full reading scope, source errors, access failures and version distinctions. |
+| otsuthresholding-source-0 | https://skynet.ecn.purdue.edu/~ace/vip/A_Threshold_Selection_Method_from_Gray-Level_Histograms_otsu.pdf; Section II, printed pp. 62–64 / PDF pp. 1–3, Equations (1)–(18); Section III B, p. 64 / PDF p. 3, multilevel extension; Section III D, p. 66 / PDF p. 5, unproved unimodality suggestion | supports | A Threshold Selection Method from Gray-Level Histograms. IEEE Transactions on Systems, Man, and Cybernetics SMC-9(1):62–66, January 1979; university-hosted 5-page journal scan. All 5 pages visually read; printed page=PDF page+61. Unrelated preceding ship-tracking text on PDF p. 1 and following book-review text on p. 5 are excluded. DOI resolves to IEEE document 4310076; no additional article full text was obtained from that endpoint. All target-defining pages visually read. The source-analysis notes preserve full reading scope, source errors, access failures and version distinctions. |
+| wavelethiddenmarkovmodel-source-0 | https://www.ece.rice.edu/dsp/publicationsold/pub/wmarkov2.pdf; Sections 1.3 and 3, printed pp. 4–11 / PDF pp. 5–12, independent-mixture/chain/tree constructions; Section 4, pp. 11–15 / PDF pp. 12–16, inference, EM and tying; Section 5.1, pp. 16–18 / PDF pp. 17–19, denoising Equation (9); Appendix A, pp. 26–29 / PDF pp. 27–30, with index qualifications | supports | Wavelet-Based Statistical Signal Processing Using Hidden Markov Models. Author preprint, submitted January 1997 and revised August 1997, 31 PDF pages including title page; all 31 visually read. Printed page=PDF page−1. Related journal publication: IEEE Transactions on Signal Processing 46(4), April 1998, DOI 10.1109/78.668544, verified as bibliographic context only. The journal repository download failed and these author-preprint bytes are not substituted as an inspected journal version. All target-defining pages visually read. The source-analysis notes preserve full reading scope, source errors, access failures and version distinctions. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 81 PDF pages were visually read. Otsu shares pages with excluded neighboring publications; Besag includes a wrapper and separately cited discussion. No complete extracted-text or OCR reading is asserted.
+- Besag method and author-reply DOIs are separately identified. Access redirected to an HTTP host; exact downloaded bytes are hashed.
+- Initial Otsu certificate-verification access failed, but curl with default verification succeeded. The journal wavelet PDF was unavailable; claims cite the fully inspected August 1997 preprint. A direct Crossref API open was unavailable.
+- Otsu universal unimodality is not assumed; original exact arithmetic supplies a counterexample. Wavelet appendix index errors are qualified rather than copied into an implementation.
+- The first vendored-artifact check failed sandbox DNS access. An authorized read-only network retry fetched the pinned public artifacts and passed; the failed attempt is retained in the discovery ledger.
+- Original finite calculations are not author-code reproduction, fitting, benchmarking or general convergence proofs.
+- 231 pending leads plus other unresolved dispositions remain; discovery continues.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T214734Z-local-modes-thresholds-wavelets
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of conditional modes, Otsu thresholding and wavelet
+  hidden states
+started_at: '2026-10-11T21:45:22Z'
+finished_at: '2026-10-11T21:47:34Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all fields of three
+    records against 81 fully visually read PDF pages, 40 annotated AIO nodes and 10
+    native contextual records. Original finite checks challenge convergence, threshold-search
+    and hidden-dependence claims. This is author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain two DRAFT algorithms and one DRAFT wavelet hidden-state model family.
+  Fixed-objective conditional updates, exhaustive histogram thresholding, graph scope
+  and hidden-state inference are supported with precise source/version qualifications.
+  Draft refinements strengthened direct edge-posterior verification and clarified
+  complexity and decision thresholds. No actionable curation finding remains in this
+  selected batch.
+source:
+  git_revision: 34e4a85c47ce8a45081404c935c4c4dc354c8f7b
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BinaryClassification.yaml
+    sha256: 4c710e70fe7e71227f0c6aa55162a3683f04ebbe6f5a4601bd4c0398329f1481
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DecisionTree.yaml
+    sha256: 4c2a5ed08c585f8912d66e3629aaa20e93c46ab49cfb2d128001fcd019c81bfc
+    role: context
+  - path: data/aio/EnergyBasedLLM.yaml
+    sha256: e9e29aa4f8400ad463dfe058fade876ef36c4a2637e1ebc4b42688116896310b
+    role: context
+  - path: data/aio/GaussianDropoutLayer.yaml
+    sha256: d709e2b88e01052b2dbb1a1e3213a79b428c3c1de4acb2e55c875528250d58d2
+    role: context
+  - path: data/aio/GaussianNoiseLayer.yaml
+    sha256: 1d6c203daf9e9a5a450a85a7d7bf6e55bb9bffbeea7ceffcc1a8aefbd9629452
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/HierarchicalLanguageModel.yaml
+    sha256: d37f9eda55372f4e261249cdefc3b88b036e214884ef612ced2bb40076d29622
+    role: context
+  - path: data/aio/HopfieldNetwork.yaml
+    sha256: 042815574abb3502427a76bb970ab78fd1ef684fa5f807b41c948ddb62e63822
+    role: context
+  - path: data/aio/ImageAugmentationLayer.yaml
+    sha256: b9d1313742a22376bf8de6b48359beb8868e5b312e8b27cb221c6eb73e2252c0
+    role: context
+  - path: data/aio/ImagePreprocessingLayer.yaml
+    sha256: 8c1cfc2c6591efbbab143c421e79c5c9646af68756c0748b531f115e48038158
+    role: context
+  - path: data/aio/ImplicitLanguageModel.yaml
+    sha256: 818c396b19757360dcdff6291a85d589c50638e0dc6d6bfcd96fdcb7bdf46ce9
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MaximumLayer.yaml
+    sha256: 7e034921f50c25cba46a261fc2f30b638ec7c5129fb150ee8d26373b4a6f3d54
+    role: context
+  - path: data/aio/ModeConfusionBias.yaml
+    sha256: 33c193f818a9f074915386d4dbf1838ed0bb1a96ec3000ce7dc8fc7bd5ee51fe
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/MulticlassClassification.yaml
+    sha256: dcf165047485763fd91782b9a9ba43202d58f00fd33b8545893a5eae327de171
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/SpatialRegression.yaml
+    sha256: 88d7d2d80262e45a56d05abcff674c3240be7ea2799782c64ba7ea1740250a37
+    role: context
+  - path: data/aio/SubwordSegmentation.yaml
+    sha256: d1841cd8a888cbb54840f58b6edd8bfad7b2bf4dd46e459f06010b89ad3d194a
+    role: context
+  - path: data/aio/SupervisedClustering.yaml
+    sha256: d8d9f49b7b975d8217fe675e9c670fd0246af4abcdebce2483fa773a441ee83e
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/ThresholdAutoregressive.yaml
+    sha256: 0cbb5a268b739a03016d947a17007d7ab1264d3ed78a90c36efeced32d4d4b19
+    role: context
+  - path: data/aio/ThresholdedReLULayer.yaml
+    sha256: 3d36b3705b493dd73e1740fe620159932c0dc6defa38a6bf137ee2e24600c6f0
+    role: context
+  - path: data/aio/Tokenization.yaml
+    sha256: 723d21fd60d200e6eea998a88ebeed5e33fd47d32d5a3fc5c459c8b93847f5ff
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AbsoluteThresholdBeamPruning.yaml
+    sha256: 3b04701cf946e151944243eaf7f256880d2e005049e98b64584d9916370eebe1
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HiddenMarkovModel.yaml
+    sha256: 062a31bd525cb90e8077d4889c177f55cb7b29dea4e71c33be95bae9e72a5240
+    role: context
+  - path: data/curated/HiddenMarkovRandomField.yaml
+    sha256: 620a68339af0155d1b1f83304dde7fed4634ec95e5a9541480f0d0b37b326327
+    role: context
+  - path: data/curated/HiddenMarkovTree.yaml
+    sha256: ca89c267443e8b806d61b389943bd06a514fb8a95668bd604fae4ecc2d873e1b
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: 1f63c3e6341fecd3c78e00ae3ced9898c070ba9565dccc5511f3c67e6ea29476
+    role: context
+  - path: data/curated/IteratedConditionalModes.yaml
+    sha256: e3cab6676e99fc64d8afca411250e28eec5126524709c6e67988180fa54ffc78
+    role: target
+  - path: data/curated/IterativeConditionalEstimation.yaml
+    sha256: 98813e020f43870f725a5c1e4ab0de9197f0dc2bc85f61e66e2044ab8d87e9cc
+    role: context
+  - path: data/curated/MarkovRandomField.yaml
+    sha256: 03b1f2a66b2183a5bf5943bee7ec0619b9e07947d6c9187263e279ee475f9149
+    role: context
+  - path: data/curated/OtsuThresholding.yaml
+    sha256: f24b113b3018a37593f3e516fe3e1dbb0a6f27931726538ec4eeb8a7a17b4aa7
+    role: target
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/WaveletHiddenMarkovModel.yaml
+    sha256: 2bb61317d88feb37166f442af94b94da876fe6822d221a617341acee2d9a217c
+    role: target
+  - path: research/discovery/20261011T214236Z-local-modes-thresholds-wavelets.json
+    sha256: 9943ff647dd245292ec331b68d01df69ebe8aaabc3a914164ef34d7afc966d49
+    role: context
+  - path: research/discovery/local-modes-thresholds-wavelets-boundaries.py
+    sha256: 0238a8a4552ac6bfd67661c6a48e439f037fe1ee3a69165426bbd2026e283eb0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:IteratedConditionalModes
+  path: data/curated/IteratedConditionalModes.yaml
+  label: Iterated conditional modes
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IteratedConditionalModes.yaml
+    role: maintained
+- target_id: AIMech:OtsuThresholding
+  path: data/curated/OtsuThresholding.yaml
+  label: Otsu thresholding
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OtsuThresholding.yaml
+    role: maintained
+- target_id: AIMech:WaveletHiddenMarkovModel
+  path: data/curated/WaveletHiddenMarkovModel.yaml
+  label: Wavelet-domain hidden Markov model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WaveletHiddenMarkovModel.yaml
+    role: maintained
+scope:
+  description: All fields of three selected maintained concepts for conditional-mode
+    inference, threshold selection and wavelet hidden-state modeling.
+  selection: Exact maintained IDs IteratedConditionalModes, OtsuThresholding and WaveletHiddenMarkovModel;
+    complete selected batch without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exclusions:
+  - target: Author implementations, empirical performance and general convergence
+      proofs
+    reason: No author code, parameter fitting, training or benchmark ran. Finite witnesses
+      establish specific mathematical boundaries rather than general convergence or
+      universal performance.
+  - target: Previous records and remaining frontier
+    reason: Ten prior records supply context without renewed scientific approval.
+      231 pending inspection leads plus other unresolved dispositions remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 119.12s (0:01:59)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 400 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 114 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 111,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Conditional-mode, threshold-variance and wavelet-state calculations
+  command: python3 research/discovery/local-modes-thresholds-wavelets-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"icm": {"weights": {"(0, 0)": 4, "(0, 1)": 2, "(1, 0)": 1, "(1, 1)":
+    3}, "left_first": [[0, 1], [1, 1], [1, 1]], "right_first": [[0, 1], [0, 0], [0,
+    0]], "synchronous_cycle": [[0, 1], [1, 0], [0, 1]], "arbitrary_tie_cycle": [0,
+    1, 0]}, "otsu": {"gray_values": [0, 10, 11, 21], "total_variance": "221/4", "scores_at_0_10_11":
+    ["147/4", "121/4", "147/4"], "maximizing_binary_thresholds": [0, 1, 2, 3, 4, 5,
+    6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], "three_class_max_between_variance":
+    "441/8"}, "wavelet_tree": {"evidence_density": 0.018197095815847265, "posterior_marginals":
+    [[0.8732609427806721, 0.12673905721932774], [0.6258577502274387, 0.3741422497725611],
+    [0.8956352302985252, 0.10436476970147467]], "transposed_edge_mass": 1.251393784441534,
+    "pooled_transition": [[0.8357049829171336, 0.1642950170828666], [0.2442654196226687,
+    0.7557345803773312]], "coefficient_cross_covariance": 0, "squared_coefficient_covariance":
+    2.0671875, "root_high_given_local_only": 0.10353103779827498}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T214236Z-local-modes-thresholds-wavelets.json
+  accessed_at: '2026-10-11T21:45:22Z'
+  support: supports
+  summary: No normalized identity match was found across all442 pinned AIO labels
+    and all scoped synonyms and397 preceding native IDs, names and aliases for these
+    three concepts. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, yielding12 and12 matched lines; all9 unique contents
+    were read. Hits represent citations and discovery leads rather than records of
+    these identities. All161 semantic label/synonym hits were read. Forty fully annotated
+    exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior
+    full reading and16 freshly read. Fifty contextual YAMLs comprise40 generated and10
+    native records:28 byte-verified after prior reading and22 freshly read. Any truncated
+    display was reread in smaller batches. Short acronyms were included in the complete
+    normalized identity comparison. Absence is bounded to the pin, native collection
+    and inspected semantic neighborhood.
+  search_scope: No normalized identity match was found across all442 pinned AIO labels
+    and all scoped synonyms and397 preceding native IDs, names and aliases for these
+    three concepts. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, yielding12 and12 matched lines; all9 unique contents
+    were read. Hits represent citations and discovery leads rather than records of
+    these identities. All161 semantic label/synonym hits were read. Forty fully annotated
+    exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior
+    full reading and16 freshly read. Fifty contextual YAMLs comprise40 generated and10
+    native records:28 byte-verified after prior reading and22 freshly read. Any truncated
+    display was reread in smaller batches. Short acronyms were included in the complete
+    normalized identity comparison. Absence is bounded to the pin, native collection
+    and inspected semantic neighborhood.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 40 exact CLASS nodes and outgoing edges, and 161 semantic label/synonym
+    hits in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T21:45:22Z'
+  support: supports
+  summary: ICM maps related to ProbabilisticGraphicalModel for conditional-mode inference;
+    the pinned target is task-scoped and is not an algorithm superclass. Otsu maps
+    related to UnsupervisedClustering for unlabeled ordered-intensity grouping; supervised
+    Classification, BinaryClassification and MulticlassClassification do not define
+    this algorithm. Clustering is more general and SupervisedClustering assumes labels.
+    Wavelet hidden-state models map broad to Model and related to ProbabilisticGraphicalModel;
+    Model supplies a genuine broader representation class, while the latter is a task.
+    A BayesianNetwork mapping is not forced for the whole wavelet framework, which
+    discusses richer hidden graphs as well as trees and chains. CausalGraph does not
+    license intervention claims. MarkovChain cannot cover all branching or richer
+    graphs. DecisionTree, HierarchicalClassification and HierarchicalClustering concern
+    decisions/grouping rather than hidden stochastic dependence. HierarchicalLanguageModel,
+    EnergyBasedLLM and ImplicitLanguageModel add language scope. BoltzmannMachineNetwork,
+    RestrictedBoltzmannMachine and HopfieldNetwork impose particular neural/state
+    semantics. SpatialRegression, RegressionAnalysis and ThresholdAutoregressive are
+    regression/time-series classes. GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer,
+    ProbabilisticHiddenLayer, ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer
+    are components rather than these algorithms or statistical model family. MaximumLayer
+    is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization
+    are text-scoped. ModeConfusionBias concerns human-interface bias rather than posterior
+    modes. DataPreparation, Preprocessing and TrainingStrategy have workflow scope
+    that does not define global image segmentation or every wavelet model; SupervisedLearning,
+    UnsupervisedLearning and MachineLearningTask likewise do not identify these specific
+    mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing,
+    hill climbing and absolute-threshold beam pruning distinguish the model, conditional
+    optimizer, estimator, sampler, temperature procedure and score-pruning threshold.
+    Context reading does not renew their scientific approval.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T214236Z-local-modes-thresholds-wavelets.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors and context_reading
+  accessed_at: '2026-10-11T21:45:22Z'
+  support: supports
+  summary: 'Ten complete native contextual records read or byte-verified after prior
+    full reading: MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing,
+    hill climbing and absolute-threshold beam pruning. They distinguish graphical
+    model, conditional optimizer, parameter estimator, sampler, temperature search
+    and score pruning. This context reading does not renew scientific approval of
+    those records.'
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/local-modes-thresholds-wavelets-boundaries.py
+  locator: Two-variable conditional-mode schedules; exact histogram variances; asymmetric
+    three-node wavelet hidden-state tree
+  accessed_at: '2026-10-11T21:45:22Z'
+  snapshot_sha256: 0238a8a4552ac6bfd67661c6a48e439f037fe1ee3a69165426bbd2026e283eb0
+  support: supports
+  summary: Original finite calculations use a normalized two-variable distribution
+    with unnormalized weights00:4,01:2,10:1,11:3. Sequential ICM from01 reaches11
+    or00 depending on coordinate order; fully synchronous updates cycle01–10–01 and
+    can lower the objective. Arbitrary tie switching also cycles. Equal histogram
+    counts at gray values0,10,11,21 have total variance221/4 and between-class scores147/4,121/4,147/4
+    at thresholds0,10,11, producing separated global-maximizer plateaus. Exact variance
+    decomposition and cumulative formulas agree; joint three-class optimum is441/8,
+    and a constant histogram has no valid nonempty binary split. An earlier bounded
+    five-bin positive-count search found no counterexample; the later spaced four-value
+    search produced the reported witness. An asymmetric three-node two-state Gaussian
+    wavelet tree has evidence density0.018197095815847265; upward/downward node and
+    edge probabilities agree with all8state configurations. Root high-state posterior0.1267390572
+    differs from its local-only value0.1035310378. Reversing edge indices produces
+    total edge mass1.2513937844 instead of1. Pooled expected transition rows normalize.
+    Zero coefficient covariance coexists with squared-coefficient covariance2.0671875.
+    These are fixed original mathematical checks, not author-code reproduction, model
+    fitting, benchmark evaluation or general convergence proofs.
+- evidence_id: iteratedconditionalmodes-source-0
+  kind: primary_source
+  reference: https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf
+  locator: Section 2.5, printed pp. 264–266 / PDF pp. 7–9, especially Equation (5);
+    Section 2.6, pp. 266–267 / PDF pp. 9–10; Sections 4–5, pp. 273–279 / PDF pp. 16–22,
+    conditional dependence and parameter estimation
+  accessed_at: '2026-10-11T21:22:35Z'
+  snapshot_sha256: d458396fd177a1501d4c2f6a696a1251322fc8b25a7ee6dde503a0202ba4cdd6
+  support: supports
+  summary: On the Statistical Analysis of Dirty Pictures. Journal of the Royal Statistical
+    Society, Series B 48(3):259–279, 1986. The inspected university-hosted 45-page
+    scan contains a JSTOR cover, the main paper and separately published discussion
+    through p. 302. Main-paper printed page=PDF page+257. All 45 pages visually read,
+    including the rotated figure page 26 after correction. The definition and mechanism
+    cite the main paper; discussion is identified separately. All target-defining
+    pages visually read. The source-analysis notes preserve full reading scope, source
+    errors, access failures and version distinctions.
+- evidence_id: iteratedconditionalmodes-source-1
+  kind: primary_source
+  reference: https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf
+  locator: Author’s reply, printed pp. 298–299 / PDF pp. 41–42
+  accessed_at: '2026-10-11T21:22:35Z'
+  snapshot_sha256: d458396fd177a1501d4c2f6a696a1251322fc8b25a7ee6dde503a0202ba4cdd6
+  support: supports
+  summary: 'Discussion of Professor Besag’s Paper: author’s reply. Author’s reply
+    within the separately published discussion, Journal of the Royal Statistical Society,
+    Series B 48(3):280–302, 1986; reply pp. 296–301 / PDF pp. 39–44 in the same 45-page
+    scan. Other discussants are not attributed to Besag. Publisher metadata distinguishes
+    the discussion DOI from the main-paper DOI. All target-defining pages visually
+    read. The source-analysis notes preserve full reading scope, source errors, access
+    failures and version distinctions.'
+- evidence_id: otsuthresholding-source-0
+  kind: primary_source
+  reference: https://skynet.ecn.purdue.edu/~ace/vip/A_Threshold_Selection_Method_from_Gray-Level_Histograms_otsu.pdf
+  locator: Section II, printed pp. 62–64 / PDF pp. 1–3, Equations (1)–(18); Section
+    III B, p. 64 / PDF p. 3, multilevel extension; Section III D, p. 66 / PDF p. 5,
+    unproved unimodality suggestion
+  accessed_at: '2026-10-11T21:23:24Z'
+  snapshot_sha256: 24fd73e56dca2cb2ea1bbcd8c7f8b92d19920059618e26599ddc064f2ae8a700
+  support: supports
+  summary: A Threshold Selection Method from Gray-Level Histograms. IEEE Transactions
+    on Systems, Man, and Cybernetics SMC-9(1):62–66, January 1979; university-hosted
+    5-page journal scan. All 5 pages visually read; printed page=PDF page+61. Unrelated
+    preceding ship-tracking text on PDF p. 1 and following book-review text on p.
+    5 are excluded. DOI resolves to IEEE document 4310076; no additional article full
+    text was obtained from that endpoint. All target-defining pages visually read.
+    The source-analysis notes preserve full reading scope, source errors, access failures
+    and version distinctions.
+- evidence_id: wavelethiddenmarkovmodel-source-0
+  kind: primary_source
+  reference: https://www.ece.rice.edu/dsp/publicationsold/pub/wmarkov2.pdf
+  locator: Sections 1.3 and 3, printed pp. 4–11 / PDF pp. 5–12, independent-mixture/chain/tree
+    constructions; Section 4, pp. 11–15 / PDF pp. 12–16, inference, EM and tying;
+    Section 5.1, pp. 16–18 / PDF pp. 17–19, denoising Equation (9); Appendix A, pp.
+    26–29 / PDF pp. 27–30, with index qualifications
+  accessed_at: '2026-10-11T21:23:28Z'
+  snapshot_sha256: 957ff225f5705014a0d05fef10f96c199f7c8aff95033bb219021285cca0983f
+  support: supports
+  summary: 'Wavelet-Based Statistical Signal Processing Using Hidden Markov Models.
+    Author preprint, submitted January 1997 and revised August 1997, 31 PDF pages
+    including title page; all 31 visually read. Printed page=PDF page−1. Related journal
+    publication: IEEE Transactions on Signal Processing 46(4), April 1998, DOI 10.1109/78.668544,
+    verified as bibliographic context only. The journal repository download failed
+    and these author-preprint bytes are not substituted as an inspected journal version.
+    All target-defining pages visually read. The source-analysis notes preserve full
+    reading scope, source errors, access failures and version distinctions.'
+assessments:
+- assessment_id: iteratedconditionalmodes
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - iteratedconditionalmodes-source-0
+  - iteratedconditionalmodes-source-1
+  summary: ICM is a label or state optimization procedure, not the hidden Markov random
+    field it can optimize and not iterative conditional estimation of model parameters.
+    It is a probability-based coordinate-ascent instance related to hill climbing;
+    Gibbs sampling instead draws a conditional random value. The classical image implementation
+    uses local Markov neighbors and site emissions, but the conditional-mode principle
+    also applies when an observation affects several sites or when the posterior neighborhood
+    is wider. Single-site ICM is the defining scope; joint block updates are a stated
+    extension. The paper credits earlier work and does not establish a 1986 first-invention
+    claim. No normalized identity match was found across all 442 pinned AIO labels
+    and all scoped synonyms and 397 preceding native IDs, names and aliases for these
+    three concepts. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents
+    were read. Hits represent citations and discovery leads rather than records of
+    these identities. All 161 semantic label/synonym hits were read. Forty fully annotated
+    exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior
+    full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated
+    and 10 native records:28 byte-verified after prior reading and 22 freshly read.
+    Any truncated display was reread in smaller batches. Short acronyms were included
+    in the complete normalized identity comparison. Absence is bounded to the pin,
+    native collection and inspected semantic neighborhood.
+  details: 'For fixed observed y and model parameters theta, start at a configuration
+    x with a defined positive posterior. In a sequential sweep, replace x_i by an
+    element of argmax_u p(x_i=u | x_(-i),y,theta), using already updated values at
+    earlier sites. Equivalently maximize the joint posterior with all other coordinates
+    held fixed. For an MRF prior and independent local emissions the score is b_i(y_i|u)*p_i(u|x_neighbors);
+    shared observation factors require every factor affected by the coordinate. Each
+    exact update cannot decrease the fixed joint objective. On a finite configuration
+    space, requiring strict improvement for a changed value, or retaining the current
+    value on a tie, yields finite termination at a coordinatewise mode. This need
+    not be a global joint MAP solution. Joint updates on conditionally independent
+    coding sets can be parallelized; simultaneously updating interacting sites from
+    stale neighbors has no such monotonicity guarantee. A block extension maximizes
+    over a selected block given its complement. ICM can remain at an initialization-dependent
+    local mode and does not generally quantify uncertainty or guarantee the globally
+    optimal segmentation; the source’s illustrative parameter settings are not universal
+    prescriptions. Limitations: Initialization and update order can change the resulting
+    mode. A coordinatewise optimum can have lower posterior probability than another
+    configuration. ICM does not provide posterior uncertainty or the sitewise marginal
+    posterior mode merely by returning a joint labeling. The monotonicity and finite-state
+    termination statements require a fixed objective, valid exact conditionals and
+    the stated tie policy. Arbitrary switching among tied states can cycle; continuous-valued
+    coordinate ascent need not terminate in finitely many steps. The source’s simultaneous
+    image updates and its changing interaction parameter are practical variants, not
+    a proof for fully synchronous updates or a changing posterior. Alternating estimated
+    labels and fitted parameters, especially pseudolikelihood fitting, does not inherit
+    exact EM monotonicity. For independent site observations, the local emission factor
+    is sufficient for a coordinate update. Correlated observations, blur, tomography
+    and shared likelihood factors can enlarge the required conditional neighborhood.
+    A product containing only the updated site’s emission would then generally be
+    wrong. Strong coupling and fine structures can produce initialization dependence
+    and artifacts. The illustrative interaction strength 1.5 and a few reported sweeps
+    are not universal defaults or convergence bounds. The author’s reply explicitly
+    limits optimality and empirical claims. The paper’s main image examples and discussion
+    establish method context, not universal segmentation superiority. No author code,
+    image benchmark or parameter fitting was reproduced. A separate finite probability
+    witness tests update order, synchronous oscillation and tie behavior.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Conditional-mode optimization algorithm, histogram threshold-selection
+      algorithm or wavelet hidden-state model family; an optimization objective and
+      a probability model have distinct identities.
+    evidence_ids:
+    - iteratedconditionalmodes-source-0
+    - iteratedconditionalmodes-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: ICM maps related to ProbabilisticGraphicalModel for conditional-mode
+      inference; the pinned target is task-scoped and is not an algorithm superclass.
+      Otsu maps related to UnsupervisedClustering for unlabeled ordered-intensity
+      grouping; supervised Classification, BinaryClassification and MulticlassClassification
+      do not define this algorithm. Clustering is more general and SupervisedClustering
+      assumes labels. Wavelet hidden-state models map broad to Model and related to
+      ProbabilisticGraphicalModel; Model supplies a genuine broader representation
+      class, while the latter is a task. A BayesianNetwork mapping is not forced for
+      the whole wavelet framework, which discusses richer hidden graphs as well as
+      trees and chains. CausalGraph does not license intervention claims. MarkovChain
+      cannot cover all branching or richer graphs. DecisionTree, HierarchicalClassification
+      and HierarchicalClustering concern decisions/grouping rather than hidden stochastic
+      dependence. HierarchicalLanguageModel, EnergyBasedLLM and ImplicitLanguageModel
+      add language scope. BoltzmannMachineNetwork, RestrictedBoltzmannMachine and
+      HopfieldNetwork impose particular neural/state semantics. SpatialRegression,
+      RegressionAnalysis and ThresholdAutoregressive are regression/time-series classes.
+      GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer, ProbabilisticHiddenLayer,
+      ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer are
+      components rather than these algorithms or statistical model family. MaximumLayer
+      is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization
+      are text-scoped. ModeConfusionBias concerns human-interface bias rather than
+      posterior modes. DataPreparation, Preprocessing and TrainingStrategy have workflow
+      scope that does not define global image segmentation or every wavelet model;
+      SupervisedLearning, UnsupervisedLearning and MachineLearningTask likewise do
+      not identify these specific mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE,
+      Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam
+      pruning distinguish the model, conditional optimizer, estimator, sampler, temperature
+      procedure and score-pruning threshold. Context reading does not renew their
+      scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: otsuthresholding
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:OtsuThresholding
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - otsuthresholding-source-0
+  summary: The binary method chooses a global intensity threshold without labeled
+    training data or a fitted parametric intensity density. Its ordered multilevel
+    extension jointly selects several thresholds using the same variance decomposition.
+    It is not a supervised classifier, a learned activation threshold, adaptive spatial
+    thresholding or a guarantee of semantically correct image segmentation. The threshold
+    search depends on intensity counts and order, not spatial adjacency. Thresholds
+    with the same partition can be equivalent even when their numeric values differ.
+    No normalized identity match was found across all 442 pinned AIO labels and all
+    scoped synonyms and 397 preceding native IDs, names and aliases for these three
+    concepts. Full-checkout fixed-string searches included ignored and hidden files
+    in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents
+    were read. Hits represent citations and discovery leads rather than records of
+    these identities. All 161 semantic label/synonym hits were read. Forty fully annotated
+    exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior
+    full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated
+    and 10 native records:28 byte-verified after prior reading and 22 freshly read.
+    Any truncated display was reread in smaller batches. Short acronyms were included
+    in the complete normalized identity comparison. Absence is bounded to the pin,
+    native collection and inspected semantic neighborhood.
+  details: 'For nonnegative counts n_i at ordered gray levels i with positive total
+    N, use p_i=n_i/N and total mean mu_T=sum_i i*p_i. For every binary threshold k
+    admitting two nonempty classes, set w=sum_(i<=k) p_i and m=sum_(i<=k) i*p_i. Compute
+    between-class variance B(k)=(mu_T*w-m)^2/[w*(1-w)] and choose a global maximizer.
+    Cumulative counts and first moments give an O(L) scan over L gray levels after
+    histogram construction. At fixed total variance T, within-class variance is T-B(k);
+    if T>0, maximizing the separability ratio B(k)/T gives the same maximizers. The
+    source’s multilevel extension jointly partitions the ordered levels into nonempty
+    classes and maximizes sum_c w_c*(mu_c-mu_T)^2; recursive binary splitting is not
+    automatically equivalent to that joint optimum. Limitations: An empty histogram
+    has no probability distribution. A constant-intensity histogram has no admissible
+    nonempty binary split and has zero total variance, so the separability ratio is
+    undefined without an added convention. Implementations must state how they handle
+    these cases. Multiple thresholds can maximize the objective. The paper does not
+    prescribe a universal tie rule such as averaging all maximizing thresholds. Quantization,
+    bin selection and intensity transformations can affect the result; the stated
+    invariance is for corresponding affine intensity transformations, not arbitrary
+    nonlinear remapping. Section III D suggests that the objective is always unimodal
+    while acknowledging no proof. That universal claim is not adopted: the original
+    finite histogram with equal counts at 0, 10, 11, 21 has two separated maximizing
+    threshold plateaus with a lower objective at 10. A full scan preserves the global
+    objective; an assumed-unimodal local search need not. The variance criterion measures
+    statistical separation in intensity space. It does not require visibly bimodal
+    histograms and does not ensure that the selected classes correspond to the desired
+    objects. Spatial connectivity, texture and semantic labels are absent from this
+    objective. The multilevel criterion requires a joint ordered-threshold optimization
+    or another justified optimizer. The linear scan complexity above is for the binary
+    case, not every multilevel search. The three small illustrative character, texture
+    and cell images are application examples, not a modern accuracy benchmark or a
+    universal comparison. The PDF shares pages with unrelated articles and a book
+    review; those passages are excluded from evidence. No author implementation or
+    image evaluation was run.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Conditional-mode optimization algorithm, histogram threshold-selection
+      algorithm or wavelet hidden-state model family; an optimization objective and
+      a probability model have distinct identities.
+    evidence_ids:
+    - otsuthresholding-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: ICM maps related to ProbabilisticGraphicalModel for conditional-mode
+      inference; the pinned target is task-scoped and is not an algorithm superclass.
+      Otsu maps related to UnsupervisedClustering for unlabeled ordered-intensity
+      grouping; supervised Classification, BinaryClassification and MulticlassClassification
+      do not define this algorithm. Clustering is more general and SupervisedClustering
+      assumes labels. Wavelet hidden-state models map broad to Model and related to
+      ProbabilisticGraphicalModel; Model supplies a genuine broader representation
+      class, while the latter is a task. A BayesianNetwork mapping is not forced for
+      the whole wavelet framework, which discusses richer hidden graphs as well as
+      trees and chains. CausalGraph does not license intervention claims. MarkovChain
+      cannot cover all branching or richer graphs. DecisionTree, HierarchicalClassification
+      and HierarchicalClustering concern decisions/grouping rather than hidden stochastic
+      dependence. HierarchicalLanguageModel, EnergyBasedLLM and ImplicitLanguageModel
+      add language scope. BoltzmannMachineNetwork, RestrictedBoltzmannMachine and
+      HopfieldNetwork impose particular neural/state semantics. SpatialRegression,
+      RegressionAnalysis and ThresholdAutoregressive are regression/time-series classes.
+      GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer, ProbabilisticHiddenLayer,
+      ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer are
+      components rather than these algorithms or statistical model family. MaximumLayer
+      is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization
+      are text-scoped. ModeConfusionBias concerns human-interface bias rather than
+      posterior modes. DataPreparation, Preprocessing and TrainingStrategy have workflow
+      scope that does not define global image segmentation or every wavelet model;
+      SupervisedLearning, UnsupervisedLearning and MachineLearningTask likewise do
+      not identify these specific mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE,
+      Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam
+      pruning distinguish the model, conditional optimizer, estimator, sampler, temperature
+      procedure and score-pruning threshold. Context reading does not renew their
+      scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: wavelethiddenmarkovmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:WaveletHiddenMarkovModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - wavelethiddenmarkovmodel-source-0
+  summary: This is the wavelet-domain framework of Crouse, Nowak and Baraniuk, including
+    independent-mixture, within-scale hidden-chain and cross-scale hidden-tree constructions.
+    The independent mixture is its no-dependence special case. The source also discusses
+    richer hidden graphs; a generic family member is not necessarily a sequential
+    HMM or a Bayesian network with the same graph. Generic hidden Markov trees and
+    chains provide structural components, while wavelet coefficients, mixture emissions
+    and scale organization specify this family. A trained parameter instance, a wavelet
+    transform alone, wavelet shrinkage in general and a neural hidden layer are different
+    identities. No normalized identity match was found across all 442 pinned AIO labels
+    and all scoped synonyms and 397 preceding native IDs, names and aliases for these
+    three concepts. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents
+    were read. Hits represent citations and discovery leads rather than records of
+    these identities. All 161 semantic label/synonym hits were read. Forty fully annotated
+    exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior
+    full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated
+    and 10 native records:28 byte-verified after prior reading and 22 freshly read.
+    Any truncated display was reread in smaller batches. Short acronyms were included
+    in the complete normalized identity comparison. Absence is bounded to the pin,
+    native collection and inspected semantic neighborhood.
+  details: 'Transform a signal into wavelet coefficients W_i and assign each coefficient
+    a finite hidden mixture state S_i. Given all states, the coefficient emissions
+    factor by site. The canonical two-state emission uses zero-mean Gaussian components
+    with a narrow and a wide variance. A hidden chain models within-scale dependence;
+    a hidden tree models parent-to-child persistence across scales. For a rooted tree,
+    p(s,w)=pi(s_root)*product_edges A_child(s_child|s_parent)*product_i N(w_i;mu_i(s_i),v_i(s_i)),
+    with normalized root and transition laws and positive emission variances. Upward
+    subtree likelihoods and a downward pass yield exact node and edge state posteriors
+    for a tree; chains admit the corresponding forward/backward inference. Those expectations
+    support EM updates and optional parameter tying over explicitly selected sites
+    or scales. In the source’s orthonormal-wavelet additive white Gaussian noise model,
+    noise variance adds to each conditional coefficient variance. For zero-mean signal
+    components, the posterior-mean coefficient estimate averages the state-specific
+    gain v_signal/(v_signal+v_noise) times the noisy coefficient using state probabilities
+    conditioned on all observed coefficients in the modeled dependency component.
+    Limitations: Wavelet decorrelation does not imply independence. Zero-mean conditional
+    Gaussian coefficients can be uncorrelated while their squared magnitudes remain
+    dependent through hidden states. Marginalizing the states does not generally leave
+    an observed Markov process. The two zero-mean states and chosen graph are modeling
+    choices, not universal properties of wavelets. More states, nonzero means and
+    alternative emissions are possible. Scaling coefficients may be modeled separately
+    or left unchanged in a particular application. Directed dependence does not establish
+    intervention causality. With K states and dense transitions, exact chain/tree
+    message cost is O(edges*K^2). Richer or loopy graphs need separate inference and
+    complexity analysis; linearity in graph size for chordal models also depends on
+    bounded clique and state sizes. Parameter tying imposes equality constraints and
+    requires pooled sufficient statistics with proper normalization. Exact EM under
+    suitable model and optimization conditions does not ensure a global likelihood
+    optimum. Empty posterior components, zero transition occupancy, singular Gaussian
+    variances and constrained parameters need explicit handling. The record does not
+    certify an author implementation or fit any parameters. Appendix A in the inspected
+    1997 preprint contains inconsistent parent/child epsilon indices in Equations
+    (19) and(22), a finest/coarsest initialization typo and missing or inconsistent
+    state indices in the downward recursion. This record uses the stated normalized
+    model factorization; an asymmetric three-node finite example verifies consistent
+    messages against complete enumeration rather than copying those displays literally.
+    The denoising formula assumes the stated orthonormal transform and independent
+    white Gaussian noise. Subtracting a noise estimate from fitted noisy variances
+    and clipping at zero is a plug-in procedure, not a general constrained-maximum-likelihood
+    theorem. The zero signal-variance boundary is degenerate. Estimated parameters
+    and noise are treated as fixed, rather than integrated out. Reported denoising,
+    classification and change-detection examples do not establish universal superiority.
+    Table 1 does not make the tree best for every signal, and selected comparator
+    numbers are imported from other work. Comparing class likelihoods alone assumes
+    the appropriate prior-and-cost threshold is one; unequal priors or costs generally
+    change that threshold. The fully inspected source is the 31-page author preprint
+    revised August 1997. The 1998 journal article DOI 10.1109/78.668544 is corroborating
+    bibliographic context, not an assertion that those journal PDF bytes were read.
+    No first-invention date, benchmark reproduction or author-code execution is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Conditional-mode optimization algorithm, histogram threshold-selection
+      algorithm or wavelet hidden-state model family; an optimization objective and
+      a probability model have distinct identities.
+    evidence_ids:
+    - wavelethiddenmarkovmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: ICM maps related to ProbabilisticGraphicalModel for conditional-mode
+      inference; the pinned target is task-scoped and is not an algorithm superclass.
+      Otsu maps related to UnsupervisedClustering for unlabeled ordered-intensity
+      grouping; supervised Classification, BinaryClassification and MulticlassClassification
+      do not define this algorithm. Clustering is more general and SupervisedClustering
+      assumes labels. Wavelet hidden-state models map broad to Model and related to
+      ProbabilisticGraphicalModel; Model supplies a genuine broader representation
+      class, while the latter is a task. A BayesianNetwork mapping is not forced for
+      the whole wavelet framework, which discusses richer hidden graphs as well as
+      trees and chains. CausalGraph does not license intervention claims. MarkovChain
+      cannot cover all branching or richer graphs. DecisionTree, HierarchicalClassification
+      and HierarchicalClustering concern decisions/grouping rather than hidden stochastic
+      dependence. HierarchicalLanguageModel, EnergyBasedLLM and ImplicitLanguageModel
+      add language scope. BoltzmannMachineNetwork, RestrictedBoltzmannMachine and
+      HopfieldNetwork impose particular neural/state semantics. SpatialRegression,
+      RegressionAnalysis and ThresholdAutoregressive are regression/time-series classes.
+      GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer, ProbabilisticHiddenLayer,
+      ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer are
+      components rather than these algorithms or statistical model family. MaximumLayer
+      is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization
+      are text-scoped. ModeConfusionBias concerns human-interface bias rather than
+      posterior modes. DataPreparation, Preprocessing and TrainingStrategy have workflow
+      scope that does not define global image segmentation or every wavelet model;
+      SupervisedLearning, UnsupervisedLearning and MachineLearningTask likewise do
+      not identify these specific mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE,
+      Gibbs sampling, simulated annealing, hill climbing and absolute-threshold beam
+      pruning distinguish the model, conditional optimizer, estimator, sampler, temperature
+      procedure and score-pruning threshold. Context reading does not renew their
+      scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: icm-boundary
+  area: consistency
+  topic: Conditional optimization versus parameter estimation or sampling
+  outcome: supported
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  evidence_ids:
+  - iteratedconditionalmodes-source-0
+  - iteratedconditionalmodes-source-1
+  - finite-conventions
+  - neighbors
+  summary: Retain ICM as a distinct optimization algorithm.
+  details: The main paper and author reply support sequential posterior conditional
+    modes with local-optimum and initialization limitations. Fixed-objective nondecrease
+    does not imply a global optimum or uncertainty estimate. Strict improvement or
+    retaining current tied values gives finite-state termination with repeated complete
+    sweeps. The finite witness reaches different modes in different coordinate orders;
+    fully synchronous interacting-site updates cycle and can decrease posterior weight.
+    A tied single-site always-switch rule also cycles. ICE averages complete-data
+    parameter estimators, Gibbs draws random conditional values and hill climbing
+    is more generic. Main-paper and discussion DOIs are separately identified.
+- assessment_id: otsu-boundary
+  area: consistency
+  topic: Global histogram variance criterion and threshold search
+  outcome: supported
+  target_ids:
+  - AIMech:OtsuThresholding
+  evidence_ids:
+  - otsuthresholding-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain Otsu thresholding as an algorithm.
+  details: Class-weighted between/within variance decomposition and cumulative moment
+    formula agree for every valid binary threshold in the finite histogram. Empty
+    classes are excluded; constant images have no valid two-class split. Equal masses
+    at 0, 10, 11 and 21 produce separated maximizing plateaus, contradicting the paper’s
+    explicitly unproved universal-unimodality suggestion. The record specifies a full
+    scan and does not invent a universal tie rule. A joint multilevel objective is
+    not assumed equivalent to recursive binary splitting. Unlabeled intensity grouping
+    is related to an unsupervised task, not supervised classification or a neural
+    activation threshold.
+- assessment_id: wavelet-boundary
+  area: consistency
+  topic: Wavelet hidden mixtures, graph scope and inference
+  outcome: supported
+  target_ids:
+  - AIMech:WaveletHiddenMarkovModel
+  evidence_ids:
+  - wavelethiddenmarkovmodel-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the wavelet-domain model family.
+  details: The source’s framework includes independent mixtures, within-scale chains
+    and cross-scale trees, with richer hidden graphs discussed separately. Generic
+    HMT and HMM are structural relatives, not duplicates of this wavelet observation/state
+    construction. Exact tree node and every edge-state probability agree with enumeration;
+    a reversed asymmetric transition index fails normalization. Shared hidden states
+    yield dependent squared coefficients despite zero coefficient covariance. Parameter
+    tying requires pooled expected counts, and arbitrary graph inference is not given
+    a tree complexity bound. The denoiser uses full-component state posteriors under
+    fixed fitted parameters and stated orthonormal white-noise assumptions. Appendix
+    errors, mixture fitting limits and classification thresholds are qualified. Only
+    the revised 1997 preprint was fully read, not the 1998 journal PDF.
+- assessment_id: mapping-boundary
+  area: grounding
+  topic: Directional AIO mappings and neighboring identities
+  outcome: supported
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain all three native identities with scoped AIO mappings.
+  details: ICM maps related to ProbabilisticGraphicalModel for conditional-mode inference;
+    the pinned target is task-scoped and is not an algorithm superclass. Otsu maps
+    related to UnsupervisedClustering for unlabeled ordered-intensity grouping; supervised
+    Classification, BinaryClassification and MulticlassClassification do not define
+    this algorithm. Clustering is more general and SupervisedClustering assumes labels.
+    Wavelet hidden-state models map broad to Model and related to ProbabilisticGraphicalModel;
+    Model supplies a genuine broader representation class, while the latter is a task.
+    A BayesianNetwork mapping is not forced for the whole wavelet framework, which
+    discusses richer hidden graphs as well as trees and chains. CausalGraph does not
+    license intervention claims. MarkovChain cannot cover all branching or richer
+    graphs. DecisionTree, HierarchicalClassification and HierarchicalClustering concern
+    decisions/grouping rather than hidden stochastic dependence. HierarchicalLanguageModel,
+    EnergyBasedLLM and ImplicitLanguageModel add language scope. BoltzmannMachineNetwork,
+    RestrictedBoltzmannMachine and HopfieldNetwork impose particular neural/state
+    semantics. SpatialRegression, RegressionAnalysis and ThresholdAutoregressive are
+    regression/time-series classes. GaussianNoiseLayer, GaussianDropoutLayer, HiddenLayer,
+    ProbabilisticHiddenLayer, ThresholdedReLULayer, ImagePreprocessingLayer and ImageAugmentationLayer
+    are components rather than these algorithms or statistical model family. MaximumLayer
+    is a tensor merger, not conditional optimization. SubwordSegmentation and Tokenization
+    are text-scoped. ModeConfusionBias concerns human-interface bias rather than posterior
+    modes. DataPreparation, Preprocessing and TrainingStrategy have workflow scope
+    that does not define global image segmentation or every wavelet model; SupervisedLearning,
+    UnsupervisedLearning and MachineLearningTask likewise do not identify these specific
+    mechanisms. Native MRF, HMM, HMRF, HMT, EM, ICE, Gibbs sampling, simulated annealing,
+    hill climbing and absolute-threshold beam pruning distinguish the model, conditional
+    optimizer, estimator, sampler, temperature procedure and score-pruning threshold.
+    Context reading does not renew their scientific approval.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:IteratedConditionalModes
+  - AIMech:OtsuThresholding
+  - AIMech:WaveletHiddenMarkovModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - iteratedconditionalmodes-source-0
+  - iteratedconditionalmodes-source-1
+  - otsuthresholding-source-0
+  - wavelethiddenmarkovmodel-source-0
+  rationale: ICM optimizes coordinate conditionals of a fixed joint distribution;
+    Otsu selects ordered histogram partitions by a variance criterion; the wavelet
+    framework defines a latent-state probability family whose parameters and states
+    require separate inference. Shared imaging applications or optimization subroutines
+    do not make these identities equivalent. Preserve local IDs and directional AIO
+    mappings.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 81 PDF pages were visually read. Otsu shares pages with excluded neighboring
+  publications; Besag includes a wrapper and separately cited discussion. No complete
+  extracted-text or OCR reading is asserted.
+- Besag method and author-reply DOIs are separately identified. Access redirected
+  to an HTTP host; exact downloaded bytes are hashed.
+- Initial Otsu certificate-verification access failed, but curl with default verification
+  succeeded. The journal wavelet PDF was unavailable; claims cite the fully inspected
+  August 1997 preprint. A direct Crossref API open was unavailable.
+- Otsu universal unimodality is not assumed; original exact arithmetic supplies a
+  counterexample. Wavelet appendix index errors are qualified rather than copied into
+  an implementation.
+- The first vendored-artifact check failed sandbox DNS access. An authorized read-only
+  network retry fetched the pinned public artifacts and passed; the failed attempt
+  is retained in the discovery ledger.
+- Original finite calculations are not author-code reproduction, fitting, benchmarking
+  or general convergence proofs.
+- 231 pending leads plus other unresolved dispositions remain; discovery continues.
+links: []
+tags:
+- native-concepts
+- local-modes-thresholds-wavelets
+- self-review
+- discovery-ongoing
+```

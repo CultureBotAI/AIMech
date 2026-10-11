@@ -1,0 +1,123 @@
+name: Iterated conditional modes
+definition: A deterministic conditional-mode optimization algorithm that repeatedly updates one variable
+  to a mode of its conditional distribution given the current values of the remaining variables, seeking
+  a coordinatewise mode of a fixed joint distribution.
+concept_kind: algorithm
+identity_notes: ICM is a label or state optimization procedure, not the hidden Markov random field it
+  can optimize and not iterative conditional estimation of model parameters. It is a probability-based
+  coordinate-ascent instance related to hill climbing; Gibbs sampling instead draws a conditional random
+  value. The classical image implementation uses local Markov neighbors and site emissions, but the conditional-mode
+  principle also applies when an observation affects several sites or when the posterior neighborhood
+  is wider. Single-site ICM is the defining scope; joint block updates are a stated extension. The paper
+  credits earlier work and does not establish a 1986 first-invention claim. No normalized identity match
+  was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names
+  and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden
+  files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits
+  represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym
+  hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified
+  after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native
+  records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in
+  smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence
+  is bounded to the pin, native collection and inspected semantic neighborhood.
+limitations:
+- Initialization and update order can change the resulting mode. A coordinatewise optimum can have lower
+  posterior probability than another configuration. ICM does not provide posterior uncertainty or the
+  sitewise marginal posterior mode merely by returning a joint labeling.
+- The monotonicity and finite-state termination statements require a fixed objective, valid exact conditionals
+  and the stated tie policy. Arbitrary switching among tied states can cycle; continuous-valued coordinate
+  ascent need not terminate in finitely many steps.
+- The source’s simultaneous image updates and its changing interaction parameter are practical variants,
+  not a proof for fully synchronous updates or a changing posterior. Alternating estimated labels and
+  fitted parameters, especially pseudolikelihood fitting, does not inherit exact EM monotonicity.
+- For independent site observations, the local emission factor is sufficient for a coordinate update.
+  Correlated observations, blur, tomography and shared likelihood factors can enlarge the required conditional
+  neighborhood. A product containing only the updated site’s emission would then generally be wrong.
+- Strong coupling and fine structures can produce initialization dependence and artifacts. The illustrative
+  interaction strength 1.5 and a few reported sweeps are not universal defaults or convergence bounds.
+  The author’s reply explicitly limits optimality and empirical claims.
+- The paper’s main image examples and discussion establish method context, not universal segmentation
+  superiority. No author code, image benchmark or parameter fitting was reproduced. A separate finite
+  probability witness tests update order, synchronous oscillation and tie behavior.
+id: AIMech:IteratedConditionalModes
+aliases:
+- ICM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.5, printed pp. 264–266 / PDF pp. 7–9, especially Equation (5); Section 2.6, pp. 266–267
+    / PDF pp. 9–10; Sections 4–5, pp. 273–279 / PDF pp. 16–22, conditional dependence and parameter estimation
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For fixed observed y and model parameters theta, start at a configuration x with a defined
+    positive posterior. In a sequential sweep, replace x_i by an element of argmax_u p(x_i=u | x_(-i),y,theta),
+    using already updated values at earlier sites. Equivalently maximize the joint posterior with all
+    other coordinates held fixed. For an MRF prior and independent local emissions the score is b_i(y_i|u)*p_i(u|x_neighbors);
+    shared observation factors require every factor affected by the coordinate. Each exact update cannot
+    decrease the fixed joint objective. On a finite configuration space, requiring strict improvement
+    for a changed value, or retaining the current value on a tie, yields finite termination at a coordinatewise
+    mode. This need not be a global joint MAP solution. Joint updates on conditionally independent coding
+    sets can be parallelized; simultaneously updating interacting sites from stale neighbors has no such
+    monotonicity guarantee. A block extension maximizes over a selected block given its complement.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.5, printed pp. 264–266 / PDF pp. 7–9, especially Equation (5); Section 2.6, pp.
+      266–267 / PDF pp. 9–10; Sections 4–5, pp. 273–279 / PDF pp. 16–22, conditional dependence and parameter
+      estimation
+    relation: supports
+- claim_id: local-optimality-limits
+  kind: limitation
+  statement: ICM can remain at an initialization-dependent local mode and does not generally quantify
+    uncertainty or guarantee the globally optimal segmentation; the source’s illustrative parameter settings
+    are not universal prescriptions.
+  evidence:
+  - source_id: author-reply
+    locator: Author’s reply, printed pp. 298–299 / PDF pp. 41–42
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On the Statistical Analysis of Dirty Pictures
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf
+  version: Journal of the Royal Statistical Society, Series B 48(3):259–279, 1986. The inspected university-hosted
+    45-page scan contains a JSTOR cover, the main paper and separately published discussion through p.
+    302. Main-paper printed page=PDF page+257. All 45 pages visually read, including the rotated figure
+    page 26 after correction. The definition and mechanism cite the main paper; discussion is identified
+    separately.
+  persistent_id: doi:10.1111/j.2517-6161.1986.tb01412.x
+  access_level: full_text
+  accessed_at: '2026-10-11T21:22:35Z'
+  sha256: d458396fd177a1501d4c2f6a696a1251322fc8b25a7ee6dde503a0202ba4cdd6
+- source_id: author-reply
+  title: 'Discussion of Professor Besag’s Paper: author’s reply'
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf
+  version: Author’s reply within the separately published discussion, Journal of the Royal Statistical
+    Society, Series B 48(3):280–302, 1986; reply pp. 296–301 / PDF pp. 39–44 in the same 45-page scan.
+    Other discussants are not attributed to Besag. Publisher metadata distinguishes the discussion DOI
+    from the main-paper DOI.
+  persistent_id: doi:10.1111/j.2517-6161.1986.tb01413.x
+  access_level: full_text
+  accessed_at: '2026-10-11T21:22:35Z'
+  sha256: d458396fd177a1501d4c2f6a696a1251322fc8b25a7ee6dde503a0202ba4cdd6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: ICM performs conditional-mode inference in graphical probability models, including the inspected
+    image MRF. The pinned ProbabilisticGraphicalModel class is a machine-learning task; a related mapping
+    records this inference context without making the algorithm a model family or a subtype of the task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:41:53Z'
+  updated_at: '2026-10-11T21:43:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
