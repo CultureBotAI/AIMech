@@ -1,0 +1,95 @@
+name: Hierarchical log-bilinear language model
+definition: A next-word language architecture that computes one linear context feature vector and uses
+  its dot products with internal-node vectors to assign normalized vocabulary-tree probabilities, summing
+  path probabilities when a word has multiple codes.
+concept_kind: architecture
+identity_notes: 'This is Mnih and Hinton’s 2008 HLBL architecture, not a synonym for every hierarchical
+  language model or the hierarchical-softmax component. It combines a position-weighted linear context
+  representation with learned node vectors. Flat LBL, Morin–Bengio’s node-conditioned nonlinear network,
+  and the tree-building algorithm each have distinct scopes. One-code and multiple-code forms are explicitly
+  part of the source’s model family. All 442 pinned AIO labels/scoped synonyms and 355 preceding native
+  IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches
+  included ignored and hidden files in both worktree and main, returning 54 lines each. All 41 unique
+  matched contents were read: source references, complete-model contrasts, frontier leads and prior review
+  context for the hierarchical-softmax component. None is an existing record for these complete architectures.
+  Twenty exact AIO nodes and their generated records plus four complete native neighbors were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The linear context feature is reusable across nodes; it does not include Morin–Bengio’s node-dependent
+  tanh hidden computation. A diagonal transform is a restriction on the model parameters, not a requirement
+  for the general probability construction.
+- The tree defines its own normalized distribution and need not reproduce flat-LBL probabilities for matching-looking
+  parameters. Tree choice and finite context constrain the representation.
+- Target cost includes context computation plus the visited path nodes. Multiple codes require their summed
+  probability and increase work; a general adaptive or full binary tree need not have logarithmic worst-case
+  depth. Reporting every word probability requires at least linear output work.
+- Multiple codes need not represent distinct senses. The source’s discussion reports that replicated words
+  were often rare or difficult to cluster and notes that averaging their contexts can lose multimodal
+  usage structure.
+- The paper’s mean-code-length statistic sums lengths over all codes of a word before frequency weighting;
+  treating it as the mean of that word’s code lengths would understate its reported evaluation work.
+- No universal semantic clustering quality, speedup, predictive advantage, convergence guarantee or author
+  implementation behavior is asserted. The tree-building procedure is described as architectural context,
+  not separately curated as an equivalent model.
+id: AIMech:HierarchicalLogBilinearLanguageModel
+aliases:
+- HLBL
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–4, Equations (1)–(5), PDF/printed pp.2–4; tree construction, Section 5, pp.4–5;
+    Table 1 code-length convention, p.6; multiple-code interpretation and limitations, Sections 6–7, pp.7–8;
+    training context in Appendix, p.8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Using the 2008 column-vector convention, form r_hat=sum_i C_i r_context_i once for the preceding
+    words. At internal node j, assign left-branch probability sigmoid(r_hat^T q_j+b_j) and use its complement
+    for the right branch. Multiply the decisions along a leaf code. With one leaf per word this is its
+    probability; with multiple codes, sum all disjoint leaf probabilities assigned to that word. Optimize
+    the penalized observed-word log likelihood. For multiple codes, differentiating the log of that sum
+    weights each path gradient by its posterior share of the word’s probability; choosing one path or
+    averaging their log losses is a different objective. The paper uses diagonal C_i to reduce context-transformation
+    cost. Its data-driven trees bootstrap features from a random-tree model and represent each word by
+    the mean predicted context feature at its occurrences before recursive clustering; balanced, adaptive
+    and multiple-code tree policies are distinct choices.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–4, Equations (1)–(5), PDF/printed pp.2–4; tree construction, Section 5, pp.4–5;
+      Table 1 code-length convention, p.6; multiple-code interpretation and limitations, Sections 6–7,
+      pp.7–8; training context in Appendix, p.8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Scalable Hierarchical Distributed Language Model
+  authors:
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/1e056d2b0ebd5c878c550da6ac5d3724-Paper.pdf
+  version: NIPS 2008 proceedings PDF, eight pages; printed and PDF pages agree. Author order verified
+    on the title page.
+  persistent_id: https://proceedings.neurips.cc/paper/2008/hash/1e056d2b0ebd5c878c550da6ac5d3724-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:24Z'
+  sha256: 1532535af39da33ea4eea75dff1eec2e80d92ba5ec4eebe559dea44378707ef2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:AutoregressiveLanguageModel
+  relation: broad_match
+  rationale: The source specifies next-word conditionals given preceding words, defining a sequential
+    language model with a finite context. The AIO target is broader than this linear-context and tree-node
+    architecture. The mapping uses its sequential-probability scope, not its qualitative assertion about
+    excelling at generation. HierarchicalLanguageModel denotes multilevel representations and is not an
+    exact identity for a vocabulary-tree construction; OutputLayer, SoftmaxLayer and EmbeddingLayer are
+    components rather than whole-model superclasses.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:15:42Z'
+  updated_at: '2026-10-11T18:15:42Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

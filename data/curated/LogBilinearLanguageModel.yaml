@@ -1,0 +1,107 @@
+name: Log-bilinear language model
+definition: A next-word language architecture that linearly combines position-specific transforms of context-word
+  embeddings and normalizes their bilinear compatibility with candidate-word embeddings over the vocabulary.
+concept_kind: architecture
+identity_notes: 'This is the original Mnih–Hinton LBL construction. It uses the same word-embedding matrix
+  for context and candidate words, has no stochastic hidden variables, and retains a flat vocabulary normalizer.
+  HLBL replaces that output parameterization with tree-node decisions. The FRBM and temporal FRBM in the
+  same 2007 paper are separate latent-variable architectures, not aliases for LBL. All 442 pinned AIO
+  labels/scoped synonyms and 355 preceding native IDs/names/aliases were compared, with no normalized
+  identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree
+  and main, returning 54 lines each. All 41 unique matched contents were read: source references, complete-model
+  contrasts, frontier leads and prior review context for the hierarchical-softmax component. None is an
+  existing record for these complete architectures. Twenty exact AIO nodes and their generated records
+  plus four complete native neighbors were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.'
+limitations:
+- The context feature computation is linear, while normalization makes word probabilities nonlinear. Position-specific
+  transforms preserve context order; the construction is not generally a bag-of-words model.
+- Without an additional exact computational method, the original flat normalizer requires summing candidate
+  scores over the vocabulary. Absence of stochastic hidden variables makes this expectation explicit,
+  not independent of vocabulary size.
+- Bilinear scores and shared learned embeddings do not make joint parameter fitting a convex optimization
+  problem. Exact likelihood gradients do not guarantee a global optimum or calibrated predictions.
+- The energy scores one candidate conditional on its context; it is not the unnormalized energy of a whole
+  sequence used by the pinned ImplicitLanguageModel or EnergyBasedLLM classes.
+- The record covers a fixed-context word model, without asserting long-context capability, benchmark superiority,
+  author-code behavior or the mechanisms of the neighboring FRBM variants.
+id: AIMech:LogBilinearLanguageModel
+aliases:
+- LBL
+definition_evidence:
+- source_id: method-source
+  locator: Section 4 and 4.1, Equations (13)–(15), printed pp.645–646 / PDF pp.5–6; feature and bias conventions,
+    Equation (2), printed p.642 / PDF p.2
+  relation: supports
+- source_id: later-exposition
+  locator: Section 3, Equations (1)–(2), PDF/printed pp.2–3; shared embedding and linear hidden-feature
+    discussion, p.3
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the 2007 row-vector convention, let r_w be a word’s embedding written as a column, C_i
+    the transform for context position i, b_r a feature bias and b_w a candidate-word bias. The candidate
+    score is sum_i r_context_i^T C_i r_w+b_r^T r_w+b_w. Equivalently, form r_hat=b_r+sum_i C_i^T r_context_i
+    once, then take score_w=r_hat^T r_w+b_w and apply the vocabulary softmax. The original energy is the
+    negative of this score. Maximum-likelihood gradients are observed sufficient statistics minus their
+    exact finite-vocabulary conditional expectations. Because the embedding matrix is shared, its gradient
+    includes both input-context and candidate-output roles. The 2008 exposition writes r_hat=sum_i C_i
+    r_context_i with the opposite matrix orientation and without an explicit feature bias; this is a notation/parameterization
+    distinction to preserve when comparing formulas.
+  evidence:
+  - source_id: method-source
+    locator: Section 4 and 4.1, Equations (13)–(15), printed pp.645–646 / PDF pp.5–6; feature and bias
+      conventions, Equation (2), printed p.642 / PDF p.2
+    relation: supports
+  - source_id: later-exposition
+    locator: Section 3, Equations (1)–(2), PDF/printed pp.2–3; shared embedding and linear hidden-feature
+      discussion, p.3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Three New Graphical Models for Statistical Language Modelling
+  authors:
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.utoronto.ca/~hinton/absps/threenew.pdf
+  version: ICML 2007 author-hosted eight-page paper, printed pp.641–648. Printed page equals PDF page
+    plus 640. The title page confirms authors and conference; the original LBL method is Section 4.
+  persistent_id: 10.1145/1273496.1273577
+  access_level: full_text
+  accessed_at: '2026-10-11T18:06:34Z'
+  sha256: d0709a4032488109a2398ba64438e8363bb73e7c7791cbbcfcfa2075d326ba0c
+- source_id: later-exposition
+  title: A Scalable Hierarchical Distributed Language Model
+  authors:
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/1e056d2b0ebd5c878c550da6ac5d3724-Paper.pdf
+  version: NIPS 2008 proceedings PDF, eight pages; printed and PDF pages agree. Author order verified
+    on the title page.
+  persistent_id: https://proceedings.neurips.cc/paper/2008/hash/1e056d2b0ebd5c878c550da6ac5d3724-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:24Z'
+  sha256: 1532535af39da33ea4eea75dff1eec2e80d92ba5ec4eebe559dea44378707ef2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:AutoregressiveLanguageModel
+  relation: broad_match
+  rationale: The source specifies next-word conditionals given preceding words, defining a sequential
+    language model with a finite context. The AIO target is broader than this position-specific bilinear
+    context and flat vocabulary-output architecture. The mapping uses its sequential-probability scope,
+    not its qualitative assertion about excelling at generation. HierarchicalLanguageModel denotes multilevel
+    representations and is not an exact identity for a vocabulary-tree construction; OutputLayer, SoftmaxLayer
+    and EmbeddingLayer are components rather than whole-model superclasses.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:15:42Z'
+  updated_at: '2026-10-11T18:15:42Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
