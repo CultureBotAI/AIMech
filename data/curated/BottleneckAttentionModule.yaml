@@ -1,0 +1,112 @@
+name: Bottleneck Attention Module
+definition: A convolutional feature refinement component that combines parallel channel and spatial attention
+  branches and adds the resulting gated features back to its input, originally proposed for network downsampling
+  bottlenecks.
+concept_kind: layer
+identity_notes: This record denotes Park and colleagues’ 2018 bottleneck attention module, scoped to the
+  summation convention of arXiv1807.06514v2. The pinned author implementation uses a different fusion
+  operation, recorded explicitly below. BAM is an ambiguous acronym also used by the 2021 Balanced Attention
+  Mechanism paper; only the qualified bottleneck alias is assigned here. The module is distinct from sequential
+  CBAM, channel-only SE and a complete CNN. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 279 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 6 and 6 lines respectively. Every
+  text hit was a prior candidate lead or a closely related variant lead. Seven exact AIO CLASS nodes with
+  scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The record distinguishes the selected paper’s SUM fusion from the pinned author code’s product fusion
+  and normalization placement. These yield different attention maps; neither the repository README nor
+  a shared module name proves that code reproduces the selected paper equations.
+- For finite real logits the residual multiplier 1+sigmoid(logit) lies between one and two. The module
+  therefore cannot directly attenuate the absolute magnitude of a nonzero input element; suppression in
+  source prose is relative to other features or downstream computation. Floating-point sigmoid can reach
+  numerical endpoints.
+- The branch maps are constrained by their channel/spatial structure rather than arbitrary independent
+  attention values at every tensor position. Learned attention is not automatically a calibrated explanation
+  or semantic object mask. Placement and hyperparameters affect overhead and empirical results.
+- The inspected standalone bam.py references gate_activation in ChannelGate without a parameter or binding
+  for that name in the module. Its average-pooling call also assumes square spatial maps to produce a
+  single descriptor. Static reading is not a successful runtime validation; no author code, model or supplementary
+  benchmark was executed. The final BMVC PDF was inaccessible during this assessment.
+id: AIMech:BottleneckAttentionModule
+aliases:
+- BAM (bottleneck attention)
+definition_evidence:
+- source_id: method-source
+  locator: Section3, Equations1–4, PDF pp.3–5; branch fusion and placement comparisons Section4.1, PDF
+    pp.6–8; other placements Section4.6 and conclusion, PDF pp.9–10
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: From the same input feature tensor, form a channel branch using global spatial averaging
+    and a bottleneck MLP, and a spatial branch using a 1-by-1 channel reduction, two dilated 3-by-3 convolutions
+    and a 1-by-1 projection to one spatial map. The selected paper equations place batch normalization
+    at the outputs of both branches. Broadcast the channel and spatial logits to the input tensor shape,
+    sum them and apply sigmoid to obtain the attention map. Multiply that map by the input and add the
+    result back to the input. The source commonly places modules at downsampling bottlenecks and also
+    studies other placements; its reduction ratio 16 and dilation 4 are experimental settings. The learned
+    attention computation operates in both training and inference.
+  evidence:
+  - source_id: method-source
+    locator: Section3, Equations1–4, PDF pp.3–5; branch fusion and placement comparisons Section4.1, PDF
+      pp.6–8; other placements Section4.6 and conclusion, PDF pp.9–10
+    relation: supports
+- claim_id: paper-code-boundary
+  kind: limitation
+  statement: The selected paper adds broadcast channel and spatial branch logits before sigmoid. The inspected
+    BAM.forward instead multiplies those branch outputs before applying sigmoid and adding one. The code
+    places batch normalization and ReLU in intermediate branch blocks rather than the terminal batch-normalization
+    positions displayed in the paper equations. These are explicit source-version differences, not equivalent
+    rewritings; the concept record uses the paper convention and does not certify the code as an exact
+    implementation of it.
+  evidence:
+  - source_id: method-source
+    locator: Section3 Equations2–4 and Section4.1 Combining methods, PDF pp.4–5,7
+    relation: supports
+  - source_id: pinned-code
+    locator: ChannelGate.__init__, SpatialGate.__init__ and BAM.forward in MODELS/bam.py
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'BAM: Bottleneck Attention Module'
+  authors:
+  - Jongchan Park
+  - Sanghyun Woo
+  - Joon-Young Lee
+  - In So Kweon
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1807.06514v2
+  version: arXiv1807.06514v2, 18 July 2018; 14-page author PDF, metadata states accepted to BMVC 2018
+  persistent_id: arXiv:1807.06514v2
+  access_level: full_text
+  accessed_at: '2026-10-11T12:33:17Z'
+  sha256: 56235ca5361284431b5b78aa03aa4ffb9035283409f8edc40d71967c4b0b5a52
+- source_id: pinned-code
+  title: 'Official attention-module implementation: MODELS/bam.py'
+  authors:
+  - Jongchan Park
+  - Sanghyun Woo
+  source_type: official_documentation
+  url: https://github.com/Jongchan/attention-module/blob/459efad0e05ee7dde50c41ca10a3d0800bc3792a/MODELS/bam.py
+  version: Jongchan/attention-module commit459efad0e05ee7dde50c41ca10a3d0800bc3792a
+  access_level: documentation
+  accessed_at: '2026-10-11T12:35:24Z'
+  sha256: e2efa83e0e084b199938097656c825734e7ab962a7ead8afe2d61099abd06227
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: The native concept is a particular learned input-to-output feature-map component inside a
+    neural network. The pinned generic Layer class is broader; the pinned AttentionLayer specifically
+    denotes dot-product attention and is not used as a generic attention parent.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:43:35Z'
+  updated_at: '2026-10-11T12:43:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

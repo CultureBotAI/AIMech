@@ -1,0 +1,79 @@
+name: Squeeze-and-Excitation block
+definition: A neural-network feature recalibration component that globally averages each channel, transforms
+  the resulting descriptor through a learned bottleneck, and applies sigmoid-derived channel weights to
+  the input feature maps.
+concept_kind: layer
+identity_notes: This is the SE component from the 2018 paper, not a complete SENet architecture or its
+  trained checkpoints. The component receives the feature tensor produced by a preceding transformation.
+  Its channel weights vary with the input but are shared over spatial positions within each channel. SE
+  block is the scoped alias; the paper title denotes networks assembled using these units. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 279 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  6 and 6 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead.
+  Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring
+  mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The sigmoid gates are independent weights, not a softmax distribution or guaranteed class probabilities.
+  For finite real logits they lie strictly between zero and one, so the immediate scaling cannot increase
+  absolute input-feature magnitudes; emphasis is relative to other channels and the surrounding network.
+  Floating-point saturation can reach numerical endpoints.
+- Global averaging discards spatial arrangement in the descriptor. Channel gating therefore does not itself
+  supply a location-specific attention map, although the spatial feature tensor is retained in the output.
+- Reduction ratio, placement and surrounding architecture affect cost and behavior. Additional learned
+  weights and operations do not imply negligible cost on every device. The source’s interpretation of
+  particular channel activations is not a causal explanation or a universal accuracy claim. No author
+  implementation or trained model was executed.
+id: AIMech:SqueezeAndExcitationBlock
+aliases:
+- SE block
+definition_evidence:
+- source_id: method-source
+  locator: Section3, Equations2–4, PDF pp.2–3 (printed7133–7134); Figures2–3 and complexity, PDFp.4; Section6.4/7,
+    PDF pp.7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For each channel of a spatial feature tensor, average all spatial values to obtain a channel
+    descriptor. Pass that descriptor through a fully connected dimensionality reduction, ReLU, fully connected
+    expansion to the original channel count and elementwise sigmoid. Broadcast each resulting weight across
+    its corresponding spatial feature map and multiply elementwise. The reduction ratio controls the bottleneck
+    capacity; the paper uses 16 in its main experiments rather than requiring that value for the concept.
+    In its residual-network integration, this recalibration operates on the non-identity transformation
+    before addition of the skip path. The module has learned parameters and remains part of the network
+    during inference.
+  evidence:
+  - source_id: method-source
+    locator: Section3, Equations2–4, PDF pp.2–3 (printed7133–7134); Figures2–3 and complexity, PDFp.4;
+      Section6.4/7, PDF pp.7–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Squeeze-and-Excitation Networks
+  authors:
+  - Jie Hu
+  - Li Shen
+  - Gang Sun
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_cvpr_2018/papers/Hu_Squeeze-and-Excitation_Networks_CVPR_2018_paper.pdf
+  version: CVPR 2018, pp.7132–7141; 10-page proceedings PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T12:33:17Z'
+  sha256: 2acc7faca912aa54cb4759f933c40df02efcf77f2b3cfe2f4162e38d170f277e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: The native concept is a particular learned input-to-output feature-map component inside a
+    neural network. The pinned generic Layer class is broader; the pinned AttentionLayer specifically
+    denotes dot-product attention and is not used as a generic attention parent.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:43:35Z'
+  updated_at: '2026-10-11T12:43:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
