@@ -1,0 +1,569 @@
+# Scientific self-review of S4, H3 and RetNet
+
+- Review: 20261011T042906Z-state-space-and-retention
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T04:29:06Z
+- Finished UTC: 2026-10-11T04:29:06Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+All three sequence concepts have inspected primary-method support, distinct source-defined scopes and justified broader AIO mappings. The H3 layer kind is an explicit schema extension. Adversarial checks of abstraction level, scalar-head scope, stability and constant-cost language found no actionable unresolved defect within this cohort.
+
+## Scope And Provenance
+
+Identity, definitions, mechanism evidence, versions, limitations, schema representation and AIO mappings for S4, H3 and RetNet.
+
+Selection: Exactly the three additions in the state-space-and-retention discovery report; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 082e7792814dd3f8e4655bd51adafec94b87c7de.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:S4 | data/curated/S4.yaml | maintained | Structured state space sequence model |
+| AIMech:H3Layer | data/curated/H3Layer.yaml | maintained | Hungry Hungry Hippos layer |
+| AIMech:RetNet | data/curated/RetNet.yaml | maintained | Retentive network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli check-source | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | Checked 442 record(s); 0 failed.<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate-curated | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | Checked 85 curated concept record(s); 0 error(s).<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli seed --check | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli validate-history --base HEAD | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | Checked 15 history record(s); 0 error(s).<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python scripts/record_review.py check | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | {<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 14,<br>  "coverage": "declared_scopes_only"<br>}<br>topClass is deprecated - use top_class<br> |
+| just check (PYTHONPATH=src, shared locked environment) | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | ............ [ 94%]<br>.........sss                                                             [100%]<br>225 passed, 3 skipped in 41.33s<br>Checked 442 record(s); 0 failed.<br>Checked 85 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 15 history record(s); 0 error(s).<br>topClass is deprecated - use top_class<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 14,<br>  "coverage": "declared_scopes_only"<br>}<br> |
+| just vendored-check | passed | True | AIMech:S4, AIMech:H3Layer, AIMech:RetNet | OK: 22 governed artifacts match the pinned claw revision<br> |
+
+## Scientific And Domain Assessments
+
+### Sequence concept scope and primary-method support
+
+evidence: supported. Targets: AIMech:S4.
+
+S4 denotes Gu, Goel and Ré's specific structured state-space construction, not every state-space model, S4D, an exponential-smoothing model, or Mamba's input-dependent selective state updates. Deep S4 networks compose these linear models with channel mixing and nonlinearities.
+
+This record follows arXiv v3's original diagonal-minus-PQ* parameterization. Section 3.4 notes possible numerical instability with right-half-plane eigenvalues and points to a later diagonal-minus-PP* revision; stability is not asserted unconditionally. The core S4 model is linear. A deep nonlinear S4 network adds channel mixing and nonlinear transformations; kernel computation is not the complete network. No universal accuracy, memory or wall-clock advantage is asserted.
+
+### Sequence concept scope and primary-method support
+
+evidence: supported. Targets: AIMech:H3Layer.
+
+H3 is the layer defined in Fu and colleagues' Algorithm 1. Networks interleave H3 with MLP layers; the paper's hybrid H3-attention model additionally uses attention layers. Those complete networks and the FlashConv execution algorithm are not identical to this component.
+
+The scalar-head elementwise formula is a special case; general heads use outer products and matrix-vector contractions. The complete H3 language model and hybrid attention architecture require additional blocks beyond this layer. No universal language-model performance or recall guarantee is asserted.
+
+### Sequence concept scope and primary-method support
+
+evidence: supported. Targets: AIMech:RetNet.
+
+RetNet denotes Sun and colleagues' architecture, not a generic recurrent network or an attention-based Transformer language model. Its retention operation is a component, while the architecture also specifies gating, normalization, residual paths and feedforward blocks.
+
+Constant recurrent decoding cost is with respect to prior sequence length at fixed model dimensions, not constant total work for a whole sequence or arbitrary model size. The mathematical parallel, recurrent and chunkwise representations do not by themselves establish identical finite-precision outputs for every implementation; numerical score-normalization details matter. This record does not generalize the paper's reported benchmark or hardware results.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:S4, AIMech:H3Layer, AIMech:RetNet. S4 specifies a structured linear model, H3 combines shift/diagonal models within a multiplicative layer, and RetNet specifies a complete gated-retention architecture. Shared recurrence and sequence inputs do not establish identity. Model, Layer and ArtificialNeuralNetwork mappings preserve these levels.
+- defer: AIMech:S4, AIMech:H3Layer, AIMech:RetNet. Do not automatically add FlashConv, S4D, HiPPO, stability revisions, retention components or H3-attention hybrids from a citation or shared acronym. Inspect the defining methods and resolve their separate scopes before curation.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity-search | research/discovery/20261011T042718Z-state-space-and-retention.json | supports | All 442 AIO labels, all scoped synonyms and 82 preceding native identities were compared. Exact identity comparison included S4 and H3; broad text searches omitted short tokens to avoid incidental substring matches and included ignored/hidden files in both checkouts. The single hit in each checkout is a previous RetNet discovery lead, not an existing record. Semantic inspection distinguished Mamba and the AIO exponential-smoothing state-space model. |
+| mapping | sources/aio/aio.json; Model, Layer, ArtificialNeuralNetwork, ExponentialSmoothingStateSpaceModel, TransformerLanguageModel and RecurrentNeuralNetwork | supports | S4 maps broadly to Model because its core is a structured linear model; H3 maps broadly to Layer because Algorithm 1 defines a network component; RetNet maps broadly to ArtificialNeuralNetwork because it specifies the complete learned residual architecture. ExponentialSmoothingStateSpaceModel, TransformerLanguageModel and RecurrentNeuralNetwork were inspected as contextual neighbors rather than assumed identities. |
+| layer-contract | src/aimech/schema/curated_concept.yaml; ConceptKind.layer and unchanged CuratedAIConcept requirements | supports | The added layer value represents the source-defined H3 component. Full-text evidence, claim citations, identity and mapping requirements still apply; the complete native corpus validates. |
+| s4-method | https://arxiv.org/pdf/2111.00396v3; Sections 2.1–2.4 and 3.1–3.4, equations 1–5, Algorithm 1 and Theorem 1, PDF/printed pp. 3–7 | supports | Bilinear discretization gives recurrent and zero-initial-state convolutional views. A unitary basis change produces a diagonal-plus-low-rank state matrix; Cauchy-kernel evaluations, a low-rank Woodbury correction and an inverse FFT compute the finite convolution kernel. Rendered pages actually inspected: 4, 6, 7. |
+| h3layer-method | https://arxiv.org/pdf/2212.14052v3; Section 3.2, Algorithm 1 and the surrounding H3 Layer paragraph, PDF/printed p. 5 | supports | Project the input to Q, K and V; pass K through a shift state-space model. Within each head, feed the outer product of shifted keys and values through a diagonal state-space model, multiply by Q, then concatenate heads and apply an output projection. Rendered pages actually inspected: 5. |
+| retnet-method | https://arxiv.org/pdf/2307.08621v4; Sections 2.1–2.3, equations 5–9 and Figures 3–4, PDF/printed pp. 3–5 | supports | Retention projects position-modulated queries, keys and values and combines causal query-key interactions with exponential distance decay. Different heads use fixed decay scales; headwise normalization and a swish gate combine their outputs. Recurrent evaluation updates a decayed key-value state, and chunkwise evaluation combines parallel within-chunk interactions with recurrent cross-chunk state. Rendered pages actually inspected: 3, 4, 5. |
+
+## Limits And Additional Notes
+
+- Scientific self-review, not independent approval or experimental replication.
+- S4 follows the v3 original PQ* construction and preserves the documented stability caveat.
+- H3 general-head outer products are distinguished from the scalar-head expression and complete network composition.
+- RetNet constant decoding work is relative to sequence history at fixed dimensions; finite-precision equivalence is not certified.
+- All records remain DRAFT, and known in-scope frontier entries remain.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T042906Z-state-space-and-retention
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of S4, H3 and RetNet
+started_at: '2026-10-11T04:29:06Z'
+finished_at: '2026-10-11T04:29:06Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The same agent researched, authored and adversarially reviewed
+    these records; not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: All three sequence concepts have inspected primary-method support, distinct
+  source-defined scopes and justified broader AIO mappings. The H3 layer kind is an
+  explicit schema extension. Adversarial checks of abstraction level, scalar-head
+  scope, stability and constant-cost language found no actionable unresolved defect
+  within this cohort.
+source:
+  git_revision: 082e7792814dd3f8e4655bd51adafec94b87c7de
+  state: working_tree
+  inputs:
+  - path: data/curated/H3Layer.yaml
+    sha256: 6fb9ef34dfb16291aa2b06a45cb1838c8b962dd2275495d609f62bf9d1ea3dc1
+    role: target
+  - path: data/curated/RetNet.yaml
+    sha256: fb26fa47d854bd3f2109dcaa04ed72a4e4aed472376482ce40573b2bdc8af445
+    role: target
+  - path: data/curated/S4.yaml
+    sha256: 59f6ba8fdf1c71880187c71b7e98c2210a0d98df81dcb084d53bea1489c684a7
+    role: target
+  - path: docs/curated-concepts.md
+    sha256: ce644f9e755d9a1a3c105bde82a0e1b7defbf5e93e4c91f86ba050370cf74bc3
+    role: context
+  - path: research/discovery/20261011T042718Z-state-space-and-retention.json
+    sha256: 1db89af57f34a56072589cdefab7be63a39dff9fb26e4c04512b1cbba55dbae6
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/aimech.yaml
+    sha256: 5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: f47a2fa70fc2ff16a2bfdead30472068afa1133710819831b081b4bb6224825a
+    role: context
+targets:
+- target_id: AIMech:S4
+  path: data/curated/S4.yaml
+  label: Structured state space sequence model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/S4.yaml
+    role: maintained native concept
+- target_id: AIMech:H3Layer
+  path: data/curated/H3Layer.yaml
+  label: Hungry Hungry Hippos layer
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/H3Layer.yaml
+    role: maintained native concept
+- target_id: AIMech:RetNet
+  path: data/curated/RetNet.yaml
+  label: Retentive network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RetNet.yaml
+    role: maintained native concept
+scope:
+  description: Identity, definitions, mechanism evidence, versions, limitations, schema
+    representation and AIO mappings for S4, H3 and RetNet.
+  selection: Exactly the three additions in the state-space-and-retention discovery
+    report; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exclusions:
+  - target: Universal performance and exact finite-precision equivalence
+    reason: Primary definitions do not independently establish benchmark superiority
+      or numerical implementation equivalence.
+  - target: Other state-space methods and complete H3/hybrid language models
+    reason: Pending frontier entries need their own defining-method and identity assessment.
+checks:
+- check_id: required-0
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-1
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 85 curated concept record(s); 0 error(s).
+
+    '
+- check_id: required-3
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    '
+- check_id: required-4
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base HEAD
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 15 history record(s); 0 error(s).
+
+    '
+- check_id: required-5
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    scripts/record_review.py check
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 14,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}\ntopClass is deprecated - use top_class\n"
+- check_id: required-6
+  name: just check (PYTHONPATH=src, shared locked environment)
+  command: just check (PYTHONPATH=src, shared locked environment)
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "............ [ 94%]\n.........sss                                    \
+    \                         [100%]\n225 passed, 3 skipped in 41.33s\nChecked 442\
+    \ record(s); 0 failed.\nChecked 85 curated concept record(s); 0 error(s).\nAIO:\
+    \ 442 records; 0 missing, 0 changed, 0 unexpected.\nChecked 15 history record(s);\
+    \ 0 error(s).\ntopClass is deprecated - use top_class\n{\n  \"repository\": \"\
+    CultureBotAI/AIMech\",\n  \"valid_reviews\": 14,\n  \"coverage\": \"declared_scopes_only\"\
+    \n}\n"
+- check_id: required-7
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    '
+evidence:
+- evidence_id: identity-search
+  kind: search
+  reference: research/discovery/20261011T042718Z-state-space-and-retention.json
+  accessed_at: '2026-10-11T04:29:06Z'
+  support: supports
+  summary: All 442 AIO labels, all scoped synonyms and 82 preceding native identities
+    were compared. Exact identity comparison included S4 and H3; broad text searches
+    omitted short tokens to avoid incidental substring matches and included ignored/hidden
+    files in both checkouts. The single hit in each checkout is a previous RetNet
+    discovery lead, not an existing record. Semantic inspection distinguished Mamba
+    and the AIO exponential-smoothing state-space model.
+  search_scope: All 442 AIO labels and scoped synonyms, 82 preceding native identities
+    and ignored/hidden-inclusive text searches of both checkouts.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Model, Layer, ArtificialNeuralNetwork, ExponentialSmoothingStateSpaceModel,
+    TransformerLanguageModel and RecurrentNeuralNetwork
+  accessed_at: '2026-10-11T04:29:06Z'
+  support: supports
+  summary: S4 maps broadly to Model because its core is a structured linear model;
+    H3 maps broadly to Layer because Algorithm 1 defines a network component; RetNet
+    maps broadly to ArtificialNeuralNetwork because it specifies the complete learned
+    residual architecture. ExponentialSmoothingStateSpaceModel, TransformerLanguageModel
+    and RecurrentNeuralNetwork were inspected as contextual neighbors rather than
+    assumed identities.
+- evidence_id: layer-contract
+  kind: record_content
+  reference: src/aimech/schema/curated_concept.yaml
+  locator: ConceptKind.layer and unchanged CuratedAIConcept requirements
+  accessed_at: '2026-10-11T04:29:06Z'
+  support: supports
+  summary: The added layer value represents the source-defined H3 component. Full-text
+    evidence, claim citations, identity and mapping requirements still apply; the
+    complete native corpus validates.
+- evidence_id: s4-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2111.00396v3
+  locator: Sections 2.1–2.4 and 3.1–3.4, equations 1–5, Algorithm 1 and Theorem 1,
+    PDF/printed pp. 3–7
+  accessed_at: '2026-10-11T04:20:57Z'
+  snapshot_sha256: 872b4ef302312d04ef4d55610613c0e59da32c443a2e38552d7cebb7dc3636fa
+  support: supports
+  summary: 'Bilinear discretization gives recurrent and zero-initial-state convolutional
+    views. A unitary basis change produces a diagonal-plus-low-rank state matrix;
+    Cauchy-kernel evaluations, a low-rank Woodbury correction and an inverse FFT compute
+    the finite convolution kernel. Rendered pages actually inspected: 4, 6, 7.'
+- evidence_id: h3layer-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2212.14052v3
+  locator: Section 3.2, Algorithm 1 and the surrounding H3 Layer paragraph, PDF/printed
+    p. 5
+  accessed_at: '2026-10-11T04:20:57Z'
+  snapshot_sha256: de923022ffc5e53d430f0af72286cec26f32d03c9e2fd3686938a5d62811eae2
+  support: supports
+  summary: 'Project the input to Q, K and V; pass K through a shift state-space model.
+    Within each head, feed the outer product of shifted keys and values through a
+    diagonal state-space model, multiply by Q, then concatenate heads and apply an
+    output projection. Rendered pages actually inspected: 5.'
+- evidence_id: retnet-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2307.08621v4
+  locator: Sections 2.1–2.3, equations 5–9 and Figures 3–4, PDF/printed pp. 3–5
+  accessed_at: '2026-10-11T04:20:57Z'
+  snapshot_sha256: b75fdb67fdcc760609a38d28171a785f336ece30f750d210c7379306bb483fa7
+  support: supports
+  summary: 'Retention projects position-modulated queries, keys and values and combines
+    causal query-key interactions with exponential distance decay. Different heads
+    use fixed decay scales; headwise normalization and a swish gate combine their
+    outputs. Recurrent evaluation updates a decayed key-value state, and chunkwise
+    evaluation combines parallel within-chunk interactions with recurrent cross-chunk
+    state. Rendered pages actually inspected: 3, 4, 5.'
+assessments:
+- assessment_id: s4-method
+  area: evidence
+  topic: Sequence concept scope and primary-method support
+  outcome: supported
+  target_ids:
+  - AIMech:S4
+  evidence_ids:
+  - s4-method
+  - identity-search
+  - mapping
+  - layer-contract
+  summary: S4 denotes Gu, Goel and Ré's specific structured state-space construction,
+    not every state-space model, S4D, an exponential-smoothing model, or Mamba's input-dependent
+    selective state updates. Deep S4 networks compose these linear models with channel
+    mixing and nonlinearities.
+  details: This record follows arXiv v3's original diagonal-minus-PQ* parameterization.
+    Section 3.4 notes possible numerical instability with right-half-plane eigenvalues
+    and points to a later diagonal-minus-PP* revision; stability is not asserted unconditionally.
+    The core S4 model is linear. A deep nonlinear S4 network adds channel mixing and
+    nonlinear transformations; kernel computation is not the complete network. No
+    universal accuracy, memory or wall-clock advantage is asserted.
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: The level of abstraction in the defining method, distinguished from
+      complete networks and execution algorithms.
+    evidence_ids:
+    - s4-method
+    - layer-contract
+  - name: mapping-direction
+    value: broad_match to AIO:Model
+    definition: The local concept is a particular parameterized sequence model. AIO
+      Model is broader; a generic neural-network mapping would conflate its linear
+      state-space core with the nonlinear networks built from it.
+    evidence_ids:
+    - s4-method
+    - mapping
+- assessment_id: h3layer-method
+  area: evidence
+  topic: Sequence concept scope and primary-method support
+  outcome: supported
+  target_ids:
+  - AIMech:H3Layer
+  evidence_ids:
+  - h3layer-method
+  - identity-search
+  - mapping
+  - layer-contract
+  summary: H3 is the layer defined in Fu and colleagues' Algorithm 1. Networks interleave
+    H3 with MLP layers; the paper's hybrid H3-attention model additionally uses attention
+    layers. Those complete networks and the FlashConv execution algorithm are not
+    identical to this component.
+  details: The scalar-head elementwise formula is a special case; general heads use
+    outer products and matrix-vector contractions. The complete H3 language model
+    and hybrid attention architecture require additional blocks beyond this layer.
+    No universal language-model performance or recall guarantee is asserted.
+  dimensions:
+  - name: concept-kind
+    value: layer
+    definition: The level of abstraction in the defining method, distinguished from
+      complete networks and execution algorithms.
+    evidence_ids:
+    - h3layer-method
+    - layer-contract
+  - name: mapping-direction
+    value: broad_match to AIO:Layer
+    definition: The defining algorithm takes a sequence representation and outputs
+      a transformed representation for subsequent layers. AIO Layer is broader than
+      this specific shift/diagonal state-space construction.
+    evidence_ids:
+    - h3layer-method
+    - mapping
+- assessment_id: retnet-method
+  area: evidence
+  topic: Sequence concept scope and primary-method support
+  outcome: supported
+  target_ids:
+  - AIMech:RetNet
+  evidence_ids:
+  - retnet-method
+  - identity-search
+  - mapping
+  - layer-contract
+  summary: RetNet denotes Sun and colleagues' architecture, not a generic recurrent
+    network or an attention-based Transformer language model. Its retention operation
+    is a component, while the architecture also specifies gating, normalization, residual
+    paths and feedforward blocks.
+  details: Constant recurrent decoding cost is with respect to prior sequence length
+    at fixed model dimensions, not constant total work for a whole sequence or arbitrary
+    model size. The mathematical parallel, recurrent and chunkwise representations
+    do not by themselves establish identical finite-precision outputs for every implementation;
+    numerical score-normalization details matter. This record does not generalize
+    the paper's reported benchmark or hardware results.
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: The level of abstraction in the defining method, distinguished from
+      complete networks and execution algorithms.
+    evidence_ids:
+    - retnet-method
+    - layer-contract
+  - name: mapping-direction
+    value: broad_match to AIO:ArtificialNeuralNetwork
+    definition: Learned retention projections, gates and feedforward transformations
+      compose a neural architecture. ArtificialNeuralNetwork is broader and does not
+      incorrectly identify retention as Transformer attention.
+    evidence_ids:
+    - retnet-method
+    - mapping
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  evidence_ids:
+  - identity-search
+  - mapping
+  - layer-contract
+  - s4-method
+  - h3layer-method
+  - retnet-method
+  rationale: S4 specifies a structured linear model, H3 combines shift/diagonal models
+    within a multiplicative layer, and RetNet specifies a complete gated-retention
+    architecture. Shared recurrence and sequence inputs do not establish identity.
+    Model, Layer and ArtificialNeuralNetwork mappings preserve these levels.
+- action: defer
+  target_ids:
+  - AIMech:S4
+  - AIMech:H3Layer
+  - AIMech:RetNet
+  evidence_ids:
+  - s4-method
+  - h3layer-method
+  - retnet-method
+  rationale: Do not automatically add FlashConv, S4D, HiPPO, stability revisions,
+    retention components or H3-attention hybrids from a citation or shared acronym.
+    Inspect the defining methods and resolve their separate scopes before curation.
+limitations:
+- Scientific self-review, not independent approval or experimental replication.
+- S4 follows the v3 original PQ* construction and preserves the documented stability
+  caveat.
+- H3 general-head outer products are distinguished from the scalar-head expression
+  and complete network composition.
+- RetNet constant decoding work is relative to sequence history at fixed dimensions;
+  finite-precision equivalence is not certified.
+- All records remain DRAFT, and known in-scope frontier entries remain.
+tags:
+- native-concepts
+- primary-papers
+- state-space
+- retention
+- layer-schema
+- self-review
+- discovery-ongoing
+```

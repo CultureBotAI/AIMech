@@ -1,0 +1,67 @@
+name: Retentive network
+definition: An autoregressive neural sequence architecture that stacks pre-normalized residual blocks
+  combining gated multi-scale retention with feedforward transformations, with parallel, recurrent and
+  chunkwise forms of retention.
+concept_kind: architecture
+identity_notes: RetNet denotes Sun and colleagues' architecture, not a generic recurrent network or an
+  attention-based Transformer language model. Its retention operation is a component, while the architecture
+  also specifies gating, normalization, residual paths and feedforward blocks.
+limitations:
+- Constant recurrent decoding cost is with respect to prior sequence length at fixed model dimensions,
+  not constant total work for a whole sequence or arbitrary model size.
+- The mathematical parallel, recurrent and chunkwise representations do not by themselves establish identical
+  finite-precision outputs for every implementation; numerical score-normalization details matter.
+- This record does not generalize the paper's reported benchmark or hardware results.
+aliases:
+- RetNet
+id: AIMech:RetNet
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.1–2.3, equations 5–9 and Figures 3–4, PDF/printed pp. 3–5
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: Retention projects position-modulated queries, keys and values and combines causal query-key
+    interactions with exponential distance decay. Different heads use fixed decay scales; headwise normalization
+    and a swish gate combine their outputs. Recurrent evaluation updates a decayed key-value state, and
+    chunkwise evaluation combines parallel within-chunk interactions with recurrent cross-chunk state.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.1–2.3, equations 5–9 and Figures 3–4, PDF/printed pp. 3–5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Retentive Network: A Successor to Transformer for Large Language Models'
+  authors:
+  - Yutao Sun
+  - Li Dong
+  - Shaohan Huang
+  - Shuming Ma
+  - Yuqing Xia
+  - Jilong Xue
+  - Jianyong Wang
+  - Furu Wei
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2307.08621v4
+  version: arXiv:2307.08621v4, revised 2023-08-09
+  access_level: full_text
+  accessed_at: '2026-10-11T04:20:57Z'
+  sha256: b75fdb67fdcc760609a38d28171a785f336ece30f750d210c7379306bb483fa7
+  persistent_id: arXiv:2307.08621v4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned retention projections, gates and feedforward transformations compose a neural architecture.
+    ArtificialNeuralNetwork is broader and does not incorrectly identify retention as Transformer attention.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:26:45Z'
+  updated_at: '2026-10-11T04:26:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
