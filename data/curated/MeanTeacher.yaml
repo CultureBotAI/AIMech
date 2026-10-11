@@ -1,0 +1,105 @@
+name: Mean Teacher
+definition: A semi-supervised classifier-training procedure that regularizes a student prediction toward
+  the prediction of a same-architecture teacher whose parameters are an exponential moving average of
+  successive student parameters, alongside labeled classification loss.
+concept_kind: algorithm
+identity_notes: 'Mean Teacher averages weights, whereas temporal ensembling averages predictions and the
+  Pi-model shares current parameters across two gradient-bearing branches. Sharing an EMA component does
+  not make this labeled classifier-training objective identical to BYOL or DINO, which use different representation
+  targets and objectives without the labeled cross-entropy term. This record describes a training algorithm,
+  not a trained checkpoint or fixed network architecture. The inspected AIO SemiSupervisedLLM class specifically
+  combines LLM pretraining with supervised fine-tuning; its related synonym self-training is not an exact
+  identity for this method. AIO SelfsupervisedLearning excludes human-annotated labels, Distillation describes
+  large-to-small compression, and RegularizationLayer is a layer: none supplies an equivalent class for
+  this algorithm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 230 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in both worktree and main checkout; matches concern prior discovery leads and the Pi-model
+  normalization regression. Ten exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus
+  five neighboring native records were inspected. The corrected Unicode-aware normalizer preserves Π;
+  the previous Pi-model/Model collision was a lexical defect, not semantic identity (review issue #58).'
+limitations:
+- Teacher initialization, coefficient schedules, loss scaling and network state management remain implementation
+  choices; the record does not assert a universal initialization, alpha value or handling of nonparameter
+  buffers.
+- Consistency relies on class-preserving perturbations and can propagate wrong targets; the EMA teacher
+  is not guaranteed to improve every prediction.
+- The original experiments include architecture and dataset-specific settings. No benchmark score, universal
+  performance ordering, or large-to-small compression claim is asserted.
+- The read supplementary pages cover the convolutional setup and branch gradients, not all later supplement
+  experiments or source code.
+id: AIMech:MeanTeacher
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Figure 2 and the consistency/weight-EMA equations, PDF/printed pp. 2–3; Section
+    3.1, p. 4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Evaluate each input with independently perturbed student and teacher networks of the same
+    architecture. Train the student with cross-entropy on labeled examples and a weighted squared-probability
+    consistency cost between student and teacher predictions on labeled and unlabeled examples. Treat
+    teacher predictions as constant during the gradient update. After obtaining the updated student parameters
+    theta_t, update teacher parameters theta_prime_t←alpha theta_prime_(t−1)+(1−alpha)theta_t. Thus the
+    teacher changes by parameter averaging after training steps, not by backpropagation through its consistency
+    branch. Choose the averaging coefficient and consistency-weight schedule as part of the training setup.
+    The core description does not require a particular initialization or warm-up formula. Unlike temporal
+    ensembling, it does not require a persistent target array indexed by the training set.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Figure 2 and the consistency/weight-EMA equations, PDF/printed pp. 2–3; Section
+      3.1, p. 4
+    relation: supports
+  - source_id: additional-1
+    locator: 'Appendix B.1, supplementary PDF pp. 1–2 / printed pp. 11–12: same architecture, branch gradients,
+      cross-entropy/MSE and per-step EMA'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised
+    deep learning results'
+  authors:
+  - Antti Tarvainen
+  - Harri Valpola
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2017/file/68053af2923e00204c3ca7c6a3150cf7-Paper.pdf
+  version: NIPS 2017 proceedings paper; 10 pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:00:55Z'
+  sha256: 86c2ad510ea207cbaac324ebf441c034ddd9612140f5a191406c6826a337e8a8
+- source_id: additional-1
+  title: 'Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised
+    deep learning results — supplementary material'
+  authors:
+  - Antti Tarvainen
+  - Harri Valpola
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2017/file/68053af2923e00204c3ca7c6a3150cf7-Supplemental.zip
+  version: NIPS 2017 proceedings supplement; ZIP member Paper 789\mean-teacher-supplementary.pdf; 6 PDF
+    pages, printed 11–16; SHA-256 identifies extracted PDF bytes, not the ZIP
+  access_level: full_text
+  accessed_at: '2026-10-11T10:06:37Z'
+  sha256: be823265a22f919a23089265c62fc506495345cc7a47f0e1febe3ed07a36f4f3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: This procedure learns class predictions from labeled and unlabeled examples. The pinned AIO
+    target describes a classification task under SupervisedLearning, not this semi-supervised training
+    algorithm; this is an algorithm-to-task association, not equivalence or an is-a assertion.
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The algorithm specifies how to train a predictor from data. The AIO target is the general
+    learning task; this association does not identify an algorithm with that task or assert an ontology
+    subclass edge.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:12:04Z'
+  updated_at: '2026-10-11T10:12:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

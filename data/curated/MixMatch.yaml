@@ -1,0 +1,95 @@
+name: MixMatch
+definition: A semi-supervised classifier-training procedure that averages predictions over augmented unlabeled
+  inputs, sharpens the resulting soft targets, mixes augmented labeled and unlabeled input-target pairs,
+  and optimizes labeled cross-entropy plus an unlabeled squared-probability loss.
+concept_kind: algorithm
+identity_notes: 'MixMatch combines averaged augmented-view label guessing, probability sharpening and
+  the modified MixUp pairing rule. These components define a distinct training algorithm rather than an
+  alias for MixUp, Mean Teacher or a hard pseudo-label confidence filter. Its classification soft targets
+  differ from representation matching in BYOL, DINO and SimSiam. This record describes a training algorithm,
+  not a trained checkpoint or fixed network architecture. The inspected AIO SemiSupervisedLLM class specifically
+  combines LLM pretraining with supervised fine-tuning; its related synonym self-training is not an exact
+  identity for this method. AIO SelfsupervisedLearning excludes human-annotated labels, Distillation describes
+  large-to-small compression, and RegularizationLayer is a layer: none supplies an equivalent class for
+  this algorithm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 230 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in both worktree and main checkout; matches concern prior discovery leads and the Pi-model
+  normalization regression. Ten exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus
+  five neighboring native records were inspected. The corrected Unicode-aware normalizer preserves Π;
+  the previous Pi-model/Model collision was a lexical defect, not semantic identity (review issue #58).'
+limitations:
+- The original setup pairs B labeled examples with B unlabeled examples and K augmentations per unlabeled
+  input. Alternative batching or interpolation rules require an explicit variant scope.
+- For 0<T<1 sharpening concentrates probability. As a curator consequence of the formula, the T→0 limit
+  is one-hot only with a unique maximum; tied maxima retain equal limiting mass. T>1 smooths rather than
+  sharpens.
+- Correct label-preserving augmentation and useful interpolation are assumptions; guessed labels can be
+  wrong and the algorithm has no defining hard confidence threshold.
+- The record does not assert published error rates or universal superiority. Reported T, K, alpha, lambda_u
+  and evaluation-EMA settings are experimental choices, not fixed constants of every implementation.
+id: AIMech:MixMatch
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.5, Algorithm 1 and Equations (2)–(13), PDF/printed pp. 3–5; Section 4.1, p.
+    5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Given B labeled examples with one-hot labels and B unlabeled examples, augment each labeled
+    input once and each unlabeled input K times. Average the current classifier probabilities across the
+    K views of each unlabeled input, then sharpen the average q_bar using q_c=q_bar_c^(1/T)/sum_j q_bar_j^(1/T),
+    for T>0; treat these guessed labels as constants during differentiation. Create augmented labeled
+    pairs X_hat of size B and unlabeled pairs U_hat of size KB, then shuffle their concatenation into
+    W. Mix each X_hat pair with the corresponding first B pairs in W, and each U_hat pair with the corresponding
+    remaining KB pairs. For each MixUp operation draw lambda from Beta(alpha,alpha), alpha>0, set lambda_prime=max(lambda,1−lambda),
+    and combine both inputs and targets with weights lambda_prime and 1−lambda_prime, keeping at least
+    half of the first pair. For the resulting X_prime and U_prime, minimize average soft-target cross-entropy
+    over X_prime plus lambda_u/(C|U_prime|) times sum over U_prime of squared target/prediction differences,
+    where C is the number of classes. The reported implementation ramps lambda_u linearly. Guessed labels
+    use current-model predictions; the evaluation-only weight EMA in Section 4.1 is not a Mean Teacher
+    target generator.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.5, Algorithm 1 and Equations (2)–(13), PDF/printed pp. 3–5; Section 4.1, p.
+      5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'MixMatch: A Holistic Approach to Semi-Supervised Learning'
+  authors:
+  - David Berthelot
+  - Nicholas Carlini
+  - Ian Goodfellow
+  - Avital Oliver
+  - Nicolas Papernot
+  - Colin Raffel
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2019/file/1cd138d0499a68f4bb72bee04bbec2d7-Paper.pdf
+  version: NeurIPS 2019 proceedings paper; 11 pages; author order follows the PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:00:55Z'
+  sha256: 096c017ec11f5324d5d4cd2124e39b71d3f95ac7441a16ffd8dfa394c3424bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: This procedure learns class predictions from labeled and unlabeled examples. The pinned AIO
+    target describes a classification task under SupervisedLearning, not this semi-supervised training
+    algorithm; this is an algorithm-to-task association, not equivalence or an is-a assertion.
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The algorithm specifies how to train a predictor from data. The AIO target is the general
+    learning task; this association does not identify an algorithm with that task or assert an ontology
+    subclass edge.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:12:04Z'
+  updated_at: '2026-10-11T10:12:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
