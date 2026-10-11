@@ -1,0 +1,62 @@
+name: Hungry Hungry Hippos layer
+definition: A sequence layer that combines projected queries, keys and values with shift and diagonal
+  state-space models, using multiplicative interactions to associate and retrieve sequence information.
+concept_kind: layer
+identity_notes: H3 is the layer defined in Fu and colleagues' Algorithm 1. Networks interleave H3 with
+  MLP layers; the paper's hybrid H3-attention model additionally uses attention layers. Those complete
+  networks and the FlashConv execution algorithm are not identical to this component.
+limitations:
+- The scalar-head elementwise formula is a special case; general heads use outer products and matrix-vector
+  contractions.
+- The complete H3 language model and hybrid attention architecture require additional blocks beyond this
+  layer. No universal language-model performance or recall guarantee is asserted.
+aliases:
+- H3
+id: AIMech:H3Layer
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3.2, Algorithm 1 and the surrounding H3 Layer paragraph, PDF/printed p. 5
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: Project the input to Q, K and V; pass K through a shift state-space model. Within each head,
+    feed the outer product of shifted keys and values through a diagonal state-space model, multiply by
+    Q, then concatenate heads and apply an output projection.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3.2, Algorithm 1 and the surrounding H3 Layer paragraph, PDF/printed p. 5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Hungry Hungry Hippos: Towards Language Modeling with State Space Models'
+  authors:
+  - Daniel Y. Fu
+  - Tri Dao
+  - Khaled K. Saab
+  - Armin W. Thomas
+  - Atri Rudra
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2212.14052v3
+  version: arXiv:2212.14052v3, revised 2023-04-29; ICLR 2023 camera-ready
+  access_level: full_text
+  accessed_at: '2026-10-11T04:20:57Z'
+  sha256: de923022ffc5e53d430f0af72286cec26f32d03c9e2fd3686938a5d62811eae2
+  persistent_id: arXiv:2212.14052v3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: The defining algorithm takes a sequence representation and outputs a transformed representation
+    for subsequent layers. AIO Layer is broader than this specific shift/diagonal state-space construction.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:26:45Z'
+  updated_at: '2026-10-11T04:26:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

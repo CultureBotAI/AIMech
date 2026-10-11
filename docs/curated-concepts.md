@@ -19,6 +19,12 @@ Each native record has a narrowly scoped definition, concept kind, identity
 notes, supporting definition citations, claim-level evidence, source metadata,
 limitations, mapping provenance, and actual curation provenance.
 
+Use `concept_kind: layer` for a defined neural-network component, such as the
+H3 sequence layer, when the primary source distinguishes it from the complete
+network. State its input/output transformation and boundary from the surrounding
+architecture. A layer still needs full method evidence, an identity search and
+an explicit AIO mapping assessment; the kind does not establish an AIO relation.
+
 Evidence records distinguish abstracts, full text and versioned implementation
 documentation. Definitions and asserted claims require inspected full text or
 documentation. Abstracts are useful for discovery and can be retained as
