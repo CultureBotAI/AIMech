@@ -1,0 +1,77 @@
+name: Variational Fair Autoencoder
+definition: A variational autoencoder architecture for learning representations with reduced sensitive
+  or nuisance information, combining sensitive-variable-conditioned inference and generation with an MMD
+  penalty on group-conditional aggregated latent distributions and a semi-supervised predictive component.
+concept_kind: architecture
+identity_notes: VFAE denotes the MMD-regularized semi-supervised variational architecture introduced by
+  Louizos et al. It is distinct from the paper’s unregularized VAE baseline, prototype-based LFR, ordinary
+  autoencoding and the model-dependent FAIRLEARNING algorithm. Prior independence and aggregated-posterior
+  matching do not establish causal counterfactual fairness. All 442 pinned AIO labels/scoped synonyms
+  and 104 preceding native identities were compared, together with hidden/ignored-inclusive searches of
+  both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- Independence in the generative prior does not alone ensure independence of inferred representations;
+  the MMD regularizer addresses remaining group dependence.
+- Finite data, optimization, kernel choice and random-feature approximation limit how strongly matching
+  can be claimed; no exact population independence or universal fairness guarantee is asserted.
+- The encoder conditions on the sensitive variable. Semi-supervised here allows missing task labels, not
+  arbitrary absence of sensitive-attribute information.
+- The paper reports sampling the inferred latent representation for prediction rather than replacing it
+  by its mean. Numerical objective-sign and bandwidth conventions are not certified by this conceptual
+  record.
+aliases:
+- VFAE
+id: AIMech:VariationalFairAutoencoder
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.1–2.4, Figures 1–2 and equations (1)–(10), PDF pp. 2–4; Section 3.2, PDF pp. 5–6
+    for prediction sampling
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Use neural inference and generative models conditioned on the observed sensitive variable,
+    with latent structure separating that variable from the representation in the generative model. In
+    the semi-supervised construction, introduce a second latent layer and label variable and jointly train
+    the inference, reconstruction and predictive components. Penalize differences between aggregated latent
+    distributions across sensitive groups with maximum mean discrepancy, approximated using random Fourier
+    features in the reported implementation.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.1–2.4, Figures 1–2 and equations (1)–(10), PDF pp. 2–4; Section 3.2, PDF pp. 5–6
+      for prediction sampling
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: The Variational Fair Autoencoder
+  authors:
+  - Christos Louizos
+  - Kevin Swersky
+  - Yujia Li
+  - Max Welling
+  - Richard Zemel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.00830v6
+  version: arXiv:1511.00830v6, revised 2017-08-10; ICLR 2016 conference paper
+  persistent_id: arXiv:1511.00830
+  access_level: full_text
+  accessed_at: '2026-10-11T04:57:23Z'
+  sha256: 3095f69e500acc3bb26a18d17ea77a7045c34b5ae48c60792dfcf176e73e24cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:VariationalAutoEncoder
+  relation: related_match
+  rationale: Uses variational autoencoding with additional sensitive-variable conditioning, a supervised
+    component and MMD regularization. Because the pinned target definition specifies unsupervised learning,
+    this mapping records the architectural relationship without asserting an unqualified subclass relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:03:15Z'
+  updated_at: '2026-10-11T05:03:15Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
