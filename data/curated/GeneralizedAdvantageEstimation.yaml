@@ -1,0 +1,58 @@
+name: Generalized advantage estimation
+aliases:
+- GAE
+definition: An advantage-function estimator for policy-gradient learning formed from an exponentially
+  weighted sum of temporal-difference residuals.
+concept_kind: mathematical_method
+identity_notes: GAE estimates advantages used in a policy-gradient update; it is not itself a complete
+  policy optimizer and is distinct from estimating the value function with TD(lambda).
+limitations:
+- Bias and variance depend on discounting, lambda and value-function accuracy; no unconditional unbiasedness
+  or variance-reduction claim is made.
+- The source's combined control system also uses trust-region optimization, which is a separate concept.
+id: AIMech:GeneralizedAdvantageEstimation
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, PDF/printed pp. 4–5; equations 16–19 and bias/variance discussion
+  relation: supports
+claims:
+- claim_id: learning-method
+  kind: mechanism
+  statement: For value estimate V, residuals r_t + gamma V(s_{t+1}) - V(s_t) are summed forward with weights
+    (gamma lambda)^l; lambda controls the mixture of multi-step advantage estimates.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, PDF/printed pp. 4–5; equations 16–19 and bias/variance discussion
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: High-Dimensional Continuous Control Using Generalized Advantage Estimation
+  authors:
+  - John Schulman
+  - Philipp Moritz
+  - Sergey Levine
+  - Michael I. Jordan
+  - Pieter Abbeel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1506.02438v6
+  version: 1506.02438v6
+  access_level: full_text
+  accessed_at: '2026-10-11T03:40:33Z'
+  sha256: 5aa736ccf3517a1f36d0ca8146982e69beaf9a2bdccac2ae324f780743bc045e
+  persistent_id: arXiv:1506.02438v6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: This estimator supplies advantages for policy-gradient learning. The AIO target is a learning
+    task, not the same method or an asserted algorithm superclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:44:41Z'
+  updated_at: '2026-10-11T03:44:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
