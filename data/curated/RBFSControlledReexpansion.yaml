@@ -1,0 +1,121 @@
+name: Recursive best-first search with controlled re-expansion
+definition: An RBFS variant that estimates subtree evaluation-value distributions and inflates backed-up
+  values to make later visits expand geometrically more nodes, while retaining original lower-bound information
+  for solution-cost pruning.
+concept_kind: algorithm
+identity_notes: RBFS_CR is the histogram-based controlled re-expansion method of Hatem, Kiesel and Ruml.
+  It is distinct from their fixed-tolerance RBFS-epsilon and weighted-root RBFS-kth-root heuristics. Its
+  inflated ordering can depart from strict best-first order in the original evaluation values. No normalized
+  identity match was found across the 442 AIO and 124 prior native records; ignored-inclusive text hits
+  in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental
+  dependency substrings, not existing concept records.
+limitations:
+- The published O(N) expansion analysis is conditional on accurate subtree histograms, enough counts to
+  choose appropriate backups, and a bound of O(N) on extra unique nodes beyond optimal solution cost.
+  N is the specified A-star search-tree expansion count without duplicate pruning and with worst-case
+  ties.
+- The implementation’s finite histogram buckets estimate distributions; they do not automatically satisfy
+  the analysis’s exact-distribution assumption on every problem.
+- The paper retains one histogram per current-path node. Its depth-linear storage argument assumes bounded
+  per-node histogram and successor storage; an added unbounded transposition table changes the memory
+  scope.
+- Liberal thresholds require continuing branch-and-bound after finding an incumbent to establish optimality
+  under admissible bounds. The first encountered solution is not automatically certified optimal.
+- The record does not certify the pseudocode as a complete executable implementation or claim universal
+  speed improvement.
+id: AIMech:RBFSControlledReexpansion
+aliases:
+- RBFS_CR
+- RBFS with bounded overhead
+definition_evidence:
+- source_id: method-source
+  locator: RBFS with Controlled Re-expansion, Figure 2 and discussion, PDF pp. 3–4; Assumptions 1–3 and
+    Theorem 2, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Maintain original backed-up values F and additional inflated values F_CR. Histograms of generated
+    but pruned evaluation values guide the inflation so the next visit is estimated to perform geometrically
+    more work. Use inflated values to control traversal and backtracking, and original bounds for branch-and-bound
+    after an incumbent solution is available.
+  evidence:
+  - source_id: method-source
+    locator: RBFS with Controlled Re-expansion, Figure 2 and discussion, PDF pp. 3–4; Assumptions 1–3
+      and Theorem 2, PDF pp. 4–5
+    relation: supports
+- claim_id: conditional-bound
+  kind: limitation
+  statement: The overhead theorem relies on explicit distribution and extra-node assumptions. The paper
+    also explains that relaxing original best-first order is intentional and that its Dockyard experiment
+    uses an unlimited transposition table; those experiments do not demonstrate the memory bound of a
+    path-only implementation.
+  evidence:
+  - source_id: analysis-and-scope
+    locator: Assumptions 1–3, PDF p. 4; Theorem 2, PDF p. 5; Dockyard Robot Planning and Conclusion, PDF
+      p. 6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Recursive Best-First Search with Bounded Overhead
+  authors:
+  - Matthew Hatem
+  - Scott Kiesel
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:38:35Z'
+  sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  persistent_id: doi:10.1609/aaai.v29i1.9352
+- source_id: analysis-and-scope
+  title: Recursive Best-First Search with Bounded Overhead
+  authors:
+  - Matthew Hatem
+  - Scott Kiesel
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  version: AAAI 29(1), 1151–1157 (2015); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:38:35Z'
+  sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  persistent_id: doi:10.1609/aaai.v29i1.9352
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 124 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:44:44Z'
+  updated_at: '2026-10-11T05:44:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

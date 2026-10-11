@@ -1,0 +1,106 @@
+name: Best-first search
+definition: A search strategy that repeatedly expands the open node with the best value under a specified
+  evaluation rule, adding eligible successors to the open frontier.
+concept_kind: algorithm
+identity_notes: This record describes the canonical global minimum-f form, with lower values defined as
+  better. A-star, heuristic-only greedy best-first search and weighted A-star choose different evaluation
+  rules. Broader literature also calls restricted-candidate-set policies best-first; their extra selection
+  rules are not part of this core procedure. BFS is not an alias here because it identifies breadth-first
+  search in AIMech. No normalized identity match was found across the 442 AIO and 124 prior native records;
+  ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order
+  contrasts, plus incidental dependency substrings, not existing concept records.
+limitations:
+- A minimum evaluation value alone does not guarantee minimum solution cost; the meaning and assumptions
+  of the evaluation rule matter.
+- Maintaining the full frontier and explored-state information can require substantial memory. Recursive
+  or bounded-memory variants change what is retained.
+- Tie-breaking, duplicate updates and termination conditions are additional algorithm choices; the generic
+  strategy does not settle them or guarantee completion on an infinite space.
+id: AIMech:BestFirstSearch
+definition_evidence:
+- source_id: method-source
+  locator: 'Introduction, printed p. 533 / PDF p. 1: open/closed lists, minimum-f expansion and special
+    cases'
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Maintain an open frontier of generated nodes eligible for expansion. Select a node with minimum
+    evaluation value, test the selected node for a goal, and otherwise expand it and update the frontier
+    under the chosen duplicate policy. The evaluation rule and duplicate handling determine the specific
+    search algorithm.
+  evidence:
+  - source_id: method-source
+    locator: 'Introduction, printed p. 533 / PDF p. 1: open/closed lists, minimum-f expansion and special
+      cases'
+    relation: supports
+- claim_id: family-boundary
+  kind: scope
+  statement: Global frontier selection differs from choosing only a current node’s neighbor or discarding
+    nodes to enforce a beam width. Some named best-first variants additionally restrict selection to a
+    privileged subset of the frontier.
+  evidence:
+  - source_id: comparison-paper
+    locator: Introduction and Best-First Search, PDF pp. 1–2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Linear-Space Best-First Search: Summary of Results'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  version: AAAI-92 proceedings, 533–538 (1992); official conference PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T05:28:08Z'
+  sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- source_id: comparison-paper
+  title: A Comparison of Greedy Search Algorithms
+  authors:
+  - Christopher Wilt
+  - Jordan Thayer
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:39:45Z'
+  sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  persistent_id: doi:10.1609/socs.v1i1.18182
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 124 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:44:44Z'
+  updated_at: '2026-10-11T05:44:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

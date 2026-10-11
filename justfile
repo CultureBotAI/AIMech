@@ -9,6 +9,9 @@ install:
 check:
     uv run --locked --extra dev python scripts/check.py
 
+fetch-review-bases:
+    uv run --locked python scripts/fetch_review_bases.py
+
 test:
     uv run --locked --extra dev pytest -q
 
