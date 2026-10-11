@@ -1,0 +1,95 @@
+name: Zoneout
+definition: A recurrent-network regularization procedure that randomly preserves selected state components
+  at their previous values instead of applying their proposed updates during training.
+concept_kind: algorithm
+identity_notes: Zoneout is a stochastic transition-modification procedure, not a particular RNN architecture
+  or trained sequence model. Its identity branch retains previous activations; it differs from setting
+  recurrent states to zero, dropping only input-gate contributions, fixed periodic update schedules and
+  always skipping an entire recurrent layer. LSTM cells and hidden states can have separate preservation
+  probabilities and masks. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 5 and 5 lines respectively. Every text hit was a prior
+  candidate lead or a closely related variant lead. Nine exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- The generic operator formula in Section3.1 uses d for selecting the normal transition, whereas the LSTM
+  formulas in Section3.2 use d for selecting preservation. The record defines its own preservation convention
+  explicitly; those source masks are complements, not interchangeable symbols.
+- The printed LSTM hidden-state proposal uses the unzoned cell-update expression inside tanh. An implementation
+  that instead uses the already-mixed cell state can differ when cell and hidden selectors differ. This
+  general method record does not certify all LSTM code as equivalent or invent an uninspected implementation
+  rule.
+- Replacing selectors by expectations gives a deterministic local mixture; nonlinear recurrence means
+  it is not generally the exact ensemble-averaged state or output over complete stochastic trajectories.
+  Preserved components pass their old values directly, but this does not guarantee that the entire network
+  avoids vanishing/exploding gradients or processes every input in every component.
+- Very high preservation can suppress adaptation to new inputs. State/cell probabilities, sharing and
+  other regularizers matter; the source’s task-specific results and conjectures do not establish universal
+  improvement. No exact trained-model replication, parameter sweep or author-code execution is asserted.
+id: AIMech:Zoneout
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Introduction PDFp.1; Sections2.1–3.2 and Figures1–2, PDF pp.2–4; mask variants and limits in
+    Sections4.1/4.3–4.4, PDF pp.5–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At a recurrent timestep, form the model’s proposed next-state values and use a Bernoulli
+    selector for each targeted component to choose between that proposal and its previous value. Defining
+    z as the preservation probability, the update has the form mask times previous state plus one-minus-mask
+    times proposed state, with a mask value of1 selecting preservation. This introduces direct identity
+    paths through time for the preserved components. The source’s LSTM account usually uses separate selectors
+    for memory cells and hidden states and also studies shared selectors. At testing, replace the random
+    selector by its expectation, producing a weighted combination of previous and proposed values at each
+    step. Selection probabilities, targeted state components and the underlying recurrent transition are
+    configured choices; the procedure itself does not require a new learned gate.
+  evidence:
+  - source_id: method-source
+    locator: Introduction PDFp.1; Sections2.1–3.2 and Figures1–2, PDF pp.2–4; mask variants and limits
+      in Sections4.1/4.3–4.4, PDF pp.5–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Zoneout: Regularizing RNNs by Randomly Preserving Hidden Activations'
+  authors:
+  - David Krueger
+  - Tegan Maharaj
+  - János Kramár
+  - Mohammad Pezeshki
+  - Nicolas Ballas
+  - Nan Rosemary Ke
+  - Anirudh Goyal
+  - Yoshua Bengio
+  - Aaron Courville
+  - Christopher Pal
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1606.01305v4
+  version: arXiv1606.01305v4, 22September2017; 11-page PDF bearing an under-review ICLR2017 header
+  persistent_id: arXiv:1606.01305v4
+  access_level: full_text
+  accessed_at: '2026-10-11T12:28:11Z'
+  sha256: f82391469757695bcc663bf6ce7ad0ee7eb7831774ae578eb1929729efb4f94c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: related_match
+  rationale: Zoneout modifies a recurrent state transition. The AIO target denotes the broader network
+    architecture category, not this stochastic regularization algorithm.
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: Zoneout supplies training-time stochastic state preservation and a corresponding inference
+    rule. The target mixes preprocessing and broad learning strategies, so this is a procedure-to-training
+    association rather than an asserted subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:35:00Z'
+  updated_at: '2026-10-11T12:35:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

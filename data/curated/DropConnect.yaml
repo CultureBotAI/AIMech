@@ -1,0 +1,88 @@
+name: DropConnect
+definition: A stochastic neural-network layer that masks individual weights and biases during training,
+  so each example is processed through a randomly selected subset of the layer’s connections.
+concept_kind: layer
+identity_notes: This record denotes the original fully connected DropConnect layer and its training/inference
+  conventions. Dynamic connection masking differs from dropping activation units, removing whole residual
+  branches, masking spatial blocks and permanently pruning a weight matrix. The surrounding feature extractor
+  and classifier are not part of the layer identity. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 276 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively.
+  Every text hit was a prior candidate lead or a closely related variant lead. Nine exact AIO CLASS nodes
+  with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The original layer uses per-example masks, including biases. Shared minibatch masks, unmasked biases,
+  inverted training rescaling and later structured weight-masking variants are not silently substituted
+  for this source version.
+- Gaussian moment matching is an approximation to the finite Bernoulli sum; averaging sampled nonlinear
+  activations is also approximate. Passing an averaged activation through a nonlinear downstream network
+  is not exact averaging of full network predictions. Applying the activation to the mean generally differs
+  from averaging activations.
+- The equal-mask paragraph uses 1/|M| while also describing 2^|M| masks. Exact averaging requires normalized
+  mask probabilities; the record follows the weighted expectation in Equation4 rather than propagating
+  that inconsistent displayed factor. No full proof audit of the source’s generalization bound is claimed.
+- Dense connection-mask storage and sampling can be costly; dynamic sparsity alone does not guarantee
+  faster execution. Fully connected-layer evidence does not establish arbitrary convolutional/recurrent
+  implementations, universal generalization improvement or a calibrated Bayesian posterior. No benchmark
+  result or author code execution is asserted.
+id: AIMech:DropConnect
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections2.2–3.2 and Equations3–4/Algorithms1–2, PDF pp.2–3; implementation scope Section5,
+    PDFp.4; discussion Section7, PDFp.7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For each training example, draw independent Bernoulli keep masks for the layer’s weights
+    and biases with a chosen retention probability p. Multiply the parameters elementwise by this mask,
+    compute the affine preactivation and apply the nonlinear activation. Backpropagate through the masked
+    connections, using the same mask for the weight gradients and for gradients passed to earlier layers.
+    The original inference procedure approximates each preactivation by a Gaussian matched to the masked
+    weighted sum’s mean and variance: p times the ordinary weighted sum, and p(1−p) times the sum of squared
+    weight-input products, including the constant input used for bias. Draw samples from these Gaussians,
+    apply the activation to each sample and average the resulting activations before passing them to the
+    next layer. The paper’s sample count and p=0.5 experiments are configuration choices.'
+  evidence:
+  - source_id: method-source
+    locator: Sections2.2–3.2 and Equations3–4/Algorithms1–2, PDF pp.2–3; implementation scope Section5,
+      PDFp.4; discussion Section7, PDFp.7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Regularization of Neural Networks using DropConnect
+  authors:
+  - Li Wan
+  - Matthew Zeiler
+  - Sixin Zhang
+  - Yann LeCun
+  - Rob Fergus
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/wan13.pdf
+  version: ICML 2013, PMLR28(3):1058–1066; 9-page proceedings PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T12:28:11Z'
+  sha256: 6b079db3d7a1971cf18b1f8fc9f7873728f187e724ff4f41c7c72e03edc82c08
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: DropConnect is represented as a particular neural-network input-to-output component, which
+    falls within the generic Layer scope.
+- target: AIO:DenseLayer
+  relation: related_match
+  rationale: The original method applies dynamic connection masks to a densely parameterized affine layer.
+    Its stochastic sparse realizations and special inference approximation distinguish it from the pinned
+    regular dense layer; this is a component relationship, not equivalence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T12:35:00Z'
+  updated_at: '2026-10-11T12:35:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
