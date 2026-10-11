@@ -1,0 +1,88 @@
+name: PHATE
+definition: A dimensionality-reduction algorithm that computes diffusion transition probabilities, measures
+  Euclidean distances between their negative-log rows, and uses metric multidimensional scaling to embed
+  those potential distances.
+concept_kind: algorithm
+identity_notes: PHATE uses potential distances between transformed diffusion distributions followed by
+  stress fitting; AIMech:DiffusionMaps uses time-scaled Markov eigenvectors. PHATE is not generic MDS,
+  a generative diffusion model, a branch-detection procedure or the DEMaP evaluation criterion. The core
+  algorithm is distinct from its landmark approximation and multislice extensions. All 442 pinned AIO
+  labels/scoped synonyms and 114 preceding native identities were compared, together with hidden/ignored-inclusive
+  searches of both checkouts; source citations and pending frontier mentions were distinguished from existing
+  concept identities.
+limitations:
+- Neighborhood affinities, bandwidth, decay exponent and diffusion time determine the geometry; excessive
+  diffusion can remove signal as well as noise.
+- Negative logarithms require positive entries. Disconnected or numerically thresholded transitions need
+  explicit zero-handling; the paper’s formula alone does not specify a universal remedy.
+- A two- or three-dimensional stress fit can distort potential distances and does not guarantee global
+  optimization, preservation of every manifold property or biological trajectories.
+- The entropy discussion assumes a nonnegative spectrum for its probability normalization. This record
+  does not certify that assumption for every adaptive kernel or treat the knee heuristic as an optimal-time
+  theorem.
+- The inspected PDF is marked corrected; the correction notice and access limitations are tracked in the
+  discovery report.
+aliases:
+- Potential of Heat Diffusion for Affinity-based Transition Embedding
+id: AIMech:PHATE
+definition_evidence:
+- source_id: original-paper
+  locator: Results overview, printed pp. 1482–1483 / PDF pp. 1–2; Methods, local affinities through MDS,
+    equations (1)–(9), PDF pp. 12–14
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Build symmetric local affinities with an adaptive bandwidth and an alpha-decaying kernel,
+    row-normalize them to a Markov operator P, and take a selected diffusion power P^t. For positive transition
+    probabilities, form potential vectors −log(P^t_i) and their Euclidean pairwise distances. Initialize
+    with classical MDS and optimize metric-MDS stress in the requested output dimension. The paper proposes
+    an entropy-knee heuristic for choosing diffusion time and a separate landmark approximation for scaling.
+  evidence:
+  - source_id: original-paper
+    locator: Results overview, printed pp. 1482–1483 / PDF pp. 1–2; Methods, local affinities through
+      MDS, equations (1)–(9), PDF pp. 12–14
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Visualizing structure and transitions in high-dimensional biological data
+  authors:
+  - Kevin R. Moon
+  - David van Dijk
+  - Zheng Wang
+  - Scott Gigante
+  - Daniel B. Burkhardt
+  - William S. Chen
+  - Kristina Yim
+  - Antonia van den Elzen
+  - Matthew J. Hirn
+  - Ronald R. Coifman
+  - Natalia B. Ivanova
+  - Guy Wolf
+  - Smita Krishnaswamy
+  source_type: primary_paper
+  url: https://matthewhirn.com/wp-content/uploads/2020/02/s41587-019-0336-3.pdf
+  version: 'Nature Biotechnology 37:1482–1492, 2019-12-03; author-hosted published PDF marked Corrected:
+    Author Correction'
+  persistent_id: doi:10.1038/s41587-019-0336-3
+  access_level: full_text
+  accessed_at: '2026-10-11T05:16:52Z'
+  sha256: 3f56978e04a35083367cc04a7ed1c4c4be7556fa3ee8c85335e530bcc45e67dd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific algorithm for constructing lower-dimensional representations, associated with
+    the pinned dimensionality-reduction task. The target inherits UnsupervisedLearning under MachineLearningTask;
+    related_match avoids treating the algorithm as identical to or a subclass of that task. Shared embedding
+    components do not make this concept identical to PCA, MDS or t-SNE.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:21:17Z'
+  updated_at: '2026-10-11T05:22:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

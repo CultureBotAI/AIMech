@@ -1,0 +1,97 @@
+name: TriMap
+definition: A nonlinear dimensionality-reduction algorithm that selects weighted triplet comparisons from
+  high-dimensional data and optimizes embedding coordinates to favor the corresponding ordering of pairwise
+  similarities.
+concept_kind: algorithm
+identity_notes: TriMap denotes the sampled triplet embedding algorithm, not a three-valued segmentation
+  trimap, generic ordinal embedding, its PCA-based global score, or PaCMAP’s pair losses. Version updates
+  to sampling and weights are retained as method variations, not silently mixed with the older experiments.
+  All 442 pinned AIO labels/scoped synonyms and 114 preceding native identities were compared, together
+  with hidden/ignored-inclusive searches of both checkouts; source citations and pending frontier mentions
+  were distinguished from existing concept identities.
+limitations:
+- Triplet sampling, weighting, initialization and input metric influence the layout; minimizing the sampled
+  objective does not guarantee satisfaction of every possible triplet or recovery of a unique manifold.
+- The v2 PDF says its displayed experiments use older code. It updates counts from 10×5+5 to 12×4+3 and
+  replaces the earlier weight transformation; these are not results for a single identical software version.
+- Wang et al.’s initialization critique studies the older 55-triplet construction and should not be treated
+  as a direct benchmark of every later revision.
+- The separately proposed global score is based on linear reconstruction relative to PCA; it is not a
+  universal geometric-fidelity certificate, and its displayed normalization requires nonzero PCA residual
+  error.
+id: AIMech:TriMap
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, PDF pp. 4–5; version-update notice on p. 1; global-score definition, Section 2,
+    pp. 3–4
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Sample neighbor-versus-farther triplets and additional randomly selected triplets ordered
+    by input proximity. Weight triplets using input-distance differences and the version-specific smoothing
+    rule. Minimize the sum of weighted s(i,k)/(s(i,j)+s(i,k)) losses with s(i,j)=1/(1+||y_i−y_j||²), commonly
+    starting from scaled PCA coordinates and using momentum-based full-batch optimization. The inspected
+    revision describes shifted tempered-log weights and updated triplet counts separately from older experimental
+    settings.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, PDF pp. 4–5; version-update notice on p. 1; global-score definition, Section 2,
+      pp. 3–4
+    relation: supports
+- claim_id: initialization-and-version-limit
+  kind: limitation
+  statement: 'Wang et al. challenge attributing global layout solely to the triplet loss: their analysis
+    emphasizes initialization and the limited range of attractive and repulsive forces. Their inspected
+    TriMap definition uses 55 triplets per point and the older exponential/log weight rule, so this qualification
+    is version-scoped rather than a claim about all later code.'
+  evidence:
+  - source_id: initialization-analysis
+    locator: Sections 3.3, 5.1 and 6.1–6.2, PDF pp. 10–11, 28–30 and 33–36; Figure 11, p. 29
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'TriMap: Large-scale Dimensionality Reduction Using Triplets'
+  authors:
+  - Ehsan Amid
+  - Manfred K. Warmuth
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1910.00204v2
+  version: arXiv:1910.00204v2, revised 2022-03-26; updated method notes coexist with older-code experiments
+  persistent_id: arXiv:1910.00204
+  access_level: full_text
+  accessed_at: '2026-10-11T05:16:53Z'
+  sha256: e2c2c2d33b7e77cc1c5d3ad16813b15d63107208c9827cd2ff3cb24c85427986
+- source_id: initialization-analysis
+  title: 'Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE,
+    UMAP, TriMap, and PaCMAP for Data Visualization'
+  authors:
+  - Yingfan Wang
+  - Haiyang Huang
+  - Cynthia Rudin
+  - Yaron Shaposhnik
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume22/20-1061/20-1061.pdf
+  version: JMLR 22(201):1–73, July 2021; revised April 2021
+  persistent_id: https://jmlr.org/papers/v22/20-1061.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:17:57Z'
+  sha256: 570ab26e15840856fc1b49add9bcc80424c62e196e7d7b74d8a4ad3a6a3a6a60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific algorithm for constructing lower-dimensional representations, associated with
+    the pinned dimensionality-reduction task. The target inherits UnsupervisedLearning under MachineLearningTask;
+    related_match avoids treating the algorithm as identical to or a subclass of that task. Shared embedding
+    components do not make this concept identical to PCA, MDS or t-SNE.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:21:17Z'
+  updated_at: '2026-10-11T05:21:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

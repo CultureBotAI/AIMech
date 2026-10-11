@@ -1,0 +1,76 @@
+name: PaCMAP
+definition: A nonlinear dimensionality-reduction algorithm that embeds neighbor, mid-near and farther
+  point pairs using separate attractive and repulsive losses whose relative weights change through three
+  optimization phases.
+concept_kind: algorithm
+identity_notes: PaCMAP uses three classes of pair losses and a changing phase schedule, rather than TriMap’s
+  coupled triplet loss or UMAP’s fuzzy graph construction. The graph-sampling rules and phase weights
+  are defining components, not a proof of universal local/global preservation. All 442 pinned AIO labels/scoped
+  synonyms and 114 preceding native identities were compared, together with hidden/ignored-inclusive searches
+  of both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- Random sampling and the initial coordinates affect the result. The authors explicitly state that robustness
+  to initialization is incomplete and that initialization scale matters.
+- A mid-near partner is selected by a six-point sample rule, not an exact global distance quantile; the
+  method does not guarantee that every such partner is outside the nearest-neighbor set.
+- Locally scaled distances select neighbor pairs, while optimization uses embedded distances and pair-class
+  weights; the original distances are not fitted as an all-pairs metric.
+- The three-phase procedure seeks a useful nonconvex layout. No global optimum, exact topology preservation,
+  density preservation or universal performance advantage is asserted.
+aliases:
+- Pairwise Controlled Manifold Approximation Projection
+id: AIMech:PaCMAP
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3.4 and 7, PDF pp. 11–12 and 36–39; Algorithm 1, p. 37; initialization qualifications,
+    Section 6.2, pp. 35–36
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Choose neighbors from a Euclidean-neighbor candidate pool using locally scaled distances,
+    choose mid-near partners as the second closest among six sampled observations, and sample non-neighbors
+    for farther pairs. With d̃=||y_a−y_b||²+1, use d̃/(10+d̃) for neighbors, d̃/(10000+d̃) for mid-near
+    pairs and 1/(1+d̃) for farther pairs. Optimize with Adam, ordinarily from PCA initialization, first
+    emphasizing mid-near attraction, then reducing it and finally setting its weight to zero while refining
+    local structure.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3.4 and 7, PDF pp. 11–12 and 36–39; Algorithm 1, p. 37; initialization qualifications,
+      Section 6.2, pp. 35–36
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Understanding How Dimension Reduction Tools Work: An Empirical Approach to Deciphering t-SNE,
+    UMAP, TriMap, and PaCMAP for Data Visualization'
+  authors:
+  - Yingfan Wang
+  - Haiyang Huang
+  - Cynthia Rudin
+  - Yaron Shaposhnik
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume22/20-1061/20-1061.pdf
+  version: JMLR 22(201):1–73, July 2021; revised April 2021
+  persistent_id: https://jmlr.org/papers/v22/20-1061.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:17:57Z'
+  sha256: 570ab26e15840856fc1b49add9bcc80424c62e196e7d7b74d8a4ad3a6a3a6a60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific algorithm for constructing lower-dimensional representations, associated with
+    the pinned dimensionality-reduction task. The target inherits UnsupervisedLearning under MachineLearningTask;
+    related_match avoids treating the algorithm as identical to or a subclass of that task. Shared embedding
+    components do not make this concept identical to PCA, MDS or t-SNE.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:21:17Z'
+  updated_at: '2026-10-11T05:21:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
