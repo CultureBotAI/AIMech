@@ -1,0 +1,56 @@
+name: Guided Grad-CAM
+definition: A visualization method combining an upsampled Grad-CAM localization map with guided-backpropagation
+  input-space scores.
+concept_kind: algorithm
+identity_notes: Guided Grad-CAM is a specific fusion of two visualization methods, not a synonym for Grad-CAM
+  or guided backpropagation alone.
+limitations:
+- The output inherits dependence on the selected Grad-CAM layer and the guided-backpropagation rule.
+- Higher image resolution and visual appeal do not establish universal explanation fidelity or causal
+  importance.
+id: AIMech:GuidedGradCAM
+definition_evidence:
+- source_id: original-paper
+  locator: Section 3, Guided Grad-CAM paragraph, PDF pp. 4–5 / printed pp. 621–622; Figure 2
+  relation: supports
+claims:
+- claim_id: explanation-method
+  kind: mechanism
+  statement: Bilinearly resize the Grad-CAM map to input-image resolution, then multiply it pointwise
+    with the guided-backpropagation visualization.
+  evidence:
+  - source_id: original-paper
+    locator: Section 3, Guided Grad-CAM paragraph, PDF pp. 4–5 / printed pp. 621–622; Figure 2
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization'
+  authors:
+  - Ramprasaath R. Selvaraju
+  - Michael Cogswell
+  - Abhishek Das
+  - Ramakrishna Vedantam
+  - Devi Parikh
+  - Dhruv Batra
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf
+  version: ICCV 2017, pp. 618–626, CVF open-access proceedings version
+  access_level: full_text
+  accessed_at: '2026-10-11T03:55:51Z'
+  sha256: fa3192ab0f817aabe9673d3aade89ccd6c1942b007f339bffe01abd714812d5d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: The fused visualization analyzes artificial-neural-network behavior through convolutional
+    activations and backward input-space signals; it is an analysis method, not a network architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:02:04Z'
+  updated_at: '2026-10-11T04:02:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

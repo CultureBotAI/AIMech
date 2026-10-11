@@ -1,0 +1,53 @@
+name: Deep SHAP
+definition: A compositional approximation of neural-network Shapley attributions using component-level
+  SHAP values and backward multipliers.
+concept_kind: algorithm
+identity_notes: Deep SHAP adapts DeepLIFT-style propagation with component SHAP values; it is a distinct
+  approximation method, not the general SHAP definition or a synonym for all DeepLIFT rules.
+limitations:
+- Component-wise exact values do not imply exact Shapley values for an arbitrary composite nonlinear model.
+- Reference/background and feature-dependence assumptions affect the approximation; no causal-importance
+  guarantee is curated.
+id: AIMech:DeepSHAP
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4.2, Deep SHAP, equations 13–16 and Figure 2B, PDF/printed p. 7
+  relation: supports
+claims:
+- claim_id: explanation-method
+  kind: mechanism
+  statement: Compute attributions for supported simple network components, convert them to multipliers
+    relative to reference expectations, and compose those multipliers backward to approximate whole-network
+    feature attributions.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.2, Deep SHAP, equations 13–16 and Figure 2B, PDF/printed p. 7
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: A Unified Approach to Interpreting Model Predictions
+  authors:
+  - Scott M. Lundberg
+  - Su-In Lee
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf
+  version: NeurIPS 2017 proceedings
+  access_level: full_text
+  accessed_at: '2026-10-11T03:06:38Z'
+  sha256: 32518459c313a57876ec1646f3266d54569d3b9a70152dd4f28e742eef05a5f3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: The method directly propagates attributions through artificial neural networks. The mapping
+    relates an analysis procedure to its analyzed system, not to an equivalent architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:02:04Z'
+  updated_at: '2026-10-11T04:02:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

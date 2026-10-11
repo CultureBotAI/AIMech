@@ -1,0 +1,739 @@
+# Scientific self-review of six SHAP and localization methods
+
+- Review: 20261011T040549Z-shap-and-localization-methods
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T04:05:49Z
+- Finished UTC: 2026-10-11T04:05:49Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The six additions have distinct method identities, inspected primary mechanisms and bounded AIO related mappings. Approximation, subset-function, selection and fusion scopes are preserved. No actionable unresolved finding was identified for these six additions.
+
+## Scope And Provenance
+
+Identity, definitions, claims, evidence provenance, limitations and AIO mappings for Kernel SHAP, Deep SHAP, Tree SHAP, SP-LIME, Grad-CAM and Guided Grad-CAM.
+
+Selection: Exactly the six additions enumerated in the shap-and-localization-methods discovery report; no sampling.
+Coverage: full; 6 reviewed / 6 in the declared population.
+Source: working_tree at Git base c58297cd2f7c4685415cd251f956c987d72fc208.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:KernelSHAP | data/curated/KernelSHAP.yaml | maintained | Kernel SHAP |
+| AIMech:DeepSHAP | data/curated/DeepSHAP.yaml | maintained | Deep SHAP |
+| AIMech:SPLIME | data/curated/SPLIME.yaml | maintained | Submodular pick LIME |
+| AIMech:TreeSHAP | data/curated/TreeSHAP.yaml | maintained | Tree SHAP |
+| AIMech:GradCAM | data/curated/GradCAM.yaml | maintained | Gradient-weighted class activation mapping |
+| AIMech:GuidedGradCAM | data/curated/GuidedGradCAM.yaml | maintained | Guided Grad-CAM |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| python -m aimech check-source | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a |
+| python -m aimech validate | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | Checked 442 record(s); 0 failed. |
+| python -m aimech seed --check | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | AIO: 442 records; 0 missing, 0 changed, 0 unexpected. |
+| python -m aimech validate-curated | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | Checked 74 curated concept record(s); 0 error(s). |
+| python -m aimech validate-history --base HEAD | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | Checked 12 history record(s); 0 error(s). |
+| python scripts/record_review.py check | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | {<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 8,<br>  "coverage": "declared_scopes_only"<br>} |
+| PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | 220 passed, 3 skipped; 442 AIO records valid and exactly reproducible; 74 curated records, 12 history sidecars and 8 prior structured reviews valid. |
+| PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check | passed | True | AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM | All 22 governed artifacts match the immutable public CLAW revision. |
+
+## Scientific And Domain Assessments
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:KernelSHAP.
+
+Kernel SHAP is a specific estimator within the SHAP framework. Its Shapley kernel and constraints distinguish it from an arbitrary LIME regression surrogate.
+
+Results depend on how missing features are evaluated and on sampling; exact Shapley recovery in the full weighted problem is not a guarantee for every finite sample or background choice. Independence approximations do not in general reproduce a dependence-aware conditional expectation.
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:DeepSHAP.
+
+Deep SHAP adapts DeepLIFT-style propagation with component SHAP values; it is a distinct approximation method, not the general SHAP definition or a synonym for all DeepLIFT rules.
+
+Component-wise exact values do not imply exact Shapley values for an arbitrary composite nonlinear model. Reference/background and feature-dependence assumptions affect the approximation; no causal-importance guarantee is curated.
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:SPLIME.
+
+SP-LIME selects representative local explanations; it is separate from fitting each LIME surrogate and does not produce a globally faithful surrogate model.
+
+Coverage depends on the candidate instances, local explanations, interpretable features and importance weights. The greedy coverage objective is not a guarantee of overall model trustworthiness; cross-image feature comparability requires additional choices.
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:TreeSHAP.
+
+This record denotes the original tree-traversal SHAP algorithm, not the TreeExplainer software package, all its later modes, or Independent Tree SHAP.
+
+Exact computation is relative to the specified tree-traversal subset-evaluation function; it is not an assertion of exact conditional expectations for arbitrary dependent input distributions. Background/intervention variants and nonlinear output transforms require separate method assumptions.
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:GradCAM.
+
+Grad-CAM computes a coarse activation-space localization map. It differs from architecture-restricted CAM and from Guided Grad-CAM's additional input-space fusion.
+
+Map resolution follows the selected convolutional layer, and ReLU retains positive weighted contributions. A localization map is not a proof of causal influence or universal faithfulness; evaluation claims are not curated here.
+
+### Explanation method identity, supported mechanism and scope
+
+evidence: supported. Targets: AIMech:GuidedGradCAM.
+
+Guided Grad-CAM is a specific fusion of two visualization methods, not a synonym for Grad-CAM or guided backpropagation alone.
+
+The output inherits dependence on the selected Grad-CAM layer and the guided-backpropagation rule. Higher image resolution and visual appeal do not establish universal explanation fidelity or causal importance.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:KernelSHAP, AIMech:DeepSHAP, AIMech:SPLIME, AIMech:TreeSHAP, AIMech:GradCAM, AIMech:GuidedGradCAM. Retain model-agnostic weighted regression, component attribution propagation, tree-path attribution, explanation-set selection, gradient-weighted activation localization and guided fusion as distinct methods. Parent frameworks and similarly named software are not synonyms.
+- defer: AIMech:TreeSHAP, AIMech:DeepSHAP. Independent Tree SHAP, interaction attributions and further component-specific estimators need separate scope/identity review. Current records do not absorb every later software mode or assume exact whole-model values from component exactness.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity-search | research/discovery/20261011T040239Z-shap-and-localization-methods.json | supports | No duplicate identity was found among all AIO and native names/aliases; text matches explicitly identified these as pending or adjacent methods. |
+| mapping | sources/aio/aio.json; Model, ArtificialNeuralNetwork and DecisionTree definitions | supports | Related mappings identify directly analyzed models, neural networks or trees. The records do not equate analysis procedures with those systems; Tree SHAP explicitly retains scope beyond the classification-oriented AIO target. |
+| kernelshap-method | https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf; Section 4.1, Kernel SHAP; Theorem 2 and endpoint constraints, PDF/printed pp. 5–6 | supports | Fit an additive explanation model to subset-evaluation outputs with the Shapley weighting kernel and constraints fixing the empty-subset baseline and full-input prediction; sampled subsets give an approximate estimate. Rendered pages actually inspected: 6. |
+| deepshap-method | https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf; Section 4.2, Deep SHAP, equations 13–16 and Figure 2B, PDF/printed p. 7 | supports | Compute attributions for supported simple network components, convert them to multipliers relative to reference expectations, and compose those multipliers backward to approximate whole-network feature attributions. Rendered pages actually inspected: 7. |
+| splime-method | https://arxiv.org/pdf/1602.04938v3; Section 4, Algorithm 2 and equations 3–4, PDF/printed pp. 5–6 | supports | Build an instance-by-feature explanation matrix and global feature weights, then select instances by marginal gain in the total weight of features covered by at least one selected explanation. Rendered pages actually inspected: 5, 6. |
+| treeshap-method | https://arxiv.org/pdf/1802.03888v3; Sections 3.1–3.2, Algorithms 1–2, PDF/printed pp. 3–4 | supports | The original procedure follows known-feature branches and uses node cover for missing-feature branches, while EXTEND and UNWIND operations track subset sizes and repeated split features to accumulate weighted leaf contributions. Rendered pages actually inspected: 4. |
+| tree-subset-scope | https://arxiv.org/pdf/1905.04610v1; Methods 10.1–10.2, PDF/printed pp. 21–22 | supports | Tree traversal defines the subset-evaluation function for exact Tree SHAP. Independent Tree SHAP has a distinct background/independence construction. The broader TreeExplainer contribution includes software and multiple methods rather than one synonym. Rendered pages 21–22 inspected. |
+| gradcam-method | https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf; Section 3, equations 1–2, PDF pp. 3–4 / printed pp. 620–621 | supports | Differentiate the target score with respect to convolutional feature maps, average gradients spatially to obtain channel weights, and apply ReLU to the weighted sum of activation maps. Rendered pages actually inspected: 4. |
+| guidedgradcam-method | https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf; Section 3, Guided Grad-CAM paragraph, PDF pp. 4–5 / printed pp. 621–622; Figure 2 | supports | Bilinearly resize the Grad-CAM map to input-image resolution, then multiply it pointwise with the guided-backpropagation visualization. Rendered pages actually inspected: 4, 5. |
+
+## Limits And Additional Notes
+
+- Scientific self-review, not independent approval or experimental replication.
+- Primary papers establish the scoped construction; they do not establish universal faithfulness or causal importance.
+- The Tree SHAP record is bounded to the original traversal algorithm and its specified feature-subset evaluation.
+- All records remain DRAFT. Six new methods were found and discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T040549Z-shap-and-localization-methods
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of six SHAP and localization methods
+started_at: '2026-10-11T04:05:49Z'
+finished_at: '2026-10-11T04:05:49Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The same agent researched, curated and reviewed these methods;
+    not independent review.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The six additions have distinct method identities, inspected primary mechanisms
+  and bounded AIO related mappings. Approximation, subset-function, selection and
+  fusion scopes are preserved. No actionable unresolved finding was identified for
+  these six additions.
+source:
+  git_revision: c58297cd2f7c4685415cd251f956c987d72fc208
+  state: working_tree
+  inputs:
+  - path: data/curated/DeepSHAP.yaml
+    sha256: 9262c2a7e1678ab52f34753639f29a7eee316158492e5212f9652bac1ae10ed8
+    role: target
+  - path: data/curated/GradCAM.yaml
+    sha256: 7a6a87057b93ca219687f6707f42ecf05ed8d597c461c6ed7e24c1086a4374e8
+    role: target
+  - path: data/curated/GuidedGradCAM.yaml
+    sha256: f08b8d30bbab0c83f4612ba77a31fac62175e29c4c0d9236e8c256767af0563e
+    role: target
+  - path: data/curated/KernelSHAP.yaml
+    sha256: eb4968224b4be1621744fa5d4e8823a03106690f43e7eb9092e0687295104268
+    role: target
+  - path: data/curated/SPLIME.yaml
+    sha256: b8a4384f286975b072629f71d3e9973bd6d65414a619fb79e73cacbe7bf3e62e
+    role: target
+  - path: data/curated/TreeSHAP.yaml
+    sha256: 96d4803a2ed3b6f8dd78a5cca4d9ff0bb338ea73b1467d67da2dc0c7b614cdde
+    role: target
+  - path: docs/curated-concepts.md
+    sha256: 68d52b76cd68cbf33c080d8ae836e21ca04282e0e20ce11ed85d66bc0910837d
+    role: context
+  - path: research/discovery/20261011T040239Z-shap-and-localization-methods.json
+    sha256: 3dea4a85235cb2f054496ac5e9ff0b43f22c6436cbc6ef1c74b3e0b9d4e8e634
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: b9a87f14341119f89fffac2cfb29fab222d0fcc9ac999990650e349e06d9cfc3
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: dfcbacdcdeb7429bfa947d7c1c8431e5d0b886f593daaa359588273ba2a2c6e0
+    role: context
+targets:
+- target_id: AIMech:KernelSHAP
+  path: data/curated/KernelSHAP.yaml
+  label: Kernel SHAP
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/KernelSHAP.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:DeepSHAP
+  path: data/curated/DeepSHAP.yaml
+  label: Deep SHAP
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepSHAP.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:SPLIME
+  path: data/curated/SPLIME.yaml
+  label: Submodular pick LIME
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SPLIME.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:TreeSHAP
+  path: data/curated/TreeSHAP.yaml
+  label: Tree SHAP
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TreeSHAP.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:GradCAM
+  path: data/curated/GradCAM.yaml
+  label: Gradient-weighted class activation mapping
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GradCAM.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:GuidedGradCAM
+  path: data/curated/GuidedGradCAM.yaml
+  label: Guided Grad-CAM
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GuidedGradCAM.yaml
+    role: maintained concept and claim evidence/mapping
+scope:
+  description: Identity, definitions, claims, evidence provenance, limitations and
+    AIO mappings for Kernel SHAP, Deep SHAP, Tree SHAP, SP-LIME, Grad-CAM and Guided
+    Grad-CAM.
+  selection: Exactly the six additions enumerated in the shap-and-localization-methods
+    discovery report; no sampling.
+  coverage: full
+  population_size: 6
+  reviewed_target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exclusions:
+  - target: SHAP and LIME mapping correction
+    reason: Assessed in separate initial and successor reviews retaining its stable
+      issue key and both targets.
+  - target: Universal explanation fidelity, causal claims, benchmark rankings and
+      proof replication
+    reason: No such conclusion is inferred from mechanism support; evaluation-literature
+      leads remain pending.
+checks:
+- check_id: required-0
+  name: python -m aimech check-source
+  command: python -m aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+- check_id: required-1
+  name: python -m aimech validate
+  command: python -m aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 failed.
+- check_id: required-2
+  name: python -m aimech seed --check
+  command: python -m aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'AIO: 442 records; 0 missing, 0 changed, 0 unexpected.'
+- check_id: required-3
+  name: python -m aimech validate-curated
+  command: python -m aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 74 curated concept record(s); 0 error(s).
+- check_id: required-4
+  name: python -m aimech validate-history --base HEAD
+  command: python -m aimech validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 12 history record(s); 0 error(s).
+- check_id: required-5
+  name: python scripts/record_review.py check
+  command: python scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 8,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}"
+- check_id: required-6
+  name: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check
+  command: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 220 passed, 3 skipped; 442 AIO records valid and exactly reproducible;
+    74 curated records, 12 history sidecars and 8 prior structured reviews valid.
+- check_id: required-7
+  name: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check
+  command: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  exit_code: 0
+  expected_exit_code: 0
+  summary: All 22 governed artifacts match the immutable public CLAW revision.
+evidence:
+- evidence_id: identity-search
+  kind: search
+  reference: research/discovery/20261011T040239Z-shap-and-localization-methods.json
+  accessed_at: '2026-10-11T04:05:49Z'
+  support: supports
+  summary: No duplicate identity was found among all AIO and native names/aliases;
+    text matches explicitly identified these as pending or adjacent methods.
+  search_scope: Ignored-inclusive and hidden-inclusive searches of both checkouts;
+    normalized comparison of all 442 AIO labels/scoped synonyms and 68 preceding native
+    identities.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Model, ArtificialNeuralNetwork and DecisionTree definitions
+  accessed_at: '2026-10-11T04:05:49Z'
+  support: supports
+  summary: Related mappings identify directly analyzed models, neural networks or
+    trees. The records do not equate analysis procedures with those systems; Tree
+    SHAP explicitly retains scope beyond the classification-oriented AIO target.
+- evidence_id: kernelshap-method
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf
+  locator: Section 4.1, Kernel SHAP; Theorem 2 and endpoint constraints, PDF/printed
+    pp. 5–6
+  accessed_at: '2026-10-11T03:06:38Z'
+  snapshot_sha256: 32518459c313a57876ec1646f3266d54569d3b9a70152dd4f28e742eef05a5f3
+  support: supports
+  summary: 'Fit an additive explanation model to subset-evaluation outputs with the
+    Shapley weighting kernel and constraints fixing the empty-subset baseline and
+    full-input prediction; sampled subsets give an approximate estimate. Rendered
+    pages actually inspected: 6.'
+- evidence_id: deepshap-method
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf
+  locator: Section 4.2, Deep SHAP, equations 13–16 and Figure 2B, PDF/printed p. 7
+  accessed_at: '2026-10-11T03:06:38Z'
+  snapshot_sha256: 32518459c313a57876ec1646f3266d54569d3b9a70152dd4f28e742eef05a5f3
+  support: supports
+  summary: 'Compute attributions for supported simple network components, convert
+    them to multipliers relative to reference expectations, and compose those multipliers
+    backward to approximate whole-network feature attributions. Rendered pages actually
+    inspected: 7.'
+- evidence_id: splime-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1602.04938v3
+  locator: Section 4, Algorithm 2 and equations 3–4, PDF/printed pp. 5–6
+  accessed_at: '2026-10-11T03:06:39Z'
+  snapshot_sha256: 365079753571d7d14180e9796cf5d8ae53c5ef157f0a585ef8030b2a126eeccb
+  support: supports
+  summary: 'Build an instance-by-feature explanation matrix and global feature weights,
+    then select instances by marginal gain in the total weight of features covered
+    by at least one selected explanation. Rendered pages actually inspected: 5, 6.'
+- evidence_id: treeshap-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1802.03888v3
+  locator: Sections 3.1–3.2, Algorithms 1–2, PDF/printed pp. 3–4
+  accessed_at: '2026-10-11T03:55:51Z'
+  snapshot_sha256: 4bb594a16893a7534b8d3357c607e6ab356858a26d03b7d037d55f2ad2f7eef7
+  support: supports
+  summary: 'The original procedure follows known-feature branches and uses node cover
+    for missing-feature branches, while EXTEND and UNWIND operations track subset
+    sizes and repeated split features to accumulate weighted leaf contributions. Rendered
+    pages actually inspected: 4.'
+- evidence_id: tree-subset-scope
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1905.04610v1
+  locator: Methods 10.1–10.2, PDF/printed pp. 21–22
+  accessed_at: '2026-10-11T03:55:52Z'
+  snapshot_sha256: aa3824ce44c797539ec61cbb24a900a348363dc609a3ae717df5c92315557482
+  support: supports
+  summary: Tree traversal defines the subset-evaluation function for exact Tree SHAP.
+    Independent Tree SHAP has a distinct background/independence construction. The
+    broader TreeExplainer contribution includes software and multiple methods rather
+    than one synonym. Rendered pages 21–22 inspected.
+- evidence_id: gradcam-method
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf
+  locator: Section 3, equations 1–2, PDF pp. 3–4 / printed pp. 620–621
+  accessed_at: '2026-10-11T03:55:51Z'
+  snapshot_sha256: fa3192ab0f817aabe9673d3aade89ccd6c1942b007f339bffe01abd714812d5d
+  support: supports
+  summary: 'Differentiate the target score with respect to convolutional feature maps,
+    average gradients spatially to obtain channel weights, and apply ReLU to the weighted
+    sum of activation maps. Rendered pages actually inspected: 4.'
+- evidence_id: guidedgradcam-method
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_ICCV_2017/papers/Selvaraju_Grad-CAM_Visual_Explanations_ICCV_2017_paper.pdf
+  locator: Section 3, Guided Grad-CAM paragraph, PDF pp. 4–5 / printed pp. 621–622;
+    Figure 2
+  accessed_at: '2026-10-11T03:55:51Z'
+  snapshot_sha256: fa3192ab0f817aabe9673d3aade89ccd6c1942b007f339bffe01abd714812d5d
+  support: supports
+  summary: 'Bilinearly resize the Grad-CAM map to input-image resolution, then multiply
+    it pointwise with the guided-backpropagation visualization. Rendered pages actually
+    inspected: 4, 5.'
+assessments:
+- assessment_id: kernelshap-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:KernelSHAP
+  evidence_ids:
+  - kernelshap-method
+  - identity-search
+  - mapping
+  summary: Kernel SHAP is a specific estimator within the SHAP framework. Its Shapley
+    kernel and constraints distinguish it from an arbitrary LIME regression surrogate.
+  details: Results depend on how missing features are evaluated and on sampling; exact
+    Shapley recovery in the full weighted problem is not a guarantee for every finite
+    sample or background choice. Independence approximations do not in general reproduce
+    a dependence-aware conditional expectation.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - kernelshap-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The estimator analyzes a predictive model through feature-subset evaluations
+      of its outputs. This direct analysis relationship does not identify the estimator
+      with a model.
+    evidence_ids:
+    - kernelshap-method
+    - mapping
+- assessment_id: deepshap-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:DeepSHAP
+  evidence_ids:
+  - deepshap-method
+  - identity-search
+  - mapping
+  summary: Deep SHAP adapts DeepLIFT-style propagation with component SHAP values;
+    it is a distinct approximation method, not the general SHAP definition or a synonym
+    for all DeepLIFT rules.
+  details: Component-wise exact values do not imply exact Shapley values for an arbitrary
+    composite nonlinear model. Reference/background and feature-dependence assumptions
+    affect the approximation; no causal-importance guarantee is curated.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - deepshap-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The method directly propagates attributions through artificial neural
+      networks. The mapping relates an analysis procedure to its analyzed system,
+      not to an equivalent architecture.
+    evidence_ids:
+    - deepshap-method
+    - mapping
+- assessment_id: splime-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:SPLIME
+  evidence_ids:
+  - splime-method
+  - identity-search
+  - mapping
+  summary: SP-LIME selects representative local explanations; it is separate from
+    fitting each LIME surrogate and does not produce a globally faithful surrogate
+    model.
+  details: Coverage depends on the candidate instances, local explanations, interpretable
+    features and importance weights. The greedy coverage objective is not a guarantee
+    of overall model trustworthiness; cross-image feature comparability requires additional
+    choices.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - splime-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The procedure selects explanations of predictive-model behavior for
+      inspection. This direct analysis relationship does not make the selector a model
+      class.
+    evidence_ids:
+    - splime-method
+    - mapping
+- assessment_id: treeshap-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:TreeSHAP
+  evidence_ids:
+  - treeshap-method
+  - identity-search
+  - mapping
+  - tree-subset-scope
+  summary: This record denotes the original tree-traversal SHAP algorithm, not the
+    TreeExplainer software package, all its later modes, or Independent Tree SHAP.
+  details: Exact computation is relative to the specified tree-traversal subset-evaluation
+    function; it is not an assertion of exact conditional expectations for arbitrary
+    dependent input distributions. Background/intervention variants and nonlinear
+    output transforms require separate method assumptions.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - treeshap-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The method directly explains tree-model predictions. The AIO target
+      is described under classification, whereas the attribution method also applies
+      to regression trees and ensembles; the link is related, not equivalence or a
+      superclass assertion.
+    evidence_ids:
+    - treeshap-method
+    - mapping
+- assessment_id: gradcam-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:GradCAM
+  evidence_ids:
+  - gradcam-method
+  - identity-search
+  - mapping
+  summary: Grad-CAM computes a coarse activation-space localization map. It differs
+    from architecture-restricted CAM and from Guided Grad-CAM's additional input-space
+    fusion.
+  details: Map resolution follows the selected convolutional layer, and ReLU retains
+    positive weighted contributions. A localization map is not a proof of causal influence
+    or universal faithfulness; evaluation claims are not curated here.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - gradcam-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The method analyzes convolutional artificial-neural-network activations
+      and target gradients. This is a direct analysis relation, not architecture identity.
+    evidence_ids:
+    - gradcam-method
+    - mapping
+- assessment_id: guidedgradcam-method
+  area: evidence
+  topic: Explanation method identity, supported mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:GuidedGradCAM
+  evidence_ids:
+  - guidedgradcam-method
+  - identity-search
+  - mapping
+  summary: Guided Grad-CAM is a specific fusion of two visualization methods, not
+    a synonym for Grad-CAM or guided backpropagation alone.
+  details: The output inherits dependence on the selected Grad-CAM layer and the guided-backpropagation
+    rule. Higher image resolution and visual appeal do not establish universal explanation
+    fidelity or causal importance.
+  dimensions:
+  - name: evidence-access
+    value: full_text and rendered-page inspection
+    definition: Primary method and selected algorithm/equation passages were read.
+      Earlier retrieval times are retained for revisited SHAP/LIME PDFs.
+    evidence_ids:
+    - guidedgradcam-method
+  - name: mapping-direction
+    value: related_match to the directly analyzed system
+    definition: The fused visualization analyzes artificial-neural-network behavior
+      through convolutional activations and backward input-space signals; it is an
+      analysis method, not a network architecture.
+    evidence_ids:
+    - guidedgradcam-method
+    - mapping
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:KernelSHAP
+  - AIMech:DeepSHAP
+  - AIMech:SPLIME
+  - AIMech:TreeSHAP
+  - AIMech:GradCAM
+  - AIMech:GuidedGradCAM
+  evidence_ids:
+  - identity-search
+  - mapping
+  - kernelshap-method
+  - deepshap-method
+  - splime-method
+  - treeshap-method
+  - tree-subset-scope
+  - gradcam-method
+  - guidedgradcam-method
+  rationale: Retain model-agnostic weighted regression, component attribution propagation,
+    tree-path attribution, explanation-set selection, gradient-weighted activation
+    localization and guided fusion as distinct methods. Parent frameworks and similarly
+    named software are not synonyms.
+- action: defer
+  target_ids:
+  - AIMech:TreeSHAP
+  - AIMech:DeepSHAP
+  evidence_ids:
+  - treeshap-method
+  - tree-subset-scope
+  - deepshap-method
+  rationale: Independent Tree SHAP, interaction attributions and further component-specific
+    estimators need separate scope/identity review. Current records do not absorb
+    every later software mode or assume exact whole-model values from component exactness.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261011T040515Z-shap-lime-mapping-resolved
+  relationship: Separate resolution of the mapping-precision finding in two earlier
+    records; these six additions are reviewed here.
+limitations:
+- Scientific self-review, not independent approval or experimental replication.
+- Primary papers establish the scoped construction; they do not establish universal
+  faithfulness or causal importance.
+- The Tree SHAP record is bounded to the original traversal algorithm and its specified
+  feature-subset evaluation.
+- All records remain DRAFT. Six new methods were found and discovery remains active.
+tags:
+- native-concepts
+- primary-papers
+- explanation-methods
+- self-review
+- discovery-ongoing
+```
