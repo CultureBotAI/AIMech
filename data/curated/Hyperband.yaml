@@ -1,0 +1,79 @@
+name: Hyperband
+definition: A hyperparameter resource-allocation algorithm that runs successive-halving brackets with
+  different initial configuration counts and starting budgets, balancing broad early screening against
+  more conservative evaluation.
+concept_kind: algorithm
+identity_notes: Hyperband is the bracketed allocation procedure, distinct from one successive-halving
+  run, independent random search, TPE proposal fitting and PBT weight inheritance. The inspected finite-horizon
+  algorithm samples configurations independently; the paper also discusses other samplers and a separate
+  infinite-horizon formulation. Pure-exploration bandit terminology does not make this an RL-trained language
+  model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256
+  preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+  files in both worktree and main checkout, returning 2 lines in each checkout. These were prior random-search
+  candidate leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms
+  and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- 'Table1 is not a numeric instantiation of the printed Algorithm1 count formula: for R=81 and eta=3,
+  Algorithm1 starts with 81,34,15,8,5 configurations, while Table1 lists 81,27,9,6,5. These conventions
+  are retained separately; approximate bracket budgets are not asserted as exact equality.'
+- Poor early rankings can discard a configuration that would improve later. The inspected theoretical
+  overview does not establish an unconditional finite-budget optimum or universal speedup.
+- The record describes the finite-horizon method. The paper’s separate infinite-horizon version and alternative
+  samplers are not interchangeable implementations of the exact recorded pseudocode.
+id: AIMech:Hyperband
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections3.1–3.6, PDF/printed pp.6–12; Algorithm1 on p.8 and Table1 on p.9; sampling generalization
+    in Section2.1 on p.5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose a maximum per-configuration resource R and reduction factor eta. In the finite-horizon
+    Algorithm1, set s_max=floor(log_eta(R)) and B=(s_max+1)*R. For each bracket s from s_max down to zero,
+    start with n=ceil((B/R)*eta^s/(s+1)) configurations and r=R*eta^(−s) resource units. Evaluate current
+    candidates at geometrically increasing resource levels and retain the best approximately 1/eta fraction
+    after each comparison. The s=0 bracket evaluates its candidates directly at R. Algorithm1 returns
+    the configuration with the smallest intermediate loss observed, rather than specifying selection only
+    among maximum-budget evaluations. Brackets address uncertainty about how many configurations to start
+    and how long to evaluate before elimination. Resources can denote iterations, time, data or features;
+    actual computational cost and whether work can be resumed depend on that choice.
+  evidence:
+  - source_id: method-source
+    locator: Sections3.1–3.6, PDF/printed pp.6–12; Algorithm1 on p.8 and Table1 on p.9; sampling generalization
+      in Section2.1 on p.5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization'
+  authors:
+  - Lisha Li
+  - Kevin Jamieson
+  - Giulia DeSalvo
+  - Afshin Rostamizadeh
+  - Ameet Talwalkar
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume18/16-558/16-558.pdf
+  version: JMLR 18(185), 1–52, 2018; 52-page publisher PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T11:24:25Z'
+  sha256: 09c14cb28ec214e63378c8c0e952cecc7edf12796dda0dbadc698d2a3587307b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This procedure organizes hyperparameter selection or allocation of model-training resources.
+    The pinned AIO target describes training strategies as preprocessing; the relation connects these
+    scopes without asserting that this search algorithm is preprocessing, an identical concept, or a subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:28:05Z'
+  updated_at: '2026-10-11T11:28:05Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,77 @@
+name: Random Search for Hyperparameter Optimization
+definition: A hyperparameter optimization procedure that draws trial configurations independently from
+  a specified search distribution, evaluates their validation performance, and selects a favorable evaluated
+  configuration without adapting subsequent draws to observed trial scores.
+concept_kind: algorithm
+identity_notes: This identity is random sampling for model hyperparameter selection, not stochastic gradient
+  descent, random graph traversal, a quasi-random low-discrepancy design, or every randomized optimizer.
+  Independence concerns configuration draws, not statistical independence of scores measured on shared
+  validation data. Unlike TPE and BOHB, past scores do not fit a proposal model; unlike PBT, the search
+  does not copy trained weights between population members. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 256 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main checkout, returning
+  2 lines in each checkout. These were prior random-search candidate leads, not existing records for these
+  identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- Coverage depends on the chosen distribution, parameterization and budget; a region assigned zero probability
+  cannot be discovered by these draws. Low effective dimensionality explains a possible advantage over
+  grids, not a universal performance guarantee.
+- An observed validation winner need not be the best test or population-risk model. The cited experiments
+  and uncertainty-reporting procedure are context, not reproduced performance results.
+- The record retains the nonadaptive configuration-sampling procedure; score-adaptive proposals, population
+  inheritance and cross-trial resource scheduling are additional mechanisms.
+id: AIMech:RandomSearchHyperparameterOptimization
+aliases:
+- Random Hyperparameter Search
+definition_evidence:
+- source_id: method-source
+  locator: Section 1, Equations (2)–(4) and Figure1, PDF pp.2–4 (printed282–284); sampling in Section2.4,
+    PDF pp.10–11 (290–291), and Section5, pp.18–19 (298–299); limitations/conclusion pp.21–23 (301–303)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Specify the valid hyperparameter space and its sampling distribution, independently sample
+    a finite set of configurations, train/evaluate each under the chosen protocol, and select by validation
+    loss. The paper initially describes uniform sampling in search coordinates, while its concrete neural-network
+    and DBN spaces include categorical choices, log-domain draws and conditional architecture settings.
+    Therefore uniformity in raw numerical values and independent activation of every coordinate are not
+    defining requirements. More trials extend the same search distribution without requiring a Cartesian
+    grid. The sampling rule does not itself prescribe equal runtime or forbid per-trial early stopping;
+    the neural-network case study includes a validation-based stopping rule. Test performance is evaluated
+    separately from the validation criterion used to choose a configuration.
+  evidence:
+  - source_id: method-source
+    locator: Section 1, Equations (2)–(4) and Figure1, PDF pp.2–4 (printed282–284); sampling in Section2.4,
+      PDF pp.10–11 (290–291), and Section5, pp.18–19 (298–299); limitations/conclusion pp.21–23 (301–303)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Random Search for Hyper-Parameter Optimization
+  authors:
+  - James Bergstra
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf
+  version: JMLR 13(10), 281–305, 2012; 25-page publisher PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T11:24:25Z'
+  sha256: 01e88a175a36afa399e05dc97dce9c5de980130445269cc0e5100d0471887029
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This procedure organizes hyperparameter selection or allocation of model-training resources.
+    The pinned AIO target describes training strategies as preprocessing; the relation connects these
+    scopes without asserting that this search algorithm is preprocessing, an identical concept, or a subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:28:05Z'
+  updated_at: '2026-10-11T11:28:05Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

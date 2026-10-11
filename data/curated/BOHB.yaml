@@ -1,0 +1,147 @@
+name: BOHB
+definition: A hyperparameter optimization algorithm combining Hyperband resource brackets with model-guided
+  configuration proposals from performance-split multivariate kernel density estimates and a continuing
+  random-sampling component.
+concept_kind: algorithm
+identity_notes: BOHB denotes the KDE-based method of Falkner, Klein and Hutter. It differs from pure random-sampling
+  Hyperband and the original tree-structured one-dimensional TPE estimator. It is not every combination
+  of Bayesian optimization and early stopping, a Gaussian-process surrogate, a Bayesian network, or the
+  entire HpBandSter software framework. Paper and pinned implementation conventions are distinguished.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both
+  worktree and main checkout, returning 2 lines in each checkout. These were prior random-search candidate
+  leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing
+  edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.
+limitations:
+- The paper’s Equation(2) reverses the conditioning relative to configuration densities fitted from better/worse
+  subsets. Its Algorithm1 prints eta^s*b_max as the initial budget, exceeding b_max for s>0. The recorded
+  density interpretation and bounded geometric budgets follow the method prose, original Hyperband and
+  inspected code; these are curator qualifications, not an author-issued erratum.
+- Paper Equation(3) permits overlapping fit sets with few observations; the pinned code instead takes
+  disjoint sorted slices and requires both actual slices to have more observations than dimensions. Its
+  bandwidth widening applies to continuous proposal coordinates. Paper defaults and statements are not
+  silently substituted for that implementation.
+- Low-budget rankings can mislead search. Random exploration, density estimation and finite candidate
+  sets do not give an unconditional finite-budget optimum, universal speedup or independent generalization
+  guarantee. No author implementation was executed.
+id: AIMech:BOHB
+aliases:
+- Bayesian Optimization and Hyperband
+definition_evidence:
+- source_id: method-source
+  locator: Sections3.1–4.2, PDF pp.3–5; Equations(2)–(3), Algorithms1–2 and accompanying descriptions
+  relation: supports
+- source_id: schedule-code
+  locator: 'Lines96–103 and135–141: geometric budgets and bracket counts'
+  relation: supports
+- source_id: density-code
+  locator: 'Lines54–80,94–234 and267–354: model selection, candidate sampling and KDE construction'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Keep observations separated by evaluation budget. For proposals, use the highest budget with
+    enough data to build better- and worse-performing configuration densities. The paper uses multivariate
+    KDEs, a loss-quantile split with minimum set sizes, and finite candidate sampling from an expanded
+    better-performing density, selecting a candidate with favorable l(x)/g(x). Retain a positive fraction
+    of random configurations, and fall back to random sampling when no model is available. Hyperband brackets
+    and successive halving then allocate increasing resources to surviving candidates. Observations are
+    shared across brackets, but the proposal density is not fitted by pooling all fidelity levels indiscriminately.
+    The method can schedule multiple brackets and concurrent evaluations; the paper’s worker policy favors
+    waiting smaller-budget jobs. Numerical model-building and sampling details differ in the pinned implementation,
+    as recorded separately.
+  evidence:
+  - source_id: method-source
+    locator: Sections3.1–4.2, PDF pp.3–5; Equations(2)–(3), Algorithms1–2 and accompanying descriptions
+    relation: supports
+  - source_id: schedule-code
+    locator: 'Lines96–103 and135–141: geometric budgets and bracket counts'
+    relation: supports
+  - source_id: density-code
+    locator: 'Lines54–80,94–234 and267–354: model selection, candidate sampling and KDE construction'
+    relation: supports
+  - source_id: hyperband-source
+    locator: 'Algorithm1, PDF/printed p.8: r=R*eta^(−s) and geometrically increasing allocation; original
+      component context, not KDE evidence'
+    relation: context
+- claim_id: pinned-implementation
+  kind: mechanism
+  statement: The pinned scheduler uses geometrically spaced budgets b_max*eta^(−s) and computes its initial
+    bracket count with int(floor((s_max+1)/(s+1))*eta^s), which differs from the paper’s ceiling convention.
+    The proposal generator selects the largest available model budget, minimizes a numerically floored
+    g/l ratio over finite samples, expands continuous-coordinate bandwidths, and samples randomly from
+    ConfigSpace when needed. KDEs fit disjoint best/remainder slices and are created only when each actual
+    slice contains more rows than dimensions. This implementation does not reproduce the paper’s small-sample
+    overlapping-set rule. These are static source observations, not a runtime or compatibility result.
+  evidence:
+  - source_id: schedule-code
+    locator: Lines96–103 and135–141
+    relation: supports
+  - source_id: density-code
+    locator: Lines119–234 and300–354
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'BOHB: Robust and Efficient Hyperparameter Optimization at Scale'
+  authors:
+  - Stefan Falkner
+  - Aaron Klein
+  - Frank Hutter
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/falkner18a/falkner18a.pdf
+  version: ICML 2018, PMLR 80:1437–1446; 10-page proceedings PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T11:24:25Z'
+  sha256: 774cc0ce958873154145bbd87e8b1d99ee282adb4599a8fdf30df314a63c5fa2
+- source_id: schedule-code
+  title: 'HpBandSter author implementation: hpbandster/optimizers/bohb.py'
+  authors:
+  - AutoML / HpBandSter contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/bohb.py
+  version: automl/HpBandSter commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a
+  access_level: documentation
+  accessed_at: '2026-10-11T11:25:42Z'
+  sha256: 23e1345406791add6c67d7b8aab83cc612d56a9016c0e5715f4c4d8bf6ccddf6
+- source_id: density-code
+  title: 'HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py'
+  authors:
+  - AutoML / HpBandSter contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/config_generators/bohb.py
+  version: automl/HpBandSter commit 0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a
+  access_level: documentation
+  accessed_at: '2026-10-11T11:25:42Z'
+  sha256: fc00e64eec04dfb7a490cb8cbad292bd6a9a07d1bc42c5e359b3100d4c53612c
+- source_id: hyperband-source
+  title: 'Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization'
+  authors:
+  - Lisha Li
+  - Kevin Jamieson
+  - Giulia DeSalvo
+  - Afshin Rostamizadeh
+  - Ameet Talwalkar
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume18/16-558/16-558.pdf
+  version: JMLR 18(185), 1–52, 2018; 52-page publisher PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T11:24:25Z'
+  sha256: 09c14cb28ec214e63378c8c0e952cecc7edf12796dda0dbadc698d2a3587307b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This procedure organizes hyperparameter selection or allocation of model-training resources.
+    The pinned AIO target describes training strategies as preprocessing; the relation connects these
+    scopes without asserting that this search algorithm is preprocessing, an identical concept, or a subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T11:28:05Z'
+  updated_at: '2026-10-11T11:32:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
