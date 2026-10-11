@@ -1,0 +1,1028 @@
+# Scientific self-review of hierarchical mixtures and mean-field inference
+
+- Review: 20261011T202116Z-hierarchical-mean-field
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T20:17:12Z
+- Finished UTC: 2026-10-11T20:21:16Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain one DRAFT conditional model family and two variational inference methods. The structured versus singleton scope, conditional gate responsibilities and source-formula qualifications are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three explicitly selected concepts spanning one model family and two inference methods.
+
+Selection: Three exact maintained IDs in the discovery ledger: HierarchicalMixtureOfExperts, StructuredMeanFieldInference and FullyFactorizedMeanFieldInference; complete selected batch, no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base e9d4eca0d46b6609b774a126e35a5e695cb1b1e3.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HierarchicalMixtureOfExperts | data/curated/HierarchicalMixtureOfExperts.yaml | maintained | Hierarchical mixture of experts |
+| AIMech:StructuredMeanFieldInference | data/curated/StructuredMeanFieldInference.yaml | maintained | Structured mean-field inference |
+| AIMech:FullyFactorizedMeanFieldInference | data/curated/FullyFactorizedMeanFieldInference.yaml | maintained | Fully factorized mean-field inference |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 101.54s (0:01:41)<br>Checked 442 record(s); 0 failed.<br>Checked 385 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 109 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 106,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference | Command exited 0 with no output. |
+| Hierarchical mixture and mean-field boundary calculations | passed | True | AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference | {"scope": "Fixed finite distributions and one or two variational coordinate updates; no model fitting, author code or benchmark.", "structured_bounds": [2.3196111665023675, 2.3593240127451214, 2.3634394896014332], "log_partition": 2.413679045763243, "structured_kl": 0.050239556161810354, "structured_retained_covariance": 0.5733704910814423, "fully_factorized_covariance": -2.2551405187698492e-17, "singleton_bounds": [2.110322608098782, 2.144257042685139], "synchronous_bound_change": -1.097863607182831, "auxiliary_link": [{"coupling": -0.8, "constant": 0.22466448205861078, "unnormalized_identity_error": 4.440892098500626e-16, "log_partition_offset": -1.4931471805599454}, {"coupling": 0.0, "constant": 0.5, "unnormalized_identity_error": 0.0, "log_partition_offset": -0.6931471805599453}, {"coupling": 0.6, "constant": 0.27440581804701325, "unnormalized_identity_error": 4.440892098500626e-16, "log_partition_offset": -1.2931471805599453}], "hme_probability_y1": 0.428, "hme_input_path_weights": [0.24, 0.06, 0.27999999999999997, 0.42], "hme_posterior_path_weights": [0.056074766355140186, 0.12616822429906543, 0.4252336448598131, 0.39252336448598135], "hme_gate_gradient": -0.11775700934579436, "hme_gradient_finite_difference_error": 3.5523473052023746e-11, "gaussian_mixture_mean_expert_density_gap": 0.3449513138882446} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:HierarchicalMixtureOfExperts.
+
+The inspected Jordan–Jacobs construction uses generalized-linear experts and softmax gates with shared external input, with a finite tree defining nested soft partitions. It is static conditional modeling, distinct from temporal hidden Markov decision trees, hard classification trees, hierarchical clustering and language-specific sparse MoE routing. A mixture density network shares conditional-mixture semantics but need not impose this tree factorization or generalized-linear leaf structure. Flattening a fixed tree gives leaf weights without making every flat gating parameterization the same hierarchical model. EM, IRLS and the online surrogate are fitting procedures, not the model identity. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+
+For input x and leaf l, define w_l(x) as the product of normalized child-gate probabilities along the path to l. Then p(y&#124;x)=sum_l w_l(x) p_l(y&#124;x). In the two-level presentation, p(y&#124;x)=sum_i g_i(x) sum_j g_(j&#124;i)(x) p_ij(y&#124;x), with softmax gates and generalized-linear conditional expert densities. The conditional output mean is the corresponding weighted sum of expert means. Given an observed y, leaf responsibilities are proportional to w_l(x) p_l(y&#124;x); they condition on both x and y, unlike input-only gates. Conditional EM alternates these responsibilities with weighted expert fits and gate fits to soft multinomial targets; a lower gate’s objective is weighted by the posterior probability of reaching its parent. The paper uses IRLS inside those maximum-likelihood subproblems. Its separate Algorithm 2 instead regresses log responsibilities by least squares, and its online variant uses discounted recursive weighted least squares. Those surrogate procedures are approximations to the specified fitting approach. Limitations: The source uses soft gates that mix expert densities; it does not require hard routing, top-k sparse activation, a language model or a causal interpretation of the decision hierarchy. Exact EM likelihood monotonicity requires a valid E-step and an M-step that increases the expected complete log likelihood under suitable regularity. It does not automatically apply to arbitrary gradient steps, the log-target least-squares surrogate or discounted online updates, and does not guarantee a global optimum. The logistic expert output is a Bernoulli probability, not log odds; printed p.184 is qualified by the explicit Bernoulli density on p.188. In Appendix B, the multinomial total is m=sum_i y_i; displayed n factors in Equation (6.2) and the following mean/log-partition expressions cannot be copied when n denotes the number of categories. Near-uniform gates average expert predictions, but a mixture of distinct expert densities need not become one generalized-linear density. Finite log-responsibility targets also require nonzero responsibilities. The robot simulation uses test-error stopping and selected successful comparison runs. No unbiased generalization comparison, universal performance advantage, author-code execution or benchmark reproduction is asserted.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:StructuredMeanFieldInference.
+
+This record covers the tractable-substructure mean-field construction exemplified by Saul and Jordan, including partially factorized modules and the qualifications for a tractable correlated skeleton. It is broader than the maintained factorial-HMM-specific algorithm and distinct from a fully factorized approximation that removes every intervariable dependence. It is an inference method, not a graphical-model architecture, all variational inference, a particular Monte Carlo gradient estimator or a variational autoencoder. Fully factorized mean field is a limiting restricted family when retained substructures reduce to individual variables; that inclusion does not make the two concepts exact aliases. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+
+For a fixed normalized target p(s)=exp(F(s))/Z and tractable q, maximize L(q)=E_q[F(s)]+H(q), so log Z-L(q)=KL(q&#124;&#124;p). The source’s binary pairwise modular construction retains all intramodule interactions J and factorizes q across modules, replacing omitted intermodule interactions K by adjustable unary fields H. Expectations within a module are computed exactly using its tractable algorithm; expectations between modules factorize. A module’s field update is H_i^mu=h_i^mu+sum_(nu!=mu),j K_ij^(mu,nu) E_q[s_j^nu]. Holding all other factors fixed, recomputing that module with these fields gives a coordinate variational update. A chain module can use forward–backward while retaining within-chain correlations. If omitted links connect variables within the same correlated skeleton, the simple intermodule rule no longer follows: the source’s stationarity equations contain covariance and triple-moment terms. Auxiliary binary link variables provide another construction that induces a tractable core-versus-link factorization. Limitations: Tractability of retained substructures and evaluation of the required expectations must be established for the chosen family. Compact notation or a sparse-looking graph does not by itself ensure efficient inference. The optimized bound concerns log Z. It is an observed-data log-likelihood bound only when Z is that likelihood under the specified unnormalized posterior construction. A generic partition function is not automatically a probability of observations. Coordinate ascent with exact factor optimization can improve the bound; arbitrary simultaneous field updates need not. The objective can have multiple stationary points, and neither global optimality nor accurate posterior marginals is guaranteed. Omitted links inside one correlated substructure require the covariance/triple-moment terms of Equation (19); simply substituting independent means would change the derivation. The auxiliary-variable equality in Equations (20)–(21) omits a coupling-dependent constant. For one binary edge K, a=acosh(exp(2*abs(K)))/2, b=sign(K)*a and C=exp(-abs(K))/2 give exp(K*s_i*s_j)=C*sum_w exp((a*s_i+b*s_j)*w). Dropping C preserves a normalized marginal but shifts the raw log partition; evidence bounds must retain the offset. The context-sensitive HMM example has boundary conventions and a delayed observation term that need care; the displayed unary-field formula is not adopted as an implementation-ready recipe. Its synthetic illustration does not establish general weak-coupling accuracy or benchmark superiority.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:FullyFactorizedMeanFieldInference.
+
+This is the complete-factorizability mean-field construction, not a claim that the target variables are actually independent. It is the singleton-factor limit of structured mean field and differs from block or chain factors that retain dependencies. The approximation family and variational objective do not prescribe BBVI’s score-function estimator, amortized recognition, a training algorithm or any particular probabilistic model. Factorization depends on the declared variable units; treating a whole chain as one variable would be a different, structured partition at the state-variable level. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+
+For a fixed target p(s)=exp(F(s))/Z, choose q(s)=product_i q_i(s_i) and maximize E_q[F]+H(q), equivalently minimizing KL(q&#124;&#124;p). For the source’s binary s_i in {-1,+1} and F(s)=sum_(i&lt;j) J_ij*s_i*s_j+sum_i h_i*s_i, write q_i(s_i)=(1+m_i*s_i)/2. Distinct-variable moments factor as E_q[s_i*s_j]=m_i*m_j, and entropy is the sum of the binary factor entropies. Interior stationarity gives atanh(m_i)=h_i+sum_(j!=i) J_ij*m_j, with symmetric interaction indexing. Updating one mean to tanh of that effective field while holding the others fixed solves its coordinate subproblem. These equations characterize the chosen approximate inference problem; they do not compute the exact target marginals in general. Limitations: The product family discards all dependence among the declared individual variables. Matching or optimizing its means does not certify correct covariance, calibrated uncertainty or exact posterior recovery. KL(q&#124;&#124;p) is directional and differs from KL(p&#124;&#124;q). A lower bound equals log Z only when the approximating distribution equals the target almost everywhere under appropriate support conditions. Stationarity equations do not ensure global optimality. Exact sequential singleton updates can increase the bound, while synchronous fixed-point iteration can decrease it or fail to converge. The tanh equations apply to the stated binary pairwise energy and parameter convention. Other state spaces, higher-order factors or restricted factor families need their own expectations and updates. Using approximate hidden statistics in learning is a further choice; the approximation alone does not establish monotonic observed likelihood. No model fitting, author implementation or empirical accuracy claim is included.
+
+### Path factorization, conditional responsibilities and fitting scope
+
+consistency: supported. Targets: AIMech:HierarchicalMixtureOfExperts.
+
+Retain the static hierarchical expert family.
+
+Normalized gates give a product weight along each leaf path and a sum of conditional expert densities. A finite Bernoulli example has p(y=1)=0.428; posterior path weights differ from input-only gate products. The top-gate log-likelihood gradient matches finite differences within 3.56e−11. Exact EM subproblems, log-target least-squares surrogates and discounted online approximations are distinguished. Near-uniform gates do not generally turn a mixture density into a single expert density. Source logistic-output wording, multinomial total notation and test-based stopping are qualified; no empirical ranking is adopted.
+
+### Retained dependence and normalization constants
+
+consistency: supported. Targets: AIMech:StructuredMeanFieldInference.
+
+Retain the structured inference method with tractability and update conditions.
+
+A correlated-pair-plus-singleton example retains covariance 0.5733704911 and increases its variational bound under exact block-coordinate updates. Its log-partition-minus-bound equals KL(q&#124;&#124;p), approximately 0.0502395562. The source’s simple intermodule field update cannot be applied unchanged to omitted links inside a correlated skeleton, where covariance/triple-moment terms appear. The auxiliary binary-link transformation needs C=exp(-abs(K))/2 in its raw unnormalized identity; finite negative, zero and positive couplings verify the correction within 4.45e−16. Normalized marginals can agree without that constant while partition functions differ.
+
+### Independent variational factors and coordinate assumptions
+
+consistency: supported. Targets: AIMech:FullyFactorizedMeanFieldInference.
+
+Retain the fully factorized special case as a narrower method.
+
+The product distribution removes every dependence among declared individual variables. Binary pairwise energies yield tanh coordinate updates; a finite exact singleton update increases the bound. Updating two means synchronously instead decreases a bound by 1.0978636072, disproving an unconditional monotonicity claim for simultaneous fixed-point iteration. The method is not synonymous with BBVI’s gradient estimator, amortized recognition or an exact posterior. A family/special-case relationship to structured mean field warrants related scope rather than a duplicate-identity decision.
+
+### Model parents versus inference-method context
+
+grounding: supported. Targets: AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference.
+
+Retain the inspected directional AIO mappings.
+
+Twenty-three exact fully annotated AIO nodes and all 68 semantic label/synonym hits were inspected. Fourteen contextual records were byte-verified unchanged after prior full reading and sixteen freshly read; the total comprises 23 generated YAMLs and seven native neighbors. HME has a broad BayesianNetwork mapping because its input-conditioned path and output factors form a DAG, and a related DecisionTree mapping because the pinned target is classification-scoped while HME includes regression and soft path sums. Generic mean-field methods have related ProbabilisticGraphicalModel and BoltzmannMachineNetwork mappings: they approximate graph-structured distributions and the primary binary Boltzmann model, but are not themselves tasks or network architectures. CausalGraphicalModel adds unsupported causal assumptions. MixtureofExpertsLLM, HierarchicalLanguageModel, FactorizedLLM and FactoredLanguageModel are language-specific; their names and related synonyms do not establish generic identities. HierarchicalClassification and HierarchicalClustering concern output grouping or cluster construction, not latent expert gating. EnsembleLearning is task-scoped and its improvement wording is not a guarantee for a mixture. LinearRegression and LogisticRegression describe expert/gate components or tasks, not the whole tree; RegressionAnalysis and SupervisedLearning are task contexts. UnsupervisedLearning and MachineLearningTask do not define variational inference. TrainingStrategy is preprocessing-scoped. VariationalAutoEncoder requires an autoencoder architecture, ProbabilisticHiddenLayer is a component, and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine is a model with special connectivity, not a mean-field identity. Native HMDT, IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal models, specialized approximations, score-gradient optimization and fitting procedures; their contextual reading does not renew scientific approval.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:HierarchicalMixtureOfExperts, AIMech:StructuredMeanFieldInference, AIMech:FullyFactorizedMeanFieldInference. HME is a conditional model with hierarchical path gates. Structured mean field approximates distributions while preserving selected tractable dependencies. Fully factorized mean field is its singleton-factor restriction and removes all dependence at the declared variable level. The broad family and restricted method are not exact aliases, nor are either identical to an architecture or a particular score-gradient optimizer. Retain all three stable IDs and their directional AIO mappings.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T201636Z-hierarchical-mean-field.json | supports | No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood. |
+| mapping | sources/aio/aio.json; Twenty-three exact CLASS nodes with full annotations and outgoing edges in source_analysis.aio_mapping_inspection; corresponding generated records | supports | Twenty-three exact fully annotated AIO nodes and all 68 semantic label/synonym hits were inspected. Fourteen contextual records were byte-verified unchanged after prior full reading and sixteen freshly read; the total comprises 23 generated YAMLs and seven native neighbors. HME has a broad BayesianNetwork mapping because its input-conditioned path and output factors form a DAG, and a related DecisionTree mapping because the pinned target is classification-scoped while HME includes regression and soft path sums. Generic mean-field methods have related ProbabilisticGraphicalModel and BoltzmannMachineNetwork mappings: they approximate graph-structured distributions and the primary binary Boltzmann model, but are not themselves tasks or network architectures. CausalGraphicalModel adds unsupported causal assumptions. MixtureofExpertsLLM, HierarchicalLanguageModel, FactorizedLLM and FactoredLanguageModel are language-specific; their names and related synonyms do not establish generic identities. HierarchicalClassification and HierarchicalClustering concern output grouping or cluster construction, not latent expert gating. EnsembleLearning is task-scoped and its improvement wording is not a guarantee for a mixture. LinearRegression and LogisticRegression describe expert/gate components or tasks, not the whole tree; RegressionAnalysis and SupervisedLearning are task contexts. UnsupervisedLearning and MachineLearningTask do not define variational inference. TrainingStrategy is preprocessing-scoped. VariationalAutoEncoder requires an autoencoder architecture, ProbabilisticHiddenLayer is a component, and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine is a model with special connectivity, not a mean-field identity. Native HMDT, IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal models, specialized approximations, score-gradient optimization and fitting procedures; their contextual reading does not renew scientific approval. |
+| neighbors | research/discovery/20261011T201636Z-hierarchical-mean-field.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Seven complete native records were read or byte-verified after prior full reading: HMDT, IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep. They distinguish static and temporal models, generic approximation families, specialized algorithms and fitting procedures. This context does not renew scientific approval of older records. |
+| finite-conventions | research/discovery/hierarchical-mean-field-boundaries.py; HME path responsibilities and gate gradients; structured and singleton variational coordinates; synchronous-update counterexample; auxiliary-link normalization constants | supports | Original fixed-distribution calculations verify a product of a correlated binary pair and a singleton. Two exact block-coordinate updates increase the bound 2.3196111665→2.3593240127→2.3634394896 below log Z 2.4136790458, with KL gap 0.0502395562. Retained pair covariance 0.5733704911 contrasts with a fully factorized covariance numerically zero. An exact singleton update also increases the bound, while a synchronous two-spin update decreases it by 1.0978636072. Auxiliary-link identities for negative, zero and positive couplings agree within 4.45e−16 only after the stated constants; normalized marginals agree without constants, but raw partition functions differ. A two-level HME yields p(y=1)=0.428 and distinct prior/posterior path weights. Its top-gate gradient matches finite differences within 3.56e−11. A Gaussian mixture differs from the single mean expert by density 0.3449513139 at zero. These are finite mathematical witnesses, not data fitting, author-code or benchmark reproduction. |
+| naive-label-context | https://proceedings.mlr.press/v5/salakhutdinov09a/salakhutdinov09a.pdf; Section2.2, printed p.450 / PDF p.3, paragraph explicitly naming the naive mean-field approach and fully factorized q; web-extracted text inspected, no visual attestation or full DBM-paper review | supports | A follow-up primary-source open confirms naive mean-field terminology for the fully factorized approximation. This supports label context only; the new method record derives its mechanism from the fully read Saul–Jordan source. The displayed DBM learning formulas and empirical results are outside this review. |
+| late-source-access | https://proceedings.mlr.press/v5/salakhutdinov09a/salakhutdinov09a.pdf | context_only | Late web-source access confirms terminology after record creation; no mechanism or record bytes changed. |
+| hierarchicalmixtureofexperts-source-0 | https://www2.bcs.rochester.edu/sites/robbie/jordanjacobs.nc94.pdf; Sections 2–2.2, printed pp.182–189 / PDF spreads 2–5; Sections 2.5–2.7, pp.190–195 / PDF spreads 6–8; Sections 2.9–3, pp.199–204 / PDF spreads 10–13; Appendices A–B, pp.206–212 / PDF spreads 14–17 | supports | Hierarchical Mixtures of Experts and the EM Algorithm. Neural Computation 6(2):181–214 (1994), author-hosted scanned journal article. All 18 PDF spreads visually read: PDF1 contains publisher front matter and p.181; PDFn=2–17 contains pp.(178+2n)–(179+2n); PDF18 contains p.214 and a blank facing page. Tesseract OCR is an imperfect extraction aid; equations were checked visually. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| structuredmeanfieldinference-source-0 | https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf; Section 2, Equations (1)–(5), printed p.487 / PDF p.2; Sections 2.2–2.3, Equations (10)–(22), pp.488–490 / PDF pp.3–5; Section 3 and Figure 1, pp.490–492 / PDF pp.5–7 | supports | Exploiting Tractable Substructures in Intractable Networks. NIPS 1995, Advances in Neural Information Processing Systems 8, proceedings 1996, pp.486–492. All seven proceedings PDF pages read visually and as extracted text. Printed page=PDF page+485; first printed page number absent. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| fullyfactorizedmeanfieldinference-source-0 | https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf; Section 2 and Section 2.1 Complete Factorizability, Equations (1)–(9), printed pp.487–488 / PDF pp.2–3; comparison with Section 2.2, pp.488–489 / PDF pp.3–4 | supports | Exploiting Tractable Substructures in Intractable Networks. NIPS 1995, Advances in Neural Information Processing Systems 8, proceedings 1996, pp.486–492. All seven proceedings PDF pages read visually and as extracted text. Printed page=PDF page+485; first printed page number absent. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every target remains DRAFT.
+- The first review validation rejected a contextual-evidence enum spelling; the save attempt also rejected it and wrote no review. Corrected context to the contract value context_only before saving.
+- Both primary PDFs were completely visually read. HME has 18 scanned spreads, not 18 article pages; its 34 article pages plus front matter were checked visually after imperfect extraction and OCR.
+- Boltzmann-tree retrievals failed at the inspected author locations. No mechanism was asserted from a title or abstract; the candidate remains pending legitimate full-text access.
+- Source equation and terminology errors, coordinate-versus-synchronous updates and approximation-versus-model boundaries are qualified. Finite arithmetic is not data fitting, author-code execution or a universal proof.
+- 212 pending leads plus unresolved dispositions remain; discovery is active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T202116Z-hierarchical-mean-field
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of hierarchical mixtures and mean-field inference
+started_at: '2026-10-11T20:17:12Z'
+finished_at: '2026-10-11T20:21:16Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: 'The authoring agent adversarially reviewed all fields of three
+    new records against two fully read primary PDFs: seven proceedings pages and 18
+    scanned journal spreads containing 34 article pages plus front matter. OCR assisted
+    the scan reading, but equations were checked visually. Twenty-three exact AIO
+    nodes and seven native neighbors establish the inspected boundaries. Original
+    fixed-distribution calculations check conditional mixture responsibilities, variational
+    bounds, retained correlations, coordinate assumptions and auxiliary-link constants.
+    This is author self-review, not independent approval.'
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain one DRAFT conditional model family and two variational inference methods.
+  The structured versus singleton scope, conditional gate responsibilities and source-formula
+  qualifications are explicit. No actionable curation finding remains in the declared
+  scope.
+source:
+  git_revision: e9d4eca0d46b6609b774a126e35a5e695cb1b1e3
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/DecisionTree.yaml
+    sha256: 4c2a5ed08c585f8912d66e3629aaa20e93c46ab49cfb2d128001fcd019c81bfc
+    role: context
+  - path: data/aio/EnsembleLearning.yaml
+    sha256: cf9435e5a799d84072222190c2d681c53b22bf9e7094891405008ebe398a39ed
+    role: context
+  - path: data/aio/FactoredLanguageModel.yaml
+    sha256: d5e425f3c7cc5b57fdab859cdc777b62398077a6ac9312aef6a89af42c6eb421
+    role: context
+  - path: data/aio/FactorizedLLM.yaml
+    sha256: f73a5e4d591e4d832f94bfa044d77c5645f585b042f07485f99920527d67b6d5
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/HierarchicalLanguageModel.yaml
+    sha256: d37f9eda55372f4e261249cdefc3b88b036e214884ef612ced2bb40076d29622
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MixtureofExpertsLLM.yaml
+    sha256: d9c3edb18f624102f141d1daf27aa0cc055eaf9199faf30abf88d2b87fbc1520
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/BlackBoxVariationalInference.yaml
+    sha256: 8237d3233ae06163b8fab5b4fa047ffc938e275bc1e3ede883348e06c2b266a8
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/FullyFactorizedMeanFieldInference.yaml
+    sha256: 102be6f77143b26acb0d482f91e2dfa58ea113f2188b14b92067484cc4f9408d
+    role: target
+  - path: data/curated/HiddenMarkovDecisionTree.yaml
+    sha256: ee90a9296d1f3fa33b29c2f0160ae5b5d54787c02893fea2cbd516e6db535d18
+    role: context
+  - path: data/curated/HierarchicalMixtureOfExperts.yaml
+    sha256: 726b98de332b75f77dc51f3028687650e2077216f26100a16c6fc4e8328c4e18
+    role: target
+  - path: data/curated/InputOutputHiddenMarkovModel.yaml
+    sha256: 0b0273f47026fed64472356d1610aa2384e8bf89eecfafa109d07f5e8bcd3acf
+    role: context
+  - path: data/curated/MixtureDensityNetwork.yaml
+    sha256: 1c6eab5597faff5398e917351cea1b0ab6feca98d690219dc69d44ffe7abba52
+    role: context
+  - path: data/curated/StructuredMeanFieldInference.yaml
+    sha256: 3cd31e539123908291c2a9a394792c52dacf415ce3c19c4d6a42e9be6173c86b
+    role: target
+  - path: data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml
+    sha256: 236f080993e164f5768f1eb1a179ff3589b03344cf133091fea5d35cc3ce4918
+    role: context
+  - path: data/curated/WakeSleepAlgorithm.yaml
+    sha256: 48b795b8f0730fc884c1809d405e125ec09b3a906e9b875f9ff3b1772fb21f48
+    role: context
+  - path: research/discovery/20261011T201636Z-hierarchical-mean-field.json
+    sha256: e1a58b578a90c6f2b4658ad1187c359cfd6abd32909375be5bae41ea58aaaa71
+    role: context
+  - path: research/discovery/hierarchical-mean-field-boundaries.py
+    sha256: 552cfb07557713f4772b91973033263656c52eb87fa4efa2a18216a35ec1aa4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HierarchicalMixtureOfExperts
+  path: data/curated/HierarchicalMixtureOfExperts.yaml
+  label: Hierarchical mixture of experts
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HierarchicalMixtureOfExperts.yaml
+    role: maintained
+- target_id: AIMech:StructuredMeanFieldInference
+  path: data/curated/StructuredMeanFieldInference.yaml
+  label: Structured mean-field inference
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StructuredMeanFieldInference.yaml
+    role: maintained
+- target_id: AIMech:FullyFactorizedMeanFieldInference
+  path: data/curated/FullyFactorizedMeanFieldInference.yaml
+  label: Fully factorized mean-field inference
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FullyFactorizedMeanFieldInference.yaml
+    role: maintained
+scope:
+  description: All fields of three explicitly selected concepts spanning one model
+    family and two inference methods.
+  selection: 'Three exact maintained IDs in the discovery ledger: HierarchicalMixtureOfExperts,
+    StructuredMeanFieldInference and FullyFactorizedMeanFieldInference; complete selected
+    batch, no sampling.'
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exclusions:
+  - target: Author implementations, empirical performance and general convergence
+      guarantees
+    reason: Primary definitions and finite witnesses do not certify author-code behavior,
+      benchmarks or universal optimization results.
+  - target: Prior records and remaining source leads
+    reason: Seven older records supply boundary context without renewed scientific
+      approval. Boltzmann-tree full text remains unavailable, and source-specific
+      learning methods and context-sensitive HMM identities need further assessment.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 101.54s (0:01:41)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 385 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 109 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 106,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Hierarchical mixture and mean-field boundary calculations
+  command: python3 research/discovery/hierarchical-mean-field-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Fixed finite distributions and one or two variational coordinate
+    updates; no model fitting, author code or benchmark.", "structured_bounds": [2.3196111665023675,
+    2.3593240127451214, 2.3634394896014332], "log_partition": 2.413679045763243, "structured_kl":
+    0.050239556161810354, "structured_retained_covariance": 0.5733704910814423, "fully_factorized_covariance":
+    -2.2551405187698492e-17, "singleton_bounds": [2.110322608098782, 2.144257042685139],
+    "synchronous_bound_change": -1.097863607182831, "auxiliary_link": [{"coupling":
+    -0.8, "constant": 0.22466448205861078, "unnormalized_identity_error": 4.440892098500626e-16,
+    "log_partition_offset": -1.4931471805599454}, {"coupling": 0.0, "constant": 0.5,
+    "unnormalized_identity_error": 0.0, "log_partition_offset": -0.6931471805599453},
+    {"coupling": 0.6, "constant": 0.27440581804701325, "unnormalized_identity_error":
+    4.440892098500626e-16, "log_partition_offset": -1.2931471805599453}], "hme_probability_y1":
+    0.428, "hme_input_path_weights": [0.24, 0.06, 0.27999999999999997, 0.42], "hme_posterior_path_weights":
+    [0.056074766355140186, 0.12616822429906543, 0.4252336448598131, 0.39252336448598135],
+    "hme_gate_gradient": -0.11775700934579436, "hme_gradient_finite_difference_error":
+    3.5523473052023746e-11, "gaussian_mixture_mean_expert_density_gap": 0.3449513138882446}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T201636Z-hierarchical-mean-field.json
+  accessed_at: '2026-10-11T20:17:12Z'
+  support: supports
+  summary: 'No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 382 preceding native IDs/names/aliases for the four researched candidates.
+    Both full-checkout fixed-string searches included ignored and hidden files, with
+    45 and 45 matching lines. All 31 unique matched contents were read: prior specialized
+    inference records, source/review context and pending leads, not exact records
+    for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability
+    terminology were included. All 68 semantic label/synonym hits and 23 exact fully
+    annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs
+    and seven native neighbors were read or byte-verified unchanged after prior complete
+    reading, totaling 30 contextual records. The broader phrase structured variational
+    inference is searched but not asserted as an unconditional alias of structured
+    mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded
+    to the pinned vocabulary and inspected neighborhood.'
+  search_scope: 'No normalized identity match was found across all 442 pinned AIO
+    labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four
+    researched candidates. Both full-checkout fixed-string searches included ignored
+    and hidden files, with 45 and 45 matching lines. All 31 unique matched contents
+    were read: prior specialized inference records, source/review context and pending
+    leads, not exact records for the three new identities. Expanded titles, source
+    IDs, plural forms and complete/partial-factorizability terminology were included.
+    All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes
+    with outgoing edges were read. Their generated YAMLs and seven native neighbors
+    were read or byte-verified unchanged after prior complete reading, totaling 30
+    contextual records. The broader phrase structured variational inference is searched
+    but not asserted as an unconditional alias of structured mean field. Boltzmann
+    trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary
+    and inspected neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Twenty-three exact CLASS nodes with full annotations and outgoing edges
+    in source_analysis.aio_mapping_inspection; corresponding generated records
+  accessed_at: '2026-10-11T20:17:12Z'
+  support: supports
+  summary: 'Twenty-three exact fully annotated AIO nodes and all 68 semantic label/synonym
+    hits were inspected. Fourteen contextual records were byte-verified unchanged
+    after prior full reading and sixteen freshly read; the total comprises 23 generated
+    YAMLs and seven native neighbors. HME has a broad BayesianNetwork mapping because
+    its input-conditioned path and output factors form a DAG, and a related DecisionTree
+    mapping because the pinned target is classification-scoped while HME includes
+    regression and soft path sums. Generic mean-field methods have related ProbabilisticGraphicalModel
+    and BoltzmannMachineNetwork mappings: they approximate graph-structured distributions
+    and the primary binary Boltzmann model, but are not themselves tasks or network
+    architectures. CausalGraphicalModel adds unsupported causal assumptions. MixtureofExpertsLLM,
+    HierarchicalLanguageModel, FactorizedLLM and FactoredLanguageModel are language-specific;
+    their names and related synonyms do not establish generic identities. HierarchicalClassification
+    and HierarchicalClustering concern output grouping or cluster construction, not
+    latent expert gating. EnsembleLearning is task-scoped and its improvement wording
+    is not a guarantee for a mixture. LinearRegression and LogisticRegression describe
+    expert/gate components or tasks, not the whole tree; RegressionAnalysis and SupervisedLearning
+    are task contexts. UnsupervisedLearning and MachineLearningTask do not define
+    variational inference. TrainingStrategy is preprocessing-scoped. VariationalAutoEncoder
+    requires an autoencoder architecture, ProbabilisticHiddenLayer is a component,
+    and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine is a
+    model with special connectivity, not a mean-field identity. Native HMDT, IOHMM,
+    structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal models,
+    specialized approximations, score-gradient optimization and fitting procedures;
+    their contextual reading does not renew scientific approval.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T201636Z-hierarchical-mean-field.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T20:17:12Z'
+  support: supports
+  summary: 'Seven complete native records were read or byte-verified after prior full
+    reading: HMDT, IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep.
+    They distinguish static and temporal models, generic approximation families, specialized
+    algorithms and fitting procedures. This context does not renew scientific approval
+    of older records.'
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/hierarchical-mean-field-boundaries.py
+  locator: HME path responsibilities and gate gradients; structured and singleton
+    variational coordinates; synchronous-update counterexample; auxiliary-link normalization
+    constants
+  accessed_at: '2026-10-11T20:17:12Z'
+  snapshot_sha256: 552cfb07557713f4772b91973033263656c52eb87fa4efa2a18216a35ec1aa4d
+  support: supports
+  summary: Original fixed-distribution calculations verify a product of a correlated
+    binary pair and a singleton. Two exact block-coordinate updates increase the bound
+    2.3196111665→2.3593240127→2.3634394896 below log Z 2.4136790458, with KL gap 0.0502395562.
+    Retained pair covariance 0.5733704911 contrasts with a fully factorized covariance
+    numerically zero. An exact singleton update also increases the bound, while a
+    synchronous two-spin update decreases it by 1.0978636072. Auxiliary-link identities
+    for negative, zero and positive couplings agree within 4.45e−16 only after the
+    stated constants; normalized marginals agree without constants, but raw partition
+    functions differ. A two-level HME yields p(y=1)=0.428 and distinct prior/posterior
+    path weights. Its top-gate gradient matches finite differences within 3.56e−11.
+    A Gaussian mixture differs from the single mean expert by density 0.3449513139
+    at zero. These are finite mathematical witnesses, not data fitting, author-code
+    or benchmark reproduction.
+- evidence_id: naive-label-context
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v5/salakhutdinov09a/salakhutdinov09a.pdf
+  locator: Section2.2, printed p.450 / PDF p.3, paragraph explicitly naming the naive
+    mean-field approach and fully factorized q; web-extracted text inspected, no visual
+    attestation or full DBM-paper review
+  accessed_at: '2026-10-11T20:17:37Z'
+  support: supports
+  summary: A follow-up primary-source open confirms naive mean-field terminology for
+    the fully factorized approximation. This supports label context only; the new
+    method record derives its mechanism from the fully read Saul–Jordan source. The
+    displayed DBM learning formulas and empirical results are outside this review.
+- evidence_id: late-source-access
+  kind: search
+  reference: https://proceedings.mlr.press/v5/salakhutdinov09a/salakhutdinov09a.pdf
+  accessed_at: '2026-10-11T20:17:37Z'
+  support: context_only
+  summary: Late web-source access confirms terminology after record creation; no mechanism
+    or record bytes changed.
+  search_scope: '{"provider": "web open", "arguments": {"open": [{"ref_id": "https://proceedings.mlr.press/v5/salakhutdinov09a/salakhutdinov09a.pdf"},
+    {"ref_id": "https://people.eecs.berkeley.edu/~jordan/graphical.html"}], "response_length":
+    "long"}, "started_at": "2026-10-11T20:17:37Z", "inspection": "Selected Section2.2
+    text for terminology; Jordan graphical-model bibliography for source context;
+    no claim of full DBM-paper reading."}'
+- evidence_id: hierarchicalmixtureofexperts-source-0
+  kind: primary_source
+  reference: https://www2.bcs.rochester.edu/sites/robbie/jordanjacobs.nc94.pdf
+  locator: Sections 2–2.2, printed pp.182–189 / PDF spreads 2–5; Sections 2.5–2.7,
+    pp.190–195 / PDF spreads 6–8; Sections 2.9–3, pp.199–204 / PDF spreads 10–13;
+    Appendices A–B, pp.206–212 / PDF spreads 14–17
+  accessed_at: '2026-10-11T20:03:30Z'
+  snapshot_sha256: 31f0365922dfbdfd267f9ef7e402211d56793b9b06fde56e42c7a5001deeff82
+  support: supports
+  summary: 'Hierarchical Mixtures of Experts and the EM Algorithm. Neural Computation
+    6(2):181–214 (1994), author-hosted scanned journal article. All 18 PDF spreads
+    visually read: PDF1 contains publisher front matter and p.181; PDFn=2–17 contains
+    pp.(178+2n)–(179+2n); PDF18 contains p.214 and a blank facing page. Tesseract
+    OCR is an imperfect extraction aid; equations were checked visually. Actual visual
+    reading scopes are declared in the ledger; retrieval and conversion do not certify
+    reading of other pages.'
+- evidence_id: structuredmeanfieldinference-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf
+  locator: Section 2, Equations (1)–(5), printed p.487 / PDF p.2; Sections 2.2–2.3,
+    Equations (10)–(22), pp.488–490 / PDF pp.3–5; Section 3 and Figure 1, pp.490–492
+    / PDF pp.5–7
+  accessed_at: '2026-10-11T20:03:27Z'
+  snapshot_sha256: d0a9f10a9d70667053092ad1209953b4c572ab604f8d8c84b4f8c2fe94ae7e61
+  support: supports
+  summary: Exploiting Tractable Substructures in Intractable Networks. NIPS 1995,
+    Advances in Neural Information Processing Systems 8, proceedings 1996, pp.486–492.
+    All seven proceedings PDF pages read visually and as extracted text. Printed page=PDF
+    page+485; first printed page number absent. Actual visual reading scopes are declared
+    in the ledger; retrieval and conversion do not certify reading of other pages.
+- evidence_id: fullyfactorizedmeanfieldinference-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf
+  locator: Section 2 and Section 2.1 Complete Factorizability, Equations (1)–(9),
+    printed pp.487–488 / PDF pp.2–3; comparison with Section 2.2, pp.488–489 / PDF
+    pp.3–4
+  accessed_at: '2026-10-11T20:03:27Z'
+  snapshot_sha256: d0a9f10a9d70667053092ad1209953b4c572ab604f8d8c84b4f8c2fe94ae7e61
+  support: supports
+  summary: Exploiting Tractable Substructures in Intractable Networks. NIPS 1995,
+    Advances in Neural Information Processing Systems 8, proceedings 1996, pp.486–492.
+    All seven proceedings PDF pages read visually and as extracted text. Printed page=PDF
+    page+485; first printed page number absent. Actual visual reading scopes are declared
+    in the ledger; retrieval and conversion do not certify reading of other pages.
+assessments:
+- assessment_id: hierarchicalmixtureofexperts
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - hierarchicalmixtureofexperts-source-0
+  summary: 'The inspected Jordan–Jacobs construction uses generalized-linear experts
+    and softmax gates with shared external input, with a finite tree defining nested
+    soft partitions. It is static conditional modeling, distinct from temporal hidden
+    Markov decision trees, hard classification trees, hierarchical clustering and
+    language-specific sparse MoE routing. A mixture density network shares conditional-mixture
+    semantics but need not impose this tree factorization or generalized-linear leaf
+    structure. Flattening a fixed tree gives leaf weights without making every flat
+    gating parameterization the same hierarchical model. EM, IRLS and the online surrogate
+    are fitting procedures, not the model identity. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native
+    IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string
+    searches included ignored and hidden files, with 45 and 45 matching lines. All
+    31 unique matched contents were read: prior specialized inference records, source/review
+    context and pending leads, not exact records for the three new identities. Expanded
+    titles, source IDs, plural forms and complete/partial-factorizability terminology
+    were included. All 68 semantic label/synonym hits and 23 exact fully annotated
+    AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven
+    native neighbors were read or byte-verified unchanged after prior complete reading,
+    totaling 30 contextual records. The broader phrase structured variational inference
+    is searched but not asserted as an unconditional alias of structured mean field.
+    Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the
+    pinned vocabulary and inspected neighborhood.'
+  details: 'For input x and leaf l, define w_l(x) as the product of normalized child-gate
+    probabilities along the path to l. Then p(y|x)=sum_l w_l(x) p_l(y|x). In the two-level
+    presentation, p(y|x)=sum_i g_i(x) sum_j g_(j|i)(x) p_ij(y|x), with softmax gates
+    and generalized-linear conditional expert densities. The conditional output mean
+    is the corresponding weighted sum of expert means. Given an observed y, leaf responsibilities
+    are proportional to w_l(x) p_l(y|x); they condition on both x and y, unlike input-only
+    gates. Conditional EM alternates these responsibilities with weighted expert fits
+    and gate fits to soft multinomial targets; a lower gate’s objective is weighted
+    by the posterior probability of reaching its parent. The paper uses IRLS inside
+    those maximum-likelihood subproblems. Its separate Algorithm 2 instead regresses
+    log responsibilities by least squares, and its online variant uses discounted
+    recursive weighted least squares. Those surrogate procedures are approximations
+    to the specified fitting approach. Limitations: The source uses soft gates that
+    mix expert densities; it does not require hard routing, top-k sparse activation,
+    a language model or a causal interpretation of the decision hierarchy. Exact EM
+    likelihood monotonicity requires a valid E-step and an M-step that increases the
+    expected complete log likelihood under suitable regularity. It does not automatically
+    apply to arbitrary gradient steps, the log-target least-squares surrogate or discounted
+    online updates, and does not guarantee a global optimum. The logistic expert output
+    is a Bernoulli probability, not log odds; printed p.184 is qualified by the explicit
+    Bernoulli density on p.188. In Appendix B, the multinomial total is m=sum_i y_i;
+    displayed n factors in Equation (6.2) and the following mean/log-partition expressions
+    cannot be copied when n denotes the number of categories. Near-uniform gates average
+    expert predictions, but a mixture of distinct expert densities need not become
+    one generalized-linear density. Finite log-responsibility targets also require
+    nonzero responsibilities. The robot simulation uses test-error stopping and selected
+    successful comparison runs. No unbiased generalization comparison, universal performance
+    advantage, author-code execution or benchmark reproduction is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: One conditional model family and two mathematical inference methods,
+      with explicit distinctions among model, approximation family and specialized
+      optimization procedure.
+    evidence_ids:
+    - hierarchicalmixtureofexperts-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: 'Twenty-three exact fully annotated AIO nodes and all 68 semantic
+      label/synonym hits were inspected. Fourteen contextual records were byte-verified
+      unchanged after prior full reading and sixteen freshly read; the total comprises
+      23 generated YAMLs and seven native neighbors. HME has a broad BayesianNetwork
+      mapping because its input-conditioned path and output factors form a DAG, and
+      a related DecisionTree mapping because the pinned target is classification-scoped
+      while HME includes regression and soft path sums. Generic mean-field methods
+      have related ProbabilisticGraphicalModel and BoltzmannMachineNetwork mappings:
+      they approximate graph-structured distributions and the primary binary Boltzmann
+      model, but are not themselves tasks or network architectures. CausalGraphicalModel
+      adds unsupported causal assumptions. MixtureofExpertsLLM, HierarchicalLanguageModel,
+      FactorizedLLM and FactoredLanguageModel are language-specific; their names and
+      related synonyms do not establish generic identities. HierarchicalClassification
+      and HierarchicalClustering concern output grouping or cluster construction,
+      not latent expert gating. EnsembleLearning is task-scoped and its improvement
+      wording is not a guarantee for a mixture. LinearRegression and LogisticRegression
+      describe expert/gate components or tasks, not the whole tree; RegressionAnalysis
+      and SupervisedLearning are task contexts. UnsupervisedLearning and MachineLearningTask
+      do not define variational inference. TrainingStrategy is preprocessing-scoped.
+      VariationalAutoEncoder requires an autoencoder architecture, ProbabilisticHiddenLayer
+      is a component, and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine
+      is a model with special connectivity, not a mean-field identity. Native HMDT,
+      IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal
+      models, specialized approximations, score-gradient optimization and fitting
+      procedures; their contextual reading does not renew scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: structuredmeanfieldinference
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:StructuredMeanFieldInference
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - structuredmeanfieldinference-source-0
+  summary: 'This record covers the tractable-substructure mean-field construction
+    exemplified by Saul and Jordan, including partially factorized modules and the
+    qualifications for a tractable correlated skeleton. It is broader than the maintained
+    factorial-HMM-specific algorithm and distinct from a fully factorized approximation
+    that removes every intervariable dependence. It is an inference method, not a
+    graphical-model architecture, all variational inference, a particular Monte Carlo
+    gradient estimator or a variational autoencoder. Fully factorized mean field is
+    a limiting restricted family when retained substructures reduce to individual
+    variables; that inclusion does not make the two concepts exact aliases. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    382 preceding native IDs/names/aliases for the four researched candidates. Both
+    full-checkout fixed-string searches included ignored and hidden files, with 45
+    and 45 matching lines. All 31 unique matched contents were read: prior specialized
+    inference records, source/review context and pending leads, not exact records
+    for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability
+    terminology were included. All 68 semantic label/synonym hits and 23 exact fully
+    annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs
+    and seven native neighbors were read or byte-verified unchanged after prior complete
+    reading, totaling 30 contextual records. The broader phrase structured variational
+    inference is searched but not asserted as an unconditional alias of structured
+    mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded
+    to the pinned vocabulary and inspected neighborhood.'
+  details: 'For a fixed normalized target p(s)=exp(F(s))/Z and tractable q, maximize
+    L(q)=E_q[F(s)]+H(q), so log Z-L(q)=KL(q||p). The source’s binary pairwise modular
+    construction retains all intramodule interactions J and factorizes q across modules,
+    replacing omitted intermodule interactions K by adjustable unary fields H. Expectations
+    within a module are computed exactly using its tractable algorithm; expectations
+    between modules factorize. A module’s field update is H_i^mu=h_i^mu+sum_(nu!=mu),j
+    K_ij^(mu,nu) E_q[s_j^nu]. Holding all other factors fixed, recomputing that module
+    with these fields gives a coordinate variational update. A chain module can use
+    forward–backward while retaining within-chain correlations. If omitted links connect
+    variables within the same correlated skeleton, the simple intermodule rule no
+    longer follows: the source’s stationarity equations contain covariance and triple-moment
+    terms. Auxiliary binary link variables provide another construction that induces
+    a tractable core-versus-link factorization. Limitations: Tractability of retained
+    substructures and evaluation of the required expectations must be established
+    for the chosen family. Compact notation or a sparse-looking graph does not by
+    itself ensure efficient inference. The optimized bound concerns log Z. It is an
+    observed-data log-likelihood bound only when Z is that likelihood under the specified
+    unnormalized posterior construction. A generic partition function is not automatically
+    a probability of observations. Coordinate ascent with exact factor optimization
+    can improve the bound; arbitrary simultaneous field updates need not. The objective
+    can have multiple stationary points, and neither global optimality nor accurate
+    posterior marginals is guaranteed. Omitted links inside one correlated substructure
+    require the covariance/triple-moment terms of Equation (19); simply substituting
+    independent means would change the derivation. The auxiliary-variable equality
+    in Equations (20)–(21) omits a coupling-dependent constant. For one binary edge
+    K, a=acosh(exp(2*abs(K)))/2, b=sign(K)*a and C=exp(-abs(K))/2 give exp(K*s_i*s_j)=C*sum_w
+    exp((a*s_i+b*s_j)*w). Dropping C preserves a normalized marginal but shifts the
+    raw log partition; evidence bounds must retain the offset. The context-sensitive
+    HMM example has boundary conventions and a delayed observation term that need
+    care; the displayed unary-field formula is not adopted as an implementation-ready
+    recipe. Its synthetic illustration does not establish general weak-coupling accuracy
+    or benchmark superiority.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: One conditional model family and two mathematical inference methods,
+      with explicit distinctions among model, approximation family and specialized
+      optimization procedure.
+    evidence_ids:
+    - structuredmeanfieldinference-source-0
+  - name: aio-assessment
+    value: related_match,related_match
+    definition: 'Twenty-three exact fully annotated AIO nodes and all 68 semantic
+      label/synonym hits were inspected. Fourteen contextual records were byte-verified
+      unchanged after prior full reading and sixteen freshly read; the total comprises
+      23 generated YAMLs and seven native neighbors. HME has a broad BayesianNetwork
+      mapping because its input-conditioned path and output factors form a DAG, and
+      a related DecisionTree mapping because the pinned target is classification-scoped
+      while HME includes regression and soft path sums. Generic mean-field methods
+      have related ProbabilisticGraphicalModel and BoltzmannMachineNetwork mappings:
+      they approximate graph-structured distributions and the primary binary Boltzmann
+      model, but are not themselves tasks or network architectures. CausalGraphicalModel
+      adds unsupported causal assumptions. MixtureofExpertsLLM, HierarchicalLanguageModel,
+      FactorizedLLM and FactoredLanguageModel are language-specific; their names and
+      related synonyms do not establish generic identities. HierarchicalClassification
+      and HierarchicalClustering concern output grouping or cluster construction,
+      not latent expert gating. EnsembleLearning is task-scoped and its improvement
+      wording is not a guarantee for a mixture. LinearRegression and LogisticRegression
+      describe expert/gate components or tasks, not the whole tree; RegressionAnalysis
+      and SupervisedLearning are task contexts. UnsupervisedLearning and MachineLearningTask
+      do not define variational inference. TrainingStrategy is preprocessing-scoped.
+      VariationalAutoEncoder requires an autoencoder architecture, ProbabilisticHiddenLayer
+      is a component, and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine
+      is a model with special connectivity, not a mean-field identity. Native HMDT,
+      IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal
+      models, specialized approximations, score-gradient optimization and fitting
+      procedures; their contextual reading does not renew scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: fullyfactorizedmeanfieldinference
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:FullyFactorizedMeanFieldInference
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - fullyfactorizedmeanfieldinference-source-0
+  - naive-label-context
+  - late-source-access
+  summary: 'This is the complete-factorizability mean-field construction, not a claim
+    that the target variables are actually independent. It is the singleton-factor
+    limit of structured mean field and differs from block or chain factors that retain
+    dependencies. The approximation family and variational objective do not prescribe
+    BBVI’s score-function estimator, amortized recognition, a training algorithm or
+    any particular probabilistic model. Factorization depends on the declared variable
+    units; treating a whole chain as one variable would be a different, structured
+    partition at the state-variable level. No normalized identity match was found
+    across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases
+    for the four researched candidates. Both full-checkout fixed-string searches included
+    ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched
+    contents were read: prior specialized inference records, source/review context
+    and pending leads, not exact records for the three new identities. Expanded titles,
+    source IDs, plural forms and complete/partial-factorizability terminology were
+    included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO
+    CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native
+    neighbors were read or byte-verified unchanged after prior complete reading, totaling
+    30 contextual records. The broader phrase structured variational inference is
+    searched but not asserted as an unconditional alias of structured mean field.
+    Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the
+    pinned vocabulary and inspected neighborhood.'
+  details: 'For a fixed target p(s)=exp(F(s))/Z, choose q(s)=product_i q_i(s_i) and
+    maximize E_q[F]+H(q), equivalently minimizing KL(q||p). For the source’s binary
+    s_i in {-1,+1} and F(s)=sum_(i<j) J_ij*s_i*s_j+sum_i h_i*s_i, write q_i(s_i)=(1+m_i*s_i)/2.
+    Distinct-variable moments factor as E_q[s_i*s_j]=m_i*m_j, and entropy is the sum
+    of the binary factor entropies. Interior stationarity gives atanh(m_i)=h_i+sum_(j!=i)
+    J_ij*m_j, with symmetric interaction indexing. Updating one mean to tanh of that
+    effective field while holding the others fixed solves its coordinate subproblem.
+    These equations characterize the chosen approximate inference problem; they do
+    not compute the exact target marginals in general. Limitations: The product family
+    discards all dependence among the declared individual variables. Matching or optimizing
+    its means does not certify correct covariance, calibrated uncertainty or exact
+    posterior recovery. KL(q||p) is directional and differs from KL(p||q). A lower
+    bound equals log Z only when the approximating distribution equals the target
+    almost everywhere under appropriate support conditions. Stationarity equations
+    do not ensure global optimality. Exact sequential singleton updates can increase
+    the bound, while synchronous fixed-point iteration can decrease it or fail to
+    converge. The tanh equations apply to the stated binary pairwise energy and parameter
+    convention. Other state spaces, higher-order factors or restricted factor families
+    need their own expectations and updates. Using approximate hidden statistics in
+    learning is a further choice; the approximation alone does not establish monotonic
+    observed likelihood. No model fitting, author implementation or empirical accuracy
+    claim is included.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: One conditional model family and two mathematical inference methods,
+      with explicit distinctions among model, approximation family and specialized
+      optimization procedure.
+    evidence_ids:
+    - fullyfactorizedmeanfieldinference-source-0
+  - name: aio-assessment
+    value: related_match,related_match
+    definition: 'Twenty-three exact fully annotated AIO nodes and all 68 semantic
+      label/synonym hits were inspected. Fourteen contextual records were byte-verified
+      unchanged after prior full reading and sixteen freshly read; the total comprises
+      23 generated YAMLs and seven native neighbors. HME has a broad BayesianNetwork
+      mapping because its input-conditioned path and output factors form a DAG, and
+      a related DecisionTree mapping because the pinned target is classification-scoped
+      while HME includes regression and soft path sums. Generic mean-field methods
+      have related ProbabilisticGraphicalModel and BoltzmannMachineNetwork mappings:
+      they approximate graph-structured distributions and the primary binary Boltzmann
+      model, but are not themselves tasks or network architectures. CausalGraphicalModel
+      adds unsupported causal assumptions. MixtureofExpertsLLM, HierarchicalLanguageModel,
+      FactorizedLLM and FactoredLanguageModel are language-specific; their names and
+      related synonyms do not establish generic identities. HierarchicalClassification
+      and HierarchicalClustering concern output grouping or cluster construction,
+      not latent expert gating. EnsembleLearning is task-scoped and its improvement
+      wording is not a guarantee for a mixture. LinearRegression and LogisticRegression
+      describe expert/gate components or tasks, not the whole tree; RegressionAnalysis
+      and SupervisedLearning are task contexts. UnsupervisedLearning and MachineLearningTask
+      do not define variational inference. TrainingStrategy is preprocessing-scoped.
+      VariationalAutoEncoder requires an autoencoder architecture, ProbabilisticHiddenLayer
+      is a component, and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine
+      is a model with special connectivity, not a mean-field identity. Native HMDT,
+      IOHMM, structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal
+      models, specialized approximations, score-gradient optimization and fitting
+      procedures; their contextual reading does not renew scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: hierarchical-gates
+  area: consistency
+  topic: Path factorization, conditional responsibilities and fitting scope
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  evidence_ids:
+  - hierarchicalmixtureofexperts-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the static hierarchical expert family.
+  details: Normalized gates give a product weight along each leaf path and a sum of
+    conditional expert densities. A finite Bernoulli example has p(y=1)=0.428; posterior
+    path weights differ from input-only gate products. The top-gate log-likelihood
+    gradient matches finite differences within 3.56e−11. Exact EM subproblems, log-target
+    least-squares surrogates and discounted online approximations are distinguished.
+    Near-uniform gates do not generally turn a mixture density into a single expert
+    density. Source logistic-output wording, multinomial total notation and test-based
+    stopping are qualified; no empirical ranking is adopted.
+- assessment_id: structured-factorization
+  area: consistency
+  topic: Retained dependence and normalization constants
+  outcome: supported
+  target_ids:
+  - AIMech:StructuredMeanFieldInference
+  evidence_ids:
+  - structuredmeanfieldinference-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the structured inference method with tractability and update conditions.
+  details: A correlated-pair-plus-singleton example retains covariance 0.5733704911
+    and increases its variational bound under exact block-coordinate updates. Its
+    log-partition-minus-bound equals KL(q||p), approximately 0.0502395562. The source’s
+    simple intermodule field update cannot be applied unchanged to omitted links inside
+    a correlated skeleton, where covariance/triple-moment terms appear. The auxiliary
+    binary-link transformation needs C=exp(-abs(K))/2 in its raw unnormalized identity;
+    finite negative, zero and positive couplings verify the correction within 4.45e−16.
+    Normalized marginals can agree without that constant while partition functions
+    differ.
+- assessment_id: singleton-factorization
+  area: consistency
+  topic: Independent variational factors and coordinate assumptions
+  outcome: supported
+  target_ids:
+  - AIMech:FullyFactorizedMeanFieldInference
+  evidence_ids:
+  - fullyfactorizedmeanfieldinference-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the fully factorized special case as a narrower method.
+  details: The product distribution removes every dependence among declared individual
+    variables. Binary pairwise energies yield tanh coordinate updates; a finite exact
+    singleton update increases the bound. Updating two means synchronously instead
+    decreases a bound by 1.0978636072, disproving an unconditional monotonicity claim
+    for simultaneous fixed-point iteration. The method is not synonymous with BBVI’s
+    gradient estimator, amortized recognition or an exact posterior. A family/special-case
+    relationship to structured mean field warrants related scope rather than a duplicate-identity
+    decision.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Model parents versus inference-method context
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain the inspected directional AIO mappings.
+  details: 'Twenty-three exact fully annotated AIO nodes and all 68 semantic label/synonym
+    hits were inspected. Fourteen contextual records were byte-verified unchanged
+    after prior full reading and sixteen freshly read; the total comprises 23 generated
+    YAMLs and seven native neighbors. HME has a broad BayesianNetwork mapping because
+    its input-conditioned path and output factors form a DAG, and a related DecisionTree
+    mapping because the pinned target is classification-scoped while HME includes
+    regression and soft path sums. Generic mean-field methods have related ProbabilisticGraphicalModel
+    and BoltzmannMachineNetwork mappings: they approximate graph-structured distributions
+    and the primary binary Boltzmann model, but are not themselves tasks or network
+    architectures. CausalGraphicalModel adds unsupported causal assumptions. MixtureofExpertsLLM,
+    HierarchicalLanguageModel, FactorizedLLM and FactoredLanguageModel are language-specific;
+    their names and related synonyms do not establish generic identities. HierarchicalClassification
+    and HierarchicalClustering concern output grouping or cluster construction, not
+    latent expert gating. EnsembleLearning is task-scoped and its improvement wording
+    is not a guarantee for a mixture. LinearRegression and LogisticRegression describe
+    expert/gate components or tasks, not the whole tree; RegressionAnalysis and SupervisedLearning
+    are task contexts. UnsupervisedLearning and MachineLearningTask do not define
+    variational inference. TrainingStrategy is preprocessing-scoped. VariationalAutoEncoder
+    requires an autoencoder architecture, ProbabilisticHiddenLayer is a component,
+    and ProbabilisticTopicModel is topic-specific. RestrictedBoltzmannMachine is a
+    model with special connectivity, not a mean-field identity. Native HMDT, IOHMM,
+    structured FHMM inference, EM, BBVI, MDN and wake-sleep distinguish temporal models,
+    specialized approximations, score-gradient optimization and fitting procedures;
+    their contextual reading does not renew scientific approval.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:HierarchicalMixtureOfExperts
+  - AIMech:StructuredMeanFieldInference
+  - AIMech:FullyFactorizedMeanFieldInference
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - naive-label-context
+  - late-source-access
+  - hierarchicalmixtureofexperts-source-0
+  - structuredmeanfieldinference-source-0
+  - fullyfactorizedmeanfieldinference-source-0
+  rationale: HME is a conditional model with hierarchical path gates. Structured mean
+    field approximates distributions while preserving selected tractable dependencies.
+    Fully factorized mean field is its singleton-factor restriction and removes all
+    dependence at the declared variable level. The broad family and restricted method
+    are not exact aliases, nor are either identical to an architecture or a particular
+    score-gradient optimizer. Retain all three stable IDs and their directional AIO
+    mappings.
+limitations:
+- Adversarial author self-review only; every target remains DRAFT.
+- The first review validation rejected a contextual-evidence enum spelling; the save
+  attempt also rejected it and wrote no review. Corrected context to the contract
+  value context_only before saving.
+- Both primary PDFs were completely visually read. HME has 18 scanned spreads, not
+  18 article pages; its 34 article pages plus front matter were checked visually after
+  imperfect extraction and OCR.
+- Boltzmann-tree retrievals failed at the inspected author locations. No mechanism
+  was asserted from a title or abstract; the candidate remains pending legitimate
+  full-text access.
+- Source equation and terminology errors, coordinate-versus-synchronous updates and
+  approximation-versus-model boundaries are qualified. Finite arithmetic is not data
+  fitting, author-code execution or a universal proof.
+- 212 pending leads plus unresolved dispositions remain; discovery is active.
+links: []
+tags:
+- native-concepts
+- hierarchical-mean-field
+- self-review
+- discovery-ongoing
+```
