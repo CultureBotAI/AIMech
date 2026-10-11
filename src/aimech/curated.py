@@ -15,7 +15,8 @@ from aimech.validation import read_record, schema_validator
 
 
 def normalized_name(value):
-    return re.sub(r"[^a-z0-9]", "", value.casefold())
+    # Plus signs distinguish named methods such as PointNet and PointNet++.
+    return re.sub(r"[^a-z0-9+]", "", value.casefold())
 
 
 def validate_curated_record(record):
@@ -34,7 +35,7 @@ def validate_curated_record(record):
     names = [record["name"], *record.get("aliases", [])]
     if len({normalized_name(name) for name in names}) != len(names):
         errors.append("name/aliases: duplicate normalized identity")
-    if any(not normalized_name(name) for name in names):
+    if any(not re.search(r"[a-z0-9]", name.casefold()) for name in names):
         errors.append("name/aliases: identity must contain letters or digits")
     mappings = [m["target"] for m in record.get("aio_mappings", [])]
     no_match = record.get("aio_no_match")

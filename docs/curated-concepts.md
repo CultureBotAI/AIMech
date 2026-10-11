@@ -40,6 +40,12 @@ against AIO labels/exact synonyms and other native records. Related synonyms
 remain contextual evidence requiring semantic review. Ambiguous acronym hits
 must be resolved before a bare acronym is asserted as an identity alias.
 
+Identity comparison ignores case, spaces and ordinary punctuation, but retains
+ASCII plus signs: `PointNet`, `PointNet+` and `PointNet++` are different keys.
+Names still need a letter or digit. A matching key is a collision check, not a
+semantic equivalence assessment; inspect aliases and mechanisms even when keys
+differ. Spelling out `plus` does not automatically alias the `+` symbol.
+
 ## AIO mappings
 
 Every native record records the AIO commit and SHA-256 against which its mappings

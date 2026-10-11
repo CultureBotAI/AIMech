@@ -1,0 +1,58 @@
+name: Deep Sets++
+definition: A Deep Sets architecture revision whose encoder combines identity residual paths with set
+  normalization while retaining the original aggregation and decoder.
+concept_kind: architecture
+identity_notes: Deep Sets++ is the encoder revision defined by Zhang and colleagues, not an alternate
+  spelling of Deep Sets or a claim that every deeper set network uses this construction.
+limitations:
+- The written standardization assumes a nonzero denominator; this record does not specify numerical handling
+  of degenerate or padded sets.
+- The change concerns the encoder. Its construction does not guarantee improved training or accuracy for
+  every task.
+aliases:
+- DS++
+id: AIMech:DeepSetsPlusPlus
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4 opening and Sections 4.1–4.3, Figure 2 and the DS++ block equation, PDF pp. 4–6
+  relation: supports
+claims:
+- claim_id: architecture-mechanism
+  kind: mechanism
+  statement: Encoder blocks add an unmodified input to a transformed branch using learned linear maps,
+    ReLU and set normalization. Set normalization uses a mean and variance over each set's elements and
+    feature coordinates, followed by feature-specific scale and bias.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4 opening and Sections 4.1–4.3, Figure 2 and the DS++ block equation, PDF pp. 4–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Set Norm and Equivariant Skip Connections: Putting the Deep in Deep Sets'
+  authors:
+  - Lily H. Zhang
+  - Veronica Tozzo
+  - John M. Higgins
+  - Rajesh Ranganath
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22ac/zhang22ac.pdf
+  version: ICML 2022 proceedings, PMLR 162:26559–26574
+  access_level: full_text
+  accessed_at: '2026-10-11T04:14:52Z'
+  sha256: 9b302c6977e34aaba6dce3d6e4c173850c5a8e3ad7f381fa7c578d7c67d3a28d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The source modifies learned neural encoder blocks with residual paths and normalization;
+    ArtificialNeuralNetwork is the broader architecture class.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:19:31Z'
+  updated_at: '2026-10-11T04:19:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

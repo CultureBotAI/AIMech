@@ -1,0 +1,57 @@
+name: PointNet
+definition: A neural architecture for unordered point clouds that applies shared pointwise feature extraction
+  and symmetric max pooling to produce a global representation, with a per-point prediction extension
+  for segmentation.
+concept_kind: architecture
+identity_notes: This is the original PointNet architecture, including its classification and segmentation
+  paths. It is distinct from PointNet++'s hierarchical local grouping and from a generic set-pooling model.
+limitations:
+- Permutation invariance of a global output and permutation equivariance of per-point predictions are
+  different properties.
+- Learned alignment modules do not establish exact invariance to every geometric transformation; no universal
+  accuracy or robustness claim is curated.
+id: AIMech:PointNet
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4.2, Figure 2 and equations 1–2, PDF pp. 3–4 / printed pp. 654–655
+  relation: supports
+claims:
+- claim_id: architecture-mechanism
+  kind: mechanism
+  statement: Shared multilayer perceptrons encode points; max pooling aggregates their features. The segmentation
+    path concatenates the global descriptor with point features before shared prediction layers. Learned
+    input and feature transformations provide alignment modules.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4.2, Figure 2 and equations 1–2, PDF pp. 3–4 / printed pp. 654–655
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation'
+  authors:
+  - Charles R. Qi
+  - Hao Su
+  - Kaichun Mo
+  - Leonidas J. Guibas
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_cvpr_2017/papers/Qi_PointNet_Deep_Learning_CVPR_2017_paper.pdf
+  version: CVPR 2017 proceedings, pp. 652–660
+  access_level: full_text
+  accessed_at: '2026-10-11T04:11:09Z'
+  sha256: 7c4c69310de5130b079e80c5771322ed45ca8f032d592396303bc93b19bea3ec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Shared neural feature extractors, learned transforms and neural prediction paths make this
+    a specific artificial neural architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:19:31Z'
+  updated_at: '2026-10-11T04:19:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
