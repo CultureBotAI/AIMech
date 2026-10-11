@@ -1,0 +1,107 @@
+name: Hidden Markov model with auxiliary memory
+definition: A hidden-state symbol-sequence model family in which paired states write emitted symbols to
+  auxiliary memory and later read them to condition emissions and memory-dependent state transitions.
+concept_kind: model_family
+identity_notes: This is the Yoon–Vaidyanathan auxiliary-memory construction called context-sensitive HMM
+  in the source. It includes stack and queue choices, with separate finite control states and memory contents.
+  It is distinct from phonetic context-dependent HMMs, Saul–Jordan hidden-state contextual emissions,
+  neural memory cells and language-model memory augmentation. The bare names context-sensitive HMM and
+  csHMM are ambiguous and are not asserted as aliases. The nested-pairing alignment/scoring algorithms
+  are restricted procedures for this family, not a definition of every memory configuration. No normalized
+  identity match was found across all442 pinned AIO labels and scoped synonyms and385 preceding native
+  IDs/names/aliases for the four researched candidates. Full-checkout fixed-string searches included ignored
+  and hidden files in both worktree and main, yielding78 and83 matched lines; all44 unique contents were
+  read. Hits concern prior source citations, pending leads, neighboring HME records and unrelated Python-license
+  authors, not existing records of the three selected identities. All76 semantic label/synonym hits and22
+  exact fully annotated AIO CLASS nodes with outgoing edges were read. Twenty-five contextual YAMLs were
+  byte-verified after prior full reading and eight freshly read, totaling22 generated and11 native neighbors.
+  Adaptive local experts substantially overlaps represented MDN/HME scope and receives no duplicate ID.
+  Bare context-sensitive HMM and csHMM are searched homonyms, not unconditional aliases. Absence is bounded
+  to the pin and inspected semantic neighborhood.
+limitations:
+- The effective state includes memory contents. The finite control-state label alone generally lacks the
+  Markov property; a Viterbi table retaining only time and that label can discard necessary history.
+- 'Equation(8) compresses the two context-specific transition tables into one notation. Its entries must
+  still be restricted to the active destination set: summing the empty and nonempty rows over their union
+  gives mass two rather than a transition distribution.'
+- Equal total counts of paired states do not prevent a prefix memory underflow. Model topology, active
+  transition masks, initial memories and termination conventions must enforce valid paths. Local normalization
+  alone does not ensure almost-sure termination; a distribution over finite complete strings requires
+  that condition or explicit conditioning.
+- The polynomial interval algorithms in SectionsIII–V assume nested, noncrossing pairings and the specified
+  emission dependence. The broader stack/queue family can have crossings, for which those algorithms cannot
+  be directly reused. Their general implementation correctness was not independently proved or reproduced.
+- Ordinary finite HMMs can have long-lag statistical correlations. The source’s broad contrast is qualified
+  to constraints requiring unbounded memory, such as exact arbitrary-length copying, rather than every
+  distant correlation. The grammar expressivity discussion is not adopted as an equivalence theorem for
+  unrestricted memory models.
+- The synthetic RNA-symbol examples do not establish biological prediction performance, global parameter-estimation
+  convergence or superiority to all grammar models. No author code, training or benchmark was executed.
+id: AIMech:HiddenMarkovModelWithAuxiliaryMemory
+aliases:
+- Auxiliary-memory context-sensitive hidden Markov model
+definition_evidence:
+- source_id: method-source
+  locator: SectionII, Equations(1)–(10) and Figures3–4, printed pp.4170–4172 / PDF pp.2–4; SectionIII-A,
+    p.4173 / PDF p.5; SectionVII-B, Figures16–17, pp.4181–4182 / PDF pp.13–14; transition re-estimation
+    Equations(26)–(27), p.4179 / PDF p.11
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: The basic model has silent start/end states, ordinary single-emission states S, and paired
+    states P_n and C_n sharing a dedicated memory Z_n. On visiting P_n, emit a symbol from its state distribution
+    and store that symbol in Z_n. On visiting C_n, retrieve and remove a symbol from Z_n, then emit according
+    to a distribution conditioned on the retrieved symbol. After this emission, choose the C_n transition
+    distribution according to whether its memory is empty. The source uses disjoint empty-memory and nonempty-memory
+    destination sets, each with its own normalized row; only the row valid for the current memory is active.
+    A completed valid path starts with empty memories, avoids reads from empty memory and balances each
+    pair’s writes and reads. Ordinary and storage-state transitions do not depend on context in the basic
+    formulation. A last-in-first-out stack with deterministic matching emissions can reproduce a prefix
+    in reverse order; a first-in-first-out queue can reproduce it in the same order. Hidden control paths
+    and their induced memory histories determine the probability of a symbol string, which requires summing
+    over valid paths.
+  evidence:
+  - source_id: method-source
+    locator: SectionII, Equations(1)–(10) and Figures3–4, printed pp.4170–4172 / PDF pp.2–4; SectionIII-A,
+      p.4173 / PDF p.5; SectionVII-B, Figures16–17, pp.4181–4182 / PDF pp.13–14; transition re-estimation
+      Equations(26)–(27), p.4179 / PDF p.11
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Context-Sensitive Hidden Markov Models for Modeling Long-Range Dependencies in Symbol Sequences
+  authors:
+  - Byung-Jun Yoon
+  - P. P. Vaidyanathan
+  source_type: primary_paper
+  url: https://authors.library.caltech.edu/records/bn8rd-t4g70/files/YOOieeetsp06.pdf?download=1
+  version: IEEE Transactions on Signal Processing54(11):4169–4184, November2006, journal PDF from CaltechAUTHORS;
+    manuscript revised January7,2006. All16pages visually read; printed page=PDF page+4168. This is distinct
+    from the separately read16-page author manuscript revised November4,2005.
+  persistent_id: doi:10.1109/TSP.2006.880252
+  access_level: full_text
+  accessed_at: '2026-10-11T20:31:39Z'
+  sha256: 48113cdb519b798f09f392a4a7ca3e0b4d9c54f49d36fc15aae6842e777e4637
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The model extends Markov hidden-state sequencing with memory-dependent emissions and transitions.
+    A Markov description requires the effective state to include auxiliary memory; the finite control
+    state or observed string alone is not the pinned first-order process.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The source models structured latent variables and conditional dependencies to infer hidden
+    symbol pairings. The AIO target is a graphical-model task, so this is a model-to-modeling-context
+    association rather than a task superclass. No neural or large-language-model identity is inferred
+    from the word memory.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:33:55Z'
+  updated_at: '2026-10-11T20:33:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
