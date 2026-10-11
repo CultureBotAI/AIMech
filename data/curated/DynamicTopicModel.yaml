@@ -1,0 +1,109 @@
+name: Dynamic topic model
+definition: A time-sliced topic-model family that links the softmax natural parameters of corresponding
+  topic-word distributions across slices through Gaussian state transitions, allowing a fixed set of topics
+  to change over time.
+concept_kind: model_family
+identity_notes: 'Scoped to Blei and Lafferty''s ICML 2006 dynamic topic models. Topic-word distributions
+  evolve, unlike a static topic model with only changing document proportions. The full formulation also
+  evolves the logistic-normal mean for document-topic proportions; the inference exposition explicitly
+  simplifies that part to a fixed Dirichlet prior. Variational Kalman and wavelet approximations are fitting
+  choices, not synonyms for the model family or neural state-space layers. No normalized identity match
+  was found across all 442 pinned AIO labels and scoped synonyms and 423 preceding native IDs, names and
+  aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main.
+  Ten matched lines in each checkout reduce to nine unique line contents: prior frontier references, copied
+  discovery context and cached web-result mentions. Every matching concept excerpt was inspected; these
+  are not maintained or imported identities. All 200 semantic label/synonym hits were read. Eighteen exact
+  annotated AIO CLASS nodes and outgoing edges were inspected, including 14 verified unchanged from prior
+  reading and four newly read. Thirty contextual YAMLs comprise those 18 AIO records and 12 native neighbors:
+  six fully read here, 23 byte-verified after prior reading and the updated APM verified against its fully
+  reviewed round100 bytes. Absence is bounded to the pinned snapshot, maintained corpus and inspected
+  semantic neighborhood.'
+limitations:
+- The basic random-walk model fixes topic count and vocabulary and does not create or remove topics. Richer
+  drift, heteroscedasticity and topic birth/death processes are proposed extensions. Time-slice choice
+  and Gaussian innovation assumptions matter; temporal association is not a causal account of scientific
+  change.
+- Softmax logits are invariant to a common shift. Fixed topic indexing links trajectories, while label
+  permutation and model fitting can still limit semantic identification. The presented isotropic document-logit
+  law does not itself fit the full static CTM covariance or evolving correlations.
+- Appendix A's displayed expected transition quadratic omits adjacent-time posterior covariance terms,
+  and its entropy display does not give the joint correlated Gaussian entropy. A correct Gaussian-chain
+  calculation uses cross-time covariance and the joint covariance determinant. With fixed surrogate variances
+  some omitted terms are constant for mean optimization, but the printed expressions are not certified
+  as exact complete objectives when variances change.
+- The reported next-year Science comparison uses a variational likelihood bound, as stated in Figure 5,
+  rather than computed exact predictive likelihood. The illustrative wavelet approximation and historical
+  results are not a universal accuracy or convergence guarantee. No author implementation or benchmark
+  was executed.
+aliases:
+- DTM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF pp.2-3, Equations (1)-(2), Figure 1 and generative process
+  relation: supports
+claims:
+- claim_id: temporal-law
+  kind: mechanism
+  statement: For fixed topic count K and vocabulary, the basic model evolves each topic logit vector as
+    beta_tk|beta_(t-1)k~N(beta_(t-1)k,sigma² I) and maps it through softmax to word probabilities. In
+    the full generative description, alpha_t|alpha_(t-1)~N(alpha_(t-1),delta² I) evolves the document-topic
+    logit mean. Each document draws eta~N(alpha_t,a² I), then topic assignments from softmax(eta) and
+    words from the selected time-specific topic. Initial-state distributions and variance settings must
+    be specified. Documents are grouped into ordered slices; conditional within-document word exchangeability
+    remains. The inference example beginning on p.3 retains evolving topics but fixes a Dirichlet document-proportion
+    prior, a stated simplification rather than an equivalent formula for the entire full model.
+  evidence:
+  - source_id: method-source
+    locator: Section 2 and opening of Section 3, PDF pp.2-3
+    relation: supports
+- claim_id: structured-approximation
+  kind: mechanism
+  statement: The published approximation uses Gaussian topic trajectories conditioned on optimized pseudo-observations,
+    retaining time dependence within each topic chain while separating it from document-level latent factors.
+    Gaussian forward filtering and backward smoothing compute the surrogate trajectory moments; a wavelet-regression
+    approach is presented as an alternative. Expected topic-word counts connect document updates to trajectory
+    fitting. Exact Kalman recursions for this Gaussian surrogate do not yield the exact nonconjugate multinomial
+    posterior. The auxiliary expected-log-normalizer bound and numerical optimization introduce approximation;
+    smoothing over a fitted interval can use later observations and must be distinguished from forecasting
+    beyond that interval.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, PDF pp.3-5, Equations (3)-(4); Appendix A, pp.7-8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Dynamic Topic Models
+  authors:
+  - David M. Blei
+  - John D. Lafferty
+  source_type: primary_paper
+  url: https://www.cs.columbia.edu/~blei/papers/BleiLafferty2006a.pdf
+  version: ICML 2006 author-hosted eight-page manuscript, including Appendix A. All pages visually read;
+    locators use PDF page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:35:20Z'
+  sha256: 0af8ce7a05e1f24964473fd99e90a5ed6f6631e5ac091e8acb73779feacbc4d4
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The local identity is a specified probability-model family; the pinned Model class is broader.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The local generative model supports topic modeling. This pinned AIO target is task-scoped,
+    so related match preserves the model-versus-task distinction.
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: The model analyzes temporally organized document collections. The broader AIO time-series
+    task differs in abstraction from this particular probability-model family.
+id: AIMech:DynamicTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T23:45:21Z'
+  updated_at: '2026-10-11T23:45:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
