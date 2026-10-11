@@ -1,0 +1,130 @@
+name: Hierarchical softmax
+definition: A neural categorical-output component that assigns a probability to each vocabulary leaf by
+  multiplying normalized branch probabilities along its path through a word tree.
+concept_kind: layer
+identity_notes: 'This record covers the hierarchical probability output component, including the binary
+  sigmoid form described as hierarchical softmax by Mikolov and colleagues. Morin and Bengio’s parameter-sharing
+  language model and Mnih and Hinton’s hierarchical log-bilinear model are complete architectures using
+  this factorization, not aliases for the component. A Huffman tree, a WordNet-derived tree and a learned
+  tree are construction choices with different scope. All 442 pinned AIO labels/scoped synonyms and 352
+  preceding native IDs/names/aliases were compared, with no normalized identity match. Both full-checkout
+  searches included ignored and hidden files; worktree returned 15 lines and main 19. All 16 unique matched
+  contents were read: DocNADE contrasts, frontier and review references, plus four ignored-environment
+  Sage/Pygments entries unrelated to AI SAGE. Twenty-one exact AIO nodes and four complete native neighbors
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The tree parameterization defines a normalized distribution of its own. Calling it an approximation
+  to full softmax does not assert equality to probabilities from a particular flat-softmax parameter set
+  or provide a numerical approximation-error bound.
+- 'Logarithmic target cost requires suitable depth or weighted-average code length. A full binary tree
+  alone can have linear worst-case depth. Even a Huffman code’s mean length need not be at most log2(vocabulary
+  size): three equally frequent words have optimal mean length 5/3, exceeding log2(3). Thus the unqualified
+  average-length sentence in Mikolov Section 2.1 is not adopted as a universal bound.'
+- Computing every vocabulary probability requires at least linear output work. The short-path calculation
+  does not by itself give a logarithmic-time exact top-k or most-probable-word search.
+- Shared internal nodes, tree construction and input representation constrain the fitted model. Multiple
+  codes per word add paths and require their sum, rather than selecting an arbitrary single leaf or averaging
+  leaf probabilities.
+- This component is not a whole language model, a hard decision tree, negative sampling, or Gumbel-Softmax
+  sampling. No empirical speedup, embedding-quality ranking or author-code behavior is certified.
+id: AIMech:HierarchicalSoftmax
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, Equation (3) and internal-node/Huffman discussion, PDF/printed p.3; skip-gram
+    objective context, Section 2, p.2
+  relation: supports
+- source_id: original-source
+  locator: Sections 3–4, path factorization, shared node predictor and full-vocabulary cost distinction,
+    PDF pp.3–4; hierarchy choices, Section 5, pp.4–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In a binary tree with one leaf per word, each internal node computes a branch probability
+    from the input representation, commonly sigmoid of a node-vector dot product with optional bias. The
+    opposite branch has its complement. Multiply the appropriate branch probabilities on the target word’s
+    path to obtain its exact probability under this tree-parameterized distribution; probabilities over
+    all leaves sum to one. The negative log probability is a sum of binary losses, so only nodes on the
+    observed path contribute output-parameter gradients. For a sigmoid node logit and branch indicator
+    y, that loss derivative is sigmoid(logit)-y. Computing one target probability and its gradient costs
+    work proportional to its path length, in addition to representation computation. The source’s skip-gram
+    variant uses internal-node output vectors and frequency-based Huffman codes. Multiple leaves assigned
+    to one word require summing their disjoint path probabilities, as in the HLBL extension.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equation (3) and internal-node/Huffman discussion, PDF/printed p.3; skip-gram
+      objective context, Section 2, p.2
+    relation: supports
+  - source_id: original-source
+    locator: Sections 3–4, path factorization, shared node predictor and full-vocabulary cost distinction,
+      PDF pp.3–4; hierarchy choices, Section 5, pp.4–5
+    relation: supports
+  - source_id: hlbl-source
+    locator: Section 4, Equations (3)–(5), PDF/printed pp.3–4; tree construction alternatives, Section
+      5, pp.4–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Distributed Representations of Words and Phrases and their Compositionality
+  authors:
+  - Tomas Mikolov
+  - Ilya Sutskever
+  - Kai Chen
+  - Greg Corrado
+  - Jeffrey Dean
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf
+  version: NIPS 2013 proceedings PDF, nine pages, printed and PDF pages agree. The legacy papers.nips.cc
+    URL redirects to https://proceedings.neurips.cc/paper_files/paper/2013/file/9aa42b31882ec039965f3c4923ce901b-Paper.pdf.
+    This is the proceedings file, not an unspecified arXiv revision.
+  persistent_id: https://proceedings.neurips.cc/paper/2013/hash/9aa42b31882ec039965f3c4923ce901b-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:57:59Z'
+  sha256: 9ee42f08c5e6325861ea22f3ef1174345a75fb696d1b27e659301aa88c996744
+- source_id: original-source
+  title: Hierarchical Probabilistic Neural Network Language Model
+  authors:
+  - Frederic Morin
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/r5/morin05a/morin05a.pdf
+  version: AISTATS 2005 / PMLR R5 reissue file, downloaded from the proceedings site. Metadata lists pp.246–252
+    and a 2021 reissue date, but this PDF has six unnumbered pages and unresolved citation/cross-reference
+    question marks. Use PDF-page locators for these exact bytes.
+  persistent_id: pmlr-vR5-morin05a
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:23Z'
+  sha256: 43409245b14ceee9d6d1807ffa27713b8babb507cf76d4804af7392ed76a497e
+- source_id: hlbl-source
+  title: A Scalable Hierarchical Distributed Language Model
+  authors:
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2008/file/1e056d2b0ebd5c878c550da6ac5d3724-Paper.pdf
+  version: NIPS 2008 proceedings PDF, eight pages; printed and PDF pages agree. Author order was verified
+    on the PDF title page.
+  persistent_id: https://proceedings.neurips.cc/paper/2008/hash/1e056d2b0ebd5c878c550da6ac5d3724-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:24Z'
+  sha256: 1532535af39da33ea4eea75dff1eec2e80d92ba5ec4eebe559dea44378707ef2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:OutputLayer
+  relation: broad_match
+  rationale: The primary hierarchical-softmax description explicitly represents the neural output through
+    a word tree. OutputLayer is broader than this particular probability-producing component. The SoftmaxLayer
+    target specifically applies the flat softmax function to its inputs and is not asserted equivalent
+    or broader merely because the names overlap. HierarchicalLanguageModel is a complete model of multilevel
+    representations, while this component does not specify its surrounding language architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:02:59Z'
+  updated_at: '2026-10-11T18:02:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

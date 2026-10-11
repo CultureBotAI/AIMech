@@ -1,0 +1,88 @@
+name: Replicated Softmax
+definition: An undirected document model with binary hidden units and a length-dependent set of categorical
+  word units that share visible-to-hidden weights, with hidden biases scaled by document length.
+concept_kind: architecture
+identity_notes: 'This is the original Replicated Softmax model of Salakhutdinov and Hinton. It specializes
+  a restricted Boltzmann machine to word-count sufficient statistics across documents of different lengths.
+  It is distinct from repeatedly applying the ordinary softmax function, from the expected-count Constrained
+  Poisson update discussed in the paper, and from the directed deterministic-feature Document NADE architecture.
+  All 442 pinned AIO labels/scoped synonyms and 352 preceding native IDs/names/aliases were compared,
+  with no normalized identity match. Both full-checkout searches included ignored and hidden files; worktree
+  returned 15 lines and main 19. All 16 unique matched contents were read: DocNADE contrasts, frontier and
+  review references, plus four ignored-environment Sage/Pygments entries unrelated to AI SAGE. Twenty-one
+  exact AIO nodes and four complete native neighbors were inspected. Absence is bounded to this snapshot
+  and semantic neighborhood.'
+limitations:
+- Tractable hidden posteriors do not make the partition function or equilibrium model expectation tractable.
+  Finite-step contrastive-divergence updates are not exact maximum-likelihood gradients; deterministic
+  expected counts are not the same as multinomial Gibbs sampling.
+- The model is conditional on document length and supplies no document-length distribution. Its hidden
+  feature vector has independent conditional Bernoulli coordinates, not topic proportions constrained
+  to sum to one.
+- For ordinary counting measure on K^D ordered word assignments and F binary hidden units, the zero-weight,
+  zero-bias partition is K^D times 2^F. The AIS discussion’s printed Z_0=2^F needs a corresponding normalized
+  base-measure convention or visible-state factor; it is not adopted unchanged as that counting-measure
+  partition. This is a mathematical qualification of the displayed derivation, not a claim about author-code
+  behavior.
+- No convergence, topic quality or benchmark advantage is asserted. The later experimental pages and author
+  software were not audited.
+id: AIMech:ReplicatedSoftmax
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations (1)–(5), PDF/printed p.2; Section 3 learning and sampling distinctions,
+    p.3; Section 3.1 AIS, pp.4–5, Equations (7)–(11), Algorithm 1 and bias-omission footnote
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a document with D word positions, vocabulary counts n_k and binary hidden states h_j,
+    use energy E(V,h)=-sum_jk W_jk h_j n_k-sum_k b_k n_k-D sum_j a_j h_j. The joint probability is proportional
+    to exp(-E) with a partition function for that length. Hidden units are conditionally independent given
+    words, with P(h_j=1|V)=sigmoid(D a_j+sum_k W_jk n_k). Given h, positions independently draw words
+    from softmax(b_k+sum_j W_jk h_j); equivalently, sample D word counts from the corresponding multinomial.
+    Parameter sharing makes the ordered-word probability permutation invariant. A count-vector probability
+    includes the number of distinct ordered realizations. Learning contrasts data and model sufficient
+    statistics; the paper approximates the model term with finite alternating Gibbs steps initialized
+    at data.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations (1)–(5), PDF/printed p.2; Section 3 learning and sampling distinctions,
+      p.3; Section 3.1 AIS, pp.4–5, Equations (7)–(11), Algorithm 1 and bias-omission footnote
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Replicated Softmax: an Undirected Topic Model'
+  authors:
+  - Ruslan Salakhutdinov
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2009/file/31839b036f63806cba3f47b93af8ccb5-Paper.pdf
+  version: NIPS 2009 proceedings PDF, eight pages; printed and PDF pages agree. The inspected PDF author
+    order is Salakhutdinov then Hinton; the landing page reverses that order and has a different abstract.
+  persistent_id: https://proceedings.neurips.cc/paper/2009/hash/31839b036f63806cba3f47b93af8ccb5-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:17Z'
+  sha256: b1dfdf333f8d15f81ba1fa569013fc4459f7a5fb5c7843d4cb815d6fe1e4d7b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RestrictedBoltzmannMachine
+  relation: broad_match
+  rationale: The inspected local model is explicitly an RBM with categorical visible units, shared word
+    parameters and length-scaled hidden biases. The pinned AIO RBM class is broader and does not specify
+    those document constraints.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The primary source develops an undirected topic/document model. The AIO target belongs to
+    a task hierarchy and includes temporal theme analysis; a related match preserves that context without
+    imposing a task-to-architecture subclass or temporal mechanism.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:02:59Z'
+  updated_at: '2026-10-11T18:02:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
