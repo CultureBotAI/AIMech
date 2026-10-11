@@ -1,0 +1,113 @@
+name: Temporal factored restricted Boltzmann machine language model
+definition: A sequential extension of the factored RBM language model that directs information from the
+  preceding binary hidden state into the current hidden bias, propagating context beyond the explicit
+  word window.
+concept_kind: architecture
+identity_notes: 'This is the temporal FRBM in Mnih and Hinton’s 2007 language-model paper. It extends
+  the factored categorical-word construction with shared hidden-to-hidden weights A. It is distinct from
+  the static FRBM, the broader temporal RBM with additional visible-history connections, and deterministic
+  recurrent language models. Its approximate filtering algorithm is not the exact latent-state model.
+  All 442 pinned AIO labels/scoped synonyms and 358 preceding native IDs/names/aliases were compared,
+  with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files
+  in both worktree and main, returning 33 lines each. All 24 unique matched contents were read: LBL source
+  references and model contrasts, discovery leads and saved review context. These do not constitute existing
+  candidate records. All 85 semantic label/synonym hits and 22 exact AIO nodes were inspected, alongside
+  corresponding generated records and four complete native neighbors. Previously read contextual files
+  were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.'
+limitations:
+- Replacing an uncertain earlier hidden state by its mean inside a sigmoid or a context-dependent normalized
+  word distribution is generally not exact marginalization. Observing a new word can also change the posterior
+  over previous hidden states.
+- The cited temporal-RBM source explicitly ignores future evidence for online learning and notes that
+  changes in its parameter-dependent approximate posterior can decrease the variational bound. Approximate
+  filtering plus finite CD therefore does not guarantee monotonic likelihood or bound improvement.
+- The recurrent path permits dependence beyond the explicit context window, but does not guarantee faithful
+  long-range memory, tractable exact filtering or a particular effective context length.
+- This construction has directed temporal links and undirected current word–hidden interactions. It is
+  not equivalent to a single unconditioned RBM, a pure directed Bayesian network parameterization, or
+  a deep belief network merely because latent states are present.
+- The static FRBM marginal’s printed bias-sign conflict remains qualified when its conditional prediction
+  is reused. No implementation audit, empirical superiority or exact sequence-likelihood result is asserted.
+id: AIMech:TemporalFactoredRestrictedBoltzmannMachineLanguageModel
+aliases:
+- Temporal FRBM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3–3.2, Figure 1a and Equations (10)–(12), printed pp.643–645 / PDF pp.3–5; static
+    conditional prediction, Equations (2)–(5) and (9), pp.642–644 / PDF pp.2–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Apply shared FRBM parameters to successive overlapping word windows. Connect hidden state
+    h_tau to h_(tau+1) so that the current hidden bias becomes b_h+A h_tau; conditional on that earlier
+    state, the current word and hidden variables retain an FRBM joint with its own normalizer. Exact prediction
+    must account for uncertainty in previous hidden states. The proposed online approximation instead
+    substitutes their inferred probabilities p_tau, computes p_(tau+1)=sigmoid(b_h+A p_tau+sum_i W_i^T
+    r_word_i) after observing the current window, and predicts the next word using the FRBM word distribution
+    with the correspondingly shifted bias. Learning uses these approximate filtered probabilities, applies
+    contrastive-divergence updates to individual model instances, and combines them. The temporal-weight
+    update contrasts current hidden probabilities and their reconstruction, multiplied by the preceding
+    filtered vector; it does not propagate an exact likelihood gradient through the full latent history.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3–3.2, Figure 1a and Equations (10)–(12), printed pp.643–645 / PDF pp.3–5; static
+      conditional prediction, Equations (2)–(5) and (9), pp.642–644 / PDF pp.2–4
+    relation: supports
+  - source_id: temporal-background
+    locator: Sections 2.2–2.4, Equations (10)–(18), dynamic biases, conditional normalizers, approximate
+      filtering and learning qualifications, PDF pp.3–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Three New Graphical Models for Statistical Language Modelling
+  authors:
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.utoronto.ca/~hinton/absps/threenew.pdf
+  version: ICML 2007 author-hosted eight-page paper, printed pp.641–648. Printed page equals PDF page
+    plus 640.
+  persistent_id: 10.1145/1273496.1273577
+  access_level: full_text
+  accessed_at: '2026-10-11T18:06:34Z'
+  sha256: d0709a4032488109a2398ba64438e8363bb73e7c7791cbbcfcfa2075d326ba0c
+- source_id: temporal-background
+  title: Learning Multilevel Distributed Representations for High-Dimensional Sequences
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v2/sutskever07a/sutskever07a.pdf
+  version: AISTATS 2007 / PMLR 2:548–555 proceedings PDF, eight pages. No printed page numbers appear
+    on inspected pages; use PDF-page locators.
+  persistent_id: pmlr-v2-sutskever07a
+  access_level: full_text
+  accessed_at: '2026-10-11T18:17:21Z'
+  sha256: 8b8b19704c753dc7e52bcefb32eb218c87d84f772c390c3810445a644749897b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:AutoregressiveLanguageModel
+  relation: broad_match
+  rationale: The primary construction predicts the next word from preceding words, defining sequential
+    word conditionals. The pinned AIO target is broader than this temporally linked factored latent-word
+    architecture. This mapping uses sequential-probability scope, not an empirical generation-quality
+    claim. FactoredLanguageModel denotes explicit linguistic factors, not factorized neural weight matrices;
+    ImplicitLanguageModel and EnergyBasedLLM describe non-autoregressive sequence energies rather than
+    these next-word conditionals.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The architecture uses an undirected RBM interaction between the current categorical word
+    and binary hidden state, with context affecting hidden inputs. A related mapping records that explicit
+    component/conditional construction without asserting that the entire autoregressive or temporally
+    linked sequence model is one unconditioned RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:27:33Z'
+  updated_at: '2026-10-11T18:27:33Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
