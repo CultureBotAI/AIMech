@@ -94,6 +94,44 @@ def test_cross_record_alias_collision_and_filename(corpus, record, capsys):
     assert "collides" in output and "filename does not match" in output
 
 
+def test_greek_pi_alias_is_distinct_from_aio_model(corpus, record, capsys):
+    record.update(name="Pi-model", aliases=["Π-model"])
+    path = corpus / "data/curated/ExampleMethod.yaml"
+    path.write_text(yaml.safe_dump(record))
+    assert validate_curated(corpus) == 0
+    record["aliases"].append("Model")
+    path.write_text(yaml.safe_dump(record))
+    assert validate_curated(corpus) == 1
+    assert "collides with AIO:Model" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("name,alias", [("Π-model", "π MODEL"),
+                                       ("Café method", "Cafe\u0301 METHOD")])
+def test_unicode_equivalent_aliases_collide_across_records(corpus, record, capsys,
+                                                         name, alias):
+    record["name"] = name
+    (corpus / "data/curated/ExampleMethod.yaml").write_text(yaml.safe_dump(record))
+    duplicate = deepcopy(record)
+    duplicate.update(id="AIMech:Duplicate", name="Different method", aliases=[alias])
+    (corpus / "data/curated/Duplicate.yaml").write_text(yaml.safe_dump(duplicate))
+    assert validate_curated(corpus) == 1
+    assert "collides" in capsys.readouterr().out
+
+
+def test_uncomposed_combining_mark_is_preserved(corpus, record):
+    record["name"] = "q method"
+    (corpus / "data/curated/ExampleMethod.yaml").write_text(yaml.safe_dump(record))
+    distinct = deepcopy(record)
+    distinct.update(id="AIMech:AccentedMethod", name="q\u0301 method")
+    (corpus / "data/curated/AccentedMethod.yaml").write_text(yaml.safe_dump(distinct))
+    assert validate_curated(corpus) == 0
+
+
+def test_non_ascii_letters_are_valid_identity_content(record):
+    record["name"] = "Π"
+    assert validate_curated_record(record) == []
+
+
 def test_plus_variants_coexist_but_equivalent_aliases_collide(corpus, record, capsys):
     for suffix, identifier in [("", "ExampleMethod"), ("+", "ExamplePlus"),
                                ("++", "ExamplePlusPlus")]:
@@ -110,7 +148,7 @@ def test_plus_variants_coexist_but_equivalent_aliases_collide(corpus, record, ca
     assert "AIMech:ExamplePlusPlus" in output and "AIMech:Duplicate" in output
 
 
-@pytest.mark.parametrize("name", ["+", "++", " - + + "])
+@pytest.mark.parametrize("name", ["+", "++", " - + + ", "\u0301", "∑∫"])
 def test_plus_symbols_alone_are_not_identities(record, name):
     record["name"] = name
     assert any("letters or digits" in error for error in validate_curated_record(record))

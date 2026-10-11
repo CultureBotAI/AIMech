@@ -1,0 +1,101 @@
+name: Temporal ensembling
+definition: A semi-supervised classifier-training procedure that regularizes a current stochastic prediction
+  toward a bias-corrected exponential average of earlier predictions for the same indexed training example,
+  alongside labeled cross-entropy.
+concept_kind: algorithm
+identity_notes: 'This is the prediction-ensemble algorithm in Laine and Aila, distinguished from the same
+  paper’s Pi-model. Its dataset-indexed stored targets and epoch-based refresh differ from Mean Teacher’s
+  per-step weight averaging. The name does not imply an ensemble of separately trained classifiers at
+  inference. This record describes a training algorithm, not a trained checkpoint or fixed network architecture.
+  The inspected AIO SemiSupervisedLLM class specifically combines LLM pretraining with supervised fine-tuning;
+  its related synonym self-training is not an exact identity for this method. AIO SelfsupervisedLearning
+  excludes human-annotated labels, Distillation describes large-to-small compression, and RegularizationLayer
+  is a layer: none supplies an equivalent class for this algorithm. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 230 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main checkout; matches
+  concern prior discovery leads and the Pi-model normalization regression. Ten exact AIO CLASS nodes,
+  their scoped synonyms and outgoing edges, plus five neighboring native records were inspected. The corrected
+  Unicode-aware normalizer preserves Π; the previous Pi-model/Model collision was a lexical defect, not
+  semantic identity (review issue #58).'
+limitations:
+- Per-example prediction memory scales with the number of indexed examples and classes; targets depend
+  on preserving example identity across visits.
+- The stated bias correction assumes zero initialization and a fixed alpha; arbitrary momentum schedules
+  or missing-example update schedules need their own accounting.
+- Old predictions can remain incorrect or become stale, and input perturbations must preserve the intended
+  class; no unconditional improvement is implied by averaging.
+- The record covers the original classifier procedure, not an online-streaming extension, a claim of doubled
+  speed, or reported benchmark accuracy.
+id: AIMech:TemporalEnsembling
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.2, Figure 1 and Algorithm 2, PDF/printed pp. 2–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain zero-initialized N-by-C arrays Z and target z_tilde for N indexed examples and C
+    classes. During epoch t, obtain one stochastic prediction z_i for each example when its minibatch
+    is processed. Minimize labeled cross-entropy divided by the full minibatch size plus w(t)/(C|B|) sum
+    over all i in B of ||z_i−z_tilde_i||², holding the stored targets constant during differentiation.
+    After predictions have been used for that epoch, update each accumulated prediction Z_i←alpha Z_i+(1−alpha)z_i
+    and set the next target to Z_i/(1−alpha^t), with fixed 0≤alpha<1 and t starting at 1. Set the first
+    epoch’s consistency weight to zero and ramp it up. Algorithm 2 displays the target update after the
+    epoch; its caption permits per-example updates within a minibatch after the old target has been used.
+    Predictions gathered within an epoch can come from different current parameter states. The exponential
+    average is over example predictions, not model parameters.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, Figure 1 and Algorithm 2, PDF/printed pp. 2–4
+    relation: supports
+  - source_id: additional-1
+    locator: 'Section 2, PDF/printed pp. 2–3: prediction-averaging versus weight-averaging targets and
+      constant targets in gradient updates'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Temporal Ensembling for Semi-Supervised Learning
+  authors:
+  - Samuli Laine
+  - Timo Aila
+  source_type: primary_paper
+  url: https://users.aalto.fi/~ailat1/publications/laine2017iclr_paper.pdf
+  version: ICLR 2017 conference paper, author-hosted PDF; 13 pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:00:57Z'
+  sha256: d19ea2ecc468a4dcb4d6e540ec981d1031cb4f0c38a9de69664a91b344bb6990
+- source_id: additional-1
+  title: 'Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised
+    deep learning results'
+  authors:
+  - Antti Tarvainen
+  - Harri Valpola
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2017/file/68053af2923e00204c3ca7c6a3150cf7-Paper.pdf
+  version: NIPS 2017 proceedings paper; 10 pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:00:55Z'
+  sha256: 86c2ad510ea207cbaac324ebf441c034ddd9612140f5a191406c6826a337e8a8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: This procedure learns class predictions from labeled and unlabeled examples. The pinned AIO
+    target describes a classification task under SupervisedLearning, not this semi-supervised training
+    algorithm; this is an algorithm-to-task association, not equivalence or an is-a assertion.
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The algorithm specifies how to train a predictor from data. The AIO target is the general
+    learning task; this association does not identify an algorithm with that task or assert an ontology
+    subclass edge.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:12:04Z'
+  updated_at: '2026-10-11T10:12:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

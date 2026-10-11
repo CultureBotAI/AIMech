@@ -1,7 +1,7 @@
 """Validate maintained concepts separately from the deterministic AIO projection."""
 
 import os
-import re
+import unicodedata
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,8 +15,12 @@ from aimech.validation import read_record, schema_validator
 
 
 def normalized_name(value):
+    # Keep Unicode letters, digits and combining marks; Π-model is not Model.
     # Plus signs distinguish named methods such as PointNet and PointNet++.
-    return re.sub(r"[^a-z0-9+]", "", value.casefold())
+    value = unicodedata.normalize("NFC", value.casefold())
+    return "".join(char for char in value
+                   if char.isalnum() or unicodedata.category(char).startswith("M")
+                   or char == "+")
 
 
 def validate_curated_record(record):
@@ -35,7 +39,7 @@ def validate_curated_record(record):
     names = [record["name"], *record.get("aliases", [])]
     if len({normalized_name(name) for name in names}) != len(names):
         errors.append("name/aliases: duplicate normalized identity")
-    if any(not re.search(r"[a-z0-9]", name.casefold()) for name in names):
+    if any(not any(char.isalnum() for char in name) for name in names):
         errors.append("name/aliases: identity must contain letters or digits")
     mappings = [m["target"] for m in record.get("aio_mappings", [])]
     no_match = record.get("aio_no_match")
