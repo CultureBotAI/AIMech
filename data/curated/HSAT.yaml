@@ -1,0 +1,113 @@
+name: HSAT
+definition: A GSAT variant that breaks ties among best-scoring variable flips by choosing the variable
+  flipped least recently in the current attempt, using a fixed arbitrary order for ties among never-flipped
+  variables.
+concept_kind: algorithm
+identity_notes: 'HSAT changes the choice among the global GSAT best-score candidates; it does not choose
+  the globally oldest variable regardless of score. The history is local to the current attempt, unlike
+  clause-weight or near-solution reuse across attempts. It does not impose a tabu exclusion or prohibit
+  an immediate repeat when that variable is the only best candidate. IHSAT changes the candidate set using
+  the indifferent ISAT rule and is a distinct variant. The deterministic tie rule does not make the complete
+  HSAT procedure deterministic because its GSAT initialization remains randomized. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 322 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  52 and 53 lines respectively. All twenty unique hit contents were inspected: neighboring variant references,
+  saved reviews and discovery leads, generic novelty wording and an ignored Sphinx comment, not existing
+  candidate records. The checkout differences are retained in the ledger. Nine exact AIO CLASS nodes with
+  scoped synonyms/comments and outgoing edges and five full native neighboring records were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The 1993 paper provides empirical comparisons, not a general convergence, polynomial-time or universal
+  performance guarantee. Its conjectures about the importance of randomness and greediness are experimental
+  claims on studied tasks.
+- The fixed ordering for never-flipped ties must be declared. Selecting the oldest variable outside the
+  best-score candidate set, using a tabu tenure, or retaining timestamps across attempts changes the stated
+  method.
+- The GenSAT pseudocode checks satisfaction before each flip. A final permitted flip needs an explicitly
+  declared post-flip check if an implementation is to return a model found exactly at that boundary; finite
+  unsuccessful search does not prove UNSAT.
+- Attempt budgets, formula representation and score-update costs remain implementation parameters. Historical
+  information is bookkeeping rather than necessarily a learning task; no author solver or benchmark was
+  executed.
+id: AIMech:HSAT
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: PDF1–2 / printed28–29, GenSAT/GSAT framework and candidate score; PDF4 / printed31, Memory
+    section defining HSAT and IHSAT
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Start an attempt with a random complete assignment as in GSAT and initialize the attempt-local
+    flip history. If the formula is not satisfied, evaluate each variable by the change in the total number
+    of satisfied clauses caused by flipping it. Form the set of variables with greatest score increase,
+    including zero or negative best gains when no improving flip exists. Among those candidates, choose
+    the one whose last flip in the current attempt was longest ago. Variables never flipped in that attempt
+    are treated as oldest; when several such variables are candidates, use an arbitrary fixed ordering.
+    Flip the chosen variable, update its timestamp and continue within the declared attempt budget. New
+    attempts reset the current-attempt history. The source retains the GenSAT outer attempts and GSAT
+    candidate-score rule while changing the picking rule.
+  evidence:
+  - source_id: method-source
+    locator: PDF1–2 / printed28–29, GenSAT/GSAT framework and candidate score; PDF4 / printed31, Memory
+      section defining HSAT and IHSAT
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Towards an Understanding of Hill-climbing Procedures for SAT
+  authors:
+  - Ian P. Gent
+  - Toby Walsh
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1993/AAAI93-005.pdf
+  version: Six-page AAAI-93 proceedings scan from the publisher, pp.28–33. This is distinct from the fourteen-page
+    draft hosted in the UBCSAT archive; printed and PDF page locators refer to this publisher version.
+  access_level: full_text
+  accessed_at: '2026-10-11T15:35:13Z'
+  sha256: 26ae9ce8d185fd098dceaac939e9eda345c7ae311165d7a8fc014e447a7aff58
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 322 preceding maintained IDs/names/aliases;
+    ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for search,
+    satisfiability, heuristics, reasoning, novelty, memory and recurrence; nine exact AIO CLASS nodes
+    and five complete native neighbors.
+  rationale: No suitable AIO target was established in this pinned snapshot and inspected semantic neighborhood.
+    Search memory, novelty naming and stochastic exploration do not justify forced neural-memory, language-model
+    or learning-task mappings.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: Selecting Boolean variable flips is not a language model performing reasoning in
+      language tasks.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The method searches a supplied formula rather than prescribing preprocessing or
+      training a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Remembering a move timestamp does not itself turn fixed-formula search into development
+      of a method that learns from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Age-based move selection and a noise parameter do not require a learned reward policy
+      or action-value function.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented state could include timestamps and step phase, but that representation
+      alone does not identify the named SAT heuristic with the pinned stochastic network/model class.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: Boolean assignments, clause scores and flip timestamps are not a network of artificial
+      neurons.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: External memory in a language model is different from retaining SAT variable ages;
+      the related external-memory synonym does not broaden the target to every algorithm using memory.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A neural layer of cells with internal state or weights is not a variable-age table.
+  - target: AIO:LongShortTermMemory
+    rejection_reason: A recurrent neural architecture processing sequences is not a SAT move-history heuristic.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:45:43Z'
+  updated_at: '2026-10-11T15:45:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
