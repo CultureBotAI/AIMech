@@ -1,0 +1,193 @@
+name: CTAugment
+definition: An online augmentation-policy adaptation procedure that samples image operations and adjusts
+  their parameter-selection weights using classifier feedback on labeled probe images during training.
+concept_kind: algorithm
+identity_notes: CTAugment is the augmentation-policy component introduced with ReMixMatch, not the complete
+  ReMixMatch classifier-training objective. It adapts parameter sampling from prediction feedback during
+  training rather than performing AutoAugment’s separate child-model search or using RandAugment’s fixed
+  uniform operation sampling with one shared magnitude. The record preserves a versioned implementation
+  profile and does not silently identify its numerical update with the printed paper formula. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 238 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 34 lines in each from prior discovery, saved reviews and related native records. Ten exact
+  AIO CLASS nodes, their scoped synonyms and outgoing edges, plus five neighboring native mechanisms were
+  inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+limitations:
+- The paper’s printed feedback score is 1−sum(abs(q−one_hot(y)))/(2L), with L classes, whereas the inspected
+  implementation omits the class-count divisor. The paper also describes direct weighted-bin sampling
+  and a raw threshold, unlike the implementation’s relative threshold and interval sampling.
+- 'Parameter counts also differ: the paper describes 17 bins except six rescale methods, while the inspected
+  code uses eight posterize entries. These source differences are documented, not declared author-issued
+  errata.'
+- Predictive feedback can reward easy transformations rather than prove preservation of useful class information.
+  A learned policy remains data- and model-dependent.
+- The ReMixMatch wrapper’s probe classifier uses evaluation EMA parameters, and worker queues can delay
+  application of updated rates; no immediate next-step or fixed operation-order guarantee is asserted.
+- The original paper’s exact revision is not stamped in the author-hosted PDF. Code provenance is an exact
+  commit; no byte equivalence with an OpenReview release, author-code execution or performance reproduction
+  is claimed.
+id: AIMech:CTAugment
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2.2, PDF pp. 5–6, and Appendix C, PDF p. 12; paper policy-learning description, compared
+    with the separately pinned implementation
+  relation: supports
+- source_id: policy-code
+  locator: 'libml/ctaugment.py lines24–85: policy weights, thresholding, sampling and updates; lines93–220:
+    registered operations and parameter counts'
+  relation: supports
+- source_id: training-code
+  locator: 'cta/lib/train.py lines26–76: defaults, probes and feedback; lines106–118: supervised feedback'
+  relation: supports
+- source_id: worker-code
+  locator: 'libml/augment.py lines190–228: separate probe/training views and queued augmentation'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain weights for parameter ranges of each operation, initially one, and sample a short
+    sequence of operation types uniformly. Generate exploratory augmentations of labeled images and compare
+    classifier probabilities with their known labels; use that feedback to update the chosen parameter
+    weights by an exponential moving average. Use the adapted weights to select training-image augmentation
+    parameters. This shared description is supported by the paper and released code, but their numerical
+    conventions differ. In the pinned ReMixMatch implementation, training defaults use depth two, decay
+    0.99 and threshold 0.80. Probe parameters are sampled uniformly from [0,1); operation choices can
+    repeat. The feedback score is 1−0.5*sum(abs(q−one_hot(y))), equal to the true-class probability for
+    a valid probability vector. For training sampling, add 1−decay to the stored weights, divide by their
+    maximum, then zero values below the threshold. Sample an adjacent parameter interval with weight equal
+    to the sum of its two retained endpoint weights, then uniformly within that interval. Update the bin
+    indexed by int(parameter*number_of_bins*0.999) with the observed feedback. In the ReMixMatch wrapper,
+    the probe classifier is the returned EMA evaluation classifier. The worker generates separate probe
+    and learned-policy training views for labeled examples, preserves the first weak view of unlabeled
+    multiview inputs, and augments the other views with learned policies. Most parameter arrays have 17
+    entries, posterize has 8 and the rescale method has 6. The training wrapper overrides the bare policy
+    class’s threshold default 0.85 with 0.80; these are implementation defaults, not universal constants.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2.2, PDF pp. 5–6, and Appendix C, PDF p. 12; paper policy-learning description,
+      compared with the separately pinned implementation
+    relation: supports
+  - source_id: policy-code
+    locator: 'libml/ctaugment.py lines24–85: policy weights, thresholding, sampling and updates; lines93–220:
+      registered operations and parameter counts'
+    relation: supports
+  - source_id: training-code
+    locator: 'cta/lib/train.py lines26–76: defaults, probes and feedback; lines106–118: supervised feedback'
+    relation: supports
+  - source_id: worker-code
+    locator: 'libml/augment.py lines190–228: separate probe/training views and queued augmentation'
+    relation: supports
+  - source_id: classifier-code
+    locator: 'remixmatch_no_cta.py lines125–171: EMA classifier returned as classify_op'
+    relation: supports
+  - source_id: entrypoint-code
+    locator: 'cta/cta_remixmatch.py lines20–28: the entrypoint inherits CTAClassifySemi and ReMixMatch'
+    relation: supports
+- claim_id: feedback-conventions
+  kind: limitation
+  statement: The printed class-divided feedback score and the released-code score are different. For a
+    valid L-class probability vector, the former is 1−(1−q_y)/L while the latter is q_y. Thus the paper
+    expression is at least 1−1/L; interpreting its 0.8 threshold as an absolute raw-weight cutoff has
+    different behavior from the code’s relative threshold. These are algebraic consequences of the cited
+    formulas, not an assertion of an author-issued correction.
+  evidence:
+  - source_id: method-source
+    locator: 'Section3.2.2, PDF p. 6: printed score and update'
+    relation: supports
+  - source_id: training-code
+    locator: 'cta/lib/train.py lines70–76: implemented score'
+    relation: supports
+  - source_id: policy-code
+    locator: 'libml/ctaugment.py lines49–54: relative threshold'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'ReMixMatch: Semi-Supervised Learning with Distribution Alignment and Augmentation Anchoring'
+  authors:
+  - David Berthelot
+  - Nicholas Carlini
+  - Ekin D. Cubuk
+  - Alex Kurakin
+  - Han Zhang
+  - Colin Raffel
+  - Kihyuk Sohn
+  source_type: primary_paper
+  url: https://nicholas.carlini.com/papers/2020_iclr_remixmatch.pdf
+  version: Author-hosted 13-page PDF at Carlini’s 2020_iclr_remixmatch.pdf; no stamped revision date or
+    byte-equivalence to OpenReview is asserted
+  access_level: full_text
+  accessed_at: '2026-10-11T10:15:20Z'
+  sha256: 6b6326a1adfa145ddd153c673914b87ed2cabeef3c7d1934fef2d3a0ce14d0ff
+- source_id: policy-code
+  title: CTAugment author implementation — parameter policies and feedback weights
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/libml/ctaugment.py
+  version: Author implementation at commit f7061ebf055227cbeb5c6fced1ce054e0ceecfcd, libml/ctaugment.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:26:32Z'
+  sha256: 2b11d60ddc868cb37af7f8d342809d7fbcc0c38b6add7435bd4b7376b182a548
+- source_id: training-code
+  title: CTAugment author implementation — prediction feedback and training defaults
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/cta/lib/train.py
+  version: Author implementation at commit f7061ebf055227cbeb5c6fced1ce054e0ceecfcd, cta/lib/train.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:26:32Z'
+  sha256: 56b35c81884eceacda5590d56ef5d1446ae6debdf82369d58e71bf87247d238b
+- source_id: worker-code
+  title: CTAugment author implementation — probe and training-view generation
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/libml/augment.py
+  version: Author implementation at commit f7061ebf055227cbeb5c6fced1ce054e0ceecfcd, libml/augment.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:30:53Z'
+  sha256: c169e09eb3a56ecc1f6ab2ed26bd7274f96358719df184568ed73232a1f29fe6
+- source_id: classifier-code
+  title: ReMixMatch author implementation — target guessing and training objective
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/remixmatch_no_cta.py
+  version: Author implementation at commit f7061ebf055227cbeb5c6fced1ce054e0ceecfcd, remixmatch_no_cta.py;
+    source read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:19:17Z'
+  sha256: ec4f04fa71ad84c2df61fbf29f6e935c402958d0abf326593eb5a969fe6a9f26
+- source_id: entrypoint-code
+  title: ReMixMatch author implementation — CTA entrypoint
+  authors:
+  - Google Research
+  source_type: official_documentation
+  url: https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/cta/cta_remixmatch.py
+  version: Author implementation at commit f7061ebf055227cbeb5c6fced1ce054e0ceecfcd, cta/cta_remixmatch.py;
+    source read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:20:01Z'
+  sha256: 98e8d8309e1f49090ef78c405ed7f19e27c2c41d8ca6734ca46f0fa880cb1b5f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm selects or learns transformations used for augmented training examples. The
+    AIO target denotes data augmentation in the preprocessing branch, while the local identity includes
+    a selection or training procedure; no equivalence or subclass membership is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:34:59Z'
+  updated_at: '2026-10-11T10:34:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

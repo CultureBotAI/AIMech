@@ -1,0 +1,82 @@
+name: Manifold Mixup
+definition: A neural-network training procedure that interpolates paired examples’ representations at
+  a selected network layer and interpolates their labels with the same coefficient, then trains the entire
+  network on the mixed representation-target pairs.
+concept_kind: algorithm
+identity_notes: This is the end-to-end hidden-representation extension of input MixUp, not an alias for
+  MixUp’s input-only case, interpolation of fixed extracted features, or a separate trained model. It
+  uses observed labels, rather than ICT’s mixed teacher predictions on unlabeled inputs. Its name does
+  not guarantee that interpolated representations lie on a true data manifold. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 238 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout,
+  returning 34 lines in each from prior discovery, saved reviews and related native records. Ten exact
+  AIO CLASS nodes, their scoped synonyms and outgoing edges, plus five neighboring native mechanisms were
+  inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+limitations:
+- Representations being mixed must be compatible at the selected layer. The eligible layers and mixing
+  distribution remain choices.
+- The source’s flattening theorem is framed under idealized function-class, dimensionality and minimization
+  conditions; it does not guarantee the same geometry for every finite trained network.
+- Interpolated labels impose an inductive bias and need not equal the true conditional targets between
+  examples.
+- The paper explicitly distinguishes single-step adversarial results from full adversarial robustness.
+  No empirical robustness or accuracy claim is imported.
+id: AIMech:ManifoldMixup
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2 and Equation (1), PDF p. 3; theoretical scope in Sections 3.1–3.2, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Select a layer k from an eligible set S, which may include the input layer. Forward a minibatch
+    and its randomly shuffled copy to layer k. Draw lambda from Beta(a,a), a>0, and mix both the paired
+    layer representations and the paired one-hot targets using lambda and 1−lambda. Continue the forward
+    pass from the mixed representation and compute the prediction loss against the mixed soft target.
+    Backpropagate through the whole graph, including the network before the mixing layer, so the representations
+    themselves can adapt. The reported implementation choice uses one layer and one coefficient per minibatch.
+    With only the input layer eligible, S={0}, the objective reduces to original input MixUp; allowing
+    hidden layers is the distinguishing extension. The objective averages over examples, mixing coefficients
+    and eligible layers.
+  evidence:
+  - source_id: method-source
+    locator: Section 2 and Equation (1), PDF p. 3; theoretical scope in Sections 3.1–3.2, PDF pp. 4–5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Manifold Mixup: Better Representations by Interpolating Hidden States'
+  authors:
+  - Vikas Verma
+  - Alex Lamb
+  - Christopher Beckham
+  - Amir Najafi
+  - Ioannis Mitliagkas
+  - David Lopez-Paz
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/verma19a/verma19a.pdf
+  version: ICML 2019, PMLR 97:6438–6447; ten-page proceedings paper
+  access_level: full_text
+  accessed_at: '2026-10-11T10:26:17Z'
+  sha256: b8ba5ac4b3bd032c4844721444aeb70bf1468564674eafc8f6ef336841aba7f8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: The procedure creates synthetic representation-target pairs during end-to-end training. This
+    is related to the preprocessing augmentation class but is not merely an input preprocessing transform.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: The method trains against interpolated observed labels; this is an algorithm-to-learning-task
+    association.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:34:59Z'
+  updated_at: '2026-10-11T10:34:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
