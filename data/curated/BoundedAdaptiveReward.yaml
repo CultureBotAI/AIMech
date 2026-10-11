@@ -1,0 +1,77 @@
+name: Bounded adaptive reward for sequence scoring
+definition: A beam-dependent sequence rescoring rule that adds per-step rewards derived from the beam’s
+  mean negative log token probability, accumulating them only up to a predicted output-length cap.
+concept_kind: mathematical_method
+identity_notes: Yang et al.’s bounded adaptive-reward changes the reward rate with the decoding step,
+  unlike fixed-r bounded word-reward. It is a beam-conditioned scoring method rather than a reinforcement-learning
+  reward-training algorithm or a beam-independent probability model. No normalized identity match was
+  found across the 442 AIO and 146 prior native records; both checkout text searches included ignored
+  and hidden files and returned no matches for the selected exact IDs, full labels, aliases and source
+  titles.
+limitations:
+- The reward sequence depends on the beam and model probabilities. Changing beam policy can change the
+  score assigned to a completed hypothesis.
+- Removing a manually tuned constant reward rate does not remove the trained translation model, length
+  predictor, beam size or other implementation choices.
+- The printed sum uses a predicted length as its upper limit without specifying a noninteger rounding
+  policy. A discrete implementation must define the effective integer cap and EOS/token counting; the
+  record does not assert an author-approved rounding convention.
+- Equation (10) assumes b available beam entries and defined token log probabilities. Empty or shrunken
+  beams and zero-probability tokens require an explicit policy.
+- The stated stopping argument applies after reward saturation with a completed incumbent. It is limited
+  to retained beam continuations, not global sequence optimality or guaranteed quality improvement.
+id: AIMech:BoundedAdaptiveReward
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 4.2.2, Equations (10)–(11), and Section 5.2 final paragraph, printed pp. 3056–3057
+    / PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a b-item beam at step t, compute r_t=−(1/b)·sum_i log p(word_i), using the last generated
+    token probability of each beam item in its own context. Add accumulated r_t values to the sequence
+    log probability up to the smaller of the candidate length and predicted length. After the cap is passed,
+    no additional reward accrues, so the adjusted score cannot increase with further nonpositive log-probability
+    increments. The source then permits stopping when the best current adjusted score is below the best
+    completed adjusted score.
+  evidence:
+  - source_id: method-source
+    locator: Section 4.2.2, Equations (10)–(11), and Section 5.2 final paragraph, printed pp. 3056–3057
+      / PDF pp. 3–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Breaking the Beam Search Curse: A Study of (Re-)Scoring Methods and Stopping Criteria for Neural
+    Machine Translation'
+  authors:
+  - Yilin Yang
+  - Liang Huang
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D18-1342.pdf
+  version: EMNLP 2018, printed pp. 3054–3059; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 019ba14d74adfb3781eaa0211756f92dfbbf971ccdd9055daa4f20102ff8038f
+  persistent_id: doi:10.18653/v1/D18-1342
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

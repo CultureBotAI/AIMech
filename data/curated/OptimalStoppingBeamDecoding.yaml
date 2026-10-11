@@ -1,0 +1,96 @@
+name: Beam decoding with a monotone-score stopping certificate
+definition: A layer-based sequence beam decoder that retains the best completed hypothesis seen so far
+  and stops when the highest current prefix score cannot exceed that incumbent under a score that never
+  increases with extension.
+concept_kind: algorithm
+identity_notes: This is Huang, Zhao and Ma’s 2017 optimal-ending procedure, with optimality explicitly
+  limited by the retained beam. It differs from stopping on a completed top-ranked item without remembering
+  earlier completions, from counting completed outputs, and from score-prioritized best-first expansion
+  with per-length budgets. No normalized identity match was found across the 442 AIO and 146 prior native
+  records; both checkout text searches included ignored and hidden files and returned no matches for the
+  selected exact IDs, full labels, aliases and source titles.
+limitations:
+- The certificate concerns descendants of retained beam prefixes. It does not recover prefixes pruned
+  by finite width or guarantee global MAP decoding.
+- A non-increasing extension score and a stored completed incumbent are required. Length normalization
+  or positive rewards can invalidate the raw-prefix bound and need a different certificate.
+- The paper compares stopping times under the same beam evolution and a specific historical top-completed
+  baseline. It does not establish universally fastest decoding or current software defaults.
+- Better model score does not imply better translation quality; the source reports short-output problems
+  under pure probability scoring.
+- Finite resource limits, absent EOS completions, empty beams and tie conventions need explicit implementation
+  policies. No unconditional finite-time termination claim is made.
+id: AIMech:OptimalStoppingBeamDecoding
+aliases:
+- Optimal-ending beam search
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(2), Theorems 1–2, printed p. 2135 / PDF p. 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Expand the current beam by one token and retain the highest-scoring candidates under a fixed
+    beam policy. Do not extend EOS-complete hypotheses. Maintain the best completed hypothesis encountered
+    in retained beams. Once that incumbent exists, stop when the maximum current prefix score is at most
+    its score. Products of conditional probabilities in [0,1], or their cumulative log probabilities,
+    cannot increase with extension, so descendants of retained active prefixes cannot improve the incumbent
+    when the inequality holds.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(2), Theorems 1–2, printed p. 2135 / PDF p. 2
+    relation: supports
+- claim_id: score-versus-quality
+  kind: limitation
+  statement: The unmodified probability objective can favor short translations; the source therefore introduces
+    bounded length rewards. The stopping certificate is a search-score statement, not a quality guarantee.
+  evidence:
+  - source_id: score-versus-quality
+    locator: Section 4 and Section 5.2 discussion, printed pp. 2136 and 2138 / PDF pp. 3 and 5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: When to Finish? Optimal Beam Search for Neural Text Generation (modulo beam size)
+  authors:
+  - Liang Huang
+  - Kai Zhao
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D17-1227.pdf
+  version: EMNLP 2017, printed pp. 2134–2139; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7b9ed5e8c84207dbfdd8dbeaf9508f143ed72c2579856d7e72626e8f7d6d88c9
+  persistent_id: doi:10.18653/v1/D17-1227
+- source_id: score-versus-quality
+  title: When to Finish? Optimal Beam Search for Neural Text Generation (modulo beam size)
+  authors:
+  - Liang Huang
+  - Kai Zhao
+  - Mingbo Ma
+  source_type: primary_paper
+  url: https://aclanthology.org/D17-1227.pdf
+  version: EMNLP 2017, printed pp. 2134–2139; published six-page ACL Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7b9ed5e8c84207dbfdd8dbeaf9508f143ed72c2579856d7e72626e8f7d6d88c9
+  persistent_id: doi:10.18653/v1/D17-1227
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

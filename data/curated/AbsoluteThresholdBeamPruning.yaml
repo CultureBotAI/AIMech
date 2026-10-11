@@ -1,0 +1,95 @@
+name: Absolute threshold pruning for sequence beams
+definition: A sequence-beam pruning procedure that first applies the beam-size cap, then discards candidates
+  whose score is at least a specified positive margin below the best score in that capped candidate list.
+concept_kind: algorithm
+identity_notes: This is Freitag and Al-Onaizan’s absolute threshold pruning rule. It uses an additive
+  score difference, unlike their relative-score and last-token relative thresholds. It is an additional
+  local pruning step, not a stopping certificate or a method that automatically widens the beam. No normalized
+  identity match was found across the 442 AIO and 146 prior native records; both checkout text searches
+  included ignored and hidden files and returned no matches for the selected exact IDs, full labels, aliases
+  and source titles.
+limitations:
+- The extra pruning can remove a prefix leading to the best eventual output. The paper explicitly reports
+  search errors even where aggregate task metrics remain similar.
+- The numerical margin depends on score scale, log base and model calibration. It is not a relative probability
+  threshold.
+- A positive margin is required to retain the best finite-scoring item under the printed non-strict inequality;
+  a zero margin would discard even maximum-score candidates.
+- The procedure is layered onto a decoder with its own EOS and width policy. It does not by itself specify
+  the entire decoder or guarantee improved speed or quality.
+- The separate relative-pruning equations have a score-scale ambiguity under negative log scores. No correction
+  to those distinct variants is inferred from this additive rule.
+id: AIMech:AbsoluteThresholdBeamPruning
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, introductory paragraph and Absolute Threshold Pruning, Equation (2), printed p.
+    57 / PDF p. 2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: First retain candidates up to the current beam width. Let M be the maximum score in that
+    candidate list and let a>0 be the absolute pruning margin. Discard a candidate when its score is at
+    most M−a, including equality as printed in Equation (2). Continue decoding with the survivors; applying
+    pruning after the cap can reduce the active count without refilling from previously discarded candidates.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, introductory paragraph and Absolute Threshold Pruning, Equation (2), printed p.
+      57 / PDF p. 2
+    relation: supports
+- claim_id: search-error-scope
+  kind: limitation
+  statement: Additional pruning can change outputs by discarding a better-scoring hypothesis. The paper’s
+    reported quality preservation and speed improvements are empirical outcomes in specific language-pair
+    setups, not exact-search guarantees.
+  evidence:
+  - source_id: search-error-scope
+    locator: Section 5 discussion and Section 6, printed p. 58 / PDF p. 3
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Beam Search Strategies for Neural Machine Translation
+  authors:
+  - Markus Freitag
+  - Yaser Al-Onaizan
+  source_type: primary_paper
+  url: https://aclanthology.org/W17-3207.pdf
+  version: First Workshop on Neural Machine Translation 2017, printed pp. 56–60; published five-page ACL
+    Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7d157efa8f645f2de375076d3422891355ea921eb88ad35a38a1fa5070989ca0
+  persistent_id: doi:10.18653/v1/W17-3207
+- source_id: search-error-scope
+  title: Beam Search Strategies for Neural Machine Translation
+  authors:
+  - Markus Freitag
+  - Yaser Al-Onaizan
+  source_type: primary_paper
+  url: https://aclanthology.org/W17-3207.pdf
+  version: First Workshop on Neural Machine Translation 2017, printed pp. 56–60; published five-page ACL
+    Anthology PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T06:31:33Z'
+  sha256: 7d157efa8f645f2de375076d3422891355ea921eb88ad35a38a1fa5070989ca0
+  persistent_id: doi:10.18653/v1/W17-3207
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The primary paper defines this sequence scoring, stopping or pruning method for natural-language
+    generation, with neural machine translation as its central setting. The exact AIO CLASS describes
+    the language-processing task. This is an method-to-application-domain relationship, not equivalence
+    or an is-a assertion; the method is not a trained language-model instance and may also apply outside
+    NLP.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:36:44Z'
+  updated_at: '2026-10-11T06:37:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
