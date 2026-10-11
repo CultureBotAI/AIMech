@@ -1,0 +1,874 @@
+# Scientific self-review of temporal prediction and routing
+
+- Review: 20261011T140741Z-temporal-prediction-and-routing
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T14:05:24Z
+- Finished UTC: 2026-10-11T14:07:41Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain TD prediction, one-step Sarsa and original Q-routing with explicit target, timing and source-version boundaries. One minor evidence-link finding is resolved; no actionable finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three newly maintained temporal prediction/control concepts.
+
+Selection: Exact three IDs in the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 3ec6606efefc44056a640b338097a6c368238332.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TemporalDifferenceLearning | data/curated/TemporalDifferenceLearning.yaml | maintained | Temporal-difference learning |
+| AIMech:Sarsa | data/curated/Sarsa.yaml | maintained | Sarsa |
+| AIMech:QRouting | data/curated/QRouting.yaml | maintained | Q-routing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 63.24s (0:01:03)<br>Checked 442 record(s); 0 failed.<br>Checked 301 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 78 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 76,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli check-source | passed | True | AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting | Command exited 0 with no output. |
+| Finite temporal-prediction and routing examples | passed | True | AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting | {"td_fixed_sequence_weights": {"0.0": 1.3, "0.5": 1.35, "1.0": 1.4}, "td1_supervised_fixed": 1.4, "td1_online_consistent_weights": 1.34, "sarsa_selected_target": 1.7, "qlearning_maximum_target": 3.05, "expected_policy_target": 2.0375, "sarsa_terminal": 1.25, "qroute_minimum_cost_backup": 8.5, "qroute_incorrect_maximum_backup": 11.0, "greedy_unused_alternative": [5.0, 20.0], "interpretation": "Fixed-weight equality does not imply equal online trajectories. Selected, maximum and expected action backups differ. Local cost backups include queue delay and use a minimum. An unused overestimated alternative can remain stale under greedy updating. These are finite examples, not convergence proofs or routing benchmarks."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and AIO assessment
+
+evidence: supported. Targets: AIMech:TemporalDifferenceLearning.
+
+This family-level record covers temporal-difference prediction and the original TD(lambda) construction, including TD(0) and TD(1) endpoints. It is not a policy optimizer, the GAE advantage estimator, backpropagation as a way to compute derivatives, a Markov-chain model, or every sequential prediction problem. TD(lambda) is treated here as a specified family member rather than a synonym for the whole paradigm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For the original terminal-outcome problem, predictions P_t=P(x_t,w) estimate the same eventual scalar outcome z and P_(m+1)=z. With weights held fixed within a sequence, compute increments Delta w_t=alpha*(P_(t+1)−P_t)*e_t, where e_t=sum_(k=1..t) lambda^(t−k)*grad_w P_k and 0&lt;=lambda&lt;=1; apply their sum after the sequence. The trace can be maintained recursively as e_t=grad_w P_t+lambda*e_(t−1). TD(0) uses only the current prediction gradient, whereas TD(1) gives the same per-sequence changes as the corresponding supervised outcome-error update under the fixed-weight convention. In the cumulative-outcome extension, replace the difference with c_(t+1)+P_(t+1)−P_t and set the terminal remaining prediction to zero. This is the source’s undiscounted cumulative formulation, not an implicit insertion of a discount factor. Intra-sequence weight updates are a separate extension requiring consistent parameter timing; simple algebraic equivalence at fixed weights does not establish equality of online trajectories. TD prediction can supply value estimates in a reinforcement-learning control procedure. The author exposition estimates the current behavior policy’s action values using TD updates while improving that policy toward greedy choices. Prediction alone does not specify the action-selection and policy-improvement components of a complete control algorithm. Limits: The prediction targets must obey the declared temporal recursion. Consecutive forecasts of different future events cannot simply be subtracted; Section 5.3 embeds fixed-horizon forecasts in a larger set of related predictions. Terminal-outcome and cumulative-outcome formulations use different terminal conventions. The original linear TD(0) theorem is convergence in expected value for an absorbing Markov setting, linearly independent state observation vectors, and sufficiently small constant step size, with weight changes after each sequence. It is not an almost-sure convergence theorem for arbitrary online nonlinear networks or a finite-data guarantee; the proof appendix was not independently audited. TD(1)’s fixed-weight per-sequence equivalence does not make all TD methods identical to Monte Carlo or supervised learning. Updating weights within a sequence changes predictions and traces; Section 5.2 warns against mixing predictions computed with inconsistent parameter versions. Temporal credit assignment and structural backpropagation are compatible but distinct. The method family alone supplies neither a control policy nor an exploration strategy. No claim of universal accuracy, lower computation, or benchmark superiority is curated.
+
+### Identity, definition, mechanism, limitations, provenance and AIO assessment
+
+evidence: supported. Targets: AIMech:Sarsa.
+
+This record specifies one-step Sarsa through the tabular control formulation. The historical Modified Connectionist Q-Learning report supplies the selected-next-action target in a broader neural and eligibility-trace method; its lambda=0 case shares the one-step error, but the entire trace-based neural method is not made an exact alias of this record. Sarsa(lambda), expected Sarsa, Q-learning and GAE have distinct scopes. The available Cambridge PDF bears a September 1994 cover and already mentions Sutton’s proposed SARSA name in footnote 3; the later book draft credits the name to Sutton (1996). These source statements are preserved without resolving the naming chronology. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Maintain Q(s,a), choose the current action A using the current policy derived from Q, execute it, and observe reward R and next state S_next. For a nonterminal next state, choose A_next from that same policy before updating, then set Q(S,A)=Q(S,A)+alpha*(R+gamma*Q(S_next,A_next)−Q(S,A)), using pre-update values. Carry the selected A_next forward as the next executed action; it is not replaced with a fresh sample after the update. For a terminal next state, the continuation value is zero and no next environment action is executed. Control improves the policy from Q while retaining its declared exploration rule, such as epsilon-greedy selection. The sample target uses the actual selected next action, not a maximum over actions and not an expectation over all policy actions. Rummery and Niranjan’s Eq.9 uses this error multiplied by an eligibility-weighted sum of neural-output gradients; at lambda=0 only the current gradient remains. That historical extension does not make neural networks or nonzero traces necessary for one-step tabular Sarsa. Limits: A persistently exploratory behavior policy changes the values being estimated; an exploratory next action can lower or raise the sampled target relative to another action. Greedy Sarsa and Q-learning can coincide on a transition, but such a special case does not equate the methods. Convergence requires a specified setting, sampling policy and step-size assumptions. The inspected book draft attributes its tabular control convergence statement to personal communication, and the 1994 neural report discusses parameter sensitivity and missing general guarantees. Neither source is treated as an independently verified complete proof for arbitrary function approximation. The September 2016 book draft is versioned as a draft. Its retrospective naming attribution differs from the SARSA footnote in the available 1994-covered report; no first-use date or explanation of that discrepancy is asserted. Trace choice, replacing versus accumulating traces, n-step targets and expected backups define extensions requiring their own evidence. No robot-navigation or gridworld performance result is curated here.
+
+### Identity, definition, mechanism, limitations, provenance and AIO assessment
+
+evidence: supported. Targets: AIMech:QRouting.
+
+This record denotes Boyan and Littman’s original tabular Q-routing method. It minimizes predicted delivery time using local bootstrapped information, unlike AntNet’s measured complete forward-trip feedback and probabilistic routing-table reinforcement. The exploratory full-echo scheme is a distinct variant, not an unmentioned mandatory part of the baseline. A neural approximation was explored but is not the defining original representation. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+At node x, maintain Q_x(d,y), the estimated time to deliver a packet to destination d through neighbor y, including waiting in x’s queue. Route using the neighbor with the smallest current estimate. Upon sending the packet to y, obtain its estimate t=min_z Q_y(d,z). With observed waiting time q at x and link-transmission time s from x to y, update the used table entry by Q_x(d,y)_new=Q_x(d,y)+eta*(q+s+t−Q_x(d,y)). This is an asynchronous local cost backup; it uses a minimum because delivery times are costs and the displayed target has no discount factor. The baseline only updates the selected neighbor entry. The full-echo extension separately queries all neighbors and updates their estimates, under a simulation assumption that the extra queries do not themselves congest the network. Limits: The greedy baseline has no deliberate exploration once its initial policy is established. Overestimated unused alternatives can remain stale, impeding rediscovery of shortcuts when load decreases; the source explicitly reports this weakness. Full echo changes the information and update scheme and may introduce oscillation under heavy traffic. Queue-dependent delays, other adaptive routers and changing traffic make the environment nonstationary relative to a destination/neighbor table. The record imports no stationary tabular Q-learning convergence theorem, optimality certificate, loop-freedom guarantee or universal routing superiority. The displayed interior-node update needs declared destination-boundary, initialization, tie-breaking, disconnected-network and message-delay conventions in an executable implementation. The method text does not fully specify all these cases, and a simulator or complete protocol is not supplied by this conceptual record. Results come from a simplified discrete-event network simulation; the paper explicitly says it is not fully realistic. The neural-network experiments were inconclusive. No empirical performance claim or deployment validation is curated.
+
+### Temporal recursion, trace endpoints and parameter timing
+
+consistency: supported. Targets: AIMech:TemporalDifferenceLearning.
+
+Retain TD as a prediction family with specified original TD(lambda) members.
+
+Terminal-outcome P_terminal=z and cumulative-cost P_terminal=0 are different conventions. The original cumulative equation is undiscounted. Fixed-weight TD(1) per-sequence equality does not imply equality of online trajectories; the finite example gives 1.4 versus 1.34 under the stated update timings. The theorem statement is restricted to expected-value convergence in the absorbing linear setting, not a general nonlinear or almost-sure proof. Issue 85 is corrected by a precise source-linked scope claim for TD’s application to control.
+
+### Selected next action, historical neural extension and source chronology
+
+consistency: supported. Targets: AIMech:Sarsa.
+
+Retain one-step Sarsa separately from Q-learning and the complete MCQ-L trace/neural method.
+
+The next action is sampled before the update and carried forward, with zero terminal continuation. The target differs from both a maximum and a policy expectation except in special cases. Eq.9 of the original report supports the selected-action error and lambda=0 reduction, not equivalence of all trace/neural variants to one-step tabular Sarsa. The available September-1994-covered report already contains the SARSA footnote, whereas the author draft credits the name to 1996; both observations are retained without a first-use claim. The draft’s personal-communication convergence citation is not presented as an independently audited proof.
+
+### Local minimum-cost backup and stale greedy alternatives
+
+consistency: supported. Targets: AIMech:QRouting.
+
+Retain original Q-routing separately from full echo and AntNet.
+
+The target contains observed current-node queue and link delays plus a neighboring minimum remaining-time estimate. It is a cost-minimization backup, with no discount in the displayed source equation. Greedy baseline updates leave unused alternatives stale. Full echo changes the feedback/update scheme and assumes query traffic causes no congestion; it is not silently required by the original baseline. AntNet uses measured forward-trip feedback and policy probabilities instead. Dynamic queue-dependent environments do not inherit a stationary Q-learning convergence theorem.
+
+### Prediction, algorithms and learning-task relations
+
+grounding: supported. Targets: AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting.
+
+Retain three native identities with qualified related matches.
+
+Six exact AIO CLASS nodes were inspected with definitions, scoped synonyms, comments and outgoing edges: TrainingStrategy, MachineLearningTask, ReinforcementLearning, ReinforcementLearningLLM, MarkovChain and ContinualLearning. All three local concepts have a qualified related_match to ReinforcementLearning: TD prediction supplies value estimates for control but also applies outside control; Sarsa is an on-policy action-value algorithm; Q-routing applies local reinforcement updates to delivery-time costs. No algorithm/task equivalence or subclass is asserted. TrainingStrategy’s preprocessing wording is not a forced superclass, MachineLearningTask is too general to identify these methods, ReinforcementLearningLLM is a trained-model class, MarkovChain is a stochastic-model/network class, and ContinualLearning specifically requires sequential-task retention rather than merely incremental updates. Six native neighbors—Q-learning, DQN, Ant-Q, AntNet, GAE and PPO—were read in full for method and scope distinctions. Shared TD errors or reinforcement language do not equate sampled control, prediction, advantage estimation, policy-gradient optimization and ant routing.
+
+## Findings
+
+### td-control-evidence-link: TD author-book source is not linked to an asserted claim.
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-TD-control-evidence-link.
+
+The initial draft listed the author book without a definition/claim citation, causing curated validation to fail. The source is now linked to its supported control-application scope claim. The immutable initial observation preserves the failure.
+
+Disposition: The maintained record now has a control-application scope claim with a precise supporting citation to author-book-draft Section 6.4. Prediction remains distinct from the full control algorithm. The ledger and append-only history were updated, changed inputs reread and inspected, and all post-fix required checks passed.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:TemporalDifferenceLearning, AIMech:Sarsa, AIMech:QRouting. TD prediction is a family with explicit trace members; Sarsa is a specific on-policy control algorithm; Q-routing learns local packet-delivery costs. Shared temporal errors and learning language do not establish identity or transferable guarantees.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T140315Z-temporal-prediction-and-routing.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases, with historical MCQ-L and TD(lambda) terms included in the identity neighborhood. No normalized identity match was found. Full-checkout fixed-string searches included ignored/hidden files and returned 20 worktree and 20 main lines. All 17 unique hit contents were inspected: prior candidate leads, GAE and AntNet distinctions, and their saved reviews/reports. Six exact AIO CLASS nodes with scoped synonyms/comments/outgoing edges and six native neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Six exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Six exact AIO CLASS nodes were inspected with definitions, scoped synonyms, comments and outgoing edges: TrainingStrategy, MachineLearningTask, ReinforcementLearning, ReinforcementLearningLLM, MarkovChain and ContinualLearning. All three local concepts have a qualified related_match to ReinforcementLearning: TD prediction supplies value estimates for control but also applies outside control; Sarsa is an on-policy action-value algorithm; Q-routing applies local reinforcement updates to delivery-time costs. No algorithm/task equivalence or subclass is asserted. TrainingStrategy’s preprocessing wording is not a forced superclass, MachineLearningTask is too general to identify these methods, ReinforcementLearningLLM is a trained-model class, MarkovChain is a stochastic-model/network class, and ContinualLearning specifically requires sequential-task retention rather than merely incremental updates. Six native neighbors—Q-learning, DQN, Ant-Q, AntNet, GAE and PPO—were read in full for method and scope distinctions. Shared TD errors or reinforcement language do not equate sampled control, prediction, advantage estimation, policy-gradient optimization and ant routing. |
+| neighbors | research/discovery/20261011T140315Z-temporal-prediction-and-routing.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Q-learning, DQN, Ant-Q, AntNet, GAE and PPO were read in full for identity and mechanism boundaries. The cohort separates prediction, sampled on-policy action-value control and local packet-delay optimization. Shared temporal errors do not make policy-gradient, advantage, ant-routing and tabular-value methods identical. |
+| finite-conventions | research/discovery/temporal-prediction-and-routing-boundaries.py; calculate(): trace endpoints, fixed/online weights, selected/maximum/expected action targets, terminal continuation and greedy cost backups | supports | Original finite examples distinguish fixed-weight TD(lambda) from online timing, sampled-next-action backups from maximum/expected backups, terminal continuation, minimum delivery-cost backups and stale greedy alternatives. These examples are not complete algorithms, benchmarks or convergence proofs. |
+| temporaldifferencelearning-source-0 | https://jmvidal.cse.sc.edu/library/sutton88a.pdf; Sections 2.1–2.3, PDF pp.5–8 / journal pp.13–16, Equations 1–4 and trace recursion; Theorem 2 statement, PDF pp.16–17; Sections 5.1–5.3, PDF pp.25–28 / journal pp.33–36; Section 6.2, PDF pp.29–30 | supports | Learning to predict by the methods of temporal differences. Machine Learning 3:9–44 (1988), 36-page journal article; university-hosted copy. Publisher metadata confirms August 1988 and DOI.. Actual text/OCR and visual scopes are declared in the ledger; source extraction alone is not reading. Critical equations and the Sarsa naming footnote were checked visually. No author code or benchmark was run. |
+| temporaldifferencelearning-source-1 | http://incompleteideas.net/book/bookdraft2016sep.pdf; Section 6.4, PDF pp.155–156 / printed pp.137–138, TD prediction applied to on-policy control and Sarsa pseudocode | supports | Reinforcement Learning: An Introduction. Author-hosted second-edition work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover copyright 2014–2016. This is the September 2016 draft, not the final 2018 edition. Public HTTP copy used after HTTPS certificate verification failed; verification was not disabled.. Actual text/OCR and visual scopes are declared in the ledger; source extraction alone is not reading. Critical equations and the Sarsa naming footnote were checked visually. No author code or benchmark was run. |
+| sarsa-source-0 | http://incompleteideas.net/book/bookdraft2016sep.pdf; Section 6.4, PDF pp.155–156 / printed pp.137–138, Equation 6.7, terminal convention and Sarsa control pseudocode; bibliographical notes for Section 6.4, PDF p.166 / printed p.148 | supports | Reinforcement Learning: An Introduction. Author-hosted second-edition work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover copyright 2014–2016. This is the September 2016 draft, not the final 2018 edition. Public HTTP copy used after HTTPS certificate verification failed; verification was not disabled.. Actual text/OCR and visual scopes are declared in the ledger; source extraction alone is not reading. Critical equations and the Sarsa naming footnote were checked visually. No author code or benchmark was run. |
+| sarsa-source-1 | https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf; Section 3.2, PDF pp.7–8 / printed pp.6–7, Equation 9 and footnote 3; Section 4, PDF pp.8–10 / printed pp.7–9; Section 6.1, PDF p.17 / printed p.16; cover PDF p.1 | supports | On-Line Q-Learning Using Connectionist Systems. Cambridge University Engineering Department CUED/F-INFENG/TR 166, cover dated September 1994; 21-page institutional PDF. Broken native glyphs required OCR; the cover and Eq.9/naming footnote were verified visually.. Actual text/OCR and visual scopes are declared in the ledger; source extraction alone is not reading. Critical equations and the Sarsa naming footnote were checked visually. No author code or benchmark was run. |
+| qrouting-source-0 | https://proceedings.neurips.cc/paper/1993/file/4ea06fbc83cdd0a06020c35d50e1e89a-Paper.pdf; Section 2, PDF p.2 / proceedings p.672, local estimate and update equations; Section 3.2, PDF pp.6–7 / proceedings pp.676–677, greedy exploration failure and full-echo variant; Section 4, PDF p.7 | supports | Packet Routing in Dynamically Changing Networks: A Reinforcement Learning Approach. Official NIPS 1993 archive, Advances in Neural Information Processing Systems 6, pp.671–678, eight-page proceedings article. Conference year is distinguished from later proceedings bibliographic dates.. Actual text/OCR and visual scopes are declared in the ledger; source extraction alone is not reading. Critical equations and the Sarsa naming footnote were checked visually. No author code or benchmark was run. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared text/OCR and visual pages were inspected. No benchmark, author-code execution or complete convergence-proof audit was performed.
+- The Sarsa naming discrepancy remains explicit; the exact 2016 book draft is not represented as the final edition. Historical convergence claims are not promoted to blanket guarantees.
+- Three additions and 175 pending inspection leads plus other unresolved dispositions leave discovery active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T140741Z-temporal-prediction-and-routing
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of temporal prediction and routing
+started_at: '2026-10-11T14:05:24Z'
+finished_at: '2026-10-11T14:07:41Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all three records
+    against declared primary text/OCR, critical PDF images, six exact AIO nodes, six
+    native neighbors and original finite arithmetic. Issue 85 was recorded and corrected
+    with a linked successor disposition. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain TD prediction, one-step Sarsa and original Q-routing with explicit
+  target, timing and source-version boundaries. One minor evidence-link finding is
+  resolved; no actionable finding remains in the declared scope.
+source:
+  git_revision: 3ec6606efefc44056a640b338097a6c368238332
+  state: working_tree
+  inputs:
+  - path: data/aio/ContinualLearning.yaml
+    sha256: c55fe9b9214b2f98c463af6c6756d71d7b070e9f35cb1dbba0a1b400073bf9b3
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AntNet.yaml
+    sha256: e7d511a9923dd43bea25f50c09619789c9fbeaa7f4677344007cc0a9c1836c50
+    role: context
+  - path: data/curated/AntQ.yaml
+    sha256: a01fc6b6c6529db01836d0bf7b63a02948ea5dd640af3a9c6c5044f411c7acfe
+    role: context
+  - path: data/curated/DeepQNetwork.yaml
+    sha256: ea346f5f8650c02e1d8d825c896797e3c022f20525d07b64b96f97ae96a1df2a
+    role: context
+  - path: data/curated/GeneralizedAdvantageEstimation.yaml
+    sha256: 635b1bffb626af1c9eff6e17f1fda088aed1d05b55abc0fd4fd7be3ccf19ee77
+    role: context
+  - path: data/curated/ProximalPolicyOptimization.yaml
+    sha256: 073aed5362b80546287548c4a1520105bb228b146a751cbccc879429f22b3661
+    role: context
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/QRouting.yaml
+    sha256: f518c72943e8f068c2e708fa3c0c64bedd8ad09c86e41ef06a82043ad0255ce4
+    role: target
+  - path: data/curated/Sarsa.yaml
+    sha256: 8ac6efbbcfeda82ce462fbc7f6d641a9eab36b8749c6bdb0b7713ba43496e041
+    role: target
+  - path: data/curated/TemporalDifferenceLearning.yaml
+    sha256: edd02cd7a9f2b8b916ba684f7aa8cb4c8d49b81a1896912dc5297370d24f348a
+    role: target
+  - path: research/discovery/20261011T140315Z-temporal-prediction-and-routing.json
+    sha256: 4a6dcf47d2d3c49ce3fee61978df8e5a91d668bdefde75ece1f13203c1addca0
+    role: context
+  - path: research/discovery/temporal-prediction-and-routing-boundaries.py
+    sha256: 9768653cb541ed19c47f4084dbcdf5eae0b0c3e49f28b400b3f345a1998598c9
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TemporalDifferenceLearning
+  path: data/curated/TemporalDifferenceLearning.yaml
+  label: Temporal-difference learning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TemporalDifferenceLearning.yaml
+    role: maintained
+- target_id: AIMech:Sarsa
+  path: data/curated/Sarsa.yaml
+  label: Sarsa
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/Sarsa.yaml
+    role: maintained
+- target_id: AIMech:QRouting
+  path: data/curated/QRouting.yaml
+  label: Q-routing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/QRouting.yaml
+    role: maintained
+scope:
+  description: All fields of three newly maintained temporal prediction/control concepts.
+  selection: Exact three IDs in the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exclusions:
+  - target: Older records and unselected candidates
+    reason: Neighbors were inspected for boundaries, not a complete new review of
+      the prior corpus.
+  - target: Unread pages, outcomes and implementations
+    reason: Only declared primary text/OCR and images and finite curator calculations
+      were inspected; no author code, simulator or benchmark was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 63.24s (0:01:03)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 301 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 78 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 76,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Finite temporal-prediction and routing examples
+  command: python3 research/discovery/temporal-prediction-and-routing-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"td_fixed_sequence_weights": {"0.0": 1.3, "0.5": 1.35, "1.0": 1.4}, "td1_supervised_fixed":
+    1.4, "td1_online_consistent_weights": 1.34, "sarsa_selected_target": 1.7, "qlearning_maximum_target":
+    3.05, "expected_policy_target": 2.0375, "sarsa_terminal": 1.25, "qroute_minimum_cost_backup":
+    8.5, "qroute_incorrect_maximum_backup": 11.0, "greedy_unused_alternative": [5.0,
+    20.0], "interpretation": "Fixed-weight equality does not imply equal online trajectories.
+    Selected, maximum and expected action backups differ. Local cost backups include
+    queue delay and use a minimum. An unused overestimated alternative can remain
+    stale under greedy updating. These are finite examples, not convergence proofs
+    or routing benchmarks."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T140315Z-temporal-prediction-and-routing.json
+  accessed_at: '2026-10-11T14:05:24Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 298 preceding native
+    IDs/names/aliases, with historical MCQ-L and TD(lambda) terms included in the
+    identity neighborhood. No normalized identity match was found. Full-checkout fixed-string
+    searches included ignored/hidden files and returned 20 worktree and 20 main lines.
+    All 17 unique hit contents were inspected: prior candidate leads, GAE and AntNet
+    distinctions, and their saved reviews/reports. Six exact AIO CLASS nodes with
+    scoped synonyms/comments/outgoing edges and six native neighbors were inspected.
+    Absence is bounded to this snapshot and semantic neighborhood.'
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 298 preceding native
+    IDs/names/aliases; historical MCQ-L and TD(lambda) terms; both complete checkouts
+    with ignored/hidden files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Six exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T14:05:24Z'
+  support: supports
+  summary: 'Six exact AIO CLASS nodes were inspected with definitions, scoped synonyms,
+    comments and outgoing edges: TrainingStrategy, MachineLearningTask, ReinforcementLearning,
+    ReinforcementLearningLLM, MarkovChain and ContinualLearning. All three local concepts
+    have a qualified related_match to ReinforcementLearning: TD prediction supplies
+    value estimates for control but also applies outside control; Sarsa is an on-policy
+    action-value algorithm; Q-routing applies local reinforcement updates to delivery-time
+    costs. No algorithm/task equivalence or subclass is asserted. TrainingStrategy’s
+    preprocessing wording is not a forced superclass, MachineLearningTask is too general
+    to identify these methods, ReinforcementLearningLLM is a trained-model class,
+    MarkovChain is a stochastic-model/network class, and ContinualLearning specifically
+    requires sequential-task retention rather than merely incremental updates. Six
+    native neighbors—Q-learning, DQN, Ant-Q, AntNet, GAE and PPO—were read in full
+    for method and scope distinctions. Shared TD errors or reinforcement language
+    do not equate sampled control, prediction, advantage estimation, policy-gradient
+    optimization and ant routing.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T140315Z-temporal-prediction-and-routing.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T14:05:24Z'
+  support: supports
+  summary: Q-learning, DQN, Ant-Q, AntNet, GAE and PPO were read in full for identity
+    and mechanism boundaries. The cohort separates prediction, sampled on-policy action-value
+    control and local packet-delay optimization. Shared temporal errors do not make
+    policy-gradient, advantage, ant-routing and tabular-value methods identical.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/temporal-prediction-and-routing-boundaries.py
+  locator: 'calculate(): trace endpoints, fixed/online weights, selected/maximum/expected
+    action targets, terminal continuation and greedy cost backups'
+  accessed_at: '2026-10-11T14:05:24Z'
+  snapshot_sha256: 9768653cb541ed19c47f4084dbcdf5eae0b0c3e49f28b400b3f345a1998598c9
+  support: supports
+  summary: Original finite examples distinguish fixed-weight TD(lambda) from online
+    timing, sampled-next-action backups from maximum/expected backups, terminal continuation,
+    minimum delivery-cost backups and stale greedy alternatives. These examples are
+    not complete algorithms, benchmarks or convergence proofs.
+- evidence_id: temporaldifferencelearning-source-0
+  kind: primary_source
+  reference: https://jmvidal.cse.sc.edu/library/sutton88a.pdf
+  locator: Sections 2.1–2.3, PDF pp.5–8 / journal pp.13–16, Equations 1–4 and trace
+    recursion; Theorem 2 statement, PDF pp.16–17; Sections 5.1–5.3, PDF pp.25–28 /
+    journal pp.33–36; Section 6.2, PDF pp.29–30
+  accessed_at: '2026-10-11T13:51:20Z'
+  snapshot_sha256: f1153204158bffd641cdd5ac23995cbdb4c74c34cb92022de4b54e8be6739d6e
+  support: supports
+  summary: Learning to predict by the methods of temporal differences. Machine Learning
+    3:9–44 (1988), 36-page journal article; university-hosted copy. Publisher metadata
+    confirms August 1988 and DOI.. Actual text/OCR and visual scopes are declared
+    in the ledger; source extraction alone is not reading. Critical equations and
+    the Sarsa naming footnote were checked visually. No author code or benchmark was
+    run.
+- evidence_id: temporaldifferencelearning-source-1
+  kind: primary_source
+  reference: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  locator: Section 6.4, PDF pp.155–156 / printed pp.137–138, TD prediction applied
+    to on-policy control and Sarsa pseudocode
+  accessed_at: '2026-10-11T13:53:08Z'
+  snapshot_sha256: 94b195c3d5f73878039453d8fc771494df0c140fd6978fd0c6d29178a56023b5
+  support: supports
+  summary: 'Reinforcement Learning: An Introduction. Author-hosted second-edition
+    work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover copyright 2014–2016.
+    This is the September 2016 draft, not the final 2018 edition. Public HTTP copy
+    used after HTTPS certificate verification failed; verification was not disabled..
+    Actual text/OCR and visual scopes are declared in the ledger; source extraction
+    alone is not reading. Critical equations and the Sarsa naming footnote were checked
+    visually. No author code or benchmark was run.'
+- evidence_id: sarsa-source-0
+  kind: primary_source
+  reference: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  locator: Section 6.4, PDF pp.155–156 / printed pp.137–138, Equation 6.7, terminal
+    convention and Sarsa control pseudocode; bibliographical notes for Section 6.4,
+    PDF p.166 / printed p.148
+  accessed_at: '2026-10-11T13:53:08Z'
+  snapshot_sha256: 94b195c3d5f73878039453d8fc771494df0c140fd6978fd0c6d29178a56023b5
+  support: supports
+  summary: 'Reinforcement Learning: An Introduction. Author-hosted second-edition
+    work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover copyright 2014–2016.
+    This is the September 2016 draft, not the final 2018 edition. Public HTTP copy
+    used after HTTPS certificate verification failed; verification was not disabled..
+    Actual text/OCR and visual scopes are declared in the ledger; source extraction
+    alone is not reading. Critical equations and the Sarsa naming footnote were checked
+    visually. No author code or benchmark was run.'
+- evidence_id: sarsa-source-1
+  kind: primary_source
+  reference: https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf
+  locator: Section 3.2, PDF pp.7–8 / printed pp.6–7, Equation 9 and footnote 3; Section
+    4, PDF pp.8–10 / printed pp.7–9; Section 6.1, PDF p.17 / printed p.16; cover PDF
+    p.1
+  accessed_at: '2026-10-11T13:52:08Z'
+  snapshot_sha256: c9434f056d1706febaee9821fa52f47a3711af874e276723e7113ed3a3d0a1f6
+  support: supports
+  summary: On-Line Q-Learning Using Connectionist Systems. Cambridge University Engineering
+    Department CUED/F-INFENG/TR 166, cover dated September 1994; 21-page institutional
+    PDF. Broken native glyphs required OCR; the cover and Eq.9/naming footnote were
+    verified visually.. Actual text/OCR and visual scopes are declared in the ledger;
+    source extraction alone is not reading. Critical equations and the Sarsa naming
+    footnote were checked visually. No author code or benchmark was run.
+- evidence_id: qrouting-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/1993/file/4ea06fbc83cdd0a06020c35d50e1e89a-Paper.pdf
+  locator: Section 2, PDF p.2 / proceedings p.672, local estimate and update equations;
+    Section 3.2, PDF pp.6–7 / proceedings pp.676–677, greedy exploration failure and
+    full-echo variant; Section 4, PDF p.7
+  accessed_at: '2026-10-11T13:51:20Z'
+  snapshot_sha256: d85e5660aa4eae68384d809320a80ae87b70e3b6d5cec1cb6c94020b08b703e2
+  support: supports
+  summary: 'Packet Routing in Dynamically Changing Networks: A Reinforcement Learning
+    Approach. Official NIPS 1993 archive, Advances in Neural Information Processing
+    Systems 6, pp.671–678, eight-page proceedings article. Conference year is distinguished
+    from later proceedings bibliographic dates.. Actual text/OCR and visual scopes
+    are declared in the ledger; source extraction alone is not reading. Critical equations
+    and the Sarsa naming footnote were checked visually. No author code or benchmark
+    was run.'
+assessments:
+- assessment_id: temporaldifferencelearning
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - temporaldifferencelearning-source-0
+  - temporaldifferencelearning-source-1
+  summary: 'This family-level record covers temporal-difference prediction and the
+    original TD(lambda) construction, including TD(0) and TD(1) endpoints. It is not
+    a policy optimizer, the GAE advantage estimator, backpropagation as a way to compute
+    derivatives, a Markov-chain model, or every sequential prediction problem. TD(lambda)
+    is treated here as a specified family member rather than a synonym for the whole
+    paradigm. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 20
+    and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda)
+    and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews.
+    These were references to methods rather than existing candidate records. Six exact
+    AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native
+    neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+    semantic neighborhood.'
+  details: 'For the original terminal-outcome problem, predictions P_t=P(x_t,w) estimate
+    the same eventual scalar outcome z and P_(m+1)=z. With weights held fixed within
+    a sequence, compute increments Delta w_t=alpha*(P_(t+1)−P_t)*e_t, where e_t=sum_(k=1..t)
+    lambda^(t−k)*grad_w P_k and 0<=lambda<=1; apply their sum after the sequence.
+    The trace can be maintained recursively as e_t=grad_w P_t+lambda*e_(t−1). TD(0)
+    uses only the current prediction gradient, whereas TD(1) gives the same per-sequence
+    changes as the corresponding supervised outcome-error update under the fixed-weight
+    convention. In the cumulative-outcome extension, replace the difference with c_(t+1)+P_(t+1)−P_t
+    and set the terminal remaining prediction to zero. This is the source’s undiscounted
+    cumulative formulation, not an implicit insertion of a discount factor. Intra-sequence
+    weight updates are a separate extension requiring consistent parameter timing;
+    simple algebraic equivalence at fixed weights does not establish equality of online
+    trajectories. TD prediction can supply value estimates in a reinforcement-learning
+    control procedure. The author exposition estimates the current behavior policy’s
+    action values using TD updates while improving that policy toward greedy choices.
+    Prediction alone does not specify the action-selection and policy-improvement
+    components of a complete control algorithm. Limits: The prediction targets must
+    obey the declared temporal recursion. Consecutive forecasts of different future
+    events cannot simply be subtracted; Section 5.3 embeds fixed-horizon forecasts
+    in a larger set of related predictions. Terminal-outcome and cumulative-outcome
+    formulations use different terminal conventions. The original linear TD(0) theorem
+    is convergence in expected value for an absorbing Markov setting, linearly independent
+    state observation vectors, and sufficiently small constant step size, with weight
+    changes after each sequence. It is not an almost-sure convergence theorem for
+    arbitrary online nonlinear networks or a finite-data guarantee; the proof appendix
+    was not independently audited. TD(1)’s fixed-weight per-sequence equivalence does
+    not make all TD methods identical to Monte Carlo or supervised learning. Updating
+    weights within a sequence changes predictions and traces; Section 5.2 warns against
+    mixing predictions computed with inconsistent parameter versions. Temporal credit
+    assignment and structural backpropagation are compatible but distinct. The method
+    family alone supplies neither a control policy nor an exploration strategy. No
+    claim of universal accuracy, lower computation, or benchmark superiority is curated.'
+  dimensions:
+  - name: concept-kind
+    value: learning_paradigm
+    definition: A prediction-learning family or a specified control/routing algorithm,
+      not a trained instance, outcome or stochastic-system model.
+    evidence_ids:
+    - temporaldifferencelearning-source-0
+    - temporaldifferencelearning-source-1
+  - name: aio-relations
+    value: related_match
+    definition: 'related_match to AIO:ReinforcementLearning: TD prediction supplies
+      value estimates for reinforcement-learning control, as directly illustrated
+      by the author book’s Section 6.4. The local family also covers prediction without
+      action selection. The pinned AIO target is a learning task; this connection
+      asserts neither equivalence nor that every TD prediction problem is a control
+      task.'
+    evidence_ids:
+    - mapping
+- assessment_id: sarsa
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:Sarsa
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - sarsa-source-0
+  - sarsa-source-1
+  summary: 'This record specifies one-step Sarsa through the tabular control formulation.
+    The historical Modified Connectionist Q-Learning report supplies the selected-next-action
+    target in a broader neural and eligibility-trace method; its lambda=0 case shares
+    the one-step error, but the entire trace-based neural method is not made an exact
+    alias of this record. Sarsa(lambda), expected Sarsa, Q-learning and GAE have distinct
+    scopes. The available Cambridge PDF bears a September 1994 cover and already mentions
+    Sutton’s proposed SARSA name in footnote 3; the later book draft credits the name
+    to Sutton (1996). These source statements are preserved without resolving the
+    naming chronology. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 20 and 20 lines respectively. All 17 unique hit contents were inspected:
+    prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and
+    their saved reports/reviews. These were references to methods rather than existing
+    candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and
+    outgoing edges and six native neighboring mechanisms were inspected. Absence is
+    bounded to this snapshot and semantic neighborhood.'
+  details: 'Maintain Q(s,a), choose the current action A using the current policy
+    derived from Q, execute it, and observe reward R and next state S_next. For a
+    nonterminal next state, choose A_next from that same policy before updating, then
+    set Q(S,A)=Q(S,A)+alpha*(R+gamma*Q(S_next,A_next)−Q(S,A)), using pre-update values.
+    Carry the selected A_next forward as the next executed action; it is not replaced
+    with a fresh sample after the update. For a terminal next state, the continuation
+    value is zero and no next environment action is executed. Control improves the
+    policy from Q while retaining its declared exploration rule, such as epsilon-greedy
+    selection. The sample target uses the actual selected next action, not a maximum
+    over actions and not an expectation over all policy actions. Rummery and Niranjan’s
+    Eq.9 uses this error multiplied by an eligibility-weighted sum of neural-output
+    gradients; at lambda=0 only the current gradient remains. That historical extension
+    does not make neural networks or nonzero traces necessary for one-step tabular
+    Sarsa. Limits: A persistently exploratory behavior policy changes the values being
+    estimated; an exploratory next action can lower or raise the sampled target relative
+    to another action. Greedy Sarsa and Q-learning can coincide on a transition, but
+    such a special case does not equate the methods. Convergence requires a specified
+    setting, sampling policy and step-size assumptions. The inspected book draft attributes
+    its tabular control convergence statement to personal communication, and the 1994
+    neural report discusses parameter sensitivity and missing general guarantees.
+    Neither source is treated as an independently verified complete proof for arbitrary
+    function approximation. The September 2016 book draft is versioned as a draft.
+    Its retrospective naming attribution differs from the SARSA footnote in the available
+    1994-covered report; no first-use date or explanation of that discrepancy is asserted.
+    Trace choice, replacing versus accumulating traces, n-step targets and expected
+    backups define extensions requiring their own evidence. No robot-navigation or
+    gridworld performance result is curated here.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A prediction-learning family or a specified control/routing algorithm,
+      not a trained instance, outcome or stochastic-system model.
+    evidence_ids:
+    - sarsa-source-0
+    - sarsa-source-1
+  - name: aio-relations
+    value: related_match
+    definition: 'related_match to AIO:ReinforcementLearning: The inspected source
+      defines Sarsa as an on-policy reinforcement-learning control algorithm. The
+      pinned AIO class denotes the learning task rather than this particular action-value
+      update, so the relation is neither equivalence nor an asserted algorithm-class
+      hierarchy.'
+    evidence_ids:
+    - mapping
+- assessment_id: qrouting
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:QRouting
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - qrouting-source-0
+  summary: 'This record denotes Boyan and Littman’s original tabular Q-routing method.
+    It minimizes predicted delivery time using local bootstrapped information, unlike
+    AntNet’s measured complete forward-trip feedback and probabilistic routing-table
+    reinforcement. The exploratory full-echo scheme is a distinct variant, not an
+    unmentioned mandatory part of the baseline. A neural approximation was explored
+    but is not the defining original representation. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 20 and 20 lines respectively. All 17 unique
+    hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet
+    boundary statements, and their saved reports/reviews. These were references to
+    methods rather than existing candidate records. Six exact AIO CLASS nodes with
+    scoped synonyms/comments and outgoing edges and six native neighboring mechanisms
+    were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  details: 'At node x, maintain Q_x(d,y), the estimated time to deliver a packet to
+    destination d through neighbor y, including waiting in x’s queue. Route using
+    the neighbor with the smallest current estimate. Upon sending the packet to y,
+    obtain its estimate t=min_z Q_y(d,z). With observed waiting time q at x and link-transmission
+    time s from x to y, update the used table entry by Q_x(d,y)_new=Q_x(d,y)+eta*(q+s+t−Q_x(d,y)).
+    This is an asynchronous local cost backup; it uses a minimum because delivery
+    times are costs and the displayed target has no discount factor. The baseline
+    only updates the selected neighbor entry. The full-echo extension separately queries
+    all neighbors and updates their estimates, under a simulation assumption that
+    the extra queries do not themselves congest the network. Limits: The greedy baseline
+    has no deliberate exploration once its initial policy is established. Overestimated
+    unused alternatives can remain stale, impeding rediscovery of shortcuts when load
+    decreases; the source explicitly reports this weakness. Full echo changes the
+    information and update scheme and may introduce oscillation under heavy traffic.
+    Queue-dependent delays, other adaptive routers and changing traffic make the environment
+    nonstationary relative to a destination/neighbor table. The record imports no
+    stationary tabular Q-learning convergence theorem, optimality certificate, loop-freedom
+    guarantee or universal routing superiority. The displayed interior-node update
+    needs declared destination-boundary, initialization, tie-breaking, disconnected-network
+    and message-delay conventions in an executable implementation. The method text
+    does not fully specify all these cases, and a simulator or complete protocol is
+    not supplied by this conceptual record. Results come from a simplified discrete-event
+    network simulation; the paper explicitly says it is not fully realistic. The neural-network
+    experiments were inconclusive. No empirical performance claim or deployment validation
+    is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A prediction-learning family or a specified control/routing algorithm,
+      not a trained instance, outcome or stochastic-system model.
+    evidence_ids:
+    - qrouting-source-0
+  - name: aio-relations
+    value: related_match
+    definition: 'related_match to AIO:ReinforcementLearning: The primary method embeds
+      local reinforcement-learning updates in packet routers. The AIO target is the
+      task category, not the same algorithm, a network model, or a theorem guaranteeing
+      adaptive network convergence.'
+    evidence_ids:
+    - mapping
+- assessment_id: td-boundaries
+  area: consistency
+  topic: Temporal recursion, trace endpoints and parameter timing
+  outcome: supported
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  evidence_ids:
+  - temporaldifferencelearning-source-0
+  - temporaldifferencelearning-source-1
+  - finite-conventions
+  summary: Retain TD as a prediction family with specified original TD(lambda) members.
+  details: Terminal-outcome P_terminal=z and cumulative-cost P_terminal=0 are different
+    conventions. The original cumulative equation is undiscounted. Fixed-weight TD(1)
+    per-sequence equality does not imply equality of online trajectories; the finite
+    example gives 1.4 versus 1.34 under the stated update timings. The theorem statement
+    is restricted to expected-value convergence in the absorbing linear setting, not
+    a general nonlinear or almost-sure proof. Issue 85 is corrected by a precise source-linked
+    scope claim for TD’s application to control.
+- assessment_id: sarsa-boundaries
+  area: consistency
+  topic: Selected next action, historical neural extension and source chronology
+  outcome: supported
+  target_ids:
+  - AIMech:Sarsa
+  evidence_ids:
+  - sarsa-source-0
+  - sarsa-source-1
+  - finite-conventions
+  summary: Retain one-step Sarsa separately from Q-learning and the complete MCQ-L
+    trace/neural method.
+  details: The next action is sampled before the update and carried forward, with
+    zero terminal continuation. The target differs from both a maximum and a policy
+    expectation except in special cases. Eq.9 of the original report supports the
+    selected-action error and lambda=0 reduction, not equivalence of all trace/neural
+    variants to one-step tabular Sarsa. The available September-1994-covered report
+    already contains the SARSA footnote, whereas the author draft credits the name
+    to 1996; both observations are retained without a first-use claim. The draft’s
+    personal-communication convergence citation is not presented as an independently
+    audited proof.
+- assessment_id: qroute-boundaries
+  area: consistency
+  topic: Local minimum-cost backup and stale greedy alternatives
+  outcome: supported
+  target_ids:
+  - AIMech:QRouting
+  evidence_ids:
+  - qrouting-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain original Q-routing separately from full echo and AntNet.
+  details: The target contains observed current-node queue and link delays plus a
+    neighboring minimum remaining-time estimate. It is a cost-minimization backup,
+    with no discount in the displayed source equation. Greedy baseline updates leave
+    unused alternatives stale. Full echo changes the feedback/update scheme and assumes
+    query traffic causes no congestion; it is not silently required by the original
+    baseline. AntNet uses measured forward-trip feedback and policy probabilities
+    instead. Dynamic queue-dependent environments do not inherit a stationary Q-learning
+    convergence theorem.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Prediction, algorithms and learning-task relations
+  outcome: supported
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three native identities with qualified related matches.
+  details: 'Six exact AIO CLASS nodes were inspected with definitions, scoped synonyms,
+    comments and outgoing edges: TrainingStrategy, MachineLearningTask, ReinforcementLearning,
+    ReinforcementLearningLLM, MarkovChain and ContinualLearning. All three local concepts
+    have a qualified related_match to ReinforcementLearning: TD prediction supplies
+    value estimates for control but also applies outside control; Sarsa is an on-policy
+    action-value algorithm; Q-routing applies local reinforcement updates to delivery-time
+    costs. No algorithm/task equivalence or subclass is asserted. TrainingStrategy’s
+    preprocessing wording is not a forced superclass, MachineLearningTask is too general
+    to identify these methods, ReinforcementLearningLLM is a trained-model class,
+    MarkovChain is a stochastic-model/network class, and ContinualLearning specifically
+    requires sequential-task retention rather than merely incremental updates. Six
+    native neighbors—Q-learning, DQN, Ant-Q, AntNet, GAE and PPO—were read in full
+    for method and scope distinctions. Shared TD errors or reinforcement language
+    do not equate sampled control, prediction, advantage estimation, policy-gradient
+    optimization and ant routing.'
+findings:
+- finding_id: td-control-evidence-link
+  issue_key: CultureBotAI-AIMech-TD-control-evidence-link
+  category: consistency
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  field_paths:
+  - claims
+  - evidence_sources[source_id=author-book-draft]
+  evidence_ids:
+  - temporaldifferencelearning-source-1
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TemporalDifferenceLearning.yaml
+    role: maintained
+  title: TD author-book source is not linked to an asserted claim.
+  description: The initial draft listed the author book without a definition/claim
+    citation, causing curated validation to fail. The source is now linked to its
+    supported control-application scope claim. The immutable initial observation preserves
+    the failure.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/85
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T140451Z-td-control-evidence-link
+    finding_id: td-control-evidence-link
+  disposition_reason: The maintained record now has a control-application scope claim
+    with a precise supporting citation to author-book-draft Section 6.4. Prediction
+    remains distinct from the full control algorithm. The ledger and append-only history
+    were updated, changed inputs reread and inspected, and all post-fix required checks
+    passed.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:TemporalDifferenceLearning
+  - AIMech:Sarsa
+  - AIMech:QRouting
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - temporaldifferencelearning-source-0
+  - temporaldifferencelearning-source-1
+  - sarsa-source-0
+  - sarsa-source-1
+  - qrouting-source-0
+  rationale: TD prediction is a family with explicit trace members; Sarsa is a specific
+    on-policy control algorithm; Q-routing learns local packet-delivery costs. Shared
+    temporal errors and learning language do not establish identity or transferable
+    guarantees.
+limitations:
+- Adversarial author self-review only; every record remains DRAFT.
+- Only declared text/OCR and visual pages were inspected. No benchmark, author-code
+  execution or complete convergence-proof audit was performed.
+- The Sarsa naming discrepancy remains explicit; the exact 2016 book draft is not
+  represented as the final edition. Historical convergence claims are not promoted
+  to blanket guarantees.
+- Three additions and 175 pending inspection leads plus other unresolved dispositions
+  leave discovery active.
+links:
+- https://github.com/CultureBotAI/AIMech/issues/85
+tags:
+- native-concepts
+- temporal-difference-learning
+- reinforcement-learning
+- self-review
+- discovery-ongoing
+```

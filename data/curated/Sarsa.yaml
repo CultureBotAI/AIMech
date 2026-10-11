@@ -1,0 +1,113 @@
+name: Sarsa
+definition: An on-policy temporal-difference control algorithm that updates the current state-action value
+  toward the observed reward plus the discounted estimated value of the next action selected by the same
+  behavior policy.
+concept_kind: algorithm
+identity_notes: 'This record specifies one-step Sarsa through the tabular control formulation. The historical
+  Modified Connectionist Q-Learning report supplies the selected-next-action target in a broader neural
+  and eligibility-trace method; its lambda=0 case shares the one-step error, but the entire trace-based
+  neural method is not made an exact alias of this record. Sarsa(lambda), expected Sarsa, Q-learning and
+  GAE have distinct scopes. The available Cambridge PDF bears a September 1994 cover and already mentions
+  Sutton’s proposed SARSA name in footnote 3; the later book draft credits the name to Sutton (1996).
+  These source statements are preserved without resolving the naming chronology. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases.
+  Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning
+  20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing
+  leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to
+  methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.'
+limitations:
+- A persistently exploratory behavior policy changes the values being estimated; an exploratory next action
+  can lower or raise the sampled target relative to another action. Greedy Sarsa and Q-learning can coincide
+  on a transition, but such a special case does not equate the methods.
+- Convergence requires a specified setting, sampling policy and step-size assumptions. The inspected book
+  draft attributes its tabular control convergence statement to personal communication, and the 1994 neural
+  report discusses parameter sensitivity and missing general guarantees. Neither source is treated as
+  an independently verified complete proof for arbitrary function approximation.
+- The September 2016 book draft is versioned as a draft. Its retrospective naming attribution differs
+  from the SARSA footnote in the available 1994-covered report; no first-use date or explanation of that
+  discrepancy is asserted.
+- Trace choice, replacing versus accumulating traces, n-step targets and expected backups define extensions
+  requiring their own evidence. No robot-navigation or gridworld performance result is curated here.
+id: AIMech:Sarsa
+aliases:
+- State-action-reward-state-action
+definition_evidence:
+- source_id: method-source
+  locator: Section 6.4, PDF pp.155–156 / printed pp.137–138, Equation 6.7, terminal convention and Sarsa
+    control pseudocode; bibliographical notes for Section 6.4, PDF p.166 / printed p.148
+  relation: supports
+- source_id: original-report
+  locator: Section 3.2, PDF pp.7–8 / printed pp.6–7, Equation 9 and footnote 3; Section 4, PDF pp.8–10
+    / printed pp.7–9; Section 6.1, PDF p.17 / printed p.16; cover PDF p.1
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Maintain Q(s,a), choose the current action A using the current policy derived from Q, execute
+    it, and observe reward R and next state S_next. For a nonterminal next state, choose A_next from that
+    same policy before updating, then set Q(S,A)=Q(S,A)+alpha*(R+gamma*Q(S_next,A_next)−Q(S,A)), using
+    pre-update values. Carry the selected A_next forward as the next executed action; it is not replaced
+    with a fresh sample after the update. For a terminal next state, the continuation value is zero and
+    no next environment action is executed. Control improves the policy from Q while retaining its declared
+    exploration rule, such as epsilon-greedy selection. The sample target uses the actual selected next
+    action, not a maximum over actions and not an expectation over all policy actions. Rummery and Niranjan’s
+    Eq.9 uses this error multiplied by an eligibility-weighted sum of neural-output gradients; at lambda=0
+    only the current gradient remains. That historical extension does not make neural networks or nonzero
+    traces necessary for one-step tabular Sarsa.
+  evidence:
+  - source_id: method-source
+    locator: Section 6.4, PDF pp.155–156 / printed pp.137–138, Equation 6.7, terminal convention and Sarsa
+      control pseudocode; bibliographical notes for Section 6.4, PDF p.166 / printed p.148
+    relation: supports
+  - source_id: original-report
+    locator: Section 3.2, PDF pp.7–8 / printed pp.6–7, Equation 9 and footnote 3; Section 4, PDF pp.8–10
+      / printed pp.7–9; Section 6.1, PDF p.17 / printed p.16; cover PDF p.1
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Reinforcement Learning: An Introduction'
+  authors:
+  - Richard S. Sutton
+  - Andrew G. Barto
+  source_type: author_technical_report
+  url: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  version: Author-hosted second-edition work-in-progress draft, bookdraft2016sep.pdf, 455 PDF pages; cover
+    copyright 2014–2016. This is the September 2016 draft, not the final 2018 edition. Public HTTP copy
+    used after HTTPS certificate verification failed; verification was not disabled.
+  persistent_id: http://incompleteideas.net/book/bookdraft2016sep.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:53:08Z'
+  sha256: 94b195c3d5f73878039453d8fc771494df0c140fd6978fd0c6d29178a56023b5
+- source_id: original-report
+  title: On-Line Q-Learning Using Connectionist Systems
+  authors:
+  - G. A. Rummery
+  - M. Niranjan
+  source_type: author_technical_report
+  url: https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf
+  version: Cambridge University Engineering Department CUED/F-INFENG/TR 166, cover dated September 1994;
+    21-page institutional PDF. Broken native glyphs required OCR; the cover and Eq.9/naming footnote were
+    verified visually.
+  persistent_id: CUED/F-INFENG/TR 166
+  access_level: full_text
+  accessed_at: '2026-10-11T13:52:08Z'
+  sha256: c9434f056d1706febaee9821fa52f47a3711af874e276723e7113ed3a3d0a1f6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The inspected source defines Sarsa as an on-policy reinforcement-learning control algorithm.
+    The pinned AIO class denotes the learning task rather than this particular action-value update, so
+    the relation is neither equivalence nor an asserted algorithm-class hierarchy.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:02:32Z'
+  updated_at: '2026-10-11T14:02:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
