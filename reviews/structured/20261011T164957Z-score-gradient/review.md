@@ -1,0 +1,897 @@
+# Scientific self-review of score gradients and variational learning
+
+- Review: 20261011T164957Z-score-gradient
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T16:43:43Z
+- Finished UTC: 2026-10-11T16:49:57Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain REINFORCE, the identity straight-through estimator and NVIL as distinct DRAFT concepts. The records preserve baseline restrictions, disclose source notation and separate raw gradient identities from heuristic or adaptive updates. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three maintained score-gradient, surrogate-estimator and variational-learning concepts.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 4affb2e4892c4c1aa92258774b58325390ce1e84.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:REINFORCE | data/curated/REINFORCE.yaml | maintained | REINFORCE |
+| AIMech:StraightThroughEstimator | data/curated/StraightThroughEstimator.yaml | maintained | Straight-through estimator |
+| AIMech:NeuralVariationalInferenceAndLearning | data/curated/NeuralVariationalInferenceAndLearning.yaml | maintained | Neural variational inference and learning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 72.67s (0:01:12)<br>Checked 442 record(s); 0 failed.<br>Checked 337 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 93 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 90,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning | Command exited0 with no output. |
+| Finite score-gradient and surrogate-estimator examples | passed | True | AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning | {"bernoulli_baselines": {"0": {"mean": "3/16", "variance": "27/256"}, "1/4": {"mean": "3/16", "variance": "3/64"}, "3/4": {"mean": "3/16", "variance": "0"}, "2": {"mean": "3/16", "variance": "75/256"}}, "action_dependent_baseline_mean": "0", "straight_through": {"loss": "-h+6*h^2-4*h^3", "expected_surrogate": "-1", "exact_logit_gradient": "3/16"}, "printed_threshold": {"p": "1/4", "probability_for_U_greater_than_p": "3/4", "expected_h_minus_p": "1/2"}, "current_batch_centering": {"alpha": "4/5", "batch_size": 2, "raw_expectation": "1/4", "centered_expectation": "9/40", "traces": [{"sample": [0, 0], "raw": "1/2", "centered": "2/5"}, {"sample": [0, 1], "raw": "1/4", "centered": "1/4"}, {"sample": [1, 0], "raw": "1/4", "centered": "1/4"}, {"sample": [1, 1], "raw": "0", "centered": "0"}]}, "scope": "Exact rational enumeration and polynomial derivatives for small constructed examples. This is not an author-code run, a numerical benchmark, or a general convergence theorem."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:REINFORCE.
+
+This record covers Williams’s REINFORCE update family, including its basic immediate-reward rule and the stated fixed-episode extension. The characteristic eligibility is a score-function derivative. This is not the entire reinforcement-learning task, an action-value bootstrapping rule, PPO’s clipped surrogate, a generic optimizer, or every estimator that uses random perturbations. The acronym names the update structure; no trained policy instance is represented. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For a stochastic unit with conditional mass or density g_i(y_i;w_i,x_i), sample its output y_i, receive scalar reinforcement r and update weight w_ij by alpha_ij*(r-b_ij)*d log(g_i)/d w_ij. The baseline b_ij is conditionally independent of the current unit output given the weights and unit inputs; it may depend on permitted input context or past experience. In the original immediate-reward formulation, the nonnegative rate factor may depend at most on the unit’s parameter vector and trial index; it is not chosen from the current sampled output. Under the stated differentiability and environmental assumptions, the baseline-centered score product estimates the corresponding expected-reward gradient component. A common scalar rate gives an expected update proportional to that gradient; differing nonnegative coordinate rates generally rescale its components and need not preserve collinearity. For a Bernoulli-logistic unit with probability p and input x_j, the eligibility is (y-p)*x_j. In the fixed-length episodic extension, hold parameters fixed during the episode, sum each parameter’s score eligibilities over time, and multiply that sum by terminal reward minus an admissible episode baseline when updating at the end. Williams’s reinforcement-comparison example computes the reward baseline from past experience and explicitly excludes the current output or current reward from its computation. The expected-update theorem distinguishes a common scalar step size from nonnegative coordinate-dependent rates. For the Bernoulli-logistic score h-p, Bengio and colleagues derive the variance-minimizing constant baseline as the score-squared-weighted mean of the loss, rather than its ordinary mean. This is a minimum within the specified constant-baseline family, not among all possible gradient estimators. Limits: The score identity requires valid differentiable probabilities or densities and conditions permitting differentiation of the expectation. Parameter-dependent support or extra direct reward dependence requires additional analysis; a discrete black-box reward need not itself have a derivative with respect to the action. A baseline that depends on the same sampled action or its current reward does not automatically preserve the unbiased score identity. An input-dependent baseline or a statistic based on past trials can satisfy the stated conditional-independence requirement. Baseline choice changes variance and can increase it. The mean reward is not generally the minimum-variance baseline, and low variance is not guaranteed simply by naming a baseline. Expected gradient alignment is not monotonic improvement of each sampled update, a global optimum guarantee, or a convergence theorem for arbitrary step sizes. Zero coordinate rates can prevent movement even at a nonzero gradient. The original episodic construction assumes a declared finite episode and parameters fixed throughout it. It is not a blanket justification for arbitrary online bootstrapping, truncation, discounting, off-policy sample reuse or action-dependent baselines. The primary journal paper was read through a public third-party copy and checked against publisher metadata. Only the declared method pages were inspected; its full proof appendix and empirical literature were not independently audited.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:StraightThroughEstimator.
+
+The core identity-backward rule is the straight-through estimator named by Bengio, Léonard and Courville, who attribute the preceding idea to Hinton’s 2012 lecture. The paper also discusses a sigmoid-derivative-scaled variant; that scaling is not part of the core identity rule. This concept is distinct from a score-function estimator, a fully smooth forward relaxation, and the separately curated straight-through Gumbel-Softmax estimator with its specific temperature-dependent softmax Jacobian. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Let a be the pre-threshold or pre-sigmoid activation and h the hard binary value supplied to downstream computation. Compute the downstream derivative dL/dh using that hard forward state. In the backward pass, substitute dL/dh for the gradient with respect to a, as if dh/da were one, and then propagate through the differentiable computation that produced a. In the paper’s Bernoulli-logistic setting, the intended stochastic output law is P(h=1)=sigmoid(a), as used in its proof; the identity backward substitution is separate from that sampling law. Multiplying dL/dh by sigmoid(a)*(1-sigmoid(a)) gives the paper’s discussed scaled alternative, not the same backward rule. No derivative through the actual binary sampling decision is obtained by this substitution. The source explicitly defines the core backward value as dL/dh and separately discusses multiplying it by the sigmoid derivative. Hard forward values are retained in either case; the two backward rules must not be conflated. The indicator inequality in Equation (3) and the probability used in the following proof disagree for a general non-half sigmoid probability. The curated interpretation uses the proof’s explicit Bernoulli probability; this is a disclosed mathematical interpretation of the source, not a check of author software. Limits: This is a biased surrogate, not the ordinary derivative of the hard threshold and not an unbiased estimator of the discrete expected-loss gradient. A usable downstream derivative is required; an arbitrary black-box discrete reward does not provide one automatically. The surrogate depends on the differentiable extension of the downstream loss between binary states. Equal values at the binary endpoints do not imply equal straight-through updates, and the source’s informal single-layer sign statement is not used as a universal guarantee for arbitrary differentiable losses. Equation (3) of the inspected paper prints the indicator U&gt;sigmoid(a), but the subsequent proof uses P(h=1)=sigmoid(a). For uniform U, the printed inequality instead gives probability 1-sigmoid(a). This record follows the explicitly used Bernoulli law and discloses the inconsistency rather than treating the printed inequality as verified executable sampling code. Identity, sigmoid-scaled, clipped and other later straight-through rules require distinct conventions. A generic straight-through label does not establish that their Jacobians, bias or optimization behavior coincide. The inspected conditional-computation example motivates sparse gating; no universal speedup, accuracy advantage or successful convergence is asserted.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:NeuralVariationalInferenceAndLearning.
+
+This is Mnih and Gregor’s NVIL method, not all variational inference, a particular trained belief network, the wake-sleep recognition update, or the reparameterization-gradient approach used in stochastic gradient variational Bayes. It uses a shared feedforward inference model across observations and does not require a separate optimized set of local variational parameters for every observation. Exact sampling refers to its chosen variational distribution, not automatically to the true posterior. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Let P_theta(x,h) be the generative joint model and Q_phi(h&#124;x) an inference-network distribution that can be sampled and evaluated efficiently. For each observed x, maximize the bound E_Q[log P_theta(x,h)-log Q_phi(h&#124;x)]. Draw latent samples from Q. The raw model-gradient estimator averages d log P_theta(x,h)/d theta; the raw inference-gradient estimator averages the learning signal l=log P_theta(x,h)-log Q_phi(h&#124;x) times d log Q_phi(h&#124;x)/d phi. Its score expectation is zero, so baselines independent of the current latent sample conditional on x can be subtracted without changing the raw gradient expectation. The method fits an input-dependent neural baseline and maintains a scalar running center. It also divides the centered signal by max(1,sqrt(v)), where v is a running variance estimate, to adapt the update scale. In the supplement’s concrete minibatch ordering, subtract the input baseline, compute batch signal mean and variance, update the running center and variance using those batch statistics, then form centered/scaled inference updates and baseline updates; the model gradient remains unweighted by this signal. For layered factorizations, local learning signals omit terms that are independent of the relevant sampled descendants under the conditional score expectation, with separate baselines and variance estimates. The supplementary algorithm first samples the minibatch and computes baseline-adjusted learning signals, then updates the running mean and variance from that same minibatch before using them to center and scale its inference gradients. This practical order is distinct from the main-text identity for a baseline independent of the sampled latent value. The inference network is trained from observations and its own latent samples toward the variational objective. The source contrasts this with wake-sleep’s recognition update from model-generated samples and with pathwise gradients for continuous-variable variational methods. These distinctions do not make NVIL synonymous with every use of REINFORCE. Limits: A sample from Q is exact for Q while posterior inference remains approximate unless Q matches the model posterior. The variational-family capacity and optimization outcome affect the gap to the marginal log likelihood. Unbiasedness of the raw score estimator and subtraction of a conditionally sample-independent baseline do not automatically certify the final adaptive update. The supplement updates running statistics with the same minibatch before applying them, and normalization changes the update scale. Current-batch centering can introduce finite-sample bias; no blanket unbiasedness claim is made for that full practical procedure. The input baseline is trained using a squared-signal objective, which the source explicitly distinguishes from maximum variance reduction that accounts for score magnitude. A learned baseline need not improve variance in every setting. The method needs tractable sampling and evaluation of Q, evaluation of the joint P and differentiable log-probability parameters. It does not require differentiating the sampled discrete latent value, but support, zero probabilities and differentiation-under-expectation conditions still matter. Local-signal simplifications require the stated conditional independences. Arbitrarily dropping latent-dependent log terms can change the expected gradient. The variational bound and stochastic gradient formulation do not guarantee global optimization, exact posterior recovery or universally faster inference. Reported dataset comparisons and the complete author implementation are not certified here.
+
+### Score eligibility, conditional baselines and expected updates
+
+consistency: supported. Targets: AIMech:REINFORCE.
+
+Retain the original REINFORCE update family.
+
+The primary rule multiplies reward minus an admissible baseline by a log-probability derivative. Baseline independence is conditional on the unit context; a common scalar rate gives proportional expected gradient, while coordinate rates can rescale components. The fixed-episode extension holds parameters fixed and sums eligibilities. Finite Bernoulli enumeration preserves the mean under constant baselines while changing variance; the mean reward is not the score-weighted optimal baseline. A sample-dependent baseline does not inherit the identity. Neither a theorem statement nor these examples certify arbitrary step sizes, global convergence or a full appendix audit.
+
+### Identity backward substitution and source notation
+
+consistency: supported. Targets: AIMech:StraightThroughEstimator.
+
+Retain the identity rule separately from sigmoid-scaled and Gumbel-Softmax variants.
+
+The source copies dL/dh to the pre-sigmoid activation rather than differentiating the hard sample. The visually inspected Equation 3 prints U&gt;p but the proof uses P(h=1)=p; a uniform-threshold calculation confirms the mismatch, and the record discloses its interpretation. The polynomial loss -h+6h^2-4h^3 has endpoint values 0 and 1 but derivative -1 at both endpoints: its expected identity-ST direction is negative while the exact Bernoulli-logit gradient is positive. Thus the source’s informal single-layer sign comment is not generalized to arbitrary downstream losses. No author software or empirical failure is inferred.
+
+### Amortized variational sampling and adaptive update order
+
+consistency: supported. Targets: AIMech:NeuralVariationalInferenceAndLearning.
+
+Retain NVIL as a distinct training procedure.
+
+Exact draws are from Q, not necessarily the true posterior. The raw inference gradient uses a score-weighted log-joint/log-Q signal; constant or input-only baselines can preserve its expectation under the usual conditions. Algorithm 1 updates running statistics with the current minibatch before forming gradients and applies a scale floor through max(1,sqrt(v)). In the finite valid joint-model example, raw expectation 1/4 becomes 9/40 after current-batch centering while normalization is inactive. This qualifies the full practical update’s unbiasedness, not the ELBO derivation or empirical utility. Squared-signal baseline fitting is not generally minimum gradient variance; local-signal removal needs conditional independence.
+
+### Reward task, Bayesian target model and surrogate rule
+
+grounding: supported. Targets: AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning.
+
+Retain two related mappings and one bounded no-match assessment.
+
+Ten exact pinned CLASS nodes with all scoped synonyms, definitions, comments and outgoing edges, plus six full native neighbors, were read. REINFORCE has a related algorithm-to-task mapping to ReinforcementLearning. NVIL has a related training-method-to-model mapping to BayesianNetwork. The identity straight-through rule has a bounded no-match assessment: sigmoid probability parameterization is an example forward component, not its identity backward substitution; HardSigmoidFunction, generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network architectures do not supply an established mapping. No equivalence or subclass claim is made. Prior neighboring mappings are context, not newly approved.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:REINFORCE, AIMech:StraightThroughEstimator, AIMech:NeuralVariationalInferenceAndLearning. Reward-weighted scores, identity backward substitution and joint amortized variational training have different mechanisms and assumptions. NVIL’s use of a REINFORCE-style gradient does not make the full training procedure synonymous with the underlying estimator family.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T164304Z-score-gradient.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases; no normalized identity match. Both full-checkout searches included ignored and hidden files, returning 66 lines each with identical sorted contents. Match-centered excerpts from all 41 unique hit contents were read: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead. Ten exact AIO nodes and six complete native neighbors were inspected; absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Ten exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Ten exact pinned CLASS nodes with all scoped synonyms, definitions, comments and outgoing edges, plus six full native neighbors, were read. REINFORCE has a related algorithm-to-task mapping to ReinforcementLearning. NVIL has a related training-method-to-model mapping to BayesianNetwork. The identity straight-through rule has a bounded no-match assessment: sigmoid probability parameterization is an example forward component, not its identity backward substitution; HardSigmoidFunction, generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network architectures do not supply an established mapping. No equivalence or subclass claim is made. Prior neighboring mappings are context, not newly approved. |
+| neighbors | research/discovery/20261011T164304Z-score-gradient.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full GumbelSoftmaxRelaxation, StraightThroughGumbelSoftmax, StochasticGradientDescent, ProximalPolicyOptimization, SoftActorCritic and QLearning records distinguish relaxed objectives, specialized backward Jacobians, generic parameter updates, clipped policy surrogates, entropy-regularized actor-critic training and action-value bootstrapping. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/score-gradient-boundaries.py; calculate(): constant and action-dependent baselines, a straight-through direction counterexample, printed threshold probabilities and same-batch running centering | supports | Exact finite examples distinguish admissible and sample-dependent baselines, mean reward and a score-weighted optimal baseline, straight-through and exact discrete gradient directions, printed threshold probabilities, and raw versus same-batch-centered NVIL gradients. These are curator derivations, not general convergence or benchmark claims. |
+| reinforce-source-0 | https://gwern.net/doc/reinforcement-learning/model-free/1992-williams.pdf; Section 4, PDF pp.6 and 8 / journal pp.234 and 236, Theorem 1 and Equations (9)–(10); Sections 2–4, PDF pp.2–8 / journal pp.230–236, especially Theorem 1 and Equations (5)–(10); Section 5, PDF pp.8–9 / journal pp.236–237, Equation (11) and Theorem 2 | supports | Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning. Machine Learning 8:229–256 (1992), 28-page public copy hosted by Gwern. Title, author, journal and pagination agree with the publisher metadata; publisher-host byte equality was not established. Locators use PDF pages and journal header pagination, not the additional footer numbering. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| reinforce-source-1 | https://arxiv.org/pdf/1308.3432v1; Section 3, Corollary 1, Equation (10) and proof, PDF/printed pp.6–7 | supports | Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation. arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and printed page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| straightthroughestimator-source-0 | https://arxiv.org/pdf/1308.3432v1; Section 3, Equation (3), PDF/printed p.5; proof leading to Equation (5), p.6; Section 4, Equation (13) and preceding paragraph, PDF/printed p.7; Section 4, Equation (13), PDF/printed p.7; Section 3, Equation (3), Theorem 1 and proof, pp.5–6; Section 5 and Figure 1, p.8 | supports | Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation. arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and printed page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| neuralvariationalinferenceandlearning-source-0 | https://proceedings.mlr.press/v32/mnih14.pdf; Sections 2.1–2.3, Equations (1)–(12), PDF pp.2–4; Sections 3.3–3.4, pp.5–6; Sections 3.1–3.4, PDF pp.4–6 | supports | Neural Variational Inference and Learning in Belief Networks. ICML 2014, Proceedings of Machine Learning Research 32(2):1791–1799; nine-page publisher PDF without printed proceedings page numbers. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| neuralvariationalinferenceandlearning-source-1 | https://proceedings.mlr.press/v32/mnih14-supp.pdf; Section A, Algorithm 1, PDF p.1; Sections A–B, Algorithm 1 and inference-gradient derivation, PDF p.1 | supports | Neural Variational Inference and Learning in Belief Networks: Supplementary Material. One-page publisher supplement linked from the PMLR article; Algorithm 1 and the inference-gradient derivation. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Only the declared PDF pages were read. Williams’s primary article was available through a public copy with matching publisher metadata; publisher-host byte equivalence was not established.
+- A source notation inconsistency is explicitly interpreted; no author implementation or empirical result is certified.
+- Finite calculations establish specific boundary examples, not general optimization failure, convergence or a benchmark ranking.
+- There are 188 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T164957Z-score-gradient
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of score gradients and variational learning
+started_at: '2026-10-11T16:43:43Z'
+finished_at: '2026-10-11T16:49:57Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all new fields against
+    actual primary PDF pages, publisher metadata, ten exact AIO nodes, six full native
+    neighbors and original finite calculations. Baseline dependence and variance,
+    backward-rule identity, the printed indicator conflict, discrete-gradient direction,
+    variational sampling and current-batch update order were examined. This is not
+    independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain REINFORCE, the identity straight-through estimator and NVIL as distinct
+  DRAFT concepts. The records preserve baseline restrictions, disclose source notation
+  and separate raw gradient identities from heuristic or adaptive updates. No actionable
+  curation finding remains in the declared scope.
+source:
+  git_revision: 4affb2e4892c4c1aa92258774b58325390ce1e84
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/DeepBeliefNetwork.yaml
+    sha256: e6912732493adbfea3b48e01184d33682ad262dd73801757c094a2b160046a58
+    role: context
+  - path: data/aio/DifferentiableLLM.yaml
+    sha256: b8a40c81f74e60c62abed98282803859d0f00ad7e3b9c3d161d63002575f50a3
+    role: context
+  - path: data/aio/HardSigmoidFunction.yaml
+    sha256: d9a78ced04a24c242291fab0c7a37082572fc33b61f8bab3f3ae6bf8e56640c6
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/GumbelSoftmaxRelaxation.yaml
+    sha256: 330a1911c594beade01b4f613034a41aef5a4783cf41667a468415b4b6ad6420
+    role: context
+  - path: data/curated/NeuralVariationalInferenceAndLearning.yaml
+    sha256: 0d24a286ed64974478f452907c018d9618348ef4900808ea97b80036b1dfb06c
+    role: target
+  - path: data/curated/ProximalPolicyOptimization.yaml
+    sha256: 073aed5362b80546287548c4a1520105bb228b146a751cbccc879429f22b3661
+    role: context
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/REINFORCE.yaml
+    sha256: 2f579286d88446d0b18e4988873a6b274d3ad24be48e6f58b716edaf9d68f514
+    role: target
+  - path: data/curated/SoftActorCritic.yaml
+    sha256: fd4dd468f1b4a139c0166eab39944608314e42e7cf4dc0f8d750d3cf4802fe85
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: data/curated/StraightThroughEstimator.yaml
+    sha256: 9476ce3dca57298172b11bd84d6132d00c9e5f8bd084d3202d10f159024dfe7a
+    role: target
+  - path: data/curated/StraightThroughGumbelSoftmax.yaml
+    sha256: b774a8ba97d2627a6a4d7467780ad40690c68db504419d2118e43f8cecf79a46
+    role: context
+  - path: research/discovery/20261011T164304Z-score-gradient.json
+    sha256: e6282c74e309e22b90a0674040809339ddd51fd2eed81c7b6fa29f5742406479
+    role: context
+  - path: research/discovery/score-gradient-boundaries.py
+    sha256: faef2aa5668c09e2e9622c546719a8184ae28cef63630a90e73357f76ceb87d5
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:REINFORCE
+  path: data/curated/REINFORCE.yaml
+  label: REINFORCE
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/REINFORCE.yaml
+    role: maintained
+- target_id: AIMech:StraightThroughEstimator
+  path: data/curated/StraightThroughEstimator.yaml
+  label: Straight-through estimator
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StraightThroughEstimator.yaml
+    role: maintained
+- target_id: AIMech:NeuralVariationalInferenceAndLearning
+  path: data/curated/NeuralVariationalInferenceAndLearning.yaml
+  label: Neural variational inference and learning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NeuralVariationalInferenceAndLearning.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained score-gradient, surrogate-estimator
+    and variational-learning concepts.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust gradient estimation or variational training.
+      Pathwise estimators, BBVI, wake-sleep, noisy rectifiers, stochastic-times-smooth
+      units and other frontier cohorts remain open.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 72.67s (0:01:12)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 337 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 93 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 90,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Finite score-gradient and surrogate-estimator examples
+  command: python3 research/discovery/score-gradient-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"bernoulli_baselines": {"0": {"mean": "3/16", "variance": "27/256"},
+    "1/4": {"mean": "3/16", "variance": "3/64"}, "3/4": {"mean": "3/16", "variance":
+    "0"}, "2": {"mean": "3/16", "variance": "75/256"}}, "action_dependent_baseline_mean":
+    "0", "straight_through": {"loss": "-h+6*h^2-4*h^3", "expected_surrogate": "-1",
+    "exact_logit_gradient": "3/16"}, "printed_threshold": {"p": "1/4", "probability_for_U_greater_than_p":
+    "3/4", "expected_h_minus_p": "1/2"}, "current_batch_centering": {"alpha": "4/5",
+    "batch_size": 2, "raw_expectation": "1/4", "centered_expectation": "9/40", "traces":
+    [{"sample": [0, 0], "raw": "1/2", "centered": "2/5"}, {"sample": [0, 1], "raw":
+    "1/4", "centered": "1/4"}, {"sample": [1, 0], "raw": "1/4", "centered": "1/4"},
+    {"sample": [1, 1], "raw": "0", "centered": "0"}]}, "scope": "Exact rational enumeration
+    and polynomial derivatives for small constructed examples. This is not an author-code
+    run, a numerical benchmark, or a general convergence theorem."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T164304Z-score-gradient.json
+  accessed_at: '2026-10-11T16:43:43Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 334 preceding native
+    IDs/names/aliases; no normalized identity match. Both full-checkout searches included
+    ignored and hidden files, returning 66 lines each with identical sorted contents.
+    Match-centered excerpts from all 41 unique hit contents were read: ordinary verb
+    reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring
+    Gumbel straight-through discussions and the new gradient-estimator discovery lead.
+    Ten exact AIO nodes and six complete native neighbors were inspected; absence
+    is bounded to this snapshot and semantic neighborhood.'
+  search_scope: 'All 442 pinned AIO labels/scoped synonyms and 334 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. Match-centered
+    excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce
+    uses, neighboring Gumbel straight-through discussions and saved discovery leads.
+    Both scans returned 66 lines with identical sorted contents. Exact counts, paths
+    and differences remain in the ledger.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Ten exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T16:43:43Z'
+  support: supports
+  summary: 'Ten exact pinned CLASS nodes with all scoped synonyms, definitions, comments
+    and outgoing edges, plus six full native neighbors, were read. REINFORCE has a
+    related algorithm-to-task mapping to ReinforcementLearning. NVIL has a related
+    training-method-to-model mapping to BayesianNetwork. The identity straight-through
+    rule has a bounded no-match assessment: sigmoid probability parameterization is
+    an example forward component, not its identity backward substitution; HardSigmoidFunction,
+    generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network
+    architectures do not supply an established mapping. No equivalence or subclass
+    claim is made. Prior neighboring mappings are context, not newly approved.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T164304Z-score-gradient.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T16:43:43Z'
+  support: supports
+  summary: Full GumbelSoftmaxRelaxation, StraightThroughGumbelSoftmax, StochasticGradientDescent,
+    ProximalPolicyOptimization, SoftActorCritic and QLearning records distinguish
+    relaxed objectives, specialized backward Jacobians, generic parameter updates,
+    clipped policy surrogates, entropy-regularized actor-critic training and action-value
+    bootstrapping. Their prior mappings are contextual, not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/score-gradient-boundaries.py
+  locator: 'calculate(): constant and action-dependent baselines, a straight-through
+    direction counterexample, printed threshold probabilities and same-batch running
+    centering'
+  accessed_at: '2026-10-11T16:43:43Z'
+  snapshot_sha256: faef2aa5668c09e2e9622c546719a8184ae28cef63630a90e73357f76ceb87d5
+  support: supports
+  summary: Exact finite examples distinguish admissible and sample-dependent baselines,
+    mean reward and a score-weighted optimal baseline, straight-through and exact
+    discrete gradient directions, printed threshold probabilities, and raw versus
+    same-batch-centered NVIL gradients. These are curator derivations, not general
+    convergence or benchmark claims.
+- evidence_id: reinforce-source-0
+  kind: primary_source
+  reference: https://gwern.net/doc/reinforcement-learning/model-free/1992-williams.pdf
+  locator: Section 4, PDF pp.6 and 8 / journal pp.234 and 236, Theorem 1 and Equations
+    (9)–(10); Sections 2–4, PDF pp.2–8 / journal pp.230–236, especially Theorem 1
+    and Equations (5)–(10); Section 5, PDF pp.8–9 / journal pp.236–237, Equation (11)
+    and Theorem 2
+  accessed_at: '2026-10-11T16:33:28Z'
+  snapshot_sha256: e1029df5459f4a83bf33a876df018ee4f7b628b210bb9d047a6d60ec13f7c838
+  support: supports
+  summary: Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement
+    Learning. Machine Learning 8:229–256 (1992), 28-page public copy hosted by Gwern.
+    Title, author, journal and pagination agree with the publisher metadata; publisher-host
+    byte equality was not established. Locators use PDF pages and journal header pagination,
+    not the additional footer numbering. Actual paper and HTML reading scopes are
+    declared in source_analysis; extraction, rendering and a full-text access label
+    do not establish that every page was read.
+- evidence_id: reinforce-source-1
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1308.3432v1
+  locator: Section 3, Corollary 1, Equation (10) and proof, PDF/printed pp.6–7
+  accessed_at: '2026-10-11T16:33:05Z'
+  snapshot_sha256: 509eb5e5294d6a5cb730a239022a6bd3589ed54cd24c1d7482c1edf6237ed863
+  support: supports
+  summary: Estimating or Propagating Gradients Through Stochastic Neurons for Conditional
+    Computation. arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and
+    printed page numbers agree. Actual paper and HTML reading scopes are declared
+    in source_analysis; extraction, rendering and a full-text access label do not
+    establish that every page was read.
+- evidence_id: straightthroughestimator-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1308.3432v1
+  locator: Section 3, Equation (3), PDF/printed p.5; proof leading to Equation (5),
+    p.6; Section 4, Equation (13) and preceding paragraph, PDF/printed p.7; Section
+    4, Equation (13), PDF/printed p.7; Section 3, Equation (3), Theorem 1 and proof,
+    pp.5–6; Section 5 and Figure 1, p.8
+  accessed_at: '2026-10-11T16:33:05Z'
+  snapshot_sha256: 509eb5e5294d6a5cb730a239022a6bd3589ed54cd24c1d7482c1edf6237ed863
+  support: supports
+  summary: Estimating or Propagating Gradients Through Stochastic Neurons for Conditional
+    Computation. arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and
+    printed page numbers agree. Actual paper and HTML reading scopes are declared
+    in source_analysis; extraction, rendering and a full-text access label do not
+    establish that every page was read.
+- evidence_id: neuralvariationalinferenceandlearning-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v32/mnih14.pdf
+  locator: Sections 2.1–2.3, Equations (1)–(12), PDF pp.2–4; Sections 3.3–3.4, pp.5–6;
+    Sections 3.1–3.4, PDF pp.4–6
+  accessed_at: '2026-10-11T16:33:08Z'
+  snapshot_sha256: ea6f1a19371d2670d63c34f8d3b034c675c580707ccd2f8f0d0373320e480ddb
+  support: supports
+  summary: Neural Variational Inference and Learning in Belief Networks. ICML 2014,
+    Proceedings of Machine Learning Research 32(2):1791–1799; nine-page publisher
+    PDF without printed proceedings page numbers. Actual paper and HTML reading scopes
+    are declared in source_analysis; extraction, rendering and a full-text access
+    label do not establish that every page was read.
+- evidence_id: neuralvariationalinferenceandlearning-source-1
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v32/mnih14-supp.pdf
+  locator: Section A, Algorithm 1, PDF p.1; Sections A–B, Algorithm 1 and inference-gradient
+    derivation, PDF p.1
+  accessed_at: '2026-10-11T16:33:10Z'
+  snapshot_sha256: 1b1f762f384fdaf2ea8715589b11b51845e8d7f8c8aaddc5cae54959e55e6ae2
+  support: supports
+  summary: 'Neural Variational Inference and Learning in Belief Networks: Supplementary
+    Material. One-page publisher supplement linked from the PMLR article; Algorithm
+    1 and the inference-gradient derivation. Actual paper and HTML reading scopes
+    are declared in source_analysis; extraction, rendering and a full-text access
+    label do not establish that every page was read.'
+assessments:
+- assessment_id: reinforce
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:REINFORCE
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - reinforce-source-0
+  - reinforce-source-1
+  summary: 'This record covers Williams’s REINFORCE update family, including its basic
+    immediate-reward rule and the stated fixed-episode extension. The characteristic
+    eligibility is a score-function derivative. This is not the entire reinforcement-learning
+    task, an action-value bootstrapping rule, PPO’s clipped surrogate, a generic optimizer,
+    or every estimator that uses random perturbations. The acronym names the update
+    structure; no trained policy instance is represented. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 66 and 66 lines respectively. Match-centered
+    excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce
+    in existing ant/search/pseudo-label records and calculations, plus neighboring
+    Gumbel straight-through discussions and the new gradient-estimator discovery lead,
+    not existing candidate records. Exact checkout counts and differences are retained
+    in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+    edges and six full native neighboring records were inspected. Absence is bounded
+    to this snapshot and semantic neighborhood.'
+  details: 'For a stochastic unit with conditional mass or density g_i(y_i;w_i,x_i),
+    sample its output y_i, receive scalar reinforcement r and update weight w_ij by
+    alpha_ij*(r-b_ij)*d log(g_i)/d w_ij. The baseline b_ij is conditionally independent
+    of the current unit output given the weights and unit inputs; it may depend on
+    permitted input context or past experience. In the original immediate-reward formulation,
+    the nonnegative rate factor may depend at most on the unit’s parameter vector
+    and trial index; it is not chosen from the current sampled output. Under the stated
+    differentiability and environmental assumptions, the baseline-centered score product
+    estimates the corresponding expected-reward gradient component. A common scalar
+    rate gives an expected update proportional to that gradient; differing nonnegative
+    coordinate rates generally rescale its components and need not preserve collinearity.
+    For a Bernoulli-logistic unit with probability p and input x_j, the eligibility
+    is (y-p)*x_j. In the fixed-length episodic extension, hold parameters fixed during
+    the episode, sum each parameter’s score eligibilities over time, and multiply
+    that sum by terminal reward minus an admissible episode baseline when updating
+    at the end. Williams’s reinforcement-comparison example computes the reward baseline
+    from past experience and explicitly excludes the current output or current reward
+    from its computation. The expected-update theorem distinguishes a common scalar
+    step size from nonnegative coordinate-dependent rates. For the Bernoulli-logistic
+    score h-p, Bengio and colleagues derive the variance-minimizing constant baseline
+    as the score-squared-weighted mean of the loss, rather than its ordinary mean.
+    This is a minimum within the specified constant-baseline family, not among all
+    possible gradient estimators. Limits: The score identity requires valid differentiable
+    probabilities or densities and conditions permitting differentiation of the expectation.
+    Parameter-dependent support or extra direct reward dependence requires additional
+    analysis; a discrete black-box reward need not itself have a derivative with respect
+    to the action. A baseline that depends on the same sampled action or its current
+    reward does not automatically preserve the unbiased score identity. An input-dependent
+    baseline or a statistic based on past trials can satisfy the stated conditional-independence
+    requirement. Baseline choice changes variance and can increase it. The mean reward
+    is not generally the minimum-variance baseline, and low variance is not guaranteed
+    simply by naming a baseline. Expected gradient alignment is not monotonic improvement
+    of each sampled update, a global optimum guarantee, or a convergence theorem for
+    arbitrary step sizes. Zero coordinate rates can prevent movement even at a nonzero
+    gradient. The original episodic construction assumes a declared finite episode
+    and parameters fixed throughout it. It is not a blanket justification for arbitrary
+    online bootstrapping, truncation, discounting, off-policy sample reuse or action-dependent
+    baselines. The primary journal paper was read through a public third-party copy
+    and checked against publisher metadata. Only the declared method pages were inspected;
+    its full proof appendix and empirical literature were not independently audited.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable gradient-estimation or probabilistic-sampling method, not
+      a trained model instance or benchmark outcome.
+    evidence_ids:
+    - reinforce-source-0
+    - reinforce-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'Ten exact pinned CLASS nodes with all scoped synonyms, definitions,
+      comments and outgoing edges, plus six full native neighbors, were read. REINFORCE
+      has a related algorithm-to-task mapping to ReinforcementLearning. NVIL has a
+      related training-method-to-model mapping to BayesianNetwork. The identity straight-through
+      rule has a bounded no-match assessment: sigmoid probability parameterization
+      is an example forward component, not its identity backward substitution; HardSigmoidFunction,
+      generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network
+      architectures do not supply an established mapping. No equivalence or subclass
+      claim is made. Prior neighboring mappings are context, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: straightthroughestimator
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:StraightThroughEstimator
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - straightthroughestimator-source-0
+  summary: 'The core identity-backward rule is the straight-through estimator named
+    by Bengio, Léonard and Courville, who attribute the preceding idea to Hinton’s
+    2012 lecture. The paper also discusses a sigmoid-derivative-scaled variant; that
+    scaling is not part of the core identity rule. This concept is distinct from a
+    score-function estimator, a fully smooth forward relaxation, and the separately
+    curated straight-through Gumbel-Softmax estimator with its specific temperature-dependent
+    softmax Jacobian. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique
+    hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label
+    records and calculations, plus neighboring Gumbel straight-through discussions
+    and the new gradient-estimator discovery lead, not existing candidate records.
+    Exact checkout counts and differences are retained in the ledger. Ten exact AIO
+    CLASS nodes with scoped synonyms/comments and outgoing edges and six full native
+    neighboring records were inspected. Absence is bounded to this snapshot and semantic
+    neighborhood.'
+  details: 'Let a be the pre-threshold or pre-sigmoid activation and h the hard binary
+    value supplied to downstream computation. Compute the downstream derivative dL/dh
+    using that hard forward state. In the backward pass, substitute dL/dh for the
+    gradient with respect to a, as if dh/da were one, and then propagate through the
+    differentiable computation that produced a. In the paper’s Bernoulli-logistic
+    setting, the intended stochastic output law is P(h=1)=sigmoid(a), as used in its
+    proof; the identity backward substitution is separate from that sampling law.
+    Multiplying dL/dh by sigmoid(a)*(1-sigmoid(a)) gives the paper’s discussed scaled
+    alternative, not the same backward rule. No derivative through the actual binary
+    sampling decision is obtained by this substitution. The source explicitly defines
+    the core backward value as dL/dh and separately discusses multiplying it by the
+    sigmoid derivative. Hard forward values are retained in either case; the two backward
+    rules must not be conflated. The indicator inequality in Equation (3) and the
+    probability used in the following proof disagree for a general non-half sigmoid
+    probability. The curated interpretation uses the proof’s explicit Bernoulli probability;
+    this is a disclosed mathematical interpretation of the source, not a check of
+    author software. Limits: This is a biased surrogate, not the ordinary derivative
+    of the hard threshold and not an unbiased estimator of the discrete expected-loss
+    gradient. A usable downstream derivative is required; an arbitrary black-box discrete
+    reward does not provide one automatically. The surrogate depends on the differentiable
+    extension of the downstream loss between binary states. Equal values at the binary
+    endpoints do not imply equal straight-through updates, and the source’s informal
+    single-layer sign statement is not used as a universal guarantee for arbitrary
+    differentiable losses. Equation (3) of the inspected paper prints the indicator
+    U>sigmoid(a), but the subsequent proof uses P(h=1)=sigmoid(a). For uniform U,
+    the printed inequality instead gives probability 1-sigmoid(a). This record follows
+    the explicitly used Bernoulli law and discloses the inconsistency rather than
+    treating the printed inequality as verified executable sampling code. Identity,
+    sigmoid-scaled, clipped and other later straight-through rules require distinct
+    conventions. A generic straight-through label does not establish that their Jacobians,
+    bias or optimization behavior coincide. The inspected conditional-computation
+    example motivates sparse gating; no universal speedup, accuracy advantage or successful
+    convergence is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: A reusable gradient-estimation or probabilistic-sampling method, not
+      a trained model instance or benchmark outcome.
+    evidence_ids:
+    - straightthroughestimator-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: 'Ten exact pinned CLASS nodes with all scoped synonyms, definitions,
+      comments and outgoing edges, plus six full native neighbors, were read. REINFORCE
+      has a related algorithm-to-task mapping to ReinforcementLearning. NVIL has a
+      related training-method-to-model mapping to BayesianNetwork. The identity straight-through
+      rule has a bounded no-match assessment: sigmoid probability parameterization
+      is an example forward component, not its identity backward substitution; HardSigmoidFunction,
+      generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network
+      architectures do not supply an established mapping. No equivalence or subclass
+      claim is made. Prior neighboring mappings are context, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: neuralvariationalinferenceandlearning
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralVariationalInferenceAndLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - neuralvariationalinferenceandlearning-source-0
+  - neuralvariationalinferenceandlearning-source-1
+  summary: 'This is Mnih and Gregor’s NVIL method, not all variational inference,
+    a particular trained belief network, the wake-sleep recognition update, or the
+    reparameterization-gradient approach used in stochastic gradient variational Bayes.
+    It uses a shared feedforward inference model across observations and does not
+    require a separate optimized set of local variational parameters for every observation.
+    Exact sampling refers to its chosen variational distribution, not automatically
+    to the true posterior. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique
+    hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label
+    records and calculations, plus neighboring Gumbel straight-through discussions
+    and the new gradient-estimator discovery lead, not existing candidate records.
+    Exact checkout counts and differences are retained in the ledger. Ten exact AIO
+    CLASS nodes with scoped synonyms/comments and outgoing edges and six full native
+    neighboring records were inspected. Absence is bounded to this snapshot and semantic
+    neighborhood.'
+  details: 'Let P_theta(x,h) be the generative joint model and Q_phi(h|x) an inference-network
+    distribution that can be sampled and evaluated efficiently. For each observed
+    x, maximize the bound E_Q[log P_theta(x,h)-log Q_phi(h|x)]. Draw latent samples
+    from Q. The raw model-gradient estimator averages d log P_theta(x,h)/d theta;
+    the raw inference-gradient estimator averages the learning signal l=log P_theta(x,h)-log
+    Q_phi(h|x) times d log Q_phi(h|x)/d phi. Its score expectation is zero, so baselines
+    independent of the current latent sample conditional on x can be subtracted without
+    changing the raw gradient expectation. The method fits an input-dependent neural
+    baseline and maintains a scalar running center. It also divides the centered signal
+    by max(1,sqrt(v)), where v is a running variance estimate, to adapt the update
+    scale. In the supplement’s concrete minibatch ordering, subtract the input baseline,
+    compute batch signal mean and variance, update the running center and variance
+    using those batch statistics, then form centered/scaled inference updates and
+    baseline updates; the model gradient remains unweighted by this signal. For layered
+    factorizations, local learning signals omit terms that are independent of the
+    relevant sampled descendants under the conditional score expectation, with separate
+    baselines and variance estimates. The supplementary algorithm first samples the
+    minibatch and computes baseline-adjusted learning signals, then updates the running
+    mean and variance from that same minibatch before using them to center and scale
+    its inference gradients. This practical order is distinct from the main-text identity
+    for a baseline independent of the sampled latent value. The inference network
+    is trained from observations and its own latent samples toward the variational
+    objective. The source contrasts this with wake-sleep’s recognition update from
+    model-generated samples and with pathwise gradients for continuous-variable variational
+    methods. These distinctions do not make NVIL synonymous with every use of REINFORCE.
+    Limits: A sample from Q is exact for Q while posterior inference remains approximate
+    unless Q matches the model posterior. The variational-family capacity and optimization
+    outcome affect the gap to the marginal log likelihood. Unbiasedness of the raw
+    score estimator and subtraction of a conditionally sample-independent baseline
+    do not automatically certify the final adaptive update. The supplement updates
+    running statistics with the same minibatch before applying them, and normalization
+    changes the update scale. Current-batch centering can introduce finite-sample
+    bias; no blanket unbiasedness claim is made for that full practical procedure.
+    The input baseline is trained using a squared-signal objective, which the source
+    explicitly distinguishes from maximum variance reduction that accounts for score
+    magnitude. A learned baseline need not improve variance in every setting. The
+    method needs tractable sampling and evaluation of Q, evaluation of the joint P
+    and differentiable log-probability parameters. It does not require differentiating
+    the sampled discrete latent value, but support, zero probabilities and differentiation-under-expectation
+    conditions still matter. Local-signal simplifications require the stated conditional
+    independences. Arbitrarily dropping latent-dependent log terms can change the
+    expected gradient. The variational bound and stochastic gradient formulation do
+    not guarantee global optimization, exact posterior recovery or universally faster
+    inference. Reported dataset comparisons and the complete author implementation
+    are not certified here.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable gradient-estimation or probabilistic-sampling method, not
+      a trained model instance or benchmark outcome.
+    evidence_ids:
+    - neuralvariationalinferenceandlearning-source-0
+    - neuralvariationalinferenceandlearning-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'Ten exact pinned CLASS nodes with all scoped synonyms, definitions,
+      comments and outgoing edges, plus six full native neighbors, were read. REINFORCE
+      has a related algorithm-to-task mapping to ReinforcementLearning. NVIL has a
+      related training-method-to-model mapping to BayesianNetwork. The identity straight-through
+      rule has a bounded no-match assessment: sigmoid probability parameterization
+      is an example forward component, not its identity backward substitution; HardSigmoidFunction,
+      generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network
+      architectures do not supply an established mapping. No equivalence or subclass
+      claim is made. Prior neighboring mappings are context, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: reinforce-boundaries
+  area: consistency
+  topic: Score eligibility, conditional baselines and expected updates
+  outcome: supported
+  target_ids:
+  - AIMech:REINFORCE
+  evidence_ids:
+  - reinforce-source-0
+  - reinforce-source-1
+  - finite-conventions
+  summary: Retain the original REINFORCE update family.
+  details: The primary rule multiplies reward minus an admissible baseline by a log-probability
+    derivative. Baseline independence is conditional on the unit context; a common
+    scalar rate gives proportional expected gradient, while coordinate rates can rescale
+    components. The fixed-episode extension holds parameters fixed and sums eligibilities.
+    Finite Bernoulli enumeration preserves the mean under constant baselines while
+    changing variance; the mean reward is not the score-weighted optimal baseline.
+    A sample-dependent baseline does not inherit the identity. Neither a theorem statement
+    nor these examples certify arbitrary step sizes, global convergence or a full
+    appendix audit.
+- assessment_id: straight-through-boundaries
+  area: consistency
+  topic: Identity backward substitution and source notation
+  outcome: supported
+  target_ids:
+  - AIMech:StraightThroughEstimator
+  evidence_ids:
+  - straightthroughestimator-source-0
+  - finite-conventions
+  summary: Retain the identity rule separately from sigmoid-scaled and Gumbel-Softmax
+    variants.
+  details: 'The source copies dL/dh to the pre-sigmoid activation rather than differentiating
+    the hard sample. The visually inspected Equation 3 prints U>p but the proof uses
+    P(h=1)=p; a uniform-threshold calculation confirms the mismatch, and the record
+    discloses its interpretation. The polynomial loss -h+6h^2-4h^3 has endpoint values
+    0 and 1 but derivative -1 at both endpoints: its expected identity-ST direction
+    is negative while the exact Bernoulli-logit gradient is positive. Thus the source’s
+    informal single-layer sign comment is not generalized to arbitrary downstream
+    losses. No author software or empirical failure is inferred.'
+- assessment_id: nvil-boundaries
+  area: consistency
+  topic: Amortized variational sampling and adaptive update order
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralVariationalInferenceAndLearning
+  evidence_ids:
+  - neuralvariationalinferenceandlearning-source-0
+  - neuralvariationalinferenceandlearning-source-1
+  - finite-conventions
+  summary: Retain NVIL as a distinct training procedure.
+  details: Exact draws are from Q, not necessarily the true posterior. The raw inference
+    gradient uses a score-weighted log-joint/log-Q signal; constant or input-only
+    baselines can preserve its expectation under the usual conditions. Algorithm 1
+    updates running statistics with the current minibatch before forming gradients
+    and applies a scale floor through max(1,sqrt(v)). In the finite valid joint-model
+    example, raw expectation 1/4 becomes 9/40 after current-batch centering while
+    normalization is inactive. This qualifies the full practical update’s unbiasedness,
+    not the ELBO derivation or empirical utility. Squared-signal baseline fitting
+    is not generally minimum gradient variance; local-signal removal needs conditional
+    independence.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Reward task, Bayesian target model and surrogate rule
+  outcome: supported
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain two related mappings and one bounded no-match assessment.
+  details: 'Ten exact pinned CLASS nodes with all scoped synonyms, definitions, comments
+    and outgoing edges, plus six full native neighbors, were read. REINFORCE has a
+    related algorithm-to-task mapping to ReinforcementLearning. NVIL has a related
+    training-method-to-model mapping to BayesianNetwork. The identity straight-through
+    rule has a bounded no-match assessment: sigmoid probability parameterization is
+    an example forward component, not its identity backward substitution; HardSigmoidFunction,
+    generic MathematicalFunction/TrainingStrategy, LLM classes and latent-network
+    architectures do not supply an established mapping. No equivalence or subclass
+    claim is made. Prior neighboring mappings are context, not newly approved.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:REINFORCE
+  - AIMech:StraightThroughEstimator
+  - AIMech:NeuralVariationalInferenceAndLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - reinforce-source-0
+  - reinforce-source-1
+  - straightthroughestimator-source-0
+  - neuralvariationalinferenceandlearning-source-0
+  - neuralvariationalinferenceandlearning-source-1
+  rationale: Reward-weighted scores, identity backward substitution and joint amortized
+    variational training have different mechanisms and assumptions. NVIL’s use of
+    a REINFORCE-style gradient does not make the full training procedure synonymous
+    with the underlying estimator family.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Only the declared PDF pages were read. Williams’s primary article was available
+  through a public copy with matching publisher metadata; publisher-host byte equivalence
+  was not established.
+- A source notation inconsistency is explicitly interpreted; no author implementation
+  or empirical result is certified.
+- Finite calculations establish specific boundary examples, not general optimization
+  failure, convergence or a benchmark ranking.
+- There are 188 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- score-gradient
+- self-review
+- discovery-ongoing
+```

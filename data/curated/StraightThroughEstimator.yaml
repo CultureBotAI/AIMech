@@ -1,0 +1,140 @@
+name: Straight-through estimator
+definition: A surrogate-gradient rule that keeps a hard threshold or sampled binary output in the forward
+  computation while propagating its downstream derivative backward as though the hard operation were the
+  identity function.
+concept_kind: mathematical_method
+identity_notes: 'The core identity-backward rule is the straight-through estimator named by Bengio, Léonard
+  and Courville, who attribute the preceding idea to Hinton’s 2012 lecture. The paper also discusses a
+  sigmoid-derivative-scaled variant; that scaling is not part of the core identity rule. This concept
+  is distinct from a score-function estimator, a fully smooth forward relaxation, and the separately curated
+  straight-through Gumbel-Softmax estimator with its specific temperature-dependent softmax Jacobian.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents
+  were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations,
+  plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead,
+  not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten
+  exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring
+  records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- This is a biased surrogate, not the ordinary derivative of the hard threshold and not an unbiased estimator
+  of the discrete expected-loss gradient. A usable downstream derivative is required; an arbitrary black-box
+  discrete reward does not provide one automatically.
+- The surrogate depends on the differentiable extension of the downstream loss between binary states.
+  Equal values at the binary endpoints do not imply equal straight-through updates, and the source’s informal
+  single-layer sign statement is not used as a universal guarantee for arbitrary differentiable losses.
+- Equation (3) of the inspected paper prints the indicator U>sigmoid(a), but the subsequent proof uses
+  P(h=1)=sigmoid(a). For uniform U, the printed inequality instead gives probability 1-sigmoid(a). This
+  record follows the explicitly used Bernoulli law and discloses the inconsistency rather than treating
+  the printed inequality as verified executable sampling code.
+- Identity, sigmoid-scaled, clipped and other later straight-through rules require distinct conventions.
+  A generic straight-through label does not establish that their Jacobians, bias or optimization behavior
+  coincide.
+- The inspected conditional-computation example motivates sparse gating; no universal speedup, accuracy
+  advantage or successful convergence is asserted.
+id: AIMech:StraightThroughEstimator
+aliases:
+- ST estimator
+- Identity straight-through estimator
+definition_evidence:
+- source_id: method-source
+  locator: Section 4, Equation (13), PDF/printed p.7; Section 3, Equation (3), Theorem 1 and proof, pp.5–6;
+    Section 5 and Figure 1, p.8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Let a be the pre-threshold or pre-sigmoid activation and h the hard binary value supplied
+    to downstream computation. Compute the downstream derivative dL/dh using that hard forward state.
+    In the backward pass, substitute dL/dh for the gradient with respect to a, as if dh/da were one, and
+    then propagate through the differentiable computation that produced a. In the paper’s Bernoulli-logistic
+    setting, the intended stochastic output law is P(h=1)=sigmoid(a), as used in its proof; the identity
+    backward substitution is separate from that sampling law. Multiplying dL/dh by sigmoid(a)*(1-sigmoid(a))
+    gives the paper’s discussed scaled alternative, not the same backward rule. No derivative through
+    the actual binary sampling decision is obtained by this substitution.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, Equation (13), PDF/printed p.7; Section 3, Equation (3), Theorem 1 and proof,
+      pp.5–6; Section 5 and Figure 1, p.8
+    relation: supports
+- claim_id: backward-variants
+  kind: scope
+  statement: The source explicitly defines the core backward value as dL/dh and separately discusses multiplying
+    it by the sigmoid derivative. Hard forward values are retained in either case; the two backward rules
+    must not be conflated.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, Equation (13) and preceding paragraph, PDF/printed p.7
+    relation: supports
+- claim_id: sampling-notation
+  kind: limitation
+  statement: The indicator inequality in Equation (3) and the probability used in the following proof
+    disagree for a general non-half sigmoid probability. The curated interpretation uses the proof’s explicit
+    Bernoulli probability; this is a disclosed mathematical interpretation of the source, not a check
+    of author software.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equation (3), PDF/printed p.5; proof leading to Equation (5), p.6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation
+  authors:
+  - Yoshua Bengio
+  - Nicholas Léonard
+  - Aaron Courville
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1308.3432v1
+  version: arXiv:1308.3432v1, August 15, 2013; 12-page author paper. PDF and printed page numbers agree.
+  persistent_id: arXiv:1308.3432v1
+  access_level: full_text
+  accessed_at: '2026-10-11T16:33:05Z'
+  sha256: 509eb5e5294d6a5cb730a239022a6bd3589ed54cd24c1d7482c1edf6237ed863
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 334 preceding native identities, plus
+    ignored/hidden-inclusive text search in both checkouts; semantic search for reinforcement, backpropagation,
+    gradients, variational inference, Bayesian/belief models, stochastic units, sigmoid functions and
+    training. Ten exact AIO CLASS nodes and six complete native neighbors inspected.
+  rationale: No suitable mapping for the general identity-backward surrogate rule was established in this
+    bounded snapshot. A forward probability parameterization, a learned network or a broad mathematical-function
+    category does not itself identify the derivative substitution.
+  examined_targets:
+  - target: AIO:SigmoidFunction
+    rejection_reason: The sigmoid can parameterize the forward Bernoulli law, but the core backward rule
+      deliberately does not use its derivative. That example component does not identify the general hard-operation
+      surrogate.
+  - target: AIO:HardSigmoidFunction
+    rejection_reason: A piecewise-linear approximation to a sigmoid is not the binary hard threshold with
+      identity backward substitution.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The broad input-output function class does not specify a forward/backward mismatch
+      or identify this estimator.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition has a preprocessing genus and does not identify the surrogate-gradient
+      rule.
+  - target: AIO:DifferentiableLLM
+    rejection_reason: An end-to-end differentiable language model is not a derivative estimator for hard
+      stochastic units.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A scalar-loss surrogate can be used in many settings; it is not the learning task,
+      and it does not require a score-function reward update.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: A reward-tuned language model is neither the estimator nor a required application.
+  - target: AIO:BayesianNetwork
+    rejection_reason: A directed conditional-dependence model is not a backward substitution rule.
+  - target: AIO:DeepBeliefNetwork
+    rejection_reason: The estimator does not identify this pretrained multilayer architecture.
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder is an architecture, not the identity-backward
+      estimator.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T16:43:04Z'
+  updated_at: '2026-10-11T16:43:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
