@@ -1,0 +1,896 @@
+# Scientific self-review of Helmholtz and wake-sleep concepts
+
+- Review: 20261011T171501Z-wake-sleep
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T17:11:13Z
+- Finished UTC: 2026-10-11T17:15:01Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the original wake-sleep algorithm, Helmholtz architecture and RWS as distinct DRAFT concepts. Their paired-model roles, update objectives, finite-sample estimator limits and inspected source versions are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of an explicit batch comprising one paired probabilistic architecture and two distinct learning procedures.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base c4ef2453ad1e9b3a5256338e2b470483701a1bb6.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:WakeSleepAlgorithm | data/curated/WakeSleepAlgorithm.yaml | maintained | Wake-sleep algorithm |
+| AIMech:HelmholtzMachine | data/curated/HelmholtzMachine.yaml | maintained | Helmholtz machine |
+| AIMech:ReweightedWakeSleep | data/curated/ReweightedWakeSleep.yaml | maintained | Reweighted wake-sleep |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 114.40s (0:01:54)<br>Checked 442 record(s); 0 failed.<br>Checked 343 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 95 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 92,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep | Command exited0 with no output. |
+| Wake-sleep objective and importance-estimator boundary calculations | passed | True | AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep | {"status": "PASS", "posterior_h1": "3/4", "exact_model_gradient": "1/4", "exact_data_wake_q_gradient": "1/2", "model_sleep_q_gradient": "1/4", "finite_sample_counts": {"1": {"mean_likelihood": "1/2", "mean_model_update": "-1/4", "mean_wake_recognition_update": "0", "expected_log_likelihood": -1.2424533248940002}, "2": {"mean_likelihood": "1/2", "mean_model_update": "-1/10", "mean_wake_recognition_update": "3/20", "expected_log_likelihood": -1.0508937159817537}, "3": {"mean_likelihood": "1/2", "mean_model_update": "-5/836", "mean_wake_recognition_update": "51/209", "expected_log_likelihood": -0.949723447925895}}, "exact_log_likelihood": -0.6931471805599453, "free_energy": 1.2424533248940002, "kl_recognition_to_posterior": 0.5493061443340548, "interpretation": "Finite examples distinguish objectives, unbiased likelihood estimates and biased normalized gradients. No universal monotonic bias or variance claim and no author-code behavior is inferred."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:WakeSleepAlgorithm.
+
+This is the original wake-sleep procedure with separate generative and recognition parameters. It is a training algorithm for a paired probabilistic model, distinct from the Helmholtz-machine architecture, exact EM, joint ELBO-gradient training in NVIL, and reweighted wake-sleep. The original binary-sigmoid construction supplies local delta rules; the general phase distinction does not require every later model variant to use those same units. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 340 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 17 unique matched line contents were inspected in full: NVIL method distinctions, source-reading scopes, prior reviews and the carried wake-sleep discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+During wake, present an observed input and sample its hidden representation layer by layer through the bottom-up recognition distribution q_phi(h&#124;x). Hold recognition parameters fixed for this update and ascend log p_theta(x,h) in the generative parameters. For the original Bernoulli-sigmoid units, a generative weight receives a learning-rate-scaled product of its sampled parent state and the difference between the sampled target state and the generative activation probability; biases use a constant parent. During sleep, sample a full configuration (x,h) ancestrally from the current top-down generative model, then ascend log q_phi(h&#124;x) in the recognition parameters while holding generative parameters fixed. The generated lower-layer states serve as inputs and their known sampled upper-layer causes as targets. This also gives local Bernoulli delta rules in the original parameterization. The wake update follows the generative-parameter variational-bound gradient at fixed q; the sleep update instead fits recognition on model-generated inputs and targets the posterior-to-recognition KL direction averaged under model inputs. The two phases are not generally gradients of the same data ELBO. Limits: Recognition samples are exact for q, not necessarily the model posterior. The generative wake update need not be an unbiased marginal-likelihood gradient or even have the same direction; a curator binary example demonstrates this distinction. The sleep input distribution is the current model distribution rather than the empirical data distribution. Poor model samples can therefore allocate recognition capacity differently from data-conditioned training. The original recognition distribution factors within each layer conditional on the preceding layer. This can miss explaining-away dependencies in the posterior; it does not assert unconditional independence of every hidden variable across layers. The original paired-model sources explicitly do not establish a common descent objective for both phases. Exact posterior recovery, global convergence and monotonic likelihood improvement are not guaranteed. Local binary-sigmoid rules depend on the stated conditional parameterization. No biological implementation, author-code execution or benchmark advantage is certified.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:HelmholtzMachine.
+
+This record covers the original paired generative/recognition model family in Dayan and colleagues’ paper. Its original layered binary construction admits both a deterministic mean-field-inspired training approximation and a stochastic wake-sleep procedure; the architecture is not synonymous with either training rule. The generative and recognition parameters are separate, rather than tied symmetric connections of a Boltzmann machine. Related later variational autoencoders and deep belief networks are not treated as identity aliases. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 340 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 17 unique matched line contents were inspected in full: NVIL method distinctions, source-reading scopes, prior reviews and the carried wake-sleep discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+A top-down directed model p_theta(x,h) assigns probabilities to observed inputs and hidden configurations; a separately parameterized bottom-up model q_phi(h&#124;x) produces a tractable approximate posterior. In the original layered binary construction, unit states in a layer are conditionally independent given the adjacent driving layer, with independent top-layer generative priors. Recognition proceeds through an acyclic bottom-up pass. The variational free energy is E_q[log q(h&#124;x)-log p(x,h)], and log p(x) equals its negative plus KL(q(h&#124;x)&#124;&#124;p(h&#124;x)); the negative free energy is therefore a lower bound under the normalized-model and support conditions. The paper describes stochastic recognition samples and, separately, a deterministic approximation that substitutes recognition means for sampled binary activities and neglects associated correlations. Its stochastic training alternative uses wake-sleep. The generative conditional need not be sigmoid: Appendix A considers noisy-or and other imaging rules. These choices do not change the defining presence of distinct generative and recognition models. Limits: The tractable recognition family need not contain the true posterior, even when the directed generative model factors locally. Explaining-away dependencies can obstruct exact posterior matching. The deterministic substitution of mean activations is an additional approximation, not exact evaluation of every nonlinear expectation in the stochastic model. The exact free-energy identity does not validate all approximation formulas or practical training updates. Wake-sleep is a training option, and its sleep recognition step is not generally the data-ELBO gradient. A shared variational motivation does not establish a single objective decreased by all model variants. The inspected author manuscript’s Equation (16) prints negative free energy as a positive sum of Bernoulli KL terms, conflicting with the preceding sign convention. The curated identity uses the explicit Section 2 decomposition; Appendix B derivative implementation was not audited and that printed approximate formula is not adopted. The record describes a reusable architecture family, not a trained density estimator or a verified biological explanation. No exact posterior, universal compression gain or empirical ranking is asserted.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:ReweightedWakeSleep.
+
+This is Bornschein and Bengio’s ICLR 2015 RWS procedure, scoped to its tractable joint/proposal calculations and Algorithm 1. It is distinct from ordinary wake-sleep, the generic importance-sampling identity, BBVI score-function ELBO optimization, and the choice of SBN or NADE component architecture. A single generative wake sample recovers the original wake model update; reproducing original wake-sleep additionally uses the sleep recognition update. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 340 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 17 unique matched line contents were inspected in full: NVIL method distinctions, source-reading scopes, prior reviews and the carried wake-sleep discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For an observed input x and fixed current parameters, draw K independent latent configurations h_k from the recognition distribution q_phi(h&#124;x), evaluate p_theta(x,h_k) and q_phi(h_k&#124;x), and compute weights w_k=p_theta(x,h_k)/q_phi(h_k&#124;x). Normalize them by their positive sum. Update theta using the weighted average of grad_theta log p_theta(x,h_k). The unnormalized average of w_k estimates p_theta(x); taking its logarithm gives a distinct, generally biased log-likelihood estimator. For recognition training, the wake option uses the same normalized weights to average grad_phi log q_phi(h_k&#124;x), targeting KL(p_theta(h&#124;x)&#124;&#124;q_phi(h&#124;x)) on observed inputs. The sleep option samples a fresh (x-prime,h-prime) from p_theta and ascends log q_phi(h-prime&#124;x-prime). Algorithm 1 permits either recognition option or both. These displayed updates weight log-probability scores evaluated at sampled states; they do not differentiate through the normalized weights as an extra part of that score update. With K=1 the model update becomes the ordinary generative wake update, while the wake recognition score alone has zero expectation under normalized q at fixed parameters, as a curator consequence of the score identity. Limits: Importance estimation requires proposal support wherever the target joint is positive, accessible joint/proposal values and suitable integrability. Arbitrary directed or deep-belief models with unavailable joint normalization are not covered merely by their architecture name. The likelihood average can be unbiased while its logarithm and normalized-weight gradient remain biased at finite K. A consistent limit under suitable conditions is not an assertion of monotonic finite-K variance or bias improvement, global convergence, or exact posterior inference. A proposal equal to the posterior makes likelihood weights constant, but it does not automatically minimize the variance of every model-gradient estimator. Poor proposal coverage can concentrate weights and make the estimate unreliable. The recognition wake and sleep options optimize posterior-to-recognition matching under different input distributions. Neither is automatically the recognition gradient of the standard data ELBO used by NVIL, and differentiating an importance-weighted bound with respect to proposal parameters is a different update. The main-text prose reverses the arguments of q in one loss expression, while Equations (4)–(5) and Algorithm 1 consistently use q(h&#124;x). Supplement Equation (11) begins with a joint-weighted expression before introducing a conditional normalization; Equation (12) gives the intended posterior-KL target. This record follows those explicit update formulas and does not certify the printed intermediate equalities or author implementation. K, component layers and update options are method choices rather than a universal best configuration. No benchmark advantage, author-code execution or runtime scaling claim is included.
+
+### Separate phases, sample distributions and recognition objective
+
+consistency: supported. Targets: AIMech:WakeSleepAlgorithm.
+
+Retain the original alternating procedure.
+
+Wake holds recognition fixed while updating the generative model on observed inputs and recognition samples. Sleep holds the generative model fixed and trains recognition on ancestral model samples. The original binary conditional yields local delta rules; recognition samples are not guaranteed posterior draws. In the finite binary example the exact likelihood gradient is1/4 while the expected wake update is-1/4. This is compatible with wake optimizing the generative part of a variational bound at fixed q. Sleep targets the reverse KL direction and uses model inputs, so it is not the data-ELBO recognition gradient. No common-objective or global-convergence guarantee is inferred.
+
+### Paired architecture, exact variational identity and training approximations
+
+consistency: supported. Targets: AIMech:HelmholtzMachine.
+
+Retain the architecture separately from its training algorithms.
+
+The defining arrangement has separate top-down generative and bottom-up recognition parameters. Original layerwise conditional factorization does not imply a factorial true posterior. The exact decomposition log p=-F+KL is supported by Section2 and the finite calculation. Replacing binary activations by recognition means introduces an additional deterministic approximation, and wake-sleep is an alternative training scheme. The manuscript Eq16 sign conflict is disclosed; its approximate formula and unread AppendixB implementation are not certified. A related BayesianNetwork mapping refers to the directed-model component, not equivalence of the full paired architecture to one DAG.
+
+### Importance likelihood estimation, normalized gradients and q-update choices
+
+consistency: supported. Targets: AIMech:ReweightedWakeSleep.
+
+Retain RWS separately from wake-sleep and generic importance sampling.
+
+Algorithm1 uses multiple recognition draws and normalized joint/proposal weights. Likelihood averages are unbiased under support/integrability assumptions, while their logarithms and normalized gradients can be biased. Exact enumeration at K=1,2,3 preserves likelihood mean1/2; the model-update means are-1/4,-1/10,-5/836 versus exact1/4. K=1 wake-recognition has meanzero and does not replace the original sleep recognition update. Wake-q and sleep-q fit posterior-to-recognition matching under different input distributions. Eq4/5 and Algorithm1 settle the conditional direction despite the prose reversal, and supplement Eq12 settles the target despite Eq11’s missing initial conditional normalization. No author-code behavior or universal finite-K monotonicity is asserted.
+
+### Directed-model components and method-to-model associations
+
+grounding: supported. Targets: AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep.
+
+Retain three related mappings and the architecture/algorithm boundaries.
+
+All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes with complete annotations and outgoing edges, and six full native neighboring records were read. All three concepts have related mappings to BayesianNetwork: wake-sleep and RWS are training procedures for directed generative models, while the Helmholtz architecture contains separate directed generative and recognition components. None is equated to a single AIO model or made an algorithm-to-network subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder do not establish the original paired-model identity. ProbabilisticGraphicalModel is task-level context, ProbabilisticHiddenLayer has a category-probability definition, and SigmoidFunction is one possible conditional parameterization rather than the defining full architecture or training procedure. Prior native mappings are contextual, not newly approved.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:WakeSleepAlgorithm, AIMech:HelmholtzMachine, AIMech:ReweightedWakeSleep. The paired architecture is distinct from its parameter-learning procedure. Original wake-sleep uses a recognition-sampled generative wake update plus model-generated recognition sleep training; RWS adds normalized importance updates and a wake recognition option. Shared generative/recognition components do not establish equivalence of these concepts.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T171101Z-wake-sleep.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 340 preceding native IDs/names/aliases; no normalized identity match. Both ignored- and hidden-inclusive full-checkout scans returned 24 lines with identical sorted contents. All 17 unique matched line contents were read in full: NVIL method distinctions, source-reading scopes, prior reviews and the carried wake-sleep discovery lead. Nine exact AIO nodes and six complete native neighbors were inspected; absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Nine exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes with complete annotations and outgoing edges, and six full native neighboring records were read. All three concepts have related mappings to BayesianNetwork: wake-sleep and RWS are training procedures for directed generative models, while the Helmholtz architecture contains separate directed generative and recognition components. None is equated to a single AIO model or made an algorithm-to-network subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder do not establish the original paired-model identity. ProbabilisticGraphicalModel is task-level context, ProbabilisticHiddenLayer has a category-probability definition, and SigmoidFunction is one possible conditional parameterization rather than the defining full architecture or training procedure. Prior native mappings are contextual, not newly approved. |
+| neighbors | research/discovery/20261011T171101Z-wake-sleep.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full NeuralVariationalInferenceAndLearning, BlackBoxVariationalInference, REINFORCE, GibbsSampling, RejectionSampling and AncestralGumbelTopKSampling records distinguish ELBO score objectives, generic reward scores, conditional Markov transitions, envelope acceptance and exact without-replacement ancestral generation. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/wake-sleep-boundaries.py; Exact binary enumeration of wake and normalized importance updates, recognition targets, likelihood averages, expected logarithms and the free-energy decomposition | supports | Exact binary enumeration separates the posterior gradient from wake and normalized-importance model updates, likelihood means from expected logarithms, and data-conditioned versus model-input recognition targets. The free-energy/KL identity is checked numerically. These are curator examples, not author-code tests, general convergence or finite-K monotonicity claims, or benchmarks. |
+| wakesleepalgorithm-source-0 | https://www.cs.utoronto.ca/~hinton/absps/ws.pdf; Equations (1)–(8) and wake/sleep descriptions, PDF/manuscript pp.2–5 | supports | The wake-sleep algorithm for unsupervised neural networks. Author-hosted 12-page manuscript dated April 3, 1995. The author abstract page links it to Science 268:1158–1161; this is not the four-page typeset journal file. PDF and manuscript page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| wakesleepalgorithm-source-1 | https://www.gatsby.ucl.ac.uk/~dayan/papers/dhnz95.pdf; Section 4, stochastic Helmholtz machine and common-objective limitation, PDF/manuscript pp.6–7 | supports | The Helmholtz Machine. Author-hosted 19-page manuscript dated December 14, 1994. The author abstract page cites Neural Computation 7:889–904 (1995); journal-file byte equivalence was not established. PDF and manuscript page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| wakesleepalgorithm-source-2 | https://arxiv.org/pdf/1406.2751v4; Section 2.1, variational-bound and KL-direction discussion, PDF/printed p.2 | supports | Reweighted Wake-Sleep. arXiv:1406.2751v4, April 16, 2015; 12-page paper marked as published at ICLR 2015, including the supplement on pp.10–12. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| helmholtzmachine-source-0 | https://www.gatsby.ucl.ac.uk/~dayan/papers/dhnz95.pdf; Sections 2–4, Equations (1)–(15), PDF/manuscript pp.2–7; Appendix A, pp.10; Equation (16) sign context, pp.5–6 | supports | The Helmholtz Machine. Author-hosted 19-page manuscript dated December 14, 1994. The author abstract page cites Neural Computation 7:889–904 (1995); journal-file byte equivalence was not established. PDF and manuscript page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| helmholtzmachine-source-1 | https://www.cs.utoronto.ca/~hinton/absps/ws.pdf; Separate recognition/generative connections and Helmholtz-machine naming, PDF/manuscript pp.2–6 | supports | The wake-sleep algorithm for unsupervised neural networks. Author-hosted 12-page manuscript dated April 3, 1995. The author abstract page links it to Science 268:1158–1161; this is not the four-page typeset journal file. PDF and manuscript page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| reweightedwakesleep-source-0 | https://arxiv.org/pdf/1406.2751v4; Sections 2.1–2.4, Equations (1)–(5) and Algorithm 1, PDF/printed pp.2–5; supplement Sections 6.1–6.2, Equations (10)–(12), p.10 | supports | Reweighted Wake-Sleep. arXiv:1406.2751v4, April 16, 2015; 12-page paper marked as published at ICLR 2015, including the supplement on pp.10–12. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Hinton and Dayan are explicitly dated author manuscripts; final journal-file equivalence was not established. RWS uses the exact declared arXivv4.
+- Only declared pages were read. The deterministic Helmholtz derivative appendix, remaining experiment pages and author implementations were not audited.
+- Printed formula inconsistencies are disclosed; finite examples do not certify general convergence, empirical failure or monotonic improvement with sample count.
+- There are 188 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T171501Z-wake-sleep
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of Helmholtz and wake-sleep concepts
+started_at: '2026-10-11T17:11:13Z'
+finished_at: '2026-10-11T17:15:01Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked every new field against
+    the declared primary manuscript/PDF pages, nine exact AIO nodes, six full native
+    neighbors and original finite calculations. Architecture versus algorithm, wake
+    versus sleep data, variational and posterior-KL objectives, importance normalization,
+    source versions and printed formula conflicts were examined. This is not independent
+    approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the original wake-sleep algorithm, Helmholtz architecture and RWS
+  as distinct DRAFT concepts. Their paired-model roles, update objectives, finite-sample
+  estimator limits and inspected source versions are explicit. No actionable curation
+  finding remains in the declared scope.
+source:
+  git_revision: c4ef2453ad1e9b3a5256338e2b470483701a1bb6
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/DeepBeliefNetwork.yaml
+    sha256: e6912732493adbfea3b48e01184d33682ad262dd73801757c094a2b160046a58
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/AncestralGumbelTopKSampling.yaml
+    sha256: 599821427823c994fcae19506ee95c1580908fea3c4fec3c6ad92c9d24c16185
+    role: context
+  - path: data/curated/BlackBoxVariationalInference.yaml
+    sha256: 8237d3233ae06163b8fab5b4fa047ffc938e275bc1e3ede883348e06c2b266a8
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HelmholtzMachine.yaml
+    sha256: 9b582e184b171ae372dca219cd6704318a9287150dcbf540f95a8b4cc6405cac
+    role: target
+  - path: data/curated/NeuralVariationalInferenceAndLearning.yaml
+    sha256: 0d24a286ed64974478f452907c018d9618348ef4900808ea97b80036b1dfb06c
+    role: context
+  - path: data/curated/REINFORCE.yaml
+    sha256: 2f579286d88446d0b18e4988873a6b274d3ad24be48e6f58b716edaf9d68f514
+    role: context
+  - path: data/curated/RejectionSampling.yaml
+    sha256: 69e7583098c6dd6cae145d01e3f95ac95424fe1f61436c9ded1b160e58e92d05
+    role: context
+  - path: data/curated/ReweightedWakeSleep.yaml
+    sha256: 49509aa6868bcefabf54790503a9d5b87f0d873ab1589cdb6677b5575b3c8997
+    role: target
+  - path: data/curated/WakeSleepAlgorithm.yaml
+    sha256: 48b795b8f0730fc884c1809d405e125ec09b3a906e9b875f9ff3b1772fb21f48
+    role: target
+  - path: research/discovery/20261011T171101Z-wake-sleep.json
+    sha256: 32924a8e39d113d0c4785eb05dd479b438f3d6c9f625a42fe1e7900a9a0ed164
+    role: context
+  - path: research/discovery/wake-sleep-boundaries.py
+    sha256: 18886da4af9cad7506d5cf331011ffcf15976fe1699f488147487a49341a8808
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:WakeSleepAlgorithm
+  path: data/curated/WakeSleepAlgorithm.yaml
+  label: Wake-sleep algorithm
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WakeSleepAlgorithm.yaml
+    role: maintained
+- target_id: AIMech:HelmholtzMachine
+  path: data/curated/HelmholtzMachine.yaml
+  label: Helmholtz machine
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HelmholtzMachine.yaml
+    role: maintained
+- target_id: AIMech:ReweightedWakeSleep
+  path: data/curated/ReweightedWakeSleep.yaml
+  label: Reweighted wake-sleep
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ReweightedWakeSleep.yaml
+    role: maintained
+scope:
+  description: All fields of an explicit batch comprising one paired probabilistic
+    architecture and two distinct learning procedures.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust probabilistic learning. Generic importance
+      methods, sigmoid and autoregressive component layers, pathwise estimators, the
+      BBVI hierarchical formula audit and other frontier cohorts remain open.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 114.40s (0:01:54)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 343 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 95 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 92,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Wake-sleep objective and importance-estimator boundary calculations
+  command: python3 research/discovery/wake-sleep-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"status": "PASS", "posterior_h1": "3/4", "exact_model_gradient": "1/4",
+    "exact_data_wake_q_gradient": "1/2", "model_sleep_q_gradient": "1/4", "finite_sample_counts":
+    {"1": {"mean_likelihood": "1/2", "mean_model_update": "-1/4", "mean_wake_recognition_update":
+    "0", "expected_log_likelihood": -1.2424533248940002}, "2": {"mean_likelihood":
+    "1/2", "mean_model_update": "-1/10", "mean_wake_recognition_update": "3/20", "expected_log_likelihood":
+    -1.0508937159817537}, "3": {"mean_likelihood": "1/2", "mean_model_update": "-5/836",
+    "mean_wake_recognition_update": "51/209", "expected_log_likelihood": -0.949723447925895}},
+    "exact_log_likelihood": -0.6931471805599453, "free_energy": 1.2424533248940002,
+    "kl_recognition_to_posterior": 0.5493061443340548, "interpretation": "Finite examples
+    distinguish objectives, unbiased likelihood estimates and biased normalized gradients.
+    No universal monotonic bias or variance claim and no author-code behavior is inferred."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T171101Z-wake-sleep.json
+  accessed_at: '2026-10-11T17:11:13Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 340 preceding native
+    IDs/names/aliases; no normalized identity match. Both ignored- and hidden-inclusive
+    full-checkout scans returned 24 lines with identical sorted contents. All 17 unique
+    matched line contents were read in full: NVIL method distinctions, source-reading
+    scopes, prior reviews and the carried wake-sleep discovery lead. Nine exact AIO
+    nodes and six complete native neighbors were inspected; absence is bounded to
+    this snapshot and semantic neighborhood.'
+  search_scope: 'All 442 pinned AIO labels/scoped synonyms and 340 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. All
+    17 unique matched line contents were read in full: NVIL method contrasts, source-reading
+    scopes, saved reviews and the prior wake-sleep lead. Both scans returned 24 lines
+    with identical sorted contents. Exact counts, paths and differences remain in
+    the ledger.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Nine exact CLASS nodes with scoped synonyms/comments/outgoing edges in
+    source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T17:11:13Z'
+  support: supports
+  summary: 'All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes
+    with complete annotations and outgoing edges, and six full native neighboring
+    records were read. All three concepts have related mappings to BayesianNetwork:
+    wake-sleep and RWS are training procedures for directed generative models, while
+    the Helmholtz architecture contains separate directed generative and recognition
+    components. None is equated to a single AIO model or made an algorithm-to-network
+    subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent
+    model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder
+    do not establish the original paired-model identity. ProbabilisticGraphicalModel
+    is task-level context, ProbabilisticHiddenLayer has a category-probability definition,
+    and SigmoidFunction is one possible conditional parameterization rather than the
+    defining full architecture or training procedure. Prior native mappings are contextual,
+    not newly approved.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T171101Z-wake-sleep.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T17:11:13Z'
+  support: supports
+  summary: Full NeuralVariationalInferenceAndLearning, BlackBoxVariationalInference,
+    REINFORCE, GibbsSampling, RejectionSampling and AncestralGumbelTopKSampling records
+    distinguish ELBO score objectives, generic reward scores, conditional Markov transitions,
+    envelope acceptance and exact without-replacement ancestral generation. Their
+    prior mappings are contextual, not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/wake-sleep-boundaries.py
+  locator: Exact binary enumeration of wake and normalized importance updates, recognition
+    targets, likelihood averages, expected logarithms and the free-energy decomposition
+  accessed_at: '2026-10-11T17:11:13Z'
+  snapshot_sha256: 18886da4af9cad7506d5cf331011ffcf15976fe1699f488147487a49341a8808
+  support: supports
+  summary: Exact binary enumeration separates the posterior gradient from wake and
+    normalized-importance model updates, likelihood means from expected logarithms,
+    and data-conditioned versus model-input recognition targets. The free-energy/KL
+    identity is checked numerically. These are curator examples, not author-code tests,
+    general convergence or finite-K monotonicity claims, or benchmarks.
+- evidence_id: wakesleepalgorithm-source-0
+  kind: primary_source
+  reference: https://www.cs.utoronto.ca/~hinton/absps/ws.pdf
+  locator: Equations (1)–(8) and wake/sleep descriptions, PDF/manuscript pp.2–5
+  accessed_at: '2026-10-11T17:02:46Z'
+  snapshot_sha256: a63370a3bd28499aa9002df1b2f9b732d1cbc8e04d55a27ccfc2909150b486ff
+  support: supports
+  summary: The wake-sleep algorithm for unsupervised neural networks. Author-hosted
+    12-page manuscript dated April 3, 1995. The author abstract page links it to Science
+    268:1158–1161; this is not the four-page typeset journal file. PDF and manuscript
+    page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis;
+    extraction, rendering and a full-text access label do not establish that every
+    page was read.
+- evidence_id: wakesleepalgorithm-source-1
+  kind: primary_source
+  reference: https://www.gatsby.ucl.ac.uk/~dayan/papers/dhnz95.pdf
+  locator: Section 4, stochastic Helmholtz machine and common-objective limitation,
+    PDF/manuscript pp.6–7
+  accessed_at: '2026-10-11T17:02:48Z'
+  snapshot_sha256: 317a1ee43cccf857de54a351b3d97628829b5d21d2dd21cf47cb0c010384b341
+  support: supports
+  summary: The Helmholtz Machine. Author-hosted 19-page manuscript dated December
+    14, 1994. The author abstract page cites Neural Computation 7:889–904 (1995);
+    journal-file byte equivalence was not established. PDF and manuscript page numbers
+    agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction,
+    rendering and a full-text access label do not establish that every page was read.
+- evidence_id: wakesleepalgorithm-source-2
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1406.2751v4
+  locator: Section 2.1, variational-bound and KL-direction discussion, PDF/printed
+    p.2
+  accessed_at: '2026-10-11T17:02:51Z'
+  snapshot_sha256: ddd18592df0b4995120f185849097d2c513e0c6f743373ee64d85a6d3d95bc4d
+  support: supports
+  summary: Reweighted Wake-Sleep. arXiv:1406.2751v4, April 16, 2015; 12-page paper
+    marked as published at ICLR 2015, including the supplement on pp.10–12. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.
+- evidence_id: helmholtzmachine-source-0
+  kind: primary_source
+  reference: https://www.gatsby.ucl.ac.uk/~dayan/papers/dhnz95.pdf
+  locator: Sections 2–4, Equations (1)–(15), PDF/manuscript pp.2–7; Appendix A, pp.10;
+    Equation (16) sign context, pp.5–6
+  accessed_at: '2026-10-11T17:02:48Z'
+  snapshot_sha256: 317a1ee43cccf857de54a351b3d97628829b5d21d2dd21cf47cb0c010384b341
+  support: supports
+  summary: The Helmholtz Machine. Author-hosted 19-page manuscript dated December
+    14, 1994. The author abstract page cites Neural Computation 7:889–904 (1995);
+    journal-file byte equivalence was not established. PDF and manuscript page numbers
+    agree. Actual paper and HTML reading scopes are declared in source_analysis; extraction,
+    rendering and a full-text access label do not establish that every page was read.
+- evidence_id: helmholtzmachine-source-1
+  kind: primary_source
+  reference: https://www.cs.utoronto.ca/~hinton/absps/ws.pdf
+  locator: Separate recognition/generative connections and Helmholtz-machine naming,
+    PDF/manuscript pp.2–6
+  accessed_at: '2026-10-11T17:02:46Z'
+  snapshot_sha256: a63370a3bd28499aa9002df1b2f9b732d1cbc8e04d55a27ccfc2909150b486ff
+  support: supports
+  summary: The wake-sleep algorithm for unsupervised neural networks. Author-hosted
+    12-page manuscript dated April 3, 1995. The author abstract page links it to Science
+    268:1158–1161; this is not the four-page typeset journal file. PDF and manuscript
+    page numbers agree. Actual paper and HTML reading scopes are declared in source_analysis;
+    extraction, rendering and a full-text access label do not establish that every
+    page was read.
+- evidence_id: reweightedwakesleep-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1406.2751v4
+  locator: Sections 2.1–2.4, Equations (1)–(5) and Algorithm 1, PDF/printed pp.2–5;
+    supplement Sections 6.1–6.2, Equations (10)–(12), p.10
+  accessed_at: '2026-10-11T17:02:51Z'
+  snapshot_sha256: ddd18592df0b4995120f185849097d2c513e0c6f743373ee64d85a6d3d95bc4d
+  support: supports
+  summary: Reweighted Wake-Sleep. arXiv:1406.2751v4, April 16, 2015; 12-page paper
+    marked as published at ICLR 2015, including the supplement on pp.10–12. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.
+assessments:
+- assessment_id: wakesleepalgorithm
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - wakesleepalgorithm-source-0
+  - wakesleepalgorithm-source-1
+  - wakesleepalgorithm-source-2
+  summary: 'This is the original wake-sleep procedure with separate generative and
+    recognition parameters. It is a training algorithm for a paired probabilistic
+    model, distinct from the Helmholtz-machine architecture, exact EM, joint ELBO-gradient
+    training in NVIL, and reweighted wake-sleep. The original binary-sigmoid construction
+    supplies local delta rules; the general phase distinction does not require every
+    later model variant to use those same units. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 340 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 24 and 24 lines respectively. All 17 unique
+    matched line contents were inspected in full: NVIL method distinctions, source-reading
+    scopes, prior reviews and the carried wake-sleep discovery lead, not existing
+    candidate records. Exact checkout counts and differences are retained in the ledger.
+    Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+    six full native neighboring records were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.'
+  details: 'During wake, present an observed input and sample its hidden representation
+    layer by layer through the bottom-up recognition distribution q_phi(h|x). Hold
+    recognition parameters fixed for this update and ascend log p_theta(x,h) in the
+    generative parameters. For the original Bernoulli-sigmoid units, a generative
+    weight receives a learning-rate-scaled product of its sampled parent state and
+    the difference between the sampled target state and the generative activation
+    probability; biases use a constant parent. During sleep, sample a full configuration
+    (x,h) ancestrally from the current top-down generative model, then ascend log
+    q_phi(h|x) in the recognition parameters while holding generative parameters fixed.
+    The generated lower-layer states serve as inputs and their known sampled upper-layer
+    causes as targets. This also gives local Bernoulli delta rules in the original
+    parameterization. The wake update follows the generative-parameter variational-bound
+    gradient at fixed q; the sleep update instead fits recognition on model-generated
+    inputs and targets the posterior-to-recognition KL direction averaged under model
+    inputs. The two phases are not generally gradients of the same data ELBO. Limits:
+    Recognition samples are exact for q, not necessarily the model posterior. The
+    generative wake update need not be an unbiased marginal-likelihood gradient or
+    even have the same direction; a curator binary example demonstrates this distinction.
+    The sleep input distribution is the current model distribution rather than the
+    empirical data distribution. Poor model samples can therefore allocate recognition
+    capacity differently from data-conditioned training. The original recognition
+    distribution factors within each layer conditional on the preceding layer. This
+    can miss explaining-away dependencies in the posterior; it does not assert unconditional
+    independence of every hidden variable across layers. The original paired-model
+    sources explicitly do not establish a common descent objective for both phases.
+    Exact posterior recovery, global convergence and monotonic likelihood improvement
+    are not guaranteed. Local binary-sigmoid rules depend on the stated conditional
+    parameterization. No biological implementation, author-code execution or benchmark
+    advantage is certified.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable paired probabilistic architecture or its parameter-learning
+      procedure, not a trained model instance or benchmark outcome.
+    evidence_ids:
+    - wakesleepalgorithm-source-0
+    - wakesleepalgorithm-source-1
+    - wakesleepalgorithm-source-2
+  - name: aio-assessment
+    value: related_match
+    definition: 'All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes
+      with complete annotations and outgoing edges, and six full native neighboring
+      records were read. All three concepts have related mappings to BayesianNetwork:
+      wake-sleep and RWS are training procedures for directed generative models, while
+      the Helmholtz architecture contains separate directed generative and recognition
+      components. None is equated to a single AIO model or made an algorithm-to-network
+      subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent
+      model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder
+      do not establish the original paired-model identity. ProbabilisticGraphicalModel
+      is task-level context, ProbabilisticHiddenLayer has a category-probability definition,
+      and SigmoidFunction is one possible conditional parameterization rather than
+      the defining full architecture or training procedure. Prior native mappings
+      are contextual, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: helmholtzmachine
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:HelmholtzMachine
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - helmholtzmachine-source-0
+  - helmholtzmachine-source-1
+  summary: 'This record covers the original paired generative/recognition model family
+    in Dayan and colleagues’ paper. Its original layered binary construction admits
+    both a deterministic mean-field-inspired training approximation and a stochastic
+    wake-sleep procedure; the architecture is not synonymous with either training
+    rule. The generative and recognition parameters are separate, rather than tied
+    symmetric connections of a Boltzmann machine. Related later variational autoencoders
+    and deep belief networks are not treated as identity aliases. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 340 preceding
+    native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+    and hidden files in worktree and main, returning 24 and 24 lines respectively.
+    All 17 unique matched line contents were inspected in full: NVIL method distinctions,
+    source-reading scopes, prior reviews and the carried wake-sleep discovery lead,
+    not existing candidate records. Exact checkout counts and differences are retained
+    in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+    edges and six full native neighboring records were inspected. Absence is bounded
+    to this snapshot and semantic neighborhood.'
+  details: 'A top-down directed model p_theta(x,h) assigns probabilities to observed
+    inputs and hidden configurations; a separately parameterized bottom-up model q_phi(h|x)
+    produces a tractable approximate posterior. In the original layered binary construction,
+    unit states in a layer are conditionally independent given the adjacent driving
+    layer, with independent top-layer generative priors. Recognition proceeds through
+    an acyclic bottom-up pass. The variational free energy is E_q[log q(h|x)-log p(x,h)],
+    and log p(x) equals its negative plus KL(q(h|x)||p(h|x)); the negative free energy
+    is therefore a lower bound under the normalized-model and support conditions.
+    The paper describes stochastic recognition samples and, separately, a deterministic
+    approximation that substitutes recognition means for sampled binary activities
+    and neglects associated correlations. Its stochastic training alternative uses
+    wake-sleep. The generative conditional need not be sigmoid: Appendix A considers
+    noisy-or and other imaging rules. These choices do not change the defining presence
+    of distinct generative and recognition models. Limits: The tractable recognition
+    family need not contain the true posterior, even when the directed generative
+    model factors locally. Explaining-away dependencies can obstruct exact posterior
+    matching. The deterministic substitution of mean activations is an additional
+    approximation, not exact evaluation of every nonlinear expectation in the stochastic
+    model. The exact free-energy identity does not validate all approximation formulas
+    or practical training updates. Wake-sleep is a training option, and its sleep
+    recognition step is not generally the data-ELBO gradient. A shared variational
+    motivation does not establish a single objective decreased by all model variants.
+    The inspected author manuscript’s Equation (16) prints negative free energy as
+    a positive sum of Bernoulli KL terms, conflicting with the preceding sign convention.
+    The curated identity uses the explicit Section 2 decomposition; Appendix B derivative
+    implementation was not audited and that printed approximate formula is not adopted.
+    The record describes a reusable architecture family, not a trained density estimator
+    or a verified biological explanation. No exact posterior, universal compression
+    gain or empirical ranking is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: A reusable paired probabilistic architecture or its parameter-learning
+      procedure, not a trained model instance or benchmark outcome.
+    evidence_ids:
+    - helmholtzmachine-source-0
+    - helmholtzmachine-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes
+      with complete annotations and outgoing edges, and six full native neighboring
+      records were read. All three concepts have related mappings to BayesianNetwork:
+      wake-sleep and RWS are training procedures for directed generative models, while
+      the Helmholtz architecture contains separate directed generative and recognition
+      components. None is equated to a single AIO model or made an algorithm-to-network
+      subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent
+      model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder
+      do not establish the original paired-model identity. ProbabilisticGraphicalModel
+      is task-level context, ProbabilisticHiddenLayer has a category-probability definition,
+      and SigmoidFunction is one possible conditional parameterization rather than
+      the defining full architecture or training procedure. Prior native mappings
+      are contextual, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: reweightedwakesleep
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:ReweightedWakeSleep
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - reweightedwakesleep-source-0
+  summary: 'This is Bornschein and Bengio’s ICLR 2015 RWS procedure, scoped to its
+    tractable joint/proposal calculations and Algorithm 1. It is distinct from ordinary
+    wake-sleep, the generic importance-sampling identity, BBVI score-function ELBO
+    optimization, and the choice of SBN or NADE component architecture. A single generative
+    wake sample recovers the original wake model update; reproducing original wake-sleep
+    additionally uses the sleep recognition update. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 340 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 24 and 24 lines respectively. All 17 unique
+    matched line contents were inspected in full: NVIL method distinctions, source-reading
+    scopes, prior reviews and the carried wake-sleep discovery lead, not existing
+    candidate records. Exact checkout counts and differences are retained in the ledger.
+    Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+    six full native neighboring records were inspected. Absence is bounded to this
+    snapshot and semantic neighborhood.'
+  details: 'For an observed input x and fixed current parameters, draw K independent
+    latent configurations h_k from the recognition distribution q_phi(h|x), evaluate
+    p_theta(x,h_k) and q_phi(h_k|x), and compute weights w_k=p_theta(x,h_k)/q_phi(h_k|x).
+    Normalize them by their positive sum. Update theta using the weighted average
+    of grad_theta log p_theta(x,h_k). The unnormalized average of w_k estimates p_theta(x);
+    taking its logarithm gives a distinct, generally biased log-likelihood estimator.
+    For recognition training, the wake option uses the same normalized weights to
+    average grad_phi log q_phi(h_k|x), targeting KL(p_theta(h|x)||q_phi(h|x)) on observed
+    inputs. The sleep option samples a fresh (x-prime,h-prime) from p_theta and ascends
+    log q_phi(h-prime|x-prime). Algorithm 1 permits either recognition option or both.
+    These displayed updates weight log-probability scores evaluated at sampled states;
+    they do not differentiate through the normalized weights as an extra part of that
+    score update. With K=1 the model update becomes the ordinary generative wake update,
+    while the wake recognition score alone has zero expectation under normalized q
+    at fixed parameters, as a curator consequence of the score identity. Limits: Importance
+    estimation requires proposal support wherever the target joint is positive, accessible
+    joint/proposal values and suitable integrability. Arbitrary directed or deep-belief
+    models with unavailable joint normalization are not covered merely by their architecture
+    name. The likelihood average can be unbiased while its logarithm and normalized-weight
+    gradient remain biased at finite K. A consistent limit under suitable conditions
+    is not an assertion of monotonic finite-K variance or bias improvement, global
+    convergence, or exact posterior inference. A proposal equal to the posterior makes
+    likelihood weights constant, but it does not automatically minimize the variance
+    of every model-gradient estimator. Poor proposal coverage can concentrate weights
+    and make the estimate unreliable. The recognition wake and sleep options optimize
+    posterior-to-recognition matching under different input distributions. Neither
+    is automatically the recognition gradient of the standard data ELBO used by NVIL,
+    and differentiating an importance-weighted bound with respect to proposal parameters
+    is a different update. The main-text prose reverses the arguments of q in one
+    loss expression, while Equations (4)–(5) and Algorithm 1 consistently use q(h|x).
+    Supplement Equation (11) begins with a joint-weighted expression before introducing
+    a conditional normalization; Equation (12) gives the intended posterior-KL target.
+    This record follows those explicit update formulas and does not certify the printed
+    intermediate equalities or author implementation. K, component layers and update
+    options are method choices rather than a universal best configuration. No benchmark
+    advantage, author-code execution or runtime scaling claim is included.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable paired probabilistic architecture or its parameter-learning
+      procedure, not a trained model instance or benchmark outcome.
+    evidence_ids:
+    - reweightedwakesleep-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes
+      with complete annotations and outgoing edges, and six full native neighboring
+      records were read. All three concepts have related mappings to BayesianNetwork:
+      wake-sleep and RWS are training procedures for directed generative models, while
+      the Helmholtz architecture contains separate directed generative and recognition
+      components. None is equated to a single AIO model or made an algorithm-to-network
+      subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent
+      model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder
+      do not establish the original paired-model identity. ProbabilisticGraphicalModel
+      is task-level context, ProbabilisticHiddenLayer has a category-probability definition,
+      and SigmoidFunction is one possible conditional parameterization rather than
+      the defining full architecture or training procedure. Prior native mappings
+      are contextual, not newly approved.'
+    evidence_ids:
+    - mapping
+- assessment_id: wake-sleep-boundaries
+  area: consistency
+  topic: Separate phases, sample distributions and recognition objective
+  outcome: supported
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  evidence_ids:
+  - wakesleepalgorithm-source-0
+  - wakesleepalgorithm-source-1
+  - wakesleepalgorithm-source-2
+  - finite-conventions
+  summary: Retain the original alternating procedure.
+  details: Wake holds recognition fixed while updating the generative model on observed
+    inputs and recognition samples. Sleep holds the generative model fixed and trains
+    recognition on ancestral model samples. The original binary conditional yields
+    local delta rules; recognition samples are not guaranteed posterior draws. In
+    the finite binary example the exact likelihood gradient is1/4 while the expected
+    wake update is-1/4. This is compatible with wake optimizing the generative part
+    of a variational bound at fixed q. Sleep targets the reverse KL direction and
+    uses model inputs, so it is not the data-ELBO recognition gradient. No common-objective
+    or global-convergence guarantee is inferred.
+- assessment_id: helmholtz-boundaries
+  area: consistency
+  topic: Paired architecture, exact variational identity and training approximations
+  outcome: supported
+  target_ids:
+  - AIMech:HelmholtzMachine
+  evidence_ids:
+  - helmholtzmachine-source-0
+  - helmholtzmachine-source-1
+  - finite-conventions
+  summary: Retain the architecture separately from its training algorithms.
+  details: The defining arrangement has separate top-down generative and bottom-up
+    recognition parameters. Original layerwise conditional factorization does not
+    imply a factorial true posterior. The exact decomposition log p=-F+KL is supported
+    by Section2 and the finite calculation. Replacing binary activations by recognition
+    means introduces an additional deterministic approximation, and wake-sleep is
+    an alternative training scheme. The manuscript Eq16 sign conflict is disclosed;
+    its approximate formula and unread AppendixB implementation are not certified.
+    A related BayesianNetwork mapping refers to the directed-model component, not
+    equivalence of the full paired architecture to one DAG.
+- assessment_id: rws-boundaries
+  area: consistency
+  topic: Importance likelihood estimation, normalized gradients and q-update choices
+  outcome: supported
+  target_ids:
+  - AIMech:ReweightedWakeSleep
+  evidence_ids:
+  - reweightedwakesleep-source-0
+  - finite-conventions
+  summary: Retain RWS separately from wake-sleep and generic importance sampling.
+  details: Algorithm1 uses multiple recognition draws and normalized joint/proposal
+    weights. Likelihood averages are unbiased under support/integrability assumptions,
+    while their logarithms and normalized gradients can be biased. Exact enumeration
+    at K=1,2,3 preserves likelihood mean1/2; the model-update means are-1/4,-1/10,-5/836
+    versus exact1/4. K=1 wake-recognition has meanzero and does not replace the original
+    sleep recognition update. Wake-q and sleep-q fit posterior-to-recognition matching
+    under different input distributions. Eq4/5 and Algorithm1 settle the conditional
+    direction despite the prose reversal, and supplement Eq12 settles the target despite
+    Eq11’s missing initial conditional normalization. No author-code behavior or universal
+    finite-K monotonicity is asserted.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Directed-model components and method-to-model associations
+  outcome: supported
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three related mappings and the architecture/algorithm boundaries.
+  details: 'All 15 semantic label/scoped-synonym hits, nine exact AIO CLASS nodes
+    with complete annotations and outgoing edges, and six full native neighboring
+    records were read. All three concepts have related mappings to BayesianNetwork:
+    wake-sleep and RWS are training procedures for directed generative models, while
+    the Helmholtz architecture contains separate directed generative and recognition
+    components. None is equated to a single AIO model or made an algorithm-to-network
+    subclass. BoltzmannMachineNetwork and RestrictedBoltzmannMachine are undirected/recurrent
+    model boundaries; DeepBeliefNetwork, AutoEncoderNetwork and VariationalAutoEncoder
+    do not establish the original paired-model identity. ProbabilisticGraphicalModel
+    is task-level context, ProbabilisticHiddenLayer has a category-probability definition,
+    and SigmoidFunction is one possible conditional parameterization rather than the
+    defining full architecture or training procedure. Prior native mappings are contextual,
+    not newly approved.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:WakeSleepAlgorithm
+  - AIMech:HelmholtzMachine
+  - AIMech:ReweightedWakeSleep
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - wakesleepalgorithm-source-0
+  - wakesleepalgorithm-source-1
+  - wakesleepalgorithm-source-2
+  - helmholtzmachine-source-0
+  - helmholtzmachine-source-1
+  - reweightedwakesleep-source-0
+  rationale: The paired architecture is distinct from its parameter-learning procedure.
+    Original wake-sleep uses a recognition-sampled generative wake update plus model-generated
+    recognition sleep training; RWS adds normalized importance updates and a wake
+    recognition option. Shared generative/recognition components do not establish
+    equivalence of these concepts.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Hinton and Dayan are explicitly dated author manuscripts; final journal-file equivalence
+  was not established. RWS uses the exact declared arXivv4.
+- Only declared pages were read. The deterministic Helmholtz derivative appendix,
+  remaining experiment pages and author implementations were not audited.
+- Printed formula inconsistencies are disclosed; finite examples do not certify general
+  convergence, empirical failure or monotonic improvement with sample count.
+- There are 188 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- wake-sleep
+- self-review
+- discovery-ongoing
+```

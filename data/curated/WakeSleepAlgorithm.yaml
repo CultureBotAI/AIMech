@@ -1,0 +1,133 @@
+name: Wake-sleep algorithm
+definition: An alternating learning procedure that trains a generative network from observed data and
+  recognition-sampled hidden states during wake, and trains a recognition network from generative-model
+  samples during sleep.
+concept_kind: algorithm
+identity_notes: 'This is the original wake-sleep procedure with separate generative and recognition parameters.
+  It is a training algorithm for a paired probabilistic model, distinct from the Helmholtz-machine architecture,
+  exact EM, joint ELBO-gradient training in NVIL, and reweighted wake-sleep. The original binary-sigmoid
+  construction supplies local delta rules; the general phase distinction does not require every later
+  model variant to use those same units. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 340 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All
+  17 unique matched line contents were inspected in full: NVIL method distinctions, source-reading scopes,
+  prior reviews and the carried wake-sleep discovery lead, not existing candidate records. Exact checkout
+  counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.'
+limitations:
+- Recognition samples are exact for q, not necessarily the model posterior. The generative wake update
+  need not be an unbiased marginal-likelihood gradient or even have the same direction; a curator binary
+  example demonstrates this distinction.
+- The sleep input distribution is the current model distribution rather than the empirical data distribution.
+  Poor model samples can therefore allocate recognition capacity differently from data-conditioned training.
+- The original recognition distribution factors within each layer conditional on the preceding layer.
+  This can miss explaining-away dependencies in the posterior; it does not assert unconditional independence
+  of every hidden variable across layers.
+- The original paired-model sources explicitly do not establish a common descent objective for both phases.
+  Exact posterior recovery, global convergence and monotonic likelihood improvement are not guaranteed.
+- Local binary-sigmoid rules depend on the stated conditional parameterization. No biological implementation,
+  author-code execution or benchmark advantage is certified.
+id: AIMech:WakeSleepAlgorithm
+aliases:
+- Wake-sleep
+definition_evidence:
+- source_id: method-source
+  locator: Equations (1)–(8) and wake/sleep descriptions, PDF/manuscript pp.2–5
+  relation: supports
+- source_id: helmholtz-source
+  locator: Section 4, stochastic Helmholtz machine and common-objective limitation, PDF/manuscript pp.6–7
+  relation: supports
+- source_id: reweighted-source
+  locator: Section 2.1, variational-bound and KL-direction discussion, PDF/printed p.2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: During wake, present an observed input and sample its hidden representation layer by layer
+    through the bottom-up recognition distribution q_phi(h|x). Hold recognition parameters fixed for this
+    update and ascend log p_theta(x,h) in the generative parameters. For the original Bernoulli-sigmoid
+    units, a generative weight receives a learning-rate-scaled product of its sampled parent state and
+    the difference between the sampled target state and the generative activation probability; biases
+    use a constant parent. During sleep, sample a full configuration (x,h) ancestrally from the current
+    top-down generative model, then ascend log q_phi(h|x) in the recognition parameters while holding
+    generative parameters fixed. The generated lower-layer states serve as inputs and their known sampled
+    upper-layer causes as targets. This also gives local Bernoulli delta rules in the original parameterization.
+    The wake update follows the generative-parameter variational-bound gradient at fixed q; the sleep
+    update instead fits recognition on model-generated inputs and targets the posterior-to-recognition
+    KL direction averaged under model inputs. The two phases are not generally gradients of the same data
+    ELBO.
+  evidence:
+  - source_id: method-source
+    locator: Equations (1)–(8) and wake/sleep descriptions, PDF/manuscript pp.2–5
+    relation: supports
+  - source_id: helmholtz-source
+    locator: Section 4, stochastic Helmholtz machine and common-objective limitation, PDF/manuscript pp.6–7
+    relation: supports
+  - source_id: reweighted-source
+    locator: Section 2.1, variational-bound and KL-direction discussion, PDF/printed p.2
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The wake-sleep algorithm for unsupervised neural networks
+  authors:
+  - Geoffrey E. Hinton
+  - Peter Dayan
+  - Brendan J. Frey
+  - Radford M. Neal
+  source_type: primary_paper
+  url: https://www.cs.utoronto.ca/~hinton/absps/ws.pdf
+  version: Author-hosted 12-page manuscript dated April 3, 1995. The author abstract page links it to
+    Science 268:1158–1161; this is not the four-page typeset journal file. PDF and manuscript page numbers
+    agree.
+  persistent_id: doi:10.1126/science.7761831
+  access_level: full_text
+  accessed_at: '2026-10-11T17:02:46Z'
+  sha256: a63370a3bd28499aa9002df1b2f9b732d1cbc8e04d55a27ccfc2909150b486ff
+- source_id: helmholtz-source
+  title: The Helmholtz Machine
+  authors:
+  - Peter Dayan
+  - Geoffrey E. Hinton
+  - Radford M. Neal
+  - Richard S. Zemel
+  source_type: primary_paper
+  url: https://www.gatsby.ucl.ac.uk/~dayan/papers/dhnz95.pdf
+  version: Author-hosted 19-page manuscript dated December 14, 1994. The author abstract page cites Neural
+    Computation 7:889–904 (1995); journal-file byte equivalence was not established. PDF and manuscript
+    page numbers agree.
+  persistent_id: doi:10.1162/neco.1995.7.5.889
+  access_level: full_text
+  accessed_at: '2026-10-11T17:02:48Z'
+  sha256: 317a1ee43cccf857de54a351b3d97628829b5d21d2dd21cf47cb0c010384b341
+- source_id: reweighted-source
+  title: Reweighted Wake-Sleep
+  authors:
+  - Jörg Bornschein
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1406.2751v4
+  version: arXiv:1406.2751v4, April 16, 2015; 12-page paper marked as published at ICLR 2015, including
+    the supplement on pp.10–12.
+  persistent_id: arXiv:1406.2751v4
+  access_level: full_text
+  accessed_at: '2026-10-11T17:02:51Z'
+  sha256: ddd18592df0b4995120f185849097d2c513e0c6f743373ee64d85a6d3d95bc4d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The original procedure trains a layered directed generative model through its normalized
+    conditional distributions and a separate recognition model. The pinned target denotes that directed
+    probabilistic model class. This is a training-method-to-model related match, not a claim that the
+    algorithm itself is a network or is equivalent to the AIO class.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:11:00Z'
+  updated_at: '2026-10-11T17:11:00Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
