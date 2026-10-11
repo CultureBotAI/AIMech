@@ -1,0 +1,137 @@
+name: Stochastic beam search
+definition: The sequence-sampling algorithm of Kool, van Hoof and Welling that implements Gumbel-Top-k
+  without replacement implicitly on a locally normalized sequence tree by propagating conditional perturbed
+  subtree maxima and retaining the k highest-scoring prefixes at each level.
+concept_kind: algorithm
+identity_notes: 'This record denotes the 2019 Gumbel-based sequence sampler, not every search algorithm
+  called stochastic beam search. The generic Gumbel-Top-k distributional construction is a separate record.
+  The method differs from independently resampling prefixes at every beam step, ordinary probability-ranked
+  beam decoding, and diversity-penalized beam groups. An earlier search hit about coalition-formation
+  scatter search is a separate title lead, not evidence of equivalence. No normalized identity match was
+  found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines
+  respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead
+  and a search-result title about coalition-formation scatter search, not existing candidate records.
+  Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped
+  synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The requested sample count must not exceed the number of positive-probability complete leaves. Zero-mass
+  branches require exclusion or an explicit limiting representation; an exhausted support is not a source
+  of additional distinct samples.
+- The exact sampling statement requires consistent conditional subtree maxima and the declared normalized
+  sequence distribution. Independently resampling prefixes at each depth, using raw length-normalized
+  scores, or transplanting ordinary beam early stopping does not inherit that statement.
+- The paper assumes common-length sequences with padding possible. Variable-length generation requires
+  an explicit terminal/EOS policy preserving the intended leaf distribution; arbitrary forced truncation
+  or nonterminating probability mass is not silently covered.
+- The linear-in-k-and-length claim concerns the number of model evaluations. Vocabulary expansion, top-k
+  selection, neural-state storage and numerical operations still have costs; this is not a bound independent
+  of vocabulary size or model cost.
+- The conditional-maximum formula can be numerically unstable in direct exponential form. Appendix B supplies
+  stable transformations; exact distributional reasoning is not a certification of finite-precision implementation.
+- Distinct complete samples can share prefixes and need not have high semantic diversity or be the unperturbed
+  MAP sequences. Without-replacement samples are dependent, and arbitrary unweighted sample averages are
+  not automatically unbiased.
+id: AIMech:StochasticBeamSearch
+aliases:
+- SBS
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.5–2.6 and 3.1–3.3, Figure 1, Equations (8)–(10), Algorithm 1 and footnote 2, PDF
+    pp.2–5
+  relation: supports
+- source_id: conditional-sampling
+  locator: Appendices B.1–B.3, Equations (20)–(24), supplement PDF pp.1–2
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Represent complete sequences as leaves of a finite locally normalized prefix tree, using
+    a declared common horizon or probability-preserving padding of completed sequences. A prefix log probability
+    is the log of its descendant probability mass. Its stochastic score represents the maximum perturbed
+    leaf log probability in that subtree. Start at the root; its maximum may be sampled from Gumbel(0)
+    or fixed at zero as in Algorithm 1, since the maximum is independent of the selected ranking. For
+    each retained parent with stochastic score T, sample independent child values G_i from Gumbel(phi_i),
+    where phi_i is the child’s cumulative log probability; let Z=max_i G_i, then transform each to −log(exp(−T)−exp(−Z)+exp(−G_i)).
+    This samples child maxima conditionally on their maximum being the parent’s T. Pool child candidates
+    and retain up to k with the largest transformed scores, repeating through the declared horizon. Under
+    the stated finite normalized tree construction this returns the same ordered without-replacement sequence
+    distribution as explicitly applying Gumbel-Top-k to all complete leaves. The ordering is by perturbed
+    score, not raw sequence probability.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.5–2.6 and 3.1–3.3, Figure 1, Equations (8)–(10), Algorithm 1 and footnote 2, PDF
+      pp.2–5
+    relation: supports
+  - source_id: conditional-sampling
+    locator: Appendices B.1–B.3, Equations (20)–(24), supplement PDF pp.1–2
+    relation: supports
+- claim_id: language-generation
+  kind: application
+  statement: The paper develops sequence sampling as an alternative to ordinary sampling and deterministic
+    beam decoding for language generation, and studies translation as its principal application. This
+    is a procedure operating on a probability-supplying model, not a trained model identity or a universal
+    translation-quality claim.
+  evidence:
+  - source_id: method-source
+    locator: Abstract and Introduction, PDF p.1; Sections 2.5 and 4.1, PDF pp.2 and 5
+    relation: supports
+- claim_id: prefix-consistency
+  kind: scope
+  statement: Retained branches carry a consistent conditional perturbation. More than one final sample
+    may share a prefix; requiring exactly one descendant per earlier beam member changes the sampling
+    procedure. The source also distinguishes this construction from independently choosing fresh random
+    prefixes at every depth.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2 continuation, PDF p.5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without
+    Replacement'
+  authors:
+  - Wouter Kool
+  - Herke van Hoof
+  - Max Welling
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/kool19a/kool19a.pdf
+  version: ICML 2019, Proceedings of Machine Learning Research 97:3499–3508; ten-page publisher PDF without
+    printed proceedings page numbers. The separately published three-page supplement contains Appendices
+    A–D.
+  access_level: full_text
+  accessed_at: '2026-10-11T16:01:37Z'
+  sha256: 0e5d71684fae2ae4d9d8fc8b24a7f4858536a7af3c81b0c5181324dfdd57aaaf
+- source_id: conditional-sampling
+  title: 'Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without
+    Replacement — supplementary material'
+  authors:
+  - Wouter Kool
+  - Herke van Hoof
+  - Max Welling
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf
+  version: Three-page publisher supplement linked from the PMLR ICML 2019 article; Appendices A–D. Only
+    PDF pages 1–2 were visually inspected for the sampling proof and conditional-maximum transform.
+  access_level: full_text
+  accessed_at: '2026-10-11T16:01:39Z'
+  sha256: a0a844d8b0e40acf4814085a8c2806459f5a8eb8ed0c211fa080c1ac15450992
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:NaturalLanguageProcessing
+  relation: related_match
+  rationale: The inspected primary paper develops this decoder for natural-language sequence generation,
+    including machine translation. The exact AIO CLASS denotes the language-processing task. This is an
+    algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the decoder is
+    separate from the model supplying probabilities and is not restricted to natural-language sequences.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T16:13:12Z'
+  updated_at: '2026-10-11T16:14:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
