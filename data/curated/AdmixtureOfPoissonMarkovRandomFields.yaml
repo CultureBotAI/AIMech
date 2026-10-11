@@ -23,9 +23,11 @@ limitations:
 - Topic components must share the same statistics, support and reference measure before averaging their
   natural parameters. Unrestricted positive raw-count Poisson interactions are not normalizable; positive-edge
   plots do not remove that restriction.
-- The source uses simplified PMRF notation while stating that a modified-statistic model is used. Its
-  precise positive-edge estimator and implementation were not inspected, so no implementation behavior
-  or reproducible positive-edge fit is certified.
+- 'The original source describes modified sufficient statistics for positive interactions. The NIPS 2014
+  follow-up and public v0.9.1 release have now been inspected: the release instead fits raw-count asymmetric
+  nodewise regressions without a sufficient-statistic transformation or joint admissibility constraints.
+  This code does not certify the source-described proper positive-edge model. Other historical implementations
+  and experimental runs are not inferred from this release.'
 - 'The proposed prior’s claimed beta->beta+x posterior closure is not generally valid for its interaction
   coefficient: beta*beta^T+x*x^T differs from (beta+x)*(beta+x)^T. Its Gamma analogy also depends on the
   reference measure, gamma and the quadratic penalty. No exact conjugacy or calibrated posterior claim
@@ -83,6 +85,30 @@ claims:
     locator: Supplemental PDF p. 1, Figure 6; p. 2, Tables 1–2, qualitative graphs and topic-word/coherence
       context
     relation: context
+- claim_id: followup-estimator-boundary
+  kind: limitation
+  statement: The NIPS 2014 follow-up relaxes symmetry to fit independent nodewise regression coefficients,
+    alternating topic parameters with document simplex weights. Its Appendix C describes OR/AND edge selection
+    and coefficient averaging as post-processing. In the inspected public v0.9.1 source, raw counts enter
+    exponentiated linear predictors with zero self coefficients and unrestricted directed interaction
+    estimates. Returned coefficient arrays are not constrained to be compatible conditionals of a normalized
+    joint law. Neither averaging directed coefficients nor numerically capping rates supplies the modified-statistic
+    base required for a proper positive-edge APM. This separates the probability-model definition from
+    the released fitting surrogate; it does not identify that release with every experiment in either
+    paper.
+  evidence:
+  - source_id: followup-method
+    locator: Section 2, PDF/printed p.3, positive-edge qualification; Section 3, pp.3-4, symmetry footnote
+      and alternating objective
+    relation: supports
+  - source_id: followup-supplement
+    locator: Appendix C, printed p.11 / PDF p.2, asymmetry and OR/AND rules; Appendix D, p.12 / PDF p.3,
+      fitting algorithms
+    relation: supports
+  - source_id: followup-code
+    locator: apm.m input transformation and evalObj/initVars; pmrfs.m pmrfsingle, computegamvec and phi2theta;
+      admixweights.m and utils/APMNums.m; v0.9.1 at commit 1001dd0ab9ecfab6d02d79f2297df3daf6561301
+    relation: supports
 evidence_sources:
 - source_id: method-source
   title: 'Admixture of Poisson MRFs: A Topic Model with Word Dependencies'
@@ -124,6 +150,48 @@ evidence_sources:
   access_level: full_text
   accessed_at: '2026-10-11T22:55:28Z'
   sha256: 3a49790ce255983944efcf49cf97a7f4f3148296ef394832c13e89a0d54d275e
+- source_id: followup-method
+  title: Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Paper.pdf
+  version: NIPS 2014 official nine-page paper; printed and PDF pages 1-9 agree. All nine pages visually
+    read, including figures, Table 1 and bibliography; extracted pages 3,5,6 also read.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:10:15Z'
+  sha256: f38e285409069950c68e016bcfb6a139a7d4003215bb3eb1727d11707896fb17
+- source_id: followup-supplement
+  title: Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs — Supplementary
+    Material
+  authors:
+  - David I. Inouye
+  - Pradeep Ravikumar
+  - Inderjit S. Dhillon
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Supplemental.zip
+  version: Official four-page supplementary PDF apm-nips2014.10-13.pdf inside the linked ZIP. Printed
+    page = PDF page +9. All four visual and extracted pages read. SHA256 identifies the PDF member; archive
+    SHA256 f97ca9b49ede8e4730de8190576ed4711276b66db032c44ade2dff348bc13fef.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:24:42Z'
+  sha256: 97c115b77a7026340546cc0734cfa832534d15e45409a2b9649eaf950d744fa0
+- source_id: followup-code
+  title: APM MATLAB implementation, version 0.9.1
+  authors:
+  - David I. Inouye
+  source_type: official_documentation
+  url: https://github.com/davidinouye/apm/archive/1001dd0ab9ecfab6d02d79f2297df3daf6561301.zip
+  persistent_id: https://github.com/davidinouye/apm/tree/1001dd0ab9ecfab6d02d79f2297df3daf6561301
+  version: Tag v0.9.1 at commit 1001dd0ab9ecfab6d02d79f2297df3daf6561301. SHA256 identifies the downloaded
+    source ZIP. All eleven MATLAB files (1506 lines), README and license were statically read and verified
+    against the archive; no MATLAB execution. Per-file hashes and exact inspection scope are retained
+    in the discovery ledger.
+  access_level: documentation
+  accessed_at: '2026-10-11T23:30:00Z'
+  sha256: 62cc4a2a974177088a6afb71e96b03dcb512e15042d7888624c1db4cca3bb821
 aio_snapshot:
   commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
   sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
@@ -141,7 +209,7 @@ aio_mappings:
 review_status: DRAFT
 curation:
   created_at: '2026-10-11T23:06:04Z'
-  updated_at: '2026-10-11T23:06:45Z'
+  updated_at: '2026-10-11T23:32:13Z'
   curator: Codex
   method: ai_assisted
   model: GPT-6
