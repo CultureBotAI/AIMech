@@ -1,0 +1,786 @@
+# Scientific self-review of constraint-repair methods
+
+- Review: 20261011T145526Z-constraint-repair
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T14:53:16Z
+- Finished UTC: 2026-10-11T14:55:26Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain min-conflicts, Breakout and GSAT as distinct DRAFT concepts with bounded AIO no-match assessments. The heuristic/outer-search distinction, practical-versus-idealized completeness and final-flip check limits are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three maintained constraint-repair and SAT-search concepts.
+
+Selection: Exact three IDs in the saved ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base d51654cf87ac56f07a1fa3e19f486b7eaddeee56.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:MinConflicts | data/curated/MinConflicts.yaml | maintained | Min-conflicts heuristic |
+| AIMech:BreakoutMethod | data/curated/BreakoutMethod.yaml | maintained | Breakout method |
+| AIMech:GSAT | data/curated/GSAT.yaml | maintained | GSAT |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 60.71s (0:01:00)<br>Checked 442 record(s); 0 failed.<br>Checked 313 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 84 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 82,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python -m aimech.cli check-source | passed | True | AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT | Command exited0 with no output. |
+| Finite constraint-repair boundary examples | passed | True | AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT | {"min_conflicts": {"value_conflicts": {"0": 1, "1": 1}, "current_value_is_eligible": true}, "breakout": {"unique_solution": [1, 1, 1, 1], "iterations": 1000, "boosts": 467, "visited_states": [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0], [1, 0, 0, 0]], "scope": "Finite first-improvement prefix of the published counterexample, not an independent infinite-run proof."}, "gsat": {"literal_pre_flip_check_return": null, "final_assignment_satisfies": true, "meaning": "A post-final-flip solution check is an implementation convention absent from Figure1. Failure does not certify UNSAT."}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:MinConflicts.
+
+The record identifies the min-conflicts repair/value-ordering heuristic, not one mandatory hill-climbing implementation. The primary report uses it with both local repair and informed backtracking and permits different variable-selection strategies. It does not identify the original GDS network, GENET inhibitory learning, dynamic Breakout weights, or GSAT global best-flip selection. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 3 and 9 lines respectively. All twelve text hits were inspected: six prior candidate-lead lines across the checkouts and six unrelated Pygments lexer-state lines in the ignored main environment. No hit established an existing candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For the stated binary-CSP formulation, maintain one domain value for each variable. Select a variable currently in conflict with at least one other variable, and evaluate its possible values against the other current assignments. Choose a minimum-conflict value, breaking ties randomly. The source footnote interprets the binary score as the number of conflicting other variables; for general constraints, estimating how many variables need repair depends on the constraint. The current value remains an eligible candidate, so an update can leave the assignment unchanged or move sideways. Initialization and the choice among conflicted variables belong to the surrounding search strategy. In the described local-repair use, repeat repairs until a consistent assignment is found or a chosen budget ends. The same value-ordering idea can instead guide an informed backtracking procedure; that procedure is not an exact synonym for the heuristic. Limits: Minimizing local conflicts does not necessarily reduce distance to a satisfying assignment. Ties, unchanged assignments and non-solution local optima can prevent a local-repair search from terminating successfully. Completeness depends on the outer search strategy. The source contrasts a potentially stuck hill-climbing implementation with a complete backtracking strategy; neither a guarantee of eventual success nor a proof of unsatisfiability follows from the value heuristic alone. General-constraint scoring requires a declared repair interpretation. Counting violated constraints, distinct conflicting variables, weighted violations or individual forbidden tuples can produce different rankings and should not be silently interchanged. Initialization, variable ordering, ties and budgets affect behavior. The source’s simplified probability analysis makes additional problem assumptions and is not asserted as a universal performance guarantee. No numerical benchmark claim is curated.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:BreakoutMethod.
+
+This is Morris’s Breakout method, using weights on forbidden assignment tuples, not the Breakout game. It is distinct from the idealized Fill algorithm, which raises only the current state’s stored cost, and from GLS, which selects features by penalty utility. Shared adaptive-penalty ideas do not make Breakout, GENET and GLS exact synonyms. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 3 and 9 lines respectively. All twelve text hits were inspected: six prior candidate-lead lines across the checkouts and six unrelated Pygments lexer-state lines in the ignored main environment. No hit established an existing candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Represent forbidden assignment tuples as nogoods, give each weight1, and score a complete assignment by the sum of weights of the nogoods it matches. Until a satisfying assignment is reached, make any local assignment change that strictly lowers this weighted cost when one exists. At a non-solution local minimum, increment every currently matched nogood’s weight by1 and repeat the search/weight-increase cycle until an improving move becomes available. Plateau points are treated as local minima rather than traversed by unweighted sideways moves. The method leaves initialization and the choice among improving changes open; the reported implementation uses random initial assignments and the first improving change found in a left-to-right scan. Weight increases persist and can also raise costs of neighboring states sharing the same nogoods. Limits: The practical Breakout method is incomplete. The paper supplies a satisfiable four-variable CNF counterexample where repeated reweighting can oscillate without reaching the all-true solution. No finite-budget success or unsatisfiability certificate is implied. The paper’s completeness theorem applies to the distinct idealized Fill algorithm, which stores and raises the cost of the current state alone on the finite assignment space. It must not be transferred to Breakout’s shared nogood weights. Representation affects the penalty landscape: one constraint can contain several forbidden tuples, and shared nogoods couple costs of different assignments. A constraint-weight implementation requires evidence that its intended representation matches this scope. Random initialization is an experimental choice, not a required random restart after each local minimum. Favorable results on constructed distributions do not establish general efficiency. The finite curator calculation checks a prefix of the published counterexample, not an independent proof for infinite executions.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:GSAT.
+
+This is the Selman–Levesque–Mitchell GSAT model-finding procedure. It evaluates single-variable flips across the current assignment, rather than first choosing a conflicted variable and then its minimum-conflict domain value. It is not strict hill climbing, a resolution proof procedure, a generic language-model reasoner or every later GSAT/WalkSAT extension. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 3 and 9 lines respectively. All twelve text hits were inspected: six prior candidate-lead lines across the checkouts and six unrelated Pygments lexer-state lines in the ignored main environment. No hit established an existing candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For up to MAX-TRIES attempts, generate a random complete truth assignment for the input CNF clauses. During each attempt, test the current assignment for satisfaction and, while within MAX-FLIPS, choose a variable whose flip gives the largest increase in the number of satisfied clauses, breaking equally good choices randomly, then flip it. The argmax does not require a positive gain: sideways moves remain possible, and the source also acknowledges occasional decreasing moves. Restart after the per-attempt budget and report search failure after all attempts if no tested satisfying assignment was found. A returned assignment is a directly checkable model; an unsuccessful search does not prove unsatisfiability. Figure1 checks before each flip, so the assignment produced by the last allowed flip is not checked inside its literal loop; a concrete implementation must state whether it adds that final check. Limits: GSAT is an incomplete model finder under finite budgets. A satisfiable formula may be missed, and the source discusses families that can require exponentially many attempts. Search failure must not be reported as an UNSAT proof. Allowing plateau and occasionally decreasing flips distinguishes the method from strict-improvement hill climbing. Replacing these moves with immediate restarts changes the specified procedure. The Figure1 pre-flip test leaves a final-flip boundary: with one allowed flip on a single positive unit clause, an initially false assignment can become satisfying after the last check. The record exposes this literal pseudocode behavior rather than silently certifying a corrected implementation. MAX-FLIPS, MAX-TRIES, randomization, tie handling and CNF encoding affect outcomes. Experiments on selected satisfiable instances and particular distributions are not universal runtime or success guarantees; no numerical benchmark result is curated.
+
+### Value heuristic versus complete search strategy
+
+consistency: supported. Targets: AIMech:MinConflicts.
+
+Retain the heuristic without prescribing one outer solver.
+
+NASA report Section3.2 and footnote2 define the conflicted-variable/minimum-conflict value choice. Section4.4 separates variable ordering and search strategies, while footnote5 explicitly allows the current value. The finite binary case has a tie including the current assignment. The record preserves domain-dependent repair counts for higher-order constraints and does not replace conflicting-variable counts with arbitrary weighted or tuple counts. Completeness belongs to the outer backtracking or local-repair procedure, not to this heuristic in isolation. The technical memorandum version is not silently substituted for the journal pagination.
+
+### Nogood weights versus idealized state costs
+
+consistency: supported. Targets: AIMech:BreakoutMethod.
+
+Retain practical Breakout and keep Fill as a distinct frontier lead.
+
+All six pages were inspected visually after mixed-column extraction. Figure2 increases all current nogoods at a local minimum and takes any strictly improving move otherwise; plateaus trigger weighting. The idealized Fill theorem raises only the current state cost and does not prove Breakout complete. The four-variable counterexample and the finite1000-step first-improvement prefix show the shared-cost mechanism; the prefix is not claimed as an independent infinite-run proof. Experiments and initial-state/move-order choices are scoped, not universal guarantees.
+
+### Best flips, finite restarts and model finding
+
+consistency: supported. Targets: AIMech:GSAT.
+
+Retain GSAT with sideways/decreasing moves and an explicit final-check boundary.
+
+Figure1 chooses an argmax over all single-variable flips, with random tie handling in the prose. It does not demand positive gain; page5 footnote12 acknowledges decreasing moves. Page6 distinguishes a correct returned model from inconclusive negative search results. The literal pre-flip check can miss a model produced by the final allowed flip, as the one-unit-clause finite example demonstrates. The record describes this boundary instead of silently certifying a corrected implementation. No probability of success, runtime bound or theorem-proving guarantee is inferred.
+
+### Symbolic algorithms versus model/task/bias classes
+
+grounding: supported. Targets: AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT.
+
+Retain three native identities with bounded no-match assessments.
+
+Seven exact AIO CLASS nodes were inspected with definitions, scoped synonyms/comments and outgoing edges. All three symbolic search mechanisms receive bounded no-match assessments. Neural inspiration does not require a neural architecture; ReasoningLLM is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask require learning/training scope not necessary here; a stochastic representation alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET, GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist learning, selected-feature penalties, strict objective improvement, move-history restrictions and temperature-based acceptance. Their fields were read in preceding rounds and remain boundary context, not a fresh whole-corpus audit.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:MinConflicts, AIMech:BreakoutMethod, AIMech:GSAT. A repair value heuristic, adaptive nogood-weight search and clause-maximizing flips have distinct defining state and operations. Shared repair terminology, applications and composition do not establish identity.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T145301Z-constraint-repair.json | supports | Compared all 442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases; no normalized identity match. Full-checkout searches included ignored and hidden files in both worktree and main and returned three lines in the worktree and nine in main. All twelve hits were inspected: six prior candidate-lead lines and six Pygments lexer-state lines in the ignored main environment. Seven exact AIO nodes and five complete native neighbors were examined. Breakout lexer-state uses were separated from the named search method. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Seven exact CLASS nodes with scoped synonyms/comments/outgoing edges in source_analysis.aio_mapping_inspection | supports | Seven exact AIO CLASS nodes were inspected with definitions, scoped synonyms/comments and outgoing edges. All three symbolic search mechanisms receive bounded no-match assessments. Neural inspiration does not require a neural architecture; ReasoningLLM is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask require learning/training scope not necessary here; a stochastic representation alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET, GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist learning, selected-feature penalties, strict objective improvement, move-history restrictions and temperature-based acceptance. Their fields were read in preceding rounds and remain boundary context, not a fresh whole-corpus audit. |
+| neighbors | research/discovery/20261011T145301Z-constraint-repair.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Full GENET, GLS, HillClimbing, TabuSearch and SimulatedAnnealing records distinguish connectionist learning, feature penalties, strict improvement, move-history restrictions and temperature-dependent acceptance. Their prior mappings are contextual, not newly approved. |
+| finite-conventions | research/discovery/constraint-repair-boundaries.py; calculate(): tied repair including current value, finite Breakout counterexample prefix, and GSAT final-flip check boundary | supports | Original finite cases distinguish a tied min-conflicts repair including the current value, a1000-step first-improvement prefix of the published Breakout counterexample, and the GSAT pre-flip-only test on a one-flip unit-clause example. A finite prefix is not a proof of an infinite run, and these are not performance benchmarks. |
+| minconflicts-source-0 | https://ntrs.nasa.gov/api/citations/19930006097/downloads/19930006097.pdf; Section3.2, PDF9 / printed4, boxed heuristic and footnote2; Figure2 and strategy comparison PDF10 / printed5; Section4.4 PDF18–19 / printed13–14; Section5.1 footnote5 PDF19 / printed14 allows the current value | supports | Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction and Scheduling Problems. NASA-TM-108121 / FIA-92-21, June1992, 38-page NASA-hosted technical report. Core definition PDF9 corresponds to printed4. This is not the December1992 Artificial Intelligence58:161–205 journal pagination. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| breakoutmethod-source-0 | https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf; The Breakout Algorithm, PDF2–3 / printed41–42, Figure2 and plateau footnote3; A Complete Algorithm, PDF4–6 / printed43–45, Fill Figure3/Theorem1 and Breakout counterexample | supports | The Breakout Method For Escaping From Local Minima. AAAI-93 proceedings, pp.40–45; six-page publisher scan. The later website posting date is not the paper publication date. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+| gsat-source-0 | https://cdn.aaai.org/AAAI/1992/AAAI92-068.pdf; The GSAT procedure and Figure1, PDF2 / printed441; Limitations and sideways moves with footnote12, PDF5 / printed444; Applications and Conclusions, PDF6 / printed445 | supports | A New Method for Solving Hard Satisfiability Problems. AAAI-92 proceedings, pp.440–446; seven-page publisher scan. The Cornell-hosted PDF request returned HTTP421; this separately accessed publisher copy supplies the evidence. Actual text, OCR and visual scopes are declared in source_analysis; extraction and rendering alone are not reading. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- Min-conflicts completeness depends on the surrounding search; Breakout does not inherit the idealized Fill theorem; GSAT failure is not an UNSAT proof.
+- The GSAT final-flip test boundary is explicit, and the finite Breakout prefix is not an independent infinite-run proof.
+- Only declared source sections and images were inspected. The NASA technical memorandum preserves its own version and pagination; no numerical benchmark performance is asserted.
+- There are183 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T145526Z-constraint-repair
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of constraint-repair methods
+started_at: '2026-10-11T14:53:16Z'
+finished_at: '2026-10-11T14:55:26Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all new fields against
+    primary method sections, critical PDF images, seven exact AIO nodes, five full
+    neighboring records and original finite counterexamples. Completeness scope, shared-cost
+    effects and the GSAT final-flip test boundary were preserved explicitly before
+    record creation. This is not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain min-conflicts, Breakout and GSAT as distinct DRAFT concepts with bounded
+  AIO no-match assessments. The heuristic/outer-search distinction, practical-versus-idealized
+  completeness and final-flip check limits are explicit. No actionable curation finding
+  remains in the declared scope.
+source:
+  git_revision: d51654cf87ac56f07a1fa3e19f486b7eaddeee56
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AvailabilityHeuristicBias.yaml
+    sha256: 7e991ce83fbce8e1a71ff346cd90ca0a98a5bd2973353e7651e0fffddb744b04
+    role: context
+  - path: data/aio/HopfieldNetwork.yaml
+    sha256: 042815574abb3502427a76bb970ab78fd1ef684fa5f807b41c948ddb62e63822
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/BreakoutMethod.yaml
+    sha256: 4f01c052be52cf8a9ba18b8787e6ac6595edb22a03dc45157909212fc272ee32
+    role: target
+  - path: data/curated/GENET.yaml
+    sha256: 1b17f5fdcdaf35a366d98d8e9902e5417531782aa421b923e711be739f66f129
+    role: context
+  - path: data/curated/GSAT.yaml
+    sha256: cfad196dde77b2b47bb3cbc2f1cce46bafe138025d937d744fd5404c5bcaeb80
+    role: target
+  - path: data/curated/GuidedLocalSearch.yaml
+    sha256: 91618dff5e0ed6681aad81deb9be9c8e35ed43b42acad285ef473916852cdebc
+    role: context
+  - path: data/curated/HillClimbing.yaml
+    sha256: 1f63c3e6341fecd3c78e00ae3ced9898c070ba9565dccc5511f3c67e6ea29476
+    role: context
+  - path: data/curated/MinConflicts.yaml
+    sha256: 12b23515b6d3d3ae662a67519dd0f0f15f10a7f2b5b7aa88815a76e4a8309512
+    role: target
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/TabuSearch.yaml
+    sha256: 6dae782f4d0c0b2a7195f471b7f73acb38fa036fb43ec15bacfa8f9a0264b844
+    role: context
+  - path: research/discovery/20261011T145301Z-constraint-repair.json
+    sha256: b643b93d2960887a4e60404958007d63ac40793555ec41cc384946e1e91b34dc
+    role: context
+  - path: research/discovery/constraint-repair-boundaries.py
+    sha256: d3271d40c5bd58a4113f6bac3b89d512505c9d59d5c5318bcda5c86f0f959717
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MinConflicts
+  path: data/curated/MinConflicts.yaml
+  label: Min-conflicts heuristic
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MinConflicts.yaml
+    role: maintained
+- target_id: AIMech:BreakoutMethod
+  path: data/curated/BreakoutMethod.yaml
+  label: Breakout method
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BreakoutMethod.yaml
+    role: maintained
+- target_id: AIMech:GSAT
+  path: data/curated/GSAT.yaml
+  label: GSAT
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GSAT.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained constraint-repair and SAT-search concepts.
+  selection: Exact three IDs in the saved ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exclusions:
+  - target: Uninspected frontier leads and complete executable implementations
+    reason: The batch does not exhaust constraint search or execute original solvers.
+      Fill and other follow-up procedures remain frontier leads.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records are boundary context. Only declared source sections/images
+      and finite curator examples support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 60.71s (0:01:00)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 313 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 84 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 82,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  command: /Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv/bin/python
+    -m aimech.cli check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Finite constraint-repair boundary examples
+  command: python3 research/discovery/constraint-repair-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"min_conflicts": {"value_conflicts": {"0": 1, "1": 1}, "current_value_is_eligible":
+    true}, "breakout": {"unique_solution": [1, 1, 1, 1], "iterations": 1000, "boosts":
+    467, "visited_states": [[0, 0, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0], [0, 1, 0, 0],
+    [1, 0, 0, 0]], "scope": "Finite first-improvement prefix of the published counterexample,
+    not an independent infinite-run proof."}, "gsat": {"literal_pre_flip_check_return":
+    null, "final_assignment_satisfies": true, "meaning": "A post-final-flip solution
+    check is an implementation convention absent from Figure1. Failure does not certify
+    UNSAT."}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T145301Z-constraint-repair.json
+  accessed_at: '2026-10-11T14:53:16Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO labels/scoped synonyms and 310 preceding native
+    IDs/names/aliases; no normalized identity match. Full-checkout searches included
+    ignored and hidden files in both worktree and main and returned three lines in
+    the worktree and nine in main. All twelve hits were inspected: six prior candidate-lead
+    lines and six Pygments lexer-state lines in the ignored main environment. Seven
+    exact AIO nodes and five complete native neighbors were examined. Breakout lexer-state
+    uses were separated from the named search method. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  search_scope: 'All442 pinned AIO labels/scoped synonyms and310 preceding maintained
+    IDs/names/aliases; both full checkouts including ignored and hidden files. All12
+    hits inspected: six prior leads and six unrelated Pygments lexer-state lines.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Seven exact CLASS nodes with scoped synonyms/comments/outgoing edges in
+    source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T14:53:16Z'
+  support: supports
+  summary: Seven exact AIO CLASS nodes were inspected with definitions, scoped synonyms/comments
+    and outgoing edges. All three symbolic search mechanisms receive bounded no-match
+    assessments. Neural inspiration does not require a neural architecture; ReasoningLLM
+    is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias
+    is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask
+    require learning/training scope not necessary here; a stochastic representation
+    alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET,
+    GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist
+    learning, selected-feature penalties, strict objective improvement, move-history
+    restrictions and temperature-based acceptance. Their fields were read in preceding
+    rounds and remain boundary context, not a fresh whole-corpus audit.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T145301Z-constraint-repair.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T14:53:16Z'
+  support: supports
+  summary: Full GENET, GLS, HillClimbing, TabuSearch and SimulatedAnnealing records
+    distinguish connectionist learning, feature penalties, strict improvement, move-history
+    restrictions and temperature-dependent acceptance. Their prior mappings are contextual,
+    not newly approved.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/constraint-repair-boundaries.py
+  locator: 'calculate(): tied repair including current value, finite Breakout counterexample
+    prefix, and GSAT final-flip check boundary'
+  accessed_at: '2026-10-11T14:53:16Z'
+  snapshot_sha256: d3271d40c5bd58a4113f6bac3b89d512505c9d59d5c5318bcda5c86f0f959717
+  support: supports
+  summary: Original finite cases distinguish a tied min-conflicts repair including
+    the current value, a1000-step first-improvement prefix of the published Breakout
+    counterexample, and the GSAT pre-flip-only test on a one-flip unit-clause example.
+    A finite prefix is not a proof of an infinite run, and these are not performance
+    benchmarks.
+- evidence_id: minconflicts-source-0
+  kind: primary_source
+  reference: https://ntrs.nasa.gov/api/citations/19930006097/downloads/19930006097.pdf
+  locator: Section3.2, PDF9 / printed4, boxed heuristic and footnote2; Figure2 and
+    strategy comparison PDF10 / printed5; Section4.4 PDF18–19 / printed13–14; Section5.1
+    footnote5 PDF19 / printed14 allows the current value
+  accessed_at: '2026-10-11T14:45:43Z'
+  snapshot_sha256: 4548b61515c41957e5e3010473250ca874db1b577b7d01c7d3e6ac3abda93db1
+  support: supports
+  summary: 'Minimizing Conflicts: A Heuristic Repair Method for Constraint-Satisfaction
+    and Scheduling Problems. NASA-TM-108121 / FIA-92-21, June1992, 38-page NASA-hosted
+    technical report. Core definition PDF9 corresponds to printed4. This is not the
+    December1992 Artificial Intelligence58:161–205 journal pagination. Actual text,
+    OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.'
+- evidence_id: breakoutmethod-source-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1993/AAAI93-007.pdf
+  locator: The Breakout Algorithm, PDF2–3 / printed41–42, Figure2 and plateau footnote3;
+    A Complete Algorithm, PDF4–6 / printed43–45, Fill Figure3/Theorem1 and Breakout
+    counterexample
+  accessed_at: '2026-10-11T14:45:43Z'
+  snapshot_sha256: 9f853b6831403bb69376f88c6f96c6d788f49e79323ef59c6780fdcafa42959d
+  support: supports
+  summary: The Breakout Method For Escaping From Local Minima. AAAI-93 proceedings,
+    pp.40–45; six-page publisher scan. The later website posting date is not the paper
+    publication date. Actual text, OCR and visual scopes are declared in source_analysis;
+    extraction and rendering alone are not reading.
+- evidence_id: gsat-source-0
+  kind: primary_source
+  reference: https://cdn.aaai.org/AAAI/1992/AAAI92-068.pdf
+  locator: The GSAT procedure and Figure1, PDF2 / printed441; Limitations and sideways
+    moves with footnote12, PDF5 / printed444; Applications and Conclusions, PDF6 /
+    printed445
+  accessed_at: '2026-10-11T14:46:25Z'
+  snapshot_sha256: a9715defb5afbd1848f4a7ab00406144c836cfc875b359d2eb5a1f78f590984b
+  support: supports
+  summary: A New Method for Solving Hard Satisfiability Problems. AAAI-92 proceedings,
+    pp.440–446; seven-page publisher scan. The Cornell-hosted PDF request returned
+    HTTP421; this separately accessed publisher copy supplies the evidence. Actual
+    text, OCR and visual scopes are declared in source_analysis; extraction and rendering
+    alone are not reading.
+assessments:
+- assessment_id: minconflicts
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:MinConflicts
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - minconflicts-source-0
+  summary: 'The record identifies the min-conflicts repair/value-ordering heuristic,
+    not one mandatory hill-climbing implementation. The primary report uses it with
+    both local repair and informed backtracking and permits different variable-selection
+    strategies. It does not identify the original GDS network, GENET inhibitory learning,
+    dynamic Breakout weights, or GSAT global best-flip selection. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 310 preceding
+    native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+    and hidden files in worktree and main, returning 3 and 9 lines respectively. All
+    twelve text hits were inspected: six prior candidate-lead lines across the checkouts
+    and six unrelated Pygments lexer-state lines in the ignored main environment.
+    No hit established an existing candidate record. Seven exact AIO CLASS nodes with
+    scoped synonyms/comments and outgoing edges and five native neighboring mechanisms
+    were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  details: 'For the stated binary-CSP formulation, maintain one domain value for each
+    variable. Select a variable currently in conflict with at least one other variable,
+    and evaluate its possible values against the other current assignments. Choose
+    a minimum-conflict value, breaking ties randomly. The source footnote interprets
+    the binary score as the number of conflicting other variables; for general constraints,
+    estimating how many variables need repair depends on the constraint. The current
+    value remains an eligible candidate, so an update can leave the assignment unchanged
+    or move sideways. Initialization and the choice among conflicted variables belong
+    to the surrounding search strategy. In the described local-repair use, repeat
+    repairs until a consistent assignment is found or a chosen budget ends. The same
+    value-ordering idea can instead guide an informed backtracking procedure; that
+    procedure is not an exact synonym for the heuristic. Limits: Minimizing local
+    conflicts does not necessarily reduce distance to a satisfying assignment. Ties,
+    unchanged assignments and non-solution local optima can prevent a local-repair
+    search from terminating successfully. Completeness depends on the outer search
+    strategy. The source contrasts a potentially stuck hill-climbing implementation
+    with a complete backtracking strategy; neither a guarantee of eventual success
+    nor a proof of unsatisfiability follows from the value heuristic alone. General-constraint
+    scoring requires a declared repair interpretation. Counting violated constraints,
+    distinct conflicting variables, weighted violations or individual forbidden tuples
+    can produce different rankings and should not be silently interchanged. Initialization,
+    variable ordering, ties and budgets affect behavior. The source’s simplified probability
+    analysis makes additional problem assumptions and is not asserted as a universal
+    performance guarantee. No numerical benchmark claim is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - minconflicts-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: Seven exact AIO CLASS nodes were inspected with definitions, scoped
+      synonyms/comments and outgoing edges. All three symbolic search mechanisms receive
+      bounded no-match assessments. Neural inspiration does not require a neural architecture;
+      ReasoningLLM is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias
+      is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask
+      require learning/training scope not necessary here; a stochastic representation
+      alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET,
+      GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist
+      learning, selected-feature penalties, strict objective improvement, move-history
+      restrictions and temperature-based acceptance. Their fields were read in preceding
+      rounds and remain boundary context, not a fresh whole-corpus audit.
+    evidence_ids:
+    - mapping
+- assessment_id: breakoutmethod
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:BreakoutMethod
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - breakoutmethod-source-0
+  summary: 'This is Morris’s Breakout method, using weights on forbidden assignment
+    tuples, not the Breakout game. It is distinct from the idealized Fill algorithm,
+    which raises only the current state’s stored cost, and from GLS, which selects
+    features by penalty utility. Shared adaptive-penalty ideas do not make Breakout,
+    GENET and GLS exact synonyms. No normalized identity match was found across all
+    442 pinned AIO labels/scoped synonyms and 310 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 3 and 9 lines respectively. All twelve text hits were inspected:
+    six prior candidate-lead lines across the checkouts and six unrelated Pygments
+    lexer-state lines in the ignored main environment. No hit established an existing
+    candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments and
+    outgoing edges and five native neighboring mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.'
+  details: 'Represent forbidden assignment tuples as nogoods, give each weight1, and
+    score a complete assignment by the sum of weights of the nogoods it matches. Until
+    a satisfying assignment is reached, make any local assignment change that strictly
+    lowers this weighted cost when one exists. At a non-solution local minimum, increment
+    every currently matched nogood’s weight by1 and repeat the search/weight-increase
+    cycle until an improving move becomes available. Plateau points are treated as
+    local minima rather than traversed by unweighted sideways moves. The method leaves
+    initialization and the choice among improving changes open; the reported implementation
+    uses random initial assignments and the first improving change found in a left-to-right
+    scan. Weight increases persist and can also raise costs of neighboring states
+    sharing the same nogoods. Limits: The practical Breakout method is incomplete.
+    The paper supplies a satisfiable four-variable CNF counterexample where repeated
+    reweighting can oscillate without reaching the all-true solution. No finite-budget
+    success or unsatisfiability certificate is implied. The paper’s completeness theorem
+    applies to the distinct idealized Fill algorithm, which stores and raises the
+    cost of the current state alone on the finite assignment space. It must not be
+    transferred to Breakout’s shared nogood weights. Representation affects the penalty
+    landscape: one constraint can contain several forbidden tuples, and shared nogoods
+    couple costs of different assignments. A constraint-weight implementation requires
+    evidence that its intended representation matches this scope. Random initialization
+    is an experimental choice, not a required random restart after each local minimum.
+    Favorable results on constructed distributions do not establish general efficiency.
+    The finite curator calculation checks a prefix of the published counterexample,
+    not an independent proof for infinite executions.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - breakoutmethod-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: Seven exact AIO CLASS nodes were inspected with definitions, scoped
+      synonyms/comments and outgoing edges. All three symbolic search mechanisms receive
+      bounded no-match assessments. Neural inspiration does not require a neural architecture;
+      ReasoningLLM is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias
+      is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask
+      require learning/training scope not necessary here; a stochastic representation
+      alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET,
+      GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist
+      learning, selected-feature penalties, strict objective improvement, move-history
+      restrictions and temperature-based acceptance. Their fields were read in preceding
+      rounds and remain boundary context, not a fresh whole-corpus audit.
+    evidence_ids:
+    - mapping
+- assessment_id: gsat
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:GSAT
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - gsat-source-0
+  summary: 'This is the Selman–Levesque–Mitchell GSAT model-finding procedure. It
+    evaluates single-variable flips across the current assignment, rather than first
+    choosing a conflicted variable and then its minimum-conflict domain value. It
+    is not strict hill climbing, a resolution proof procedure, a generic language-model
+    reasoner or every later GSAT/WalkSAT extension. No normalized identity match was
+    found across all 442 pinned AIO labels/scoped synonyms and 310 preceding native
+    IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, returning 3 and 9 lines respectively. All twelve text
+    hits were inspected: six prior candidate-lead lines across the checkouts and six
+    unrelated Pygments lexer-state lines in the ignored main environment. No hit established
+    an existing candidate record. Seven exact AIO CLASS nodes with scoped synonyms/comments
+    and outgoing edges and five native neighboring mechanisms were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.'
+  details: 'For up to MAX-TRIES attempts, generate a random complete truth assignment
+    for the input CNF clauses. During each attempt, test the current assignment for
+    satisfaction and, while within MAX-FLIPS, choose a variable whose flip gives the
+    largest increase in the number of satisfied clauses, breaking equally good choices
+    randomly, then flip it. The argmax does not require a positive gain: sideways
+    moves remain possible, and the source also acknowledges occasional decreasing
+    moves. Restart after the per-attempt budget and report search failure after all
+    attempts if no tested satisfying assignment was found. A returned assignment is
+    a directly checkable model; an unsuccessful search does not prove unsatisfiability.
+    Figure1 checks before each flip, so the assignment produced by the last allowed
+    flip is not checked inside its literal loop; a concrete implementation must state
+    whether it adds that final check. Limits: GSAT is an incomplete model finder under
+    finite budgets. A satisfiable formula may be missed, and the source discusses
+    families that can require exponentially many attempts. Search failure must not
+    be reported as an UNSAT proof. Allowing plateau and occasionally decreasing flips
+    distinguishes the method from strict-improvement hill climbing. Replacing these
+    moves with immediate restarts changes the specified procedure. The Figure1 pre-flip
+    test leaves a final-flip boundary: with one allowed flip on a single positive
+    unit clause, an initially false assignment can become satisfying after the last
+    check. The record exposes this literal pseudocode behavior rather than silently
+    certifying a corrected implementation. MAX-FLIPS, MAX-TRIES, randomization, tie
+    handling and CNF encoding affect outcomes. Experiments on selected satisfiable
+    instances and particular distributions are not universal runtime or success guarantees;
+    no numerical benchmark result is curated.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable architecture or search procedure, not a trained model instance
+      or benchmark outcome.
+    evidence_ids:
+    - gsat-source-0
+  - name: aio-assessment
+    value: bounded_no_match
+    definition: Seven exact AIO CLASS nodes were inspected with definitions, scoped
+      synonyms/comments and outgoing edges. All three symbolic search mechanisms receive
+      bounded no-match assessments. Neural inspiration does not require a neural architecture;
+      ReasoningLLM is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias
+      is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask
+      require learning/training scope not necessary here; a stochastic representation
+      alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET,
+      GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist
+      learning, selected-feature penalties, strict objective improvement, move-history
+      restrictions and temperature-based acceptance. Their fields were read in preceding
+      rounds and remain boundary context, not a fresh whole-corpus audit.
+    evidence_ids:
+    - mapping
+- assessment_id: min-conflicts-boundaries
+  area: consistency
+  topic: Value heuristic versus complete search strategy
+  outcome: supported
+  target_ids:
+  - AIMech:MinConflicts
+  evidence_ids:
+  - minconflicts-source-0
+  - finite-conventions
+  summary: Retain the heuristic without prescribing one outer solver.
+  details: NASA report Section3.2 and footnote2 define the conflicted-variable/minimum-conflict
+    value choice. Section4.4 separates variable ordering and search strategies, while
+    footnote5 explicitly allows the current value. The finite binary case has a tie
+    including the current assignment. The record preserves domain-dependent repair
+    counts for higher-order constraints and does not replace conflicting-variable
+    counts with arbitrary weighted or tuple counts. Completeness belongs to the outer
+    backtracking or local-repair procedure, not to this heuristic in isolation. The
+    technical memorandum version is not silently substituted for the journal pagination.
+- assessment_id: breakout-boundaries
+  area: consistency
+  topic: Nogood weights versus idealized state costs
+  outcome: supported
+  target_ids:
+  - AIMech:BreakoutMethod
+  evidence_ids:
+  - breakoutmethod-source-0
+  - finite-conventions
+  summary: Retain practical Breakout and keep Fill as a distinct frontier lead.
+  details: All six pages were inspected visually after mixed-column extraction. Figure2
+    increases all current nogoods at a local minimum and takes any strictly improving
+    move otherwise; plateaus trigger weighting. The idealized Fill theorem raises
+    only the current state cost and does not prove Breakout complete. The four-variable
+    counterexample and the finite1000-step first-improvement prefix show the shared-cost
+    mechanism; the prefix is not claimed as an independent infinite-run proof. Experiments
+    and initial-state/move-order choices are scoped, not universal guarantees.
+- assessment_id: gsat-boundaries
+  area: consistency
+  topic: Best flips, finite restarts and model finding
+  outcome: supported
+  target_ids:
+  - AIMech:GSAT
+  evidence_ids:
+  - gsat-source-0
+  - finite-conventions
+  summary: Retain GSAT with sideways/decreasing moves and an explicit final-check
+    boundary.
+  details: Figure1 chooses an argmax over all single-variable flips, with random tie
+    handling in the prose. It does not demand positive gain; page5 footnote12 acknowledges
+    decreasing moves. Page6 distinguishes a correct returned model from inconclusive
+    negative search results. The literal pre-flip check can miss a model produced
+    by the final allowed flip, as the one-unit-clause finite example demonstrates.
+    The record describes this boundary instead of silently certifying a corrected
+    implementation. No probability of success, runtime bound or theorem-proving guarantee
+    is inferred.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Symbolic algorithms versus model/task/bias classes
+  outcome: supported
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three native identities with bounded no-match assessments.
+  details: Seven exact AIO CLASS nodes were inspected with definitions, scoped synonyms/comments
+    and outgoing edges. All three symbolic search mechanisms receive bounded no-match
+    assessments. Neural inspiration does not require a neural architecture; ReasoningLLM
+    is a language model rather than a SAT/CSP algorithm, and AvailabilityHeuristicBias
+    is a judgment bias rather than repair guidance. TrainingStrategy/MachineLearningTask
+    require learning/training scope not necessary here; a stochastic representation
+    alone does not ground the defining algorithm in MarkovChain. Five native neighbors—GENET,
+    GLS, strict hill climbing, Tabu Search and simulated annealing—separate connectionist
+    learning, selected-feature penalties, strict objective improvement, move-history
+    restrictions and temperature-based acceptance. Their fields were read in preceding
+    rounds and remain boundary context, not a fresh whole-corpus audit.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:MinConflicts
+  - AIMech:BreakoutMethod
+  - AIMech:GSAT
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - minconflicts-source-0
+  - breakoutmethod-source-0
+  - gsat-source-0
+  rationale: A repair value heuristic, adaptive nogood-weight search and clause-maximizing
+    flips have distinct defining state and operations. Shared repair terminology,
+    applications and composition do not establish identity.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- Min-conflicts completeness depends on the surrounding search; Breakout does not
+  inherit the idealized Fill theorem; GSAT failure is not an UNSAT proof.
+- The GSAT final-flip test boundary is explicit, and the finite Breakout prefix is
+  not an independent infinite-run proof.
+- Only declared source sections and images were inspected. The NASA technical memorandum
+  preserves its own version and pagination; no numerical benchmark performance is
+  asserted.
+- There are183 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- constraint-search
+- self-review
+- discovery-ongoing
+```
