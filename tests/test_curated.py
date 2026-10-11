@@ -94,6 +94,34 @@ def test_cross_record_alias_collision_and_filename(corpus, record, capsys):
     assert "collides" in output and "filename does not match" in output
 
 
+def test_plus_variants_coexist_but_equivalent_aliases_collide(corpus, record, capsys):
+    for suffix, identifier in [("", "ExampleMethod"), ("+", "ExamplePlus"),
+                               ("++", "ExamplePlusPlus")]:
+        variant = deepcopy(record)
+        variant.update(id=f"AIMech:{identifier}", name=f"PointNet{suffix}")
+        (corpus / f"data/curated/{identifier}.yaml").write_text(yaml.safe_dump(variant))
+    assert validate_curated(corpus) == 0
+    duplicate = deepcopy(record)
+    duplicate.update(id="AIMech:Duplicate", name="Different label", aliases=["POINT NET + +"])
+    (corpus / "data/curated/Duplicate.yaml").write_text(yaml.safe_dump(duplicate))
+    assert validate_curated(corpus) == 1
+    output = capsys.readouterr().out
+    assert "collides" in output
+    assert "AIMech:ExamplePlusPlus" in output and "AIMech:Duplicate" in output
+
+
+@pytest.mark.parametrize("name", ["+", "++", " - + + "])
+def test_plus_symbols_alone_are_not_identities(record, name):
+    record["name"] = name
+    assert any("letters or digits" in error for error in validate_curated_record(record))
+
+
+def test_duplicate_plus_alias_within_record_is_rejected(record):
+    record.update(name="PointNet++", aliases=["point-net + +"])
+    assert any("duplicate normalized identity" in error
+               for error in validate_curated_record(record))
+
+
 def test_cli_checks_complete_collection_and_rejects_symlink(corpus, monkeypatch):
     monkeypatch.chdir(corpus)
     assert main(["validate-curated"]) == 0

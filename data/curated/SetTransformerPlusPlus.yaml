@@ -1,0 +1,58 @@
+name: Set Transformer++
+definition: A Set Transformer architecture revision that replaces its induced-attention encoder blocks
+  with set-normalized blocks retaining identity residual paths, while preserving the aggregation and decoder.
+concept_kind: architecture
+identity_notes: Set Transformer++ denotes the specific encoder revision and ISAB++ construction in Zhang
+  and colleagues. It is distinct from the original Set Transformer and from Deep Sets++ despite their
+  shared residual and normalization design principles.
+limitations:
+- This record covers the source's ISAB++ encoder construction, not all possible residual attention variants.
+- Set standardization assumes a nonzero variance; no universal optimization or benchmark improvement is
+  asserted.
+aliases:
+- ST++
+id: AIMech:SetTransformerPlusPlus
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4 opening and Sections 4.1–4.2 and 4.4, Figure 2 and equations 21–26, PDF pp. 4–6
+  relation: supports
+claims:
+- claim_id: architecture-mechanism
+  kind: mechanism
+  statement: The revised encoder uses two successive attention blocks linking learned inducing points
+    and input elements. Set normalization occurs on the transformed attention and feedforward branches,
+    while each residual addition retains its unmodified query-side input.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4 opening and Sections 4.1–4.2 and 4.4, Figure 2 and equations 21–26, PDF pp. 4–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'Set Norm and Equivariant Skip Connections: Putting the Deep in Deep Sets'
+  authors:
+  - Lily H. Zhang
+  - Veronica Tozzo
+  - John M. Higgins
+  - Rajesh Ranganath
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v162/zhang22ac/zhang22ac.pdf
+  version: ICML 2022 proceedings, PMLR 162:26559–26574
+  access_level: full_text
+  accessed_at: '2026-10-11T04:14:52Z'
+  sha256: 9b302c6977e34aaba6dce3d6e4c173850c5a8e3ad7f381fa7c578d7c67d3a28d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The revised attention encoder is a learned neural architecture; the broader artificial-neural-network
+    class does not equate it with a language model or its component attention operation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:19:31Z'
+  updated_at: '2026-10-11T04:19:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
