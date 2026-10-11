@@ -41,6 +41,9 @@ def test_ci_runs_unconditionally_with_trusted_fetched_base_and_locked_environmen
     assert len(setup_just["uses"].split("@", 1)[1]) == 40
     assert setup_just["with"]["just-version"]
     assert "just check" in runs
+    assert "just fetch-review-bases" in runs
+    assert runs.index("just fetch-review-bases") < runs.index("just check")
+    assert runs.index("just fetch-review-bases") > runs.index("uv sync --locked --extra dev")
     assert "just vendored-check" in runs
     assert runs.index("just vendored-check") > runs.index("just check")
     assert "uv run --locked --extra dev python scripts/check.py" in (ROOT / "justfile").read_text()

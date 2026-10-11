@@ -1,0 +1,308 @@
+# Resolution review for historical Git-base preparation
+
+- Review: 20261011T055520Z-review-base-resolved
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T05:55:20Z
+- Finished UTC: 2026-10-11T05:55:20Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: false
+
+## Summary
+
+The missing review commit was retrieved from the configured GitHub origin in a fresh clone, after which the unchanged strict gate passed. The maintained CI setup now performs this preparation and regression tests cover squash/deleted-branch provenance, malformed IDs, unavailable commits and non-commit objects. The original immutable reviews and governed validator are unchanged.
+
+## Scope And Provenance
+
+Reassessment of the historical review-base retrieval finding against the maintained CI/helper fix and real fresh-clone evidence.
+
+Selection: The AIMech CI setup that fetches full branch history and the trusted event base.
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 06105fec7731186356a89180d7a02d731c74672b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ReviewBasePreparation | .github/workflows/validate-strict.yaml | maintained | Historical review Git-base preparation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| complete-gate | passed | True | AIMech:ReviewBasePreparation | All checks passed!<br>........................................................................ [ 30%]<br>........................................................................ [ 61%]<br>........................................................................ [ 91%]<br>................sss                                                      [100%]<br>232 passed, 3 skipped in 42.19s<br>Checked 442 record(s); 0 failed.<br>Checked 130 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 26 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 26,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| fresh-clone-gate | passed | True | AIMech:ReviewBasePreparation | All checks passed!<br>........................................................................ [ 31%]<br>........................................................................ [ 63%]<br>........................................................................ [ 94%]<br>.........sss                                                             [100%]<br>225 passed, 3 skipped in 36.57s<br>Checked 442 record(s); 0 failed.<br>Checked 130 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 25 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 25,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| vendored | passed | True | AIMech:ReviewBasePreparation | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+
+## Scientific And Domain Assessments
+
+### Fresh-clone verification with explicit historical-base preparation
+
+provenance: supported. Targets: AIMech:ReviewBasePreparation.
+
+The diagnosed missing-object defect is addressed without rewriting review provenance or weakening validation. CI uses the same explicit setup recipe and unchanged offline gate available locally.
+
+The helper reads ignored/hidden bundles through canonical safe readers, rejects all invalid revision strings before fetching, and does not execute recorded review commands. Git operations are argument arrays and change only the object database and dedicated local retention refs.
+
+## Findings
+
+### missing-base: Retrieve historical review bases before offline validation
+
+major / resolved / confirmed; issue key: aimech-historical-review-base-fetch.
+
+The origin-only preparation helper, local recipe and CI step retrieve and retain missing historical review commits before offline validation. The actual PR 23 pre-squash commit is now verifiable in a fresh clone.
+
+Disposition: The real missing-object failure was reproduced and then removed by the implemented retrieval step; the unchanged fresh-clone gate and final working-tree regressions pass. Remote CI remains a publication gate, not an assertion of an already observed run.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| predecessor | reviews/structured/20261011T055247Z-review-base-open/review.yaml | supports | The sole finding head records the missing pre-squash commit and failing original CI; the historical review is retained unchanged. |
+| implementation | scripts/fetch_review_bases.py; review_revisions, prepare_bases; workflow preparation before just check | supports | All revision strings are collected and validated before Git operations. Only missing objects are fetched from origin, object type must be commit, and dedicated local refs retain them. No shell command is taken from a review. |
+| verification | research/validation/20261011T055520Z-review-base-preparation.json | supports | Actual fresh GitHub clone: missing object before setup, one fetched commit, 25 valid reviews and 225 passing tests afterwards. Updated worktree: 232 passing tests, 3 skips, 442 exact generated and 130 native records, 26 history records and 26 saved reviews before this successor; 22 governed artifacts match. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review, not independent approval or a scientific reassessment of the six concept records.
+- The helper cannot recover a commit that origin no longer serves; it fails explicitly rather than weakening provenance.
+- The saved resolution is backed by local and actual fresh-clone checks. Corrected remote CI must pass before merge.
+- A full commit ID fetch depends on repository retention of PR history; newly published reviews should prefer already available bases where practical.
+- All affected targets and the exact issue key are retained. An ignored-inclusive scan found only the cited predecessor head.
+- The six-record scientific review remains valid for its unchanged inputs; this successor addresses the separate CI provenance defect.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T055520Z-review-base-resolved
+kind: repository
+repository: CultureBotAI/AIMech
+title: Resolution review for historical Git-base preparation
+started_at: '2026-10-11T05:55:20Z'
+finished_at: '2026-10-11T05:55:20Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent diagnosed its own publication workflow after
+    fresh CI exposed a provenance failure.
+skill: docs/record-reviews.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: false
+summary: The missing review commit was retrieved from the configured GitHub origin
+  in a fresh clone, after which the unchanged strict gate passed. The maintained CI
+  setup now performs this preparation and regression tests cover squash/deleted-branch
+  provenance, malformed IDs, unavailable commits and non-commit objects. The original
+  immutable reviews and governed validator are unchanged.
+source:
+  git_revision: 06105fec7731186356a89180d7a02d731c74672b
+  state: working_tree
+  inputs:
+  - path: .github/workflows/validate-strict.yaml
+    sha256: 4da594b75b5f36fd968f358fec6120816c08a1904f6514eb07e4a340ce1e70f4
+    role: target
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: justfile
+    sha256: c37fe26a682d81705e6e374d824fd783ec18950615f950955e1958c7adfc8a10
+    role: context
+  - path: research/validation/20261011T055520Z-review-base-preparation.json
+    sha256: 93cb1679d3841818ba46a33900d78ce35bce4e7cecf799c54f95427b0c5673b7
+    role: context
+  - path: reviews/structured/20261011T055247Z-review-base-open/review.yaml
+    sha256: cbcd1a43d2344d80d6521deb59000e79884e24a61e3d824d9836b546956b5e65
+    role: context
+  - path: scripts/fetch_review_bases.py
+    sha256: d97ae4d2b578c7deb729204017874946536f26e246887757d978999ed28d0c14
+    role: context
+  - path: tests/test_ci.py
+    sha256: 3b3a5298cef5aab77cb48fdfab0b1af819657b695d9b83d475eb8e6d5c0ed18f
+    role: context
+  - path: tests/test_review_base_preparation.py
+    sha256: 159f2281636add1146af258fb7f2a693915e5f8cbde42c977e984dfd9a155520
+    role: context
+targets:
+- target_id: AIMech:ReviewBasePreparation
+  path: .github/workflows/validate-strict.yaml
+  label: Historical review Git-base preparation
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: .github/workflows/validate-strict.yaml
+    role: ci_setup
+scope:
+  description: Reassessment of the historical review-base retrieval finding against
+    the maintained CI/helper fix and real fresh-clone evidence.
+  selection: The AIMech CI setup that fetches full branch history and the trusted
+    event base.
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ReviewBasePreparation
+checks:
+- check_id: complete-gate
+  name: complete-gate
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReviewBasePreparation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 30%]\n........................................................................\
+    \ [ 61%]\n........................................................................\
+    \ [ 91%]\n................sss                                                \
+    \      [100%]\n232 passed, 3 skipped in 42.19s\nChecked 442 record(s); 0 failed.\n\
+    Checked 130 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 26 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 26,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: fresh-clone-gate
+  name: fresh-clone-gate
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReviewBasePreparation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 31%]\n........................................................................\
+    \ [ 63%]\n........................................................................\
+    \ [ 94%]\n.........sss                                                       \
+    \      [100%]\n225 passed, 3 skipped in 36.57s\nChecked 442 record(s); 0 failed.\n\
+    Checked 130 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 25 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 25,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: vendored
+  name: vendored
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ReviewBasePreparation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+evidence:
+- evidence_id: predecessor
+  kind: prior_review
+  reference: reviews/structured/20261011T055247Z-review-base-open/review.yaml
+  accessed_at: '2026-10-11T05:55:20Z'
+  support: supports
+  summary: The sole finding head records the missing pre-squash commit and failing
+    original CI; the historical review is retained unchanged.
+- evidence_id: implementation
+  kind: record_content
+  reference: scripts/fetch_review_bases.py
+  locator: review_revisions, prepare_bases; workflow preparation before just check
+  accessed_at: '2026-10-11T05:55:20Z'
+  support: supports
+  summary: All revision strings are collected and validated before Git operations.
+    Only missing objects are fetched from origin, object type must be commit, and
+    dedicated local refs retain them. No shell command is taken from a review.
+- evidence_id: verification
+  kind: validation
+  reference: research/validation/20261011T055520Z-review-base-preparation.json
+  accessed_at: '2026-10-11T05:55:20Z'
+  support: supports
+  summary: 'Actual fresh GitHub clone: missing object before setup, one fetched commit,
+    25 valid reviews and 225 passing tests afterwards. Updated worktree: 232 passing
+    tests, 3 skips, 442 exact generated and 130 native records, 26 history records
+    and 26 saved reviews before this successor; 22 governed artifacts match.'
+assessments:
+- assessment_id: availability
+  area: provenance
+  topic: Fresh-clone verification with explicit historical-base preparation
+  outcome: supported
+  target_ids:
+  - AIMech:ReviewBasePreparation
+  evidence_ids:
+  - predecessor
+  - implementation
+  - verification
+  summary: The diagnosed missing-object defect is addressed without rewriting review
+    provenance or weakening validation. CI uses the same explicit setup recipe and
+    unchanged offline gate available locally.
+  details: The helper reads ignored/hidden bundles through canonical safe readers,
+    rejects all invalid revision strings before fetching, and does not execute recorded
+    review commands. Git operations are argument arrays and change only the object
+    database and dedicated local retention refs.
+findings:
+- finding_id: missing-base
+  issue_key: aimech-historical-review-base-fetch
+  category: provenance
+  severity: major
+  status: resolved
+  certainty: confirmed
+  target_ids:
+  - AIMech:ReviewBasePreparation
+  field_paths:
+  - jobs.validate-strict.steps
+  evidence_ids:
+  - predecessor
+  - implementation
+  - verification
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: .github/workflows/validate-strict.yaml
+    role: ci_setup
+  title: Retrieve historical review bases before offline validation
+  description: The origin-only preparation helper, local recipe and CI step retrieve
+    and retain missing historical review commits before offline validation. The actual
+    PR 23 pre-squash commit is now verifiable in a fresh clone.
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/26
+  disposition_reason: The real missing-object failure was reproduced and then removed
+    by the implemented retrieval step; the unchanged fresh-clone gate and final working-tree
+    regressions pass. Remote CI remains a publication gate, not an assertion of an
+    already observed run.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261011T055247Z-review-base-open
+    finding_id: missing-base
+actions: []
+limitations:
+- Adversarial author self-review, not independent approval or a scientific reassessment
+  of the six concept records.
+- The helper cannot recover a commit that origin no longer serves; it fails explicitly
+  rather than weakening provenance.
+- The saved resolution is backed by local and actual fresh-clone checks. Corrected
+  remote CI must pass before merge.
+- A full commit ID fetch depends on repository retention of PR history; newly published
+  reviews should prefer already available bases where practical.
+tags:
+- ci
+- provenance
+- self-review
+- resolved-finding
+notes:
+- All affected targets and the exact issue key are retained. An ignored-inclusive
+  scan found only the cited predecessor head.
+- The six-record scientific review remains valid for its unchanged inputs; this successor
+  addresses the separate CI provenance defect.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261011T055247Z-review-base-open
+  relationship: Explicit successor resolving the same missing-base issue with actual
+    retrieval and validation evidence.
+```

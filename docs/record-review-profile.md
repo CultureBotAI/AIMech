@@ -61,6 +61,20 @@ the ontology, snapshot or generated YAML as part of a read-only review.
 
 ## Required Checks
 
+On a fresh checkout, first run `just fetch-review-bases`. This explicit setup
+step retrieves missing full commit IDs named by saved reviews from `origin` and
+retains them under local `refs/aimech/review-bases/` refs. A squash merge followed
+by branch deletion can otherwise leave a review's historical base outside normal
+branch history. The helper validates all revision strings before fetching and
+fails if a requested commit cannot be retrieved. It does not change review bytes,
+branches, tags, the trusted event base, or the checkout.
+
+CI performs this preparation before the same offline `just check` gate used
+locally. The preparation is not validation: the canonical review checker still
+verifies provenance, input hashes, rendering and append-only history. Publishing
+reviews whose bases were never pushed to the repository can remain unverifiable;
+use an available published base when possible.
+
 From the repository root, capture actual exit codes and meaningful output:
 
 ```bash
