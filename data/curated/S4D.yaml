@@ -1,0 +1,63 @@
+name: Diagonal structured state space model
+definition: A diagonal state-space sequence-model family that computes its discretized convolution kernel
+  by a Vandermonde product, with explicit choices of discretization, state-matrix constraint and initialization.
+concept_kind: model_family
+identity_notes: S4D is the family defined by Gu and colleagues, distinguished from S4's diagonal-plus-low-rank
+  construction. The paper separates the earlier DSS configuration and the S4D-LegS, S4D-Inv and S4D-Lin
+  initialization choices rather than treating all diagonal models as identical.
+limitations:
+- Algebraic diagonalizability does not guarantee numerically stable representation or successful optimization;
+  initialization and discretization remain explicit choices.
+- S4D-LegS convergence to the corresponding S4 dynamics is an infinite-state-size statement, not exact
+  equality of all finite S4D and S4 models.
+- The inverse-law spectral asymptotics are presented as Conjecture 4, not a proved theorem. No universal
+  performance advantage is asserted.
+aliases:
+- S4D
+id: AIMech:S4D
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3.1–3.4 and 4, equations 6–9 and Table 1, PDF/printed pp. 4–6
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: Discretize a diagonal continuous-time state model using bilinear or zero-order-hold rules.
+    Kernel entries are sums of output and input coefficients multiplied by powers of the discretized diagonal
+    state entries. Constrain the continuous state eigenvalue real parts using the chosen parameterization
+    and initialize their spectrum according to the selected variant.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3.1–3.4 and 4, equations 6–9 and Table 1, PDF/printed pp. 4–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: On the Parameterization and Initialization of Diagonal State Space Models
+  authors:
+  - Albert Gu
+  - Ankit Gupta
+  - Karan Goel
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2022/file/e9a32fade47b906de908431991440f7c-Paper-Conference.pdf
+  version: NeurIPS 2022 proceedings PDF, e9a32fade47b906de908431991440f7c; author order follows PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T04:28:33Z'
+  sha256: 95b3596262fa4bd7d853b25d3a43e1f221f3bd1ee1ac960e767414982f484aa9
+  persistent_id: doi:10.52202/068431-2607
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This is a parameterized family of linear sequence models; Model is broader and does not conflate
+    the core with the nonlinear architectures built from it.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:33:01Z'
+  updated_at: '2026-10-11T04:33:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,63 @@
+name: High-order polynomial projection operators
+definition: A family of time-dependent operators that represents a signal's past by coefficients of its
+  optimal finite-dimensional polynomial approximation under a chosen time-varying measure.
+concept_kind: mathematical_method
+identity_notes: HiPPO denotes the general projection-and-coefficient framework, not one fixed state matrix,
+  a complete recurrent neural network, or only the scaled-Legendre instantiation HiPPO-LegS. The qualified
+  acronym distinguishes this operator family from the unrelated highlight-replay PPO method.
+limitations:
+- Optimality is relative to the chosen measure and finite polynomial subspace, not lossless recovery of
+  arbitrary history or optimal downstream prediction.
+- A tractable closed-form recurrence is not asserted for every arbitrary measure. The translated-Legendre
+  sliding-window update additionally approximates the unavailable boundary value; numerical discretization
+  adds its own approximation.
+aliases:
+- HiPPO (polynomial projection)
+id: AIMech:HiPPOProjection
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 2.1–2.4, Definition 1 and Figure 1, PDF/printed pp. 2–5
+  relation: supports
+claims:
+- claim_id: sequence-mechanism
+  kind: mechanism
+  statement: At each time, project the available signal history onto a polynomial subspace by minimizing
+    the measure-weighted squared approximation error, then extract coefficients in the associated orthogonal
+    basis. For the derived measure families, differentiating those coefficients yields linear differential
+    dynamics that can be discretized as online recurrences.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 2.1–2.4, Definition 1 and Figure 1, PDF/printed pp. 2–5
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'HiPPO: Recurrent Memory with Optimal Polynomial Projections'
+  authors:
+  - Albert Gu
+  - Tri Dao
+  - Stefano Ermon
+  - Atri Rudra
+  - Christopher Ré
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2020/file/102f0bb6efb3a6128a3c750dd16729be-Paper.pdf
+  version: NeurIPS 2020 proceedings PDF, 102f0bb6efb3a6128a3c750dd16729be
+  access_level: full_text
+  accessed_at: '2026-10-11T04:28:33Z'
+  sha256: e99e0063517ac2e8d6e04aa8f7e621c958fcf3429697eddaa56cf934628a831a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: Definition 1 and the coefficient/projection composition define operators mapping an input
+    function to coefficient values through time. MathematicalFunction is broader than this specific family
+    of mathematical rules; no complete neural-network identity is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:33:01Z'
+  updated_at: '2026-10-11T04:33:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
