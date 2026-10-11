@@ -1,0 +1,968 @@
+# Scientific self-review of RNN-RBM, RNN-NADE and conditional RBM
+
+- Review: 20261011T185830Z-conditional-sequence
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T18:54:46Z
+- Finished UTC: 2026-10-11T18:58:30Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain three DRAFT conditional neural architectures with explicit generic, recurrent and output-estimator boundaries. Printed-formula qualifications are documented. No actionable curation finding remains within the declared scope.
+
+## Scope And Provenance
+
+All fields of three explicitly selected conditional neural architectures.
+
+Selection: Three exact maintained IDs in the discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 45b3d15c19627e0bda59390e5f193357b9118122.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine | data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml | maintained | RNN-RBM |
+| AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator | data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml | maintained | RNN-NADE |
+| AIMech:ConditionalRestrictedBoltzmannMachine | data/curated/ConditionalRestrictedBoltzmannMachine.yaml | maintained | Conditional restricted Boltzmann machine |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 115.70s (0:01:55)<br>Checked 442 record(s); 0 failed.<br>Checked 367 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 103 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 100,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine | Command exited 0 with no output. |
+| Conditional and recurrent architecture boundary calculations | passed | True | AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine | {"rbm": {"nll": 4.268837805293129, "normalized_sequence_mass": 0.9999999999999999, "maximum_gradient_error": 3.687016664200016e-11, "recurrent_matrix_gradient": [[0.007156443475355528, 0.0390470041517014], [-0.036216913412024904, -0.05878048186791743]], "initial_state_gradient": [-0.21024676242325888, 0.2449543920720319], "output_hidden_input_gradient": [0.05309573643729226, -0.3220985087431094]}, "nade": {"nll": 4.376451787028939, "normalized_sequence_mass": 1.0, "maximum_gradient_error": 6.110577321916111e-11, "recurrent_matrix_gradient": [[0.008567731612423614, 0.039409283256691505], [-0.036888615035899866, -0.05906682106524709]], "initial_state_gradient": [-0.21675285916137582, 0.23535712264757497], "output_hidden_input_gradient": [0.027902414537606612, 0.0]}, "conditional_rbm": {"probabilities_u0": {"(0, 0)": 0.2048570308275899, "(0, 1)": 0.1543245336979448, "(1, 0)": 0.380708528369612, "(1, 1)": 0.26010990710485327}, "probabilities_u1": {"(0, 0)": 0.16579346384559548, "(0, 1)": 0.08709149172391248, "(1, 0)": 0.5056605721356298, "(1, 1)": 0.24145447229486222}, "conditional_output_covariance": -0.004007160210483418, "positive_sign_hidden_posterior": 0.7310585786300049, "negative_bias_hidden_posterior": 0.6456563062257954, "negative_all_hidden_posterior": 0.2689414213699951}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine.
+
+This is the RNN-RBM architecture introduced by Boulanger-Lewandowski, Bengio and Vincent, with recurrent hidden units distinct from the RBM’s stochastic hidden variables. Their displayed single-layer construction changes visible and hidden biases while sharing the RBM interaction weights across time. The broader parameter-emitting formulation and particular pretraining strategies are not all required features of that specialization. RTRBM ties recurrent state computation to RBM hidden probabilities; untying those parameters is a defining distinction here. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+
+In the displayed binary model, let r_t=sigmoid(F v_t+B r_(t-1)+c) be the deterministic recurrent state. Set visible bias a_t=a+A r_(t-1) and hidden bias d_t=d+D r_(t-1). With hidden-by-visible weights W, define p(v_t,h_t&#124;r_(t-1)) proportional to exp(a_t^T v_t+d_t^T h_t+h_t^T W v_t), and marginalize binary h_t for the frame distribution. The visible-sequence probability is the product of these conditional frame distributions; the current frame updates r_t only after its probability has been evaluated from r_(t-1). Recurrent and RBM hidden widths may differ, and W is distinct from recurrent input weights F. Train using conditional RBM likelihood statistics, approximated in the paper by data-started finite contrastive divergence, and backpropagate bias-gradient signals through A, D and the recurrence. The reverse state signal includes A^T and D^T times next-frame bias gradients, plus B^T times the next recurrent preactivation gradient. Generation alternates conditional frame sampling with the deterministic state update. Limitations: Equation (1) prints negative terms in the joint exponent that conflict with the positive-bias sigmoid conditionals (2)–(3) and free energy (4). Equations (14)–(15) also print negative hidden-bias signs. This record follows the mutually consistent conditionals and free energy, disclosing the conflicts rather than asserting author-code behavior. Under the column-vector convention of Equation (11), reverse state propagation requires transposed recurrent and bias-projection matrices. Printed Equation (19) omits those transposes; unequal recurrent and RBM hidden widths make the dimensional issue explicit. Original finite calculations check the stated convention and exact small-model gradients, not the authors’ implementation. Fully observed frames determine the recurrent state, but conditional RBM normalization and equilibrium sampling remain generally expensive. Finite CD and finite Gibbs generation are approximate; exact state inference is not exact likelihood learning. The worked model emits two bias vectors, not every RBM weight. A more general recurrent parameter-emission scheme is mentioned separately. Gaussian outputs, different recurrent cells and pretraining choices require their own stated conventions. RNN-RBM reduces to the paper’s RTRBM parameterization under matching hidden widths and appropriate weight/bias tying; this does not make the independently parameterized family identical to RTRBM. No global optimization, long-range memory or empirical ranking guarantee is asserted.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.
+
+This is the RNN-NADE identified in the 2012 recurrent-output-estimator paper by substituting NADE for the conditional RBM. Temporal order between vector frames and variable order within a frame are separate. The recurrent state and NADE prefix activations are deterministic computations; there is no stochastic RBM hidden state to integrate out. It is distinct from unconditional NADE, order-agnostic NADE, RNN-RBM and a recurrent predictor with independent Bernoulli outputs. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+
+For the single-layer binary specialization, compute the past-dependent biases b_t=b+P r_(t-1) and c_t=c+Q r_(t-1). Fix an ordering of D bits within the current frame. At position i, compute z_(t,i)=sigmoid(c_t+W[:,&lt;i] v_(t,&lt;i)) and q_(t,i)=sigmoid(b_(t,i)+V[i,:] z_(t,i)). Multiply q_(t,i) raised to v_(t,i) times (1-q_(t,i)) raised to (1-v_(t,i)) over positions, then multiply frame probabilities over time. Reuse a prefix accumulator initialized to c_t, adding W[:,i] v_(t,i) after evaluating each conditional. After the frame is observed or generated, update the separate recurrent state using its own input and recurrent weights. Differentiate the exact sum of frame negative log probabilities through the NADE parameters, the bias projections and the recurrent history. The 2012 paper explicitly contrasts these exact model gradients with CD-based RNN-RBM gradients. Ancestral generation samples bits in the fixed within-frame order before updating the recurrent state. Limitations: Exact normalized probabilities and gradients apply to this specified model with fully observed training sequences. They do not imply global optimization, calibration, equality to an RBM distribution or tractable inference for every pattern of missing frames or bits. The within-frame ordering and temporal recurrence serve different purposes. Prefix sharing gives O(DH) NADE evaluation per frame for H hidden units, in addition to the recurrent-state and bias-projection costs; it does not remove sequential generation dependencies. The original NADE paper prints an accumulator index discrepancy and initializes a multiplicatively accumulated probability to zero with an incorrect plus between Bernoulli factors in Algorithm 1. The displayed mechanism follows its normalized chain definition, Equations (9)–(11) and prefix-update rule, retaining the source qualification. Output weights V may be learned separately from W as in the original NADE paper. Sharing prefix parameters across conditionals does not require tying input and output weights, and it does not make within-frame variables independent. The RNN-RBM paper’s negative joint/bias signs concern its RBM formulas and are not a prescription for NADE conditionals. Backpropagation through the separate recurrence still requires dimensionally correct transposes. No author-code or empirical superiority claim is certified.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:ConditionalRestrictedBoltzmannMachine.
+
+This is the general input-conditioned RBM family described by Mnih, Larochelle and Hinton, with their affine-bias binary formulation as the explicitly curated mechanism. The conditioning vector need not be temporal history. Autoregressive CRBM fixes it to earlier frames and RNN-RBM derives it from a recurrent state; these are narrower constructions, not aliases for the entire family. HashCRBM and CD-PercLoss are separate training or prediction constructions and do not define every conditional RBM. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+
+Hold conditioning vector u fixed. In the paper’s binary affine-bias specialization, set a(u)=b_v+(W_uv)^T u and c(u)=b_h+(W_uh)^T u, with visible-by-hidden interaction matrix W_vh. Define E(v,h;u)=-v^T W_vh h-a(u)^T v-c(u)^T h. Marginalizing binary h gives F(v,u)=-a(u)^T v-sum_j log(1+exp(c_j(u)+(W_vh^T v)_j)). Normalize exp(-F(v,u)) over output configurations v to obtain p(v&#124;u), with a partition depending on u. Hidden units given v,u and visible units given h,u have factorial logistic conditionals, but outputs after hidden marginalization can be dependent. Conditional likelihood gradients contrast data-posterior and model expectations at the same u. The paper discusses finite CD as an approximation and separate alternatives for restricted output support or prediction-based training. Prediction may seek the joint conditional mode or coordinate-wise marginal modes according to the loss; those are different decisions. Limitations: The model specifies p(v&#124;u), not the input marginal p(u). Normalizing outputs for one conditioning vector does not supply a shared partition for every other input or a joint model over arbitrary inputs. Factorial block conditionals do not make the output marginal factorial or its partition, joint mode and coordinate marginals generally tractable. Tiny output spaces or deliberately restricted support are special cases. A small data-started CD update can reflect poor mixing near the observed output rather than accurate predictions from u alone. Finite CD is not generally the exact conditional likelihood gradient or the gradient of a single fixed objective. Persistent samples from one conditioning input cannot simply be treated as equilibrium samples for another. The paper’s discussion of persistent-chain impracticality is scoped to its input-specific distributions and training setting; it is not a proof that every conditional persistent method is impossible. The general family can condition biases or interactions, while the displayed mechanism holds W_vh fixed and changes biases affinely. Gaussian outputs, input-dependent interactions, retrieved-support HashCRBM and perceptron-style training need separate conventions. No historical-priority, universal prediction-quality or author-code claim is asserted.
+
+### Separate recurrent state and normalized RBM outputs
+
+consistency: supported. Targets: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine.
+
+Retain RNN-RBM with explicit parameter and printed-equation boundaries.
+
+The recurrent network has its own state and input weights, distinct from output RBM hidden variables and interactions. The displayed construction changes visible and hidden biases while holding output interaction weights fixed. Exact enumeration of all 64 two-bit, three-frame sequences sums to one. Every scalar parameter of the exact toy objective passes central finite differences with maximum error 3.69e-11. Recurrent width two versus output-hidden width one checks required projection transposes. Printed joint signs, hidden-bias signs and reverse-matrix omissions are qualified against consistent conditionals, free energy and dimensional analysis. This does not certify author code or make finite-CD learning exact.
+
+### Temporal recurrence versus within-frame autoregression
+
+consistency: supported. Targets: AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.
+
+Retain RNN-NADE with exact specified-model normalization and gradient scope.
+
+The original sequence paper explicitly substitutes NADE for RBM outputs; the component paper establishes normalized ordered Bernoulli factors and shared prefix computation. All 64 toy visible sequences sum to one and every manual scalar gradient matches central differences with maximum error 6.12e-11. With untied output weights, the last NADE input-prefix column has zero influence on the current-frame likelihood, while recurrent input weights remain distinct. Printed NADE accumulator/probability errors are disclosed. Exact likelihood does not imply arbitrary missing-variable tractability, global optimality, independent outputs or identity with RNN-RBM.
+
+### Generic conditioning, output support and prediction
+
+consistency: supported. Targets: AIMech:ConditionalRestrictedBoltzmannMachine.
+
+Retain generic CRBM separately from its autoregressive and recurrent specializations.
+
+The full UAI 2011 paper describes conditioning through biases or interactions and then gives the binary affine-bias energy. The record keeps the general identity and worked specialization distinct. Two conditioning inputs yield different normalized output distributions; the toy conditional covariance -0.0040071602 exhibits output dependence despite factorial block conditionals. The input marginal is unspecified. Joint modes and coordinate marginal modes are different prediction decisions. Data-started CD, persistence across input-specific distributions, restricted-support HashCRBM and prediction-based CD-PercLoss have separate limitations and are not universal model properties.
+
+### Mapping direction and architecture boundaries
+
+grounding: supported. Targets: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine.
+
+Retain explicit neural, directed-factorization and related RBM mappings.
+
+All 52 semantic hits and 22 exact annotated AIO CLASS nodes with outgoing edges were read. Seventeen corresponding generated records were previously fully read and verified byte-identical; five were fully read this batch. Four complete native neighbors were inspected: RTRBM and autoregressive CRBM (previous full reading with byte verification), NADE and mixture density network (read this batch). RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through their explicit separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork. RNN-RBM and CRBM relate to RestrictedBoltzmannMachine through conditional output-component or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork through its fully visible acyclic factorization ordered by time and within-frame position, without a causal-intervention assertion. BoltzmannMachineNetwork does not identify directed external conditioning or the whole recurrent construction. RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not complete architectures. ProbabilisticGraphicalModel is task-scoped in the pin. DeepBeliefNetwork and DeepNeuralNetwork are not entailed by these single-layer constructions. AutoregressiveLanguageModel, CausalLLM, ControllableLLM, EnergyBasedLLM and ImplicitLanguageModel impose language scope absent here. LogisticRegression and Perceptron do not identify normalized dependent-vector output models merely because sigmoid computations or a perceptron-style training option occur. Classification, BinaryClassification, MulticlassClassification and RegressionAnalysis describe possible tasks, not these model identities. Native RTRBM ties recurrence to output-hidden probabilities; autoregressive CRBM restricts conditioning to earlier visible frames; NADE lacks the separate recurrent parameter-emitting network; mixture density network uses mixture-component output distributions. These boundaries do not constitute new scientific approval of the contextual records.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine, AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator, AIMech:ConditionalRestrictedBoltzmannMachine. RNN-RBM has a separately parameterized deterministic recurrent state and conditional RBM outputs. RNN-NADE substitutes ordered normalized within-frame factors with tractable specified-model likelihood. Generic CRBM permits arbitrary conditioning inputs and is broader than recurrent or finite-history specializations. Shared neural components, sigmoid operations or tasks do not establish equivalent identities.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T185423Z-conditional-sequence.json | supports | All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood. |
+| mapping | sources/aio/aio.json; Twenty-two exact CLASS nodes with full annotations and outgoing edges in source_analysis.aio_mapping_inspection; corresponding generated records | supports | All 52 semantic hits and 22 exact annotated AIO CLASS nodes with outgoing edges were read. Seventeen corresponding generated records were previously fully read and verified byte-identical; five were fully read this batch. Four complete native neighbors were inspected: RTRBM and autoregressive CRBM (previous full reading with byte verification), NADE and mixture density network (read this batch). RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through their explicit separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork. RNN-RBM and CRBM relate to RestrictedBoltzmannMachine through conditional output-component or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork through its fully visible acyclic factorization ordered by time and within-frame position, without a causal-intervention assertion. BoltzmannMachineNetwork does not identify directed external conditioning or the whole recurrent construction. RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not complete architectures. ProbabilisticGraphicalModel is task-scoped in the pin. DeepBeliefNetwork and DeepNeuralNetwork are not entailed by these single-layer constructions. AutoregressiveLanguageModel, CausalLLM, ControllableLLM, EnergyBasedLLM and ImplicitLanguageModel impose language scope absent here. LogisticRegression and Perceptron do not identify normalized dependent-vector output models merely because sigmoid computations or a perceptron-style training option occur. Classification, BinaryClassification, MulticlassClassification and RegressionAnalysis describe possible tasks, not these model identities. Native RTRBM ties recurrence to output-hidden probabilities; autoregressive CRBM restricts conditioning to earlier visible frames; NADE lacks the separate recurrent parameter-emitting network; mixture density network uses mixture-component output distributions. These boundaries do not constitute new scientific approval of the contextual records. |
+| neighbors | research/discovery/20261011T185423Z-conditional-sequence.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Four complete native records provide boundaries: RTRBM and autoregressive CRBM (previous full reading with byte verification), NADE and mixture density network (fully read in this batch). They distinguish tied recurrent parameters, observed-history conditioning, unconditional ordered estimators and mixture-distribution output networks, without renewed scientific approval. |
+| finite-conventions | research/discovery/conditional-sequence-boundaries.py; Exact normalized sequence objectives and manual reverse gradients with unequal recurrent/output-hidden widths; NADE prefix sharing; conditional output dependence and source-sign distinctions | supports | Original finite calculations enumerate all 64 length-three sequences of two-bit frames for RNN-RBM and RNN-NADE, checking normalization and manual reverse gradients against central differences for every scalar parameter. Recurrent width two and output-hidden width one expose projection-transpose conventions. Initial-state, recurrence and output gradients are nontrivial; the last within-frame NADE input column correctly has zero influence when output weights are untied. A static conditional RBM normalizes separately for two conditioning inputs and exhibits dependent output bits despite factorial block conditionals. Explicit posterior values distinguish the consistent positive-bias convention from the conflicting printed joint and hidden-bias signs. These are original curator examples, not author-code or benchmark verification. |
+| recurrentneuralnetworkrestrictedboltzmannmachine-source-0 | https://icml.cc/2012/papers/590.pdf; Sections 2–4.2, Figure 2, Equations (1)–(11) and (13)–(22), PDF pp.2–5; joint/bias signs and reverse-matrix conventions qualified against Equations (2)–(4) and (8)–(11) | supports | Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription. Eight-page ICML 2012 conference-hosted PDF. The inspected file has no printed page numbers; use PDF-page locators. Related arXiv submission 1206.6392v1 is dated 27 June 2012; its bytes were not compared. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0 | https://icml.cc/2012/papers/590.pdf; NADE substitution in Section 2, PDF pp.2–3; RNN architecture and explicit RNN-NADE exact-gradient statement, Section 4 and Figure 2, pp.3–4; temporal BPTT and tractable-model discussion, Sections 4.2 and 6, pp.5–6 | supports | Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription. Eight-page ICML 2012 conference-hosted PDF. The inspected file has no printed page numbers; use PDF-page locators. Related arXiv submission 1206.6392v1 is dated 27 June 2012; its bytes were not compared. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1 | https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf; Sections 3–5, Equations (3), (9)–(11), Figure 1 and Algorithm 1, printed pp.30–33 / PDF pp.2–5; probability and accumulator notation qualified against chain-rule definition | supports | The Neural Autoregressive Distribution Estimator. AISTATS 2011, PMLR 15:29–37; nine-page publisher PDF. Printed page equals PDF page plus 28. Reused verified source; PDF pages 1–5 inspected in this batch. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| conditionalrestrictedboltzmannmachine-source-0 | https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf; Sections 2.1–5, Figure 1 and Equations (8)–(13), PDF pp.2–4; conditional family versus affine-bias specialization in Section 3, p.3; restricted-support and prediction-loss alternatives, Sections 6.1–6.2, pp.5–7 | supports | Conditional Restricted Boltzmann Machines for Structured Output Prediction. Nine-page author-hosted UAI 2011 paper. ArXiv metadata identifies report UAI-P-2011-PG-514-522 and a 14 February 2012 upload; the conference year is 2011. The inspected PDF has no printed page numbers. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every target remains DRAFT.
+- All eight PDF pages of Boulanger2012 and all nine pages of Mnih2011 were visually read. Original NADE pages 1–5 were reread; pages 6–9 were not inspected in this batch.
+- The NADE source retains its verified earlier retrieval timestamp. PDF-page locators distinguish unpaginated conference/author files; the UAI 2011 conference is distinguished from its 2012 arXiv upload.
+- Finite calculations check stated examples and mathematical boundaries, not author software, benchmark performance, global convergence or all parameter settings.
+- 200 pending inspection leads plus unresolved dispositions remain; discovery is active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T185830Z-conditional-sequence
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of RNN-RBM, RNN-NADE and conditional RBM
+started_at: '2026-10-11T18:54:46Z'
+finished_at: '2026-10-11T18:58:30Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked all target fields
+    against two complete primary PDFs and the original NADE PDF pages 1–5, 22 exact
+    AIO CLASS nodes and corresponding generated records, four complete native neighbors
+    and original finite calculations. Parameter tying, conditioning, normalization,
+    sign and transpose conventions, exact versus approximate gradients and mapping
+    direction were examined. This is author self-review.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain three DRAFT conditional neural architectures with explicit generic,
+  recurrent and output-estimator boundaries. Printed-formula qualifications are documented.
+  No actionable curation finding remains within the declared scope.
+source:
+  git_revision: 45b3d15c19627e0bda59390e5f193357b9118122
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BinaryClassification.yaml
+    sha256: 4c710e70fe7e71227f0c6aa55162a3683f04ebbe6f5a4601bd4c0398329f1481
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalLLM.yaml
+    sha256: 8ec50ab9a625008567463f70b4a2a1e0cb2cf07c8053d38d6a88e12106dfce49
+    role: context
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/ControllableLLM.yaml
+    sha256: 4bfc9c61281445ef5eef704b66539865f03b47d4929809f4c09759553007f2f2
+    role: context
+  - path: data/aio/DeepBeliefNetwork.yaml
+    sha256: e6912732493adbfea3b48e01184d33682ad262dd73801757c094a2b160046a58
+    role: context
+  - path: data/aio/DeepNeuralNetwork.yaml
+    sha256: f5c4c7764ea05631bb6396200141eb8ba124725d2dc27919c7efe89e5e30b19e
+    role: context
+  - path: data/aio/EnergyBasedLLM.yaml
+    sha256: e9e29aa4f8400ad463dfe058fade876ef36c4a2637e1ebc4b42688116896310b
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/ImplicitLanguageModel.yaml
+    sha256: 818c396b19757360dcdff6291a85d589c50638e0dc6d6bfcd96fdcb7bdf46ce9
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/MulticlassClassification.yaml
+    sha256: dcf165047485763fd91782b9a9ba43202d58f00fd33b8545893a5eae327de171
+    role: context
+  - path: data/aio/Perceptron.yaml
+    sha256: 6b1cc7cb96bfe03ed8720cca04490657976eea656fab6674d7ef685c34216915
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RecurrentLayer.yaml
+    sha256: d0aeaf40e9c0001883cce7f9b0bec41c75db8dbcafb8aea18eb1694816900de5
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/curated/AutoregressiveConditionalRestrictedBoltzmannMachine.yaml
+    sha256: 90a1f5e24bc598fb27a121c50ede62b4917ebd9f5275853e54191eb81fe75e42
+    role: context
+  - path: data/curated/ConditionalRestrictedBoltzmannMachine.yaml
+    sha256: b9e246890f7706a7e65be9f1d9611f06c462b36ab675e9441ca1f7702337aa80
+    role: target
+  - path: data/curated/MixtureDensityNetwork.yaml
+    sha256: 1c6eab5597faff5398e917351cea1b0ab6feca98d690219dc69d44ffe7abba52
+    role: context
+  - path: data/curated/NeuralAutoregressiveDistributionEstimator.yaml
+    sha256: 13578d60229a30803baa9444bda45c5ec3b561520b0bdaaba261eaa022ed1e41
+    role: context
+  - path: data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml
+    sha256: 6f396c5ba189a89393b3251a60a5ae03dd4b7a8e13f7672c7fcedd0296d548c0
+    role: target
+  - path: data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml
+    sha256: 24c01c5ceb7859aaa5f12167139e27b6e952dbccf25be6d3ed67ed643df53b98
+    role: target
+  - path: data/curated/RecurrentTemporalRestrictedBoltzmannMachine.yaml
+    sha256: 22e07ca591e3474e0dfc5f48d6af336a447089a343495888784fa670c50247ef
+    role: context
+  - path: research/discovery/20261011T185423Z-conditional-sequence.json
+    sha256: 0ef868cd255a35fe5f966cbad719f3877258901f18f863a390b1b59693b31630
+    role: context
+  - path: research/discovery/conditional-sequence-boundaries.py
+    sha256: 6f32b795653458e05d127f54c4d6daa07669a6048903aa0e89b29538df597ae7
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  path: data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml
+  label: RNN-RBM
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml
+    role: maintained
+- target_id: AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  path: data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml
+  label: RNN-NADE
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml
+    role: maintained
+- target_id: AIMech:ConditionalRestrictedBoltzmannMachine
+  path: data/curated/ConditionalRestrictedBoltzmannMachine.yaml
+  label: Conditional restricted Boltzmann machine
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ConditionalRestrictedBoltzmannMachine.yaml
+    role: maintained
+scope:
+  description: All fields of three explicitly selected conditional neural architectures.
+  selection: Three exact maintained IDs in the discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exclusions:
+  - target: Author code, general performance claims and other source versions
+    reason: The inspected publications and finite curator calculations do not certify
+      software behavior, every variant or empirical rankings.
+  - target: Prior records and the remaining discovery frontier
+    reason: Prior records provide boundaries. HashCRBM, CD-PercLoss and temporal autoencoding
+      remain follow-up leads; earlier frontier dispositions are retained.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 115.70s (0:01:55)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 367 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 103 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 100,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Conditional and recurrent architecture boundary calculations
+  command: python3 research/discovery/conditional-sequence-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"rbm": {"nll": 4.268837805293129, "normalized_sequence_mass": 0.9999999999999999,
+    "maximum_gradient_error": 3.687016664200016e-11, "recurrent_matrix_gradient":
+    [[0.007156443475355528, 0.0390470041517014], [-0.036216913412024904, -0.05878048186791743]],
+    "initial_state_gradient": [-0.21024676242325888, 0.2449543920720319], "output_hidden_input_gradient":
+    [0.05309573643729226, -0.3220985087431094]}, "nade": {"nll": 4.376451787028939,
+    "normalized_sequence_mass": 1.0, "maximum_gradient_error": 6.110577321916111e-11,
+    "recurrent_matrix_gradient": [[0.008567731612423614, 0.039409283256691505], [-0.036888615035899866,
+    -0.05906682106524709]], "initial_state_gradient": [-0.21675285916137582, 0.23535712264757497],
+    "output_hidden_input_gradient": [0.027902414537606612, 0.0]}, "conditional_rbm":
+    {"probabilities_u0": {"(0, 0)": 0.2048570308275899, "(0, 1)": 0.1543245336979448,
+    "(1, 0)": 0.380708528369612, "(1, 1)": 0.26010990710485327}, "probabilities_u1":
+    {"(0, 0)": 0.16579346384559548, "(0, 1)": 0.08709149172391248, "(1, 0)": 0.5056605721356298,
+    "(1, 1)": 0.24145447229486222}, "conditional_output_covariance": -0.004007160210483418,
+    "positive_sign_hidden_posterior": 0.7310585786300049, "negative_bias_hidden_posterior":
+    0.6456563062257954, "negative_all_hidden_posterior": 0.2689414213699951}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T185423Z-conditional-sequence.json
+  accessed_at: '2026-10-11T18:54:46Z'
+  support: supports
+  summary: 'All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases
+    were compared, with no normalized identity match. Full-checkout fixed-string searches
+    included ignored and hidden files in both worktree and main, returning 129 lines
+    each. All 91 unique matched contents were read, including 58 initial contents
+    and 33 additional saved-review contents: prior model contrasts, evidence references
+    and discovery leads, rather than existing candidate identities. All 52 semantic
+    label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside
+    corresponding generated records and four complete native neighbors. Previously
+    read contextual files were checked for byte identity. Absence is bounded to this
+    snapshot and inspected neighborhood.'
+  search_scope: 'All 442 pinned AIO labels/scoped synonyms and 364 preceding native
+    IDs/names/aliases were compared, with no normalized identity match. Full-checkout
+    fixed-string searches included ignored and hidden files in both worktree and main,
+    returning 129 lines each. All 91 unique matched contents were read, including
+    58 initial contents and 33 additional saved-review contents: prior model contrasts,
+    evidence references and discovery leads, rather than existing candidate identities.
+    All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected,
+    alongside corresponding generated records and four complete native neighbors.
+    Previously read contextual files were checked for byte identity. Absence is bounded
+    to this snapshot and inspected neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Twenty-two exact CLASS nodes with full annotations and outgoing edges in
+    source_analysis.aio_mapping_inspection; corresponding generated records
+  accessed_at: '2026-10-11T18:54:46Z'
+  support: supports
+  summary: 'All 52 semantic hits and 22 exact annotated AIO CLASS nodes with outgoing
+    edges were read. Seventeen corresponding generated records were previously fully
+    read and verified byte-identical; five were fully read this batch. Four complete
+    native neighbors were inspected: RTRBM and autoregressive CRBM (previous full
+    reading with byte verification), NADE and mixture density network (read this batch).
+    RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through their explicit
+    separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork. RNN-RBM
+    and CRBM relate to RestrictedBoltzmannMachine through conditional output-component
+    or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork
+    through its fully visible acyclic factorization ordered by time and within-frame
+    position, without a causal-intervention assertion. BoltzmannMachineNetwork does
+    not identify directed external conditioning or the whole recurrent construction.
+    RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not complete
+    architectures. ProbabilisticGraphicalModel is task-scoped in the pin. DeepBeliefNetwork
+    and DeepNeuralNetwork are not entailed by these single-layer constructions. AutoregressiveLanguageModel,
+    CausalLLM, ControllableLLM, EnergyBasedLLM and ImplicitLanguageModel impose language
+    scope absent here. LogisticRegression and Perceptron do not identify normalized
+    dependent-vector output models merely because sigmoid computations or a perceptron-style
+    training option occur. Classification, BinaryClassification, MulticlassClassification
+    and RegressionAnalysis describe possible tasks, not these model identities. Native
+    RTRBM ties recurrence to output-hidden probabilities; autoregressive CRBM restricts
+    conditioning to earlier visible frames; NADE lacks the separate recurrent parameter-emitting
+    network; mixture density network uses mixture-component output distributions.
+    These boundaries do not constitute new scientific approval of the contextual records.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T185423Z-conditional-sequence.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T18:54:46Z'
+  support: supports
+  summary: 'Four complete native records provide boundaries: RTRBM and autoregressive
+    CRBM (previous full reading with byte verification), NADE and mixture density
+    network (fully read in this batch). They distinguish tied recurrent parameters,
+    observed-history conditioning, unconditional ordered estimators and mixture-distribution
+    output networks, without renewed scientific approval.'
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/conditional-sequence-boundaries.py
+  locator: Exact normalized sequence objectives and manual reverse gradients with
+    unequal recurrent/output-hidden widths; NADE prefix sharing; conditional output
+    dependence and source-sign distinctions
+  accessed_at: '2026-10-11T18:54:46Z'
+  snapshot_sha256: 6f32b795653458e05d127f54c4d6daa07669a6048903aa0e89b29538df597ae7
+  support: supports
+  summary: Original finite calculations enumerate all 64 length-three sequences of
+    two-bit frames for RNN-RBM and RNN-NADE, checking normalization and manual reverse
+    gradients against central differences for every scalar parameter. Recurrent width
+    two and output-hidden width one expose projection-transpose conventions. Initial-state,
+    recurrence and output gradients are nontrivial; the last within-frame NADE input
+    column correctly has zero influence when output weights are untied. A static conditional
+    RBM normalizes separately for two conditioning inputs and exhibits dependent output
+    bits despite factorial block conditionals. Explicit posterior values distinguish
+    the consistent positive-bias convention from the conflicting printed joint and
+    hidden-bias signs. These are original curator examples, not author-code or benchmark
+    verification.
+- evidence_id: recurrentneuralnetworkrestrictedboltzmannmachine-source-0
+  kind: primary_source
+  reference: https://icml.cc/2012/papers/590.pdf
+  locator: Sections 2–4.2, Figure 2, Equations (1)–(11) and (13)–(22), PDF pp.2–5;
+    joint/bias signs and reverse-matrix conventions qualified against Equations (2)–(4)
+    and (8)–(11)
+  accessed_at: '2026-10-11T18:43:06Z'
+  snapshot_sha256: 7660a28d9292f45f9ec50fc56f9a35b7e74d9b2e3d0c42c10ac9f4fba644215e
+  support: supports
+  summary: 'Modeling Temporal Dependencies in High-Dimensional Sequences: Application
+    to Polyphonic Music Generation and Transcription. Eight-page ICML 2012 conference-hosted
+    PDF. The inspected file has no printed page numbers; use PDF-page locators. Related
+    arXiv submission 1206.6392v1 is dated 27 June 2012; its bytes were not compared.
+    Actual visual reading scopes are declared in the ledger; retrieval and conversion
+    do not certify reading of other pages.'
+- evidence_id: recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0
+  kind: primary_source
+  reference: https://icml.cc/2012/papers/590.pdf
+  locator: NADE substitution in Section 2, PDF pp.2–3; RNN architecture and explicit
+    RNN-NADE exact-gradient statement, Section 4 and Figure 2, pp.3–4; temporal BPTT
+    and tractable-model discussion, Sections 4.2 and 6, pp.5–6
+  accessed_at: '2026-10-11T18:43:06Z'
+  snapshot_sha256: 7660a28d9292f45f9ec50fc56f9a35b7e74d9b2e3d0c42c10ac9f4fba644215e
+  support: supports
+  summary: 'Modeling Temporal Dependencies in High-Dimensional Sequences: Application
+    to Polyphonic Music Generation and Transcription. Eight-page ICML 2012 conference-hosted
+    PDF. The inspected file has no printed page numbers; use PDF-page locators. Related
+    arXiv submission 1206.6392v1 is dated 27 June 2012; its bytes were not compared.
+    Actual visual reading scopes are declared in the ledger; retrieval and conversion
+    do not certify reading of other pages.'
+- evidence_id: recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
+  locator: Sections 3–5, Equations (3), (9)–(11), Figure 1 and Algorithm 1, printed
+    pp.30–33 / PDF pp.2–5; probability and accumulator notation qualified against
+    chain-rule definition
+  accessed_at: '2026-10-11T17:14:24Z'
+  snapshot_sha256: b1fe502ea1b3f84875d5e13aefec479827b3a33ab1ebdcf3eb4a3d71a5a4ea9a
+  support: supports
+  summary: The Neural Autoregressive Distribution Estimator. AISTATS 2011, PMLR 15:29–37;
+    nine-page publisher PDF. Printed page equals PDF page plus 28. Reused verified
+    source; PDF pages 1–5 inspected in this batch. Actual visual reading scopes are
+    declared in the ledger; retrieval and conversion do not certify reading of other
+    pages.
+- evidence_id: conditionalrestrictedboltzmannmachine-source-0
+  kind: primary_source
+  reference: https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf
+  locator: Sections 2.1–5, Figure 1 and Equations (8)–(13), PDF pp.2–4; conditional
+    family versus affine-bias specialization in Section 3, p.3; restricted-support
+    and prediction-loss alternatives, Sections 6.1–6.2, pp.5–7
+  accessed_at: '2026-10-11T18:43:08Z'
+  snapshot_sha256: e7811677aa0f48e97931e1a5b60497d7ec0f2a22c19ab06ce1e15b8f366df4ac
+  support: supports
+  summary: Conditional Restricted Boltzmann Machines for Structured Output Prediction.
+    Nine-page author-hosted UAI 2011 paper. ArXiv metadata identifies report UAI-P-2011-PG-514-522
+    and a 14 February 2012 upload; the conference year is 2011. The inspected PDF
+    has no printed page numbers. Actual visual reading scopes are declared in the
+    ledger; retrieval and conversion do not certify reading of other pages.
+assessments:
+- assessment_id: recurrentneuralnetworkrestrictedboltzmannmachine
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - recurrentneuralnetworkrestrictedboltzmannmachine-source-0
+  summary: 'This is the RNN-RBM architecture introduced by Boulanger-Lewandowski,
+    Bengio and Vincent, with recurrent hidden units distinct from the RBM’s stochastic
+    hidden variables. Their displayed single-layer construction changes visible and
+    hidden biases while sharing the RBM interaction weights across time. The broader
+    parameter-emitting formulation and particular pretraining strategies are not all
+    required features of that specialization. RTRBM ties recurrent state computation
+    to RBM hidden probabilities; untying those parameters is a defining distinction
+    here. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases
+    were compared, with no normalized identity match. Full-checkout fixed-string searches
+    included ignored and hidden files in both worktree and main, returning 129 lines
+    each. All 91 unique matched contents were read, including 58 initial contents
+    and 33 additional saved-review contents: prior model contrasts, evidence references
+    and discovery leads, rather than existing candidate identities. All 52 semantic
+    label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside
+    corresponding generated records and four complete native neighbors. Previously
+    read contextual files were checked for byte identity. Absence is bounded to this
+    snapshot and inspected neighborhood.'
+  details: 'In the displayed binary model, let r_t=sigmoid(F v_t+B r_(t-1)+c) be the
+    deterministic recurrent state. Set visible bias a_t=a+A r_(t-1) and hidden bias
+    d_t=d+D r_(t-1). With hidden-by-visible weights W, define p(v_t,h_t|r_(t-1)) proportional
+    to exp(a_t^T v_t+d_t^T h_t+h_t^T W v_t), and marginalize binary h_t for the frame
+    distribution. The visible-sequence probability is the product of these conditional
+    frame distributions; the current frame updates r_t only after its probability
+    has been evaluated from r_(t-1). Recurrent and RBM hidden widths may differ, and
+    W is distinct from recurrent input weights F. Train using conditional RBM likelihood
+    statistics, approximated in the paper by data-started finite contrastive divergence,
+    and backpropagate bias-gradient signals through A, D and the recurrence. The reverse
+    state signal includes A^T and D^T times next-frame bias gradients, plus B^T times
+    the next recurrent preactivation gradient. Generation alternates conditional frame
+    sampling with the deterministic state update. Limitations: Equation (1) prints
+    negative terms in the joint exponent that conflict with the positive-bias sigmoid
+    conditionals (2)–(3) and free energy (4). Equations (14)–(15) also print negative
+    hidden-bias signs. This record follows the mutually consistent conditionals and
+    free energy, disclosing the conflicts rather than asserting author-code behavior.
+    Under the column-vector convention of Equation (11), reverse state propagation
+    requires transposed recurrent and bias-projection matrices. Printed Equation (19)
+    omits those transposes; unequal recurrent and RBM hidden widths make the dimensional
+    issue explicit. Original finite calculations check the stated convention and exact
+    small-model gradients, not the authors’ implementation. Fully observed frames
+    determine the recurrent state, but conditional RBM normalization and equilibrium
+    sampling remain generally expensive. Finite CD and finite Gibbs generation are
+    approximate; exact state inference is not exact likelihood learning. The worked
+    model emits two bias vectors, not every RBM weight. A more general recurrent parameter-emission
+    scheme is mentioned separately. Gaussian outputs, different recurrent cells and
+    pretraining choices require their own stated conventions. RNN-RBM reduces to the
+    paper’s RTRBM parameterization under matching hidden widths and appropriate weight/bias
+    tying; this does not make the independently parameterized family identical to
+    RTRBM. No global optimization, long-range memory or empirical ranking guarantee
+    is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: Complete conditional neural architecture, distinguished by conditioning
+      scope, recurrence and output-distribution parameterization.
+    evidence_ids:
+    - recurrentneuralnetworkrestrictedboltzmannmachine-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: 'All 52 semantic hits and 22 exact annotated AIO CLASS nodes with
+      outgoing edges were read. Seventeen corresponding generated records were previously
+      fully read and verified byte-identical; five were fully read this batch. Four
+      complete native neighbors were inspected: RTRBM and autoregressive CRBM (previous
+      full reading with byte verification), NADE and mixture density network (read
+      this batch). RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through
+      their explicit separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork.
+      RNN-RBM and CRBM relate to RestrictedBoltzmannMachine through conditional output-component
+      or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork
+      through its fully visible acyclic factorization ordered by time and within-frame
+      position, without a causal-intervention assertion. BoltzmannMachineNetwork does
+      not identify directed external conditioning or the whole recurrent construction.
+      RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not
+      complete architectures. ProbabilisticGraphicalModel is task-scoped in the pin.
+      DeepBeliefNetwork and DeepNeuralNetwork are not entailed by these single-layer
+      constructions. AutoregressiveLanguageModel, CausalLLM, ControllableLLM, EnergyBasedLLM
+      and ImplicitLanguageModel impose language scope absent here. LogisticRegression
+      and Perceptron do not identify normalized dependent-vector output models merely
+      because sigmoid computations or a perceptron-style training option occur. Classification,
+      BinaryClassification, MulticlassClassification and RegressionAnalysis describe
+      possible tasks, not these model identities. Native RTRBM ties recurrence to
+      output-hidden probabilities; autoregressive CRBM restricts conditioning to earlier
+      visible frames; NADE lacks the separate recurrent parameter-emitting network;
+      mixture density network uses mixture-component output distributions. These boundaries
+      do not constitute new scientific approval of the contextual records.'
+    evidence_ids:
+    - mapping
+- assessment_id: recurrentneuralnetworkneuralautoregressivedistributionestimator
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1
+  summary: 'This is the RNN-NADE identified in the 2012 recurrent-output-estimator
+    paper by substituting NADE for the conditional RBM. Temporal order between vector
+    frames and variable order within a frame are separate. The recurrent state and
+    NADE prefix activations are deterministic computations; there is no stochastic
+    RBM hidden state to integrate out. It is distinct from unconditional NADE, order-agnostic
+    NADE, RNN-RBM and a recurrent predictor with independent Bernoulli outputs. All
+    442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases
+    were compared, with no normalized identity match. Full-checkout fixed-string searches
+    included ignored and hidden files in both worktree and main, returning 129 lines
+    each. All 91 unique matched contents were read, including 58 initial contents
+    and 33 additional saved-review contents: prior model contrasts, evidence references
+    and discovery leads, rather than existing candidate identities. All 52 semantic
+    label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside
+    corresponding generated records and four complete native neighbors. Previously
+    read contextual files were checked for byte identity. Absence is bounded to this
+    snapshot and inspected neighborhood.'
+  details: 'For the single-layer binary specialization, compute the past-dependent
+    biases b_t=b+P r_(t-1) and c_t=c+Q r_(t-1). Fix an ordering of D bits within the
+    current frame. At position i, compute z_(t,i)=sigmoid(c_t+W[:,<i] v_(t,<i)) and
+    q_(t,i)=sigmoid(b_(t,i)+V[i,:] z_(t,i)). Multiply q_(t,i) raised to v_(t,i) times
+    (1-q_(t,i)) raised to (1-v_(t,i)) over positions, then multiply frame probabilities
+    over time. Reuse a prefix accumulator initialized to c_t, adding W[:,i] v_(t,i)
+    after evaluating each conditional. After the frame is observed or generated, update
+    the separate recurrent state using its own input and recurrent weights. Differentiate
+    the exact sum of frame negative log probabilities through the NADE parameters,
+    the bias projections and the recurrent history. The 2012 paper explicitly contrasts
+    these exact model gradients with CD-based RNN-RBM gradients. Ancestral generation
+    samples bits in the fixed within-frame order before updating the recurrent state.
+    Limitations: Exact normalized probabilities and gradients apply to this specified
+    model with fully observed training sequences. They do not imply global optimization,
+    calibration, equality to an RBM distribution or tractable inference for every
+    pattern of missing frames or bits. The within-frame ordering and temporal recurrence
+    serve different purposes. Prefix sharing gives O(DH) NADE evaluation per frame
+    for H hidden units, in addition to the recurrent-state and bias-projection costs;
+    it does not remove sequential generation dependencies. The original NADE paper
+    prints an accumulator index discrepancy and initializes a multiplicatively accumulated
+    probability to zero with an incorrect plus between Bernoulli factors in Algorithm
+    1. The displayed mechanism follows its normalized chain definition, Equations
+    (9)–(11) and prefix-update rule, retaining the source qualification. Output weights
+    V may be learned separately from W as in the original NADE paper. Sharing prefix
+    parameters across conditionals does not require tying input and output weights,
+    and it does not make within-frame variables independent. The RNN-RBM paper’s negative
+    joint/bias signs concern its RBM formulas and are not a prescription for NADE
+    conditionals. Backpropagation through the separate recurrence still requires dimensionally
+    correct transposes. No author-code or empirical superiority claim is certified.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: Complete conditional neural architecture, distinguished by conditioning
+      scope, recurrence and output-distribution parameterization.
+    evidence_ids:
+    - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0
+    - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1
+  - name: aio-assessment
+    value: broad_match,broad_match
+    definition: 'All 52 semantic hits and 22 exact annotated AIO CLASS nodes with
+      outgoing edges were read. Seventeen corresponding generated records were previously
+      fully read and verified byte-identical; five were fully read this batch. Four
+      complete native neighbors were inspected: RTRBM and autoregressive CRBM (previous
+      full reading with byte verification), NADE and mixture density network (read
+      this batch). RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through
+      their explicit separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork.
+      RNN-RBM and CRBM relate to RestrictedBoltzmannMachine through conditional output-component
+      or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork
+      through its fully visible acyclic factorization ordered by time and within-frame
+      position, without a causal-intervention assertion. BoltzmannMachineNetwork does
+      not identify directed external conditioning or the whole recurrent construction.
+      RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not
+      complete architectures. ProbabilisticGraphicalModel is task-scoped in the pin.
+      DeepBeliefNetwork and DeepNeuralNetwork are not entailed by these single-layer
+      constructions. AutoregressiveLanguageModel, CausalLLM, ControllableLLM, EnergyBasedLLM
+      and ImplicitLanguageModel impose language scope absent here. LogisticRegression
+      and Perceptron do not identify normalized dependent-vector output models merely
+      because sigmoid computations or a perceptron-style training option occur. Classification,
+      BinaryClassification, MulticlassClassification and RegressionAnalysis describe
+      possible tasks, not these model identities. Native RTRBM ties recurrence to
+      output-hidden probabilities; autoregressive CRBM restricts conditioning to earlier
+      visible frames; NADE lacks the separate recurrent parameter-emitting network;
+      mixture density network uses mixture-component output distributions. These boundaries
+      do not constitute new scientific approval of the contextual records.'
+    evidence_ids:
+    - mapping
+- assessment_id: conditionalrestrictedboltzmannmachine
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - conditionalrestrictedboltzmannmachine-source-0
+  summary: 'This is the general input-conditioned RBM family described by Mnih, Larochelle
+    and Hinton, with their affine-bias binary formulation as the explicitly curated
+    mechanism. The conditioning vector need not be temporal history. Autoregressive
+    CRBM fixes it to earlier frames and RNN-RBM derives it from a recurrent state;
+    these are narrower constructions, not aliases for the entire family. HashCRBM
+    and CD-PercLoss are separate training or prediction constructions and do not define
+    every conditional RBM. All 442 pinned AIO labels/scoped synonyms and 364 preceding
+    native IDs/names/aliases were compared, with no normalized identity match. Full-checkout
+    fixed-string searches included ignored and hidden files in both worktree and main,
+    returning 129 lines each. All 91 unique matched contents were read, including
+    58 initial contents and 33 additional saved-review contents: prior model contrasts,
+    evidence references and discovery leads, rather than existing candidate identities.
+    All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected,
+    alongside corresponding generated records and four complete native neighbors.
+    Previously read contextual files were checked for byte identity. Absence is bounded
+    to this snapshot and inspected neighborhood.'
+  details: 'Hold conditioning vector u fixed. In the paper’s binary affine-bias specialization,
+    set a(u)=b_v+(W_uv)^T u and c(u)=b_h+(W_uh)^T u, with visible-by-hidden interaction
+    matrix W_vh. Define E(v,h;u)=-v^T W_vh h-a(u)^T v-c(u)^T h. Marginalizing binary
+    h gives F(v,u)=-a(u)^T v-sum_j log(1+exp(c_j(u)+(W_vh^T v)_j)). Normalize exp(-F(v,u))
+    over output configurations v to obtain p(v|u), with a partition depending on u.
+    Hidden units given v,u and visible units given h,u have factorial logistic conditionals,
+    but outputs after hidden marginalization can be dependent. Conditional likelihood
+    gradients contrast data-posterior and model expectations at the same u. The paper
+    discusses finite CD as an approximation and separate alternatives for restricted
+    output support or prediction-based training. Prediction may seek the joint conditional
+    mode or coordinate-wise marginal modes according to the loss; those are different
+    decisions. Limitations: The model specifies p(v|u), not the input marginal p(u).
+    Normalizing outputs for one conditioning vector does not supply a shared partition
+    for every other input or a joint model over arbitrary inputs. Factorial block
+    conditionals do not make the output marginal factorial or its partition, joint
+    mode and coordinate marginals generally tractable. Tiny output spaces or deliberately
+    restricted support are special cases. A small data-started CD update can reflect
+    poor mixing near the observed output rather than accurate predictions from u alone.
+    Finite CD is not generally the exact conditional likelihood gradient or the gradient
+    of a single fixed objective. Persistent samples from one conditioning input cannot
+    simply be treated as equilibrium samples for another. The paper’s discussion of
+    persistent-chain impracticality is scoped to its input-specific distributions
+    and training setting; it is not a proof that every conditional persistent method
+    is impossible. The general family can condition biases or interactions, while
+    the displayed mechanism holds W_vh fixed and changes biases affinely. Gaussian
+    outputs, input-dependent interactions, retrieved-support HashCRBM and perceptron-style
+    training need separate conventions. No historical-priority, universal prediction-quality
+    or author-code claim is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: Complete conditional neural architecture, distinguished by conditioning
+      scope, recurrence and output-distribution parameterization.
+    evidence_ids:
+    - conditionalrestrictedboltzmannmachine-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: 'All 52 semantic hits and 22 exact annotated AIO CLASS nodes with
+      outgoing edges were read. Seventeen corresponding generated records were previously
+      fully read and verified byte-identical; five were fully read this batch. Four
+      complete native neighbors were inspected: RTRBM and autoregressive CRBM (previous
+      full reading with byte verification), NADE and mixture density network (read
+      this batch). RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through
+      their explicit separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork.
+      RNN-RBM and CRBM relate to RestrictedBoltzmannMachine through conditional output-component
+      or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork
+      through its fully visible acyclic factorization ordered by time and within-frame
+      position, without a causal-intervention assertion. BoltzmannMachineNetwork does
+      not identify directed external conditioning or the whole recurrent construction.
+      RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not
+      complete architectures. ProbabilisticGraphicalModel is task-scoped in the pin.
+      DeepBeliefNetwork and DeepNeuralNetwork are not entailed by these single-layer
+      constructions. AutoregressiveLanguageModel, CausalLLM, ControllableLLM, EnergyBasedLLM
+      and ImplicitLanguageModel impose language scope absent here. LogisticRegression
+      and Perceptron do not identify normalized dependent-vector output models merely
+      because sigmoid computations or a perceptron-style training option occur. Classification,
+      BinaryClassification, MulticlassClassification and RegressionAnalysis describe
+      possible tasks, not these model identities. Native RTRBM ties recurrence to
+      output-hidden probabilities; autoregressive CRBM restricts conditioning to earlier
+      visible frames; NADE lacks the separate recurrent parameter-emitting network;
+      mixture density network uses mixture-component output distributions. These boundaries
+      do not constitute new scientific approval of the contextual records.'
+    evidence_ids:
+    - mapping
+- assessment_id: rnn-rbm-boundaries
+  area: consistency
+  topic: Separate recurrent state and normalized RBM outputs
+  outcome: supported
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  evidence_ids:
+  - recurrentneuralnetworkrestrictedboltzmannmachine-source-0
+  - finite-conventions
+  summary: Retain RNN-RBM with explicit parameter and printed-equation boundaries.
+  details: The recurrent network has its own state and input weights, distinct from
+    output RBM hidden variables and interactions. The displayed construction changes
+    visible and hidden biases while holding output interaction weights fixed. Exact
+    enumeration of all 64 two-bit, three-frame sequences sums to one. Every scalar
+    parameter of the exact toy objective passes central finite differences with maximum
+    error 3.69e-11. Recurrent width two versus output-hidden width one checks required
+    projection transposes. Printed joint signs, hidden-bias signs and reverse-matrix
+    omissions are qualified against consistent conditionals, free energy and dimensional
+    analysis. This does not certify author code or make finite-CD learning exact.
+- assessment_id: rnn-nade-boundaries
+  area: consistency
+  topic: Temporal recurrence versus within-frame autoregression
+  outcome: supported
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  evidence_ids:
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1
+  - finite-conventions
+  summary: Retain RNN-NADE with exact specified-model normalization and gradient scope.
+  details: The original sequence paper explicitly substitutes NADE for RBM outputs;
+    the component paper establishes normalized ordered Bernoulli factors and shared
+    prefix computation. All 64 toy visible sequences sum to one and every manual scalar
+    gradient matches central differences with maximum error 6.12e-11. With untied
+    output weights, the last NADE input-prefix column has zero influence on the current-frame
+    likelihood, while recurrent input weights remain distinct. Printed NADE accumulator/probability
+    errors are disclosed. Exact likelihood does not imply arbitrary missing-variable
+    tractability, global optimality, independent outputs or identity with RNN-RBM.
+- assessment_id: conditional-rbm-boundaries
+  area: consistency
+  topic: Generic conditioning, output support and prediction
+  outcome: supported
+  target_ids:
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  evidence_ids:
+  - conditionalrestrictedboltzmannmachine-source-0
+  - finite-conventions
+  summary: Retain generic CRBM separately from its autoregressive and recurrent specializations.
+  details: The full UAI 2011 paper describes conditioning through biases or interactions
+    and then gives the binary affine-bias energy. The record keeps the general identity
+    and worked specialization distinct. Two conditioning inputs yield different normalized
+    output distributions; the toy conditional covariance -0.0040071602 exhibits output
+    dependence despite factorial block conditionals. The input marginal is unspecified.
+    Joint modes and coordinate marginal modes are different prediction decisions.
+    Data-started CD, persistence across input-specific distributions, restricted-support
+    HashCRBM and prediction-based CD-PercLoss have separate limitations and are not
+    universal model properties.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Mapping direction and architecture boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain explicit neural, directed-factorization and related RBM mappings.
+  details: 'All 52 semantic hits and 22 exact annotated AIO CLASS nodes with outgoing
+    edges were read. Seventeen corresponding generated records were previously fully
+    read and verified byte-identical; five were fully read this batch. Four complete
+    native neighbors were inspected: RTRBM and autoregressive CRBM (previous full
+    reading with byte verification), NADE and mixture density network (read this batch).
+    RNN-RBM and RNN-NADE broadly map to RecurrentNeuralNetwork through their explicit
+    separate recurrence; generic CRBM broadly maps to ArtificialNeuralNetwork. RNN-RBM
+    and CRBM relate to RestrictedBoltzmannMachine through conditional output-component
+    or conditioned-family relationships. RNN-NADE additionally broadly maps to BayesianNetwork
+    through its fully visible acyclic factorization ordered by time and within-frame
+    position, without a causal-intervention assertion. BoltzmannMachineNetwork does
+    not identify directed external conditioning or the whole recurrent construction.
+    RecurrentLayer, HiddenLayer and ProbabilisticHiddenLayer are components, not complete
+    architectures. ProbabilisticGraphicalModel is task-scoped in the pin. DeepBeliefNetwork
+    and DeepNeuralNetwork are not entailed by these single-layer constructions. AutoregressiveLanguageModel,
+    CausalLLM, ControllableLLM, EnergyBasedLLM and ImplicitLanguageModel impose language
+    scope absent here. LogisticRegression and Perceptron do not identify normalized
+    dependent-vector output models merely because sigmoid computations or a perceptron-style
+    training option occur. Classification, BinaryClassification, MulticlassClassification
+    and RegressionAnalysis describe possible tasks, not these model identities. Native
+    RTRBM ties recurrence to output-hidden probabilities; autoregressive CRBM restricts
+    conditioning to earlier visible frames; NADE lacks the separate recurrent parameter-emitting
+    network; mixture density network uses mixture-component output distributions.
+    These boundaries do not constitute new scientific approval of the contextual records.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+  - AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator
+  - AIMech:ConditionalRestrictedBoltzmannMachine
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - recurrentneuralnetworkrestrictedboltzmannmachine-source-0
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-0
+  - recurrentneuralnetworkneuralautoregressivedistributionestimator-source-1
+  - conditionalrestrictedboltzmannmachine-source-0
+  rationale: RNN-RBM has a separately parameterized deterministic recurrent state
+    and conditional RBM outputs. RNN-NADE substitutes ordered normalized within-frame
+    factors with tractable specified-model likelihood. Generic CRBM permits arbitrary
+    conditioning inputs and is broader than recurrent or finite-history specializations.
+    Shared neural components, sigmoid operations or tasks do not establish equivalent
+    identities.
+limitations:
+- Adversarial author self-review only; every target remains DRAFT.
+- All eight PDF pages of Boulanger2012 and all nine pages of Mnih2011 were visually
+  read. Original NADE pages 1–5 were reread; pages 6–9 were not inspected in this
+  batch.
+- The NADE source retains its verified earlier retrieval timestamp. PDF-page locators
+  distinguish unpaginated conference/author files; the UAI 2011 conference is distinguished
+  from its 2012 arXiv upload.
+- Finite calculations check stated examples and mathematical boundaries, not author
+  software, benchmark performance, global convergence or all parameter settings.
+- 200 pending inspection leads plus unresolved dispositions remain; discovery is active.
+links: []
+tags:
+- native-concepts
+- conditional-sequence
+- self-review
+- discovery-ongoing
+```

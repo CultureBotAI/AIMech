@@ -1,0 +1,102 @@
+name: RNN-RBM
+definition: A neural sequence architecture in which a deterministic recurrent network with its own hidden
+  state supplies parameters of a conditional RBM that models each next visible vector.
+concept_kind: architecture
+identity_notes: 'This is the RNN-RBM architecture introduced by Boulanger-Lewandowski, Bengio and Vincent,
+  with recurrent hidden units distinct from the RBM’s stochastic hidden variables. Their displayed single-layer
+  construction changes visible and hidden biases while sharing the RBM interaction weights across time.
+  The broader parameter-emitting formulation and particular pretraining strategies are not all required
+  features of that specialization. RTRBM ties recurrent state computation to RBM hidden probabilities;
+  untying those parameters is a defining distinction here. All 442 pinned AIO labels/scoped synonyms and
+  364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout
+  fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines
+  each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review
+  contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate
+  identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside
+  corresponding generated records and four complete native neighbors. Previously read contextual files
+  were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.'
+limitations:
+- Equation (1) prints negative terms in the joint exponent that conflict with the positive-bias sigmoid
+  conditionals (2)–(3) and free energy (4). Equations (14)–(15) also print negative hidden-bias signs.
+  This record follows the mutually consistent conditionals and free energy, disclosing the conflicts rather
+  than asserting author-code behavior.
+- Under the column-vector convention of Equation (11), reverse state propagation requires transposed recurrent
+  and bias-projection matrices. Printed Equation (19) omits those transposes; unequal recurrent and RBM
+  hidden widths make the dimensional issue explicit. Original finite calculations check the stated convention
+  and exact small-model gradients, not the authors’ implementation.
+- Fully observed frames determine the recurrent state, but conditional RBM normalization and equilibrium
+  sampling remain generally expensive. Finite CD and finite Gibbs generation are approximate; exact state
+  inference is not exact likelihood learning.
+- The worked model emits two bias vectors, not every RBM weight. A more general recurrent parameter-emission
+  scheme is mentioned separately. Gaussian outputs, different recurrent cells and pretraining choices
+  require their own stated conventions.
+- RNN-RBM reduces to the paper’s RTRBM parameterization under matching hidden widths and appropriate weight/bias
+  tying; this does not make the independently parameterized family identical to RTRBM. No global optimization,
+  long-range memory or empirical ranking guarantee is asserted.
+id: AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine
+aliases:
+- Recurrent neural network restricted Boltzmann machine
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–4.2, Figure 2, Equations (1)–(11) and (13)–(22), PDF pp.2–5; joint/bias signs and
+    reverse-matrix conventions qualified against Equations (2)–(4) and (8)–(11)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the displayed binary model, let r_t=sigmoid(F v_t+B r_(t-1)+c) be the deterministic recurrent
+    state. Set visible bias a_t=a+A r_(t-1) and hidden bias d_t=d+D r_(t-1). With hidden-by-visible weights
+    W, define p(v_t,h_t|r_(t-1)) proportional to exp(a_t^T v_t+d_t^T h_t+h_t^T W v_t), and marginalize
+    binary h_t for the frame distribution. The visible-sequence probability is the product of these conditional
+    frame distributions; the current frame updates r_t only after its probability has been evaluated from
+    r_(t-1). Recurrent and RBM hidden widths may differ, and W is distinct from recurrent input weights
+    F. Train using conditional RBM likelihood statistics, approximated in the paper by data-started finite
+    contrastive divergence, and backpropagate bias-gradient signals through A, D and the recurrence. The
+    reverse state signal includes A^T and D^T times next-frame bias gradients, plus B^T times the next
+    recurrent preactivation gradient. Generation alternates conditional frame sampling with the deterministic
+    state update.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–4.2, Figure 2, Equations (1)–(11) and (13)–(22), PDF pp.2–5; joint/bias signs
+      and reverse-matrix conventions qualified against Equations (2)–(4) and (8)–(11)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music
+    Generation and Transcription'
+  authors:
+  - Nicolas Boulanger-Lewandowski
+  - Yoshua Bengio
+  - Pascal Vincent
+  source_type: primary_paper
+  url: https://icml.cc/2012/papers/590.pdf
+  version: Eight-page ICML 2012 conference-hosted PDF. The inspected file has no printed page numbers;
+    use PDF-page locators. Related arXiv submission 1206.6392v1 is dated 27 June 2012; its bytes were
+    not compared.
+  persistent_id: arXiv:1206.6392
+  access_level: full_text
+  accessed_at: '2026-10-11T18:43:06Z'
+  sha256: 7660a28d9292f45f9ec50fc56f9a35b7e74d9b2e3d0c42c10ac9f4fba644215e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The pinned AIO target is broader than this explicit recurrent neural architecture with a
+    specified conditional-density output. The deterministic state has directed temporal connections; the
+    output estimator adds a narrower structural restriction. A temporal probability model over vector
+    frames is not necessarily an autoregressive language model.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The construction uses a conditional RBM as its output distribution. This related mapping
+    identifies that component or conditioned-family relationship without asserting that the whole input-conditioned
+    or recurrent model is one unconditioned symmetric RBM.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:53:57Z'
+  updated_at: '2026-10-11T18:53:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
