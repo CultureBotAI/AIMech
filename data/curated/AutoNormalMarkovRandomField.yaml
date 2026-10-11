@@ -1,0 +1,130 @@
+name: Auto-normal Markov random field
+definition: A proper finite Gaussian Markov-field model specified by linear full-conditional means and
+  positive, value-independent site conditional variances, with compatibility enforced by a symmetric positive-definite
+  joint precision matrix.
+concept_kind: model_family
+identity_notes: 'The record is scoped to the proper finite auto-normal construction. It is a Gaussian
+  conditional-autoregressive representation of a multivariate normal law with a specified conditional-dependence
+  graph. Intrinsic improper Gaussian fields and infinite-lattice extensions require separate existence
+  or constraint conditions and are not exact aliases here. Spatial conditional autoregression is not temporal
+  autoregression and is not the simultaneous autoregressive model obtained by treating the same local
+  residual equations as independent noise equations. Gaussian-process regression conditions a process
+  prior on training observations for prediction; this record specifies the finite graphical joint law
+  itself. It can be used as a prior but does not inherently introduce hidden labels or independent observation
+  emissions. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms
+  and 400 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, yielding 35 and 35 matched lines; all 23 unique contents were
+  read. Hits are citations, contextual statements and discovery leads rather than records of these identities.
+  All 182 semantic label/synonym hits were read. Thirty-one fully annotated exact CLASS nodes and outgoing
+  edges were inspected: 23 byte-equivalent to prior inspected nodes and eight freshly read. Thirty-nine
+  contextual YAMLs comprise 31 generated and eight native records: 29 byte-verified after prior reading
+  and 10 freshly read. Short acronyms were included in the normalized identity comparison. Absence is
+  bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+limitations:
+- Every site conditional can be individually normalized while the proposed collection fails to define
+  a proper joint law. Weighted symmetry and positive definiteness must both hold. With unequal conditional
+  variances, raw beta coefficients need not be symmetric.
+- A singular precision can describe an intrinsic improper construction only with additional interpretation
+  or constraints; it is not the ordinary normalized Gaussian density stated here. An indefinite precision
+  gives a nonintegrable quadratic model. Positive diagonal entries alone are insufficient.
+- Finite-graph eigenvalue bounds depend on the actual graph and boundary conditions. Infinite-lattice
+  stationarity criteria are not automatically necessary finite-graph conditions. The source’s stationary
+  or homogeneous examples do not require every finite auto-normal model to share those assumptions.
+- Missing precision edges encode conditional independence, not marginal independence or causal effects.
+  A sparse simultaneous-equation matrix can induce additional precision edges.
+- Unconstrained conditional least-squares, coding-likelihood or pseudolikelihood estimates may leave the
+  proper joint parameter domain. The Gaussian fitting objective and parameter identifiability depend on
+  the specified mean, graph and interaction parameterization; existence of a covariance representation
+  does not ensure identifiable scientific parameters.
+- The source’s wheat and plant examples expose aggregation, nonstationarity and model-fit concerns; a
+  fitted Gaussian field does not establish a causal spatial mechanism or universal predictive adequacy.
+  The record does not certify source implementations, empirical fits or infinite-system convergence.
+id: AIMech:AutoNormalMarkovRandomField
+aliases:
+- Auto-normal model
+- Auto-normal scheme
+- Proper Gaussian conditional autoregressive model
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.5, printed pp. 182–188 / PDF pp. 5–11, especially Equations (2.1)–(2.6) and
+    precision-factor simulation; Section 3.4, p. 193 / PDF p. 16, joint Gaussian likelihood
+  relation: supports
+- source_id: lattice-model
+  locator: Section 4.2.2, printed p. 201 / PDF p. 11, Equations (4.9)–(4.13); Sections 5.2.2–5.5, pp.
+    206–210 / PDF pp. 16–20; Section 7.2.4, pp. 221–223 / PDF pp. 31–33
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For site i, specify X_i given all other sites as normal with mean mu_i+sum_(j!=i) beta_ij*(x_j-mu_j)
+    and variance v_i>0 independent of the conditioning values. Let B have diagonal 1 and off-diagonal
+    -beta_ij, and let Lambda=diag(v_i). These conditionals define the proper finite joint model when Q=Lambda^(-1)*B
+    is symmetric positive definite. Symmetry requires beta_ij*v_j=beta_ji*v_i. The joint law is N(mu,Q^(-1)),
+    with density proportional to |Q|^(1/2)*exp[-(x-mu)^T Q(x-mu)/2]. A zero off-diagonal precision entry
+    denotes conditional independence given the other sites; marginal covariance need not vanish. With
+    common v_i=sigma^2, compatibility reduces to symmetric positive-definite B and covariance sigma^2*B^(-1).
+    In contrast, the simultaneous equations B*(X-mu)=epsilon with independent epsilon~N(0,Lambda) imply
+    covariance B^(-1)*Lambda*B^(-T) and precision B^T*Lambda^(-1)*B. For the proper conditional model,
+    a factorization Q=C^T*C allows exact Gaussian sampling as mu+C^(-1)*z with independent standard-normal
+    z.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.5, printed pp. 182–188 / PDF pp. 5–11, especially Equations (2.1)–(2.6) and
+      precision-factor simulation; Section 3.4, p. 193 / PDF p. 16, joint Gaussian likelihood
+    relation: supports
+  - source_id: lattice-model
+    locator: Section 4.2.2, printed p. 201 / PDF p. 11, Equations (4.9)–(4.13); Sections 5.2.2–5.5, pp.
+      206–210 / PDF pp. 16–20; Section 7.2.4, pp. 221–223 / PDF pp. 31–33
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Statistical Analysis of Non-Lattice Data
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~sschmid/Courses/Stat376/Papers/GibbsFieldEst/BesagPseudoLik1975.pdf
+  version: The Statistician 24(3):179–195, September 1975; university-hosted 18-page scan including JSTOR
+    wrapper. All 18 pages visually read, including all equations and references. Printed page=PDF page+177.
+    Publisher metadata corroborates title, author, pages, date and DOI. No full extracted-text or OCR
+    reading is asserted.
+  persistent_id: doi:10.2307/2987782
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:22Z'
+  sha256: 0db3c34554e1c4ce64921d70e74506f4e0a373afa91c4b89db5864499ba73724
+- source_id: lattice-model
+  title: Spatial Interaction and the Statistical Analysis of Lattice Systems
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www.stat.cmu.edu/~brian/720-2007-source/nice%20materials/besag-74-contains-hammersley-clifford.pdf
+  version: Journal of the Royal Statistical Society, Series B 36(2):192–225, 1974. The university-hosted
+    46-page scan includes a JSTOR cover and separately published discussion on pp. 225–236. All 46 pages
+    visually read, including two main figures, 16 tables, discussion figure, references and author reply.
+    Printed page=PDF page+190. The main-paper DOI identifies the cited method sections; discussion has
+    DOI 10.1111/j.2517-6161.1974.tb01000.x. A later online date is not the original publication date.
+  persistent_id: doi:10.1111/j.2517-6161.1974.tb00999.x
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:19Z'
+  sha256: 796199ef5d870e81750cc3fc262f140ccc7114ce916e3a23fc53f36a614bebef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: A proper finite Gaussian field is a mathematical probability representation, within the broader
+    AIO Model class. The inspected model is defined by compatible full conditionals and joint precision,
+    not by a required supervised regression task.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: Precision zeros encode the field’s graphical conditional-independence structure. The pinned
+    ProbabilisticGraphicalModel class is task-scoped, so the relationship from this model family is related
+    rather than an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:02:22Z'
+  updated_at: '2026-10-11T22:02:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

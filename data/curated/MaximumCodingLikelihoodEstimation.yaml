@@ -1,0 +1,121 @@
+name: Maximum coding likelihood estimation
+definition: A conditional parameter-estimation method that selects mutually non-neighboring sites in a
+  Markov field and maximizes their joint conditional likelihood, which factors into sitewise full conditionals
+  given the remaining observed sites.
+concept_kind: algorithm
+identity_notes: 'This record uses the classical independent-site coding method of Besag. Coding selects
+  a graph-independent subset; it does not encode features, compress data or learn sparse representations.
+  Shifted or alternative coding sets can give additional dependent estimates. Extensions using conditionally
+  dependent blocks require their joint conditional likelihoods rather than this independent-singleton
+  product. The method is distinct from multiplying all site conditionals as pseudolikelihood and from
+  state updates in ICM or Gibbs sampling. No normalized identity match was found across all 442 pinned
+  AIO labels and all scoped synonyms and 400 preceding native IDs, names and aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, yielding 35 and 35 matched lines; all
+  23 unique contents were read. Hits are citations, contextual statements and discovery leads rather than
+  records of these identities. All 182 semantic label/synonym hits were read. Thirty-one fully annotated
+  exact CLASS nodes and outgoing edges were inspected: 23 byte-equivalent to prior inspected nodes and
+  eight freshly read. Thirty-nine contextual YAMLs comprise 31 generated and eight native records: 29
+  byte-verified after prior reading and 10 freshly read. Short acronyms were included in the normalized
+  identity comparison. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic
+  neighborhood.'
+limitations:
+- The factorization needs a valid graph and the stated joint conditional-independence property. It is
+  not justified by spatial distance alone or by arbitrary, incompatible local distributions. Hard support
+  constraints require separate treatment beyond the positive-model construction.
+- Choosing a large independent set need not yield a unique selection or the most informative estimator.
+  Conditioning omits some likelihood information while retaining the complement as covariates; it does
+  not literally discard all white-site observations.
+- Estimates and tests from shifted coding patterns reuse the same configuration and are generally dependent.
+  Combining them requires a justified procedure; neither naive independent-test calibration nor an arithmetic
+  average of estimates is automatically optimal.
+- Conditional likelihood-ratio comparisons require comparable selected dependent sites and conditioning
+  sets. The source warns against comparing fits based on different codings as if they were the same likelihood.
+  Ordinary asymptotic approximations still require identifiability, information and regularity conditions.
+- The source’s unconstrained coding estimates can violate the intended joint-model parameter restrictions.
+  A conditional objective may be finite where the full Gaussian field is invalid, so the parameter domain
+  must be enforced. Averaging happened to yield admissible values in some reported examples and is not
+  a general repair.
+- The inspected plant and wheat data illustrate estimation and model diagnostics, while exposing model
+  inadequacy and aggregation effects. They do not prove general efficiency or spatial prediction accuracy.
+  No empirical data fitting, author implementation or benchmark was reproduced.
+id: AIMech:MaximumCodingLikelihoodEstimation
+aliases:
+- Coding likelihood estimation
+- Coding maximum likelihood estimation
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2, printed pp. 189–190 / PDF pp. 12–13, Equation (3.1); Section 3.3, p. 192 / PDF
+    p. 15, coding-class decomposition
+  relation: supports
+- source_id: lattice-method
+  locator: Section 6.1, printed pp. 211–212 / PDF pp. 21–22, Figures 1–2 and likelihood comparability;
+    Section 7.2.4 and conclusion, pp. 222–223 / PDF pp. 32–33, inadmissible fits and model limitations
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a compatible positive Markov-field model with observed configuration x, choose a nonempty
+    set S containing no neighboring pair and let C be its complement. Conditional on X_C=x_C, the variables
+    in S are mutually independent, so L_S(theta;x_S|x_C)=product_(i in S) p_theta(x_i|x_(-i)). Maximize
+    its log over valid theta. The complement supplies conditioning values even though its own site likelihood
+    factors are omitted. A rectangular four-neighbor graph admits checkerboard coding; adding diagonal
+    interactions requires another independent-set design, such as the source’s four shifted patterns.
+    Changing the selected set changes the conditional likelihood. The full-site pseudolikelihood equals
+    the product of coding likelihoods for a partition into independent sets, but maximizing that product
+    differs in general from averaging separately fitted parameters.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, printed pp. 189–190 / PDF pp. 12–13, Equation (3.1); Section 3.3, p. 192 / PDF
+      p. 15, coding-class decomposition
+    relation: supports
+  - source_id: lattice-method
+    locator: Section 6.1, printed pp. 211–212 / PDF pp. 21–22, Figures 1–2 and likelihood comparability;
+      Section 7.2.4 and conclusion, pp. 222–223 / PDF pp. 32–33, inadmissible fits and model limitations
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Statistical Analysis of Non-Lattice Data
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www2.stat.duke.edu/~sschmid/Courses/Stat376/Papers/GibbsFieldEst/BesagPseudoLik1975.pdf
+  version: The Statistician 24(3):179–195, September 1975; university-hosted 18-page scan including JSTOR
+    wrapper. All 18 pages visually read, including all equations and references. Printed page=PDF page+177.
+    Publisher metadata corroborates title, author, pages, date and DOI. No full extracted-text or OCR
+    reading is asserted.
+  persistent_id: doi:10.2307/2987782
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:22Z'
+  sha256: 0db3c34554e1c4ce64921d70e74506f4e0a373afa91c4b89db5864499ba73724
+- source_id: lattice-method
+  title: Spatial Interaction and the Statistical Analysis of Lattice Systems
+  authors:
+  - Julian Besag
+  source_type: primary_paper
+  url: https://www.stat.cmu.edu/~brian/720-2007-source/nice%20materials/besag-74-contains-hammersley-clifford.pdf
+  version: Journal of the Royal Statistical Society, Series B 36(2):192–225, 1974. The university-hosted
+    46-page scan includes a JSTOR cover and separately published discussion on pp. 225–236. All 46 pages
+    visually read, including two main figures, 16 tables, discussion figure, references and author reply.
+    Printed page=PDF page+190. The main-paper DOI identifies the cited method sections; discussion has
+    DOI 10.1111/j.2517-6161.1974.tb01000.x. A later online date is not the original publication date.
+  persistent_id: doi:10.1111/j.2517-6161.1974.tb00999.x
+  access_level: full_text
+  accessed_at: '2026-10-11T21:47:19Z'
+  sha256: 796199ef5d870e81750cc3fc262f140ccc7114ce916e3a23fc53f36a614bebef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: Independent-site coding likelihood estimates a Markov-field model by exploiting graph conditional
+    independence. The pinned target is a machine-learning task, so related_match preserves this estimation
+    connection without equating the estimator with the task or asserting an algorithm is-a task relationship.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:02:22Z'
+  updated_at: '2026-10-11T22:02:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
