@@ -1,0 +1,111 @@
+name: Ant-Q
+definition: A family of cooperative ant-based optimization algorithms that learns shared edge desirabilities
+  using Q-learning-inspired next-state estimates and delayed reinforcement from completed solutions.
+concept_kind: algorithm
+identity_notes: This record denotes the Ant-Q family through its traveling-salesman formulations, especially
+  pseudo-random-proportional construction and best-tour reinforcement. Its next-state estimate distinguishes
+  the nondegenerate Ant-Q update from the selected ACS rule targeting a constant tau0. The authors relate
+  Ant System to the broader family; that relationship does not make every Ant-Q configuration identical
+  to Ant System. This is an algorithm-family concept, not a trained value function or a proof of Q-learning
+  equivalence. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 291 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and
+  hidden files in worktree and main, returning 61 and 71 lines respectively. Text hits were prior candidate
+  leads, citations to a reused Ant System source, neighboring mechanism distinctions, saved review/report
+  material, and unrelated PBIL strings in ignored HOGENOM prefix-map URLs. Eight exact AIO CLASS nodes
+  with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The eligible action set depends on an ant’s visited-city history, while AQ is shared per edge. City
+  identity alone is therefore not a complete Markov state for tour feasibility. The 1995 conclusion treats
+  transfer of Q-learning theory as future work; standard Q-learning convergence is not an established
+  Ant-Q guarantee here.
+- The 1995 generic diagram loops over edges to compute delayed reinforcement and gives an incompletely
+  specified final update domain; its repeat jump omits explicit state reset and its terminal local maximum
+  needs a convention. The 1996 method makes best-tour-only global updates and per-tour reset explicit
+  but references its update equation without restating the earlier zero-next-state convention. The record
+  preserves these version details instead of claiming a fully executable common pseudocode.
+- The pseudo-random, pseudo-random-proportional and random-proportional construction rules are distinct
+  members. Positive trails alone do not ensure exploration when q0=1, candidates are excluded or weights
+  vanish. Empty eligible sets, zero distances, ties, repeated edge updates and numerical underflow require
+  explicit handling.
+- The learned edge values guide stochastic search rather than certify globally optimal tours. Heuristic
+  choice, parameters, number of ants, update ordering and stopping affect results. Neither the paper’s
+  observed noncollapse nor its TSP/ATSP comparisons is asserted as a universal guarantee.
+id: AIMech:AntQ
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–3.3, PDF pp.1–5, Equations1–5 and Figure1; conclusion, PDFp.7
+  relation: supports
+- source_id: later-formulation
+  locator: Sections2–3 and Figure1, printed pp.2–5 in the public full-text transcript; best-tour global
+    update and per-tour data reset on p.4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Maintain shared positive AQ(r,s) edge values, a heuristic HE(r,s) such as inverse positive
+    distance, and each ant’s set J of unvisited cities. In the pseudo-random-proportional variant, draw
+    q uniformly in [0,1]: for q<=q0 choose an eligible edge maximizing AQ^delta*HE^beta, otherwise sample
+    with probabilities proportional to those weights over eligible cities. While constructing tours, the
+    displayed update is AQ(r,s)_new=(1−alpha)*AQ(r,s)+alpha*(DeltaAQ(r,s)+gamma*max_{z in J(s)} AQ(s,z));
+    immediate DeltaAQ is zero in the inspected variants. After completing tours, delayed reinforcement
+    is W/L_best on edges of a selected best tour and zero elsewhere. The paper studies both iteration-best
+    and best-so-far choices and selects iteration-best for most subsequent experiments. In the 1995 Figure1
+    delayed phase, the next-state term is explicitly declared zero, so the per-edge update where applied
+    reduces to (1−alpha)*AQ+alpha*DeltaAQ. The 1996 presentation explicitly restricts that global phase
+    to the iteration-best tour and resets per-tour ant state each iteration. These are source-scoped formulations;
+    terminal handling and the exact edge-update schedule must be declared when implementing a concrete
+    member.'
+  evidence:
+  - source_id: method-source
+    locator: Sections2–3.3, PDF pp.1–5, Equations1–5 and Figure1; conclusion, PDFp.7
+    relation: supports
+  - source_id: later-formulation
+    locator: Sections2–3 and Figure1, printed pp.2–5 in the public full-text transcript; best-tour global
+      update and per-tour data reset on p.4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Ant-Q: A Reinforcement Learning approach to the traveling salesman problem'
+  authors:
+  - Luca M. Gambardella
+  - Marco Dorigo
+  source_type: primary_paper
+  url: https://staff.washington.edu/paymana/swarm/gambardella95-icml.pdf
+  version: Nine-page author-formatted ICML 1995 paper, published pp.252–260; PDF pages are numbered 1–9
+  persistent_id: https://staff.washington.edu/paymana/swarm/gambardella95-icml.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T13:22:19Z'
+  sha256: 60ea0bfe6b4f8aa8e8ffd0f00ed3610ffcb9e9d5fcfc7c5d1c621f6009cf2349
+- source_id: later-formulation
+  title: A Study of Some Properties of Ant-Q
+  authors:
+  - Marco Dorigo
+  - Luca Maria Gambardella
+  source_type: author_technical_report
+  url: https://www.researchgate.net/publication/2432719_A_study_of_some_properties_of_Ant-Q
+  version: TR/IRIDIA/1996-4; public author-uploaded full-text transcript inspected on ResearchGate, printed
+    pp.1–5. Author bibliography verifies PPSN IV, LNCS1141, pp.656–665, 1996; ResearchGate’s top-level
+    year2000 is not accepted. PDF download was unavailable; no PDF checksum is asserted.
+  persistent_id: doi:10.1007/3-540-61723-X_1029
+  access_level: full_text
+  accessed_at: '2026-10-11T13:28:15Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: Ant-Q explicitly constructs shared action-like values using a Q-learning-inspired discounted
+    next-state term and delayed reinforcement. This relates the concrete combinatorial optimizer to the
+    pinned learning-task class; it asserts neither identity nor subclass membership. History-dependent
+    feasibility and source-specific update schedules prevent importing standard Q-learning guarantees.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:37:30Z'
+  updated_at: '2026-10-11T13:37:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,111 @@
+name: Rank-based Ant System
+definition: An Ant System variant that weights pheromone deposits from a selected number of the current
+  iteration’s best tours by rank and adds a separate reinforced contribution from the best-so-far tour.
+concept_kind: algorithm
+identity_notes: This record denotes ASrank in the inspected 1997 working paper. It differs from unweighted
+  all-ant deposits, elitist Ant System’s all-ant-plus-archive deposits, and MAX–MIN’s single-best bounded-trail
+  update. Rank determines which ants contribute and their additional weights, but inverse tour length
+  remains in the deposit; the rule is not purely ordinal. No normalized identity match was found across
+  all 442 pinned AIO labels/scoped synonyms and 291 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 61 and 71 lines
+  respectively. Text hits were prior candidate leads, citations to a reused Ant System source, neighboring
+  mechanism distinctions, saved review/report material, and unrelated PBIL strings in ignored HOGENOM
+  prefix-map URLs. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five
+  native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The displayed sum requires enough current ants and a declared integer sigma; sigma=1 leaves only the
+  best-so-far contribution. Ties in tour length need a rank assignment or tie policy, which can matter
+  when tied tours use different edges.
+- Rank weighting still multiplies inverse positive tour cost. An increasing transformation or constant
+  shift of costs can preserve ranks while changing deposits, heuristic weights and the search trajectory.
+  Calling the algorithm rank-based does not establish invariance to arbitrary fitness transformations.
+- The retained best tour is a search memory, not a certified optimum. Strong elite weighting and vanishing
+  trails can reduce exploration. Evaporation and rank selection do not provide the positive support bounds
+  of MAX–MIN, and no finite-run global-optimality guarantee is asserted.
+- Positive distances/costs, finite normalizers, initialization, heuristic exponents, edge symmetry, stopping
+  and numerical behavior need explicit configuration. The 1997 working paper’s small benchmark comparison
+  is not assumed identical to every later implementation or the 1999 journal text.
+id: AIMech:RankBasedAntSystem
+aliases:
+- ASrank
+definition_evidence:
+- source_id: method-source
+  locator: Sections2.2–3.2, PDF pp.7–11 / printed pp.4–8, Equations1–4; conclusion PDF pp.15–16 / printed
+    pp.12–13
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Construct traveling-salesman tours using Ant System’s feasible-city probabilities proportional
+    to tau^alpha*eta^beta with eta=1/d, and retain the best-so-far tour. Sort the m current tours by nondecreasing
+    positive length L_1<=...<=L_m. In the displayed rule choose an integer elite weight sigma with 1<=sigma<=m+1,
+    so the top sigma−1 current tours are available. Update each edge by rho*tau plus the sum, over ranks
+    mu=1..sigma−1 whose tours use the edge, of (sigma−mu)*Q/L_mu, plus sigma*Q/L_best if the best-so-far
+    tour uses that edge. Rho is trail retention, so 1−rho is the evaporated fraction. The archive contribution
+    is added separately even when the same tour also contributes through a current rank. Reconstruct new
+    tours using the resulting trails for the next iteration; the paper’s update does not add MAX–MIN trail
+    bounds or the ACS local rule.
+  evidence:
+  - source_id: method-source
+    locator: Sections2.2–3.2, PDF pp.7–11 / printed pp.4–8, Equations1–4; conclusion PDF pp.15–16 / printed
+      pp.12–13
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A New Rank Based Version of the Ant System - A Computational Study
+  authors:
+  - Bernd Bullnheimer
+  - Richard F. Hartl
+  - Christine Strauß
+  source_type: author_technical_report
+  url: https://research.wu.ac.at/ws/portalfiles/portal/18956627/document.pdf
+  version: Working Paper No.1, April 1997, SFB Adaptive Information Systems and Modelling in Economics
+    and Management Science; institutional wrapper plus manuscript, 17 PDF pages; distinct from the 1999
+    journal version
+  persistent_id: doi:10.57938/2eb99227-a596-4eb4-bb7d-367b53dee89d
+  access_level: full_text
+  accessed_at: '2026-10-11T13:22:19Z'
+  sha256: 4777a1e0940f75638ac6f4c8abb6c7c37fff7924b83dcc013bbc504c7f7a93ba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms, all 291 preceding maintained identities, ignored/hidden
+    full-checkout text, and eight exact AIO targets plus five native neighboring algorithms.
+  rationale: No suitable target was found for this specific optimizer in the inspected snapshot. Learning-task,
+    language-model and incremental-training terminology do not identify its defining state/update procedure.
+    This is a bounded semantic assessment, not a claim of absence from every ontology.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: A general optimization search procedure is not defined by preprocessing or training
+      a machine-learning model, even if such applications are possible.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target describes a learning task rather than this particular sampling or pheromone
+      update procedure; shared optimization language does not establish a suitable class relation.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Search feedback and analogies to reward-based methods were considered. For PBIL
+      or rank/elite trail reinforcement they do not establish the specific discounted action-value mechanism
+      central to the separate Ant-Q related match; no task-to-algorithm equivalence is inferred.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The target is a reward-fine-tuned language model, not an optimizer for generic binary
+      strings or tours.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is an evolutionary language model. Its related evolutionary-algorithms
+      synonym does not make a probability-vector or ant optimizer the same concept.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation is too generic to ground the defining
+      optimization update in this exported network/model class.
+  - target: AIO:ContinualLearning
+    rejection_reason: The pinned target denotes a deep network learning sequential tasks without forgetting.
+      Incremental movement of a search probability vector is not that concept.
+  - target: AIO:IncremenetalFewshotLearning
+    rejection_reason: The pinned target denotes a deep network adding novel classes from few examples,
+      not incremental optimizer-state updates.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:37:30Z'
+  updated_at: '2026-10-11T13:37:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

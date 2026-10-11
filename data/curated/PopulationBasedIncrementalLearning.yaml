@@ -1,0 +1,115 @@
+name: Population-based incremental learning
+definition: An optimization method that samples candidate solutions from a probability-vector representation
+  and incrementally moves that representation toward high-evaluation sampled solutions, with probability-vector
+  mutation in its basic formulation.
+concept_kind: algorithm
+identity_notes: The inspected baseline uses independent Bernoulli coordinates for fixed-length binary
+  solutions and moves toward the current generation’s single best sample. Multiple-positive and negative-example
+  updates are explicit extensions. It is not continual learning, supervised classification, direct crossover
+  of persistent chromosomes, or the general cross-entropy optimization framework. A single-elite Bernoulli
+  CE fit with smoothing can coincide with the PBIL attraction step; that shared subcase does not establish
+  equivalence of the full named procedures. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 291 preceding native IDs/names/aliases. Full-checkout fixed-string searches
+  included ignored and hidden files in worktree and main, returning 61 and 71 lines respectively. Text
+  hits were prior candidate leads, citations to a reused Ant System source, neighboring mechanism distinctions,
+  saved review/report material, and unrelated PBIL strings in ignored HOGENOM prefix-map URLs. Eight exact
+  AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms
+  were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The product of coordinate marginals cannot represent general dependencies between bits or arbitrary
+  mixtures of dissimilar good solutions. Different populations can have the same marginals; representation
+  and encoding affect the search.
+- A high learning rate can concentrate probabilities prematurely; a very low rate can make adaptation
+  slow. With interior probabilities and 0<LR<1, a finite attraction step stays interior in exact arithmetic,
+  but this does not guarantee lasting exploration or a finite-budget global optimum. Mutation events can
+  be absent, and floating-point probabilities can collapse.
+- 'Probability-vector mutation is not a bit flip of every sampled chromosome and is not guaranteed to
+  increase diversity on each event: a move toward an already favored endpoint can increase concentration.
+  Mutation toward .5 is discussed separately as a future alternative.'
+- Selection of the current-generation winner depends on objective ordering, whereas tie handling, objective
+  direction, noise, population size and mutation randomization remain configuration choices. A preserved
+  output archive does not force that archived vector into future samples. The report’s comparative results
+  are not universal performance guarantees.
+id: AIMech:PopulationBasedIncrementalLearning
+aliases:
+- PBIL
+definition_evidence:
+- source_id: method-source
+  locator: Sections2.2–2.4, PDF pp.10–15, especially update on p.12 and Figure4 on p.14; extensions, Section4
+    pp.17–19 and Section7.2–7.3 pp.34–35
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize each binary-coordinate probability P_i to .5. At each generation, independently
+    sample a population of binary vectors according to P, evaluate them and choose a sample x_best with
+    the highest objective value in that generation. Update each coordinate P_i_new=(1−LR)*P_i+LR*x_best_i.
+    Then, with a configured mutation probability per coordinate, shift that probability toward a randomly
+    chosen binary endpoint b using P_i_new=(1−MUT_SHIFT)*P_i+MUT_SHIFT*b. Repeat for the selected budget
+    or stopping rule. For these convex-update interpretations, LR and MUT_SHIFT lie in [0,1]. Maintain
+    the highest-evaluation solution vectors separately for return, as the Figure4 caption recommends.
+    The baseline updates its distribution toward the current-generation winner, not automatically the
+    best-so-far archive. Injecting the archived best into later populations, moving toward several winners,
+    or learning away from differing bits of poor samples are separately described extensions.
+  evidence:
+  - source_id: method-source
+    locator: Sections2.2–2.4, PDF pp.10–15, especially update on p.12 and Figure4 on p.14; extensions,
+      Section4 pp.17–19 and Section7.2–7.3 pp.34–35
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Population-Based Incremental Learning: A Method for Integrating Genetic Search Based Function
+    Optimization and Competitive Learning'
+  authors:
+  - Shumeet Baluja
+  source_type: author_technical_report
+  url: https://publications.ri.cmu.edu/storage/publications/pub_files/pub1/baluja_shumeet_1994_2/baluja_shumeet_1994_2.pdf
+  version: CMU-CS-94-163, 2 June 1994; 41-page technical report hosted by the Carnegie Mellon Robotics
+    Institute
+  persistent_id: CMU-CS-94-163
+  access_level: full_text
+  accessed_at: '2026-10-11T13:22:19Z'
+  sha256: 7b87d3c110520d62aed64119944d342eb59bd79f52966ade9a136b6a1289aec6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms, all 291 preceding maintained identities, ignored/hidden
+    full-checkout text, and eight exact AIO targets plus five native neighboring algorithms.
+  rationale: No suitable target was found for this specific optimizer in the inspected snapshot. Learning-task,
+    language-model and incremental-training terminology do not identify its defining state/update procedure.
+    This is a bounded semantic assessment, not a claim of absence from every ontology.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: A general optimization search procedure is not defined by preprocessing or training
+      a machine-learning model, even if such applications are possible.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target describes a learning task rather than this particular sampling or pheromone
+      update procedure; shared optimization language does not establish a suitable class relation.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Search feedback and analogies to reward-based methods were considered. For PBIL
+      or rank/elite trail reinforcement they do not establish the specific discounted action-value mechanism
+      central to the separate Ant-Q related match; no task-to-algorithm equivalence is inferred.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The target is a reward-fine-tuned language model, not an optimizer for generic binary
+      strings or tours.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is an evolutionary language model. Its related evolutionary-algorithms
+      synonym does not make a probability-vector or ant optimizer the same concept.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic representation is too generic to ground the defining
+      optimization update in this exported network/model class.
+  - target: AIO:ContinualLearning
+    rejection_reason: The pinned target denotes a deep network learning sequential tasks without forgetting.
+      Incremental movement of a search probability vector is not that concept.
+  - target: AIO:IncremenetalFewshotLearning
+    rejection_reason: The pinned target denotes a deep network adding novel classes from few examples,
+      not incremental optimizer-state updates.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:37:30Z'
+  updated_at: '2026-10-11T13:37:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
