@@ -1,0 +1,103 @@
+name: Leave-one-out mutual information upper bound
+definition: An expectation-level upper bound on mutual information that compares a known conditional density
+  for each paired sample with a mixture of conditional densities from the other independent inputs in
+  its batch.
+concept_kind: mathematical_method
+identity_notes: 'This is the leave-one-out upper bound in Poole et al., distinct from InfoNCE’s lower
+  bound and from generic leave-one-out cross-validation. It requires evaluable normalized p(y|x), which
+  may be the encoder defining the modeled joint distribution; an arbitrary learned critic does not supply
+  that requirement. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 208 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts,
+  including ignored and hidden files, returned 57 lines each: existing MINE-f component discussion, shared
+  primary-source references, and discovery/review context. Four native neighbors and seven exact AIO nodes
+  with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The conditional must be normalized and evaluable for cross-sample inputs. Treating an uncalibrated score
+  as p(y|x) invalidates the stated derivation.
+- For small batches or sharply separated conditional supports, the leave-one-out mixture can be tiny or
+  zero where the held-out conditional is positive, producing a loose or infinite upper bound.
+- Independence of batch examples is part of the proof. Correlated samples or using the held-out input
+  to construct its own denominator require a different argument.
+- The expected bound does not certify a realized finite-sample number. Optimization of a noisy estimate
+  does not guarantee monotonic true information reduction or convergence. No encoder implementation or
+  benchmark was reproduced.
+id: AIMech:LeaveOneOutMutualInformationUpperBound
+aliases:
+- Leave-one-out variational information upper bound
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.5, PDF p. 5, Equations (12)–(13), Leave one out upper bound; Section 2.1 p. 2, Equation
+    (1), variational upper-bound identity
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Draw K>=2 independent pairs (X_i,Y_i) from p(x)p(y|x), with evaluable normalized conditional
+    density p(y|x). For each i form q_-i(y)=(K−1)^−1 sum_(j!=i) p(y|X_j). Then I(X;Y)<=E[K^−1 sum_i log(p(Y_i|X_i)/q_-i(Y_i))],
+    assuming the expectations are well-defined. The mixture q_-i is independent of the held-out pair because
+    it uses only the other inputs. Conditional on those inputs, the gap of the corresponding variational
+    upper bound is KL(p(Y)||q_-i(Y)), a nonnegative quantity. Including the paired input in this denominator
+    instead gives the known-conditional InfoNCE lower-bound construction, so the exclusion is essential.
+    A finite batch computes an estimator of the upper-bound expectation rather than a guaranteed upper
+    bound on its own.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.5, PDF p. 5, Equations (12)–(13), Leave one out upper bound; Section 2.1 p. 2,
+      Equation (1), variational upper-bound identity
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases
+    were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored
+    files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder,
+    AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning
+    were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and this semantic neighborhood.
+  rationale: The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks,
+    not the mathematical information bound. Shared variational terminology, an optional neural parameterization
+    or downstream use does not establish a suitable mapping.
+  examined_targets:
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder architecture is not a variational information
+      inequality; neither implies the other.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Reconstruction networks can use information objectives but do not identify this
+      mathematical bound.
+  - target: AIO:RepresentationLearning
+    rejection_reason: The target is a deep-network representation-learning class; it is a possible use
+      of a bound, not the bound itself.
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural critic or decoder is one possible parameterization, not the information
+      formula.
+  - target: AIO:FeatureExtraction
+    rejection_reason: This preprocessing task does not specify an information estimator or bound.
+  - target: AIO:BayesianNetwork
+    rejection_reason: Conditional distributions do not make this bound a directed graphical-model architecture.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: A self-generated prediction task does not specify this population information inequality.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:02:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

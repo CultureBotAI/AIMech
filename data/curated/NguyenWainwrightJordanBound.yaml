@@ -1,0 +1,128 @@
+name: Nguyen–Wainwright–Jordan variational bound
+definition: A variational lower bound on Kullback–Leibler divergence that subtracts a product-distribution
+  exponential critic moment from a joint-distribution critic expectation when specialized to mutual information.
+concept_kind: mathematical_method
+identity_notes: 'NWJ denotes the variational objective, also called the f-GAN KL bound or MINE-f objective
+  in the inspected follow-up. The neural MINE-f estimator is an optimization configuration using this
+  bound, not a separate formula here. The original paper also develops density-ratio estimation algorithms;
+  this record does not equate the mathematical bound with those kernel estimators or with MINE’s Donsker–Varadhan
+  objective. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  208 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts,
+  including ignored and hidden files, returned 57 lines each: existing MINE-f component discussion, shared
+  primary-source references, and discovery/review context. Four native neighbors and seven exact AIO nodes
+  with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The exponential product term can have large or infinite variance. Unbiased estimation of a fixed critic’s
+  objective is not unbiased estimation of true mutual information unless the variational gap vanishes.
+- A realized finite-sample value need not stay below the true divergence. Critic fitting and evaluation
+  on the same data introduce selection effects; finite optimization and restricted function classes add
+  approximation error.
+- The optimal critic includes a fixed normalization offset. Arbitrarily shifting a nonoptimal critic changes
+  this objective, unlike the shift invariance of the population Donsker–Varadhan expression.
+- The original constrained and penalized density-ratio programs have their own assumptions. Their consistency
+  or convexity results are not claimed for every neural parameterization. No estimator benchmark was reproduced.
+id: AIMech:NguyenWainwrightJordanBound
+aliases:
+- NWJ bound
+- MINE-f objective
+- f-GAN KL bound
+- NWJ mutual information bound
+definition_evidence:
+- source_id: method-source
+  locator: 'Section II-A/B, journal pp. 5848–5849 (PDF pp. 2–3), Lemma 1 and Equations (5)–(9): variational
+    characterization and positive density-ratio form'
+  relation: supports
+- source_id: additional-1
+  locator: Section 2.2, PDF p. 3, Equation (7), optimal critic and MINE-f/f-GAN naming; footnote 1 for
+    TUBA reparameterization
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For P absolutely continuous with respect to Q and a real critic T with well-defined expectations,
+    set L_NWJ=E_P[T]−E_Q[exp(T−1)]<=KL(P||Q). The original representation is sup_(g>0){E_P[log g]−E_Q[g]+1};
+    substituting g=exp(T−1) gives the displayed objective. With P=p(x,y) and Q=p(x)p(y), it lower-bounds
+    I(X;Y). Under positive density ratios and sufficient critic capacity, T*=1+log(dP/dQ) attains equality;
+    boundary cases may require limiting critics. For a fixed critic with integrable moments, correctly
+    sampled empirical means estimate this expected bound without a log-of-sample-mean bias. Optimizing
+    a neural critic changes the statistical estimation and optimization problem and does not inherit convexity
+    merely from the original function-space formulation.
+  evidence:
+  - source_id: method-source
+    locator: 'Section II-A/B, journal pp. 5848–5849 (PDF pp. 2–3), Lemma 1 and Equations (5)–(9): variational
+      characterization and positive density-ratio form'
+    relation: supports
+  - source_id: additional-1
+    locator: Section 2.2, PDF p. 3, Equation (7), optimal critic and MINE-f/f-GAN naming; footnote 1 for
+      TUBA reparameterization
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Estimating Divergence Functionals and the Likelihood Ratio by Convex Risk Minimization
+  authors:
+  - XuanLong Nguyen
+  - Martin J. Wainwright
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://dept.stat.lsa.umich.edu/~xuanlong/Papers/Nguyen-Wainwright-Jordan-10.pdf
+  version: IEEE Transactions on Information Theory 56(11):5847–5861, November 2010; author-hosted journal
+    PDF, 15 pages
+  persistent_id: https://doi.org/10.1109/TIT.2010.2068870
+  access_level: full_text
+  accessed_at: '2026-10-11T08:49:16Z'
+  sha256: 7f8582371c96bb5c8f7c7d230044dde3c32bbd056c4dc3a84f851eb1a2672072
+- source_id: additional-1
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases
+    were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored
+    files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder,
+    AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning
+    were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and this semantic neighborhood.
+  rationale: The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks,
+    not the mathematical information bound. Shared variational terminology, an optional neural parameterization
+    or downstream use does not establish a suitable mapping.
+  examined_targets:
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder architecture is not a variational information
+      inequality; neither implies the other.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Reconstruction networks can use information objectives but do not identify this
+      mathematical bound.
+  - target: AIO:RepresentationLearning
+    rejection_reason: The target is a deep-network representation-learning class; it is a possible use
+      of a bound, not the bound itself.
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural critic or decoder is one possible parameterization, not the information
+      formula.
+  - target: AIO:FeatureExtraction
+    rejection_reason: This preprocessing task does not specify an information estimator or bound.
+  - target: AIO:BayesianNetwork
+    rejection_reason: Conditional distributions do not make this bound a directed graphical-model architecture.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: A self-generated prediction task does not specify this population information inequality.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:02:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

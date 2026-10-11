@@ -1,0 +1,122 @@
+name: Barber–Agakov mutual information bound
+definition: A variational lower bound on mutual information formed by adding input entropy to the expected
+  log probability assigned by a normalized conditional decoder to the input given the output.
+concept_kind: mathematical_method
+identity_notes: 'The Barber–Agakov bound is the mathematical objective, distinct from Barber and Agakov’s
+  alternating IM optimization procedure. It requires a normalized decoder; TUBA and NWJ provide different
+  parameterizations using unnormalized critics. Reconstruction terminology alone does not identify a VAE,
+  a particular autoencoder architecture or the complete IM algorithm. No normalized identity match was
+  found across all 442 pinned AIO labels/scoped synonyms and 208 preceding native IDs/names/aliases. Word-delimited
+  fixed-string searches of both full checkouts, including ignored and hidden files, returned 57 lines
+  each: existing MINE-f component discussion, shared primary-source references, and discovery/review context.
+  Four native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The decoder must be normalized and assign compatible support. An arbitrary real score substituted for
+  log q is not this bound; zeros or divergent entropies require extended-value care.
+- Increasing a loose lower bound does not by itself prove that true mutual information increased. Decoder
+  expressiveness and optimization quality determine the gap.
+- A sample average is an estimate of the expected objective and is not a certified lower bound for every
+  realized sample. Unknown H(X) prevents reporting its numerical value without additional information.
+- Only declared theoretical passages and example context were inspected; no decoder implementation, training
+  or benchmark was reproduced.
+id: AIMech:BarberAgakovBound
+aliases:
+- Barber-Agakov bound
+- BA bound
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF p. 2, Equation (3) and equality condition; relation to conditional likelihood,
+    p. 3
+  relation: supports
+- source_id: additional-1
+  locator: 'Section 2.1, PDF pp. 2–3, Equation (2): normalized-decoder bound and entropy/tractability
+    limitations'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a joint distribution p(x,y) and normalized conditional decoder q(x|y), define L_BA=H(X)+E_p(x,y)[log
+    q(X|Y)], using differential entropy for continuous variables when the required quantities are finite.
+    The identity I(X;Y)−L_BA=E_p(y)[KL(p(X|Y)||q(X|Y))] gives L_BA<=I(X;Y). Equality holds when the decoder
+    matches the true conditional almost everywhere. For representation learning with fixed p(x), an encoder
+    p_theta(y|x) and decoder q_phi(x|y) can be trained to increase the expected decoder log probability;
+    H(X) is constant with respect to their parameters. Dropping that constant for optimization does not
+    supply a numerical information estimate when the entropy is unknown.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF p. 2, Equation (3) and equality condition; relation to conditional likelihood,
+      p. 3
+    relation: supports
+  - source_id: additional-1
+    locator: 'Section 2.1, PDF pp. 2–3, Equation (2): normalized-decoder bound and entropy/tractability
+      limitations'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'The IM Algorithm: A variational approach to Information Maximization'
+  authors:
+  - David Barber
+  - Felix Agakov
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2003/file/a6ea8471c120fe8cc35a2954c9b9c595-Paper.pdf
+  version: 'NIPS 2003, eight-page proceedings PDF; landing-page title is Information Maximization in Noisy
+    Channels: A Variational Approach'
+  persistent_id: https://papers.nips.cc/paper_files/paper/2003/hash/a6ea8471c120fe8cc35a2954c9b9c595-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:49:16Z'
+  sha256: 50da364cfa25ff60cb787cf023239024157e7c45a679d1038427228f443790c2
+- source_id: additional-1
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aäron van den Oord
+  - Alexander A. Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases
+    were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored
+    files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder,
+    AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning
+    were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and this semantic neighborhood.
+  rationale: The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks,
+    not the mathematical information bound. Shared variational terminology, an optional neural parameterization
+    or downstream use does not establish a suitable mapping.
+  examined_targets:
+  - target: AIO:VariationalAutoEncoder
+    rejection_reason: A probabilistic latent autoencoder architecture is not a variational information
+      inequality; neither implies the other.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Reconstruction networks can use information objectives but do not identify this
+      mathematical bound.
+  - target: AIO:RepresentationLearning
+    rejection_reason: The target is a deep-network representation-learning class; it is a possible use
+      of a bound, not the bound itself.
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural critic or decoder is one possible parameterization, not the information
+      formula.
+  - target: AIO:FeatureExtraction
+    rejection_reason: This preprocessing task does not specify an information estimator or bound.
+  - target: AIO:BayesianNetwork
+    rejection_reason: Conditional distributions do not make this bound a directed graphical-model architecture.
+  - target: AIO:SelfsupervisedLearning
+    rejection_reason: A self-generated prediction task does not specify this population information inequality.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:02:43Z'
+  updated_at: '2026-10-11T09:02:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
