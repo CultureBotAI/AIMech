@@ -1,0 +1,104 @@
+name: Hidden semi-Markov model
+definition: A latent-state sequence-model family that assigns explicit distributions to state sojourn
+  durations, with state changes governed by an embedded transition process and observations conditioned
+  on the hidden states.
+concept_kind: model_family
+identity_notes: The inspected construction is a discrete-time, finite-state hidden semi-Markov model with
+  state-specific duration distributions and conditionally independent emissions. It separates entry into
+  a state from persistence within that state, rather than obtaining every dwell time from repeated self-transitions
+  of an ordinary time-homogeneous HMM. The record is a model family, not the Yu–Kobayashi forward–backward
+  algorithm. General continuous-time, duration-dependent destination and hybrid variants require their
+  own evidence; they are not automatically covered by the detailed mechanism here. No normalized identity
+  match was found across all 442 pinned AIO labels and all scoped synonyms and 388 preceding native IDs,
+  names and aliases for the three selected concepts. Full-checkout fixed-string searches included ignored
+  and hidden files in both worktree and main, yielding 8 and 8 matched lines; all 8 unique contents were
+  read. Hits are prior pending leads and primary-reference context, not records of these identities. All
+  78 semantic label/synonym hits and 22 fully annotated exact AIO CLASS nodes with outgoing edges were
+  read. Twenty-six contextual YAMLs were byte-verified after prior full reading and three freshly read,
+  totaling 22 generated and seven native contextual records. Short acronym identities were compared across
+  the complete normalized record inventory. Absence is bounded to the pinned source, maintained collection
+  and inspected semantic neighborhood.
+limitations:
+- An explicit duration distribution is not required to be non-geometric, but it permits duration laws
+  whose exit hazard changes with elapsed dwell time. A finite maximum D is a modeling restriction; truncating
+  an unbounded geometric law changes it.
+- The new-sojourn initial law is different from sampling at an arbitrary time in a stationary process,
+  which needs an appropriate residual-life distribution. Requiring a sojourn to end at T is also a different
+  observation/endpoint event from the source’s right-censored window.
+- The source excludes self-transitions at segment boundaries. Allowing adjacent same-labeled segments
+  changes the interpretation and identifiability of the duration law, and needs explicit conventions.
+- The printed parameter re-estimation sums use transition/entry quantities at t=1 although their displayed
+  definitions refer to t-1. Initial-sojourn duration responsibilities need a separate boundary term; transitions
+  between observed time steps start at t=2. This record does not certify the literal printed re-estimation
+  formulas as a complete implementation.
+- The statewise posterior maximizer in Equation(14) is marginal decoding, not a globally most probable
+  hidden path. Numerical scaling, impossible observations and zero expected-count parameter rows require
+  handling in an implementation.
+- The paper’s one-day web-traffic example, choices of M and D and reported initialization behavior are
+  application-specific. No universal convergence, predictive-accuracy or runtime guarantee for all semi-Markov
+  variants is asserted.
+id: AIMech:HiddenSemiMarkovModel
+aliases:
+- HSMM
+- Explicit-duration hidden Markov model
+- Variable-duration hidden Markov model
+definition_evidence:
+- source_id: method-source
+  locator: Sections I–II, printed pp.11–12 / PDF pp.1–2, Equations(1)–(7); Section III, pp.12–13 / PDF
+    pp.2–3, Equations(8)–(14) and re-estimation discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the inspected formulation, let q_t be one of M hidden states and let r_t be its remaining
+    duration, including the current time step. On entry into state m, draw d from a normalized state-specific
+    distribution p_m(d), with d in 1,...,D, and set r_t=d. If r_t>1, the next state remains m and the
+    residual duration decreases by one. If r_t=1, choose a different state n using the normalized entry-transition
+    row a_mn, with a_mm=0, and draw its duration from p_n. Emit each observation independently conditional
+    on the hidden path using b_m(o_t). The pair (q_t,r_t) is a first-order Markov state; q_t alone need
+    not be. The source starts a new sojourn at t=1, giving alpha_1(m,d)=pi_m*p_m(d)*b_m(o_1). Forward
+    recursion sums deterministic countdown paths and new entries; grouping incoming entry mass once per
+    state avoids repeating that transition sum for each duration. Its terminal backward value beta_T(m,d)=1
+    sums over all remaining durations, so the finite observation window can end inside a sojourn. Likelihoods
+    and smoothed state marginals follow by summing duration states with this endpoint convention.
+  evidence:
+  - source_id: method-source
+    locator: Sections I–II, printed pp.11–12 / PDF pp.1–2, Equations(1)–(7); Section III, pp.12–13 / PDF
+      pp.2–3, Equations(8)–(14) and re-estimation discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: An Efficient Forward–Backward Algorithm for an Explicit-Duration Hidden Markov Model
+  authors:
+  - Shun-Zheng Yu
+  - Hisashi Kobayashi
+  source_type: primary_paper
+  url: https://www.hisashikobayashi.com/papers/Hidden%20Semi%20Markov%20Model%20%28HSMM%29%20and%20Computational%20Algorithms/An%20Efficient%20Forward-Backward%20Algorithm%20for%20an%20Explicit%20Duration%20Hidden%20Markov%20Model.pdf
+  version: IEEE Signal Processing Letters 10(1):11–14, January 2003; author-hosted journal PDF. All four
+    pages visually read; printed page=PDF page+10.
+  persistent_id: doi:10.1109/LSP.2002.806705
+  access_level: full_text
+  accessed_at: '2026-10-11T20:37:26Z'
+  sha256: e625e483c462c6cd2b0ef185bfc916d22516619e87bc20de0771425374aa6221
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: The inspected finite-duration model has a normalized directed acyclic representation over
+    duration-augmented hidden states and observation children. The Bayesian-network family is broader
+    than this explicit-sojourn model.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The embedded state-entry process and the state-plus-residual-duration process are Markov
+    representations. The hidden state label at each observation time generally is not first-order Markov,
+    so the mapping does not assert that marginal process as a Markov chain.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:49:12Z'
+  updated_at: '2026-10-11T20:49:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
