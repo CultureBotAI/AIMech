@@ -1,0 +1,516 @@
+# Scientific self-review of graph and set architecture additions
+
+- Review: 20261011T041335Z-graph-and-set-architectures
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T04:13:35Z
+- Finished UTC: 2026-10-11T04:13:35Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+All three distinct architectures have inspected primary support and justified broader AIO mappings. The records preserve theorem restrictions, JK variant differences and the attention-prose uncertainty. No actionable unresolved record defect was identified in this scope.
+
+## Scope And Provenance
+
+Identity, concept kind, definitions, mechanism evidence, source versions, limitations and mapping direction for three graph/set architectures.
+
+Selection: Exactly AIMech:GATv2, AIMech:DeepSets and AIMech:JumpingKnowledgeNetwork from the dated discovery report.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 299b2c80273ab585228a6c6661a46f347bd2a5ee.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GATv2 | data/curated/GATv2.yaml | maintained | Graph attention network v2 |
+| AIMech:DeepSets | data/curated/DeepSets.yaml | maintained | Deep Sets |
+| AIMech:JumpingKnowledgeNetwork | data/curated/JumpingKnowledgeNetwork.yaml | maintained | Jumping Knowledge network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| python -m aimech check-source | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a |
+| python -m aimech validate | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | Checked 442 record(s); 0 failed. |
+| python -m aimech validate-curated | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | Checked 77 curated concept record(s); 0 error(s). |
+| python -m aimech seed --check | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | AIO: 442 records; 0 missing, 0 changed, 0 unexpected. |
+| python -m aimech validate-history --base HEAD | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | Checked 13 history record(s); 0 error(s). |
+| python scripts/record_review.py check | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | {<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 10,<br>  "coverage": "declared_scopes_only"<br>} |
+| PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | uv run --locked --extra dev python scripts/check.py<br>All checks passed!<br>........................................................................ [ 32%]<br>........................................................................ [ 64%]<br>........................................................................ [ 96%]<br>....sss                                                                  [100%]<br>220 passed, 3 skipped in 46.70s<br>Checked 442 record(s); 0 failed.<br>Checked 77 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 13 history record(s); 0 error(s).<br>topClass is deprecated - use top_class<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 10,<br>  "coverage": "declared_scopes_only"<br>}<br> |
+| PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check | passed | True | AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork | bash scripts/check_vendored_sync.sh<br>OK: 22 governed artifacts match the pinned claw revision<br> |
+
+## Scientific And Domain Assessments
+
+### Architecture identity, mechanism and scope
+
+evidence: supported. Targets: AIMech:GATv2.
+
+GATv2 changes the scoring-function operation order of the original GAT. It is a distinct architecture, not a software version label or a synonym for every graph attention network.
+
+Dynamic attention is an expressiveness property of the parameterized scorer, not a guarantee that any trained instance learns useful node-specific rankings. This record supports the architecture and operation order, not universal benchmark superiority or a causal interpretation of attention coefficients.
+
+### Architecture identity, mechanism and scope
+
+evidence: supported. Targets: AIMech:DeepSets.
+
+Deep Sets denotes the architecture family defined by Zaheer and colleagues, including invariant and equivariant constructions. It is not a synonym for all set functions, PointNet, Set Transformer or graph neural networks.
+
+The source's exact set-function representation theorem treats a countable universe; its uncountable-domain discussion establishes a fixed-size case and states a broader conjecture. No unrestricted universality claim is curated. Permutation invariance and equivariance are different output properties. The selected architecture, aggregation and finite neural representation determine its actual scope.
+
+### Architecture identity, mechanism and scope
+
+evidence: supported. Targets: AIMech:JumpingKnowledgeNetwork.
+
+Jumping Knowledge adds aggregation across layer depths and can be combined with GCN, GraphSAGE or GAT neighborhood operators. It is distinct from ordinary adjacent-layer skip connections and from any one of those base operators.
+
+Concatenation followed by a node-shared linear transformation is not node-adaptive in its layer weighting; max pooling and the attention variant provide node-dependent selection or weights. The influence-distribution result is conditional on activation assumptions. No general guarantee of optimal neighborhood range or benchmark superiority is asserted. The record describes the layer-aggregation family. The paper's attention prose refers to both weighted layer features and weighted bidirectional-LSTM features, so an exact attention implementation would require a separately pinned implementation review.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:GATv2, AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork. GATv2 changes the neighbor scorer, Deep Sets organizes neural computations on unordered collections, and JK aggregates across graph-layer depths. Their shared neural-network parent does not establish equivalence. Original GAT and base neighborhood operators retain distinct identities.
+- defer: AIMech:DeepSets, AIMech:JumpingKnowledgeNetwork. Keep the supported architecture families together here; a finer split into invariant/equivariant layers or JK variant implementations needs its own defining scope and pinned evidence. No unresolved new IDs are asserted.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity-search | research/discovery/20261011T041144Z-graph-and-set-architectures.json | supports | All 442 AIO names/scoped synonyms and 74 native identities compared. Ignored-inclusive text hits are prior leads, explicit GATv2 exclusions and an incidental package checksum; no duplicate record identity. Semantic neighbors GraphConvolutionalNetwork, GraphLanguageModel, AttentionLayer, AdditiveAttentionLayer, MultiHeadAttentionLayer and PermuteLayer were examined. None identifies these full architectures. |
+| mapping | sources/aio/aio.json; ArtificialNeuralNetwork; neighboring graph, attention and permutation classes | supports | All three are specific neural architectures with broad_match to ArtificialNeuralNetwork. Generic graph overlap, permutation vocabulary or an attention component does not establish exact identity. |
+| gatv2-method | https://arxiv.org/pdf/2105.14491v3; Sections 2.2 and 3.3, equations 3–4 and 7 with footnote 5, PDF/printed pp. 3 and 5 | supports | Concatenate query and neighbor features, apply a learned affine transformation and LeakyReLU, and then project to an attention score; normalize scores over the neighborhood with softmax and use them to aggregate transformed neighbor features. Rendered pages actually inspected: 5. |
+| deepsets-method | https://proceedings.neurips.cc/paper/2017/file/f22e4747da1aa27e363d86d40ff442fe-Paper.pdf; Sections 2.1–2.2 and 3.1, Theorem 2, Lemma 3 and equation 4, PDF/printed pp. 2–3 | supports | The invariant construction applies a shared neural transformation to each element, sums the transformed representations, and processes the sum with an output network. The equivariant construction combines an element's features with a shared pooled summary using tied parameters, and such layers can be composed. Rendered pages actually inspected: 2, 3. |
+| jk-method | https://proceedings.mlr.press/v80/xu18c/xu18c.pdf; Section 4 and Figure 4, PDF pp. 5–6 | supports | Retain each node's intermediate neighborhood-aggregation representations and combine them at the final stage using concatenation, element-wise maximum, or an LSTM-based attention mechanism over depths. Rendered pages actually inspected: 5, 6. |
+
+## Limits And Additional Notes
+
+- Scientific self-review, not independent review or experimental replication.
+- The Deep Sets theorem is not generalized beyond the inspected domain assumptions; invariance and equivariance are distinguished.
+- JK concatenation with shared linear weights is not described as node-adaptive; its attention implementation ambiguity is explicit.
+- All three records remain DRAFT; further candidates remain and discovery continues.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T041335Z-graph-and-set-architectures
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of graph and set architecture additions
+started_at: '2026-10-11T04:13:35Z'
+finished_at: '2026-10-11T04:13:35Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The same agent researched, authored and reviewed these records;
+    no independent approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: All three distinct architectures have inspected primary support and justified
+  broader AIO mappings. The records preserve theorem restrictions, JK variant differences
+  and the attention-prose uncertainty. No actionable unresolved record defect was
+  identified in this scope.
+source:
+  git_revision: 299b2c80273ab585228a6c6661a46f347bd2a5ee
+  state: working_tree
+  inputs:
+  - path: data/curated/DeepSets.yaml
+    sha256: 1009394d5958652d5205e366e127c24ec43652232c9a837c52635c225bc5cba8
+    role: target
+  - path: data/curated/GATv2.yaml
+    sha256: 39c3a33eb76df005b72c7ee32f7dd057e65e56a5bcdd5b12bd5886f4c260d91e
+    role: target
+  - path: data/curated/JumpingKnowledgeNetwork.yaml
+    sha256: e648f4d2fc11782f1bc40f7cdfea628a6c0225882a22e2f5326394880fb83603
+    role: target
+  - path: docs/curated-concepts.md
+    sha256: 68d52b76cd68cbf33c080d8ae836e21ca04282e0e20ce11ed85d66bc0910837d
+    role: context
+  - path: research/discovery/20261011T041144Z-graph-and-set-architectures.json
+    sha256: 3cc583f371d2d7d356430f666337398689c4d5fc3d394322569784629c3a0d9a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: b9a87f14341119f89fffac2cfb29fab222d0fcc9ac999990650e349e06d9cfc3
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: dfcbacdcdeb7429bfa947d7c1c8431e5d0b886f593daaa359588273ba2a2c6e0
+    role: context
+targets:
+- target_id: AIMech:GATv2
+  path: data/curated/GATv2.yaml
+  label: Graph attention network v2
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GATv2.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:DeepSets
+  path: data/curated/DeepSets.yaml
+  label: Deep Sets
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepSets.yaml
+    role: maintained concept and claim evidence/mapping
+- target_id: AIMech:JumpingKnowledgeNetwork
+  path: data/curated/JumpingKnowledgeNetwork.yaml
+  label: Jumping Knowledge network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/JumpingKnowledgeNetwork.yaml
+    role: maintained concept and claim evidence/mapping
+scope:
+  description: Identity, concept kind, definitions, mechanism evidence, source versions,
+    limitations and mapping direction for three graph/set architectures.
+  selection: Exactly AIMech:GATv2, AIMech:DeepSets and AIMech:JumpingKnowledgeNetwork
+    from the dated discovery report.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exclusions:
+  - target: Exact JK attention implementation and broader universality/performance
+      claims
+    reason: The family-level mechanism is supported; the attention implementation
+      wording is preserved as uncertainty and would require separately pinned code.
+      No universal performance claim is curated.
+checks:
+- check_id: required-0
+  name: python -m aimech check-source
+  command: python -m aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+- check_id: required-1
+  name: python -m aimech validate
+  command: python -m aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 record(s); 0 failed.
+- check_id: required-2
+  name: python -m aimech validate-curated
+  command: python -m aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 77 curated concept record(s); 0 error(s).
+- check_id: required-3
+  name: python -m aimech seed --check
+  command: python -m aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'AIO: 442 records; 0 missing, 0 changed, 0 unexpected.'
+- check_id: required-4
+  name: python -m aimech validate-history --base HEAD
+  command: python -m aimech validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 13 history record(s); 0 error(s).
+- check_id: required-5
+  name: python scripts/record_review.py check
+  command: python scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 10,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}"
+- check_id: required-6
+  name: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check
+  command: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "uv run --locked --extra dev python scripts/check.py\nAll checks passed!\n\
+    ........................................................................ [ 32%]\n\
+    ........................................................................ [ 64%]\n\
+    ........................................................................ [ 96%]\n\
+    ....sss                                                                  [100%]\n\
+    220 passed, 3 skipped in 46.70s\nChecked 442 record(s); 0 failed.\nChecked 77\
+    \ curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing, 0 changed,\
+    \ 0 unexpected.\nChecked 13 history record(s); 0 error(s).\ntopClass is deprecated\
+    \ - use top_class\n{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\"\
+    : 10,\n  \"coverage\": \"declared_scopes_only\"\n}\n"
+- check_id: required-7
+  name: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check
+  command: PYTHONPATH=src UV_PROJECT_ENVIRONMENT=/Users/marcin/Documents/VIMSS/ontology/KG-Hub/KG-Microbe/Mechs/AIMech/.venv
+    UV_CACHE_DIR=/private/tmp/aimech-uv-cache UV_NO_SYNC=1 just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'bash scripts/check_vendored_sync.sh
+
+    OK: 22 governed artifacts match the pinned claw revision
+
+    '
+evidence:
+- evidence_id: identity-search
+  kind: search
+  reference: research/discovery/20261011T041144Z-graph-and-set-architectures.json
+  accessed_at: '2026-10-11T04:13:35Z'
+  support: supports
+  summary: All 442 AIO names/scoped synonyms and 74 native identities compared. Ignored-inclusive
+    text hits are prior leads, explicit GATv2 exclusions and an incidental package
+    checksum; no duplicate record identity. Semantic neighbors GraphConvolutionalNetwork,
+    GraphLanguageModel, AttentionLayer, AdditiveAttentionLayer, MultiHeadAttentionLayer
+    and PermuteLayer were examined. None identifies these full architectures.
+  search_scope: All 442 AIO labels/scoped synonyms and 74 preceding native identities;
+    ignored-inclusive and hidden-inclusive text searches of both checkouts.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: ArtificialNeuralNetwork; neighboring graph, attention and permutation classes
+  accessed_at: '2026-10-11T04:13:35Z'
+  support: supports
+  summary: All three are specific neural architectures with broad_match to ArtificialNeuralNetwork.
+    Generic graph overlap, permutation vocabulary or an attention component does not
+    establish exact identity.
+- evidence_id: gatv2-method
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2105.14491v3
+  locator: Sections 2.2 and 3.3, equations 3–4 and 7 with footnote 5, PDF/printed
+    pp. 3 and 5
+  accessed_at: '2026-10-11T04:04:55Z'
+  snapshot_sha256: d316a7d23d735becf0c31d2b73c3426bb2aa5ec592705ce559d79a740abf53ec
+  support: supports
+  summary: 'Concatenate query and neighbor features, apply a learned affine transformation
+    and LeakyReLU, and then project to an attention score; normalize scores over the
+    neighborhood with softmax and use them to aggregate transformed neighbor features.
+    Rendered pages actually inspected: 5.'
+- evidence_id: deepsets-method
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2017/file/f22e4747da1aa27e363d86d40ff442fe-Paper.pdf
+  locator: Sections 2.1–2.2 and 3.1, Theorem 2, Lemma 3 and equation 4, PDF/printed
+    pp. 2–3
+  accessed_at: '2026-10-11T04:04:55Z'
+  snapshot_sha256: ae1e9a4655b8ada5292b3dd3558dd7e18b05913106ebc36bf9f609c917f163c0
+  support: supports
+  summary: 'The invariant construction applies a shared neural transformation to each
+    element, sums the transformed representations, and processes the sum with an output
+    network. The equivariant construction combines an element''s features with a shared
+    pooled summary using tied parameters, and such layers can be composed. Rendered
+    pages actually inspected: 2, 3.'
+- evidence_id: jk-method
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v80/xu18c/xu18c.pdf
+  locator: Section 4 and Figure 4, PDF pp. 5–6
+  accessed_at: '2026-10-11T04:04:55Z'
+  snapshot_sha256: 4aa02e943446fb980814ee1cf0446f099cb720f6b1b4a40b1b3c682d8620b771
+  support: supports
+  summary: 'Retain each node''s intermediate neighborhood-aggregation representations
+    and combine them at the final stage using concatenation, element-wise maximum,
+    or an LSTM-based attention mechanism over depths. Rendered pages actually inspected:
+    5, 6.'
+assessments:
+- assessment_id: gatv2-method
+  area: evidence
+  topic: Architecture identity, mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:GATv2
+  evidence_ids:
+  - gatv2-method
+  - identity-search
+  - mapping
+  summary: GATv2 changes the scoring-function operation order of the original GAT.
+    It is a distinct architecture, not a software version label or a synonym for every
+    graph attention network.
+  details: Dynamic attention is an expressiveness property of the parameterized scorer,
+    not a guarantee that any trained instance learns useful node-specific rankings.
+    This record supports the architecture and operation order, not universal benchmark
+    superiority or a causal interpretation of attention coefficients.
+  dimensions:
+  - name: evidence-access
+    value: full_text with visual verification
+    definition: Read the abstract and defining method, and checked listed rendered
+      pages for equations, operation ordering and variant caveats.
+    evidence_ids:
+    - gatv2-method
+  - name: mapping-direction
+    value: broad_match to ArtificialNeuralNetwork
+    definition: The specified graph attentional layers form an artificial neural architecture,
+      so the artificial-neural-network target is broader.
+    evidence_ids:
+    - gatv2-method
+    - mapping
+- assessment_id: deepsets-method
+  area: evidence
+  topic: Architecture identity, mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:DeepSets
+  evidence_ids:
+  - deepsets-method
+  - identity-search
+  - mapping
+  summary: Deep Sets denotes the architecture family defined by Zaheer and colleagues,
+    including invariant and equivariant constructions. It is not a synonym for all
+    set functions, PointNet, Set Transformer or graph neural networks.
+  details: The source's exact set-function representation theorem treats a countable
+    universe; its uncountable-domain discussion establishes a fixed-size case and
+    states a broader conjecture. No unrestricted universality claim is curated. Permutation
+    invariance and equivariance are different output properties. The selected architecture,
+    aggregation and finite neural representation determine its actual scope.
+  dimensions:
+  - name: evidence-access
+    value: full_text with visual verification
+    definition: Read the abstract and defining method, and checked listed rendered
+      pages for equations, operation ordering and variant caveats.
+    evidence_ids:
+    - deepsets-method
+  - name: mapping-direction
+    value: broad_match to ArtificialNeuralNetwork
+    definition: The source constructs trainable neural transformations and shared
+      neural layers for set-valued inputs; the artificial-neural-network target has
+      broader scope.
+    evidence_ids:
+    - deepsets-method
+    - mapping
+- assessment_id: jk-method
+  area: evidence
+  topic: Architecture identity, mechanism and scope
+  outcome: supported
+  target_ids:
+  - AIMech:JumpingKnowledgeNetwork
+  evidence_ids:
+  - jk-method
+  - identity-search
+  - mapping
+  summary: Jumping Knowledge adds aggregation across layer depths and can be combined
+    with GCN, GraphSAGE or GAT neighborhood operators. It is distinct from ordinary
+    adjacent-layer skip connections and from any one of those base operators.
+  details: Concatenation followed by a node-shared linear transformation is not node-adaptive
+    in its layer weighting; max pooling and the attention variant provide node-dependent
+    selection or weights. The influence-distribution result is conditional on activation
+    assumptions. No general guarantee of optimal neighborhood range or benchmark superiority
+    is asserted. The record describes the layer-aggregation family. The paper's attention
+    prose refers to both weighted layer features and weighted bidirectional-LSTM features,
+    so an exact attention implementation would require a separately pinned implementation
+    review.
+  dimensions:
+  - name: evidence-access
+    value: full_text with visual verification
+    definition: Read the abstract and defining method, and checked listed rendered
+      pages for equations, operation ordering and variant caveats.
+    evidence_ids:
+    - jk-method
+  - name: mapping-direction
+    value: broad_match to ArtificialNeuralNetwork
+    definition: The source builds a neural architecture from neighborhood-aggregation
+      layers and a final learned or pooling combination; the artificial-neural-network
+      target is broader.
+    evidence_ids:
+    - jk-method
+    - mapping
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:GATv2
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  evidence_ids:
+  - identity-search
+  - mapping
+  - gatv2-method
+  - deepsets-method
+  - jk-method
+  rationale: GATv2 changes the neighbor scorer, Deep Sets organizes neural computations
+    on unordered collections, and JK aggregates across graph-layer depths. Their shared
+    neural-network parent does not establish equivalence. Original GAT and base neighborhood
+    operators retain distinct identities.
+- action: defer
+  target_ids:
+  - AIMech:DeepSets
+  - AIMech:JumpingKnowledgeNetwork
+  evidence_ids:
+  - deepsets-method
+  - jk-method
+  rationale: Keep the supported architecture families together here; a finer split
+    into invariant/equivariant layers or JK variant implementations needs its own
+    defining scope and pinned evidence. No unresolved new IDs are asserted.
+limitations:
+- Scientific self-review, not independent review or experimental replication.
+- The Deep Sets theorem is not generalized beyond the inspected domain assumptions;
+  invariance and equivariance are distinguished.
+- JK concatenation with shared linear weights is not described as node-adaptive; its
+  attention implementation ambiguity is explicit.
+- All three records remain DRAFT; further candidates remain and discovery continues.
+tags:
+- native-concepts
+- primary-papers
+- graph-and-set-architectures
+- self-review
+- discovery-ongoing
+```

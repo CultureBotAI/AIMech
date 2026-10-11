@@ -1,0 +1,65 @@
+name: Jumping Knowledge network
+definition: A graph neural architecture that sends intermediate node representations from multiple neighborhood-aggregation
+  depths to a final layer-aggregation mechanism.
+concept_kind: architecture
+identity_notes: Jumping Knowledge adds aggregation across layer depths and can be combined with GCN, GraphSAGE
+  or GAT neighborhood operators. It is distinct from ordinary adjacent-layer skip connections and from
+  any one of those base operators.
+limitations:
+- Concatenation followed by a node-shared linear transformation is not node-adaptive in its layer weighting;
+  max pooling and the attention variant provide node-dependent selection or weights.
+- The influence-distribution result is conditional on activation assumptions. No general guarantee of
+  optimal neighborhood range or benchmark superiority is asserted.
+- The record describes the layer-aggregation family. The paper's attention prose refers to both weighted
+  layer features and weighted bidirectional-LSTM features, so an exact attention implementation would
+  require a separately pinned implementation review.
+aliases:
+- JK-Net
+- Jumping Knowledge networks
+id: AIMech:JumpingKnowledgeNetwork
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4 and Figure 4, PDF pp. 5–6
+  relation: supports
+claims:
+- claim_id: architecture-mechanism
+  kind: mechanism
+  statement: Retain each node's intermediate neighborhood-aggregation representations and combine them
+    at the final stage using concatenation, element-wise maximum, or an LSTM-based attention mechanism
+    over depths.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4 and Figure 4, PDF pp. 5–6
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Representation Learning on Graphs with Jumping Knowledge Networks
+  authors:
+  - Keyulu Xu
+  - Chengtao Li
+  - Yonglong Tian
+  - Tomohiro Sonobe
+  - Ken-ichi Kawarabayashi
+  - Stefanie Jegelka
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/xu18c/xu18c.pdf
+  version: ICML 2018 proceedings, PMLR 80:5453–5462
+  access_level: full_text
+  accessed_at: '2026-10-11T04:04:55Z'
+  sha256: 4aa02e943446fb980814ee1cf0446f099cb720f6b1b4a40b1b3c682d8620b771
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: The source builds a neural architecture from neighborhood-aggregation layers and a final
+    learned or pooling combination; the artificial-neural-network target is broader.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:11:44Z'
+  updated_at: '2026-10-11T04:11:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
