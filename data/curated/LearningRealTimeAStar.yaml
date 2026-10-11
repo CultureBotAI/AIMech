@@ -1,0 +1,110 @@
+name: Learning real-time A*
+definition: A real-time heuristic learning algorithm that moves to a minimum estimated path-cost neighbor,
+  stores that minimum edge-cost-plus-heuristic value at the state it leaves, and retains learned state
+  estimates across repeated problem-solving trials with the same goals.
+concept_kind: algorithm
+identity_notes: 'This is Korf’s LRTA* formulation with a minimum-value backup rather than basic RTA*’s
+  second-best backup. It learns state cost-to-go estimates from search experience; it is not ordinary
+  A*, a trained neural network, Fill’s local-minimum-only cost increments, or Q-learning’s sampled action-value
+  update. The inspected formulation is direct assignment of the minimum backup, not an added maximum with
+  the state’s old value. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were
+  inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions
+  and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped
+  synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence
+  is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The learning result does not say every state in an arbitrary graph is learned exactly, nor that a fixed
+  finite number of trials certifies convergence. Random initial-state sampling and random tie resolution
+  provide the repeated exploration used in the proof.
+- 'Non-overestimation matters: an initially overestimated state can be avoided and remain uncorrected.
+  The 1988 proof explicitly assumes h(goal)=0; the 1990 proof uses the same equality. Non-overestimation
+  alone would not imply that equality if negative goal estimates were permitted.'
+- LRTA* can repeatedly traverse a heuristic depression before escaping and does not inherit basic RTA*’s
+  tree local-optimality theorem. Good asymptotic estimates do not ensure that an early trial follows a
+  shortest path.
+- Replacing h(n) with max(old h(n), minimum backup) is an additional convention not asserted as the same
+  literal source update. The direct minimum can decrease an admissible but inconsistent initial value;
+  that does not contradict preservation of non-overestimation.
+- The table stores state estimates, and the method evaluates successor costs. It is not Q-learning’s model-free
+  sampled state-action update. No stochastic-transition extension, function-approximation guarantee, convergence
+  rate or numerical puzzle result is curated.
+id: AIMech:LearningRealTimeAStar
+aliases:
+- LRTA*
+- Learning real-time A-star
+definition_evidence:
+- source_id: method-source
+  locator: Section7, PDF18–21 / printed206–209, best-value replacement and Theorem3 with assumptions and
+    proof; Section5.1, PDF13–14 / printed201–202, inherited completeness conditions
+  relation: supports
+- source_id: earlier-conference-paper
+  locator: Section4 Learning-RTA* and Section4.1, PDF4–5 / printed142–143; best-value backup and explicit
+    zero-goal assumption in Theorem3 proof
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At each non-goal state n, use stored or initial heuristic values for its neighbors and form
+    k(n,n′)+h(n′), where k is the edge cost. Move to a neighbor attaining the minimum and assign that
+    minimum to h(n). Preserve the table across subsequent trials in the same problem space with the same
+    goal set. This best-value backup replaces RTA*’s second-best backup. It can change values even when
+    the state is not a local minimum and can decrease an initially inconsistent estimate. The source gives
+    the same finite-space, positive-edge, finite-heuristic and everywhere-goal-reachable conditions for
+    eventual goal finding as basic RTA*. For learning convergence, it additionally assumes non-overestimating
+    initial estimates, zero estimates at goals, repeated random sampling of the initial states and random
+    tie handling so the relevant alternatives continue to be explored. Under those conditions, its theorem
+    concerns exact learned values along every optimal path from the sampled initial-state set to a goal
+    over repeated trials.
+  evidence:
+  - source_id: method-source
+    locator: Section7, PDF18–21 / printed206–209, best-value replacement and Theorem3 with assumptions
+      and proof; Section5.1, PDF13–14 / printed201–202, inherited completeness conditions
+    relation: supports
+  - source_id: earlier-conference-paper
+    locator: Section4 Learning-RTA* and Section4.1, PDF4–5 / printed142–143; best-value backup and explicit
+      zero-goal assumption in Theorem3 proof
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Real-Time Heuristic Search
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf
+  version: Artificial Intelligence 42(2–3):189–211, March 1990; 23-page journal scan hosted by Drexel
+    University. The requested URL and file hash identify this copy; a final redirect URL was not logged.
+  persistent_id: doi:10.1016/0004-3702(90)90054-4
+  access_level: full_text
+  accessed_at: '2026-10-11T14:56:19Z'
+  sha256: 8cf1b89fb48727bf945a2cb709dcccdf786529544a12a4a6ac71f27ed3dc2a92
+- source_id: earlier-conference-paper
+  title: 'Real-Time Heuristic Search: New Results'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf
+  version: AAAI-88 proceedings, pp.139–144; six-page conference paper hosted by McGill University. Its
+    graph-correction sketch is distinct from the basic algorithm and the later journal presentation.
+  access_level: full_text
+  accessed_at: '2026-10-11T14:55:51Z'
+  sha256: ab17a837c83ea0deb4dff951e4da929824f832f5085661f51d3dbf841108aca8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The primary papers explicitly formulate repeated-trial learning of heuristic values from
+    problem-solving experience. The pinned AIO target denotes the task/process of developing methods that
+    learn from data; this algorithm-to-task relation records that connection without asserting class equivalence
+    or an is-a hierarchy. No language-model, neural-network or preprocessing identity is implied.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T15:04:45Z'
+  updated_at: '2026-10-11T15:04:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
