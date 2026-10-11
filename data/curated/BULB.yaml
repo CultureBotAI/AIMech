@@ -1,0 +1,132 @@
+name: Beam search using limited discrepancy backtracking
+definition: A memory-bounded beam search that explores heuristic-ranked slices using increasing limited-discrepancy
+  budgets and removes backtracked slices so that alternative beams can be examined.
+concept_kind: algorithm
+identity_notes: BULB denotes Furcy and Koenig’s Beam search Using Limited discrepancy Backtracking. A
+  discrepancy selects a nonpreferred successor slice; it is not a numerical heuristic error or an action
+  cost. The inspected algorithm is presented for unit-cost state-space search and seeks a path, not necessarily
+  a shortest path. No normalized identity match was found across the 442 AIO and 130 prior native records;
+  ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order
+  contrasts, plus incidental lightbulb and wet-bulb dependency substrings, not existing concept records.
+limitations:
+- Completeness is conditional on enough memory to store a beam along a solution path. A fixed memory budget
+  and arbitrary beam width do not guarantee solving every instance.
+- The method need not return a shortest path. An anytime extension is discussed separately from the base
+  procedure.
+- The O(B*d) storage statement concerns retained slices along the active search; temporary successor generation,
+  heuristic data and other implementation storage need separate accounting.
+- The active hash table prevents cycles involving retained states and some transpositions, but it is not
+  a permanent global closed list of every state ever visited.
+- 'Figure 4 has an apparent depth-label inconsistency: nextSlice labels a successor with depth although
+  the caller next probes depth+1. The prose describes a next-level slice. This record follows that described
+  mechanism and does not certify the literal pseudocode as executable.'
+id: AIMech:BULB
+aliases:
+- BULB
+- Limited discrepancy beam search
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3.3, PDF pp. 2–4; Figure 4 on PDF p. 3
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Keep one slice of up to the beam width at each active depth. Rank eligible successors by
+    heuristic value and divide them into slices. A probe follows the preferred slice without spending
+    discrepancy allowance and explores nonpreferred slices with a reduced allowance, removing slices from
+    the active hash table on backtracking. Outer iterations increase the allowance; a full table causes
+    the current probe to stop and backtrack.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3.3, PDF pp. 2–4; Figure 4 on PDF p. 3
+    relation: supports
+- claim_id: memory-qualified-completeness
+  kind: limitation
+  statement: The paper qualifies completeness by the memory needed to retain a beam to a solution and
+    describes the base method as approximate in solution length. Its conclusion discusses conversion to
+    an anytime algorithm as an extension, not an automatic guarantee of the presented stopping rule.
+  evidence:
+  - source_id: conditional-properties
+    locator: Section 3.4, PDF p. 4; Conclusion, PDF p. 7
+    relation: supports
+- claim_id: depth-label-inconsistency
+  kind: limitation
+  statement: Visual inspection identifies an apparent inconsistency between the recursive depth increment
+    and the depth label assigned to generated successors. The next-level interpretation comes from the
+    adjacent prose; no corrected reference implementation or author erratum was established by this review.
+  evidence:
+  - source_id: pseudocode-caveat
+    locator: 'Figure 4, PDF p. 3: recursive depth increment and nextSlice depth assignment; Section 3.3
+      prose, PDF p. 4'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Limited Discrepancy Beam Search
+  authors:
+  - David Furcy
+  - Sven Koenig
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/05/Papers/0596.pdf
+  version: IJCAI 2005 proceedings; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: 25fa7ecf4d94bf2975c39e1c2c4180d2564a721acdaa258b9eceebaa03241172
+- source_id: conditional-properties
+  title: Limited Discrepancy Beam Search
+  authors:
+  - David Furcy
+  - Sven Koenig
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/05/Papers/0596.pdf
+  version: IJCAI 2005 proceedings; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: 25fa7ecf4d94bf2975c39e1c2c4180d2564a721acdaa258b9eceebaa03241172
+- source_id: pseudocode-caveat
+  title: Limited Discrepancy Beam Search
+  authors:
+  - David Furcy
+  - Sven Koenig
+  source_type: primary_paper
+  url: https://www.ijcai.org/Proceedings/05/Papers/0596.pdf
+  version: IJCAI 2005 proceedings; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: 25fa7ecf4d94bf2975c39e1c2c4180d2564a721acdaa258b9eceebaa03241172
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 130 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:01:43Z'
+  updated_at: '2026-10-11T06:01:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

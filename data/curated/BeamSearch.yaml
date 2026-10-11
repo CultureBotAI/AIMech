@@ -1,0 +1,106 @@
+name: Breadth-first beam search
+definition: A heuristic search procedure that advances by depth layers, retaining at most a chosen beam
+  width of the best-ranked candidate nodes for each next layer and discarding the other candidates.
+concept_kind: algorithm
+identity_notes: This record denotes the conventional breadth-first form of beam search. Wider historical
+  uses of beam search also include global best-first frontier truncation and other heuristic pruning procedures.
+  A width of one follows a single surviving continuation; it is not the unbounded global-frontier algorithm
+  curated as greedy best-first search. No normalized identity match was found across the 442 AIO and 130
+  prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source
+  citations and search-order contrasts, plus incidental lightbulb and wet-bulb dependency substrings,
+  not existing concept records.
+limitations:
+- Width pruning can discard every path to a solution or every optimal path, so basic beam search has no
+  general completeness or optimality guarantee.
+- 'A layer-width bound does not by itself bound all memory: stored predecessor information, retained earlier
+  layers, generated successors and any global duplicate table must also be accounted for.'
+- Ranking, ties, goal stopping and duplicate handling are additional choices. Increasing the beam width
+  does not guarantee an improvement in returned solution quality for every implementation and problem.
+id: AIMech:BeamSearch
+aliases:
+- Beam search
+definition_evidence:
+- source_id: method-source
+  locator: 'Background: Beam search, PDF p. 1; breadth-first scope on PDF p. 2'
+  relation: supports
+claims:
+- claim_id: search-procedure
+  kind: mechanism
+  statement: Expand the retained nodes in the current depth layer, rank their eligible successors with
+    the chosen heuristic or evaluation rule, and retain at most the beam width for the next layer. Candidates
+    removed by this width rule are not systematically recovered by the basic procedure.
+  evidence:
+  - source_id: method-source
+    locator: 'Background: Beam search, PDF p. 1; breadth-first scope on PDF p. 2'
+    relation: supports
+- claim_id: policy-boundaries
+  kind: limitation
+  statement: The comparative study distinguishes layer-limited and whole-frontier beam policies, and shows
+    why duplicate handling must be specified separately. Its non-unit-cost examples challenge a universal
+    claim that widening a beam always improves the returned solution.
+  evidence:
+  - source_id: comparison-paper
+    locator: Beam Search and Closed Lists, PDF pp. 4–5; Incompleteness of Beam Search, PDF p. 5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Beam-Stack Search: Integrating Backtracking with Beam Search'
+  authors:
+  - Rong Zhou
+  - Eric A. Hansen
+  source_type: primary_paper
+  url: https://cdn.aaai.org/ICAPS/2005/ICAPS05-010.pdf
+  version: ICAPS 2005 proceedings, 90–98; official conference PDF with unnumbered pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:47:52Z'
+  sha256: eb2ac12fea9da9d376764a1959dbdbd14929962cf5b34c28e4dd20771b8d90b9
+- source_id: comparison-paper
+  title: A Comparison of Greedy Search Algorithms
+  authors:
+  - Christopher Wilt
+  - Jordan Thayer
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/beam-socs10.pdf
+  version: SoCS 1(1), 129–136 (2010); author-hosted manuscript with unnumbered PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T05:39:45Z'
+  sha256: cfc3cf8f422bdd0c52caef1c858775b92bfca74c3187965248c4cbf7825f0d45
+  persistent_id: doi:10.1609/socs.v1i1.18182
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels and scoped synonyms and 130 preceding native identities were
+    compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes
+    and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction
+    and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic,
+    path, traversal, symbolic, reasoning and graph terminology.
+  rationale: No suitable AIO counterpart for this graph/state-space search procedure was identified in
+    the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system
+    does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on structured graph representations is not a graph traversal
+      or shortest-path algorithm.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-task deductive inference does not denote general state-space search.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A language-model architecture combining neural and symbolic components is not the
+      search procedure itself.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Building methods that learn from data is not the identity of an algorithm traversing
+      a specified graph.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The search procedure is distinct from the mathematical functions it may evaluate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A learning task balancing exploration and exploitation is distinct from deterministic
+      graph/state-space traversal.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T06:01:43Z'
+  updated_at: '2026-10-11T06:01:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
