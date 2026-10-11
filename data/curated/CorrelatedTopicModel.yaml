@@ -1,0 +1,143 @@
+name: Correlated topic model
+definition: A mixed-membership topic model that draws each document's topic proportions from a logistic-normal
+  distribution and generates its words through latent topic assignments and shared categorical topic-word
+  distributions.
+concept_kind: model_family
+identity_notes: 'Scoped to the Blei-Lafferty correlated topic model introduced at NIPS 2005 and developed
+  in the 2007 journal article. The defining change is the logistic-normal document mixture, not a word-interaction
+  MRF, dynamic topic evolution, sparse topic graph or the particular variational solver. Topic graphs
+  are optional analyses of fitted latent coordinates. This is not the Dynamic Conditional Correlation
+  econometric model. No normalized identity match was found across all 442 pinned AIO labels and scoped
+  synonyms and 423 preceding native IDs, names and aliases. Full-checkout fixed-string searches included
+  ignored and hidden files in worktree and main. Ten matched lines in each checkout reduce to nine unique
+  line contents: prior frontier references, copied discovery context and cached web-result mentions. Every
+  matching concept excerpt was inspected; these are not maintained or imported identities. All 200 semantic
+  label/synonym hits were read. Eighteen exact annotated AIO CLASS nodes and outgoing edges were inspected,
+  including 14 verified unchanged from prior reading and four newly read. Thirty contextual YAMLs comprise
+  those 18 AIO records and 12 native neighbors: six fully read here, 23 byte-verified after prior reading
+  and the updated APM verified against its fully reviewed round100 bytes. Absence is bounded to the pinned
+  snapshot, maintained corpus and inspected semantic neighborhood.'
+limitations:
+- Fixed topic count, finite vocabulary and conditional bag-of-words assumptions remain. Flexible logistic-normal
+  associations do not remove compositional constraints, identify unique semantic topics or establish that
+  all Dirichlet laws are exact special cases.
+- The source assertion that one observed document leaves no advantage for a nondiagonal variational covariance
+  is not a general theorem. Posterior dependence can remain. Substituting the auxiliary bound into an
+  expected log probability, as displayed with equality in the appendices, must be read as a bound rather
+  than an exact expectation.
+- The journal topic graph regresses standardized fitted logit means using lasso and combines neighborhoods.
+  Gaussian precision statements concern specified Gaussian coordinates; graph estimates do not automatically
+  establish conditional independence of proportions, gauge-invariant structure, causal links or consistency
+  from noisy variational means.
+- Reported Science-corpus comparisons use importance sampling or partially observed-document prediction
+  under particular fits. No universal performance or semantic-interpretability advantage is asserted.
+  No author code or benchmark was executed.
+aliases:
+- CTM
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF pp.2-3, Equations (1)-(3)
+  relation: supports
+- source_id: journal-extension
+  locator: Section 2, PDF/reprint pp.4-6, generative process and Equation (1)
+  relation: supports
+claims:
+- claim_id: generative-law
+  kind: mechanism
+  statement: 'For fixed K topics beta_k on a finite vocabulary, draw document logits eta_d from N(mu,Sigma),
+    set theta_d=softmax(eta_d), then independently draw each topic assignment z_dn from theta_d and its
+    word from beta_zdn, conditional on these variables. The logistic-normal prior allows associations
+    that a single Dirichlet proportion prior cannot express, including positive pairwise proportion covariance
+    when at least three components are available. Dirichlet proportions are not literally independent:
+    their sum-to-one constraint gives negative off-diagonal covariance for positive concentration parameters.
+    Common shifts of all logits leave proportions unchanged; unrestricted K-logit mean/covariance parameters
+    are not uniquely identified by the induced composition. Logit covariance, proportion covariance and
+    causal relationships are distinct.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF pp.2-3, Figure 1 and Equation (3)
+    relation: supports
+  - source_id: journal-extension
+    locator: Section 2, PDF/reprint pp.4-6, Figure 1 and softmax nonminimality note
+    relation: supports
+- claim_id: variational-inference
+  kind: mechanism
+  statement: The original inference scheme approximates each document posterior by independent univariate
+    Gaussian logits and categorical topic assignments. An auxiliary positive scalar bounds expected log-sum-exp
+    from above, yielding a tractable lower bound no greater than the exact mean-field evidence lower bound.
+    Coordinate updates alternate the auxiliary scalar, assignment probabilities, Gaussian means and positive
+    variances; variational EM fits topics and Gaussian parameters from approximate sufficient statistics.
+    Nonconjugacy and the additional bound make this approximate inference, not exact posterior computation
+    or a guarantee of global marginal-likelihood maximization. The journal correction restores entropy
+    in the originally printed corpus bound; the inspected v2 reprint already includes it, and the corpus
+    objective sums expected log joint plus entropy for each document.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF pp.4-5; Appendix A, p.8, Equations (4)-(17)
+    relation: supports
+  - source_id: journal-extension
+    locator: Section 3.1-3.2, PDF/reprint pp.7-9; Appendix, pp.16-18, Equations (9)-(20)
+    relation: supports
+  - source_id: journal-correction
+    locator: Entire one-page correction, printed p.634, referring to original journal p.24
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Correlated Topic Models
+  authors:
+  - David M. Blei
+  - John D. Lafferty
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper/2005/file/9e82757e9a1c12cb710ad680db11f6f1-Paper.pdf
+  version: NIPS 2005 official eight-page PDF; all pages visually read. Use PDF page numbers. Proceedings
+    volume 18 is also cited with 2006 publication year.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:35:15Z'
+  sha256: 0430674307aa8d0c8a2c3425f890ade080fe932059187c37402dfd1be4a658c6
+- source_id: journal-extension
+  title: A Correlated Topic Model of Science
+  authors:
+  - David M. Blei
+  - John D. Lafferty
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0708.3601v2
+  version: Annals of Applied Statistics 2007 article; inspected arXiv:0708.3601v2 electronic reprint,
+    20 pages. Reprint explicitly differs from journal pagination; locators use PDF/reprint pages. All
+    pages visually read. Its p.9 already includes the entropy term addressed by the separate journal correction.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:35:17Z'
+  sha256: e6ec936eeb5c4090d5cce54c189cb464d28810efc00460bca65b8c897939503c
+  persistent_id: doi:10.1214/07-AOAS114
+- source_id: journal-correction
+  title: 'Correction: A Correlated Topic Model of Science'
+  authors:
+  - David M. Blei
+  - John D. Lafferty
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0712.1486v1
+  version: One-page Annals of Applied Statistics 2007 correction, inspected arXiv:0712.1486v1; printed
+    p.634. Entire page visually read.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:35:20Z'
+  sha256: 14231c48512223ca5cd00f5c4148d2247a5de86f0623baaaa0afaa51a4798cf0
+  persistent_id: arXiv:0712.1486
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The local identity is a specified probability-model family; the pinned Model class is broader.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The local generative model supports topic modeling. This pinned AIO target is task-scoped,
+    so related match preserves the model-versus-task distinction.
+id: AIMech:CorrelatedTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T23:45:21Z'
+  updated_at: '2026-10-11T23:45:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
