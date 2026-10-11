@@ -1,0 +1,54 @@
+id: AIMech:NAdam
+name: NAdam
+definition: An Adam-family optimizer combining adaptive moment scaling with a Nesterov-style momentum
+  update.
+concept_kind: algorithm
+identity_notes: The Nesterov-style combination distinguishes NAdam from Adam. Optional decoupled weight
+  decay is not required for this identity.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: NAdam.__doc__, algorithm lines 214–252 and options lines 257–266
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The documented update combines a scheduled, bias-adjusted first-moment term with a current-gradient
+    term and divides the combination by a stabilized, bias-corrected second-moment scale.
+  evidence:
+  - source_id: pytorch-docs
+    locator: NAdam.__doc__, algorithm lines 214–252 and options lines 257–266
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch NAdam implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/nadam.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: c23755060c4c7c9398d6d1e78e63b23e777bc8e701a6149431c43a1e2015f6ec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The source specifies a momentum schedule and an optional NAdamW configuration; other implementations
+  need separate exact-equation comparison.
+- No comparative performance or convergence claim is curated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- Nesterov-accelerated adaptive moment estimation

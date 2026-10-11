@@ -1,0 +1,56 @@
+id: AIMech:RAdam
+name: Rectified Adam
+definition: An Adam-family optimizer that rectifies its adaptive update using a time-dependent estimate
+  of the effective history of the second-moment statistic.
+concept_kind: algorithm
+identity_notes: RAdam's rectification and early-step branch distinguish it from unmodified Adam and from
+  weight-decay decoupling alone.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: RAdam.__doc__, algorithm lines 176–218 and weight-decay note lines 220–225
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The cited implementation computes a rectification term when its effective-history statistic
+    exceeds five; before that threshold it takes a bias-corrected first-moment step without adaptive second-moment
+    scaling.
+  evidence:
+  - source_id: pytorch-docs
+    locator: RAdam.__doc__, algorithm lines 176–218 and weight-decay note lines 220–225
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch Rectified Adam implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/radam.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: a8776d8fee94519a385570290d8bdab86641957c5fba6694388e955b77b1d080
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The implementation exposes coupled and decoupled weight-decay choices; these are distinct from the rectification
+  mechanism.
+- The record asserts the update procedure, not a universal variance reduction, convergence result or benchmark
+  advantage.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- RAdam

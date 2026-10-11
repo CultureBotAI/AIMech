@@ -1,0 +1,57 @@
+id: AIMech:LBFGS
+name: Limited-memory BFGS
+definition: A limited-memory quasi-Newton optimization method using a bounded history of parameter and
+  gradient differences to compute approximate inverse-Hessian search directions.
+concept_kind: algorithm
+identity_notes: L-BFGS is an optimization algorithm, not a neural architecture; bounded curvature history
+  distinguishes it from full-memory BFGS.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: LBFGS class documentation lines 183–220 and step curvature-history/two-loop update lines 360–408
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The implementation retains a bounded set of curvature pairs and applies a two-loop recursion
+    to obtain a direction from the gradient without storing a dense inverse Hessian.
+  evidence:
+  - source_id: pytorch-docs
+    locator: LBFGS class documentation lines 183–220 and step curvature-history/two-loop update lines
+      360–408
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch Limited-memory BFGS implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/lbfgs.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: d15dff277f15e86a4e3666e1d048819a5ed25187c6f975c7c5a6b55cc2941ef3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The cited implementation imposes parameter-group and device restrictions that are not mathematical requirements
+  of every L-BFGS implementation.
+- Line-search choices and termination tolerances affect a particular run; no universal convergence or
+  speed guarantee is curated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- L-BFGS
+- Limited-memory Broyden-Fletcher-Goldfarb-Shanno

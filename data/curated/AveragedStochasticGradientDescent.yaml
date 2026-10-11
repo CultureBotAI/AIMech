@@ -1,0 +1,55 @@
+id: AIMech:AveragedStochasticGradientDescent
+name: Averaged stochastic gradient descent
+definition: A stochastic gradient optimization method that maintains an average of parameter iterates
+  in addition to the current iterate.
+concept_kind: algorithm
+identity_notes: ASGD adds parameter-iterate averaging to stochastic gradient descent. It is not the same
+  operation as averaging gradients in a momentum buffer.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: ASGD class documentation lines 174–200 and _single_tensor_asgd averaging/update lines 248–273
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The inspected implementation updates the current parameters by a scheduled gradient step
+    and maintains an auxiliary parameter average, with averaging weights controlled by the iteration count
+    and a configurable starting point.
+  evidence:
+  - source_id: pytorch-docs
+    locator: ASGD class documentation lines 174–200 and _single_tensor_asgd averaging/update lines 248–273
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch Averaged stochastic gradient descent implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/asgd.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: 411369236bca1f875cf284df4a5fe17f4d7bfb50a5f9f171394766d2db1ef49a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- This record covers iterate averaging in the cited ASGD implementation, not every stochastic weight averaging
+  schedule.
+- No convergence rate or generalization advantage is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+aliases:
+- ASGD

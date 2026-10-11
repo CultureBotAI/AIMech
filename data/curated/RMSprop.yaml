@@ -1,0 +1,51 @@
+id: AIMech:RMSprop
+name: RMSprop
+definition: An adaptive gradient optimization method that normalizes coordinate updates using an exponentially
+  weighted estimate of squared gradients.
+concept_kind: algorithm
+identity_notes: RMSprop decays older squared-gradient information, unlike cumulative Adagrad. Centered
+  and momentum settings are variants within this scoped record.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: RMSprop.__doc__, algorithm and implementation note lines 200–243
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: An exponential moving average of squared gradients supplies the update denominator; the documented
+    centered option subtracts a squared mean-gradient estimate, and momentum is optional.
+  evidence:
+  - source_id: pytorch-docs
+    locator: RMSprop.__doc__, algorithm and implementation note lines 200–243
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch RMSprop implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/rmsprop.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: b3aeb10dd57d05636ebd75b1f5c62c15979c5f911524d96e82673b86aafbef4f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The cited implementation adds epsilon after the square root and documents a different ordering in TensorFlow.
+- No universal improvement or convergence guarantee is inferred from implementation documentation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
