@@ -1,0 +1,84 @@
+name: Preconditioned Crank–Nicolson Langevin sampling
+definition: A Metropolis-corrected Gaussian-reference sampler that preconditions the potential-gradient
+  drift by the reference covariance and uses a scalar Crank–Nicolson autoregressive update.
+concept_kind: algorithm
+identity_notes: This is Cotter et al. pCNL. The reference covariance multiplies grad Phi, and the linear
+  denominator is the scalar 2+delta, distinguishing it from the CNL matrix solve. Removing the potential
+  gradient recovers the pCN proposal, but a nonzero gradient changes its acceptance rule. No normalized
+  identity match was found across all 442 pinned AIO labels/scoped synonyms and 167 prior native IDs/names/aliases.
+  Full-checkout searches in both worktrees included ignored and hidden files; the 15 lines in each were
+  shared Tierney source-title references or an adaptive-rejection discovery lead, not matching records.
+  Existing Gibbs, Metropolis-within-Gibbs, random-walk and independence Metropolis mechanisms were inspected
+  to resolve specialization boundaries.
+limitations:
+- The target must be proper relative to the Gaussian reference. The explicit density-ratio implementation
+  here is finite-dimensional with symmetric positive-definite C; function-space extensions require the
+  source’s operator, regularity and absolute-continuity assumptions.
+- Target invariance does not imply independent draws, good exploration or finite-run accuracy. Mesh-robust
+  behavior under stated assumptions is not a universal dimension-free performance guarantee.
+- C and the step size are fixed in the stated kernel. Adaptive covariance or step-size policies need separate
+  validity arguments.
+- The reprint’s later Equation (6.2) reverses signs relative to Equation (6.1) and the explicit Section
+  4 proposals. This record uses Section 4 and does not claim a published erratum or use the inconsistent
+  expression.
+- The gradient is of the potential relative to the Gaussian reference. Substituting the full log-target
+  gradient without accounting for the already implicit Gaussian drift defines a different proposal.
+- Function-space validity and efficient discretizations need the source’s extra assumptions; the finite-dimensional
+  density ratio is not a definition of an infinite-dimensional Lebesgue density.
+id: AIMech:PreconditionedCrankNicolsonLangevin
+aliases:
+- pCNL
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4.1 and 4.3, Equation (4.13) and its rho/acceptance expression, reprint/PDF pp. 9
+    and 11
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For finite-dimensional pi(u) proportional to exp(−Phi(u)) Normal(u;0,C), with fixed symmetric
+    positive-definite C, assume differentiable Phi, choose delta>0 and draw w from Normal(0,C). Set v=((2−delta)u−2
+    delta C grad Phi(u)+sqrt(8 delta)w)/(2+delta). Its Gaussian covariance is 8 delta C/(2+delta) squared.
+    Let q be that proposal; accept with min(1,pi(v)q(u|v)/(pi(u)q(v|u))) and otherwise retain u, using
+    the reverse gradient-dependent mean at v. This finite-dimensional expression specializes the source’s
+    general Metropolis rule and pCNL rho acceptance. The prior-cancelled pCN likelihood ratio alone is
+    generally insufficient for this gradient-directed kernel.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1 and 4.3, Equation (4.13) and its rho/acceptance expression, reprint/PDF pp.
+      9 and 11
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'MCMC Methods for Functions: Modifying Old Algorithms to Make Them Faster'
+  authors:
+  - S. L. Cotter
+  - G. O. Roberts
+  - A. M. Stuart
+  - D. White
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1202.0709v3
+  version: arXiv:1202.0709v3, 2013-10-10; 23-page electronic reprint of Statistical Science 28(3):424–446;
+    reprint pagination differs from journal
+  persistent_id: doi:10.1214/13-STS421
+  access_level: full_text
+  accessed_at: '2026-10-11T07:06:31Z'
+  sha256: 4be2044ef1d84ae82730a524b3ea2ea3047711138fc9dd8afeefb6a050c786a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This algorithm constructs target-invariant Markov transitions under its stated assumptions.
+    The exact AIO CLASS denotes a stochastic process/model and is exported beneath Network. This is a
+    method-to-process related match, not equivalence, subclass membership, independence of retained draws
+    or a claim that the algorithm is a trained network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:13:10Z'
+  updated_at: '2026-10-11T07:13:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
