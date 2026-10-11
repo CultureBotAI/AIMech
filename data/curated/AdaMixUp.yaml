@@ -1,0 +1,127 @@
+name: AdaMixUp
+definition: An adaptive interpolation-training procedure that learns example-dependent mixing-coefficient
+  regions with a policy network and trains a classifier together with an intrusion discriminator intended
+  to separate mixed examples from original data.
+concept_kind: algorithm
+identity_notes: 'AdaMixUp learns an input-dependent mixing region and uses an intrusion objective, unlike
+  original MixUp’s globally selected Beta distribution or Manifold Mixup’s hidden-layer interpolation.
+  An intrusion discriminator does not make it a GAN: the generator and discriminator are trained toward
+  separating mixtures from originals rather than adversarially making mixtures indistinguishable from
+  real data. The mathematical distinct-class setup is relaxed in the paper’s implementation footnote.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 247 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both
+  worktree and main checkout, returning 6 lines in the worktree and 6 in main. These were prior candidate
+  leads, not concept records. Twelve exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring
+  native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- The claimed avoidance of manifold intrusion depends on assumptions, generator/discriminator capacity
+  and optimization. A learned discriminator cannot certify that every mixed point is outside the true
+  manifold or that its soft target is correct.
+- Equation5 prints positive log-probabilities despite calling the quantity cross-entropy and later minimizing
+  it. The prose and pinned implementation support minimizing negative log-probability; the discrepancy
+  is preserved rather than treating the printed sign as an executable loss or asserting an official erratum.
+- The pinned public repository describes itself as a reimplementation. It uses binary labels opposite
+  to the paper’s arbitrary0/1 convention and combines classification and intrusion batch means in one
+  cost plus weight decay, while the paper describes alternating objectives.
+- The code’s classification batch combines equal original/mixed counts, while its discriminator uses twice
+  as many original as mixed examples. Those batch means are not asserted to equal the separately averaged
+  terms of printed Equations5–6.
+- The recursive mixture coefficients are nonnegative and sum to one, but this algebra alone proves neither
+  semantic validity nor improved generalization. The record follows the verbal recursion and coefficient
+  construction rather than the dimensionally inconsistent matrix-vector ordering in one argument of printed
+  Equation7.
+- No universal architecture, fold count, performance gain or execution of the downloaded author code is
+  asserted.
+id: AIMech:AdaMixUp
+aliases:
+- Adaptive MixUp
+definition_evidence:
+- source_id: method-source
+  locator: Adaptive MixUp and Implementation of AdaMixUp, Equations (5)–(7), Figure 3 and Training, PDF
+    pp. 4–6 / printed pp. 3717–3719; assumptions and intrusion boundaries on pp. 2–4
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a pair of examples, a policy-region network outputs a three-component softmax (alpha,delta,remainder).
+    Interpret the first two components as the interval(alpha,alpha+delta) for the mixing coefficient.
+    Sample epsilon uniformly on(0,1) and set gamma=alpha+delta*epsilon so gradients can pass through the
+    interval parameters. Form gamma*x1+(1−gamma)*x2 and the correspondingly mixed class targets. Train
+    the classifier with observed and mixed targets, and train the policy generator together with an intrusion
+    discriminator to distinguish generated mixtures from original examples. The discriminator shares the
+    classifier’s feature network while using its own final classification layers. For higher-fold mixing,
+    reuse the same pairwise generator recursively by mixing an original example with an original or previously
+    mixed example; composing a previous coefficient vector lambda with coefficient gamma gives (gamma*lambda,1−gamma).
+    The paper describes alternating minibatch optimization of classification/mixup loss and intrusion
+    loss. Its intended intrusion supervision treats mixed examples as outside and observed examples as
+    inside the data manifold; this is a learned surrogate, not direct access to the true manifold.
+  evidence:
+  - source_id: method-source
+    locator: Adaptive MixUp and Implementation of AdaMixUp, Equations (5)–(7), Figure 3 and Training,
+      PDF pp. 4–6 / printed pp. 3717–3719; assumptions and intrusion boundaries on pp. 2–4
+    relation: supports
+- claim_id: implementation-loss-conventions
+  kind: mechanism
+  statement: The pinned Fold-2 reimplementation generates interval parameters with softmax, samples gamma
+    by reparameterization and uses the same coefficient to mix inputs and labels. Its classifier uses
+    softmax cross-entropy over an equal-sized mixture of generated examples and one source group. Its
+    binary intrusion head uses softmax cross-entropy, labels originals1 and mixtures0, and averages over
+    two original groups and one mixed group. The returned cost sums the classification and intrusion means
+    and a weight-decay term. This realizes the separation intention using negative log-probabilities,
+    with source-specific label encoding and weighting rather than literal positive-log minimization or
+    a demonstrated reproduction of the paper’s alternating update schedule.
+  evidence:
+  - source_id: ada-code
+    locator: 'GitHub.AdaMixup.AAAI.MNIST.Cifar.py lines180–388 and407–426: policy interval, mixing, shared
+      networks, binary labels and training cost'
+    relation: supports
+  - source_id: method-source
+    locator: Adaptive MixUp and Implementation of AdaMixUp, Equations (5)–(7), Figure 3 and Training,
+      PDF pp. 4–6 / printed pp. 3717–3719; assumptions and intrusion boundaries on pp. 2–4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: MixUp as Locally Linear Out-of-Manifold Regularization
+  authors:
+  - Hongyu Guo
+  - Yongyi Mao
+  - Richong Zhang
+  source_type: primary_paper
+  url: https://ojs.aaai.org/index.php/AAAI/article/download/4256/4134
+  version: AAAI 2019 proceedings 33(01):3714–3722; nine-page PDF
+  access_level: full_text
+  accessed_at: '2026-10-11T10:50:28Z'
+  sha256: 9d97175f9bf00bdd94ce543ac28bb45465a1634c91c6be915038eb8b3a299e0a
+- source_id: ada-code
+  title: AdaMixUp public author reimplementation — interpolation and losses
+  authors:
+  - SITE5039/AdaMixUp contributors
+  source_type: official_documentation
+  url: https://github.com/SITE5039/AdaMixUp/blob/44d1bbca2a9617e8db430406fc19c44b43c83f5d/GitHub.AdaMixup.AAAI.MNIST.Cifar.py
+  version: Public author repository at commit 44d1bbca2a9617e8db430406fc19c44b43c83f5d, GitHub.AdaMixup.AAAI.MNIST.Cifar.py;
+    read, not executed
+  access_level: documentation
+  accessed_at: '2026-10-11T10:51:59Z'
+  sha256: f8acb2389c7a9004a31d48b8c98a70f6a233a18b7a47457adacd57788fe96f95
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm learns transformations or synthetic examples for training. The AIO target
+    denotes augmentation in the preprocessing branch; the local procedure includes policy learning and
+    model training, so the association is related rather than equivalent or an asserted subclass.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: The classifier fits observed and interpolated class targets. This relates the algorithm to
+    a supervised learning task at a different abstraction level; it does not assert identity or a subclass
+    relation.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:55:22Z'
+  updated_at: '2026-10-11T10:55:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
