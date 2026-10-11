@@ -1,0 +1,97 @@
+name: Hidden Markov decision tree
+definition: A conditional latent sequence-model family that extends a probabilistic hierarchical decision
+  tree by coupling each decision level to the same level at the previous time.
+concept_kind: model_family
+identity_notes: 'The Jordan–Ghahramani–Saul model uses probabilistic choices down a hierarchy and Markov
+  persistence within each level. It is not a hard deterministic classification tree, an independent-chain
+  factorial HMM, a tree-shaped index, or a particular variational inference algorithm. Current higher-level
+  decisions influence lower-level decisions; independent factorial chains arise only under additional
+  restrictions. The model conditions on an external input sequence. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 379 preceding native IDs/names/aliases for the
+  four researched candidate names. Both full-checkout fixed-string searches included ignored and hidden
+  files, with 7 and 7 matching lines. All 6 unique matched contents were read: pending leads and preceding
+  source/review context, not existing records of these three new identities. Expanded source IDs, plurals,
+  Gibbs-machine and mixture-transition terminology were included. All 63 semantic label/synonym hits,
+  17 exact fully annotated AIO CLASS nodes with outgoing edges, their generated YAMLs and six native neighbors
+  were read or byte-verified after prior complete reading. Markov mixtures of experts substantially overlaps
+  the existing IOHMM family, so no fourth ID or unconditional alias is created. Absence is bounded to
+  the pinned vocabulary and inspected neighborhood.'
+limitations:
+- Same-level temporal connections and current-ancestor dependencies are defining restrictions of the inspected
+  construction. They do not cover arbitrary cross-time connections or all models whose names contain hidden
+  Markov tree.
+- The probabilistic hierarchy sums over decision paths; it is not necessarily a hard classification tree.
+  Input conditioning and an output expert do not imply a causal interpretation of the graph.
+- Independent latent chains, a single HMM and an ordinary hierarchical mixture arise under specific restrictions,
+  not as unconditional aliases of this family.
+- Forest-of-chains, forest-of-trees and point-mass inference discard different posterior dependencies.
+  A coordinate Viterbi step finds the best path for one fixed-context chain, not a guaranteed global joint
+  MAP path.
+- The paper motivates hierarchical time scales but its synthetic runs did not always recover the intended
+  hierarchy. No universal coarse-to-fine organization, general convergence guarantee, benchmark advantage
+  or author-code reproduction is asserted. Detailed generic variational updates remain a separate source
+  lead.
+id: AIMech:HiddenMarkovDecisionTree
+aliases:
+- HMDT
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1–2.3 and Figure 3, printed pp.502–504 / PDF pp.2–4; Sections 3.1–3.4 and Figures
+    4–5, pp.504–506 / PDF pp.4–6; Sections 4–5 and Table 1, pp.506–507 / PDF pp.6–7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For level m and time t, its latent decision z_t^m is distributed conditional on the current
+    input x_t, all current ancestor decisions z_t^1,...,z_t^(m-1), and its own preceding decision z_(t-1)^m.
+    Initial decisions condition on the input and current ancestors without a preceding-time state. Multiplying
+    these normalized conditional factors and one observation factor p(y_t|x_t,z_t^1,...,z_t^M) per time
+    gives a normalized directed model conditional on inputs. A latent path through the hierarchy selects
+    an output expert. Exact inference may enumerate the joint states but grows exponentially with hierarchy
+    depth. The paper explores three distinct approximations: a product of chain-path distributions that
+    preserves temporal dependence within each level; a product over times of tree-structured distributions
+    that preserves current ancestor dependence; and a point-mass path approximation. Its point-mass procedure
+    optimizes one level’s path by a Viterbi subroutine while holding the other paths fixed. These are
+    inference choices for the family, not alternative definitions of its identity.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1–2.3 and Figure 3, printed pp.502–504 / PDF pp.2–4; Sections 3.1–3.4 and Figures
+      4–5, pp.504–506 / PDF pp.4–6; Sections 4–5 and Table 1, pp.506–507 / PDF pp.6–7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Hidden Markov Decision Trees
+  authors:
+  - Michael I. Jordan
+  - Zoubin Ghahramani
+  - Lawrence K. Saul
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1996/file/6c8dba7d0df1c4a79dd07646be9a26c8-Paper.pdf
+  version: NIPS 1996, Advances in Neural Information Processing Systems 9, proceedings 1997, pp.501–507.
+    All seven publisher PDF pages visually read. Printed page=PDF page+500; first number absent.
+  persistent_id: https://proceedings.neurips.cc/paper/1996/hash/6c8dba7d0df1c4a79dd07646be9a26c8-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:46:51Z'
+  sha256: e073f1c78b487af707dece286f368179800c0a52a709ac98e425270836d7b02e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: The finite time-unrolled conditional factorization is a directed acyclic probabilistic network
+    with inputs conditioned on. The pinned BayesianNetwork target is broader than this hierarchical temporal
+    model.
+- target: AIO:DecisionTree
+  relation: related_match
+  rationale: The model extends probabilistic tree decisions with time dependence. The pinned target is
+    defined and parented as a classification task; a conditional sequence model need not be a classifier,
+    so this is a structural association rather than a model-to-task subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:01:01Z'
+  updated_at: '2026-10-11T20:01:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

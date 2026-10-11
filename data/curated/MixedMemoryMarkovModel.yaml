@@ -1,0 +1,102 @@
+name: Mixed memory Markov model
+definition: A family of compact temporal probability models whose component transition distributions are
+  convex mixtures of transition tables indexed by a single selected predecessor lag or component.
+concept_kind: model_family
+identity_notes: 'This record covers the mixed-memory construction of Saul and Jordan, including higher-order
+  scalar, multicomponent first-order and hidden-state extensions. Mixed memory means a latent selector
+  chooses one predecessor for a component distribution. It does not mean external neural memory, a mixture
+  selecting an entire HMM, independent factorial chains, or an unrestricted full higher-order transition
+  table. EM and coordinate Viterbi are estimation/inference procedures, not aliases for the model. No
+  normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 379 preceding
+  native IDs/names/aliases for the four researched candidate names. Both full-checkout fixed-string searches
+  included ignored and hidden files, with 7 and 7 matching lines. All 6 unique matched contents were read:
+  pending leads and preceding source/review context, not existing records of these three new identities.
+  Expanded source IDs, plurals, Gibbs-machine and mixture-transition terminology were included. All 63
+  semantic label/synonym hits, 17 exact fully annotated AIO CLASS nodes with outgoing edges, their generated
+  YAMLs and six native neighbors were read or byte-verified after prior complete reading. Markov mixtures
+  of experts substantially overlaps the existing IOHMM family, so no fourth ID or unconditional alias
+  is created. Absence is bounded to the pinned vocabulary and inspected neighborhood.'
+limitations:
+- A convex sum of single-predecessor effects cannot represent every higher-order interaction; for example
+  an unrestricted XOR dependence on two binary predecessors is not additive in this way. Compact parameter
+  counts do not establish universal expressiveness.
+- The displayed vector transition explicitly assumes conditional independence of current components given
+  the previous vector. The source’s broad wording about avoiding strong conditional-independence assumptions
+  must not override its product factorization.
+- Selector weights are properties of a fitted parameterization, not uniquely identified causal influence
+  or a generally valid measure of correlation. Initial histories and observed-window boundaries must be
+  specified when counting transitions.
+- In the hidden extension, exact EM needs joint posterior expectations of selectors and hidden-state indicator
+  products. Equations (20) and (22) display hidden indicators outside the expectation, which is not a
+  general full-posterior EM formula; clamping a path changes the calculation. Equation (17) also reverses
+  emission arguments relative to Equation (16).
+- Coordinate Viterbi improves or preserves the joint path score under an exact single-chain update, but
+  need not reach global MAP or optimize the marginal observed likelihood. Ties and stopping rules require
+  care.
+- The Bach example illustrates the authors’ approximate procedure. Figure 2 uses joint path log probability,
+  not exact marginal likelihood. No accuracy, causal discovery, training reproduction or general scaling
+  guarantee for hidden inference is curated.
+id: AIMech:MixedMemoryMarkovModel
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(15), printed pp.438–440 / PDF pp.2–4; Section 4, Equations (16)–(22)
+    and Figures 2–3, pp.440–443 / PDF pp.4–7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a scalar k-order sequence, write p(i_t|i_(t-1),...,i_(t-k))=sum_mu psi(mu) a_mu(i_t|i_(t-mu)),
+    with nonnegative selector weights summing to one and each transition table normalized over the current
+    state. Given observed predecessor and current values, a selector responsibility is proportional to
+    psi(mu) a_mu(i_t|i_(t-mu)); parameter re-estimation can use these expected selector-weighted counts.
+    For a vector state I_t with components nu, the first-order multicomponent form is p(I_t|I_(t-1))=product_nu
+    sum_mu psi_nu(mu) a_nu,mu(i_t^nu|i_(t-1)^mu). Thus current components are conditionally independent
+    given the complete previous vector, despite possible marginal dependence. The hidden extension uses
+    this transition and an emission p(J_t|I_t)=product_nu sum_mu phi_nu(mu) b_nu,mu(j_t^nu|i_t^mu). Fully
+    observed parameter counts scale quadratically rather than exponentially in the number of components
+    for fixed alphabet size; exact hidden posterior inference can still be exponential. The paper instead
+    illustrates a coordinate Viterbi approximation that fixes other hidden chains while optimizing one
+    chain path.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(15), printed pp.438–440 / PDF pp.2–4; Section 4, Equations (16)–(22)
+      and Figures 2–3, pp.440–443 / PDF pp.4–7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Mixed memory Markov models
+  authors:
+  - Lawrence K. Saul
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/r1/saul97a/saul97a.pdf
+  version: AISTATS 1997, pp.437–444; PMLR R1 reissue published 30 March 2021. All eight publisher PDF
+    pages visually read; printed page=PDF page+436.
+  persistent_id: https://proceedings.mlr.press/r1/saul97a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:46:55Z'
+  sha256: a38f538362eff8bfb9087d36eab5dea0ac4ccb43a72acd862517914af8e1926a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: For a finite time window and specified initial history, normalized conditional factors and
+    latent predecessor selectors form a directed acyclic probabilistic model. This compact mixed-memory
+    parameterization is narrower than the pinned BayesianNetwork class.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The multicomponent case has a first-order joint vector state, while the scalar case can use
+    multiple predecessor lags and the hidden extension marginalizes states. The pinned first-order MarkovChain
+    definition is related temporal structure, not an exact identity or an unqualified parent for every
+    observed process.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:01:01Z'
+  updated_at: '2026-10-11T20:01:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
