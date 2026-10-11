@@ -1,0 +1,99 @@
+name: MAXCFU
+definition: A multivariate sensitivity algorithm that uses gradient ascent through fitted additive-noise
+  models to search for large counterfactual prediction discrepancies under bounded correlations of structural
+  error terms.
+concept_kind: evaluation_method
+identity_notes: MAXCFU is the named optimization-based tool for multivariate confounding, distinct from
+  the bivariate grid procedure, its CFU discrepancy and the counterfactual-fairness criterion. The record
+  describes the published search procedure, not a certified optimizer. All 442 pinned AIO labels/scoped
+  synonyms and 99 preceding native identities were compared, together with hidden/ignored-inclusive searches
+  of both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- The published off-diagonal tanh transformation gives a symmetric unit-diagonal matrix with bounded entries
+  but explicitly does not guarantee positive semidefiniteness. A resulting matrix is therefore not automatically
+  a valid correlation matrix.
+- Nested fitting and the outer search are nonconvex; local optimization, initialization and differentiation
+  through fitting matter. No certified global worst-case value is asserted.
+- Sensitivity is conditional on the assumed structural model, predictor, intervention, confounding budget
+  and sample. It does not identify the true hidden confounding or establish overall fairness.
+- The sparse clique parameterization is discussed but not exercised in the paper’s experiments, and its
+  expressivity and numerical constraints are not certified here.
+aliases:
+- Optimization-based counterfactual-fairness sensitivity
+id: AIMech:MaxCFU
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 4.1–4.3, equation (7) and Algorithm 1 MAXCFU, PDF pp. 6–8; Section 3.4 equation (6)
+    for the discrepancy
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Fit the working model and its residual-based predictor once. Parameterize candidate error
+    correlations through a transformed matrix product, fit the alternative model for each candidate, propagate
+    counterfactual features, and measure squared prediction changes using the original predictor and working-model
+    residual transform. Algorithm 1 uses minibatches and automatic differentiation to ascend this discrepancy
+    with respect to the correlation parameters, then evaluates it on the full data.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 4.1–4.3, equation (7) and Algorithm 1 MAXCFU, PDF pp. 6–8; Section 3.4 equation
+      (6) for the discrepancy
+    relation: supports
+- claim_id: optimization-limits
+  kind: limitation
+  statement: The supplement identifies nested local likelihood fitting and a nonconvex sensitivity objective
+    as computational obstacles. Its matrix counterexample shows that setting all allowed correlations
+    to the same bound can produce an invalid covariance structure; it does not supply a general global-optimization
+    guarantee.
+  evidence:
+  - source_id: supplement
+    locator: Supplementary material, Appendices A–B, PDF p. 1
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: The Sensitivity of Counterfactual Fairness to Unmeasured Confounding
+  authors:
+  - Niki Kilbertus
+  - Philip J. Ball
+  - Matt J. Kusner
+  - Adrian Weller
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v115/kilbertus20a/kilbertus20a.pdf
+  version: PMLR 115:616–626, published 2020; UAI 2019 conference
+  persistent_id: https://proceedings.mlr.press/v115/kilbertus20a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T04:45:31Z'
+  sha256: f7083ab492a2afafe2eb6e44d7b42f72971be8080c95eef4c05d23ad326cc815
+- source_id: supplement
+  title: The Sensitivity of Counterfactual Fairness to Unmeasured Confounding — Supplementary material
+  authors:
+  - Niki Kilbertus
+  - Philip J. Ball
+  - Matt J. Kusner
+  - Adrian Weller
+  - Ricardo Silva
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v115/kilbertus20a/kilbertus20a-supp.pdf
+  version: Supplementary PDF accompanying PMLR 115:616–626 (2020), one page
+  persistent_id: https://proceedings.mlr.press/v115/kilbertus20a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T04:54:54Z'
+  sha256: 238a9527530e02c625fda2006fe3a190e4159e5da75ad19b5ce88580747d552e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CausalGraphicalModel
+  relation: related_match
+  rationale: Uses counterfactuals from parameterized causal graphical models to assess prediction sensitivity.
+    The evaluation algorithm and the model class are related, without an equivalence or subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:57:48Z'
+  updated_at: '2026-10-11T04:57:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

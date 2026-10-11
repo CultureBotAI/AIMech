@@ -1,0 +1,71 @@
+name: Equalized-odds postprocessing for binary predictors
+definition: A randomized postprocessing algorithm that uses a binary predictor and protected-group membership
+  to minimize expected label loss subject to equal false-positive and true-positive rates across groups,
+  within predictors derived from those inputs.
+concept_kind: algorithm
+identity_notes: This record selects the Section 4.1 binary-input linear program. It is distinct from the
+  EqualizedOdds criterion and from the continuous-score threshold construction in Section 4.2. Equal-opportunity-only
+  constraints define a relaxation, not an alias here. All 442 pinned AIO labels/scoped synonyms and 99
+  preceding native identities were compared, together with hidden/ignored-inclusive searches of both checkouts;
+  source citations and pending frontier mentions were distinguished from existing concept identities.
+limitations:
+- Optimality is over randomized predictors derived from the supplied binary prediction and group for the
+  specified distribution and loss, not every possible predictor using raw features.
+- Fitting needs target labels and group information; deployment needs group membership. Empirical estimates
+  and distribution changes can invalidate population parity.
+- The four-parameter statement assumes two groups and binary predictions; it does not assert that a general
+  score-valued postprocessor has four parameters.
+- Equal conditional error rates do not establish equal accuracy, individual fairness or a universal fairness
+  judgment. The printed proof is not reproduced as implementation code.
+aliases:
+- Hardt equalized-odds binary postprocessing
+id: AIMech:EqualizedOddsBinaryPostprocessing
+definition_evidence:
+- source_id: original-paper
+  locator: Section 4, Definition 4.1 and Section 4.1, equations (4.1)–(4.3), Proposition 4.4, PDF pp.
+    5–7; Section 6 and Discussion for distributional limitations
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: For binary groups and binary predictions, optimize four probabilities of outputting one,
+    indexed by the original prediction and group. The joint distribution of original prediction, group
+    and target supplies linear loss and parity constraints. The feasible group error-rate pairs form the
+    convex hull of the original classifier, its complement and the two constant classifiers; their intersection
+    supplies equalized-odds solutions. Prediction uses the original output and group, with randomization
+    as needed.
+  evidence:
+  - source_id: original-paper
+    locator: Section 4, Definition 4.1 and Section 4.1, equations (4.1)–(4.3), Proposition 4.4, PDF pp.
+      5–7; Section 6 and Discussion for distributional limitations
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Equality of Opportunity in Supervised Learning
+  authors:
+  - Moritz Hardt
+  - Eric Price
+  - Nathan Srebro
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1610.02413v1
+  version: arXiv:1610.02413v1, submitted 2016-10-07; PDF title-page date 2016-10-11
+  persistent_id: arXiv:1610.02413
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: e92b4f5791803e22e9f39703a161c3e710b6bf77ae04fb5d62f9d6938a5601b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: Postprocesses binary classification decisions; the algorithm and the task are related at
+    different abstraction levels, so this is not an equivalence or subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:57:48Z'
+  updated_at: '2026-10-11T04:57:48Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
