@@ -1,0 +1,103 @@
+name: Hidden Markov random field
+definition: A latent-variable graphical-model family whose unobserved label field has the Markov property
+  on a specified neighborhood graph, with observations conditionally independent across sites given the
+  labels and each depending only on its corresponding hidden state.
+concept_kind: model_family
+identity_notes: 'The classical independent-emission construction specifies a hidden label field X and
+  observed field Y, rather than only a generic MRF. It is a restricted hidden–observed pair Markov field:
+  its hidden prior must retain the stated graph and its conditional observation law factors by site. A
+  chain-shaped hidden graph recovers an ordinary HMM, but general spatial graphs are not subtypes of sequential
+  Markov chains. A Gaussian observation distribution does not make the discrete hidden label field a continuous
+  Gaussian random field. This model identity is separate from Gibbs sampling, ICM, EM and the paper’s
+  HMRF-EM fitting framework. No normalized identity match was found across all 442 pinned AIO labels and
+  all scoped synonyms and 394 preceding native IDs, names and aliases for these three concepts. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, yielding 64 and 64 matched
+  lines; all 44 unique contents were read. Hits represent neighboring records, citations and discovery
+  leads rather than records of these identities. All 97 semantic label/synonym hits were read. Twenty-one
+  fully annotated exact CLASS nodes and outgoing edges were verified identical to the preceding inspection,
+  and three additional nodes were read. Twenty-eight contextual YAMLs were byte-verified after prior full
+  reading and four freshly read, totaling 24 generated and eight native contextual records. Short acronyms
+  were included in the complete normalized identity comparison. The absence assessment is bounded to the
+  pin, native collection and inspected semantic neighborhood.'
+limitations:
+- The finite-state Gibbs prior needs a finite positive partition function, and emissions must be normalized
+  with valid support. Gaussian emissions require positive variance. Conditional independence is a modeling
+  restriction, not a demonstrated property of every image or downsampled observation.
+- The report’s Equation(2) gives independence across paired sites for its finite-mixture setup; applying
+  that product to an interacting HMRF would discard the defining label dependencies. The later Equation(8)
+  and Section2.3 joint factorization specify the supported HMRF model.
+- The expanded Gaussian likelihood on PDF p.8 contains a quadratic-sign inconsistency. Equation(18) gives
+  the consistent negative log-emission energy. Figure5 step4 adds likelihood and prior although MAP requires
+  their product, or a sum of log terms as in Equation(14). These printed algorithm displays are not certified
+  implementations.
+- The report’s fitted HMRF-EM uses ICM-estimated neighboring labels in local responsibilities. Those plug-in
+  responsibilities generally differ from exact full-field posterior marginals. Ideal EM monotonicity and
+  exact global MAP are not guaranteed for this approximation. ICM can stop at a local optimum; initialization,
+  empty classes and vanishing Gaussian variances require care.
+- The bias-field correction framework adds assumptions and alternating updates beyond the generic model.
+  A positive multiplicative bias before logarithms and an additive log-bias must be distinguished. No
+  clinical validity, universal segmentation advantage, runtime guarantee or author-code reproduction is
+  asserted.
+- The inspected source is the 20-page FMRIB technical report TR00YZ1, not the later 2001 journal article.
+  Its self-description as novel does not establish first invention; earlier hidden-field literature and
+  the existing pair-field record supply historical context.
+id: AIMech:HiddenMarkovRandomField
+aliases:
+- HMRF
+- Hidden Markov field
+definition_evidence:
+- source_id: method-source
+  locator: Sections2.2–2.3, PDF/printed pp.4–6, Equations(5)–(10); Sections4–5, pp.7–9, Equations(14)–(28);
+    Sections7–9, pp.12–16, especially Figure5 and approximation/initialization discussion
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: On a finite graph, choose a proper hidden prior p(x)=Z^(-1)*exp(-sum_c V_c(x_c)) and normalized
+    site emission laws b_i(y_i|x_i). Their joint law is p(x,y)=p(x)*product_i b_i(y_i|x_i). At fixed observed
+    y with positive evidence, p(x|y) is proportional to the same clique prior times the local emission
+    factors. Its negative log density is the prior energy plus sum_i[-log b_i(y_i|x_i)] up to a constant,
+    preserving the hidden neighborhood graph. A local conditional label update conditions on neighboring
+    hidden labels and the local observation. A site posterior marginal instead sums over all other labels
+    given the complete observation field. With independent hidden labels and common class weights the
+    model reduces to independent finite-mixture observations. MAP estimates a joint labeling. In loopy
+    graphs these inference objectives need not admit the exact noniterative recursions available for a
+    tree.
+  evidence:
+  - source_id: method-source
+    locator: Sections2.2–2.3, PDF/printed pp.4–6, Equations(5)–(10); Sections4–5, pp.7–9, Equations(14)–(28);
+      Sections7–9, pp.12–16, especially Figure5 and approximation/initialization discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Hidden Markov Random Field Model and Segmentation of Brain MR Images
+  authors:
+  - Yongyue Zhang
+  - Stephen Smith
+  - Michael Brady
+  source_type: author_technical_report
+  url: https://www.fmrib.ox.ac.uk/datasets/techrep/tr00yz1/tr00yz1.pdf
+  version: FMRIB Technical Report TR00YZ1, listed under 2000 in the Oxford repository. Title page says
+    a related paper was submitted to IEEE Transactions on Medical Imaging. All20 PDF pages visually read;
+    PDF and printed pages agree. The related 2001 journal paper has a different title, author order and
+    pagination and is not substituted for these bytes.
+  access_level: full_text
+  accessed_at: '2026-10-11T21:07:09Z'
+  sha256: b88c2018ec008ae15e6f902a564084a2d5ba086b79a8b9d3e83744ebb39b7c99
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The hidden field and site emissions define a graphical probability model. The pinned ProbabilisticGraphicalModel
+    class is defined and parented as a machine-learning task; a related mapping retains the graphical-model
+    relationship without making a model family a subtype of that task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T21:20:23Z'
+  updated_at: '2026-10-11T21:21:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
