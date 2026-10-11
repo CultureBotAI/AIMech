@@ -1,0 +1,99 @@
+name: Adaptive Metropolis
+definition: A history-adaptive random-walk Metropolis sampler whose Gaussian proposal covariance is estimated
+  from the accumulated retained states, including repetitions after rejected proposals.
+concept_kind: algorithm
+identity_notes: This record identifies covariance adaptation from the full retained history, distinguished
+  from a fixed random-walk kernel, finite sliding-window adaptation, scale-only tuning and RAM direction-based
+  adaptation. The original empirical-covariance form and later recursive modifications share this core
+  but differ in update timing and regularization. No normalized identity match was found across all 442
+  pinned AIO labels/scoped synonyms and 181 prior native IDs/names/aliases. Ignored-inclusive searches
+  of both full checkouts found prior discovery leads, neighboring sampler discussions and unrelated author-name/environment
+  substrings. Existing random-walk Metropolis, delayed-rejection, fixed symmetric delayed-rejection and
+  RAM records were inspected; shared components do not make these procedures equivalent.
+limitations:
+- The 2010 source explicitly analyzes a recursive modification, not an exact restatement of the original
+  unbiased sample covariance. Its displayed outline also shifts the covariance index; the original timing
+  is stated explicitly here.
+- The original full-method text was read through a public indexed PDF. Direct download returned 403 and
+  no visible page images were obtained; no original-PDF hash or visual inspection is claimed. The 2010
+  method pages were read and visually checked.
+- The original bounded-support result and the later regular superexponential-tail results have different
+  hypotheses. Neither licenses arbitrary targets or unrestricted adaptive variants.
+- The usual dimension-based scale is a tuning heuristic under particular target assumptions, not a universal
+  optimum. Empirical covariance estimation can be unsuitable for distributions without finite second moments.
+- The sampled-state sequence alone is history dependent; invariant kernels at frozen settings do not by
+  themselves prove adaptive convergence.
+id: AIMech:AdaptiveMetropolis
+aliases:
+- Adaptive Metropolis algorithm
+definition_evidence:
+- source_id: method-source
+  locator: Section 5, Equations (26)–(30), PDF pp. 14–15, and Theorem 10, pp. 15–16; compare original
+    2001 Section 2, Equations (1)–(2), printed pp. 224–226
+  relation: supports
+- source_id: additional-1
+  locator: Sections 1–2, Equations (1)–(2), printed pp. 223–226 / PDF pp. 1–4; Section 3 Theorem 1, printed
+    p. 229 / PDF p. 7
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Start at a state with positive target density. In the original form, after an initial period
+    with a chosen positive-definite C0, propose Y from N(X_(t−1), C_t), where C_t=s_d[Cov(X_0,...,X_(t−1))+epsilon
+    I], epsilon>0 and s_d>0. The empirical covariance uses every retained state, with denominator t−1
+    for t available states; choose the adaptation start after at least two states. Accept with min(1,pi(Y)/pi(X_(t−1)))
+    and otherwise repeat the old state. The fixed-covariance Metropolis rule is used at each iteration,
+    but adapting C_t from the sampled history requires a separate validity argument.
+  evidence:
+  - source_id: method-source
+    locator: Section 5, Equations (26)–(30), PDF pp. 14–15, and Theorem 10, pp. 15–16; compare original
+      2001 Section 2, Equations (1)–(2), printed pp. 224–226
+    relation: supports
+  - source_id: additional-1
+    locator: Sections 1–2, Equations (1)–(2), printed pp. 223–226 / PDF pp. 1–4; Section 3 Theorem 1,
+      printed p. 229 / PDF p. 7
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On the ergodicity of the adaptive Metropolis algorithm on unbounded domains
+  authors:
+  - Eero Saksman
+  - Matti Vihola
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0806.2933v5
+  version: arXiv:0806.2933v5, submitted 2010-11-11; electronic reprint of Annals of Applied Probability
+    20(6), pp. 2178–2203; reprint pagination differs
+  persistent_id: doi:10.1214/10-AAP682
+  access_level: full_text
+  accessed_at: '2026-10-11T07:30:43Z'
+  sha256: 87ccd3ec1113574209f86d03781984bff2defb347a44c653b69a3f53f11dc46d
+- source_id: additional-1
+  title: An adaptive Metropolis algorithm
+  authors:
+  - Heikki Haario
+  - Eero Saksman
+  - Johanna Tamminen
+  source_type: primary_paper
+  url: https://scispace.com/pdf/an-adaptive-metropolis-algorithm-4puhyontsn.pdf
+  version: Bernoulli 7(2), 2001, pp. 223–242; indexed full-method text, no local PDF or visual inspection
+  persistent_id: doi:10.2307/3318737
+  access_level: full_text
+  accessed_at: '2026-10-11T07:33:36Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure adapts a family of Markov transition kernels that are target-invariant at
+    frozen settings. Its sampled-state history is not assumed to be a homogeneous Markov chain, and adaptive
+    validity requires separate assumptions. AIO MarkovChain is a process/model beneath Network; this is
+    a related method-to-process mapping, not equivalence, an is-a assertion or a convergence guarantee.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T07:40:20Z'
+  updated_at: '2026-10-11T07:41:38Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
