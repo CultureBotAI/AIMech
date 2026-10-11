@@ -1,0 +1,82 @@
+name: Accelerated graph degree linkage
+definition: An approximate graph degree linkage algorithm that selects merges from maintained cluster-neighbor
+  sets and updates those sets locally instead of searching every current cluster pair.
+concept_kind: algorithm
+identity_notes: 'AGDL is Zhang et al.’s named candidate-restricted approximation to GDL, not merely the
+  exact additive-update implementation GDL-U. It retains the GDL affinity but can omit the globally best
+  pair after approximate neighbor-set updates. It is distinct from JULE’s representation-learning procedure.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 214 preceding
+  native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored
+  and hidden files, returned 31 lines each: existing SimCLR/InfoNCE component discussion, shared primary-source
+  references and discovery/review context. Five native neighbors and seven exact AIO nodes with scoped
+  synonyms and outgoing relations were inspected.'
+limitations:
+- The method approximates global merge selection, not the defining degree-product formula. It has no asserted
+  guarantee of reproducing exact GDL merges or recovering a globally optimal partition.
+- Kc and the initial neighbor sets affect which pairs remain eligible. The source’s local-update assumptions
+  can fail; an omitted pair need not re-enter through an exhaustive search.
+- The supplement’s quadratic complexity argument assumes small initial clusters, fixed K/K0/Kc and a bound
+  on how many other clusters include a merged cluster in their neighbor sets. A universal worst-case quadratic
+  guarantee is not inferred from that argument.
+- Graph construction, initialization, irreversibility and prescribed cluster count have the same scope
+  limitations as GDL. No implementation, speedup measurement or clustering benchmark was reproduced.
+id: AIMech:AcceleratedGraphDegreeLinkage
+aliases:
+- AGDL
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.4, PDF p. 8, Accelerated GDL; supplement Section 6, p. 15, Algorithm 3; Section 7,
+    p. 16, AGDL complexity assumptions
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Use the same fixed directed neighbor graph, weak-component initialization and symmetric product-of-degree
+    affinity as GDL. Initialize a Kc-nearest cluster set for each cluster. Search only pairs for which
+    at least one cluster belongs to the other’s maintained neighbor set, and merge the highest-affinity
+    eligible pair A,B. For any existing cluster whose set contains A or B, add A union B and compute the
+    new pair affinity. Build the merged cluster’s set by choosing Kc nearest clusters from the union of
+    the two old neighbor sets. Remove A and B from remaining neighbor sets and delete their sets. Repeat
+    until the target cluster count. These local updates rely on heuristic persistence of cluster-neighbor
+    relationships, rather than recomputing every nearest-cluster set exactly.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.4, PDF p. 8, Accelerated GDL; supplement Section 6, p. 15, Algorithm 3; Section
+      7, p. 16, AGDL complexity assumptions
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Graph Degree Linkage: Agglomerative Clustering on a Directed Graph'
+  authors:
+  - Wei Zhang
+  - Xiaogang Wang
+  - Deli Zhao
+  - Xiaoou Tang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1208.5092v1
+  version: arXiv:1208.5092v1, 2012-08-25; ECCV 2012 manuscript with supplement, 17 PDF pages
+  persistent_id: https://arxiv.org/abs/1208.5092v1
+  access_level: full_text
+  accessed_at: '2026-10-11T09:12:14Z'
+  sha256: eea827c754d6c59226d10b771ffefb882a60c9787cb6d85c088f8efb595ef31c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: AGDL groups unlabeled observations using a specified graph-based merge procedure. The AIO
+    target is a clustering task, so this algorithm-to-task association does not assert equivalence or
+    an is-a relation.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: AGDL repeatedly merges clusters to build an agglomerative hierarchy. The target describes
+    hierarchy construction without prescribing this linkage or candidate-search procedure.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:15:34Z'
+  updated_at: '2026-10-11T09:15:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

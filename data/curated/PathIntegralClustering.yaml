@@ -1,0 +1,87 @@
+name: Path integral clustering
+definition: An agglomerative clustering algorithm that merges clusters with the greatest increase in their
+  size-normalized sums of discounted random-walk paths when paths are allowed through the proposed union.
+concept_kind: algorithm
+identity_notes: 'This is Zhang, Zhao and Wang’s 2013 maximum-incremental-path-integral clustering procedure.
+  The qualified PIC alias denotes path integral clustering, not unrelated power-iteration clustering or
+  generic physical path integration. Its affinity uses conditional path descriptors, not simply the merged
+  cluster’s descriptor minus the two original descriptors. GDL instead uses products of degree averages;
+  JULE is a joint neural-learning procedure. No normalized identity match was found across all 442 pinned
+  AIO labels/scoped synonyms and 214 preceding native IDs/names/aliases. Word-delimited fixed-string searches
+  of both full checkouts, including ignored and hidden files, returned 31 lines each: existing SimCLR/InfoNCE
+  component discussion, shared primary-source references and discovery/review context. Five native neighbors
+  and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.'
+limitations:
+- The distance/similarity, neighborhood size, bandwidth, discount z and target count are inputs or choices.
+  Row normalization needs positive row sums; 0<z<1 and a substochastic principal submatrix make the geometric
+  series converge.
+- Initial nearest-neighbor components and later greedy merges are irreversible. The algorithm cannot split
+  an initial component to reach a larger requested cluster count. No semantic recovery or global partition
+  optimum is certified.
+- Conditional path descriptors retain each original cluster’s |C|^2 normalization and endpoint indicator.
+  Replacing the affinity by S_(A union B)−S_A−S_B changes the method. Principal submatrices are not independently
+  renormalized transition matrices.
+- The paper’s efficient-computation discussion relies on sparse graphs, iterative solves and chosen conditioning/discount.
+  An exact resolvent formula is not a claim of exact finite-iteration numerical solves or an unconditional
+  linear bound for the whole clustering algorithm. No runtime or benchmark reproduction was performed.
+id: AIMech:PathIntegralClustering
+aliases:
+- Agglomerative clustering via maximum incremental path integral
+- PIC (path integral clustering)
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF pp. 2–3 (printed 3057–3058), Equations (1)–(3), Algorithm 1; Sections 3.1–3.4,
+    pp. 3–4, Equations (4)–(12); Section 4, p. 5, Equation (14)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Build a weighted directed nearest-neighbor graph and row-normalize its adjacency W to obtain
+    transition matrix P=D^−1 W. Keep that global P fixed. Initialize small clusters by linking each sample
+    to its nearest neighbor and repeatedly merging overlapping groups. For nonempty C and 0<z<1, let P_C
+    be the principal submatrix of P, without renormalizing its rows inside C, and define S_C=1_C^T(I−z
+    P_C)^−1 1_C/|C|^2. This sums geometrically discounted within-C transition paths, including the length-zero
+    identity contribution. For U=A union B, define S_(A|U)=e_A^T(I−z P_U)^−1 e_A/|A|^2, where e_A is the
+    indicator of A among the vertices of U; its paths stay in U and start and end in A. Merge the pair
+    maximizing (S_(A|U)−S_A)+(S_(B|U)−S_B), then repeat to the requested count. Linear systems can evaluate
+    the descriptors without explicitly forming a dense inverse.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF pp. 2–3 (printed 3057–3058), Equations (1)–(3), Algorithm 1; Sections 3.1–3.4,
+      pp. 3–4, Equations (4)–(12); Section 4, p. 5, Equation (14)
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Agglomerative clustering via maximum incremental path integral
+  authors:
+  - Wei Zhang
+  - Deli Zhao
+  - Xiaogang Wang
+  source_type: primary_paper
+  url: https://waynezhanghk.github.io/papers/pr2013_path_clustering.pdf
+  version: Pattern Recognition 46(11):3056–3065, 2013; author-hosted published article, 10 PDF pages
+  persistent_id: https://doi.org/10.1016/j.patcog.2013.04.013
+  access_level: full_text
+  accessed_at: '2026-10-11T09:11:11Z'
+  sha256: 2fde6e306611f80dca850ddeb5ef4be40a087d7edf5a4020240d3b6559ff914c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Path integral clustering groups unlabeled observations using a specified graph-based merge
+    procedure. The AIO target is a clustering task, so this algorithm-to-task association does not assert
+    equivalence or an is-a relation.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: Path integral clustering repeatedly merges clusters to build an agglomerative hierarchy.
+    The target describes hierarchy construction without prescribing this linkage or candidate-search procedure.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:15:34Z'
+  updated_at: '2026-10-11T09:15:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
