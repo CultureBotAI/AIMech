@@ -1,0 +1,109 @@
+name: Extended Guided Local Search
+definition: The Tsang–Mills–Ford extension of Guided Local Search that combines cost-scaled penalty weighting,
+  aspiration for a new best original-objective solution despite an augmented-objective penalty, and probabilistic
+  random neighborhood moves.
+concept_kind: algorithm
+identity_notes: EGLS here denotes the combined coefficient, aspiration and randomness extension in CSM371.
+  GLS+A and GLS+R are separate ablations, not exact aliases of the combined algorithm. The method modifies
+  the GLS search framework; it is not FLS activation-bit bookkeeping, simulated annealing, or a generic
+  name for any later GLS extension. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 307 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 4 and 4 lines respectively. All eight text hits were
+  prior discovery leads in the two checkouts, not existing candidate records. Eight exact AIO CLASS nodes
+  with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected.
+  Absence is bounded to this snapshot and semantic neighborhood.
+limitations:
+- The report title does not establish a parameter-free algorithm. Feature definitions, neighborhood and
+  local solver, cost estimate C, coefficient a, randomization probability P_r, initialization and stopping
+  remain choices; the proposed defaults were evaluated only in the reported problem settings.
+- The literal aspiration inequality is strict in both original improvement and augmented deterioration.
+  It does not specify equality handling when h(s_next)=h(s_current); the underlying local solver and concrete
+  implementation must declare that boundary and the order of random versus ordinary/aspiration moves.
+- Scaling by a typical cost contribution is problem-dependent. The TSP first-tour average is not a universal
+  normalization for arbitrary objectives, especially zero, negative or mixed-scale terms.
+- Random moves can worsen either objective and need not improve exploration on a particular step. Aspiration
+  protects access to an examined new original best, not global optimality or monotonic improvement of
+  the entire trajectory. No comparative performance claim is curated.
+id: AIMech:ExtendedGuidedLocalSearch
+aliases:
+- EGLS
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–6, PDF pp.2–5, GLS pseudocode, penalty coefficient, strict aspiration test and randomness;
+    discussion/recommendations Sections7–8, pp.6–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Retain GLS feature counters, augmented objective h=g+lambda*sum(p_i*I_i), and penalty increments
+    for present features tied for maximal cost/(1+p_i) utility. Scale lambda=a*C, where C estimates a
+    characteristic cost contribution; the TSP illustration uses the first local-minimum tour cost divided
+    by the number of cities. Add the report’s literal aspiration condition: accept an examined neighbor
+    with g(s_next)<g(best_so_far) even when h(s_next)>h(s_current). This bypasses an augmented-cost rejection;
+    it does not erase feature counters. Add randomization so that, with configured probability P_r per
+    move, a randomly selected neighbor is accepted regardless of its objective or penalty quality. The
+    combined EGLS uses all three changes. Its reported recommendations a=1 and P_r=.2 are experimental
+    defaults, not universal constants or a proof of parameter independence.'
+  evidence:
+  - source_id: method-source
+    locator: Sections2–6, PDF pp.2–5, GLS pseudocode, penalty coefficient, strict aspiration test and
+      randomness; discussion/recommendations Sections7–8, pp.6–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Extending Guided Local Search – towards a metaheuristic algorithm with no parameters to tune
+  authors:
+  - Edward Tsang
+  - Patrick Mills
+  - John Ford
+  source_type: author_technical_report
+  url: https://bracil.net/CSP/papers/MiTsFo-Gls%2BCsm371-2002.pdf
+  version: University of Essex technical report CSM371, April 2002; UK Local Search Workshop, 16–17 April
+    2002, paper T15; 11-page author-hosted report. The title is an aspiration, not evidence that the algorithm
+    has no parameters.
+  persistent_id: CSM371
+  access_level: full_text
+  accessed_at: '2026-10-11T14:30:00Z'
+  sha256: 4b74e69de0023a0a5c8734953cb9eff56d9e1c63e354df175937f625d17db769
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO labels/scoped synonyms and 307 preceding maintained IDs/names/aliases;
+    ignored/hidden text in both full checkouts; eight exact AIO CLASS nodes with scoped synonyms, comments
+    and outgoing edges; five complete native neighboring records.
+  rationale: No suitable target was found for this particular general optimization procedure in the inspected
+    snapshot and semantic neighborhood. Shared learning, feedback or evolutionary vocabulary does not
+    establish a model or task mapping.
+  examined_targets:
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The general GLS/genetic optimization procedure is not a network of artificial neurons.
+      The neural history of GLS does not make every later optimizer a neural architecture.
+  - target: AIO:Network
+    rejection_reason: A population, feature collection or move graph is not by itself a defining network
+      architecture; this very broad node does not identify the search procedure.
+  - target: AIO:HopfieldNetwork
+    rejection_reason: The method is not the recurrent content-addressable memory architecture specified
+      by this target.
+  - target: AIO:FeedbackNetwork
+    rejection_reason: Adaptive search feedback is not this neural architecture with input, hidden and
+      output layer relationships.
+  - target: AIO:SymmetricallyConnectedNetwork
+    rejection_reason: No symmetric neural connectivity with equal bidirectional weights defines this optimizer.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The method solves general constrained optimization and is not restricted to preprocessing
+      or training a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target concerns building methods that learn from data. Searching assignments
+      under a supplied objective does not necessarily instantiate that learning task.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a large language model. Its related evolutionary-algorithms synonym
+      does not identify all genetic optimizers.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:42:39Z'
+  updated_at: '2026-10-11T14:42:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
