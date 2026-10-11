@@ -1,0 +1,128 @@
+name: Demographic parity
+definition: A group-level prediction criterion requiring the distribution of a decision or prediction
+  to be independent of a specified protected attribute; for a binary decision, the positive-decision rate
+  is equal across the compared groups.
+concept_kind: evaluation_criterion
+identity_notes: The record denotes exact distributional parity, also called statistical parity in the
+  inspected fairness literature. It is not equalized odds, equality of true-positive rates, an approximate
+  disparity tolerance, or a complete fairness judgment. All 442 AIO identities/scoped synonyms, 94 native
+  identities and ignored-inclusive text in both checkouts were searched. Conditional parity and parity
+  for selected subgroups require separately stated conditioning and scope.
+limitations:
+- Matching group output rates does not ensure similar individuals receive similar treatment or that parity
+  holds within every subgroup.
+- If target outcomes have different prevalences by group, a perfectly accurate predictor can violate demographic
+  parity. This statistical observation does not by itself choose which fairness criterion a domain should
+  use.
+- Exact independence is distinct from approximate parity within a specified tolerance; an empirical estimate
+  needs uncertainty and population context.
+- Connections to counterfactual fairness depend on causal-model assumptions and how the predictor/model
+  is constructed. Shared population statistics do not make the two definitions interchangeable for a fixed
+  causal model.
+aliases:
+- Statistical parity
+id: AIMech:DemographicParity
+definition_evidence:
+- source_id: original-paper
+  locator: Section 1, demographic-parity definition and limitations, PDF pp. 1–2
+  relation: supports
+- source_id: statistical-parity-formulation
+  locator: Section 3, Definition 3.1, printed p. 7 / PDF p. 8; Section 3.1 examples, printed p. 8 / PDF
+    p. 9
+  relation: supports
+claims:
+- claim_id: criterion-scope
+  kind: scope
+  statement: Compare the prediction distributions conditional on each protected group without conditioning
+    on the target outcome. In binary classification the condition reduces to equality of P(prediction=1
+    | A=a) across groups. For the statistical-parity formulation of Dwork and colleagues, exact parity
+    is the zero-tolerance case in which the total-variation distance between group output distributions
+    vanishes.
+  evidence:
+  - source_id: original-paper
+    locator: Section 1, demographic-parity definition and limitations, PDF pp. 1–2
+    relation: supports
+  - source_id: statistical-parity-formulation
+    locator: Section 3, Definition 3.1, printed p. 7 / PDF p. 8; Section 3.1 examples, printed p. 8 /
+      PDF p. 9
+    relation: supports
+- claim_id: group-parity-boundary
+  kind: scope
+  statement: The statistical-parity formulation compares group output distributions by total variation
+    with a stated tolerance; exact parity is its zero-tolerance case. The accompanying examples show that
+    group parity can coexist with unequal treatment within groups and does not imply parity for all subgroups.
+  evidence:
+  - source_id: statistical-parity-formulation
+    locator: Section 3, Definition 3.1, printed p. 7 / PDF p. 8; Section 3.1 examples, printed p. 8 /
+      PDF p. 9
+    relation: supports
+- claim_id: causal-equivalence-assumptions
+  kind: limitation
+  statement: Rosenblatt and Witter derive connections with counterfactual fairness using their Criteria
+    3 independence assumption. Their conversion from demographic parity introduces a causal model and
+    latent-variable construction of their choice; they explicitly distinguish that setting from checking
+    a predictor against a fixed causal model. These results do not justify treating the two criterion
+    identities as synonyms.
+  evidence:
+  - source_id: causal-parity-analysis
+    locator: Related Work distinction between a fixed and freely constructed causal model, PDF p. 3; Criteria
+      3 and Theorems 4–5, PDF p. 4
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Equality of Opportunity in Supervised Learning
+  authors:
+  - Moritz Hardt
+  - Eric Price
+  - Nathan Srebro
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1610.02413v1
+  version: arXiv:1610.02413v1, submitted 2016-10-07; PDF title-page date 2016-10-11
+  persistent_id: arXiv:1610.02413
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: e92b4f5791803e22e9f39703a161c3e710b6bf77ae04fb5d62f9d6938a5601b8
+- source_id: statistical-parity-formulation
+  title: Fairness Through Awareness
+  authors:
+  - Cynthia Dwork
+  - Moritz Hardt
+  - Toniann Pitassi
+  - Omer Reingold
+  - Richard Zemel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1104.3913v2
+  version: arXiv:1104.3913v2, revised 2011-11-29; downloaded PDF title-page date 2024-11-26
+  persistent_id: arXiv:1104.3913
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: 0a5afde6e5a29b3013a8d899d0abd4a6ce929d3be8c68e5f7cea7abfe54d1805
+- source_id: causal-parity-analysis
+  title: Counterfactual Fairness Is Basically Demographic Parity
+  authors:
+  - Lucas Rosenblatt
+  - R. Teal Witter
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.03843v4
+  version: arXiv:2208.03843v4, revised 2023-03-03
+  persistent_id: arXiv:2208.03843
+  access_level: full_text
+  accessed_at: '2026-10-11T04:45:58Z'
+  sha256: ebc09da1ee780fdc7bdc26f5d4e16fdd15fc2f98c081ab1af0ddcce990d35969
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: Demographic parity directly constrains the distribution of classifier decisions across groups.
+    Classification is a task to which this output criterion applies, not an equivalent criterion or a
+    bias type; the mapping does not limit the mathematical independence condition to binary outputs.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:48:50Z'
+  updated_at: '2026-10-11T04:48:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,71 @@
+name: Equalized odds
+definition: A fairness criterion requiring a predictor's output to be conditionally independent of a specified
+  protected attribute given the target outcome; for binary predictions and outcomes, it requires equal
+  true-positive and false-positive rates across the compared groups.
+concept_kind: evaluation_criterion
+identity_notes: This is the distributional criterion in Hardt, Price and Srebro's Definition 2.1, not
+  their postprocessing algorithm, a bias type, demographic parity or a claim of overall social fairness.
+  Equal opportunity is a weaker positive-outcome-only constraint. All 442 pinned AIO labels/scoped synonyms
+  and 94 preceding native identities were compared, with ignored-inclusive text searches in both checkouts.
+limitations:
+- The conditioning outcome and protected groups must be specified, with estimable nonzero-probability
+  conditioning strata for rate comparisons. Biased or unreliable outcome labels can undermine interpretation.
+- Equal true-positive and false-positive rates do not require identical overall accuracy when group outcome
+  prevalences differ. The record uses the formal conditional-independence definition, not the source's
+  informal equal-accuracy wording.
+- 'This is an oblivious distributional test: identical prediction/outcome/group statistics can arise from
+  different underlying dependency structures. Satisfaction or violation alone is not conclusive evidence
+  of overall fairness or unfairness.'
+- Finite-sample uncertainty, a tolerance and domain-specific interpretation are needed in an application;
+  no empirical result, universal fairness guarantee or legal-compliance claim is asserted.
+aliases:
+- Equalised odds
+id: AIMech:EqualizedOdds
+definition_evidence:
+- source_id: original-paper
+  locator: Section 2, Definition 2.1, PDF p. 3; Sections 2.2–2.3, PDF p. 4; Section 6, PDF pp. 12–14;
+    discussion of reliable targets and nonconclusive fairness tests, PDF pp. 20–21
+  relation: supports
+claims:
+- claim_id: criterion-scope
+  kind: scope
+  statement: Assess whether the conditional distribution of the prediction given the outcome is the same
+    across protected groups. In the binary case, test both P(prediction=1 | A=a,Y=1) and P(prediction=1
+    | A=a,Y=0) across a. The general independence definition also applies to scores and nonbinary variables;
+    thresholding an equalized-odds score by a common rule preserves the property.
+  evidence:
+  - source_id: original-paper
+    locator: Section 2, Definition 2.1, PDF p. 3; Sections 2.2–2.3, PDF p. 4; Section 6, PDF pp. 12–14;
+      discussion of reliable targets and nonconclusive fairness tests, PDF pp. 20–21
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Equality of Opportunity in Supervised Learning
+  authors:
+  - Moritz Hardt
+  - Eric Price
+  - Nathan Srebro
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1610.02413v1
+  version: arXiv:1610.02413v1, submitted 2016-10-07; PDF title-page date 2016-10-11
+  persistent_id: arXiv:1610.02413
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: e92b4f5791803e22e9f39703a161c3e710b6bf77ae04fb5d62f9d6938a5601b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: The criterion constrains classifier predictions and error rates in its central binary setting.
+    Classification denotes the prediction task; equalized odds denotes a condition used to assess its
+    outputs, so this is a direct task/criterion relationship rather than equivalence or subclassing.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:48:50Z'
+  updated_at: '2026-10-11T04:48:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -25,6 +25,14 @@ network. State its input/output transformation and boundary from the surrounding
 architecture. A layer still needs full method evidence, an identity search and
 an explicit AIO mapping assessment; the kind does not establish an AIO relation.
 
+Use `concept_kind: evaluation_criterion` for a defined condition on predictions,
+models or behavior, such as equalized odds. Distinguish the condition from a
+procedure for estimating it, an algorithm that enforces it, and a bias or risk.
+State the population, conditioning variables or causal assumptions that define
+its scope. Satisfying a formal criterion does not by itself establish overall
+fairness, usefulness or legal compliance. Evidence and AIO mapping requirements
+apply as for other native concepts.
+
 Evidence records distinguish abstracts, full text and versioned implementation
 documentation. Definitions and asserted claims require inspected full text or
 documentation. Abstracts are useful for discovery and can be retained as

@@ -1,0 +1,70 @@
+name: Equal opportunity in binary classification
+definition: A binary-classification fairness criterion requiring equal probabilities of a positive prediction
+  across specified protected groups among individuals whose target outcome is the designated positive
+  outcome.
+concept_kind: evaluation_criterion
+identity_notes: The identity is Hardt, Price and Srebro's Definition 2.2, with the positive target designated
+  as the advantaged outcome. It is not the wider philosophical meaning of equal opportunity, the full
+  equalized-odds condition, or a threshold-adjustment algorithm. Identity searches covered all 442 AIO
+  labels and scoped synonyms, 94 preceding native records and ignored/hidden-inclusive text in both checkouts.
+limitations:
+- The definition depends on which target outcome is designated positive/advantaged; changing that designation
+  changes the constrained population.
+- Equal opportunity alone does not equalize false-positive rates, selection rates, predictive values or
+  individual treatment.
+- The criterion requires meaningful target labels and sufficiently supported group/positive-outcome strata.
+  Finite-sample uncertainty is not eliminated by writing an equality.
+- Like other oblivious criteria, this condition does not determine the causal process or establish overall
+  social fairness, empirical utility or legal compliance.
+aliases:
+- Equal opportunity (true-positive parity)
+- Equality of opportunity (true-positive parity)
+id: AIMech:EqualOpportunity
+definition_evidence:
+- source_id: original-paper
+  locator: Section 2.1, Definition 2.2, PDF p. 4; Section 2, Definition 2.1, PDF p. 3; Section 6, PDF
+    pp. 12–14; reliable-target and interpretation discussion, PDF pp. 20–21
+  relation: supports
+claims:
+- claim_id: criterion-scope
+  kind: scope
+  statement: For each compared protected group a, evaluate P(prediction=1 | A=a,Y=1) and require equality
+    across groups. This constrains true-positive rates and imposes no corresponding equality requirement
+    at Y=0. It relaxes the binary equalized-odds criterion by retaining only the designated positive-outcome
+    condition.
+  evidence:
+  - source_id: original-paper
+    locator: Section 2.1, Definition 2.2, PDF p. 4; Section 2, Definition 2.1, PDF p. 3; Section 6, PDF
+      pp. 12–14; reliable-target and interpretation discussion, PDF pp. 20–21
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Equality of Opportunity in Supervised Learning
+  authors:
+  - Moritz Hardt
+  - Eric Price
+  - Nathan Srebro
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1610.02413v1
+  version: arXiv:1610.02413v1, submitted 2016-10-07; PDF title-page date 2016-10-11
+  persistent_id: arXiv:1610.02413
+  access_level: full_text
+  accessed_at: '2026-10-11T04:44:05Z'
+  sha256: e92b4f5791803e22e9f39703a161c3e710b6bf77ae04fb5d62f9d6938a5601b8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The criterion directly constrains true-positive rates of binary classifiers. BinaryClassification
+    is the task on which the condition is evaluated; it is not a broader class of fairness criteria or
+    an equivalent identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T04:48:50Z'
+  updated_at: '2026-10-11T04:48:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
