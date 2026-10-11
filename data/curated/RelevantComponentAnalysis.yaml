@@ -1,0 +1,104 @@
+name: Relevant component analysis
+definition: A partially supervised linear metric-learning procedure that estimates within-group covariance
+  from positive equivalence constraints and whitens the representation using that covariance.
+concept_kind: algorithm
+identity_notes: RCA forms chunklets from observations known to share a class without requiring their class
+  names. Different chunklets need not represent different classes. It estimates variation within chunklets,
+  unlike whitening by total covariance, and it does not optimize NCA’s stochastic neighbor reward. The
+  maintained LDA record is a Gaussian classifier, not RCA or the optional constraints-based Fisher projection.
+  This record describes batch RCA; online adaptation and optional dimensionality-reduction procedures
+  are qualified extensions. No normalized identity match for this candidate was found across all 442 pinned
+  AIO labels/scoped synonyms and 227 preceding native IDs/names/aliases. The same search identified BIRCH
+  as an existing native record and excluded it from additions. Full-checkout word-delimited fixed-string
+  searches included ignored and hidden files, with 79 worktree and 79 main-checkout matching lines; these
+  concern BIRCH identity/proposal/review context and discovery leads. Ten exact AIO CLASS nodes with scoped
+  synonyms and outgoing edges, and nine neighboring native records, were inspected.
+limitations:
+- The inverse and inverse square root require a nonsingular covariance on the represented space. Few,
+  singleton or geometrically redundant chunklets may give a singular estimate. This record does not invent
+  a universal pseudoinverse or regularization fallback.
+- Algorithm 2 calls sum_j(|C_j|-1) the covariance rank. In general it is a sample-size upper bound, not
+  the actual rank; collinearity can leave the covariance singular even when that count exceeds the feature
+  dimension. The preceding prose’s rank-greater-than-dimension condition is not a feasible matrix-rank
+  requirement. The source heuristic is not copied as an invertibility guarantee.
+- Whitening can amplify low-variance noise, and erroneous equivalence constraints can contaminate entire
+  chunklets through transitive closure. Small within-group variance is not itself evidence of relevance
+  to a downstream task.
+- The paper’s likelihood and information-optimality results have stated modeling assumptions; this record
+  claims neither universal classification improvement nor unconditional statistical optimality. Optional
+  cFLD, online RCA and their implementation details require separate scope assessments. No model was trained.
+id: AIMech:RelevantComponentAnalysis
+aliases:
+- RCA
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Algorithm 1 and Equation (1), PDF pp. 4–6 (printed 940–942); Section 5, PDF p. 10,
+    definition of N; Section 6 and Algorithm 2, PDF pp. 10–12 (printed 946–948), dimensionality and rank
+    qualifications
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Take the transitive closure of positive same-class constraints to obtain chunklets C_j with
+    means m_j. Let N be the total number of observations in the chunklets, as clarified in Section 5,
+    and compute Chat=(1/N)sum_j sum_(x in C_j)(x-m_j)(x-m_j)^T. When Chat is positive definite on the
+    represented space, use the symmetric whitening transform W=Chat^(-1/2) on the original feature vectors.
+    Equivalently, compare vectors with squared distance (x-y)^T Chat^(-1)(x-y). Large within-chunklet
+    variance directions receive less weight. The method uses positive constraints without requiring explicit
+    class labels or negative constraints. The paper permits an optional reduction before whitening and
+    describes a constraints-based Fisher discriminant projection; nonsingularity must hold in the retained
+    space.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Algorithm 1 and Equation (1), PDF pp. 4–6 (printed 940–942); Section 5, PDF p.
+      10, definition of N; Section 6 and Algorithm 2, PDF pp. 10–12 (printed 946–948), dimensionality
+      and rank qualifications
+    relation: supports
+- claim_id: source-convention-check
+  kind: limitation
+  statement: 'Curator calculation: two chunklets {(0,0),(1,0),(2,0)} and {(10,0),(11,0),(12,0)} have within-chunklet
+    covariance diag(2/3,0), of rank 1. The count sum_j(|C_j|-1)=4 exceeds the ambient dimension 2 while
+    the covariance is singular. This disproves treating the sample-size count as a general exact rank
+    or invertibility certificate. The exact calculation is saved in research/discovery/metric-source-boundaries.py.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equation (1), PDF p. 4, supplies the covariance definition evaluated by the curator;
+      Algorithm 2, PDF p. 12, supplies the challenged rank-count expression.
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning a Mahalanobis Metric from Equivalence Constraints
+  authors:
+  - Aharon Bar-Hillel
+  - Tomer Hertz
+  - Noam Shental
+  - Daphna Weinshall
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/bar-hillel05a/bar-hillel05a.pdf
+  version: Journal of Machine Learning Research 6 (2005), pp. 937–965; 29-page expanded primary paper
+  persistent_id: https://www.jmlr.org/papers/v6/bar-hillel05a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T09:51:25Z'
+  sha256: e6a710416aa0b13afa48a54614f4f781dc61e5fd0c5b47205fa4709cbd471f02
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FeatureExtraction
+  relation: related_match
+  rationale: RCA transforms feature vectors using learned within-chunklet covariance before downstream
+    learning. This relates its representation-transform operation to AIO FeatureExtraction without asserting
+    a deep neural-network identity or a specific downstream predictor.
+- target: AIO:KnearestNeighborClassificationAlgorithm
+  relation: related_match
+  rationale: The learned distance can be used for nearest-neighbor classification, one stated application.
+    Learning this representation is distinct from the target’s voting rule; the relation is an explicitly
+    related method-to-application association.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:58:22Z'
+  updated_at: '2026-10-11T09:58:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
