@@ -1,0 +1,95 @@
+name: Sparse additive generative model
+definition: A generative model family for categorical text data that forms word probabilities by normalizing
+  a background log-frequency vector plus sparse component deviations, allowing multiple generative facets
+  to combine additively in log space.
+concept_kind: model_family
+identity_notes: 'SAGE here denotes Eisenstein, Ahmed and Xing’s sparse additive generative construction,
+  not Sage mathematical software or graph-neural aggregation. Its classification, topic and multifaceted
+  uses share this parameterization; it is not synonymous with all naive Bayes models, sparse dictionary
+  learning, sparse topic proportions or an arithmetic mixture of component word distributions. All 442
+  pinned AIO labels/scoped synonyms and 352 preceding native IDs/names/aliases were compared, with no
+  normalized identity match. Both full-checkout searches included ignored and hidden files; worktree returned 15
+  lines and main 19. All 16 unique matched contents were read: DocNADE contrasts, frontier and review references,
+  plus four ignored-environment Sage/Pygments entries unrelated to AI SAGE. Twenty-one exact AIO nodes
+  and four complete native neighbors were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.'
+limitations:
+- Sparsity concerns log deviations. Finite logits still give positive word probabilities, and even zero-deviation
+  words can change absolute probability through normalization; their relative odds remain those of the
+  background when their deviations agree.
+- Additive log facets yield multiplicative unnormalized effects, not an arithmetic probability mixture.
+  The model family does not require every document to have a single observed class or prohibit latent
+  variables.
+- The Jeffreys-prior paragraph on PDF p.4 prints expected inverse variance equal to eta squared. Its preceding
+  Gamma moment and b=eta squared/(a-1) instead give 1/eta squared for nonzero eta, with a>1 and positive
+  scale. The printed final identity is not adopted; zero deviations require a limiting/numerical treatment.
+  The improper prior is not represented as a normalized marginal distribution.
+- The paper warns that warm-starting tightly coupled deviation/variance updates can lock in early sparsity
+  patterns. Neither approximate inference nor Newton updates establish global convergence or calibrated
+  posterior uncertainty.
+- The single-component rank-one Hessian argument is not asserted unchanged for sums over multiple facet
+  combinations. No author implementation, universal predictive advantage or numerical benchmark result
+  is certified.
+id: AIMech:SparseAdditiveGenerativeModel
+aliases:
+- SAGE
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(7), PDF pp.2–4; Section 4, Equation (8), expected-count updates
+    and warm-start warning, p.5; Section 5 additive facets, pp.6–7; sparsity distinction in Section 6,
+    pp.7–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'For a component k, set p(w=i|k) proportional to exp(m_i+eta_ki), normalizing over the vocabulary.
+    Multiple selected facets contribute a sum of their deviation vectors before this normalization; no
+    additional token-level switch is needed to choose which facet generates the word. This does not remove
+    latent topic assignments used by a topic-model variant. The paper places sparsity-inducing priors
+    on deviations, using zero-mean Gaussian components with latent variances: an exponential variance
+    prior gives a Laplace marginal, while an alternative improper Jeffreys prior gives a different shrinkage
+    construction. It combines MAP estimates of deviations with variational treatment of other latent quantities.
+    For a single component and fixed expected precisions, the gradient is observed or expected counts
+    minus total count times word probabilities minus the precision-weighted deviations; its Hessian is
+    a rank-one term minus a diagonal term, enabling the reported efficient Newton update.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(7), PDF pp.2–4; Section 4, Equation (8), expected-count updates
+      and warm-start warning, p.5; Section 5 additive facets, pp.6–7; sparsity distinction in Section
+      6, pp.7–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Sparse Additive Generative Models of Text
+  authors:
+  - Jacob Eisenstein
+  - Amr Ahmed
+  - Eric P. Xing
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/~epxing/papers/2011/Eisenstein_Ahmed_Xing_ICML11.pdf
+  version: ICML 2011 eight-page author-hosted PDF from Eric Xing’s publication archive. No printed page
+    numbers appear, so locators use PDF pages. The Google Research download link redirected to an author
+    profile; this separately accessible PDF supplied the inspected method.
+  persistent_id: Eisenstein_Ahmed_Xing_ICML11
+  access_level: full_text
+  accessed_at: '2026-10-11T17:52:19Z'
+  sha256: 214c601b2008c58cbcd8afbdde26fe56564906ea58fef2cc55d3d46f2a9c14a7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: SAGE is explicitly used to construct probabilistic topic models, but its family also includes
+    observed-class and multifaceted generative text models. The AIO topic-model task therefore provides
+    a related application/modeling context, not an equivalent identity or a necessary superclass. SparseLearning
+    denotes sparse dictionary representations, SparseAutoEncoder denotes hidden-unit constraints, and
+    SparseLLM denotes language-model compression, none of which identifies sparse log-frequency deviations.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T18:02:59Z'
+  updated_at: '2026-10-11T18:02:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
