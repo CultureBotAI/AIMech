@@ -1,0 +1,928 @@
+# Scientific self-review of factorial and input-output HMM concepts
+
+- Review: 20261011T194838Z-factorial-input-output
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T19:45:57Z
+- Finished UTC: 2026-10-11T19:48:38Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain two DRAFT model families and one specific variational inference algorithm. Shared-emission, input-conditioning, approximate-posterior and source-formula boundaries are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of three explicitly selected factorial and input-output HMM concepts.
+
+Selection: Three exact maintained IDs in the discovery ledger: FHMM, IOHMM and structured variational inference for FHMMs; complete selected cohort, no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 671d3f0b63b356f543603f6684fa675accf98ff5.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FactorialHiddenMarkovModel | data/curated/FactorialHiddenMarkovModel.yaml | maintained | Factorial hidden Markov model |
+| AIMech:InputOutputHiddenMarkovModel | data/curated/InputOutputHiddenMarkovModel.yaml | maintained | Input-output hidden Markov model |
+| AIMech:StructuredVariationalInferenceForFactorialHMMs | data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml | maintained | Structured variational inference for factorial HMMs |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 79.67s (0:01:19)<br>Checked 442 record(s); 0 failed.<br>Checked 379 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 107 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 104,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs | Command exited 0 with no output. |
+| Factorial and input-output probability boundary calculations | passed | True | AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs | {"fhmm_likelihood": 0.024013337715659572, "exact_forward_error": 3.469446951953614e-18, "posterior_chain_dependence": 0.1327781180806163, "structured_unary_update_error": 1.1102230246251565e-16, "elbo_values": [-4.469257922642703, -4.296500894160429, -4.080166403806956, -3.9896148275268515, -3.970351687522389, -3.967693876617744, -3.9674066123990093, -3.96737793967347, -3.9673751650017364, -3.967374898745138, -3.9673748732733514], "final_kl": 0.23822900842638303, "bound_identity_error": 5.828670879282072e-16, "retained_temporal_dependence": 0.0506064442879639, "euclidean_dot": 0, "precision_metric_dot": 0.5, "orthogonal_covariance_posterior_dependence": 0.020291490372449483, "io_output_probabilities": [0.185871, 0.20682899999999999, 0.125029, 0.09227099999999999, 0.112509, 0.10079099999999999, 0.114591, 0.062109], "io_forward_error": 1.3877787807814457e-17, "emission_inclusive_beta_pair_error": 5.551115123125783e-17, "input_only_vs_output_conditioned_gap": 0.33320117867666765, "terminal_only_output_probability": 0.46199999999999997, "table_update_omitted_old_transition_gap": 0.13714285714285723} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:FactorialHiddenMarkovModel.
+
+This record covers the independent-chain factorial HMM developed by Ghahramani and Jordan, with a shared observation distribution. It is not a mixture selecting one HMM, a globally normalized product of complete HMM likelihoods, an input-conditioned HMM, or the variational algorithm used to fit the model. Each combination of chain states is one joint state; factorial refers to its distributed component representation. The later coupled-chain and input-conditioned extensions in Section 5 are outside this narrow definition. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood.
+
+With independent initial states and chain-specific transitions, the joint distribution factors into the product of chain priors, the product over times and chains of p(s_t^m&#124;s_(t-1)^m), and one shared p(y_t&#124;s_t^1,...,s_t^M) per time. The paper’s worked emission is Gaussian with mean sum_m W_m s_t^m for one-hot states and common covariance C. Although chains are independent a priori, observations generally couple their posterior paths through the shared emission. For M chains each having K states, the joint latent state has K^M configurations. Exact forward–backward can exploit the transition factorization by contracting one chain dimension at a time, with O(T M K^(M+1)) transition work under the paper’s fixed-observation-dimension setting; this remains exponential in M. EM uses posterior state, temporal-pair and cross-chain moments. In the additive Gaussian model its weight update is a linear-system solution with a pseudoinverse because chain contributions have redundant mean offsets. Exact inference, Gibbs sampling and variational approximations are separate procedures, not defining alternatives for model identity. Limitations: Independent latent dynamics do not imply posterior independence after shared observations. Special emission structures may decouple chains; for the Gaussian case a sufficient condition is cross-chain orthogonality in the C^-1 metric. Note 3’s ordinary orthogonality with a merely diagonal covariance is not sufficient in general. The Gaussian additive mean is a worked parameterization, not the only possible factorial-HMM emission. Its closed-form parameter updates do not automatically transfer to nonlinear or discrete emissions. Factorized transitions reduce exact computation relative to a naive unconstrained joint-state HMM but do not remove exponential state growth. A compact parameterization is not a universal scalability or accuracy guarantee. Approximate E-steps may improve a variational bound without monotonically improving the true likelihood. Additive offsets are not individually identifiable without conventions; the paper uses a pseudoinverse. Section 5’s coupled-transition and input-conditioned extension displays contain indexing/factorization ambiguities. They are not adopted as the defining joint distribution here. No experimental performance, author implementation or general convergence guarantee is certified.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:InputOutputHiddenMarkovModel.
+
+The inspected Bengio–Frasconi model maps an input sequence to an output-sequence distribution using a latent Markov state. Its original modular neural implementation supplies input-sensitive transition and output subnetworks, but the model family is identified by the conditional factorization. It differs from a standard autonomous HMM, a factorial multi-chain model, an undirected product of HMMs, a generic recurrent network and an arithmetic mixture without state dynamics. The input sequence is conditioned on rather than assigned its own generative model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood.
+
+Given inputs u_1:T and an initial state distribution, sum over paths in p(s_0) times product_t p(s_t&#124;s_(t-1),u_t) p(y_t&#124;s_t,u_t) to obtain p(y_1:T&#124;u_1:T). The original architecture uses one static transition subnetwork per previous state, with a softmax over allowed successors, and one output subnetwork per current state. Recursively propagating zeta_t(i)=sum_j p(s_t=i&#124;s_(t-1)=j,u_t) zeta_(t-1)(j) gives the state distribution conditional on inputs alone; it is distinct from the posterior after conditioning on observed target outputs. Forward–backward with the observed output factors supplies state and transition posterior responsibilities for conditional-likelihood EM. The expected complete-data log likelihood separates into responsibility-weighted log transition and log emission terms. Neural parameterizations can use generalized EM updates that increase that expected objective. Intermittently missing outputs can be marginalized by replacing their normalized emission factors by one while preserving the latent chain. Limitations: Input-conditioned transitions can vary with time even with fixed parameters. Removing input dependence recovers an ordinary HMM special case; no claim is made that an arbitrary recurrent network has this normalized latent-state model. The recurrent probability vector is a distribution over states, not a single sampled state path. Output-conditioned filtering or smoothing must include observed output likelihoods; the input-only recurrence is insufficient for that posterior. The paper’s backward variable includes the current emission, unlike a common future-only convention. Its pair-posterior Equation (11) must be interpreted with that convention to avoid counting the emission twice. The special lookup-table re-estimation display in Equation (12) omits an old transition factor needed by the posterior-count expression in Equation (11). This record uses posterior-weighted EM/GEM semantics and does not certify that display as a general update formula. GEM inherits conditional-likelihood monotonicity when its expected objective is increased with an exact E-step; an arbitrary gradient step, global optimum or unconditional convergence to a local maximum is not guaranteed. Local optima and large state spaces are practical limitations acknowledged by the source. The grammar experiment reports accuracy conditional on successful training runs and selects model size using validation strings. No universal long-memory advantage, benchmark ranking, 1996 full-text claim or author-code behavior is curated.
+
+### Identity, definition, mechanism, limitations, source provenance and AIO mapping
+
+evidence: supported. Targets: AIMech:StructuredVariationalInferenceForFactorialHMMs.
+
+This record denotes the chain-structured approximation and additive-Gaussian updates in Ghahramani–Jordan Section 3.5 and Appendix D. It is narrower than all structured variational inference and distinct from the factorial HMM model, a fully factorized state-by-time approximation, exact joint-state forward–backward, Gibbs sampling, or BBVI score-function optimization. It requires neither an amortized recognition network nor a variational autoencoder architecture. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood.
+
+For fixed model parameters and observations, choose q(S)=product_m q_m(s_1:T^m) and optimize the evidence lower bound E_q[log p(Y,S)-log q(S)], equivalently minimizing KL(q&#124;&#124;p(S&#124;Y)). Each chain factor is globally normalized over its path and retains the model’s initial and transition factors multiplied by positive unary potentials h_t^m. In the additive Gaussian model, h_t^m is proportional to exp((W_m)^T C^-1 [y_t-sum_(l!=m) W_l E_q[s_t^l]] - 0.5 diag((W_m)^T C^-1 W_m)), componentwise over the chain’s states. With other chain factors fixed, run forward–backward using these unary factors to update that chain’s state and temporal-pair moments, then repeat across chains. Same-time moments between different chains factorize under q; within-chain temporal moments do not. Such exact single-chain coordinate updates increase or preserve the bound for fixed model parameters. The moments may also supply a variational E-step for model fitting, but this approximate posterior does not become the exact posterior merely by convergence. Limitations: The approximation removes posterior dependence between chains even when the shared observation creates explaining-away effects. It preserves each chain’s time dependence, unlike a fully factorized state-by-time distribution. The h factors are positive unnormalized potentials, not row-normalized transition probabilities or already-normalized state posteriors. Normalization and initial/boundary conditions belong to the complete chain computation. The residual/diagonal formula depends on additive Gaussian emissions with common covariance. General emissions require their own expected-log-factor calculations; the formula is not an arbitrary-model black-box update. Coordinate-ascent guarantees require an exact update of one factor while holding the others fixed. Simultaneous arbitrary updates, local stopping criteria or approximate model steps do not establish a global optimum, exact evidence, or universal likelihood improvement. Appendix C Equation C.9 displays prior/transition signs inconsistent with its energy definition and derivative; that display is not adopted. Appendix D cancels explicit prior/transition log terms when the same factors are retained, but its moments and normalizer still depend on those factors; the accompanying independence wording is not literal total independence. The general product-of-path-distributions variational family contains independent-time factors, but the displayed fixed-transition/unary parameterization and local optimization do not justify claiming every run outperforms a fully factorized approximation. No benchmark or author implementation is certified.
+
+### Independent latent dynamics and shared observations
+
+consistency: supported. Targets: AIMech:FactorialHiddenMarkovModel.
+
+Retain FHMM as a directed shared-emission model.
+
+The primary joint factorization has one observation distribution per time and independent chain dynamics, not a normalized product of HMM sequence marginals. A finite enumeration agrees with joint-state forward recursion to 3.47e-18, yet the observation-conditioned paths depart from independence by 0.13278. Exact transition-factor contractions remain exponential in the number of chains. Additive-Gaussian mean-offset redundancy and the pseudoinverse convention are explicit. Ordinary weight orthogonality with unequal diagonal covariance is insufficient: the finite precision-metric inner product is 0.5 with posterior dependence 0.02029.
+
+### Model identity versus approximate posterior computation
+
+consistency: supported. Targets: AIMech:FactorialHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs.
+
+Retain the separate chain-structured inference procedure.
+
+The product-of-chain-path approximation drops cross-chain posterior dependence while preserving within-chain time dependence. Unary potentials are globally normalized through each chain computation, not converted into independent row-normalized transitions. The Gaussian residual/diagonal update agrees with the general exponential expected-log-joint coordinate update to 1.12e-16. Sequential exact chain updates increase the finite ELBO and satisfy log evidence minus bound equals KL to 5.83e-16. These witnesses do not certify global optimization, arbitrary simultaneous updates, exact likelihood ascent or universal superiority to fully factorized inference. The Appendix C sign and Appendix D dependence wording are explicitly qualified.
+
+### Conditional sequence likelihood and two different state distributions
+
+consistency: supported. Targets: AIMech:InputOutputHiddenMarkovModel.
+
+Retain IOHMM as an input-conditioned latent model.
+
+The definition conditions transition and output factors on current external inputs; the input sequence itself is not assigned a generative model. Its probability-vector recurrence conditioned on inputs alone differs from the output-conditioned posterior by 0.33320 in a finite example. Conditional sequence probabilities normalize; forward likelihood and pair posteriors using the source’s emission-inclusive backward convention agree with enumeration to below 6e-17. Missing output factors marginalize to one. Omitting the old transition factor in the special lookup-table update changes posterior-count normalization by 0.13714, so that display is not certified. EM/GEM monotonicity requires its actual objective-increase conditions; benchmark and global-convergence claims are excluded.
+
+### Broad model mappings and related algorithm/component associations
+
+grounding: supported. Targets: AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs.
+
+Retain directional mappings with model/algorithm distinctions.
+
+Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym hits were read. Thirteen generated records were byte-verified after prior full reading, four freshly read, and four native neighbors fully read. BayesianNetwork denotes a directed acyclic probabilistic network and is broader than the finite time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a component association for FHMM, not a claim that observed sequences are first-order Markov. IOHMM has a related RNN mapping for its original modular neural realization, while its conditional model family admits tabular parameterizations. The chain-structured variational algorithm has related mappings to BayesianNetwork and MarkovChain because it performs approximate inference using that model/tractable structure, not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning nodes are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM, FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer, RecurrentLayer and MatchedInputOutputLayer are components, with the last about shapes, not conditional sequence modeling. VariationalAutoEncoder requires an autoencoder architecture absent here. CausalGraphicalModel would add assumptions not entailed by a dependence DAG. Native HMM supplies the single-chain baseline, PoHMM the distinct undirected globally normalized product, EM a general parameter procedure, and BBVI a sample-based score-function optimizer rather than this analytic chain-coordinate procedure. Context inspection does not renew scientific approval of older records.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:FactorialHiddenMarkovModel, AIMech:InputOutputHiddenMarkovModel, AIMech:StructuredVariationalInferenceForFactorialHMMs. FHMM models several independently evolving hidden chains with shared observations. IOHMM conditions a latent transition/output model on external inputs. The structured variational procedure approximates the factorial model’s posterior with independent chain paths retaining temporal structure. Related use of HMM inference does not make these two model families and the approximation algorithm identical. Retain all three scopes and their explicit directional mappings.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T194458Z-factorial-input-output.json | supports | No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood. |
+| mapping | sources/aio/aio.json; Seventeen exact CLASS nodes with full annotations and outgoing edges in source_analysis.aio_mapping_inspection; corresponding generated records | supports | Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym hits were read. Thirteen generated records were byte-verified after prior full reading, four freshly read, and four native neighbors fully read. BayesianNetwork denotes a directed acyclic probabilistic network and is broader than the finite time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a component association for FHMM, not a claim that observed sequences are first-order Markov. IOHMM has a related RNN mapping for its original modular neural realization, while its conditional model family admits tabular parameterizations. The chain-structured variational algorithm has related mappings to BayesianNetwork and MarkovChain because it performs approximate inference using that model/tractable structure, not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning nodes are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM, FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer, RecurrentLayer and MatchedInputOutputLayer are components, with the last about shapes, not conditional sequence modeling. VariationalAutoEncoder requires an autoencoder architecture absent here. CausalGraphicalModel would add assumptions not entailed by a dependence DAG. Native HMM supplies the single-chain baseline, PoHMM the distinct undirected globally normalized product, EM a general parameter procedure, and BBVI a sample-based score-function optimizer rather than this analytic chain-coordinate procedure. Context inspection does not renew scientific approval of older records. |
+| neighbors | research/discovery/20261011T194458Z-factorial-input-output.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Four complete native records were read for boundaries: HMM, product HMM, black box variational inference and expectation maximization. They distinguish a component model, a globally normalized product, a score-function optimizer and a general parameter-fitting procedure without renewed scientific approval. |
+| finite-conventions | research/discovery/factorial-input-output-boundaries.py; FHMM exact inference, posterior dependence and chain-coordinate variational updates; IOHMM conditional normalization and posterior responsibilities; source-formula qualifications | supports | Original fixed-model finite probability calculations compare FHMM path enumeration and exact joint-state forward recursion, agreeing to 3.47e-18. Observations produce a 0.13278 cross-chain posterior discrepancy from independence. Gaussian unary updates equal the general exp E_other log-joint coordinate update to 1.12e-16; ten sequential chain updates increase the ELBO, retain temporal dependence 0.05061 and satisfy log evidence minus ELBO equals KL to 5.83e-16. This is a finite witness, not a general convergence proof. Euclidean-orthogonal weight directions with unequal diagonal covariance have precision-metric inner product 0.5 and posterior dependence 0.02029, qualifying the source footnote. An input-conditioned model normalizes over all binary outputs; its forward likelihood and emission-inclusive backward pair responsibilities agree with enumeration to below 6e-17. Input-only and output-conditioned final state distributions differ by 0.33320. Marginalizing intermediate outputs matches terminal-only likelihood. In the special table case, omitting the old transition factor changes the normalized posterior-count update by 0.13714. No model training, author-code execution or benchmark was performed. |
+| factorialhiddenmarkovmodel-source-0 | https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf; Sections 2–3.2, Equations (1)–(6), printed pp.246–250 / PDF pp.2–6; Section 3.3–3.6, pp.251–256 / PDF pp.7–12; Appendices A–B, pp.265–268 / PDF pp.21–24; Note 3, p.271 / PDF p.27 | supports | Factorial Hidden Markov Models. Machine Learning 29:245–273 (November 1997), author-hosted journal PDF. All 29 pages visually read. Printed page = PDF page +244; first page number absent. Distinct from the earlier NIPS paper and technical-report versions. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| inputoutputhiddenmarkovmodel-source-0 | https://papers.neurips.cc/paper_files/paper/1994/file/8065d07da4a77621450aa84fee5656d9-Paper.pdf; Sections 2–3, Figure 1 and Equations (1)–(11), (13)–(14), printed pp.428–431 / PDF pp.2–5; Sections 4–6, pp.432–434 / PDF pp.6–8 | supports | An Input Output HMM Architecture. NIPS 1994, Advances in Neural Information Processing Systems 7, pp.427–434; proceedings publication 1995. Publisher eight-page PDF, all pages visually read. Printed page = PDF page +426; first page number absent. The 1996 journal article is bibliographic context only, not the inspected version. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+| structuredvariationalinferenceforfactorialhmms-source-0 | https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf; Sections 3.4–3.6, Equations (7)–(12), printed pp.251–256 / PDF pp.7–12; Appendices C–D, pp.268–270 / PDF pp.24–26; boundary condition Note 5, p.271 / PDF p.27 | supports | Factorial Hidden Markov Models. Machine Learning 29:245–273 (November 1997), author-hosted journal PDF. All 29 pages visually read. Printed page = PDF page +244; first page number absent. Distinct from the earlier NIPS paper and technical-report versions. Actual visual reading scopes are declared in the ledger; retrieval and conversion do not certify reading of other pages. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; every target remains DRAFT.
+- All 29 Ghahramani–Jordan and eight Bengio–Frasconi PDF pages were visually read. Conversion manifests alone do not certify inspection.
+- Publisher metadata, conference/proceedings dates, author-hosted journal bytes and printed/PDF page conventions are distinguished. The 1996 IOHMM journal article was not read in full.
+- Source display and independence qualifications are explicit. Finite enumeration and fixed-model inference are not author-code, training or benchmark reproductions.
+- 208 pending leads plus unresolved dispositions remain; discovery is active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T194838Z-factorial-input-output
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of factorial and input-output HMM concepts
+started_at: '2026-10-11T19:45:57Z'
+finished_at: '2026-10-11T19:48:38Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all fields of three
+    records against two complete primary PDFs totaling 37 visually read pages, 17
+    exact fully annotated AIO nodes and four full native neighbors. Original finite
+    probability calculations checked normalization, posterior dependence, chain-coordinate
+    variational updates, input-conditioned inference and source display qualifications.
+    This is author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain two DRAFT model families and one specific variational inference algorithm.
+  Shared-emission, input-conditioning, approximate-posterior and source-formula boundaries
+  are explicit. No actionable curation finding remains in the declared scope.
+source:
+  git_revision: 671d3f0b63b356f543603f6684fa675accf98ff5
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/FactoredLanguageModel.yaml
+    sha256: d5e425f3c7cc5b57fdab859cdc777b62398077a6ac9312aef6a89af42c6eb421
+    role: context
+  - path: data/aio/FactorizedLLM.yaml
+    sha256: f73a5e4d591e4d832f94bfa044d77c5645f585b042f07485f99920527d67b6d5
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MatchedInputOutputLayer.yaml
+    sha256: a7c4e62a3c868177e379f284776a4b2c54a0949ebf50685120f1db5167b92049
+    role: context
+  - path: data/aio/MixtureofExpertsLLM.yaml
+    sha256: d9c3edb18f624102f141d1daf27aa0cc055eaf9199faf30abf88d2b87fbc1520
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RecurrentLayer.yaml
+    sha256: d0aeaf40e9c0001883cce7f9b0bec41c75db8dbcafb8aea18eb1694816900de5
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/BlackBoxVariationalInference.yaml
+    sha256: 8237d3233ae06163b8fab5b4fa047ffc938e275bc1e3ede883348e06c2b266a8
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/FactorialHiddenMarkovModel.yaml
+    sha256: f1474c3cbb78b2097ad6275f51c61291dfd1a11515df0e7ef56270c30ec4f68d
+    role: target
+  - path: data/curated/HiddenMarkovModel.yaml
+    sha256: 062a31bd525cb90e8077d4889c177f55cb7b29dea4e71c33be95bae9e72a5240
+    role: context
+  - path: data/curated/InputOutputHiddenMarkovModel.yaml
+    sha256: 0b0273f47026fed64472356d1610aa2384e8bf89eecfafa109d07f5e8bcd3acf
+    role: target
+  - path: data/curated/ProductOfHiddenMarkovModels.yaml
+    sha256: 51fdf99954e91afb1d0ddda78bd60dc98991847715c2f1fe9ef2be4a7f46436e
+    role: context
+  - path: data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml
+    sha256: 236f080993e164f5768f1eb1a179ff3589b03344cf133091fea5d35cc3ce4918
+    role: target
+  - path: research/discovery/20261011T194458Z-factorial-input-output.json
+    sha256: 4db3e3a189cf52391b079398572846e064ce151b6cba5b2e4e4ac0e6089d0f26
+    role: context
+  - path: research/discovery/factorial-input-output-boundaries.py
+    sha256: 2fc9a1d132f6f74d8a5e497a1a4c4c0be84defc066a3e79fa9f14f2b1fa83ad8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FactorialHiddenMarkovModel
+  path: data/curated/FactorialHiddenMarkovModel.yaml
+  label: Factorial hidden Markov model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FactorialHiddenMarkovModel.yaml
+    role: maintained
+- target_id: AIMech:InputOutputHiddenMarkovModel
+  path: data/curated/InputOutputHiddenMarkovModel.yaml
+  label: Input-output hidden Markov model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/InputOutputHiddenMarkovModel.yaml
+    role: maintained
+- target_id: AIMech:StructuredVariationalInferenceForFactorialHMMs
+  path: data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml
+  label: Structured variational inference for factorial HMMs
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml
+    role: maintained
+scope:
+  description: All fields of three explicitly selected factorial and input-output
+    HMM concepts.
+  selection: 'Three exact maintained IDs in the discovery ledger: FHMM, IOHMM and
+    structured variational inference for FHMMs; complete selected cohort, no sampling.'
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exclusions:
+  - target: Author implementations, benchmark results and general convergence proofs
+    reason: Primary definitions and finite curator examples do not certify author-code
+      behavior, empirical rankings, global optimization or every extension.
+  - target: Prior records and remaining discovery leads
+    reason: Prior records provide boundaries without renewed scientific approval.
+      Coupled models, decision trees, mixed-memory models, Boltzmann chains and Bayesian
+      model merging require separate reviews; earlier dispositions are carried forward.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 79.67s (0:01:19)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 379 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 107 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 104,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Factorial and input-output probability boundary calculations
+  command: python3 research/discovery/factorial-input-output-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"fhmm_likelihood": 0.024013337715659572, "exact_forward_error": 3.469446951953614e-18,
+    "posterior_chain_dependence": 0.1327781180806163, "structured_unary_update_error":
+    1.1102230246251565e-16, "elbo_values": [-4.469257922642703, -4.296500894160429,
+    -4.080166403806956, -3.9896148275268515, -3.970351687522389, -3.967693876617744,
+    -3.9674066123990093, -3.96737793967347, -3.9673751650017364, -3.967374898745138,
+    -3.9673748732733514], "final_kl": 0.23822900842638303, "bound_identity_error":
+    5.828670879282072e-16, "retained_temporal_dependence": 0.0506064442879639, "euclidean_dot":
+    0, "precision_metric_dot": 0.5, "orthogonal_covariance_posterior_dependence":
+    0.020291490372449483, "io_output_probabilities": [0.185871, 0.20682899999999999,
+    0.125029, 0.09227099999999999, 0.112509, 0.10079099999999999, 0.114591, 0.062109],
+    "io_forward_error": 1.3877787807814457e-17, "emission_inclusive_beta_pair_error":
+    5.551115123125783e-17, "input_only_vs_output_conditioned_gap": 0.33320117867666765,
+    "terminal_only_output_probability": 0.46199999999999997, "table_update_omitted_old_transition_gap":
+    0.13714285714285723}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T194458Z-factorial-input-output.json
+  accessed_at: '2026-10-11T19:45:57Z'
+  support: supports
+  summary: 'No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string
+    searches included ignored and hidden files in worktree and main, returning 5 and
+    5 lines. All 4 unique matched contents were fully read: preceding boundary discussions,
+    citations, reviews and pending leads, not existing records of these three identities.
+    All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing
+    edges, their generated records and four native neighbors were inspected or verified
+    unchanged after prior full reading. Absence is bounded to this pin and inspected
+    neighborhood.'
+  search_scope: 'No normalized identity match was found across all 442 pinned AIO
+    labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding
+    boundary discussions, citations, reviews and pending leads, not existing records
+    of these three identities. All 64 semantic label/synonym hits, 17 exact fully
+    annotated AIO nodes with outgoing edges, their generated records and four native
+    neighbors were inspected or verified unchanged after prior full reading. Absence
+    is bounded to this pin and inspected neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Seventeen exact CLASS nodes with full annotations and outgoing edges in
+    source_analysis.aio_mapping_inspection; corresponding generated records
+  accessed_at: '2026-10-11T19:45:57Z'
+  support: supports
+  summary: Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym
+    hits were read. Thirteen generated records were byte-verified after prior full
+    reading, four freshly read, and four native neighbors fully read. BayesianNetwork
+    denotes a directed acyclic probabilistic network and is broader than the finite
+    time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a component
+    association for FHMM, not a claim that observed sequences are first-order Markov.
+    IOHMM has a related RNN mapping for its original modular neural realization, while
+    its conditional model family admits tabular parameterizations. The chain-structured
+    variational algorithm has related mappings to BayesianNetwork and MarkovChain
+    because it performs approximate inference using that model/tractable structure,
+    not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning nodes
+    are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM,
+    FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization
+    or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer,
+    RecurrentLayer and MatchedInputOutputLayer are components, with the last about
+    shapes, not conditional sequence modeling. VariationalAutoEncoder requires an
+    autoencoder architecture absent here. CausalGraphicalModel would add assumptions
+    not entailed by a dependence DAG. Native HMM supplies the single-chain baseline,
+    PoHMM the distinct undirected globally normalized product, EM a general parameter
+    procedure, and BBVI a sample-based score-function optimizer rather than this analytic
+    chain-coordinate procedure. Context inspection does not renew scientific approval
+    of older records.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T194458Z-factorial-input-output.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T19:45:57Z'
+  support: supports
+  summary: 'Four complete native records were read for boundaries: HMM, product HMM,
+    black box variational inference and expectation maximization. They distinguish
+    a component model, a globally normalized product, a score-function optimizer and
+    a general parameter-fitting procedure without renewed scientific approval.'
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/factorial-input-output-boundaries.py
+  locator: FHMM exact inference, posterior dependence and chain-coordinate variational
+    updates; IOHMM conditional normalization and posterior responsibilities; source-formula
+    qualifications
+  accessed_at: '2026-10-11T19:45:57Z'
+  snapshot_sha256: 2fc9a1d132f6f74d8a5e497a1a4c4c0be84defc066a3e79fa9f14f2b1fa83ad8
+  support: supports
+  summary: Original fixed-model finite probability calculations compare FHMM path
+    enumeration and exact joint-state forward recursion, agreeing to 3.47e-18. Observations
+    produce a 0.13278 cross-chain posterior discrepancy from independence. Gaussian
+    unary updates equal the general exp E_other log-joint coordinate update to 1.12e-16;
+    ten sequential chain updates increase the ELBO, retain temporal dependence 0.05061
+    and satisfy log evidence minus ELBO equals KL to 5.83e-16. This is a finite witness,
+    not a general convergence proof. Euclidean-orthogonal weight directions with unequal
+    diagonal covariance have precision-metric inner product 0.5 and posterior dependence
+    0.02029, qualifying the source footnote. An input-conditioned model normalizes
+    over all binary outputs; its forward likelihood and emission-inclusive backward
+    pair responsibilities agree with enumeration to below 6e-17. Input-only and output-conditioned
+    final state distributions differ by 0.33320. Marginalizing intermediate outputs
+    matches terminal-only likelihood. In the special table case, omitting the old
+    transition factor changes the normalized posterior-count update by 0.13714. No
+    model training, author-code execution or benchmark was performed.
+- evidence_id: factorialhiddenmarkovmodel-source-0
+  kind: primary_source
+  reference: https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf
+  locator: Sections 2–3.2, Equations (1)–(6), printed pp.246–250 / PDF pp.2–6; Section
+    3.3–3.6, pp.251–256 / PDF pp.7–12; Appendices A–B, pp.265–268 / PDF pp.21–24;
+    Note 3, p.271 / PDF p.27
+  accessed_at: '2026-10-11T19:30:52Z'
+  snapshot_sha256: ab3b4f8f4c8ddbf51fd20f35c9913dca409e5fc725c9153e3c185b99ed1708e2
+  support: supports
+  summary: Factorial Hidden Markov Models. Machine Learning 29:245–273 (November 1997),
+    author-hosted journal PDF. All 29 pages visually read. Printed page = PDF page
+    +244; first page number absent. Distinct from the earlier NIPS paper and technical-report
+    versions. Actual visual reading scopes are declared in the ledger; retrieval and
+    conversion do not certify reading of other pages.
+- evidence_id: inputoutputhiddenmarkovmodel-source-0
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/1994/file/8065d07da4a77621450aa84fee5656d9-Paper.pdf
+  locator: Sections 2–3, Figure 1 and Equations (1)–(11), (13)–(14), printed pp.428–431
+    / PDF pp.2–5; Sections 4–6, pp.432–434 / PDF pp.6–8
+  accessed_at: '2026-10-11T19:30:56Z'
+  snapshot_sha256: e0063154660ce7347a452b806274ed0b3edc17f86d777a41e4d468633d87041c
+  support: supports
+  summary: An Input Output HMM Architecture. NIPS 1994, Advances in Neural Information
+    Processing Systems 7, pp.427–434; proceedings publication 1995. Publisher eight-page
+    PDF, all pages visually read. Printed page = PDF page +426; first page number
+    absent. The 1996 journal article is bibliographic context only, not the inspected
+    version. Actual visual reading scopes are declared in the ledger; retrieval and
+    conversion do not certify reading of other pages.
+- evidence_id: structuredvariationalinferenceforfactorialhmms-source-0
+  kind: primary_source
+  reference: https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf
+  locator: Sections 3.4–3.6, Equations (7)–(12), printed pp.251–256 / PDF pp.7–12;
+    Appendices C–D, pp.268–270 / PDF pp.24–26; boundary condition Note 5, p.271 /
+    PDF p.27
+  accessed_at: '2026-10-11T19:30:52Z'
+  snapshot_sha256: ab3b4f8f4c8ddbf51fd20f35c9913dca409e5fc725c9153e3c185b99ed1708e2
+  support: supports
+  summary: Factorial Hidden Markov Models. Machine Learning 29:245–273 (November 1997),
+    author-hosted journal PDF. All 29 pages visually read. Printed page = PDF page
+    +244; first page number absent. Distinct from the earlier NIPS paper and technical-report
+    versions. Actual visual reading scopes are declared in the ledger; retrieval and
+    conversion do not certify reading of other pages.
+assessments:
+- assessment_id: factorialhiddenmarkovmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - factorialhiddenmarkovmodel-source-0
+  summary: 'This record covers the independent-chain factorial HMM developed by Ghahramani
+    and Jordan, with a shared observation distribution. It is not a mixture selecting
+    one HMM, a globally normalized product of complete HMM likelihoods, an input-conditioned
+    HMM, or the variational algorithm used to fit the model. Each combination of chain
+    states is one joint state; factorial refers to its distributed component representation.
+    The later coupled-chain and input-conditioned extensions in Section 5 are outside
+    this narrow definition. No normalized identity match was found across all 442
+    pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, returning 5 and 5 lines. All 4 unique matched contents were fully read:
+    preceding boundary discussions, citations, reviews and pending leads, not existing
+    records of these three identities. All 64 semantic label/synonym hits, 17 exact
+    fully annotated AIO nodes with outgoing edges, their generated records and four
+    native neighbors were inspected or verified unchanged after prior full reading.
+    Absence is bounded to this pin and inspected neighborhood.'
+  details: 'With independent initial states and chain-specific transitions, the joint
+    distribution factors into the product of chain priors, the product over times
+    and chains of p(s_t^m|s_(t-1)^m), and one shared p(y_t|s_t^1,...,s_t^M) per time.
+    The paper’s worked emission is Gaussian with mean sum_m W_m s_t^m for one-hot
+    states and common covariance C. Although chains are independent a priori, observations
+    generally couple their posterior paths through the shared emission. For M chains
+    each having K states, the joint latent state has K^M configurations. Exact forward–backward
+    can exploit the transition factorization by contracting one chain dimension at
+    a time, with O(T M K^(M+1)) transition work under the paper’s fixed-observation-dimension
+    setting; this remains exponential in M. EM uses posterior state, temporal-pair
+    and cross-chain moments. In the additive Gaussian model its weight update is a
+    linear-system solution with a pseudoinverse because chain contributions have redundant
+    mean offsets. Exact inference, Gibbs sampling and variational approximations are
+    separate procedures, not defining alternatives for model identity. Limitations:
+    Independent latent dynamics do not imply posterior independence after shared observations.
+    Special emission structures may decouple chains; for the Gaussian case a sufficient
+    condition is cross-chain orthogonality in the C^-1 metric. Note 3’s ordinary orthogonality
+    with a merely diagonal covariance is not sufficient in general. The Gaussian additive
+    mean is a worked parameterization, not the only possible factorial-HMM emission.
+    Its closed-form parameter updates do not automatically transfer to nonlinear or
+    discrete emissions. Factorized transitions reduce exact computation relative to
+    a naive unconstrained joint-state HMM but do not remove exponential state growth.
+    A compact parameterization is not a universal scalability or accuracy guarantee.
+    Approximate E-steps may improve a variational bound without monotonically improving
+    the true likelihood. Additive offsets are not individually identifiable without
+    conventions; the paper uses a pseudoinverse. Section 5’s coupled-transition and
+    input-conditioned extension displays contain indexing/factorization ambiguities.
+    They are not adopted as the defining joint distribution here. No experimental
+    performance, author implementation or general convergence guarantee is certified.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Two model families and a specific inference algorithm, distinguished
+      from generic learning tasks, component processes and neural-network realizations.
+    evidence_ids:
+    - factorialhiddenmarkovmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym
+      hits were read. Thirteen generated records were byte-verified after prior full
+      reading, four freshly read, and four native neighbors fully read. BayesianNetwork
+      denotes a directed acyclic probabilistic network and is broader than the finite
+      time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a
+      component association for FHMM, not a claim that observed sequences are first-order
+      Markov. IOHMM has a related RNN mapping for its original modular neural realization,
+      while its conditional model family admits tabular parameterizations. The chain-structured
+      variational algorithm has related mappings to BayesianNetwork and MarkovChain
+      because it performs approximate inference using that model/tractable structure,
+      not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning
+      nodes are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM,
+      FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization
+      or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer,
+      RecurrentLayer and MatchedInputOutputLayer are components, with the last about
+      shapes, not conditional sequence modeling. VariationalAutoEncoder requires an
+      autoencoder architecture absent here. CausalGraphicalModel would add assumptions
+      not entailed by a dependence DAG. Native HMM supplies the single-chain baseline,
+      PoHMM the distinct undirected globally normalized product, EM a general parameter
+      procedure, and BBVI a sample-based score-function optimizer rather than this
+      analytic chain-coordinate procedure. Context inspection does not renew scientific
+      approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: inputoutputhiddenmarkovmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:InputOutputHiddenMarkovModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - inputoutputhiddenmarkovmodel-source-0
+  summary: 'The inspected Bengio–Frasconi model maps an input sequence to an output-sequence
+    distribution using a latent Markov state. Its original modular neural implementation
+    supplies input-sensitive transition and output subnetworks, but the model family
+    is identified by the conditional factorization. It differs from a standard autonomous
+    HMM, a factorial multi-chain model, an undirected product of HMMs, a generic recurrent
+    network and an arithmetic mixture without state dynamics. The input sequence is
+    conditioned on rather than assigned its own generative model. No normalized identity
+    match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding
+    native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+    and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched
+    contents were fully read: preceding boundary discussions, citations, reviews and
+    pending leads, not existing records of these three identities. All 64 semantic
+    label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their
+    generated records and four native neighbors were inspected or verified unchanged
+    after prior full reading. Absence is bounded to this pin and inspected neighborhood.'
+  details: 'Given inputs u_1:T and an initial state distribution, sum over paths in
+    p(s_0) times product_t p(s_t|s_(t-1),u_t) p(y_t|s_t,u_t) to obtain p(y_1:T|u_1:T).
+    The original architecture uses one static transition subnetwork per previous state,
+    with a softmax over allowed successors, and one output subnetwork per current
+    state. Recursively propagating zeta_t(i)=sum_j p(s_t=i|s_(t-1)=j,u_t) zeta_(t-1)(j)
+    gives the state distribution conditional on inputs alone; it is distinct from
+    the posterior after conditioning on observed target outputs. Forward–backward
+    with the observed output factors supplies state and transition posterior responsibilities
+    for conditional-likelihood EM. The expected complete-data log likelihood separates
+    into responsibility-weighted log transition and log emission terms. Neural parameterizations
+    can use generalized EM updates that increase that expected objective. Intermittently
+    missing outputs can be marginalized by replacing their normalized emission factors
+    by one while preserving the latent chain. Limitations: Input-conditioned transitions
+    can vary with time even with fixed parameters. Removing input dependence recovers
+    an ordinary HMM special case; no claim is made that an arbitrary recurrent network
+    has this normalized latent-state model. The recurrent probability vector is a
+    distribution over states, not a single sampled state path. Output-conditioned
+    filtering or smoothing must include observed output likelihoods; the input-only
+    recurrence is insufficient for that posterior. The paper’s backward variable includes
+    the current emission, unlike a common future-only convention. Its pair-posterior
+    Equation (11) must be interpreted with that convention to avoid counting the emission
+    twice. The special lookup-table re-estimation display in Equation (12) omits an
+    old transition factor needed by the posterior-count expression in Equation (11).
+    This record uses posterior-weighted EM/GEM semantics and does not certify that
+    display as a general update formula. GEM inherits conditional-likelihood monotonicity
+    when its expected objective is increased with an exact E-step; an arbitrary gradient
+    step, global optimum or unconditional convergence to a local maximum is not guaranteed.
+    Local optima and large state spaces are practical limitations acknowledged by
+    the source. The grammar experiment reports accuracy conditional on successful
+    training runs and selects model size using validation strings. No universal long-memory
+    advantage, benchmark ranking, 1996 full-text claim or author-code behavior is
+    curated.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Two model families and a specific inference algorithm, distinguished
+      from generic learning tasks, component processes and neural-network realizations.
+    evidence_ids:
+    - inputoutputhiddenmarkovmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym
+      hits were read. Thirteen generated records were byte-verified after prior full
+      reading, four freshly read, and four native neighbors fully read. BayesianNetwork
+      denotes a directed acyclic probabilistic network and is broader than the finite
+      time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a
+      component association for FHMM, not a claim that observed sequences are first-order
+      Markov. IOHMM has a related RNN mapping for its original modular neural realization,
+      while its conditional model family admits tabular parameterizations. The chain-structured
+      variational algorithm has related mappings to BayesianNetwork and MarkovChain
+      because it performs approximate inference using that model/tractable structure,
+      not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning
+      nodes are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM,
+      FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization
+      or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer,
+      RecurrentLayer and MatchedInputOutputLayer are components, with the last about
+      shapes, not conditional sequence modeling. VariationalAutoEncoder requires an
+      autoencoder architecture absent here. CausalGraphicalModel would add assumptions
+      not entailed by a dependence DAG. Native HMM supplies the single-chain baseline,
+      PoHMM the distinct undirected globally normalized product, EM a general parameter
+      procedure, and BBVI a sample-based score-function optimizer rather than this
+      analytic chain-coordinate procedure. Context inspection does not renew scientific
+      approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: structuredvariationalinferenceforfactorialhmms
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, source provenance and AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - structuredvariationalinferenceforfactorialhmms-source-0
+  summary: 'This record denotes the chain-structured approximation and additive-Gaussian
+    updates in Ghahramani–Jordan Section 3.5 and Appendix D. It is narrower than all
+    structured variational inference and distinct from the factorial HMM model, a
+    fully factorized state-by-time approximation, exact joint-state forward–backward,
+    Gibbs sampling, or BBVI score-function optimization. It requires neither an amortized
+    recognition network nor a variational autoencoder architecture. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included
+    ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4
+    unique matched contents were fully read: preceding boundary discussions, citations,
+    reviews and pending leads, not existing records of these three identities. All
+    64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing
+    edges, their generated records and four native neighbors were inspected or verified
+    unchanged after prior full reading. Absence is bounded to this pin and inspected
+    neighborhood.'
+  details: 'For fixed model parameters and observations, choose q(S)=product_m q_m(s_1:T^m)
+    and optimize the evidence lower bound E_q[log p(Y,S)-log q(S)], equivalently minimizing
+    KL(q||p(S|Y)). Each chain factor is globally normalized over its path and retains
+    the model’s initial and transition factors multiplied by positive unary potentials
+    h_t^m. In the additive Gaussian model, h_t^m is proportional to exp((W_m)^T C^-1
+    [y_t-sum_(l!=m) W_l E_q[s_t^l]] - 0.5 diag((W_m)^T C^-1 W_m)), componentwise over
+    the chain’s states. With other chain factors fixed, run forward–backward using
+    these unary factors to update that chain’s state and temporal-pair moments, then
+    repeat across chains. Same-time moments between different chains factorize under
+    q; within-chain temporal moments do not. Such exact single-chain coordinate updates
+    increase or preserve the bound for fixed model parameters. The moments may also
+    supply a variational E-step for model fitting, but this approximate posterior
+    does not become the exact posterior merely by convergence. Limitations: The approximation
+    removes posterior dependence between chains even when the shared observation creates
+    explaining-away effects. It preserves each chain’s time dependence, unlike a fully
+    factorized state-by-time distribution. The h factors are positive unnormalized
+    potentials, not row-normalized transition probabilities or already-normalized
+    state posteriors. Normalization and initial/boundary conditions belong to the
+    complete chain computation. The residual/diagonal formula depends on additive
+    Gaussian emissions with common covariance. General emissions require their own
+    expected-log-factor calculations; the formula is not an arbitrary-model black-box
+    update. Coordinate-ascent guarantees require an exact update of one factor while
+    holding the others fixed. Simultaneous arbitrary updates, local stopping criteria
+    or approximate model steps do not establish a global optimum, exact evidence,
+    or universal likelihood improvement. Appendix C Equation C.9 displays prior/transition
+    signs inconsistent with its energy definition and derivative; that display is
+    not adopted. Appendix D cancels explicit prior/transition log terms when the same
+    factors are retained, but its moments and normalizer still depend on those factors;
+    the accompanying independence wording is not literal total independence. The general
+    product-of-path-distributions variational family contains independent-time factors,
+    but the displayed fixed-transition/unary parameterization and local optimization
+    do not justify claiming every run outperforms a fully factorized approximation.
+    No benchmark or author implementation is certified.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: Two model families and a specific inference algorithm, distinguished
+      from generic learning tasks, component processes and neural-network realizations.
+    evidence_ids:
+    - structuredvariationalinferenceforfactorialhmms-source-0
+  - name: aio-assessment
+    value: related_match,related_match
+    definition: Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym
+      hits were read. Thirteen generated records were byte-verified after prior full
+      reading, four freshly read, and four native neighbors fully read. BayesianNetwork
+      denotes a directed acyclic probabilistic network and is broader than the finite
+      time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a
+      component association for FHMM, not a claim that observed sequences are first-order
+      Markov. IOHMM has a related RNN mapping for its original modular neural realization,
+      while its conditional model family admits tabular parameterizations. The chain-structured
+      variational algorithm has related mappings to BayesianNetwork and MarkovChain
+      because it performs approximate inference using that model/tractable structure,
+      not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning
+      nodes are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM,
+      FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization
+      or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer,
+      RecurrentLayer and MatchedInputOutputLayer are components, with the last about
+      shapes, not conditional sequence modeling. VariationalAutoEncoder requires an
+      autoencoder architecture absent here. CausalGraphicalModel would add assumptions
+      not entailed by a dependence DAG. Native HMM supplies the single-chain baseline,
+      PoHMM the distinct undirected globally normalized product, EM a general parameter
+      procedure, and BBVI a sample-based score-function optimizer rather than this
+      analytic chain-coordinate procedure. Context inspection does not renew scientific
+      approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: factorial-model
+  area: consistency
+  topic: Independent latent dynamics and shared observations
+  outcome: supported
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  evidence_ids:
+  - factorialhiddenmarkovmodel-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain FHMM as a directed shared-emission model.
+  details: 'The primary joint factorization has one observation distribution per time
+    and independent chain dynamics, not a normalized product of HMM sequence marginals.
+    A finite enumeration agrees with joint-state forward recursion to 3.47e-18, yet
+    the observation-conditioned paths depart from independence by 0.13278. Exact transition-factor
+    contractions remain exponential in the number of chains. Additive-Gaussian mean-offset
+    redundancy and the pseudoinverse convention are explicit. Ordinary weight orthogonality
+    with unequal diagonal covariance is insufficient: the finite precision-metric
+    inner product is 0.5 with posterior dependence 0.02029.'
+- assessment_id: structured-inference
+  area: consistency
+  topic: Model identity versus approximate posterior computation
+  outcome: supported
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  evidence_ids:
+  - factorialhiddenmarkovmodel-source-0
+  - structuredvariationalinferenceforfactorialhmms-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain the separate chain-structured inference procedure.
+  details: The product-of-chain-path approximation drops cross-chain posterior dependence
+    while preserving within-chain time dependence. Unary potentials are globally normalized
+    through each chain computation, not converted into independent row-normalized
+    transitions. The Gaussian residual/diagonal update agrees with the general exponential
+    expected-log-joint coordinate update to 1.12e-16. Sequential exact chain updates
+    increase the finite ELBO and satisfy log evidence minus bound equals KL to 5.83e-16.
+    These witnesses do not certify global optimization, arbitrary simultaneous updates,
+    exact likelihood ascent or universal superiority to fully factorized inference.
+    The Appendix C sign and Appendix D dependence wording are explicitly qualified.
+- assessment_id: input-output-model
+  area: consistency
+  topic: Conditional sequence likelihood and two different state distributions
+  outcome: supported
+  target_ids:
+  - AIMech:InputOutputHiddenMarkovModel
+  evidence_ids:
+  - inputoutputhiddenmarkovmodel-source-0
+  - finite-conventions
+  - neighbors
+  summary: Retain IOHMM as an input-conditioned latent model.
+  details: The definition conditions transition and output factors on current external
+    inputs; the input sequence itself is not assigned a generative model. Its probability-vector
+    recurrence conditioned on inputs alone differs from the output-conditioned posterior
+    by 0.33320 in a finite example. Conditional sequence probabilities normalize;
+    forward likelihood and pair posteriors using the source’s emission-inclusive backward
+    convention agree with enumeration to below 6e-17. Missing output factors marginalize
+    to one. Omitting the old transition factor in the special lookup-table update
+    changes posterior-count normalization by 0.13714, so that display is not certified.
+    EM/GEM monotonicity requires its actual objective-increase conditions; benchmark
+    and global-convergence claims are excluded.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Broad model mappings and related algorithm/component associations
+  outcome: supported
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain directional mappings with model/algorithm distinctions.
+  details: Seventeen fully annotated exact AIO nodes and all 64 semantic label/synonym
+    hits were read. Thirteen generated records were byte-verified after prior full
+    reading, four freshly read, and four native neighbors fully read. BayesianNetwork
+    denotes a directed acyclic probabilistic network and is broader than the finite
+    time-unrolled FHMM and input-conditioned IOHMM structures. MarkovChain is a component
+    association for FHMM, not a claim that observed sequences are first-order Markov.
+    IOHMM has a related RNN mapping for its original modular neural realization, while
+    its conditional model family admits tabular parameterizations. The chain-structured
+    variational algorithm has related mappings to BayesianNetwork and MarkovChain
+    because it performs approximate inference using that model/tractable structure,
+    not a model-to-algorithm subclass. ProbabilisticGraphicalModel and learning nodes
+    are task-scoped; TrainingStrategy is preprocessing in the pin. FactorizedLLM,
+    FactoredLanguageModel and MixtureofExpertsLLM concern language-specific factorization
+    or routing; ProbabilisticTopicModel is text-topic-specific. ProbabilisticHiddenLayer,
+    RecurrentLayer and MatchedInputOutputLayer are components, with the last about
+    shapes, not conditional sequence modeling. VariationalAutoEncoder requires an
+    autoencoder architecture absent here. CausalGraphicalModel would add assumptions
+    not entailed by a dependence DAG. Native HMM supplies the single-chain baseline,
+    PoHMM the distinct undirected globally normalized product, EM a general parameter
+    procedure, and BBVI a sample-based score-function optimizer rather than this analytic
+    chain-coordinate procedure. Context inspection does not renew scientific approval
+    of older records.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:FactorialHiddenMarkovModel
+  - AIMech:InputOutputHiddenMarkovModel
+  - AIMech:StructuredVariationalInferenceForFactorialHMMs
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - factorialhiddenmarkovmodel-source-0
+  - inputoutputhiddenmarkovmodel-source-0
+  - structuredvariationalinferenceforfactorialhmms-source-0
+  rationale: FHMM models several independently evolving hidden chains with shared
+    observations. IOHMM conditions a latent transition/output model on external inputs.
+    The structured variational procedure approximates the factorial model’s posterior
+    with independent chain paths retaining temporal structure. Related use of HMM
+    inference does not make these two model families and the approximation algorithm
+    identical. Retain all three scopes and their explicit directional mappings.
+limitations:
+- Adversarial author self-review only; every target remains DRAFT.
+- All 29 Ghahramani–Jordan and eight Bengio–Frasconi PDF pages were visually read.
+  Conversion manifests alone do not certify inspection.
+- Publisher metadata, conference/proceedings dates, author-hosted journal bytes and
+  printed/PDF page conventions are distinguished. The 1996 IOHMM journal article was
+  not read in full.
+- Source display and independence qualifications are explicit. Finite enumeration
+  and fixed-model inference are not author-code, training or benchmark reproductions.
+- 208 pending leads plus unresolved dispositions remain; discovery is active.
+links: []
+tags:
+- native-concepts
+- factorial-input-output
+- self-review
+- discovery-ongoing
+```

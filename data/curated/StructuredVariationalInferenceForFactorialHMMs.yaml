@@ -1,0 +1,97 @@
+name: Structured variational inference for factorial HMMs
+definition: A variational inference procedure for factorial hidden Markov models that approximates the
+  posterior by independent chain-path distributions while retaining temporal dependence within each chain.
+concept_kind: algorithm
+identity_notes: 'This record denotes the chain-structured approximation and additive-Gaussian updates
+  in Ghahramani–Jordan Section 3.5 and Appendix D. It is narrower than all structured variational inference
+  and distinct from the factorial HMM model, a fully factorized state-by-time approximation, exact joint-state
+  forward–backward, Gibbs sampling, or BBVI score-function optimization. It requires neither an amortized
+  recognition network nor a variational autoencoder architecture. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines.
+  All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and
+  pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17
+  exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors
+  were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected
+  neighborhood.'
+limitations:
+- The approximation removes posterior dependence between chains even when the shared observation creates
+  explaining-away effects. It preserves each chain’s time dependence, unlike a fully factorized state-by-time
+  distribution.
+- The h factors are positive unnormalized potentials, not row-normalized transition probabilities or already-normalized
+  state posteriors. Normalization and initial/boundary conditions belong to the complete chain computation.
+- The residual/diagonal formula depends on additive Gaussian emissions with common covariance. General
+  emissions require their own expected-log-factor calculations; the formula is not an arbitrary-model
+  black-box update.
+- Coordinate-ascent guarantees require an exact update of one factor while holding the others fixed. Simultaneous
+  arbitrary updates, local stopping criteria or approximate model steps do not establish a global optimum,
+  exact evidence, or universal likelihood improvement.
+- Appendix C Equation C.9 displays prior/transition signs inconsistent with its energy definition and
+  derivative; that display is not adopted. Appendix D cancels explicit prior/transition log terms when
+  the same factors are retained, but its moments and normalizer still depend on those factors; the accompanying
+  independence wording is not literal total independence.
+- The general product-of-path-distributions variational family contains independent-time factors, but
+  the displayed fixed-transition/unary parameterization and local optimization do not justify claiming
+  every run outperforms a fully factorized approximation. No benchmark or author implementation is certified.
+id: AIMech:StructuredVariationalInferenceForFactorialHMMs
+aliases:
+- Structured mean-field inference for factorial HMMs
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.4–3.6, Equations (7)–(12), printed pp.251–256 / PDF pp.7–12; Appendices C–D, pp.268–270
+    / PDF pp.24–26; boundary condition Note 5, p.271 / PDF p.27
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For fixed model parameters and observations, choose q(S)=product_m q_m(s_1:T^m) and optimize
+    the evidence lower bound E_q[log p(Y,S)-log q(S)], equivalently minimizing KL(q||p(S|Y)). Each chain
+    factor is globally normalized over its path and retains the model’s initial and transition factors
+    multiplied by positive unary potentials h_t^m. In the additive Gaussian model, h_t^m is proportional
+    to exp((W_m)^T C^-1 [y_t-sum_(l!=m) W_l E_q[s_t^l]] - 0.5 diag((W_m)^T C^-1 W_m)), componentwise over
+    the chain’s states. With other chain factors fixed, run forward–backward using these unary factors
+    to update that chain’s state and temporal-pair moments, then repeat across chains. Same-time moments
+    between different chains factorize under q; within-chain temporal moments do not. Such exact single-chain
+    coordinate updates increase or preserve the bound for fixed model parameters. The moments may also
+    supply a variational E-step for model fitting, but this approximate posterior does not become the
+    exact posterior merely by convergence.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.4–3.6, Equations (7)–(12), printed pp.251–256 / PDF pp.7–12; Appendices C–D, pp.268–270
+      / PDF pp.24–26; boundary condition Note 5, p.271 / PDF p.27
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Factorial Hidden Markov Models
+  authors:
+  - Zoubin Ghahramani
+  - Michael I. Jordan
+  source_type: primary_paper
+  url: https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf
+  version: Machine Learning 29:245–273 (November 1997), author-hosted journal PDF. All 29 pages visually
+    read. Printed page = PDF page +244; first page number absent. Distinct from the earlier NIPS paper
+    and technical-report versions.
+  persistent_id: doi:10.1023/A:1007425814087
+  access_level: full_text
+  accessed_at: '2026-10-11T19:30:52Z'
+  sha256: ab3b4f8f4c8ddbf51fd20f35c9913dca409e5fc725c9153e3c185b99ed1708e2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The procedure approximates hidden-state inference in a particular directed probabilistic
+    sequence model. It is an algorithm applied to a Bayesian network, not itself the broader network class.
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The approximation explicitly retains tractable Markov-chain path structure and uses forward–backward
+    within each chain. The inference algorithm is not equivalent to the stochastic process it exploits.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:44:52Z'
+  updated_at: '2026-10-11T19:44:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,100 @@
+name: Input-output hidden Markov model
+definition: A conditional latent sequence-model family whose discrete hidden-state transitions and state-specific
+  observation distributions depend on the current external input.
+concept_kind: model_family
+identity_notes: 'The inspected Bengio–Frasconi model maps an input sequence to an output-sequence distribution
+  using a latent Markov state. Its original modular neural implementation supplies input-sensitive transition
+  and output subnetworks, but the model family is identified by the conditional factorization. It differs
+  from a standard autonomous HMM, a factorial multi-chain model, an undirected product of HMMs, a generic
+  recurrent network and an arithmetic mixture without state dynamics. The input sequence is conditioned
+  on rather than assigned its own generative model. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique
+  matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads,
+  not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated
+  AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified
+  unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood.'
+limitations:
+- Input-conditioned transitions can vary with time even with fixed parameters. Removing input dependence
+  recovers an ordinary HMM special case; no claim is made that an arbitrary recurrent network has this
+  normalized latent-state model.
+- The recurrent probability vector is a distribution over states, not a single sampled state path. Output-conditioned
+  filtering or smoothing must include observed output likelihoods; the input-only recurrence is insufficient
+  for that posterior.
+- The paper’s backward variable includes the current emission, unlike a common future-only convention.
+  Its pair-posterior Equation (11) must be interpreted with that convention to avoid counting the emission
+  twice.
+- The special lookup-table re-estimation display in Equation (12) omits an old transition factor needed
+  by the posterior-count expression in Equation (11). This record uses posterior-weighted EM/GEM semantics
+  and does not certify that display as a general update formula.
+- GEM inherits conditional-likelihood monotonicity when its expected objective is increased with an exact
+  E-step; an arbitrary gradient step, global optimum or unconditional convergence to a local maximum is
+  not guaranteed. Local optima and large state spaces are practical limitations acknowledged by the source.
+- The grammar experiment reports accuracy conditional on successful training runs and selects model size
+  using validation strings. No universal long-memory advantage, benchmark ranking, 1996 full-text claim
+  or author-code behavior is curated.
+id: AIMech:InputOutputHiddenMarkovModel
+aliases:
+- IOHMM
+- Input-output HMM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Figure 1 and Equations (1)–(11), (13)–(14), printed pp.428–431 / PDF pp.2–5;
+    Sections 4–6, pp.432–434 / PDF pp.6–8
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Given inputs u_1:T and an initial state distribution, sum over paths in p(s_0) times product_t
+    p(s_t|s_(t-1),u_t) p(y_t|s_t,u_t) to obtain p(y_1:T|u_1:T). The original architecture uses one static
+    transition subnetwork per previous state, with a softmax over allowed successors, and one output subnetwork
+    per current state. Recursively propagating zeta_t(i)=sum_j p(s_t=i|s_(t-1)=j,u_t) zeta_(t-1)(j) gives
+    the state distribution conditional on inputs alone; it is distinct from the posterior after conditioning
+    on observed target outputs. Forward–backward with the observed output factors supplies state and transition
+    posterior responsibilities for conditional-likelihood EM. The expected complete-data log likelihood
+    separates into responsibility-weighted log transition and log emission terms. Neural parameterizations
+    can use generalized EM updates that increase that expected objective. Intermittently missing outputs
+    can be marginalized by replacing their normalized emission factors by one while preserving the latent
+    chain.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Figure 1 and Equations (1)–(11), (13)–(14), printed pp.428–431 / PDF pp.2–5;
+      Sections 4–6, pp.432–434 / PDF pp.6–8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: An Input Output HMM Architecture
+  authors:
+  - Yoshua Bengio
+  - Paolo Frasconi
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/1994/file/8065d07da4a77621450aa84fee5656d9-Paper.pdf
+  version: NIPS 1994, Advances in Neural Information Processing Systems 7, pp.427–434; proceedings publication
+    1995. Publisher eight-page PDF, all pages visually read. Printed page = PDF page +426; first page
+    number absent. The 1996 journal article is bibliographic context only, not the inspected version.
+  persistent_id: https://papers.nips.cc/paper/1994/hash/8065d07da4a77621450aa84fee5656d9-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T19:30:56Z'
+  sha256: e0063154660ce7347a452b806274ed0b3edc17f86d777a41e4d468633d87041c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: Figure 1 and Section 2 explicitly define the model’s time-unrolled directed acyclic dependence
+    structure, with inputs conditioned on. The AIO BayesianNetwork target is broader than this input-conditioned
+    latent-state family.
+- target: AIO:RecurrentNeuralNetwork
+  relation: related_match
+  rationale: The original realization is a modular recurrent neural architecture whose state distribution
+    gates static subnetworks. The conditional model family also admits tabular parameterizations, so this
+    records the architectural association rather than claiming every IOHMM is a neural network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T19:44:52Z'
+  updated_at: '2026-10-11T19:44:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
