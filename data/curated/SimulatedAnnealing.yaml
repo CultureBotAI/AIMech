@@ -1,0 +1,113 @@
+name: Simulated annealing
+definition: A stochastic optimization procedure that explores candidate configurations with temperature-controlled
+  acceptance of cost-increasing moves and progressively cools that acceptance process to concentrate search
+  on low-cost configurations.
+concept_kind: algorithm
+identity_notes: This record denotes the temperature-scheduled optimization procedure exemplified by Kirkpatrick,
+  Gelatt and Vecchi. Its basic symmetric-proposal Metropolis step is distinguished from fixed-temperature
+  target sampling, generic annealing metaphors, training signal annealing and a proof that a particular
+  finite schedule reaches a global minimum. The 1983 article is a primary formulation, not a claim of
+  exclusive invention. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 285 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in worktree and main, returning 15 and 15 lines respectively. Every text hit was a
+  prior candidate lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and
+  seven native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic
+  neighborhood.
+limitations:
+- The exp(−delta/T) expression is for positive effective temperature with the physical Boltzmann constant
+  absorbed into its cost units. Zero temperature is a limiting or separately defined greedy rule, not
+  evaluation of that quotient at T=0. Equal-cost moves are accepted in the displayed symmetric-proposal
+  rule.
+- At fixed T the Boltzmann interpretation requires a proper target and a valid transition construction.
+  Arbitrary asymmetric proposals do not justify dropping the reverse-to-forward proposal ratio. Lowering
+  T changes the target; stationarity for a fixed stage does not imply equilibrium throughout a finite
+  cooling run.
+- Positive-temperature uphill acceptance only permits escape through moves supported by the proposal.
+  It does not ensure reaching every state, escaping a local basin in a chosen budget or tracking equilibrium.
+  Rapid cooling can freeze search prematurely; schedule length, cost scale, move connectivity and constraints
+  matter.
+- The primary article’s heuristics and empirical scaling claims are not a finite-run global-convergence
+  theorem or a universal complexity bound. The later mathematical conditions for asymptotic annealing
+  convergence were not audited here. No electronic-design or traveling-salesman benchmark is reproduced.
+id: AIMech:SimulatedAnnealing
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Statistical Mechanics, PDF pp.3–4 / printed672–673, Metropolis acceptance and cooling schedule;
+    Summary and Conclusions, PDFp.10 / printed679
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Choose a representation of feasible configurations, an objective E to minimize, a random
+    rearrangement proposal and an annealing schedule specifying temperatures and work at each temperature.
+    At current configuration x, propose y and compute delta=E(y)−E(x). For the basic symmetric-proposal
+    Metropolis rule at effective temperature T>0 measured in cost units, accept delta<=0 moves and accept
+    delta>0 with probability exp(−delta/T); otherwise retain x. Repeat transitions at the current temperature,
+    then lower temperature according to the schedule. High temperatures permit larger cost-increasing
+    moves more frequently; cooling reduces that probability. The source motivates sufficient equilibration
+    at each stage. Candidate representation, move set and schedule depend on the optimization problem;
+    the returned low-cost configuration is a search result rather than a certified global minimizer.
+  evidence:
+  - source_id: method-source
+    locator: Statistical Mechanics, PDF pp.3–4 / printed672–673, Metropolis acceptance and cooling schedule;
+      Summary and Conclusions, PDFp.10 / printed679
+    relation: supports
+- claim_id: proposal-and-temperature-scope
+  kind: limitation
+  statement: 'Curator qualification by substituting pi_T(x) proportional to exp(−E(x)/T) into Hastings’s
+    Metropolis choice: when the target is proper and the ratio is defined, an asymmetric proposal requires
+    acceptance min(1,exp(−delta/T)*q(x|y)/q(y|x)). The uncorrected exponential rule follows when the proposal
+    ratio cancels. This fixed-temperature construction does not establish finite-schedule equilibration
+    or annealing convergence.'
+  evidence:
+  - source_id: method-source
+    locator: Statistical Mechanics, PDF pp.3–4 / printed672–673
+    relation: supports
+  - source_id: proposal-scope
+    locator: Section2.2, PDF pp.3–5 / printed99–101
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Optimization by Simulated Annealing
+  authors:
+  - S. Kirkpatrick
+  - C. D. Gelatt, Jr.
+  - M. P. Vecchi
+  source_type: primary_paper
+  url: https://hedibert.org/wp-content/uploads/2013/12/1983KirkpatrickGelattVecchi.pdf
+  version: Science 220(4598):671–680, May 13, 1983; public hosted scan with cover at PDF1, article beginning
+    at PDF2 and next unrelated article sharing PDF11
+  persistent_id: doi:10.1126/science.220.4598.671
+  access_level: full_text
+  accessed_at: '2026-10-11T12:53:34Z'
+  sha256: 06f76ea70632b7e2a87e86d0484a936da3bcbd4050355010c2b2934cba999e6c
+- source_id: proposal-scope
+  title: Monte Carlo sampling methods using Markov chains and their applications
+  authors:
+  - W. K. Hastings
+  source_type: primary_paper
+  url: https://probability.ca/hastings/hastings.pdf
+  version: Biometrika 57(1), 1970, printed pp. 97–109; 13-page published scan hosted by probability.ca
+  persistent_id: doi:10.1093/biomet/57.1.97
+  access_level: full_text
+  accessed_at: '2026-10-11T06:40:06Z'
+  sha256: dc620d3651d30029729646649e9a26780f1a415d7fd251433b6a270a143de47c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: Simulated annealing uses Metropolis transitions at a sequence of temperatures. The pinned
+    AIO target denotes a stochastic process/model and is exported beneath Network; this algorithm-to-process
+    relation is not equivalence or an is-a assertion. A fixed cooling schedule gives time-dependent transitions,
+    and changing temperature does not preserve a single stationary Boltzmann target throughout the run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:05:37Z'
+  updated_at: '2026-10-11T13:05:37Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

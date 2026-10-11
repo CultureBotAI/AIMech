@@ -1,0 +1,121 @@
+name: Cross-entropy optimization
+definition: A stochastic optimization method that iteratively samples a parameterized search distribution,
+  selects high-performing samples using an adaptive threshold, and refits the distribution by maximum
+  likelihood on those selected samples.
+concept_kind: algorithm
+identity_notes: This is the optimization branch of the cross-entropy method, represented by Algorithm2.3
+  in the inspected 2005 tutorial. It is distinct from the rare-event probability estimator, the cross-entropy
+  loss used to train a classifier, NES natural-gradient steps, and CMA-ES evolution-path covariance adaptation.
+  The sampling family and its fit define concrete instances; the generic algorithm is not limited to independent
+  Bernoulli variables or a Gaussian implementation. No normalized identity match was found across all
+  442 pinned AIO labels/scoped synonyms and 285 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in worktree and main, returning 15 and 15 lines respectively.
+  Every text hit was a prior candidate lead. Nine exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and seven native neighboring mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- 'A score>=threshold rule need not select exactly rho*N candidates: order-statistic indexing and tied
+  scores can increase the elite count. Implementations must state their quantile, tie and optimization-direction
+  conventions; minimization requires the corresponding lower-score criterion or an equivalent score transformation.'
+- Unsmoothed finite-sample fitting can produce Bernoulli probabilities 0 or 1 and remove future exploration.
+  Interior initialization and 0<alpha<1 prevent exact endpoints after a single convex smoothing step in
+  exact arithmetic; smoothing alone does not guarantee exploration forever or a global optimum, and finite
+  precision can still collapse support.
+- The choice of sampling family, initial support, sample size, elite fraction, fit constraints and stopping
+  rule matters. A stabilized threshold is not an optimality certificate; the source explicitly permits
+  getting trapped at a local minimum and limits its asymptotic discussion.
+- Maximum-likelihood fitting of selected candidates is a sampling-distribution update, not an unbiased
+  gradient of raw expected fitness. It does not require derivatives of the black-box objective; solving
+  the distribution fit may still require numerical optimization. No universal performance or convergence-rate
+  claim is curated.
+id: AIMech:CrossEntropyOptimization
+aliases:
+- Cross-entropy method for optimization
+definition_evidence:
+- source_id: method-source
+  locator: Section2.2, Algorithm2.3 and Remarks2.3–2.6, PDF pp.15–19 / printed33–37; Equation20, PDFp.12
+    / printed30; KL direction in Section2.1, PDF pp.10–11; discussion PDFp.46 / printed64
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Specify a sampling family f(x;v), initial parameter, sample size N, elite parameter rho
+    and stopping rule. For maximization, draw candidates from the current distribution, evaluate their
+    scores and choose the empirical (1−rho) quantile as threshold gamma. Fit new parameters by maximizing
+    the sum of log f(x;v) over sampled candidates with score at least gamma. The optimization formulation
+    uses unit weights: it redefines the associated stochastic problem at each iteration, so the rare-event
+    algorithm’s nominal-to-current likelihood ratio is absent. Optionally smooth the fitted parameter
+    toward the old one via v_new=alpha*v_fit+(1−alpha)*v_old. For independent Bernoulli coordinates, the
+    unsmoothed fit is the coordinatewise fraction of ones among selected samples. Iterate until the chosen
+    stopping condition; the displayed Algorithm2.3 uses an unchanged threshold over several iterations.
+    The source’s cross-entropy derivation minimizes KL from the ideal selected-event distribution to the
+    parameterized sampling distribution, not the reverse direction.'
+  evidence:
+  - source_id: method-source
+    locator: Section2.2, Algorithm2.3 and Remarks2.3–2.6, PDF pp.15–19 / printed33–37; Equation20, PDFp.12
+      / printed30; KL direction in Section2.1, PDF pp.10–11; discussion PDFp.46 / printed64
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Tutorial on the Cross-Entropy Method
+  authors:
+  - Pieter-Tjerk de Boer
+  - Dirk P. Kroese
+  - Shie Mannor
+  - Reuven Y. Rubinstein
+  source_type: primary_paper
+  url: https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf
+  version: Annals of Operations Research 134:19–67, 2005; 49-page published article hosted by Dirk Kroese;
+    distinct from the September 2003 manuscript
+  persistent_id: https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T12:53:34Z'
+  sha256: f68c734c278951aef659e8e4a984af80390c83daf06f76b500c6a37f10b3ff78
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities/scoped synonyms, all 285 preceding maintained identities,
+    ignored/hidden full-checkout text, and semantic inspection of nine exact AIO targets and seven native
+    neighbors.
+  rationale: No suitable mapping was found for this general optimization method in the inspected pin.
+    Learning tasks, evolutionary language models, predictive forests, bias concepts and a generic stochastic-process
+    representation do not establish the defining identity. This is a bounded local assessment, not a claim
+    of absence from other ontologies.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: This exact CLASS is a large language model using evolutionary computation. Its related
+      synonym evolutionary algorithms does not denote every stochastic optimizer or establish model equivalence.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The definition concerns preprocessing/training machine-learning models. Optional
+      neural-network or policy optimization applications do not define the full general optimization method.
+  - target: AIO:MachineLearningTask
+    rejection_reason: General objective optimization is not necessarily a task of learning from data as
+      in this target.
+  - target: AIO:MetaLearning
+    rejection_reason: Updating optimizer state or a search distribution is not necessarily learning from
+      metadata about machine-learning experiments.
+  - target: AIO:ActiveLearning
+    rejection_reason: Objective evaluation does not require querying labels for data points.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: These general optimizers do not inherently specify a policy/environment learning
+      task; a possible use in policy search is insufficient.
+  - target: AIO:RandomForest
+    rejection_reason: Neither particle memory nor an adaptive sampling distribution is a predictive decision-tree
+      ensemble.
+  - target: AIO:EvaluationBias
+    rejection_reason: This class describes evaluation population/metric bias rather than an optimization
+      algorithm.
+  - target: AIO:MarkovChain
+    rejection_reason: A possible augmented-state Markov representation is too generic to identify this
+      optimizer. The inspected defining operation is particle motion or elite-distribution refitting,
+      not construction of a target-invariant Markov sampler; the pinned network/model is not an equivalent
+      or necessary semantic parent.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:05:37Z'
+  updated_at: '2026-10-11T13:05:37Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
