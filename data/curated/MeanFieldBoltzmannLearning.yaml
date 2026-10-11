@@ -1,0 +1,97 @@
+name: Mean-field Boltzmann learning
+definition: A deterministic approximation to Boltzmann-machine parameter learning that substitutes mean-field
+  phase statistics for stochastic equilibrium correlations in the positive-minus-negative weight update.
+concept_kind: algorithm
+identity_notes: This record covers the Peterson–Anderson mean-field learning procedure, especially the
+  implemented product-of-means correlation approximation. Its supervised formulation clamps input and
+  output in the positive phase and input alone in the negative phase. It differs from inference at fixed
+  parameters, contrastive divergence with data-restarted sampling, persistent negative-phase sampling
+  and variational-positive/stochastic-negative hybrid learning. The term mean field here denotes a particular
+  deterministic phase approximation, not every method using a variational bound. No normalized identity
+  match was found across all442 pinned AIO labels and scoped synonyms and385 preceding native IDs/names/aliases
+  for the four researched candidates. Full-checkout fixed-string searches included ignored and hidden
+  files in both worktree and main, yielding78 and83 matched lines; all44 unique contents were read. Hits
+  concern prior source citations, pending leads, neighboring HME records and unrelated Python-license
+  authors, not existing records of the three selected identities. All76 semantic label/synonym hits and22
+  exact fully annotated AIO CLASS nodes with outgoing edges were read. Twenty-five contextual YAMLs were
+  byte-verified after prior full reading and eight freshly read, totaling22 generated and11 native neighbors.
+  Adaptive local experts substantially overlaps represented MDN/HME scope and receives no duplicate ID.
+  Bare context-sensitive HMM and csHMM are searched homonyms, not unconditional aliases. Absence is bounded
+  to the pin and inspected semantic neighborhood.
+limitations:
+- A difference of variational lower bounds for the clamped and free log partitions is not generally a
+  lower bound on their difference. Approximating both phases therefore does not by itself guarantee monotonic
+  conditional likelihood or an exact likelihood gradient.
+- Mean-field fixed points may depend on initialization and schedule; simultaneous updates need not converge
+  or improve a bound. The source’s infinite-network exactness wording is not a theorem for arbitrary graph
+  sequences.
+- Product-of-means correlations discard connected correlations. The source acknowledges finite-size discrepancies;
+  its stronger pair approximation is not the approximation used in the reported application studies.
+- For the stated binary energy, the consistent heatbath probability is sigmoid(2*effective_field/tau).
+  The sign and factor in the displayed baseline Equation(2.7) are inconsistent with that energy; AppendixA’s
+  flip-rate convention is consistent. The baseline display is not adopted as a verified implementation.
+- The XOR, encoder and line-symmetry studies have task-specific schedules, learning rates and stopping
+  rules. The line-symmetry footnote explicitly excludes unseen-pattern generalization. No speedup, accuracy,
+  generalization guarantee or training reproduction is curated.
+id: AIMech:MeanFieldBoltzmannLearning
+aliases:
+- Mean-field theory learning algorithm
+definition_evidence:
+- source_id: method-source
+  locator: Sections2–3, Equations(2.1)–(2.9),(3.10)–(3.15), printed pp.997–1002 / PDF pp.3–8; Sections4.1
+    and5, pp.1007,1016–1017 / PDF pp.13,22–23; AppendixA pp.1017–1018 / PDF pp.23–24
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For symmetric zero-diagonal weights T and binary spins s_i in {-1,+1}, use energy E=-sum_(i<j)
+    T_ij s_i s_j+sum_i I_i s_i, with thresholds representable by a fixed bias unit. At temperature tau,
+    approximate the unclamped means in each phase by m_i=tanh((sum_j T_ij m_j-I_i)/tau), keeping clamped
+    means at their observed spin values. The source solves these equations by iterative updates or a continuous
+    relaxation, usually over an annealing schedule. Its application studies approximate distinct-unit
+    correlations by rho_ij≈m_i m_j, including fixed clamped values, although Equation(3.14) discusses
+    a more involved correlation approximation. For a supervised example, calculate these moments once
+    with inputs and outputs clamped and once with only inputs clamped. Update a weight proportionally
+    to rho_ij_positive-rho_ij_negative; the inverse-temperature factor in the likelihood gradient may
+    be absorbed into the learning rate at a fixed final temperature. These are approximate learning statistics
+    and generally differ from exact conditional-likelihood derivatives.
+  evidence:
+  - source_id: method-source
+    locator: Sections2–3, Equations(2.1)–(2.9),(3.10)–(3.15), printed pp.997–1002 / PDF pp.3–8; Sections4.1
+      and5, pp.1007,1016–1017 / PDF pp.13,22–23; AppendixA pp.1017–1018 / PDF pp.23–24
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Mean Field Theory Learning Algorithm for Neural Networks
+  authors:
+  - Carsten Peterson
+  - James R. Anderson
+  source_type: primary_paper
+  url: https://wpmedia.wolfram.com/sites/13/2018/02/01-5-6.pdf
+  version: Complex Systems1(1987):995–1019, publisher-hosted25-page article. All pages visually read;
+    printed page=PDF page+994.
+  persistent_id: https://wpmedia.wolfram.com/sites/13/2018/02/01-5-6.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T20:19:36Z'
+  sha256: e51bee6e438d9d1789fa03bbf62031323c45cfa31edf151461b625f5ee2df56a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BoltzmannMachineNetwork
+  relation: related_match
+  rationale: The algorithm estimates parameter updates for the symmetrically connected stochastic network
+    named by the AIO target. A learning algorithm is distinct from the network family it trains.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: The inspected phase procedure learns conditional outputs from input-output examples. The
+    AIO target is the broader task context, not an exact algorithm identity or an asserted algorithm-to-task
+    subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T20:33:55Z'
+  updated_at: '2026-10-11T20:33:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
