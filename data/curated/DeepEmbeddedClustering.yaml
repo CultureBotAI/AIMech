@@ -1,0 +1,98 @@
+name: Deep embedded clustering
+definition: A neural clustering procedure that jointly refines an embedding and cluster centers by fitting
+  Student-t soft assignments to periodically refreshed, frequency-normalized squared-assignment targets.
+concept_kind: algorithm
+identity_notes: DEC denotes the original Xie et al. algorithm. Autoencoder reconstruction initializes
+  the encoder; reconstruction is not retained in the clustering objective. This is distinct from k-means
+  alone, hard pseudo-label classification in DeepCluster, balanced transport in SeLa, and later reconstruction-regularized
+  extensions. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+  and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts
+  found eight prior discovery/review references in each. Short acronyms were compared in normalized record
+  identities; broad text searches used the full names and longer aliases. Nearest maintained mechanisms
+  and seven exact AIO nodes with incident edges were inspected.
+limitations:
+- K, initialization, representation capacity and the target-refresh schedule affect the result. Frequency
+  normalization compensates for cluster mass but does not enforce equal cluster sizes or an externally
+  specified prior.
+- The auxiliary distribution amplifies confident assignments, including incorrect ones. Nonconvex optimization
+  and changing targets do not provide a general global-optimum or semantic-recovery guarantee.
+- The 0.1% label-change threshold is a stopping heuristic, not proof that an objective gradient is zero.
+  Student-t assignments are normalized similarity weights, not calibrated class probabilities.
+- The Python training driver was inspected, but the Caffe kernel and its gradients were not independently
+  audited or executed. No reported benchmark was reproduced.
+id: AIMech:DeepEmbeddedClustering
+aliases:
+- DEC
+- Unsupervised deep embedding for clustering analysis
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.2, Equations (1)–(5), PDF pp. 3–4; Section 4 implementation paragraph, PDF p.
+    6
+  relation: supports
+- source_id: additional-1
+  locator: 'dec/dec.py lines 194–220, 330–355 and 650–748: Student-t layer configuration, k-means initialization,
+    refreshed fixed target database and label-change stopping'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Initialize the encoder with a stacked denoising autoencoder followed by reconstruction fine-tuning;
+    discard the decoder and initialize K cluster centers with k-means on embeddings. With z_i=f_theta(x_i),
+    set s_ij=(1+||z_i−mu_j||²/alpha)^(-(alpha+1)/2), then q_ij=s_ij/sum_k s_ik; the reported experiments
+    use alpha=1. At a target refresh compute f_j=sum_i q_ij and p_ij=(q_ij²/f_j)/sum_k(q_ik²/f_k). Hold
+    P fixed while using minibatch gradient updates of encoder parameters and centers to reduce KL(P||Q)=sum_ij
+    p_ij log(p_ij/q_ij). Recompute assignments and targets periodically and repeat. Hard labels are argmax_j
+    q_ij; the reported stopping rule uses the fraction changing between checks. The pinned Python driver
+    materializes the target weights for a subsequent Caffe optimization interval, confirming that it does
+    not differentiate through target construction.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.2, Equations (1)–(5), PDF pp. 3–4; Section 4 implementation paragraph, PDF
+      p. 6
+    relation: supports
+  - source_id: additional-1
+    locator: 'dec/dec.py lines 194–220, 330–355 and 650–748: Student-t layer configuration, k-means initialization,
+      refreshed fixed target database and label-change stopping'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Unsupervised Deep Embedding for Clustering Analysis
+  authors:
+  - Junyuan Xie
+  - Ross Girshick
+  - Ali Farhadi
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/xieb16.pdf
+  version: ICML 2016, PMLR 48:478–487; ten-page proceedings PDF
+  persistent_id: https://proceedings.mlr.press/v48/xieb16.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:19:18Z'
+  sha256: d0d6b668038fd8d365c89bebe6bfdfbe31e611a71a803e95a0acfdd8b18f6e3f
+- source_id: additional-1
+  title: 'piiswrong/dec author implementation: dec/dec.py'
+  authors:
+  - piiswrong/dec contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/piiswrong/dec/e551e01f90a3d67d2ef9c90e968c8faf5d8f857d/dec/dec.py
+  version: piiswrong/dec commit e551e01f90a3d67d2ef9c90e968c8faf5d8f857d
+  persistent_id: https://github.com/piiswrong/dec/blob/e551e01f90a3d67d2ef9c90e968c8faf5d8f857d/dec/dec.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:30Z'
+  sha256: eb6ed719bdb8e9a5a06ec06c0ea82a2212f318b829d5800368e5981fee6d9cbb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm learns assignments for an unlabeled clustering task. For IMSAT this mapping
+    concerns its categorical configuration, not binary hashing. The AIO target is a task; this is an algorithm-to-task
+    association, not equivalence or an is-a assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:30:19Z'
+  updated_at: '2026-10-11T08:30:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
