@@ -1,0 +1,1206 @@
+# Scientific self-review of generalized root models and Poisson/exponential specializations
+
+- Review: 20261011T230024Z-generalized-root-models
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T22:55:51Z
+- Finished UTC: 2026-10-11T23:00:24Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain GRM and its distinct Poisson and exponential specializations as DRAFT concepts. Tensor conventions, support/base-measure differences, conditional laws and qualified normalization regimes are supported. Printed numerical expressions and radial measure remain explicitly qualified. No actionable curation finding remains in the selected batch.
+
+## Scope And Provenance
+
+All fields of the general root-tensor construction and its Poisson and exponential specializations.
+
+Selection: Exact maintained IDs GeneralizedRootModel, PoissonGeneralizedRootModel and ExponentialGeneralizedRootModel; complete selected batch without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base d2eb5edb1a3023ef20559fa8a97c17cd448f15bb.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GeneralizedRootModel | data/curated/GeneralizedRootModel.yaml | maintained | Generalized root model |
+| AIMech:PoissonGeneralizedRootModel | data/curated/PoissonGeneralizedRootModel.yaml | maintained | Poisson generalized root model |
+| AIMech:ExponentialGeneralizedRootModel | data/curated/ExponentialGeneralizedRootModel.yaml | maintained | Exponential generalized root model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 118.79s (0:01:58)<br>Checked 442 record(s); 0 failed.<br>Checked 415 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 119 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 116,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel | Command exited 0 with no output. |
+| GRM tensor/conditional identities, higher-order witness, normalization and source-expression checks | passed | True | AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel | {"status": "PASS", "conditional_increment_checks": 192, "triple_mixed_difference": 1.2000000000000002, "pairwise_mixed_difference": 0, "ordered_triple_multiplicity": 6, "amgm_witnesses": 345, "poisson_envelope_C": 4.65, "poisson_envelope_d": [2.95, 2.8000000000000003, 2.4000000000000004], "poisson_log_envelope_sum": 51.22377687997031, "strict_exponential_decay": 0.3, "lower_degree_bound_constant": 3.3, "flat_leading_boundary_partition": 8, "corrected_moment": 2, "printed_moment": 1, "exact_poisson_variance": 2, "printed_hessian_first_entry_approx": -0.6342723408804218, "poisson_zero_atom": 0.1353352832366127, "radial_partition_with_jacobian": 0.125, "radial_integral_without_jacobian": 0.25, "scope": "Original finite witnesses and analytic domination arguments; no author implementation, fitting, benchmark, general boundary classification or finite-grid tail proof."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:GeneralizedRootModel.
+
+This is the generalized root construction of Inouye et al., abbreviated GRM in that paper. GRM is not globally unique: search results also use it for unrelated growth, regression and rendering models, so the bare acronym is not an asserted alias. The family extends the square-root construction beyond pairwise interactions and includes it at k=2; inclusion is not equivalence of the unrestricted families. Its Poisson and exponential specializations differ in support, base measure and validity regime. A root transformation followed by an arbitrary model is not this construction. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 412 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding four and zero matched lines; all three unique contents were read and refer to the prior GRM frontier or publication URL, not existing records. Search preparation occurred before the preceding SQR merge; those three inspected record bytes are unchanged. The provisional bare GRM acronym was checked in normalized identities but omitted from broad text searches; because web results expose unrelated acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges were byte-verified against prior inspected nodes. Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after prior full reading and three SQR records were fully read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+Choose finite p and a finite maximum interaction order k, a scalar nonnegative sufficient statistic T, a base log measure B and a product reference measure. Let s_j(t) be the specified j-th-root statistic. Normally s_j=T^(1/j); the paper explicitly uses s_j=f^c when T=f^(c*j) for a positive integer c, allowing the signed Gaussian convention s_2(x)=x when T=x^2. For 1&lt;=ell&lt;=j&lt;=k, let Psi_j^ell be a finite real super-symmetric order-ell tensor with zero entries whenever indices repeat. Define H(x)=sum_j sum_(ell&lt;=j) &lt;Psi_j^ell,s_j(x)^(tensor ell)&gt; using all ordered indices, and p(x)=Z^(-1)*exp[H(x)+sum_i B(x_i)], requiring 0&lt;Z&lt;infinity. The site-s conditional has kernel exp[sum_j eta_js*s_j(t)+B(t)], where eta_js=sum_(ell&lt;=j) ell*&lt;the slice of Psi_j^ell with one index fixed at s,s_j(x_-s)^(tensor (ell-1))&gt;. Zero repeated-index entries remove terms with the site occurring more than once. At k=1 the law is an independent base family at valid parameters. At k=2 it recovers SQR with Psi_1^1=diag(Phi), Psi_2^1=theta and Psi_2^2 equal to off-diagonal Phi. Higher-order terms can encode interactions not representable by a pairwise log potential. Limitations: Roots, statistic domains and reference measures must be specified. The signed convention is not the ordinary identity sqrt(x^2)=x on the real line. This record does not assert a general Gaussian higher-order normalization theorem. Finite partition is an explicit requirement, not a theorem that every base exponential family permits every finite tensor. Poisson factorial domination and exponential tail restrictions require separate reasoning. Tensors are super-symmetric and zero on repeated indices. Full ordered-index contraction counts a distinct unordered ell-variable term ell! times; coefficients must be translated consistently when switching to once-counted clique notation. Separately fitted node regressions do not automatically agree on compatible joint tensors. The general family includes all 1&lt;=ell&lt;=j&lt;=k terms. The paper’s strongest-interaction subfamily retains only ell=j and omits lower-degree terms; its experiments do not evaluate every member of the general family. Nonzero higher-order interactions do not require nonzero lower-order interactions. Base-family naming does not make all full conditionals or marginals ordinary Poisson or exponential laws. An interaction coefficient is not a universal marginal-correlation or causal-effect measure. For T=x, the printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius law under x=z*v. A bounded directional domain also does not alone establish integrability from pointwise finite ray integrals. Count directions require their own discrete measure. Direct joint domination is used for the Poisson and strict exponential regimes. The numerical section requires qualification: after Equation (15), E[x^a] must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2. Linear bounds must retain the base log measure B; inclusive count-interval probabilities need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks of displayed expressions, not a reproduced implementation defect or an author-issued correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like updates are estimation procedures separate from the model definition. A fixed number of approximation intervals gives no universal accuracy guarantee. No author code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced. The reported k=3 Poisson word-count examples rank weighted tuples from Classic3 abstracts and sampled Grolier articles. They are qualitative context, not evidence of held-out prediction, causal discovery or universal graph recovery. The proposed low-rank and staged parameter reductions are not established evaluated variants in this source.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:PoissonGeneralizedRootModel.
+
+Poisson GRM is the count-base specialization of generalized root models and extends Poisson SQR beyond pairwise terms. It retains counting measure and factorial weights. It is not the classical auto-Poisson field, finite-support truncated Poisson model, factorial-free quadratic Poisson model or bounded-statistic sublinear Poisson model. It also differs from a latent topic model: the defining interactions are explicit functions of observed counts. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 412 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding four and zero matched lines; all three unique contents were read and refer to the prior GRM frontier or publication URL, not existing records. Search preparation occurred before the preceding SQR merge; those three inspected record bytes are unchanged. The provisional bare GRM acronym was checked in normalized identities but omitted from broad text searches; because web results expose unrelated acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges were byte-verified against prior inspected nodes. Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after prior full reading and three SQR records were fully read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+On x in nonnegative-integer p-space, use T(x)=x, B(x)=-log(x!) and ordinary nonnegative roots in the GRM tensor construction. The joint kernel is exp[sum_j sum_(ell&lt;=j) &lt;Psi_j^ell,(x^(1/j))^(tensor ell)&gt;]/product_i x_i!, with finite real super-symmetric tensors zero on repeated indices. All finite tensor choices have a finite partition for finite p,k. For an ell-variable term, AM–GM gives product_(i in S) x_i^(1/j)&lt;=(sum_(i in S) x_i/ell)^(ell/j)&lt;=1+sum_(i in S) x_i because ell&lt;=j. Bounding the finitely many coefficients in absolute value yields H(x)&lt;=C+sum_i d_i*x_i; summing the product envelope gives Z&lt;=exp(C+sum_i exp(d_i))&lt;infinity. This direct curator derivation supports the source’s parameter-existence result without its radial measure argument. A site conditional has kernel exp[sum_j eta_js*t^(1/j)]/t!, t&gt;=0, with eta_js given by the symmetric tensor-slice contractions. It is generally not ordinary Poisson when fractional-root terms are present. Only the linear unary terms remaining gives independent Poisson means exp(Psi_1^1[i]); k=2 reproduces Poisson SQR. Limitations: The all-finite-parameter result depends on factorial weights, finite dimension and finite maximum order. It does not justify dropping the factorials, using an infinite graph or taking unbounded parameter limits. The conditional normalizer is generally an infinite sum. Existence does not certify a numerical cutoff or make exp(eta_1s) its general conditional mean. Tensors are super-symmetric and zero on repeated indices. Full ordered-index contraction counts a distinct unordered ell-variable term ell! times; coefficients must be translated consistently when switching to once-counted clique notation. Separately fitted node regressions do not automatically agree on compatible joint tensors. The general family includes all 1&lt;=ell&lt;=j&lt;=k terms. The paper’s strongest-interaction subfamily retains only ell=j and omits lower-degree terms; its experiments do not evaluate every member of the general family. Nonzero higher-order interactions do not require nonzero lower-order interactions. Base-family naming does not make all full conditionals or marginals ordinary Poisson or exponential laws. An interaction coefficient is not a universal marginal-correlation or causal-effect measure. For T=x, the printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius law under x=z*v. A bounded directional domain also does not alone establish integrability from pointwise finite ray integrals. Count directions require their own discrete measure. Direct joint domination is used for the Poisson and strict exponential regimes. The numerical section requires qualification: after Equation (15), E[x^a] must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2. Linear bounds must retain the base log measure B; inclusive count-interval probabilities need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks of displayed expressions, not a reproduced implementation defect or an author-issued correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like updates are estimation procedures separate from the model definition. A fixed number of approximation intervals gives no universal accuracy guarantee. No author code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced. The reported k=3 Poisson word-count examples rank weighted tuples from Classic3 abstracts and sampled Grolier articles. They are qualitative context, not evidence of held-out prediction, causal discovery or universal graph recovery. The proposed low-rank and staged parameter reductions are not established evaluated variants in this source.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:ExponentialGeneralizedRootModel.
+
+Exponential GRM uses Lebesgue measure with T=x and B=0. It extends exponential SQR to higher-order root products and differs from Poisson GRM by support and absence of factorial weights. The name describes its base construction, not a claim that every node conditional is an ordinary exponential law or that it is a temporal waiting-time process. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 412 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding four and zero matched lines; all three unique contents were read and refer to the prior GRM frontier or publication URL, not existing records. Search preparation occurred before the preceding SQR merge; those three inspected record bytes are unchanged. The provisional bare GRM acronym was checked in normalized identities but omitted from broad text searches; because web results expose unrelated acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges were byte-verified against prior inspected nodes. Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after prior full reading and three SQR records were fully read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+For x_i&gt;=0 under product Lebesgue measure, set H(x)=sum_j sum_(ell&lt;=j) &lt;Psi_j^ell,(x^(1/j))^(tensor ell)&gt; with finite real super-symmetric tensors zero on repeated indices, and p(x)=exp(H(x))/Z for 0&lt;Z&lt;infinity. Let L(x)=sum_j &lt;Psi_j^j,(x^(1/j))^(tensor j)&gt; collect the degree-one terms. If L(v)&lt;0 for every v&gt;=0 with sum_i v_i=1, continuity on this compact simplex yields L(x)&lt;=-c*sum_i x_i for some c&gt;0. Each remaining term has degree r=ell/j&lt;1 and is bounded in magnitude by a constant times (sum_i x_i)^r. Their finite sum is at most epsilon*sum_i x_i+C for any epsilon&gt;0 with a suitable finite C. Choosing epsilon&lt;c gives an integrable product-exponential envelope. This is a sufficient strict regime, not a complete characterization: with only negative unary square-root terms the degree-one part vanishes but the joint integral is product_i 2/b_i^2 for b_i&lt;0. The site conditional has kernel exp[sum_j eta_js*t^(1/j)] on t&gt;=0. Only negative linear unary terms remaining gives independent exponentials of rates -Psi_1^1[i]; k=2 recovers exponential SQR. Limitations: Strict negativity on the full nonnegative unit simplex includes its boundary and gives uniform decay. It is sufficient, not necessary. Flat-leading directions require lower-degree analysis; no exhaustive multivariate boundary classification is claimed. Individual full-conditional normalizability does not alone guarantee a normalizable joint law. Changing roots as coordinates also changes the measure through a Jacobian. The Poisson word-count experiments do not empirically validate a higher-order exponential GRM. No fitted continuous-data example or author implementation was reproduced in this curation. Tensors are super-symmetric and zero on repeated indices. Full ordered-index contraction counts a distinct unordered ell-variable term ell! times; coefficients must be translated consistently when switching to once-counted clique notation. Separately fitted node regressions do not automatically agree on compatible joint tensors. The general family includes all 1&lt;=ell&lt;=j&lt;=k terms. The paper’s strongest-interaction subfamily retains only ell=j and omits lower-degree terms; its experiments do not evaluate every member of the general family. Nonzero higher-order interactions do not require nonzero lower-order interactions. Base-family naming does not make all full conditionals or marginals ordinary Poisson or exponential laws. An interaction coefficient is not a universal marginal-correlation or causal-effect measure. For T=x, the printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius law under x=z*v. A bounded directional domain also does not alone establish integrability from pointwise finite ray integrals. Count directions require their own discrete measure. Direct joint domination is used for the Poisson and strict exponential regimes. The numerical section requires qualification: after Equation (15), E[x^a] must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2. Linear bounds must retain the base log measure B; inclusive count-interval probabilities need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks of displayed expressions, not a reproduced implementation defect or an author-issued correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like updates are estimation procedures separate from the model definition. A fixed number of approximation intervals gives no universal accuracy guarantee. No author code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced. The reported k=3 Poisson word-count examples rank weighted tuples from Classic3 abstracts and sampled Grolier articles. They are qualitative context, not evidence of held-out prediction, causal discovery or universal graph recovery. The proposed low-rank and staged parameter reductions are not established evaluated variants in this source.
+
+### Root statistics, tensor conventions and higher-order identity
+
+consistency: supported. Targets: AIMech:GeneralizedRootModel.
+
+Retain the general GRM construction.
+
+The full construction includes every ell&lt;=j&lt;=k tensor term, unlike the restricted ell=j experimental subfamily. Super-symmetry and zero repeated-index entries give ell! ordered multiplicity and a factor ell in each node-slice coefficient. Finite arithmetic checks verify 192 joint/conditional increments. A genuine triple interaction yields a nonzero third mixed log-potential difference that no unary/pairwise sum can reproduce; setting triple coefficients to zero eliminates it. The k=2 construction matches SQR exactly, so inclusion is preserved without collapsing the broader family into its special case. Specified root conventions and the finite-partition requirement remain explicit; no arbitrary-root or universal Gaussian claim is made.
+
+### Unbounded integer support and factorial domination
+
+consistency: supported. Targets: AIMech:PoissonGeneralizedRootModel.
+
+Retain Poisson GRM.
+
+The count support and factorial base measure distinguish this specialization. AM–GM bounds each ell-variable j-root monomial by at most 1+sum x_i because ell&lt;=j; finitely many finite tensor coefficients yield a linear upper envelope. Product factorial sums then prove a finite joint partition for all finite parameters. Finite witnesses illustrate the inequalities without being used as a tail proof. Conditional roots usually change the ordinary Poisson law; linear unary terms alone recover independent Poisson means. Classical raw-count interactions, finite truncation, factorial-free quadratics and bounded statistics are different constructions.
+
+### Continuous measure and strict leading-degree decay
+
+consistency: supported. Targets: AIMech:ExponentialGeneralizedRootModel.
+
+Retain exponential GRM with qualified validity conditions.
+
+The homogeneous degree-one part must be uniformly negative on the entire nonnegative unit simplex for the stated sufficient regime. Compactness produces a linear negative bound, and lower-degree terms admit arbitrarily small linear envelopes plus constants. A positive triple-interaction example satisfies the strict regime; negative unary square roots provide a finite flat-leading boundary example. Thus strict negativity is sufficient, not necessary, and no full boundary classification is claimed. Poisson word-count experiments are not empirical evidence for a continuous higher-order fit.
+
+### Displayed expressions, interval probabilities and radial measure
+
+consistency: supported. Targets: AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel.
+
+Keep the numerical and measure qualifications explicit.
+
+The moment identity requires M(0), giving Poisson mean 2 where the printed M(1) expression gives 1. The first Hessian row requires covariance with x and exponent 1/j+1; a Poisson witness makes the printed entry approximately -0.634 rather than the true variance 2. Linear bounds must retain B. An inclusive singleton count interval exposes the lost lower atom under F(b)-F(a), and zero requires explicit handling. The p=3 L1 change contributes z^2: a rate-2 independent kernel has partition 1/8, compared with 1/4 from a bare ray integral. These are checks of mathematical displays, not claims about unseen source code. Extracted text confirmed the cross-derivative indices in Equation 11, withdrawing an initial visual suspicion. Fixed approximation intervals, qualitative tuples and proposed reductions do not establish generic accuracy or recovery.
+
+### Directional AIO mappings and acronym boundaries
+
+grounding: supported. Targets: AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel.
+
+Retain all three native identities with scoped AIO mappings.
+
+All three concepts map broad to Model and related to the task-scoped ProbabilisticGraphicalModel. These are local assessments, not upstream assertions. The general construction includes two different base-specific families; the Poisson specialization has factorial count weights while the exponential specialization uses Lebesgue measure and requires joint integrability. Their k=2 SQR subfamilies do not exhaust higher-order potentials. An explicit nonzero three-way log-potential difference distinguishes genuine triple interactions from sums of unary and pairwise potentials. Existing classical and modified count fields use different statistics, supports or interactions. AIO regression classes and Lasso/Ridge describe regression or penalization, not these joint model identities. Topic and language-model classes impose latent-topic or linguistic semantics absent from the generic observed-variable construction. Boltzmann/Hopfield architectures, Gaussian neural layers, activation functions, preprocessing, normalization and radial-basis networks do not define these tensor potentials. Temporal autoregressions and MarkovChain add ordering not required here; BayesianNetwork and CausalGraphicalModel do not supply the same undirected or causal semantics. Sparse/autoencoder/hidden-layer classes are not justified by the proposed low-rank reductions. The 21 native neighbors distinguish general, latent, classical, modified and square-root models from estimation, sampling and state optimization. Contextual reading does not renew scientific approval of older records.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:GeneralizedRootModel, AIMech:PoissonGeneralizedRootModel, AIMech:ExponentialGeneralizedRootModel. The general construction is broader than the two base-specific families. Poisson GRM uses count support and factorial weights with all finite tensor parameters admissible; exponential GRM uses continuous measure with joint-integrability restrictions. Their k=2 SQR cases do not exhaust the higher-order potentials. Preserve these distinctions and their directional AIO mappings; do not use the globally ambiguous bare GRM acronym as an identity alias.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T225513Z-generalized-root-models.json | supports | No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 412 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding four and zero matched lines; all three unique contents were read and refer to the prior GRM frontier or publication URL, not existing records. Search preparation occurred before the preceding SQR merge; those three inspected record bytes are unchanged. The provisional bare GRM acronym was checked in normalized identities but omitted from broad text searches; because web results expose unrelated acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges were byte-verified against prior inspected nodes. Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after prior full reading and three SQR records were fully read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood. |
+| mapping | sources/aio/aio.json; 46 exact CLASS nodes and outgoing edges, and 186 semantic label/synonym hits in source_analysis.aio_mapping_inspection | supports | All three concepts map broad to Model and related to the task-scoped ProbabilisticGraphicalModel. These are local assessments, not upstream assertions. The general construction includes two different base-specific families; the Poisson specialization has factorial count weights while the exponential specialization uses Lebesgue measure and requires joint integrability. Their k=2 SQR subfamilies do not exhaust higher-order potentials. An explicit nonzero three-way log-potential difference distinguishes genuine triple interactions from sums of unary and pairwise potentials. Existing classical and modified count fields use different statistics, supports or interactions. AIO regression classes and Lasso/Ridge describe regression or penalization, not these joint model identities. Topic and language-model classes impose latent-topic or linguistic semantics absent from the generic observed-variable construction. Boltzmann/Hopfield architectures, Gaussian neural layers, activation functions, preprocessing, normalization and radial-basis networks do not define these tensor potentials. Temporal autoregressions and MarkovChain add ordering not required here; BayesianNetwork and CausalGraphicalModel do not supply the same undirected or causal semantics. Sparse/autoencoder/hidden-layer classes are not justified by the proposed low-rank reductions. The 21 native neighbors distinguish general, latent, classical, modified and square-root models from estimation, sampling and state optimization. Contextual reading does not renew scientific approval of older records. |
+| neighbors | research/discovery/20261011T225513Z-generalized-root-models.json; source_analysis.aio_mapping_inspection.native_neighbors and context_reading | supports | Twenty-one complete native contextual records read or byte-verified after prior full reading: the 18 round96 neighbors plus general, Poisson and exponential SQR models. These distinguish probability models, observation layers and estimation/inference procedures. Context reading does not renew scientific approval of these earlier records. |
+| finite-boundaries | research/discovery/generalized-root-boundaries.py; Ordered tensor counting, conditional energy increments, triple interactions, k=2 reduction, direct domination and numerical-expression witnesses | supports | Original witnesses verify 192 node-conditional energy increments under ordered symmetric tensor contraction and the sixfold triple multiplicity. The nonzero third mixed difference 1.2 disappears when triple terms are removed, proving this witness is not pairwise. k=2 potentials match SQR. AM–GM witnesses accompany an analytic finite-coefficient factorial envelope; finite grids are not a tail proof. A positive triple interaction and lower-degree terms satisfy a direct strict exponential bound, while negative unary roots give a finite flat-leading boundary example. Printed M(1) normalization produces mean 1 instead of the exact Poisson mean 2; the displayed first Hessian entry yields an approximate negative value instead of the exact positive variance 2. An inclusive singleton count interval exposes the missing lower atom under unadjusted CDF endpoints. A three-dimensional L1 coordinate calculation gives partition 1/8 with the Jacobian and 1/4 without. These are curator calculations and analytic arguments, not author-code reproduction, empirical fitting, or an exhaustive boundary classification. |
+| generalizedrootmodel-source-0 | https://arxiv.org/pdf/1606.00813v1; Section 3, pp. 2–3, tensor conventions, Equations (1)–(4) and root footnote; Section 3.2, p. 4, Equation (5); Appendix A, p. 11, conditional derivation; Section 3.3, p. 5, base-specific normalization; Sections 4–6, pp. 6–10, numerical expressions, qualitative examples and proposed reductions; Appendices C–F, pp. 12–21, numerical bounds and tuple lists | supports | Generalized Root Models: Beyond Pairwise Graphical Models for Univariate Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and printed page numbers agree. PDF creation metadata from 2021 is not treated as publication or revision evidence. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| poissongeneralizedrootmodel-source-0 | https://arxiv.org/pdf/1606.00813v1; Section 3, pp. 3–5, Equations (3) and (5) and Poisson normalization in Section 3.3; Appendix A, p. 11; Section 5 and Table 1, p. 9, restricted k=3 word-count examples; Sections 4–6, pp. 6–10, numerical expressions, qualitative examples and proposed reductions; Appendices C–F, pp. 12–21, numerical bounds and tuple lists | supports | Generalized Root Models: Beyond Pairwise Graphical Models for Univariate Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and printed page numbers agree. PDF creation metadata from 2021 is not treated as publication or revision evidence. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| exponentialgeneralizedrootmodel-source-0 | https://arxiv.org/pdf/1606.00813v1; Section 3, pp. 3–5, Equations (3) and (5) and exponential normalization in Section 3.3; Appendix A, p. 11; Sections 4.1–4.2, pp. 6–8, numerical scope and displayed expressions; Sections 4–6, pp. 6–10, numerical expressions, qualitative examples and proposed reductions; Appendices C–F, pp. 12–21, numerical bounds and tuple lists | supports | Generalized Root Models: Beyond Pairwise Graphical Models for Univariate Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and printed page numbers agree. PDF creation metadata from 2021 is not treated as publication or revision evidence. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- All 21 arXiv v1 pages were visually read, including figures, tables, bibliography and all appendix lists. Extracted pages 6–8 were read in full to disambiguate numerical expressions. No full extracted-text reading or author-code inspection is asserted.
+- The PDF download, extraction and rendering succeeded. The 2016 arXiv submission version is explicit; 2021 PDF metadata does not establish a new publication version.
+- Equation 11 cross-derivative indices were confirmed by extracted text and an initial visual suspicion was withdrawn. Equation 14 first-row exponent and the M(1) denominator in the following moment expression remain visibly inconsistent with covariance/normalization identities.
+- Numerical expressions also require base-measure, discrete endpoint and zero-atom care. A bounded web search did not establish an author erratum. These are curator mathematical qualifications, not evidence that a particular author implementation contains the displayed defects.
+- Direct finite-graph domination proves Poisson finiteness and the stated strict exponential regime without relying on the printed radial measure argument. Finite arithmetic witnesses do not establish general boundary classification, numerical convergence, empirical performance or graph recovery.
+- Only the original GRM manuscript is full-method evidence here. Other search results and references are discovery context. Bare GRM has unrelated acronym meanings and is not a global identity alias.
+- All additions remain DRAFT. Adversarial author self-review is required; the discovery frontier remains nonempty.
+- Source locators were expanded before formal review to cover numerical qualifications, qualitative experiments, proposed reductions and appendix tables; final updated bytes were inspected.
+- The initial sandboxed vendored-check failed to resolve raw.githubusercontent.com; the authorized network retry passed with all 22 governed artifacts matching the pin.
+- 242 pending leads plus other unresolved dispositions remain; discovery continues.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T230024Z-generalized-root-models
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of generalized root models and Poisson/exponential specializations
+started_at: '2026-10-11T22:55:51Z'
+finished_at: '2026-10-11T23:00:24Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed every field of three
+    final records against all 21 arXiv v1 pages, visually read, and extracted pages
+    6–8. Forty-six exact AIO nodes and 21 native neighbors inform identity and mapping
+    boundaries. Original mathematical witnesses check tensor counting, conditional
+    laws, higher-order terms, direct bounds and displayed numerical expressions. This
+    is author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain GRM and its distinct Poisson and exponential specializations as DRAFT
+  concepts. Tensor conventions, support/base-measure differences, conditional laws
+  and qualified normalization regimes are supported. Printed numerical expressions
+  and radial measure remain explicitly qualified. No actionable curation finding remains
+  in the selected batch.
+source:
+  git_revision: d2eb5edb1a3023ef20559fa8a97c17cd448f15bb
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/AutoregressiveMovingAverage.yaml
+    sha256: eb69aaedb34d8c9e620ef4f0d20111feaf9c3dd09236f57536561e9a6cccdf53
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BinaryClassification.yaml
+    sha256: 4c710e70fe7e71227f0c6aa55162a3683f04ebbe6f5a4601bd4c0398329f1481
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CategoryEncodingLayer.yaml
+    sha256: ca7e7f35c28bbd84a60b39be9d4b91c9d0c2015e180c0231a7ccfc2d09d50237
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/DenoisingAutoEncoder.yaml
+    sha256: f9d3ccf856e3aa3b7d01af120409640900e270f26c4e470003219d321816074f
+    role: context
+  - path: data/aio/ELUFunction.yaml
+    sha256: b9e1186643ec0e53fe86064121607ea1c5b9cb8f32935ecd3f47a2e0a1d9780d
+    role: context
+  - path: data/aio/EnergyBasedLLM.yaml
+    sha256: e9e29aa4f8400ad463dfe058fade876ef36c4a2637e1ebc4b42688116896310b
+    role: context
+  - path: data/aio/ExponentialFunction.yaml
+    sha256: a9e6fe9954dee5c61f799631c1892a99a891468e81e725e584d1a3dc06d84239
+    role: context
+  - path: data/aio/ExponentialSmoothingStateSpaceModel.yaml
+    sha256: e54f9504ddd176b6fc08542cdacb2ab5cdb5a25cec8501ccf071de34881ec79d
+    role: context
+  - path: data/aio/GaussianDropoutLayer.yaml
+    sha256: d709e2b88e01052b2dbb1a1e3213a79b428c3c1de4acb2e55c875528250d58d2
+    role: context
+  - path: data/aio/GaussianNoiseLayer.yaml
+    sha256: 1d6c203daf9e9a5a450a85a7d7bf6e55bb9bffbeea7ceffcc1a8aefbd9629452
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/HardSigmoidFunction.yaml
+    sha256: d9a78ced04a24c242291fab0c7a37082572fc33b61f8bab3f3ae6bf8e56640c6
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/HopfieldNetwork.yaml
+    sha256: 042815574abb3502427a76bb970ab78fd1ef684fa5f807b41c948ddb62e63822
+    role: context
+  - path: data/aio/ImplicitLanguageModel.yaml
+    sha256: 818c396b19757360dcdff6291a85d589c50638e0dc6d6bfcd96fdcb7bdf46ce9
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MaximumLayer.yaml
+    sha256: 7e034921f50c25cba46a261fc2f30b638ec7c5129fb150ee8d26373b4a6f3d54
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/MulticlassClassification.yaml
+    sha256: dcf165047485763fd91782b9a9ba43202d58f00fd33b8545893a5eae327de171
+    role: context
+  - path: data/aio/Normalization.yaml
+    sha256: ecdbd41476b6125c670855f1f00090047acd61f5ee16d71384f6b9ed86bea2bb
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RadialBasisNetwork.yaml
+    sha256: 67023f07d0faf5c76e4ef59d1be8b78edf40775223592ab94324607e5403a489
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/aio/SELUFunction.yaml
+    sha256: 03f46f5941f2dc811c83ffbf1dd52cd15ea7537372f9c5ab2dd1b1ec1f85a352
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/aio/SpatialRegression.yaml
+    sha256: 88d7d2d80262e45a56d05abcff674c3240be7ea2799782c64ba7ea1740250a37
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/aio/VectorAutoregression.yaml
+    sha256: 8a8e67b3efe79835eb5ce1edc437fe4fe9f6f6c95d7aeb22b602c97c38d3c211
+    role: context
+  - path: data/curated/AutoBinomialMarkovRandomField.yaml
+    sha256: 603681bffd077f87a3c459b776d7c7ba0e27196edb3998666c0bce4278cfb7d1
+    role: context
+  - path: data/curated/AutoExponentialMarkovRandomField.yaml
+    sha256: 9c385d96d6f32e163ae11fab020827dfcbbcbe07880ed18425fb7223c404ebf2
+    role: context
+  - path: data/curated/AutoNormalMarkovRandomField.yaml
+    sha256: da7cfa897744f9b67bf75a4a8f0ea7748c1a052ed6ef063f0fbceec094e0ec90
+    role: context
+  - path: data/curated/AutoPoissonMarkovRandomField.yaml
+    sha256: c54d99b85a9618652e078124ef40ae66e4744e61dbda5993ac4ffb5d9418f715
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/ExponentialGeneralizedRootModel.yaml
+    sha256: d1aaa807b5b6ce71d27d47b300766af4bf1a6082781a4dad9b5c2d136d6b955e
+    role: target
+  - path: data/curated/ExponentialSquareRootGraphicalModel.yaml
+    sha256: 3232ba2ac723a29320bec3c7572f53bebc7409d758806aa106be68d441b85965
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GeneralizedRootModel.yaml
+    sha256: 0c1765f2576b9df3bc060048775824b1ece186a3e328c87aeda46621ec93da01
+    role: target
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HiddenMarkovRandomField.yaml
+    sha256: 620a68339af0155d1b1f83304dde7fed4634ec95e5a9541480f0d0b37b326327
+    role: context
+  - path: data/curated/HiddenMarkovTree.yaml
+    sha256: ca89c267443e8b806d61b389943bd06a514fb8a95668bd604fae4ecc2d873e1b
+    role: context
+  - path: data/curated/IteratedConditionalModes.yaml
+    sha256: e3cab6676e99fc64d8afca411250e28eec5126524709c6e67988180fa54ffc78
+    role: context
+  - path: data/curated/IterativeConditionalEstimation.yaml
+    sha256: 98813e020f43870f725a5c1e4ab0de9197f0dc2bc85f61e66e2044ab8d87e9cc
+    role: context
+  - path: data/curated/MarkovRandomField.yaml
+    sha256: 03b1f2a66b2183a5bf5943bee7ec0619b9e07947d6c9187263e279ee475f9149
+    role: context
+  - path: data/curated/MaximumCodingLikelihoodEstimation.yaml
+    sha256: 7a298997509be9824c83fdfb953e01cb09ba5834be395d35237392eea4a00435
+    role: context
+  - path: data/curated/MaximumPseudolikelihoodEstimation.yaml
+    sha256: b529f9ae03da6f4c1153a5dcc222342b9eacb0b7496273254ee66b20b366e70c
+    role: context
+  - path: data/curated/PoissonGeneralizedRootModel.yaml
+    sha256: 7b4e1ac3f1bd5fd5d021b7d5d94b5d2eba54efb14be29761353eb5e34571f0d9
+    role: target
+  - path: data/curated/PoissonSquareRootGraphicalModel.yaml
+    sha256: 958e290563924700f26b69d577fbd1b562a21c052fdbd1565a85c0c08971b4bf
+    role: context
+  - path: data/curated/QuadraticPoissonGraphicalModel.yaml
+    sha256: 04f1aab815e8f5daaefa32be6471d1582159d0a1463a41b36da9d6e9dce5fc34
+    role: context
+  - path: data/curated/SliceSampling.yaml
+    sha256: a87319788a5d2966dd1484b6672a968642fb5514cc6f81184908576304bf6aaa
+    role: context
+  - path: data/curated/SquareRootGraphicalModel.yaml
+    sha256: 34125cf7fce0580e388de4cb4805c18712679fcd842c4bce48cae7a29728b89f
+    role: context
+  - path: data/curated/SublinearPoissonGraphicalModel.yaml
+    sha256: cbf7f98fc65669883f6483ddda096cb6ca1b2d82de6a5bcfbcd6ecf58dce14a7
+    role: context
+  - path: data/curated/TruncatedPoissonGraphicalModel.yaml
+    sha256: e97a5d978fb8f45a4de75ca9d1e5061c68fc956b93d6ca9ec8cfc519d2c08f4a
+    role: context
+  - path: research/discovery/20261011T225513Z-generalized-root-models.json
+    sha256: 9f457fb75730dfd5fe1c357055033ed9eb24ed3d85978b6b586a3c59bcee4020
+    role: context
+  - path: research/discovery/generalized-root-boundaries.py
+    sha256: 92c048a0454f19f34c902b848ec81f79d05f4a782a4f5ab6bac527b82b382676
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GeneralizedRootModel
+  path: data/curated/GeneralizedRootModel.yaml
+  label: Generalized root model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GeneralizedRootModel.yaml
+    role: maintained
+- target_id: AIMech:PoissonGeneralizedRootModel
+  path: data/curated/PoissonGeneralizedRootModel.yaml
+  label: Poisson generalized root model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PoissonGeneralizedRootModel.yaml
+    role: maintained
+- target_id: AIMech:ExponentialGeneralizedRootModel
+  path: data/curated/ExponentialGeneralizedRootModel.yaml
+  label: Exponential generalized root model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExponentialGeneralizedRootModel.yaml
+    role: maintained
+scope:
+  description: All fields of the general root-tensor construction and its Poisson
+    and exponential specializations.
+  selection: Exact maintained IDs GeneralizedRootModel, PoissonGeneralizedRootModel
+    and ExponentialGeneralizedRootModel; complete selected batch without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exclusions:
+  - target: Author implementations, empirical performance and exhaustive boundary
+      classification
+    reason: No source code, fitting or benchmark ran. Original calculations and analytic
+      bounds address the stated model definitions and displayed expressions, not unseen
+      implementation behavior or generic recovery.
+  - target: Earlier records and pending frontier
+    reason: Twenty-one contextual native records inform boundaries without renewed
+      scientific approval. Fixed-length, admixture and other leads remain pending.
+      There are 242 pending leads plus other unresolved dispositions.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 118.79s (0:01:58)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 415 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 119 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 116,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: GRM tensor/conditional identities, higher-order witness, normalization and
+    source-expression checks
+  command: python3 research/discovery/generalized-root-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"status": "PASS", "conditional_increment_checks": 192, "triple_mixed_difference":
+    1.2000000000000002, "pairwise_mixed_difference": 0, "ordered_triple_multiplicity":
+    6, "amgm_witnesses": 345, "poisson_envelope_C": 4.65, "poisson_envelope_d": [2.95,
+    2.8000000000000003, 2.4000000000000004], "poisson_log_envelope_sum": 51.22377687997031,
+    "strict_exponential_decay": 0.3, "lower_degree_bound_constant": 3.3, "flat_leading_boundary_partition":
+    8, "corrected_moment": 2, "printed_moment": 1, "exact_poisson_variance": 2, "printed_hessian_first_entry_approx":
+    -0.6342723408804218, "poisson_zero_atom": 0.1353352832366127, "radial_partition_with_jacobian":
+    0.125, "radial_integral_without_jacobian": 0.25, "scope": "Original finite witnesses
+    and analytic domination arguments; no author implementation, fitting, benchmark,
+    general boundary classification or finite-grid tail proof."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T225513Z-generalized-root-models.json
+  accessed_at: '2026-10-11T22:55:51Z'
+  support: supports
+  summary: 'No normalized identity match was found across all 442 pinned AIO labels
+    and all scoped synonyms and 412 preceding native IDs, names and aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    yielding four and zero matched lines; all three unique contents were read and
+    refer to the prior GRM frontier or publication URL, not existing records. Search
+    preparation occurred before the preceding SQR merge; those three inspected record
+    bytes are unchanged. The provisional bare GRM acronym was checked in normalized
+    identities but omitted from broad text searches; because web results expose unrelated
+    acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym
+    hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges
+    were byte-verified against prior inspected nodes. Sixty-seven full contextual
+    YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after
+    prior full reading and three SQR records were fully read again. Absence is bounded
+    to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+  search_scope: 'No normalized identity match was found across all 442 pinned AIO
+    labels and all scoped synonyms and 412 preceding native IDs, names and aliases.
+    Full-checkout fixed-string searches included ignored and hidden files in worktree
+    and main, yielding four and zero matched lines; all three unique contents were
+    read and refer to the prior GRM frontier or publication URL, not existing records.
+    Search preparation occurred before the preceding SQR merge; those three inspected
+    record bytes are unchanged. The provisional bare GRM acronym was checked in normalized
+    identities but omitted from broad text searches; because web results expose unrelated
+    acronym meanings, it is not asserted as an alias. All 186 semantic label/synonym
+    hits were read. Forty-six fully annotated exact CLASS nodes and outgoing edges
+    were byte-verified against prior inspected nodes. Sixty-seven full contextual
+    YAMLs comprise 46 generated and 21 native records: 64 were byte-verified after
+    prior full reading and three SQR records were fully read again. Absence is bounded
+    to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 46 exact CLASS nodes and outgoing edges, and 186 semantic label/synonym
+    hits in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T22:55:51Z'
+  support: supports
+  summary: All three concepts map broad to Model and related to the task-scoped ProbabilisticGraphicalModel.
+    These are local assessments, not upstream assertions. The general construction
+    includes two different base-specific families; the Poisson specialization has
+    factorial count weights while the exponential specialization uses Lebesgue measure
+    and requires joint integrability. Their k=2 SQR subfamilies do not exhaust higher-order
+    potentials. An explicit nonzero three-way log-potential difference distinguishes
+    genuine triple interactions from sums of unary and pairwise potentials. Existing
+    classical and modified count fields use different statistics, supports or interactions.
+    AIO regression classes and Lasso/Ridge describe regression or penalization, not
+    these joint model identities. Topic and language-model classes impose latent-topic
+    or linguistic semantics absent from the generic observed-variable construction.
+    Boltzmann/Hopfield architectures, Gaussian neural layers, activation functions,
+    preprocessing, normalization and radial-basis networks do not define these tensor
+    potentials. Temporal autoregressions and MarkovChain add ordering not required
+    here; BayesianNetwork and CausalGraphicalModel do not supply the same undirected
+    or causal semantics. Sparse/autoencoder/hidden-layer classes are not justified
+    by the proposed low-rank reductions. The 21 native neighbors distinguish general,
+    latent, classical, modified and square-root models from estimation, sampling and
+    state optimization. Contextual reading does not renew scientific approval of older
+    records.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T225513Z-generalized-root-models.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors and context_reading
+  accessed_at: '2026-10-11T22:55:51Z'
+  support: supports
+  summary: 'Twenty-one complete native contextual records read or byte-verified after
+    prior full reading: the 18 round96 neighbors plus general, Poisson and exponential
+    SQR models. These distinguish probability models, observation layers and estimation/inference
+    procedures. Context reading does not renew scientific approval of these earlier
+    records.'
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/generalized-root-boundaries.py
+  locator: Ordered tensor counting, conditional energy increments, triple interactions,
+    k=2 reduction, direct domination and numerical-expression witnesses
+  accessed_at: '2026-10-11T22:55:51Z'
+  snapshot_sha256: 92c048a0454f19f34c902b848ec81f79d05f4a782a4f5ab6bac527b82b382676
+  support: supports
+  summary: Original witnesses verify 192 node-conditional energy increments under
+    ordered symmetric tensor contraction and the sixfold triple multiplicity. The
+    nonzero third mixed difference 1.2 disappears when triple terms are removed, proving
+    this witness is not pairwise. k=2 potentials match SQR. AM–GM witnesses accompany
+    an analytic finite-coefficient factorial envelope; finite grids are not a tail
+    proof. A positive triple interaction and lower-degree terms satisfy a direct strict
+    exponential bound, while negative unary roots give a finite flat-leading boundary
+    example. Printed M(1) normalization produces mean 1 instead of the exact Poisson
+    mean 2; the displayed first Hessian entry yields an approximate negative value
+    instead of the exact positive variance 2. An inclusive singleton count interval
+    exposes the missing lower atom under unadjusted CDF endpoints. A three-dimensional
+    L1 coordinate calculation gives partition 1/8 with the Jacobian and 1/4 without.
+    These are curator calculations and analytic arguments, not author-code reproduction,
+    empirical fitting, or an exhaustive boundary classification.
+- evidence_id: generalizedrootmodel-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1606.00813v1
+  locator: Section 3, pp. 2–3, tensor conventions, Equations (1)–(4) and root footnote;
+    Section 3.2, p. 4, Equation (5); Appendix A, p. 11, conditional derivation; Section
+    3.3, p. 5, base-specific normalization; Sections 4–6, pp. 6–10, numerical expressions,
+    qualitative examples and proposed reductions; Appendices C–F, pp. 12–21, numerical
+    bounds and tuple lists
+  accessed_at: '2026-10-11T22:45:44Z'
+  snapshot_sha256: 0c423a7f6c542f42cebd5e09e83ef8db6c8c70f12782f571b0b2c49e70c66eaa
+  support: supports
+  summary: 'Generalized Root Models: Beyond Pairwise Graphical Models for Univariate
+    Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint
+    including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix
+    E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and
+    printed page numbers agree. PDF creation metadata from 2021 is not treated as
+    publication or revision evidence. All cited method pages were visually read. The
+    source-analysis notes distinguish main-paper support, discussion context, source
+    restrictions and access/extraction limitations.'
+- evidence_id: poissongeneralizedrootmodel-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1606.00813v1
+  locator: Section 3, pp. 3–5, Equations (3) and (5) and Poisson normalization in
+    Section 3.3; Appendix A, p. 11; Section 5 and Table 1, p. 9, restricted k=3 word-count
+    examples; Sections 4–6, pp. 6–10, numerical expressions, qualitative examples
+    and proposed reductions; Appendices C–F, pp. 12–21, numerical bounds and tuple
+    lists
+  accessed_at: '2026-10-11T22:45:44Z'
+  snapshot_sha256: 0c423a7f6c542f42cebd5e09e83ef8db6c8c70f12782f571b0b2c49e70c66eaa
+  support: supports
+  summary: 'Generalized Root Models: Beyond Pairwise Graphical Models for Univariate
+    Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint
+    including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix
+    E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and
+    printed page numbers agree. PDF creation metadata from 2021 is not treated as
+    publication or revision evidence. All cited method pages were visually read. The
+    source-analysis notes distinguish main-paper support, discussion context, source
+    restrictions and access/extraction limitations.'
+- evidence_id: exponentialgeneralizedrootmodel-source-0
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1606.00813v1
+  locator: Section 3, pp. 3–5, Equations (3) and (5) and exponential normalization
+    in Section 3.3; Appendix A, p. 11; Sections 4.1–4.2, pp. 6–8, numerical scope
+    and displayed expressions; Sections 4–6, pp. 6–10, numerical expressions, qualitative
+    examples and proposed reductions; Appendices C–F, pp. 12–21, numerical bounds
+    and tuple lists
+  accessed_at: '2026-10-11T22:45:44Z'
+  snapshot_sha256: 0c423a7f6c542f42cebd5e09e83ef8db6c8c70f12782f571b0b2c49e70c66eaa
+  support: supports
+  summary: 'Generalized Root Models: Beyond Pairwise Graphical Models for Univariate
+    Exponential Families. arXiv:1606.00813v1, submitted 2016-06-02; 21-page preprint
+    including appendices. All 21 pages, two figures, Table 1, bibliography and Appendix
+    E/F tuple tables visually read; extracted text of pages 6–8 also read. PDF and
+    printed page numbers agree. PDF creation metadata from 2021 is not treated as
+    publication or revision evidence. All cited method pages were visually read. The
+    source-analysis notes distinguish main-paper support, discussion context, source
+    restrictions and access/extraction limitations.'
+assessments:
+- assessment_id: generalizedrootmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - generalizedrootmodel-source-0
+  summary: 'This is the generalized root construction of Inouye et al., abbreviated
+    GRM in that paper. GRM is not globally unique: search results also use it for
+    unrelated growth, regression and rendering models, so the bare acronym is not
+    an asserted alias. The family extends the square-root construction beyond pairwise
+    interactions and includes it at k=2; inclusion is not equivalence of the unrestricted
+    families. Its Poisson and exponential specializations differ in support, base
+    measure and validity regime. A root transformation followed by an arbitrary model
+    is not this construction. No normalized identity match was found across all 442
+    pinned AIO labels and all scoped synonyms and 412 preceding native IDs, names
+    and aliases. Full-checkout fixed-string searches included ignored and hidden files
+    in worktree and main, yielding four and zero matched lines; all three unique contents
+    were read and refer to the prior GRM frontier or publication URL, not existing
+    records. Search preparation occurred before the preceding SQR merge; those three
+    inspected record bytes are unchanged. The provisional bare GRM acronym was checked
+    in normalized identities but omitted from broad text searches; because web results
+    expose unrelated acronym meanings, it is not asserted as an alias. All 186 semantic
+    label/synonym hits were read. Forty-six fully annotated exact CLASS nodes and
+    outgoing edges were byte-verified against prior inspected nodes. Sixty-seven full
+    contextual YAMLs comprise 46 generated and 21 native records: 64 were byte-verified
+    after prior full reading and three SQR records were fully read again. Absence
+    is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+  details: 'Choose finite p and a finite maximum interaction order k, a scalar nonnegative
+    sufficient statistic T, a base log measure B and a product reference measure.
+    Let s_j(t) be the specified j-th-root statistic. Normally s_j=T^(1/j); the paper
+    explicitly uses s_j=f^c when T=f^(c*j) for a positive integer c, allowing the
+    signed Gaussian convention s_2(x)=x when T=x^2. For 1<=ell<=j<=k, let Psi_j^ell
+    be a finite real super-symmetric order-ell tensor with zero entries whenever indices
+    repeat. Define H(x)=sum_j sum_(ell<=j) <Psi_j^ell,s_j(x)^(tensor ell)> using all
+    ordered indices, and p(x)=Z^(-1)*exp[H(x)+sum_i B(x_i)], requiring 0<Z<infinity.
+    The site-s conditional has kernel exp[sum_j eta_js*s_j(t)+B(t)], where eta_js=sum_(ell<=j)
+    ell*<the slice of Psi_j^ell with one index fixed at s,s_j(x_-s)^(tensor (ell-1))>.
+    Zero repeated-index entries remove terms with the site occurring more than once.
+    At k=1 the law is an independent base family at valid parameters. At k=2 it recovers
+    SQR with Psi_1^1=diag(Phi), Psi_2^1=theta and Psi_2^2 equal to off-diagonal Phi.
+    Higher-order terms can encode interactions not representable by a pairwise log
+    potential. Limitations: Roots, statistic domains and reference measures must be
+    specified. The signed convention is not the ordinary identity sqrt(x^2)=x on the
+    real line. This record does not assert a general Gaussian higher-order normalization
+    theorem. Finite partition is an explicit requirement, not a theorem that every
+    base exponential family permits every finite tensor. Poisson factorial domination
+    and exponential tail restrictions require separate reasoning. Tensors are super-symmetric
+    and zero on repeated indices. Full ordered-index contraction counts a distinct
+    unordered ell-variable term ell! times; coefficients must be translated consistently
+    when switching to once-counted clique notation. Separately fitted node regressions
+    do not automatically agree on compatible joint tensors. The general family includes
+    all 1<=ell<=j<=k terms. The paper’s strongest-interaction subfamily retains only
+    ell=j and omits lower-degree terms; its experiments do not evaluate every member
+    of the general family. Nonzero higher-order interactions do not require nonzero
+    lower-order interactions. Base-family naming does not make all full conditionals
+    or marginals ordinary Poisson or exponential laws. An interaction coefficient
+    is not a universal marginal-correlation or causal-effect measure. For T=x, the
+    printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius
+    law under x=z*v. A bounded directional domain also does not alone establish integrability
+    from pointwise finite ray integrals. Count directions require their own discrete
+    measure. Direct joint domination is used for the Poisson and strict exponential
+    regimes. The numerical section requires qualification: after Equation (15), E[x^a]
+    must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of
+    Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2.
+    Linear bounds must retain the base log measure B; inclusive count-interval probabilities
+    need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks
+    of displayed expressions, not a reproduced implementation defect or an author-issued
+    correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like
+    updates are estimation procedures separate from the model definition. A fixed
+    number of approximation intervals gives no universal accuracy guarantee. No author
+    code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced.
+    The reported k=3 Poisson word-count examples rank weighted tuples from Classic3
+    abstracts and sampled Grolier articles. They are qualitative context, not evidence
+    of held-out prediction, causal discovery or universal graph recovery. The proposed
+    low-rank and staged parameter reductions are not established evaluated variants
+    in this source.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A general finite-dimensional root-tensor construction and its integer/factorial
+      and continuous/exponential specializations, with explicit joint-integrability
+      conditions.
+    evidence_ids:
+    - generalizedrootmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three concepts map broad to Model and related to the task-scoped
+      ProbabilisticGraphicalModel. These are local assessments, not upstream assertions.
+      The general construction includes two different base-specific families; the
+      Poisson specialization has factorial count weights while the exponential specialization
+      uses Lebesgue measure and requires joint integrability. Their k=2 SQR subfamilies
+      do not exhaust higher-order potentials. An explicit nonzero three-way log-potential
+      difference distinguishes genuine triple interactions from sums of unary and
+      pairwise potentials. Existing classical and modified count fields use different
+      statistics, supports or interactions. AIO regression classes and Lasso/Ridge
+      describe regression or penalization, not these joint model identities. Topic
+      and language-model classes impose latent-topic or linguistic semantics absent
+      from the generic observed-variable construction. Boltzmann/Hopfield architectures,
+      Gaussian neural layers, activation functions, preprocessing, normalization and
+      radial-basis networks do not define these tensor potentials. Temporal autoregressions
+      and MarkovChain add ordering not required here; BayesianNetwork and CausalGraphicalModel
+      do not supply the same undirected or causal semantics. Sparse/autoencoder/hidden-layer
+      classes are not justified by the proposed low-rank reductions. The 21 native
+      neighbors distinguish general, latent, classical, modified and square-root models
+      from estimation, sampling and state optimization. Contextual reading does not
+      renew scientific approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: poissongeneralizedrootmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:PoissonGeneralizedRootModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - poissongeneralizedrootmodel-source-0
+  summary: 'Poisson GRM is the count-base specialization of generalized root models
+    and extends Poisson SQR beyond pairwise terms. It retains counting measure and
+    factorial weights. It is not the classical auto-Poisson field, finite-support
+    truncated Poisson model, factorial-free quadratic Poisson model or bounded-statistic
+    sublinear Poisson model. It also differs from a latent topic model: the defining
+    interactions are explicit functions of observed counts. No normalized identity
+    match was found across all 442 pinned AIO labels and all scoped synonyms and 412
+    preceding native IDs, names and aliases. Full-checkout fixed-string searches included
+    ignored and hidden files in worktree and main, yielding four and zero matched
+    lines; all three unique contents were read and refer to the prior GRM frontier
+    or publication URL, not existing records. Search preparation occurred before the
+    preceding SQR merge; those three inspected record bytes are unchanged. The provisional
+    bare GRM acronym was checked in normalized identities but omitted from broad text
+    searches; because web results expose unrelated acronym meanings, it is not asserted
+    as an alias. All 186 semantic label/synonym hits were read. Forty-six fully annotated
+    exact CLASS nodes and outgoing edges were byte-verified against prior inspected
+    nodes. Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records:
+    64 were byte-verified after prior full reading and three SQR records were fully
+    read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected
+    semantic neighborhood.'
+  details: 'On x in nonnegative-integer p-space, use T(x)=x, B(x)=-log(x!) and ordinary
+    nonnegative roots in the GRM tensor construction. The joint kernel is exp[sum_j
+    sum_(ell<=j) <Psi_j^ell,(x^(1/j))^(tensor ell)>]/product_i x_i!, with finite real
+    super-symmetric tensors zero on repeated indices. All finite tensor choices have
+    a finite partition for finite p,k. For an ell-variable term, AM–GM gives product_(i
+    in S) x_i^(1/j)<=(sum_(i in S) x_i/ell)^(ell/j)<=1+sum_(i in S) x_i because ell<=j.
+    Bounding the finitely many coefficients in absolute value yields H(x)<=C+sum_i
+    d_i*x_i; summing the product envelope gives Z<=exp(C+sum_i exp(d_i))<infinity.
+    This direct curator derivation supports the source’s parameter-existence result
+    without its radial measure argument. A site conditional has kernel exp[sum_j eta_js*t^(1/j)]/t!,
+    t>=0, with eta_js given by the symmetric tensor-slice contractions. It is generally
+    not ordinary Poisson when fractional-root terms are present. Only the linear unary
+    terms remaining gives independent Poisson means exp(Psi_1^1[i]); k=2 reproduces
+    Poisson SQR. Limitations: The all-finite-parameter result depends on factorial
+    weights, finite dimension and finite maximum order. It does not justify dropping
+    the factorials, using an infinite graph or taking unbounded parameter limits.
+    The conditional normalizer is generally an infinite sum. Existence does not certify
+    a numerical cutoff or make exp(eta_1s) its general conditional mean. Tensors are
+    super-symmetric and zero on repeated indices. Full ordered-index contraction counts
+    a distinct unordered ell-variable term ell! times; coefficients must be translated
+    consistently when switching to once-counted clique notation. Separately fitted
+    node regressions do not automatically agree on compatible joint tensors. The general
+    family includes all 1<=ell<=j<=k terms. The paper’s strongest-interaction subfamily
+    retains only ell=j and omits lower-degree terms; its experiments do not evaluate
+    every member of the general family. Nonzero higher-order interactions do not require
+    nonzero lower-order interactions. Base-family naming does not make all full conditionals
+    or marginals ordinary Poisson or exponential laws. An interaction coefficient
+    is not a universal marginal-correlation or causal-effect measure. For T=x, the
+    printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius
+    law under x=z*v. A bounded directional domain also does not alone establish integrability
+    from pointwise finite ray integrals. Count directions require their own discrete
+    measure. Direct joint domination is used for the Poisson and strict exponential
+    regimes. The numerical section requires qualification: after Equation (15), E[x^a]
+    must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of
+    Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2.
+    Linear bounds must retain the base log measure B; inclusive count-interval probabilities
+    need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks
+    of displayed expressions, not a reproduced implementation defect or an author-issued
+    correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like
+    updates are estimation procedures separate from the model definition. A fixed
+    number of approximation intervals gives no universal accuracy guarantee. No author
+    code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced.
+    The reported k=3 Poisson word-count examples rank weighted tuples from Classic3
+    abstracts and sampled Grolier articles. They are qualitative context, not evidence
+    of held-out prediction, causal discovery or universal graph recovery. The proposed
+    low-rank and staged parameter reductions are not established evaluated variants
+    in this source.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A general finite-dimensional root-tensor construction and its integer/factorial
+      and continuous/exponential specializations, with explicit joint-integrability
+      conditions.
+    evidence_ids:
+    - poissongeneralizedrootmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three concepts map broad to Model and related to the task-scoped
+      ProbabilisticGraphicalModel. These are local assessments, not upstream assertions.
+      The general construction includes two different base-specific families; the
+      Poisson specialization has factorial count weights while the exponential specialization
+      uses Lebesgue measure and requires joint integrability. Their k=2 SQR subfamilies
+      do not exhaust higher-order potentials. An explicit nonzero three-way log-potential
+      difference distinguishes genuine triple interactions from sums of unary and
+      pairwise potentials. Existing classical and modified count fields use different
+      statistics, supports or interactions. AIO regression classes and Lasso/Ridge
+      describe regression or penalization, not these joint model identities. Topic
+      and language-model classes impose latent-topic or linguistic semantics absent
+      from the generic observed-variable construction. Boltzmann/Hopfield architectures,
+      Gaussian neural layers, activation functions, preprocessing, normalization and
+      radial-basis networks do not define these tensor potentials. Temporal autoregressions
+      and MarkovChain add ordering not required here; BayesianNetwork and CausalGraphicalModel
+      do not supply the same undirected or causal semantics. Sparse/autoencoder/hidden-layer
+      classes are not justified by the proposed low-rank reductions. The 21 native
+      neighbors distinguish general, latent, classical, modified and square-root models
+      from estimation, sampling and state optimization. Contextual reading does not
+      renew scientific approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: exponentialgeneralizedrootmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:ExponentialGeneralizedRootModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - exponentialgeneralizedrootmodel-source-0
+  summary: 'Exponential GRM uses Lebesgue measure with T=x and B=0. It extends exponential
+    SQR to higher-order root products and differs from Poisson GRM by support and
+    absence of factorial weights. The name describes its base construction, not a
+    claim that every node conditional is an ordinary exponential law or that it is
+    a temporal waiting-time process. No normalized identity match was found across
+    all 442 pinned AIO labels and all scoped synonyms and 412 preceding native IDs,
+    names and aliases. Full-checkout fixed-string searches included ignored and hidden
+    files in worktree and main, yielding four and zero matched lines; all three unique
+    contents were read and refer to the prior GRM frontier or publication URL, not
+    existing records. Search preparation occurred before the preceding SQR merge;
+    those three inspected record bytes are unchanged. The provisional bare GRM acronym
+    was checked in normalized identities but omitted from broad text searches; because
+    web results expose unrelated acronym meanings, it is not asserted as an alias.
+    All 186 semantic label/synonym hits were read. Forty-six fully annotated exact
+    CLASS nodes and outgoing edges were byte-verified against prior inspected nodes.
+    Sixty-seven full contextual YAMLs comprise 46 generated and 21 native records:
+    64 were byte-verified after prior full reading and three SQR records were fully
+    read again. Absence is bounded to the pinned snapshot, maintained corpus and inspected
+    semantic neighborhood.'
+  details: 'For x_i>=0 under product Lebesgue measure, set H(x)=sum_j sum_(ell<=j)
+    <Psi_j^ell,(x^(1/j))^(tensor ell)> with finite real super-symmetric tensors zero
+    on repeated indices, and p(x)=exp(H(x))/Z for 0<Z<infinity. Let L(x)=sum_j <Psi_j^j,(x^(1/j))^(tensor
+    j)> collect the degree-one terms. If L(v)<0 for every v>=0 with sum_i v_i=1, continuity
+    on this compact simplex yields L(x)<=-c*sum_i x_i for some c>0. Each remaining
+    term has degree r=ell/j<1 and is bounded in magnitude by a constant times (sum_i
+    x_i)^r. Their finite sum is at most epsilon*sum_i x_i+C for any epsilon>0 with
+    a suitable finite C. Choosing epsilon<c gives an integrable product-exponential
+    envelope. This is a sufficient strict regime, not a complete characterization:
+    with only negative unary square-root terms the degree-one part vanishes but the
+    joint integral is product_i 2/b_i^2 for b_i<0. The site conditional has kernel
+    exp[sum_j eta_js*t^(1/j)] on t>=0. Only negative linear unary terms remaining
+    gives independent exponentials of rates -Psi_1^1[i]; k=2 recovers exponential
+    SQR. Limitations: Strict negativity on the full nonnegative unit simplex includes
+    its boundary and gives uniform decay. It is sufficient, not necessary. Flat-leading
+    directions require lower-degree analysis; no exhaustive multivariate boundary
+    classification is claimed. Individual full-conditional normalizability does not
+    alone guarantee a normalizable joint law. Changing roots as coordinates also changes
+    the measure through a Jacobian. The Poisson word-count experiments do not empirically
+    validate a higher-order exponential GRM. No fitted continuous-data example or
+    author implementation was reproduced in this curation. Tensors are super-symmetric
+    and zero on repeated indices. Full ordered-index contraction counts a distinct
+    unordered ell-variable term ell! times; coefficients must be translated consistently
+    when switching to once-counted clique notation. Separately fitted node regressions
+    do not automatically agree on compatible joint tensors. The general family includes
+    all 1<=ell<=j<=k terms. The paper’s strongest-interaction subfamily retains only
+    ell=j and omits lower-degree terms; its experiments do not evaluate every member
+    of the general family. Nonzero higher-order interactions do not require nonzero
+    lower-order interactions. Base-family naming does not make all full conditionals
+    or marginals ordinary Poisson or exponential laws. An interaction coefficient
+    is not a universal marginal-correlation or causal-effect measure. For T=x, the
+    printed radial expression omits the z^(p-1) Jacobian needed for a continuous L1-radius
+    law under x=z*v. A bounded directional domain also does not alone establish integrability
+    from pointwise finite ray integrals. Count directions require their own discrete
+    measure. Direct joint domination is used for the Poisson and strict exponential
+    regimes. The numerical section requires qualification: after Equation (15), E[x^a]
+    must use exp(M(a)-M(0)), not the printed subtraction of M(1). The first row of
+    Equation (14) requires exponent 1/j+1 for covariance with x, not the printed 1/j+1/2.
+    Linear bounds must retain the base log measure B; inclusive count-interval probabilities
+    need F(b)-F(a-1), and zero atoms need explicit handling. These are curator checks
+    of displayed expressions, not a reproduced implementation defect or an author-issued
+    correction. Nodewise l1 fitting, approximate conditional normalizers and Newton-like
+    updates are estimation procedures separate from the model definition. A fixed
+    number of approximation intervals gives no universal accuracy guarantee. No author
+    code, empirical fit, optimizer benchmark or graph-recovery experiment was reproduced.
+    The reported k=3 Poisson word-count examples rank weighted tuples from Classic3
+    abstracts and sampled Grolier articles. They are qualitative context, not evidence
+    of held-out prediction, causal discovery or universal graph recovery. The proposed
+    low-rank and staged parameter reductions are not established evaluated variants
+    in this source.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A general finite-dimensional root-tensor construction and its integer/factorial
+      and continuous/exponential specializations, with explicit joint-integrability
+      conditions.
+    evidence_ids:
+    - exponentialgeneralizedrootmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three concepts map broad to Model and related to the task-scoped
+      ProbabilisticGraphicalModel. These are local assessments, not upstream assertions.
+      The general construction includes two different base-specific families; the
+      Poisson specialization has factorial count weights while the exponential specialization
+      uses Lebesgue measure and requires joint integrability. Their k=2 SQR subfamilies
+      do not exhaust higher-order potentials. An explicit nonzero three-way log-potential
+      difference distinguishes genuine triple interactions from sums of unary and
+      pairwise potentials. Existing classical and modified count fields use different
+      statistics, supports or interactions. AIO regression classes and Lasso/Ridge
+      describe regression or penalization, not these joint model identities. Topic
+      and language-model classes impose latent-topic or linguistic semantics absent
+      from the generic observed-variable construction. Boltzmann/Hopfield architectures,
+      Gaussian neural layers, activation functions, preprocessing, normalization and
+      radial-basis networks do not define these tensor potentials. Temporal autoregressions
+      and MarkovChain add ordering not required here; BayesianNetwork and CausalGraphicalModel
+      do not supply the same undirected or causal semantics. Sparse/autoencoder/hidden-layer
+      classes are not justified by the proposed low-rank reductions. The 21 native
+      neighbors distinguish general, latent, classical, modified and square-root models
+      from estimation, sampling and state optimization. Contextual reading does not
+      renew scientific approval of older records.
+    evidence_ids:
+    - mapping
+- assessment_id: general-construction
+  area: consistency
+  topic: Root statistics, tensor conventions and higher-order identity
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  evidence_ids:
+  - generalizedrootmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the general GRM construction.
+  details: The full construction includes every ell<=j<=k tensor term, unlike the
+    restricted ell=j experimental subfamily. Super-symmetry and zero repeated-index
+    entries give ell! ordered multiplicity and a factor ell in each node-slice coefficient.
+    Finite arithmetic checks verify 192 joint/conditional increments. A genuine triple
+    interaction yields a nonzero third mixed log-potential difference that no unary/pairwise
+    sum can reproduce; setting triple coefficients to zero eliminates it. The k=2
+    construction matches SQR exactly, so inclusion is preserved without collapsing
+    the broader family into its special case. Specified root conventions and the finite-partition
+    requirement remain explicit; no arbitrary-root or universal Gaussian claim is
+    made.
+- assessment_id: poisson-specialization
+  area: consistency
+  topic: Unbounded integer support and factorial domination
+  outcome: supported
+  target_ids:
+  - AIMech:PoissonGeneralizedRootModel
+  evidence_ids:
+  - poissongeneralizedrootmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain Poisson GRM.
+  details: The count support and factorial base measure distinguish this specialization.
+    AM–GM bounds each ell-variable j-root monomial by at most 1+sum x_i because ell<=j;
+    finitely many finite tensor coefficients yield a linear upper envelope. Product
+    factorial sums then prove a finite joint partition for all finite parameters.
+    Finite witnesses illustrate the inequalities without being used as a tail proof.
+    Conditional roots usually change the ordinary Poisson law; linear unary terms
+    alone recover independent Poisson means. Classical raw-count interactions, finite
+    truncation, factorial-free quadratics and bounded statistics are different constructions.
+- assessment_id: exponential-specialization
+  area: consistency
+  topic: Continuous measure and strict leading-degree decay
+  outcome: supported
+  target_ids:
+  - AIMech:ExponentialGeneralizedRootModel
+  evidence_ids:
+  - exponentialgeneralizedrootmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain exponential GRM with qualified validity conditions.
+  details: The homogeneous degree-one part must be uniformly negative on the entire
+    nonnegative unit simplex for the stated sufficient regime. Compactness produces
+    a linear negative bound, and lower-degree terms admit arbitrarily small linear
+    envelopes plus constants. A positive triple-interaction example satisfies the
+    strict regime; negative unary square roots provide a finite flat-leading boundary
+    example. Thus strict negativity is sufficient, not necessary, and no full boundary
+    classification is claimed. Poisson word-count experiments are not empirical evidence
+    for a continuous higher-order fit.
+- assessment_id: numerical-and-measure
+  area: consistency
+  topic: Displayed expressions, interval probabilities and radial measure
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  evidence_ids:
+  - generalizedrootmodel-source-0
+  - finite-boundaries
+  summary: Keep the numerical and measure qualifications explicit.
+  details: 'The moment identity requires M(0), giving Poisson mean 2 where the printed
+    M(1) expression gives 1. The first Hessian row requires covariance with x and
+    exponent 1/j+1; a Poisson witness makes the printed entry approximately -0.634
+    rather than the true variance 2. Linear bounds must retain B. An inclusive singleton
+    count interval exposes the lost lower atom under F(b)-F(a), and zero requires
+    explicit handling. The p=3 L1 change contributes z^2: a rate-2 independent kernel
+    has partition 1/8, compared with 1/4 from a bare ray integral. These are checks
+    of mathematical displays, not claims about unseen source code. Extracted text
+    confirmed the cross-derivative indices in Equation 11, withdrawing an initial
+    visual suspicion. Fixed approximation intervals, qualitative tuples and proposed
+    reductions do not establish generic accuracy or recovery.'
+- assessment_id: mapping-boundary
+  area: grounding
+  topic: Directional AIO mappings and acronym boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain all three native identities with scoped AIO mappings.
+  details: All three concepts map broad to Model and related to the task-scoped ProbabilisticGraphicalModel.
+    These are local assessments, not upstream assertions. The general construction
+    includes two different base-specific families; the Poisson specialization has
+    factorial count weights while the exponential specialization uses Lebesgue measure
+    and requires joint integrability. Their k=2 SQR subfamilies do not exhaust higher-order
+    potentials. An explicit nonzero three-way log-potential difference distinguishes
+    genuine triple interactions from sums of unary and pairwise potentials. Existing
+    classical and modified count fields use different statistics, supports or interactions.
+    AIO regression classes and Lasso/Ridge describe regression or penalization, not
+    these joint model identities. Topic and language-model classes impose latent-topic
+    or linguistic semantics absent from the generic observed-variable construction.
+    Boltzmann/Hopfield architectures, Gaussian neural layers, activation functions,
+    preprocessing, normalization and radial-basis networks do not define these tensor
+    potentials. Temporal autoregressions and MarkovChain add ordering not required
+    here; BayesianNetwork and CausalGraphicalModel do not supply the same undirected
+    or causal semantics. Sparse/autoencoder/hidden-layer classes are not justified
+    by the proposed low-rank reductions. The 21 native neighbors distinguish general,
+    latent, classical, modified and square-root models from estimation, sampling and
+    state optimization. Contextual reading does not renew scientific approval of older
+    records.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:GeneralizedRootModel
+  - AIMech:PoissonGeneralizedRootModel
+  - AIMech:ExponentialGeneralizedRootModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - generalizedrootmodel-source-0
+  - poissongeneralizedrootmodel-source-0
+  - exponentialgeneralizedrootmodel-source-0
+  rationale: The general construction is broader than the two base-specific families.
+    Poisson GRM uses count support and factorial weights with all finite tensor parameters
+    admissible; exponential GRM uses continuous measure with joint-integrability restrictions.
+    Their k=2 SQR cases do not exhaust the higher-order potentials. Preserve these
+    distinctions and their directional AIO mappings; do not use the globally ambiguous
+    bare GRM acronym as an identity alias.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- All 21 arXiv v1 pages were visually read, including figures, tables, bibliography
+  and all appendix lists. Extracted pages 6–8 were read in full to disambiguate numerical
+  expressions. No full extracted-text reading or author-code inspection is asserted.
+- The PDF download, extraction and rendering succeeded. The 2016 arXiv submission
+  version is explicit; 2021 PDF metadata does not establish a new publication version.
+- Equation 11 cross-derivative indices were confirmed by extracted text and an initial
+  visual suspicion was withdrawn. Equation 14 first-row exponent and the M(1) denominator
+  in the following moment expression remain visibly inconsistent with covariance/normalization
+  identities.
+- Numerical expressions also require base-measure, discrete endpoint and zero-atom
+  care. A bounded web search did not establish an author erratum. These are curator
+  mathematical qualifications, not evidence that a particular author implementation
+  contains the displayed defects.
+- Direct finite-graph domination proves Poisson finiteness and the stated strict exponential
+  regime without relying on the printed radial measure argument. Finite arithmetic
+  witnesses do not establish general boundary classification, numerical convergence,
+  empirical performance or graph recovery.
+- Only the original GRM manuscript is full-method evidence here. Other search results
+  and references are discovery context. Bare GRM has unrelated acronym meanings and
+  is not a global identity alias.
+- All additions remain DRAFT. Adversarial author self-review is required; the discovery
+  frontier remains nonempty.
+- Source locators were expanded before formal review to cover numerical qualifications,
+  qualitative experiments, proposed reductions and appendix tables; final updated
+  bytes were inspected.
+- The initial sandboxed vendored-check failed to resolve raw.githubusercontent.com;
+  the authorized network retry passed with all 22 governed artifacts matching the
+  pin.
+- 242 pending leads plus other unresolved dispositions remain; discovery continues.
+links: []
+tags:
+- native-concepts
+- generalized-root-models
+- self-review
+- discovery-ongoing
+```
