@@ -1,0 +1,907 @@
+# Scientific self-review of fully visible, noisy-OR and order-agnostic concepts
+
+- Review: 20261011T174121Z-noisy-order
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T17:37:50Z
+- Finished UTC: 2026-10-11T17:41:21Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the fully visible sigmoid and noisy-OR architectures and order-agnostic NADE training as distinct DRAFT concepts. Conditional constraints, complete-observation scope, training objective and ensemble inference limits are explicit. No actionable curation finding remains in the declared scope.
+
+## Scope And Provenance
+
+All fields of an explicit batch containing two probabilistic architectures and one autoregressive-model training procedure.
+
+Selection: Three exact IDs from the saved discovery ledger; no sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base d50a8125d9fbbd45c080c1060cbccc1679b60bc2.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FullyVisibleSigmoidBeliefNetwork | data/curated/FullyVisibleSigmoidBeliefNetwork.yaml | maintained | Fully visible sigmoid belief network |
+| AIMech:NoisyORBeliefNetwork | data/curated/NoisyORBeliefNetwork.yaml | maintained | Noisy-OR belief network |
+| AIMech:OrderAgnosticNADETraining | data/curated/OrderAgnosticNADETraining.yaml | maintained | Order-agnostic NADE training |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 75.77s (0:01:15)<br>Checked 442 record(s); 0 failed.<br>Checked 349 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 97 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 94,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining | Command exited0 with no output. |
+| Noisy-OR, logistic conditional and order-averaged training boundary calculations | passed | True | AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining | {"noisy_or": {"(0, 0)": "1/4", "(0, 1)": "3/4", "(1, 0)": "5/8", "(1, 1)": "7/8"}, "noisy_or_logit_interaction": -0.762140052046897, "valid_signed_min_probability": 0.0, "invalid_signed_probability": -1.718281828459045, "order_member_probabilities": ["1/8", "3/8"], "order_mean_nll": 1.530135397345781, "prefix_estimator_mean": 1.530135397345781, "mixture_nll": 1.3862943611198906, "evidence_conditioned_component_weights": ["2/5", "3/5"], "conditional_mixture": "3/5", "uniform_component_conditional_average": "5/8", "scope": "Finite curator examples; no author implementation, training or empirical benchmark."} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:FullyVisibleSigmoidBeliefNetwork.
+
+This is the fully visible sigmoid model discussed by Larochelle and Murray, with no stochastic hidden variables. Frey and colleagues call their binary logistic special case a fully visible belief network; that local usage does not make all fully visible Bayesian networks synonyms of the sigmoid family. The record specializes the broader sigmoid-belief-network family and is distinct from NADE’s nonlinear deterministic hidden features and DARN’s stochastic latent architecture. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 23 and 23 lines respectively. All 17 unique matched line contents were inspected in full: SBN source metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Fix an ordering of D binary visible variables. Parameterize P(x_i=1&#124;x_&lt;i)=sigmoid(b_i+sum_(j&lt;i) w_ij x_j). Multiply the corresponding Bernoulli probabilities over positions to evaluate the normalized observed joint. All variables in that product are visible, so complete-data likelihood evaluation has no hidden-state marginalization or recognition-model posterior approximation. Its negative log likelihood is the sum of the positionwise binary logistic losses. Generate a sample by drawing each bit from the conditional determined by already drawn predecessors. Full connectivity makes all earlier visible variables available as parents; zero coefficients can remove particular dependencies. A fixed-order conditional’s log odds are affine in its predecessors, unlike the more general nonlinear neural conditional used by NADE. Limits: The chain-rule factorization is general, but restricting each conditional to a logistic-linear function limits the distribution family. A given fixed-order conditional table with a nonzero logit interaction cannot be represented by that affine logit; this is not a claim about every alternative ordering or latent extension. Exact complete-observation likelihood and forward generation do not provide arbitrary missing-variable posteriors for free. Conditioning on a suffix while earlier variables are unknown still requires inference or summation. Changing the variable order changes the restricted model family and can affect fitting. The absence of stochastic latent variables is part of this specialization, not a property of all sigmoid belief networks. The source’s FVBN label is interpreted within its binary logistic model setting. No assertion that every fully visible Bayesian model uses logistic factors, no universal performance ranking and no trained-model result is included.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:NoisyORBeliefNetwork.
+
+The core record denotes the noisy-OR conditional model described by Neal, with zero/one variables and failure factors between zero and one. It is a probabilistic conditional family, not additive input noise, a deterministic OR gate or a sigmoid function. Neal also studies a signed-weight exponential extension; its distinct validity condition and loss of an individual failure-probability interpretation are stated explicitly rather than silently treating negative weights as ordinary noisy-OR failures. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 23 and 23 lines respectively. All 17 unique matched line contents were inspected in full: SBN source metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+For node i, let q_i0 be the failure probability for an always-on bias or leak source and q_ij the failure probability associated with active parent j. Set P(s_i=0&#124;parents)=q_i0 times the product of q_ij over parents with state1, and set P(s_i=1&#124;parents) to its complement. This corresponds to independently failing activation contributions; it does not require the parent variables themselves to be independent. Multiply normalized node factors in a topological order to obtain the joint model and sample it ancestrally. For strictly positive failure factors, define w_ij=-log(q_ij), including the bias; then P(s_i=1&#124;parents)=1-exp(-a_i), with a_i=w_i0+sum_j w_ij s_j and nonnegative standard weights. Neal’s separate signed-weight extension retains this exponential formula if a_i is nonnegative for every binary parent configuration, equivalently w_i0+sum_(j:w_ij&lt;0) w_ij&gt;=0. Negative weights in that extension need not correspond to failure probabilities in[0,1]. Parameter updates must preserve validity; the architecture itself does not specify a unique learning algorithm. Limits: A negative weighted input gives an invalid negative activation probability. The signed extension therefore needs explicit constraints and is not an unconstrained sigmoid parameterization. Zero failure probabilities yield deterministic activation contributions and infinite log-failure weights; the probability-product form still defines the boundary, but the finite-weight reparameterization excludes those endpoints. The independent-failure interpretation concerns contributions conditional on parent states, not a proof that the parent variables are independent or that the model’s edges identify interventions in real data. Local normalization and ancestral generation do not remove hidden-variable marginalization or guarantee Gibbs mixing. Boundary zero probabilities can also obstruct positivity conditions used by sampling arguments. Neal’s constraint-projection and learning discussion was inspected, but its appendix proofs and executable implementations were not audited. No projection-optimality theorem, general convergence or empirical advantage is certified.
+
+### Identity, definition, mechanism, limitations, provenance and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:OrderAgnosticNADETraining.
+
+This is Uria, Murray and Larochelle’s order-agnostic training procedure, applicable to shallow or deep NADE and its real-valued extension. It is distinct from the original fixed-order NADE architecture, the existence of additional deterministic hidden layers alone, and an ensemble mixture evaluated after training. Parameter sharing across orderings does not assert that every ordering defines the same joint distribution. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 23 and 23 lines respectively. All 17 unique matched line contents were inspected in full: SBN source metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+
+Treat a variable ordering o as uniformly distributed over permutations and minimize the mean over data and o of the negative log probability assigned by the corresponding autoregressive NADE. For a training example, sample an ordering and a prefix length d-1 uniformly from zero through D-1. Feed the observed prefix values to the shared neural conditional network, set unobserved input values to zero and append a binary mask identifying observed dimensions so that observed zeros remain distinguishable from missing inputs. Evaluate the conditional loss for each of the D-d+1 remaining variables under that same prefix, sum those losses and multiply by D/(D-d+1). The resulting loss and, under the differentiability conditions, its gradient estimate the order-averaged objective; one masked-prefix forward/backward computation serves all missing outputs. Additional deterministic hidden layers can be used, while full joint evaluation for a chosen ordering still requires all ordered conditionals. After training, a selected ordering defines one normalized autoregressive model. A separate ensemble averages the joint probabilities of selected orderings, and samples by selecting a member then generating from that member. This probability average is distinct from the order-average log-likelihood training objective. Limits: Shared parameters do not force order-specific joint distributions to agree. Choosing an ordering convenient for a conditioning query performs inference under that chosen member, not necessarily under another ordering or the ensemble mixture. Conditioning an ensemble generally reweights its members by their evidence probabilities. Uniformly choosing a member after observing evidence does not automatically sample the ensemble posterior; a finite curator example checks this distinction. The unbiased prefix estimator depends on the stated uniform ordering/prefix sampling and D/(D-d+1) weighting. Arbitrary masks, unweighted missing-output losses or nonuniform prefix sampling require a corresponding derivation. The presence mask is additional input information, not a sequence-timestep skipping layer or a guarantee that missing-data mechanisms have been modeled. The paper distinguishes its missing-output loss from ordinary denoising-autoencoder reconstruction. The training objective is an average of log probabilities rather than the log of an average probability. Ensemble density evaluation costs and deep full-joint evaluation differ from one stochastic training update; selecting a convenient model is not dimension-independent numerical inference. No agreement of all conditionals with one joint distribution, universal performance gain, global optimization guarantee or complete implementation audit is asserted.
+
+### Complete-data tractability and logistic-linear conditional scope
+
+consistency: supported. Targets: AIMech:FullyVisibleSigmoidBeliefNetwork.
+
+Retain the fully visible specialization of the sigmoid family.
+
+The model has binary visible variables and ordered logistic-linear conditional factors, with no stochastic hidden variables. Exact joint evaluation for complete observations does not remove arbitrary missing-variable inference. The source-local FVBN name is not generalized to every fully visible Bayesian network. A nonzero logit interaction in the finite conditional example cannot be represented by a logistic-linear factor in that fixed parent ordering; no conclusion about every alternative ordering or latent extension is claimed. The AIO BayesianNetwork target is broader than this specialization.
+
+### Failure-product interpretation, leak and signed-weight validity
+
+consistency: supported. Targets: AIMech:NoisyORBeliefNetwork.
+
+Retain noisy-OR with its standard probability and extension boundaries.
+
+Independent activation failures conditional on parent states give the multiplicative inactivity probability, including an always-on bias/leak factor. This does not imply independent parent variables or causal identification. Finite nonnegative log-failure weights give the equivalent exponential form; zero failure factors are boundary cases requiring infinite weights. Neal’s signed extension has valid binary probabilities only when the minimum weighted input is nonnegative. The finite two-parent example yields activation probabilities1/4,3/4,5/8,7/8; a valid signed input has minimum0, whereas an unconstrained negative input gives probability below0. The source’s projection algorithm was read but its appendix optimality proof and author software were not audited.
+
+### Prefix estimator, order-average objective and probability mixture
+
+consistency: supported. Targets: AIMech:OrderAgnosticNADETraining.
+
+Retain the training method separately from architecture and ensemble identities.
+
+Uniform ordering and prefix-length sampling, observed-dimension masks and D/(D-d+1) loss weighting define the estimator. The finite shared-conditional example gives different normalized order-specific joint probabilities1/8 and3/8 for one datum. Enumerating prefix samples reproduces the mean negative log likelihood1.530135397345781; the mixture negative log likelihood is1.3862943611198906. The method therefore does not optimize a log probability mixture merely by averaging ordering losses. On observing evidence, mixture weights become2/5 and3/5, yielding conditional3/5 rather than the uniform member-conditional average5/8. Selecting a convenient ordering provides that member’s conditional, not automatic exact inference under the whole ensemble. Shallow/deep applicability does not identify the algorithm with a particular deep architecture.
+
+### Conditional model specializations and training-to-model context
+
+grounding: supported. Targets: AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining.
+
+Retain two broad mappings and one related mapping.
+
+All30 semantic label/scoped-synonym hits and17 complete AIO CLASS nodes with annotations/outgoing edges were read. Six complete maintained neighbors were read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly to BayesianNetwork: the AIO target is the broader directed normalized-factor model class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model association, not an algorithm subclass. LogisticRegression identifies a component of FVSBN but not the full joint model; SigmoidFunction is likewise a component. NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder has a different reconstruction loss/model interpretation. The other inspected round74 nodes retain the same model, component, task, language, time-series and causal-scope boundaries. Prior records are context, not fresh approvals.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:FullyVisibleSigmoidBeliefNetwork, AIMech:NoisyORBeliefNetwork, AIMech:OrderAgnosticNADETraining. Fully visible sigmoid networks specify binary logistic-linear joint factors without latent random variables. Noisy-OR specifies failure-product conditionals with explicit boundary and signed-extension constraints. Order-agnostic NADE training is a shared-parameter stochastic objective across ordered models. These model and method distinctions are not removed by a shared Bayesian-network context.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T173654Z-noisy-order.json | supports | All442 pinned AIO labels/scoped synonyms and346 preceding native IDs/names/aliases were compared, with no normalized identity match. Both ignored- and hidden-inclusive full-checkout scans returned23 lines, identical after sorting. All17 unique matched line contents were read in full: SBN source metadata, NADE and DARN scope contrasts, their saved review and the prior noisy-OR lead. Seventeen exact AIO CLASS nodes with complete annotations/outgoing edges and six full maintained neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood. |
+| mapping | sources/aio/aio.json; Seventeen exact CLASS nodes with complete annotations and outgoing edges in source_analysis.aio_mapping_inspection | supports | All30 semantic label/scoped-synonym hits and17 complete AIO CLASS nodes with annotations/outgoing edges were read. Six complete maintained neighbors were read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly to BayesianNetwork: the AIO target is the broader directed normalized-factor model class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model association, not an algorithm subclass. LogisticRegression identifies a component of FVSBN but not the full joint model; SigmoidFunction is likewise a component. NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder has a different reconstruction loss/model interpretation. The other inspected round74 nodes retain the same model, component, task, language, time-series and causal-scope boundaries. Prior records are context, not fresh approvals. |
+| neighbors | research/discovery/20261011T173654Z-noisy-order.json; source_analysis.aio_mapping_inspection.native_neighbors | supports | Complete SigmoidBeliefNetwork, NeuralAutoregressiveDistributionEstimator, DeepAutoregressiveNetwork, HelmholtzMachine, WakeSleepAlgorithm and GibbsSampling records were read. They distinguish broader logistic families, deterministic neural prefix features, stochastic latent architectures, paired recognition models, alternating training and full conditional resampling. Prior records and mappings are boundary context, not newly approved. |
+| source-host | https://www.cs.toronto.edu/~bonner/ | supports | The university homepage identifies Anthony Bonner and lists CSC321 spring2016 among his courses. This supports the third-party course-host attribution for the Neal scan. The specific course-index opening failed, and publisher byte equivalence is not asserted. |
+| finite-conventions | research/discovery/noisy-order-boundaries.py; Noisy-OR failure products and signed-input constraints; fixed-order logit interaction; order-average prefix estimator, probability mixture and evidence-conditioned component weights | supports | Finite failure-product and signed-input examples distinguish valid noisy-OR probabilities from invalid negative values; a nonzero logit interaction distinguishes its chosen conditional from a fixed-order logistic-linear factor. Two shared-conditional orderings give normalized but different joints. Exact prefix enumeration checks the order-average objective, the distinction from mixture likelihood, and evidence-dependent mixture weights. Curator calculations do not execute author software or certify general convergence or performance. |
+| fullyvisiblesigmoidbeliefnetwork-source-0 | https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf; Section3, Equations(3)–(4), PDFp.2 / printedp.30; Figure1, PDFp.3 / printedp.31; related-work description, PDFp.4 / printedp.32 | supports | The Neural Autoregressive Distribution Estimator. AISTATS 2011, PMLR 15:29–37; nine-page publisher PDF. Printed page = PDF page + 28. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| fullyvisiblesigmoidbeliefnetwork-source-1 | https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf; Binary logistic generative setup, PDFp.1 / printedp.661; Section2 competitor Fully Visible Belief Network, PDFp.3 / printedp.663 | supports | Does the Wake-sleep Algorithm Produce Good Density Estimators?. Proceedings-hosted 10-page PDF for NIPS8, conference1995 and proceedings1996, pp.661–667. The cited PDFpp.1–3 correspond to printed pp.661–663; later pages were not audited. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| fullyvisiblesigmoidbeliefnetwork-source-2 | https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf; Section4.1, Equations(11)–(16), PDFpp.9–10 / printedpp.79–80; Section6.1–6.2, PDFpp.15–16 / printedpp.85–86 | supports | Connectionist learning of belief networks. 43-page published scan, Artificial Intelligence 56 (1992):71–113, hosted in a University of Toronto course directory maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted or byte-verified publisher download. Printed page = PDF page + 70. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| noisyorbeliefnetwork-source-0 | https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf; Section3.3, Equation(10), PDFp.9 / printedp.79; Section4.2, Equations(18)–(20), PDFpp.11–12 / printedpp.81–82; Section5.2, Equations(28)–(30) and Figure1, PDFpp.14–15 / printedpp.84–85 | supports | Connectionist learning of belief networks. 43-page published scan, Artificial Intelligence 56 (1992):71–113, hosted in a University of Toronto course directory maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted or byte-verified publisher download. Printed page = PDF page + 70. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+| orderagnosticnadetraining-source-0 | https://proceedings.mlr.press/v32/uria14.pdf; Sections2–5, Equations(1)–(12), PDFpp.2–4; input-mask discussion in Section3.1, p.3; experimental/pretraining context, pp.4–6 | supports | A Deep and Tractable Density Estimator. ICML2014, PMLR32(1):467–475; nine-page publisher PDF without printed proceedings page numbers. Actual paper and HTML reading scopes are declared in source_analysis; extraction, rendering and a full-text access label do not establish that every page was read. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all records remain DRAFT.
+- The Neal PDF is the declared third-party course scan. Reused source access timestamps/hashes are retained; no fresh download or publisher-byte match is claimed.
+- Only declared pages were read. Projection appendix proofs, unread experimental sections and author implementations were not audited.
+- Finite examples establish the displayed cases, not universal performance or convergence; selecting a model for a query is distinct from inference under a fixed mixture.
+- There are190 pending inspection leads plus unresolved dispositions; discovery remains active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T174121Z-noisy-order
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of fully visible, noisy-OR and order-agnostic concepts
+started_at: '2026-10-11T17:37:50Z'
+finished_at: '2026-10-11T17:41:21Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially checked every field of two
+    architecture records and one training-method record against the declared primary
+    PDF sections/images, seventeen exact AIO nodes, six complete maintained neighbors
+    and original finite calculations. Complete-observation scope, logistic versus
+    noisy-OR factors, signed-input validity, observed masks, prefix weighting, order-specific
+    joint disagreement, probability mixtures and mapping direction were examined.
+    This is author self-review.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the fully visible sigmoid and noisy-OR architectures and order-agnostic
+  NADE training as distinct DRAFT concepts. Conditional constraints, complete-observation
+  scope, training objective and ensemble inference limits are explicit. No actionable
+  curation finding remains in the declared scope.
+source:
+  git_revision: d50a8125d9fbbd45c080c1060cbccc1679b60bc2
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/AutoregressiveMovingAverage.yaml
+    sha256: eb69aaedb34d8c9e620ef4f0d20111feaf9c3dd09236f57536561e9a6cccdf53
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/DeepBeliefNetwork.yaml
+    sha256: e6912732493adbfea3b48e01184d33682ad262dd73801757c094a2b160046a58
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/DenoisingAutoEncoder.yaml
+    sha256: f9d3ccf856e3aa3b7d01af120409640900e270f26c4e470003219d321816074f
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/MaskingLayer.yaml
+    sha256: aa631797f535f3251191ecf174b0c5b3428d730882a351240e76e5f336a5e3a0
+    role: context
+  - path: data/aio/NoisyInputLayer.yaml
+    sha256: b0d135e5d29a740691d9bc52033bdd97bd852e8d75e7eabfcc500762251920c1
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/DeepAutoregressiveNetwork.yaml
+    sha256: 424d6296a8f402fb443308c3222a835af2f9fddfd5f253773645276dd53b017e
+    role: context
+  - path: data/curated/FullyVisibleSigmoidBeliefNetwork.yaml
+    sha256: 042d5a3bf18885281f47156e3b2b1d355ff6034c7b673f461661b577e250b316
+    role: target
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HelmholtzMachine.yaml
+    sha256: 9b582e184b171ae372dca219cd6704318a9287150dcbf540f95a8b4cc6405cac
+    role: context
+  - path: data/curated/NeuralAutoregressiveDistributionEstimator.yaml
+    sha256: 13578d60229a30803baa9444bda45c5ec3b561520b0bdaaba261eaa022ed1e41
+    role: context
+  - path: data/curated/NoisyORBeliefNetwork.yaml
+    sha256: c144519826e983bb2bca899b3abec5272bf4bb024b853e72bef483849b59422a
+    role: target
+  - path: data/curated/OrderAgnosticNADETraining.yaml
+    sha256: 7c109ad1303278bf381f990a782b7d827fd7644d6e754f24ed06ce782fa0a4f9
+    role: target
+  - path: data/curated/SigmoidBeliefNetwork.yaml
+    sha256: 5fa2d037504b10f0d11db0ebdfef5b7d0f8175d4739d45a3abea789d00164c6a
+    role: context
+  - path: data/curated/WakeSleepAlgorithm.yaml
+    sha256: 48b795b8f0730fc884c1809d405e125ec09b3a906e9b875f9ff3b1772fb21f48
+    role: context
+  - path: research/discovery/20261011T173654Z-noisy-order.json
+    sha256: 098a6fab275c2b4eac9043e1657d8bb68171bf7edb9d96d43ea8c19311ba5ff9
+    role: context
+  - path: research/discovery/noisy-order-boundaries.py
+    sha256: bd208857ed8860429562d7d7286549dd3c30f96fc8b3f69272d8b47bc7068f80
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FullyVisibleSigmoidBeliefNetwork
+  path: data/curated/FullyVisibleSigmoidBeliefNetwork.yaml
+  label: Fully visible sigmoid belief network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FullyVisibleSigmoidBeliefNetwork.yaml
+    role: maintained
+- target_id: AIMech:NoisyORBeliefNetwork
+  path: data/curated/NoisyORBeliefNetwork.yaml
+  label: Noisy-OR belief network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NoisyORBeliefNetwork.yaml
+    role: maintained
+- target_id: AIMech:OrderAgnosticNADETraining
+  path: data/curated/OrderAgnosticNADETraining.yaml
+  label: Order-agnostic NADE training
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OrderAgnosticNADETraining.yaml
+    role: maintained
+scope:
+  description: All fields of an explicit batch containing two probabilistic architectures
+    and one autoregressive-model training procedure.
+  selection: Three exact IDs from the saved discovery ledger; no sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exclusions:
+  - target: Remaining frontier concepts and complete implementations
+    reason: Conditional, real-valued and document NADE variants, mean-field and Bernoulli-mixture
+      leads and other cohorts remain open. Author software and general convergence
+      proofs were not audited.
+  - target: Prior corpus, unread pages and empirical performance
+    reason: Older records provide boundary context. Only declared source sections/images
+      and original finite calculations support this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 75.77s (0:01:15)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 349 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 97 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 94,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited0 with no output.
+- check_id: finite-arithmetic
+  name: Noisy-OR, logistic conditional and order-averaged training boundary calculations
+  command: python3 research/discovery/noisy-order-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"noisy_or": {"(0, 0)": "1/4", "(0, 1)": "3/4", "(1, 0)": "5/8", "(1,
+    1)": "7/8"}, "noisy_or_logit_interaction": -0.762140052046897, "valid_signed_min_probability":
+    0.0, "invalid_signed_probability": -1.718281828459045, "order_member_probabilities":
+    ["1/8", "3/8"], "order_mean_nll": 1.530135397345781, "prefix_estimator_mean":
+    1.530135397345781, "mixture_nll": 1.3862943611198906, "evidence_conditioned_component_weights":
+    ["2/5", "3/5"], "conditional_mixture": "3/5", "uniform_component_conditional_average":
+    "5/8", "scope": "Finite curator examples; no author implementation, training or
+    empirical benchmark."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T173654Z-noisy-order.json
+  accessed_at: '2026-10-11T17:37:50Z'
+  support: supports
+  summary: 'All442 pinned AIO labels/scoped synonyms and346 preceding native IDs/names/aliases
+    were compared, with no normalized identity match. Both ignored- and hidden-inclusive
+    full-checkout scans returned23 lines, identical after sorting. All17 unique matched
+    line contents were read in full: SBN source metadata, NADE and DARN scope contrasts,
+    their saved review and the prior noisy-OR lead. Seventeen exact AIO CLASS nodes
+    with complete annotations/outgoing edges and six full maintained neighbors were
+    inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+  search_scope: 'All442 pinned AIO labels/scoped synonyms and346 preceding native
+    IDs/names/aliases were compared, with no normalized identity match. Both ignored-
+    and hidden-inclusive full-checkout scans returned23 lines, identical after sorting.
+    All17 unique matched line contents were read in full: SBN source metadata, NADE
+    and DARN scope contrasts, their saved review and the prior noisy-OR lead. Seventeen
+    exact AIO CLASS nodes with complete annotations/outgoing edges and six full maintained
+    neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Seventeen exact CLASS nodes with complete annotations and outgoing edges
+    in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T17:37:50Z'
+  support: supports
+  summary: 'All30 semantic label/scoped-synonym hits and17 complete AIO CLASS nodes
+    with annotations/outgoing edges were read. Six complete maintained neighbors were
+    read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly to
+    BayesianNetwork: the AIO target is the broader directed normalized-factor model
+    class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model
+    association, not an algorithm subclass. LogisticRegression identifies a component
+    of FVSBN but not the full joint model; SigmoidFunction is likewise a component.
+    NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer
+    skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder
+    has a different reconstruction loss/model interpretation. The other inspected
+    round74 nodes retain the same model, component, task, language, time-series and
+    causal-scope boundaries. Prior records are context, not fresh approvals.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T173654Z-noisy-order.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors
+  accessed_at: '2026-10-11T17:37:50Z'
+  support: supports
+  summary: Complete SigmoidBeliefNetwork, NeuralAutoregressiveDistributionEstimator,
+    DeepAutoregressiveNetwork, HelmholtzMachine, WakeSleepAlgorithm and GibbsSampling
+    records were read. They distinguish broader logistic families, deterministic neural
+    prefix features, stochastic latent architectures, paired recognition models, alternating
+    training and full conditional resampling. Prior records and mappings are boundary
+    context, not newly approved.
+- evidence_id: source-host
+  kind: primary_source
+  reference: https://www.cs.toronto.edu/~bonner/
+  accessed_at: '2026-10-11T17:27:48Z'
+  support: supports
+  summary: The university homepage identifies Anthony Bonner and lists CSC321 spring2016
+    among his courses. This supports the third-party course-host attribution for the
+    Neal scan. The specific course-index opening failed, and publisher byte equivalence
+    is not asserted.
+- evidence_id: finite-conventions
+  kind: record_content
+  reference: research/discovery/noisy-order-boundaries.py
+  locator: Noisy-OR failure products and signed-input constraints; fixed-order logit
+    interaction; order-average prefix estimator, probability mixture and evidence-conditioned
+    component weights
+  accessed_at: '2026-10-11T17:37:50Z'
+  snapshot_sha256: bd208857ed8860429562d7d7286549dd3c30f96fc8b3f69272d8b47bc7068f80
+  support: supports
+  summary: Finite failure-product and signed-input examples distinguish valid noisy-OR
+    probabilities from invalid negative values; a nonzero logit interaction distinguishes
+    its chosen conditional from a fixed-order logistic-linear factor. Two shared-conditional
+    orderings give normalized but different joints. Exact prefix enumeration checks
+    the order-average objective, the distinction from mixture likelihood, and evidence-dependent
+    mixture weights. Curator calculations do not execute author software or certify
+    general convergence or performance.
+- evidence_id: fullyvisiblesigmoidbeliefnetwork-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf
+  locator: Section3, Equations(3)–(4), PDFp.2 / printedp.30; Figure1, PDFp.3 / printedp.31;
+    related-work description, PDFp.4 / printedp.32
+  accessed_at: '2026-10-11T17:14:24Z'
+  snapshot_sha256: b1fe502ea1b3f84875d5e13aefec479827b3a33ab1ebdcf3eb4a3d71a5a4ea9a
+  support: supports
+  summary: The Neural Autoregressive Distribution Estimator. AISTATS 2011, PMLR 15:29–37;
+    nine-page publisher PDF. Printed page = PDF page + 28. Actual paper and HTML reading
+    scopes are declared in source_analysis; extraction, rendering and a full-text
+    access label do not establish that every page was read.
+- evidence_id: fullyvisiblesigmoidbeliefnetwork-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf
+  locator: Binary logistic generative setup, PDFp.1 / printedp.661; Section2 competitor
+    Fully Visible Belief Network, PDFp.3 / printedp.663
+  accessed_at: '2026-10-11T17:25:03Z'
+  snapshot_sha256: cb6d748c68162ce378e0dd5de25e9316b56eeaf3b57726396b1bf8890019b7b5
+  support: supports
+  summary: Does the Wake-sleep Algorithm Produce Good Density Estimators?. Proceedings-hosted
+    10-page PDF for NIPS8, conference1995 and proceedings1996, pp.661–667. The cited
+    PDFpp.1–3 correspond to printed pp.661–663; later pages were not audited. Actual
+    paper and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.
+- evidence_id: fullyvisiblesigmoidbeliefnetwork-source-2
+  kind: primary_source
+  reference: https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf
+  locator: Section4.1, Equations(11)–(16), PDFpp.9–10 / printedpp.79–80; Section6.1–6.2,
+    PDFpp.15–16 / printedpp.85–86
+  accessed_at: '2026-10-11T17:14:17Z'
+  snapshot_sha256: 4e4f40a92dced6ad1fbce4e464adca496e73991060d21a7d6d5bccef296a164a
+  support: supports
+  summary: Connectionist learning of belief networks. 43-page published scan, Artificial
+    Intelligence 56 (1992):71–113, hosted in a University of Toronto course directory
+    maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted
+    or byte-verified publisher download. Printed page = PDF page + 70. Actual paper
+    and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.
+- evidence_id: noisyorbeliefnetwork-source-0
+  kind: primary_source
+  reference: https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf
+  locator: Section3.3, Equation(10), PDFp.9 / printedp.79; Section4.2, Equations(18)–(20),
+    PDFpp.11–12 / printedpp.81–82; Section5.2, Equations(28)–(30) and Figure1, PDFpp.14–15
+    / printedpp.84–85
+  accessed_at: '2026-10-11T17:14:17Z'
+  snapshot_sha256: 4e4f40a92dced6ad1fbce4e464adca496e73991060d21a7d6d5bccef296a164a
+  support: supports
+  summary: Connectionist learning of belief networks. 43-page published scan, Artificial
+    Intelligence 56 (1992):71–113, hosted in a University of Toronto course directory
+    maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted
+    or byte-verified publisher download. Printed page = PDF page + 70. Actual paper
+    and HTML reading scopes are declared in source_analysis; extraction, rendering
+    and a full-text access label do not establish that every page was read.
+- evidence_id: orderagnosticnadetraining-source-0
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v32/uria14.pdf
+  locator: Sections2–5, Equations(1)–(12), PDFpp.2–4; input-mask discussion in Section3.1,
+    p.3; experimental/pretraining context, pp.4–6
+  accessed_at: '2026-10-11T17:25:02Z'
+  snapshot_sha256: 3a039578622b7a5a6776861bea6a86d0ad92a45726e0597df9630f30abc93958
+  support: supports
+  summary: A Deep and Tractable Density Estimator. ICML2014, PMLR32(1):467–475; nine-page
+    publisher PDF without printed proceedings page numbers. Actual paper and HTML
+    reading scopes are declared in source_analysis; extraction, rendering and a full-text
+    access label do not establish that every page was read.
+assessments:
+- assessment_id: fullyvisiblesigmoidbeliefnetwork
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - fullyvisiblesigmoidbeliefnetwork-source-0
+  - fullyvisiblesigmoidbeliefnetwork-source-1
+  - fullyvisiblesigmoidbeliefnetwork-source-2
+  summary: 'This is the fully visible sigmoid model discussed by Larochelle and Murray,
+    with no stochastic hidden variables. Frey and colleagues call their binary logistic
+    special case a fully visible belief network; that local usage does not make all
+    fully visible Bayesian networks synonyms of the sigmoid family. The record specializes
+    the broader sigmoid-belief-network family and is distinct from NADE’s nonlinear
+    deterministic hidden features and DARN’s stochastic latent architecture. No normalized
+    identity match was found across all 442 pinned AIO labels/scoped synonyms and
+    346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included
+    ignored and hidden files in worktree and main, returning 23 and 23 lines respectively.
+    All 17 unique matched line contents were inspected in full: SBN source metadata,
+    NADE and DARN scope distinctions, their saved review and the carried noisy-OR
+    discovery lead, not existing candidate records. Exact checkout counts and differences
+    are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments
+    and outgoing edges and six full native neighboring records were inspected. Absence
+    is bounded to this snapshot and semantic neighborhood.'
+  details: 'Fix an ordering of D binary visible variables. Parameterize P(x_i=1|x_<i)=sigmoid(b_i+sum_(j<i)
+    w_ij x_j). Multiply the corresponding Bernoulli probabilities over positions to
+    evaluate the normalized observed joint. All variables in that product are visible,
+    so complete-data likelihood evaluation has no hidden-state marginalization or
+    recognition-model posterior approximation. Its negative log likelihood is the
+    sum of the positionwise binary logistic losses. Generate a sample by drawing each
+    bit from the conditional determined by already drawn predecessors. Full connectivity
+    makes all earlier visible variables available as parents; zero coefficients can
+    remove particular dependencies. A fixed-order conditional’s log odds are affine
+    in its predecessors, unlike the more general nonlinear neural conditional used
+    by NADE. Limits: The chain-rule factorization is general, but restricting each
+    conditional to a logistic-linear function limits the distribution family. A given
+    fixed-order conditional table with a nonzero logit interaction cannot be represented
+    by that affine logit; this is not a claim about every alternative ordering or
+    latent extension. Exact complete-observation likelihood and forward generation
+    do not provide arbitrary missing-variable posteriors for free. Conditioning on
+    a suffix while earlier variables are unknown still requires inference or summation.
+    Changing the variable order changes the restricted model family and can affect
+    fitting. The absence of stochastic latent variables is part of this specialization,
+    not a property of all sigmoid belief networks. The source’s FVBN label is interpreted
+    within its binary logistic model setting. No assertion that every fully visible
+    Bayesian model uses logistic factors, no universal performance ranking and no
+    trained-model result is included.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: A reusable probabilistic architecture or its learning procedure, with
+      model, conditional-family and objective roles stated explicitly; not a trained
+      instance or benchmark outcome.
+    evidence_ids:
+    - fullyvisiblesigmoidbeliefnetwork-source-0
+    - fullyvisiblesigmoidbeliefnetwork-source-1
+    - fullyvisiblesigmoidbeliefnetwork-source-2
+  - name: aio-assessment
+    value: broad_match
+    definition: 'All30 semantic label/scoped-synonym hits and17 complete AIO CLASS
+      nodes with annotations/outgoing edges were read. Six complete maintained neighbors
+      were read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly
+      to BayesianNetwork: the AIO target is the broader directed normalized-factor
+      model class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model
+      association, not an algorithm subclass. LogisticRegression identifies a component
+      of FVSBN but not the full joint model; SigmoidFunction is likewise a component.
+      NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer
+      skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder
+      has a different reconstruction loss/model interpretation. The other inspected
+      round74 nodes retain the same model, component, task, language, time-series
+      and causal-scope boundaries. Prior records are context, not fresh approvals.'
+    evidence_ids:
+    - mapping
+- assessment_id: noisyorbeliefnetwork
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyORBeliefNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - noisyorbeliefnetwork-source-0
+  summary: 'The core record denotes the noisy-OR conditional model described by Neal,
+    with zero/one variables and failure factors between zero and one. It is a probabilistic
+    conditional family, not additive input noise, a deterministic OR gate or a sigmoid
+    function. Neal also studies a signed-weight exponential extension; its distinct
+    validity condition and loss of an individual failure-probability interpretation
+    are stated explicitly rather than silently treating negative weights as ordinary
+    noisy-OR failures. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 23 and 23 lines respectively. All 17 unique matched line contents were
+    inspected in full: SBN source metadata, NADE and DARN scope distinctions, their
+    saved review and the carried noisy-OR discovery lead, not existing candidate records.
+    Exact checkout counts and differences are retained in the ledger. Seventeen exact
+    AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full
+    native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  details: 'For node i, let q_i0 be the failure probability for an always-on bias
+    or leak source and q_ij the failure probability associated with active parent
+    j. Set P(s_i=0|parents)=q_i0 times the product of q_ij over parents with state1,
+    and set P(s_i=1|parents) to its complement. This corresponds to independently
+    failing activation contributions; it does not require the parent variables themselves
+    to be independent. Multiply normalized node factors in a topological order to
+    obtain the joint model and sample it ancestrally. For strictly positive failure
+    factors, define w_ij=-log(q_ij), including the bias; then P(s_i=1|parents)=1-exp(-a_i),
+    with a_i=w_i0+sum_j w_ij s_j and nonnegative standard weights. Neal’s separate
+    signed-weight extension retains this exponential formula if a_i is nonnegative
+    for every binary parent configuration, equivalently w_i0+sum_(j:w_ij<0) w_ij>=0.
+    Negative weights in that extension need not correspond to failure probabilities
+    in[0,1]. Parameter updates must preserve validity; the architecture itself does
+    not specify a unique learning algorithm. Limits: A negative weighted input gives
+    an invalid negative activation probability. The signed extension therefore needs
+    explicit constraints and is not an unconstrained sigmoid parameterization. Zero
+    failure probabilities yield deterministic activation contributions and infinite
+    log-failure weights; the probability-product form still defines the boundary,
+    but the finite-weight reparameterization excludes those endpoints. The independent-failure
+    interpretation concerns contributions conditional on parent states, not a proof
+    that the parent variables are independent or that the model’s edges identify interventions
+    in real data. Local normalization and ancestral generation do not remove hidden-variable
+    marginalization or guarantee Gibbs mixing. Boundary zero probabilities can also
+    obstruct positivity conditions used by sampling arguments. Neal’s constraint-projection
+    and learning discussion was inspected, but its appendix proofs and executable
+    implementations were not audited. No projection-optimality theorem, general convergence
+    or empirical advantage is certified.'
+  dimensions:
+  - name: concept-kind
+    value: architecture
+    definition: A reusable probabilistic architecture or its learning procedure, with
+      model, conditional-family and objective roles stated explicitly; not a trained
+      instance or benchmark outcome.
+    evidence_ids:
+    - noisyorbeliefnetwork-source-0
+  - name: aio-assessment
+    value: broad_match
+    definition: 'All30 semantic label/scoped-synonym hits and17 complete AIO CLASS
+      nodes with annotations/outgoing edges were read. Six complete maintained neighbors
+      were read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly
+      to BayesianNetwork: the AIO target is the broader directed normalized-factor
+      model class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model
+      association, not an algorithm subclass. LogisticRegression identifies a component
+      of FVSBN but not the full joint model; SigmoidFunction is likewise a component.
+      NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer
+      skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder
+      has a different reconstruction loss/model interpretation. The other inspected
+      round74 nodes retain the same model, component, task, language, time-series
+      and causal-scope boundaries. Prior records are context, not fresh approvals.'
+    evidence_ids:
+    - mapping
+- assessment_id: orderagnosticnadetraining
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, provenance and explicit AIO
+    assessment
+  outcome: supported
+  target_ids:
+  - AIMech:OrderAgnosticNADETraining
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-conventions
+  - orderagnosticnadetraining-source-0
+  summary: 'This is Uria, Murray and Larochelle’s order-agnostic training procedure,
+    applicable to shallow or deep NADE and its real-valued extension. It is distinct
+    from the original fixed-order NADE architecture, the existence of additional deterministic
+    hidden layers alone, and an ensemble mixture evaluated after training. Parameter
+    sharing across orderings does not assert that every ordering defines the same
+    joint distribution. No normalized identity match was found across all 442 pinned
+    AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout
+    fixed-string searches included ignored and hidden files in worktree and main,
+    returning 23 and 23 lines respectively. All 17 unique matched line contents were
+    inspected in full: SBN source metadata, NADE and DARN scope distinctions, their
+    saved review and the carried noisy-OR discovery lead, not existing candidate records.
+    Exact checkout counts and differences are retained in the ledger. Seventeen exact
+    AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full
+    native neighboring records were inspected. Absence is bounded to this snapshot
+    and semantic neighborhood.'
+  details: 'Treat a variable ordering o as uniformly distributed over permutations
+    and minimize the mean over data and o of the negative log probability assigned
+    by the corresponding autoregressive NADE. For a training example, sample an ordering
+    and a prefix length d-1 uniformly from zero through D-1. Feed the observed prefix
+    values to the shared neural conditional network, set unobserved input values to
+    zero and append a binary mask identifying observed dimensions so that observed
+    zeros remain distinguishable from missing inputs. Evaluate the conditional loss
+    for each of the D-d+1 remaining variables under that same prefix, sum those losses
+    and multiply by D/(D-d+1). The resulting loss and, under the differentiability
+    conditions, its gradient estimate the order-averaged objective; one masked-prefix
+    forward/backward computation serves all missing outputs. Additional deterministic
+    hidden layers can be used, while full joint evaluation for a chosen ordering still
+    requires all ordered conditionals. After training, a selected ordering defines
+    one normalized autoregressive model. A separate ensemble averages the joint probabilities
+    of selected orderings, and samples by selecting a member then generating from
+    that member. This probability average is distinct from the order-average log-likelihood
+    training objective. Limits: Shared parameters do not force order-specific joint
+    distributions to agree. Choosing an ordering convenient for a conditioning query
+    performs inference under that chosen member, not necessarily under another ordering
+    or the ensemble mixture. Conditioning an ensemble generally reweights its members
+    by their evidence probabilities. Uniformly choosing a member after observing evidence
+    does not automatically sample the ensemble posterior; a finite curator example
+    checks this distinction. The unbiased prefix estimator depends on the stated uniform
+    ordering/prefix sampling and D/(D-d+1) weighting. Arbitrary masks, unweighted
+    missing-output losses or nonuniform prefix sampling require a corresponding derivation.
+    The presence mask is additional input information, not a sequence-timestep skipping
+    layer or a guarantee that missing-data mechanisms have been modeled. The paper
+    distinguishes its missing-output loss from ordinary denoising-autoencoder reconstruction.
+    The training objective is an average of log probabilities rather than the log
+    of an average probability. Ensemble density evaluation costs and deep full-joint
+    evaluation differ from one stochastic training update; selecting a convenient
+    model is not dimension-independent numerical inference. No agreement of all conditionals
+    with one joint distribution, universal performance gain, global optimization guarantee
+    or complete implementation audit is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A reusable probabilistic architecture or its learning procedure, with
+      model, conditional-family and objective roles stated explicitly; not a trained
+      instance or benchmark outcome.
+    evidence_ids:
+    - orderagnosticnadetraining-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'All30 semantic label/scoped-synonym hits and17 complete AIO CLASS
+      nodes with annotations/outgoing edges were read. Six complete maintained neighbors
+      were read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly
+      to BayesianNetwork: the AIO target is the broader directed normalized-factor
+      model class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model
+      association, not an algorithm subclass. LogisticRegression identifies a component
+      of FVSBN but not the full joint model; SigmoidFunction is likewise a component.
+      NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer
+      skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder
+      has a different reconstruction loss/model interpretation. The other inspected
+      round74 nodes retain the same model, component, task, language, time-series
+      and causal-scope boundaries. Prior records are context, not fresh approvals.'
+    evidence_ids:
+    - mapping
+- assessment_id: fully-visible-boundaries
+  area: consistency
+  topic: Complete-data tractability and logistic-linear conditional scope
+  outcome: supported
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  evidence_ids:
+  - fullyvisiblesigmoidbeliefnetwork-source-0
+  - fullyvisiblesigmoidbeliefnetwork-source-1
+  - fullyvisiblesigmoidbeliefnetwork-source-2
+  - finite-conventions
+  summary: Retain the fully visible specialization of the sigmoid family.
+  details: The model has binary visible variables and ordered logistic-linear conditional
+    factors, with no stochastic hidden variables. Exact joint evaluation for complete
+    observations does not remove arbitrary missing-variable inference. The source-local
+    FVBN name is not generalized to every fully visible Bayesian network. A nonzero
+    logit interaction in the finite conditional example cannot be represented by a
+    logistic-linear factor in that fixed parent ordering; no conclusion about every
+    alternative ordering or latent extension is claimed. The AIO BayesianNetwork target
+    is broader than this specialization.
+- assessment_id: noisy-or-boundaries
+  area: consistency
+  topic: Failure-product interpretation, leak and signed-weight validity
+  outcome: supported
+  target_ids:
+  - AIMech:NoisyORBeliefNetwork
+  evidence_ids:
+  - noisyorbeliefnetwork-source-0
+  - finite-conventions
+  summary: Retain noisy-OR with its standard probability and extension boundaries.
+  details: Independent activation failures conditional on parent states give the multiplicative
+    inactivity probability, including an always-on bias/leak factor. This does not
+    imply independent parent variables or causal identification. Finite nonnegative
+    log-failure weights give the equivalent exponential form; zero failure factors
+    are boundary cases requiring infinite weights. Neal’s signed extension has valid
+    binary probabilities only when the minimum weighted input is nonnegative. The
+    finite two-parent example yields activation probabilities1/4,3/4,5/8,7/8; a valid
+    signed input has minimum0, whereas an unconstrained negative input gives probability
+    below0. The source’s projection algorithm was read but its appendix optimality
+    proof and author software were not audited.
+- assessment_id: order-training-boundaries
+  area: consistency
+  topic: Prefix estimator, order-average objective and probability mixture
+  outcome: supported
+  target_ids:
+  - AIMech:OrderAgnosticNADETraining
+  evidence_ids:
+  - orderagnosticnadetraining-source-0
+  - finite-conventions
+  summary: Retain the training method separately from architecture and ensemble identities.
+  details: Uniform ordering and prefix-length sampling, observed-dimension masks and
+    D/(D-d+1) loss weighting define the estimator. The finite shared-conditional example
+    gives different normalized order-specific joint probabilities1/8 and3/8 for one
+    datum. Enumerating prefix samples reproduces the mean negative log likelihood1.530135397345781;
+    the mixture negative log likelihood is1.3862943611198906. The method therefore
+    does not optimize a log probability mixture merely by averaging ordering losses.
+    On observing evidence, mixture weights become2/5 and3/5, yielding conditional3/5
+    rather than the uniform member-conditional average5/8. Selecting a convenient
+    ordering provides that member’s conditional, not automatic exact inference under
+    the whole ensemble. Shallow/deep applicability does not identify the algorithm
+    with a particular deep architecture.
+- assessment_id: mapping-boundaries
+  area: grounding
+  topic: Conditional model specializations and training-to-model context
+  outcome: supported
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain two broad mappings and one related mapping.
+  details: 'All30 semantic label/scoped-synonym hits and17 complete AIO CLASS nodes
+    with annotations/outgoing edges were read. Six complete maintained neighbors were
+    read. FullyVisibleSigmoidBeliefNetwork and NoisyORBeliefNetwork map broadly to
+    BayesianNetwork: the AIO target is the broader directed normalized-factor model
+    class. OrderAgnosticNADETraining relates to BayesianNetwork as a training-method-to-model
+    association, not an algorithm subclass. LogisticRegression identifies a component
+    of FVSBN but not the full joint model; SigmoidFunction is likewise a component.
+    NoisyInputLayer is input corruption, not noisy-OR factorization. MaskingLayer
+    skips sequence timesteps, not an observed-dimension indicator; DenoisingAutoEncoder
+    has a different reconstruction loss/model interpretation. The other inspected
+    round74 nodes retain the same model, component, task, language, time-series and
+    causal-scope boundaries. Prior records are context, not fresh approvals.'
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:FullyVisibleSigmoidBeliefNetwork
+  - AIMech:NoisyORBeliefNetwork
+  - AIMech:OrderAgnosticNADETraining
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - source-host
+  - finite-conventions
+  - fullyvisiblesigmoidbeliefnetwork-source-0
+  - fullyvisiblesigmoidbeliefnetwork-source-1
+  - fullyvisiblesigmoidbeliefnetwork-source-2
+  - noisyorbeliefnetwork-source-0
+  - orderagnosticnadetraining-source-0
+  rationale: Fully visible sigmoid networks specify binary logistic-linear joint factors
+    without latent random variables. Noisy-OR specifies failure-product conditionals
+    with explicit boundary and signed-extension constraints. Order-agnostic NADE training
+    is a shared-parameter stochastic objective across ordered models. These model
+    and method distinctions are not removed by a shared Bayesian-network context.
+limitations:
+- Adversarial author self-review only; all records remain DRAFT.
+- The Neal PDF is the declared third-party course scan. Reused source access timestamps/hashes
+  are retained; no fresh download or publisher-byte match is claimed.
+- Only declared pages were read. Projection appendix proofs, unread experimental sections
+  and author implementations were not audited.
+- Finite examples establish the displayed cases, not universal performance or convergence;
+  selecting a model for a query is distinct from inference under a fixed mixture.
+- There are190 pending inspection leads plus unresolved dispositions; discovery remains
+  active.
+links: []
+tags:
+- native-concepts
+- noisy-order
+- self-review
+- discovery-ongoing
+```

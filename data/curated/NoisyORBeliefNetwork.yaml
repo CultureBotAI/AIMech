@@ -1,0 +1,87 @@
+name: Noisy-OR belief network
+definition: A directed acyclic binary probabilistic network that models a node’s inactivity as the product
+  of a leak-failure factor and failure factors for its active parents.
+concept_kind: architecture
+identity_notes: 'The core record denotes the noisy-OR conditional model described by Neal, with zero/one
+  variables and failure factors between zero and one. It is a probabilistic conditional family, not additive
+  input noise, a deterministic OR gate or a sigmoid function. Neal also studies a signed-weight exponential
+  extension; its distinct validity condition and loss of an individual failure-probability interpretation
+  are stated explicitly rather than silently treating negative weights as ordinary noisy-OR failures.
+  No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding
+  native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree
+  and main, returning 23 and 23 lines respectively. All 17 unique matched line contents were inspected
+  in full: SBN source metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR
+  discovery lead, not existing candidate records. Exact checkout counts and differences are retained in
+  the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six
+  full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.'
+limitations:
+- A negative weighted input gives an invalid negative activation probability. The signed extension therefore
+  needs explicit constraints and is not an unconstrained sigmoid parameterization.
+- Zero failure probabilities yield deterministic activation contributions and infinite log-failure weights;
+  the probability-product form still defines the boundary, but the finite-weight reparameterization excludes
+  those endpoints.
+- The independent-failure interpretation concerns contributions conditional on parent states, not a proof
+  that the parent variables are independent or that the model’s edges identify interventions in real data.
+- Local normalization and ancestral generation do not remove hidden-variable marginalization or guarantee
+  Gibbs mixing. Boundary zero probabilities can also obstruct positivity conditions used by sampling arguments.
+- Neal’s constraint-projection and learning discussion was inspected, but its appendix proofs and executable
+  implementations were not audited. No projection-optimality theorem, general convergence or empirical
+  advantage is certified.
+id: AIMech:NoisyORBeliefNetwork
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section3.3, Equation(10), PDFp.9 / printedp.79; Section4.2, Equations(18)–(20), PDFpp.11–12
+    / printedpp.81–82; Section5.2, Equations(28)–(30) and Figure1, PDFpp.14–15 / printedpp.84–85
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For node i, let q_i0 be the failure probability for an always-on bias or leak source and
+    q_ij the failure probability associated with active parent j. Set P(s_i=0|parents)=q_i0 times the
+    product of q_ij over parents with state1, and set P(s_i=1|parents) to its complement. This corresponds
+    to independently failing activation contributions; it does not require the parent variables themselves
+    to be independent. Multiply normalized node factors in a topological order to obtain the joint model
+    and sample it ancestrally. For strictly positive failure factors, define w_ij=-log(q_ij), including
+    the bias; then P(s_i=1|parents)=1-exp(-a_i), with a_i=w_i0+sum_j w_ij s_j and nonnegative standard
+    weights. Neal’s separate signed-weight extension retains this exponential formula if a_i is nonnegative
+    for every binary parent configuration, equivalently w_i0+sum_(j:w_ij<0) w_ij>=0. Negative weights
+    in that extension need not correspond to failure probabilities in[0,1]. Parameter updates must preserve
+    validity; the architecture itself does not specify a unique learning algorithm.
+  evidence:
+  - source_id: method-source
+    locator: Section3.3, Equation(10), PDFp.9 / printedp.79; Section4.2, Equations(18)–(20), PDFpp.11–12
+      / printedpp.81–82; Section5.2, Equations(28)–(30) and Figure1, PDFpp.14–15 / printedpp.84–85
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Connectionist learning of belief networks
+  authors:
+  - Radford M. Neal
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf
+  version: 43-page published scan, Artificial Intelligence 56 (1992):71–113, hosted in a University of
+    Toronto course directory maintained by Anthony Bonner. This is a third-party course copy, not an author-hosted
+    or byte-verified publisher download. Printed page = PDF page + 70.
+  persistent_id: doi:10.1016/0004-3702(92)90065-6
+  access_level: full_text
+  accessed_at: '2026-10-11T17:14:17Z'
+  sha256: 4e4f40a92dced6ad1fbce4e464adca496e73991060d21a7d6d5bccef296a164a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: broad_match
+  rationale: The AIO target denotes the broader directed acyclic probabilistic network class. The native
+    noisy-OR family narrows its binary conditional factors to the stated failure-product form; its explicitly
+    qualified signed extension retains an acyclic normalized factor model only under its validity constraint.
+    Neither noisy input layers nor causal graph terminology establishes this identity.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T17:36:54Z'
+  updated_at: '2026-10-11T17:36:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
