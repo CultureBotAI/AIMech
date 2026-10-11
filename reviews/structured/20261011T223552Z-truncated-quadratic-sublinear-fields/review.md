@@ -1,0 +1,1188 @@
+# Scientific self-review of truncated, quadratic and sublinear Poisson graphical models
+
+- Review: 20261011T223552Z-truncated-quadratic-sublinear-fields
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T22:31:48Z
+- Finished UTC: 2026-10-11T22:35:52Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain three DRAFT count graphical model families distinguished by finite support, quadratic site penalties and bounded sufficient statistics. Definitions and normalization regimes are supported; literal source claims contradicted by explicit mathematical witnesses are qualified. No actionable curation finding remains in this selected batch.
+
+## Scope And Provenance
+
+All fields of three selected maintained concepts from the modified Poisson graphical-model paper.
+
+Selection: Exact maintained IDs TruncatedPoissonGraphicalModel, QuadraticPoissonGraphicalModel and SublinearPoissonGraphicalModel; complete selected batch without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base b2bcae33c27c4cfb9c62d365977446ef43a64a75.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TruncatedPoissonGraphicalModel | data/curated/TruncatedPoissonGraphicalModel.yaml | maintained | Truncated Poisson graphical model |
+| AIMech:QuadraticPoissonGraphicalModel | data/curated/QuadraticPoissonGraphicalModel.yaml | maintained | Quadratic Poisson graphical model |
+| AIMech:SublinearPoissonGraphicalModel | data/curated/SublinearPoissonGraphicalModel.yaml | maintained | Sublinear Poisson graphical model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 131.43s (0:02:11)<br>Checked 442 record(s); 0 failed.<br>Checked 409 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 117 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 114,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel | Command exited 0 with no output. |
+| Truncated means, Winsorized compatibility, quadratic bounds and bounded-statistic calculations | passed | True | AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel | {"truncated": {"cap": 4, "states": 25, "partition_function": "1481491/8", "all_full_conditionals_verified": true, "underlying_poisson_parameter": "4", "actual_truncated_conditional_mean": "284/103", "scope": "Finite-support joint with positive interaction; neither an unbounded Poisson nor a Winsorized law."}, "winsorization": {"cap": 4, "independent_product_is_valid": true, "incompatible_interacting_mixed_odds": ["16", "20.4537335336456044778446999158348507493933984237915400113280"], "interpretation": "Independent Winsorized conditionals are compatible. A symmetric log-mean interaction example is not; no claim that arbitrary interacting Winsorization is valid follows."}, "quadratic": {"once_counted_edge_coefficient": "3/2", "symmetric_off_diagonal": "3/4", "uniform_negative_quadratic_bound": "-(x^2+y^2)/4", "indefinite_but_orthant_negative_example": true, "discrete_partition_lower_bound": 1.0, "claimed_gaussian_integral_bound_at_eta_0": 0.1772453850905516, "claimed_gaussian_integral_bound_at_eta_1": 0.17768905290697157, "interpretation": "The source Gaussian sum-to-integral inequality is not a universal upper bound. These counterexamples concern the approximation, not existence of the quadratic count model."}, "sublinear": {"r0": "1", "r": "3", "statistic_values": ["0", "1", "7/4", "2", "2", "2", "2", "2", "2", "2"], "high_count_kernel_ratio": "1/(x+1) beyond the plateau", "positive_eta_termwise_poisson_bound_holds": true, "negative_eta_termwise_bound_reverses": true, "zero_unary_parameter_bounded_interaction": true, "interpretation": "The full partition bound uses globally bounded B and the convergent product of reciprocal-factorial sums, not a finite numerical cutoff. An arbitrary unbounded sublinear statistic is not covered."}} |
+
+## Scientific And Domain Assessments
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:TruncatedPoissonGraphicalModel.
+
+The TPGM in Yang et al. conditions a Poisson kernel on counts no larger than R. It does not Winsorize by moving all tail mass to the cutoff. The cutoff belongs to the model support, not merely an observation-clipping procedure. TPGM is distinct from the classical unbounded auto-Poisson field and from an auto-binomial field with combinatorial trial-count factors. Its full conditionals are truncated Poisson laws; this does not assert the same family for every marginal distribution. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+For a finite graph with X_i in {0,...,R} and fixed integer R&gt;=1, define p(x)=Z^(-1)*exp[sum_i(a_i*x_i-log(x_i!))+sum_(i&lt;j) b_ij*x_i*x_j], using symmetric b_ij and zero coefficients on nonedges. Finite real parameters give a finite positive Z on the finite support. The full conditional at i is proportional to exp(eta_i*k)/k! for k=0,...,R, where eta_i=a_i+sum_(j!=i) b_ij*x_j. Its normalizer is C_R(lambda_i)=sum_(k=0)^R lambda_i^k/k!, with lambda_i=exp(eta_i). Thus lambda_i is the underlying Poisson parameter, while the actual truncated conditional mean is lambda_i*C_(R-1)(lambda_i)/C_R(lambda_i). This mean is generally not lambda_i. With all edge parameters zero the joint factors into independent truncated Poisson laws. Limitations: Positive interactions and large neighboring counts can concentrate conditional mass at the cutoff. R changes the model, and a cutoff selected as the observed maximum does not guarantee that future counts will lie within its support. The unbounded limit cannot retain arbitrary positive pairwise coefficients while preserving the classical Poisson joint law. Finite-support normalizability is not evidence of unbounded-model validity. The source Theorem 1 is worded as a universal impossibility result for Winsorized conditionals, but independent constant-parameter Winsorized variables form a valid joint product. Its supplemental contradiction assumes nonzero interaction. Original calculations preserve that exception and separately show incompatibility of one symmetric log-mean interacting specification; the blanket impossibility statement is not adopted. The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted node regressions do not automatically agree on a compatible joint parameterization. Model definition, numerical estimation and graph selection are distinct. The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or a guarantee that a chosen approximate optimizer finds the intended fit. The reported network experiments are contextual evidence, not a universal performance guarantee. The processed breast-cancer microRNA data and cited biological associations do not establish causal regulation or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:QuadraticPoissonGraphicalModel.
+
+The QPGM name follows Yang et al., but its conditional laws are quadratic exponential count distributions, not ordinary Poisson laws. The model replaces the Poisson factorial penalty with quadratic site terms. It is not the continuous auto-normal field, nor is assigning quadratic masses at integer points equivalent to rounding a continuous Gaussian. A Gaussian integral approximation is a separate numerical proposal and does not define the discrete model. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+On a finite graph with X_i in {0,1,...}, define p(x)=Z^(-1)*exp[sum_i a_i*x_i+sum_i d_i*x_i^2+sum_(i&lt;j) b_ij*x_i*x_j], with symmetric edge coefficients and finite Z. The site conditional is proportional to exp(d_i*k^2+eta_i*k), k&gt;=0, where eta_i=a_i+sum_(j!=i) b_ij*x_j. There is no factorial base measure in this construction. Define the symmetric matrix H with H_ii=d_i and H_ij=b_ij/2 for i!=j, so the quadratic contribution is x^T H x without double counting. A sufficient validity condition is x^T H x&lt;=-c*&#124;&#124;x&#124;&#124;^2 for some c&gt;0 on the nonnegative orthant; finite linear terms are then dominated by quadratic decay. Negative definiteness of H on the whole real space is one sufficient condition and permits either sign of the off-diagonal interactions. It is not asserted to be a necessary characterization of all admissible parameters. Limitations: Individually summable site quadratics do not alone ensure a finite joint partition function when positive interactions create growing joint directions. The joint validity condition must be checked; flat quadratic boundary cases require separate linear-tail analysis. The source claims that a full-real Gaussian integral universally upper-bounds the nonnegative-integer quadratic kernel sum. This inequality fails, for example, with d=-100 and eta=0 or eta=1: the discrete sum includes a unit term at zero, but the Gaussian integral is less than 0.18. This is an original mathematical counterexample to the approximation claim, not a failure of the discrete model. Consequently, Gaussian-regression behavior or optimization guarantees cannot be inferred from that claimed bound without an additional justified approximation. Integer support, normalization, moments and fitted parameters must be treated as those of the discrete law. The source numerical plots compare TPGM and SPGM with other estimators; they do not supply a general empirical evaluation of QPGM. The record makes no generic accuracy claim. The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted node regressions do not automatically agree on a compatible joint parameterization. Model definition, numerical estimation and graph selection are distinct. The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or a guarantee that a chosen approximate optimizer finds the intended fit. The reported network experiments are contextual evidence, not a universal performance guarantee. The processed breast-cancer microRNA data and cited biological associations do not establish causal regulation or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.
+
+### Identity, definition, mechanism, limitations, evidence version and AIO direction
+
+evidence: supported. Targets: AIMech:SublinearPoissonGraphicalModel.
+
+SPGM denotes the particular sublinear Poisson graphical construction in Yang et al. Its sufficient statistic is linear for small counts, bends quadratically over an interval and is constant for large counts. Counts remain unbounded: the model saturates their interaction statistic rather than truncating their values. The full conditional is a transformed-statistic count distribution, not an ordinary Poisson law, a generic arbitrary sublinear exponential family or a neural activation layer. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+
+Choose finite 0&lt;=R0&lt;R and set B(x)=x for x&lt;=R0; B(x)=-x^2/[2*(R-R0)]+R*x/(R-R0)-R0^2/[2*(R-R0)] for R0&lt;x&lt;=R; and B(x)=(R+R0)/2 for x&gt;R. On a finite graph define p(x)=Z^(-1)*exp[sum_i a_i*B(x_i)+sum_(i&lt;j) b_ij*B(x_i)*B(x_j)-sum_i log(x_i!)], with symmetric edge parameters. The site conditional is proportional to exp[eta_i*B(k)]/k!, where eta_i=a_i+sum_(j!=i) b_ij*B(x_j). Since B is globally bounded, all finite unary and edge parameters give a finite positive Z: bound the parameter-dependent factor by a constant and sum the product of reciprocal factorials. This argument includes zero unary parameters. The conditional log partition D(eta)=log sum_(k&gt;=0) exp[eta*B(k)]/k! satisfies D(eta)&lt;=exp(eta) when eta&gt;=0 because B(k)&lt;=k; this bound is not asserted for negative eta. Once both k and k+1 lie on the plateau, the successive conditional mass ratio is 1/(k+1). Limitations: Finite distinct thresholds with R0&lt;R are required by the stated formula. B is bounded; a general unbounded function called sublinear need not inherit the same normalization result. Neighbor values above the plateau threshold have identical effects through B. This suppresses sensitivity to large-count differences and changes the conditional family; exp(eta_i) is not generally its conditional mean. The Poisson log-partition upper bound requires nonnegative eta. For negative eta the underlying termwise inequality reverses, so unconstrained regression updates cannot blindly use the same bound as a certificate. The supplement illustrates its normalization proof with two variables and a threshold construction that can fail when a unary coefficient is zero. The direct bounded-statistic domination argument stated here supplies the finite-graph justification without dividing by unary parameters. Exact conditional normalization still involves an infinite sum or a justified tail calculation. Existence for all finite parameters does not establish numerical accuracy, sampler mixing or recovery of the graph from finite data. The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted node regressions do not automatically agree on a compatible joint parameterization. Model definition, numerical estimation and graph selection are distinct. The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or a guarantee that a chosen approximate optimizer finds the intended fit. The reported network experiments are contextual evidence, not a universal performance guarantee. The processed breast-cancer microRNA data and cited biological associations do not establish causal regulation or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.
+
+### Finite support, truncated means and Winsorized compatibility
+
+consistency: supported. Targets: AIMech:TruncatedPoissonGraphicalModel.
+
+Retain the truncated Poisson model family.
+
+The finite support and factorial base measure yield compatible truncated-Poisson full conditionals with either interaction sign. The conditional mean is lambda*C_(R-1)/C_R, not the underlying Poisson parameter lambda. Exact enumeration verifies all conditionals and an explicit unequal mean. Truncation conditions and renormalizes the kernel, whereas Winsorization places the upper tail at the cap. Independent Winsorized conditionals form a joint product, refuting the literal universal impossibility wording; the supplemental proof assumes a nonzero edge. A separate incompatible interacting example does not settle every original Winsorized formulation. The cutoff changes the model, and observed training maxima do not cover arbitrary future counts.
+
+### Quadratic count laws, normalization and approximation bounds
+
+consistency: supported. Targets: AIMech:QuadraticPoissonGraphicalModel.
+
+Retain the quadratic count model family.
+
+QPGM replaces the factorial base measure with quadratic site terms; its conditional laws are discrete quadratic exponential distributions rather than Poisson or continuous Gaussian laws. The matrix off-diagonal is half the once-counted edge coefficient. Uniform quadratic decay on the nonnegative orthant suffices for normalization, while whole-space negative definiteness is sufficient but not necessary. The source Gaussian integral bound fails at valid narrow kernels: the discrete partition includes a unit term and the proposed bounds at eta=0 and eta=1 are below 0.18. The record explicitly rejects the universal-bound interpretation without rejecting the supported discrete model. It does not claim a certified Gaussian-regression fit, reproduced empirical performance or an exhaustive parameter-domain characterization.
+
+### Bounded sufficient statistic on unbounded count support
+
+consistency: supported. Targets: AIMech:SublinearPoissonGraphicalModel.
+
+Retain the specified sublinear Poisson model family.
+
+The piecewise statistic is linear, quadratic and then constant, with finite 0&lt;=R0&lt;R. Counts remain unbounded and factorial penalties remain present. Globally bounded statistics give a constant times a product of reciprocal-factorial sums, proving finite-graph normalization for all finite parameters, including zero unary coefficients. This avoids the supplemental proof threshold that divides by a unary coefficient. The conditional log-partition bound by exp(eta) requires eta&gt;=0; the sign reversal for eta&lt;0 is explicit. Plateau tail ratios equal 1/(k+1). An arbitrary unbounded sublinear statistic, a truncated count and a neural activation are not equivalent identities.
+
+### Directional AIO mappings and neighboring identities
+
+grounding: supported. Targets: AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel.
+
+Retain all three native identities with scoped AIO mappings.
+
+All three count-field families map broad to Model and related to the task-scoped ProbabilisticGraphicalModel. This is a curator assessment, not an upstream AIO assertion. Finite truncation, quadratic site penalties and bounded sufficient statistics change supports or full-conditional families, so the three constructions are not exact aliases of the classical auto-Poisson field or one another. The auto-binomial field has a different combinatorial base measure, and the auto-exponential and proper auto-normal fields have continuous rather than integer support. GeneralizedLinearModel, LinearRegression, LogisticRegression, SpatialRegression and RegressionAnalysis denote regression contexts, not these particular compatible joint distributions. LassoRegression and RidgeRegression do not define the count families merely because neighborhood estimation may use regularization. BinaryClassification, MulticlassClassification and ProbabilisticTopicModel impose task or latent-topic semantics not inherent in a count law. Neural Boltzmann, restricted Boltzmann and Hopfield classes add architecture or dynamics; none is identified by these count supports and potentials. GaussianNoiseLayer and GaussianDropoutLayer are neural components, not integer-valued quadratic fields. Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical functions are not graphical models; a shared saturating shape does not identify the SPGM with an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork and CausalGraphicalModel do not preserve undirected graph or causal semantics through arbitrary factorization. Language-model, autoencoder, hidden-layer, sparse-representation, encoding, data normalization and tensor-maximum classes do not supply the same identities. The 14 native contextual records distinguish general MRFs, latent-state models, continuous/count auto-models, process regression, parameter estimation, state optimization and sampling. Contextual reuse does not renew scientific approval of those records.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:TruncatedPoissonGraphicalModel, AIMech:QuadraticPoissonGraphicalModel, AIMech:SublinearPoissonGraphicalModel. Truncation changes count support while retaining factorial weights; the quadratic model replaces factorial penalties by site quadratics; the sublinear model retains unbounded count support and factorial penalties but bounds the interaction statistic. Their full conditional families and admissible parameter conditions differ. Preserve the three local identities and directional AIO mappings.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T223137Z-truncated-quadratic-sublinear-fields.json | supports | No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood. |
+| mapping | sources/aio/aio.json; 45 exact CLASS nodes and outgoing edges, and 185 semantic label/synonym hits in source_analysis.aio_mapping_inspection | supports | All three count-field families map broad to Model and related to the task-scoped ProbabilisticGraphicalModel. This is a curator assessment, not an upstream AIO assertion. Finite truncation, quadratic site penalties and bounded sufficient statistics change supports or full-conditional families, so the three constructions are not exact aliases of the classical auto-Poisson field or one another. The auto-binomial field has a different combinatorial base measure, and the auto-exponential and proper auto-normal fields have continuous rather than integer support. GeneralizedLinearModel, LinearRegression, LogisticRegression, SpatialRegression and RegressionAnalysis denote regression contexts, not these particular compatible joint distributions. LassoRegression and RidgeRegression do not define the count families merely because neighborhood estimation may use regularization. BinaryClassification, MulticlassClassification and ProbabilisticTopicModel impose task or latent-topic semantics not inherent in a count law. Neural Boltzmann, restricted Boltzmann and Hopfield classes add architecture or dynamics; none is identified by these count supports and potentials. GaussianNoiseLayer and GaussianDropoutLayer are neural components, not integer-valued quadratic fields. Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical functions are not graphical models; a shared saturating shape does not identify the SPGM with an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork and CausalGraphicalModel do not preserve undirected graph or causal semantics through arbitrary factorization. Language-model, autoencoder, hidden-layer, sparse-representation, encoding, data normalization and tensor-maximum classes do not supply the same identities. The 14 native contextual records distinguish general MRFs, latent-state models, continuous/count auto-models, process regression, parameter estimation, state optimization and sampling. Contextual reuse does not renew scientific approval of those records. |
+| neighbors | research/discovery/20261011T223137Z-truncated-quadratic-sublinear-fields.json; source_analysis.aio_mapping_inspection.native_neighbors and context_reading | supports | Fourteen complete native contextual records read or byte-verified after prior full reading: MRF, HMRF, HMT, EM, ICE, ICM, Gibbs sampling, Gaussian-process regression, proper auto-normal fields, pseudolikelihood, coding likelihood, auto-binomial, auto-Poisson and auto-exponential fields. These distinguish probability models, observation layers and estimation/inference procedures. Context reading does not renew scientific approval of these earlier records. |
+| finite-boundaries | research/discovery/truncated-quadratic-sublinear-boundaries.py; Exact truncated conditionals and means; independent and incompatible interacting Winsorized examples; quadratic-matrix and Gaussian-integral counterexamples; bounded-statistic and sign checks | supports | Original exact/decimal calculations enumerate a 25-state TPGM with R=4 and verify every full conditional, yielding partition function 1481491/8. Its lambda=4 truncated conditional has mean 284/103 rather than 4. Independent Winsorized Poisson variables form a valid product joint, while a symmetric interacting example has inconsistent mixed odds 16 versus approximately 20.454. For QPGM the half-edge matrix convention is checked, a negative-definite example permits positive interactions, and an indefinite real-space matrix remains uniformly negative on the nonnegative orthant. The paper's Gaussian integral bounds at d=-100 and eta=0 or 1 are below 0.18 while the discrete sums include a unit mass, disproving their universal upper-bound interpretation. Exact SPGM values for R0=1,R=3 are 0,1,7/4,2,2,...; plateau tail ratios equal 1/(k+1), and the Poisson conditional bound requires nonnegative eta. Bounded-statistic domination includes zero unary parameters. These finite witnesses and explicit inequalities are not author-code reproduction, empirical fitting, numerical certification of arbitrary infinite sums or generic performance evidence. |
+| truncatedpoissongraphicalmodel-source-0 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf; Section 2.1.2, printed/PDF p. 4, Equation (3), Theorem 2 and cutoff limitations; Section 2.1.1 and Theorem 1, pp. 3–4, Winsorization comparison; Section 4, pp. 7–8, evaluation scope | supports | On Poisson Graphical Models. Advances in Neural Information Processing Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages 1–9. All nine pages, both figures and all 27 references visually read. The later PDF metadata modification date is not the publication date. No full extracted-text/OCR reading is claimed. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| truncatedpoissongraphicalmodel-source-1 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip; Appendix A, printed p. 10 / supplemental PDF p. 1, future-work limitations; Appendix B.2, pp. 10–11 / supplemental PDF pp. 1–2, nonzero-interaction assumption in the Winsorized-conditional proof | supports | On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read. Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1. No author code or empirical data ran. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| quadraticpoissongraphicalmodel-source-0 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf; Section 3.1, printed/PDF p. 5, Equation (6) and Proposition 2; p. 6 before Section 3.2, claimed Gaussian integral bound; Section 4, pp. 7–8, stated evaluation and recovery limitations | supports | On Poisson Graphical Models. Advances in Neural Information Processing Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages 1–9. All nine pages, both figures and all 27 references visually read. The later PDF metadata modification date is not the publication date. No full extracted-text/OCR reading is claimed. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| quadraticpoissongraphicalmodel-source-1 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip; Appendix A, printed p. 10 / supplemental PDF p. 1, model-family discussion and deferred fitting/statistical-recovery work | supports | On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read. Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1. No author code or empirical data ran. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| sublinearpoissongraphicalmodel-source-0 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf; Section 3.2, printed/PDF p. 6, Equation (7), piecewise B, Theorem 4 and Proposition 3; Section 4, pp. 7–8, fitting and evaluation limitations | supports | On Poisson Graphical Models. Advances in Neural Information Processing Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages 1–9. All nine pages, both figures and all 27 references visually read. The later PDF metadata modification date is not the publication date. No full extracted-text/OCR reading is claimed. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+| sublinearpoissongraphicalmodel-source-1 | https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip; Figure 3 and Appendix A, printed p. 10 / supplemental PDF p. 1; Appendix B.3–B.4, printed p. 12 / supplemental PDF p. 3, normalization and sign-restricted conditional bound | supports | On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read. Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1. No author code or empirical data ran. All cited method pages were visually read. The source-analysis notes distinguish main-paper support, discussion context, source restrictions and access/extraction limitations. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 12 main/supplement PDF pages were visually inspected, including figures and main references. Extracted text exists but was not completely read. Bibliographic year is the 2013 conference date, not later PDF modification metadata.
+- The initial PDF-only download of the supplement failed because the official link is a ZIP. Its sole final_supp.pdf member was subsequently inspected and extracted to a controlled path. Evidence hashes identify that PDF, while its source URL identifies the ZIP; both hashes are preserved.
+- The independent Winsorized product and invalid Gaussian integral bound are original counterexamples. They qualify specific source assertions without establishing a universal classification of alternative models. No source erratum or independent verification is asserted.
+- The SPGM bounded-statistic argument covers zero unary coefficients. The record does not generalize this result to arbitrary sublinear statistics or treat a sign-restricted partition bound as universal.
+- Frontier abstracts, including Kaiser and Cressie 1997 and Park et al. 2017, are provisional context. Initial source opens failed but ordinary search/alternate public links supplied abstracts; no challenge was bypassed and no unseen full methods are claimed as read.
+- No empirical data preprocessing, author-code reproduction, model fitting or generic performance evaluation was performed. Mathematical witnesses do not certify numerical estimators or biological causality.
+- 240 pending leads plus other unresolved dispositions remain; discovery continues.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T223552Z-truncated-quadratic-sublinear-fields
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of truncated, quadratic and sublinear Poisson graphical
+  models
+started_at: '2026-10-11T22:31:48Z'
+finished_at: '2026-10-11T22:35:52Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all fields of three
+    records against all nine main-paper pages and three supplemental pages of Yang
+    et al. 2013, visually inspected in this round. Forty-five annotated AIO nodes
+    and 14 native neighbors inform identity and mappings. Original exact and decimal
+    calculations challenge conditional means, compatibility, matrix conventions, approximation
+    bounds and normalization proofs. This is author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain three DRAFT count graphical model families distinguished by finite
+  support, quadratic site penalties and bounded sufficient statistics. Definitions
+  and normalization regimes are supported; literal source claims contradicted by explicit
+  mathematical witnesses are qualified. No actionable curation finding remains in
+  this selected batch.
+source:
+  git_revision: b2bcae33c27c4cfb9c62d365977446ef43a64a75
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/AutoregressiveMovingAverage.yaml
+    sha256: eb69aaedb34d8c9e620ef4f0d20111feaf9c3dd09236f57536561e9a6cccdf53
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BinaryClassification.yaml
+    sha256: 4c710e70fe7e71227f0c6aa55162a3683f04ebbe6f5a4601bd4c0398329f1481
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CategoryEncodingLayer.yaml
+    sha256: ca7e7f35c28bbd84a60b39be9d4b91c9d0c2015e180c0231a7ccfc2d09d50237
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/DenoisingAutoEncoder.yaml
+    sha256: f9d3ccf856e3aa3b7d01af120409640900e270f26c4e470003219d321816074f
+    role: context
+  - path: data/aio/ELUFunction.yaml
+    sha256: b9e1186643ec0e53fe86064121607ea1c5b9cb8f32935ecd3f47a2e0a1d9780d
+    role: context
+  - path: data/aio/EnergyBasedLLM.yaml
+    sha256: e9e29aa4f8400ad463dfe058fade876ef36c4a2637e1ebc4b42688116896310b
+    role: context
+  - path: data/aio/ExponentialFunction.yaml
+    sha256: a9e6fe9954dee5c61f799631c1892a99a891468e81e725e584d1a3dc06d84239
+    role: context
+  - path: data/aio/ExponentialSmoothingStateSpaceModel.yaml
+    sha256: e54f9504ddd176b6fc08542cdacb2ab5cdb5a25cec8501ccf071de34881ec79d
+    role: context
+  - path: data/aio/GaussianDropoutLayer.yaml
+    sha256: d709e2b88e01052b2dbb1a1e3213a79b428c3c1de4acb2e55c875528250d58d2
+    role: context
+  - path: data/aio/GaussianNoiseLayer.yaml
+    sha256: 1d6c203daf9e9a5a450a85a7d7bf6e55bb9bffbeea7ceffcc1a8aefbd9629452
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/HardSigmoidFunction.yaml
+    sha256: d9a78ced04a24c242291fab0c7a37082572fc33b61f8bab3f3ae6bf8e56640c6
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/HopfieldNetwork.yaml
+    sha256: 042815574abb3502427a76bb970ab78fd1ef684fa5f807b41c948ddb62e63822
+    role: context
+  - path: data/aio/ImplicitLanguageModel.yaml
+    sha256: 818c396b19757360dcdff6291a85d589c50638e0dc6d6bfcd96fdcb7bdf46ce9
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MaximumLayer.yaml
+    sha256: 7e034921f50c25cba46a261fc2f30b638ec7c5129fb150ee8d26373b4a6f3d54
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/MulticlassClassification.yaml
+    sha256: dcf165047485763fd91782b9a9ba43202d58f00fd33b8545893a5eae327de171
+    role: context
+  - path: data/aio/Normalization.yaml
+    sha256: ecdbd41476b6125c670855f1f00090047acd61f5ee16d71384f6b9ed86bea2bb
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/aio/SELUFunction.yaml
+    sha256: 03f46f5941f2dc811c83ffbf1dd52cd15ea7537372f9c5ab2dd1b1ec1f85a352
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/aio/SpatialRegression.yaml
+    sha256: 88d7d2d80262e45a56d05abcff674c3240be7ea2799782c64ba7ea1740250a37
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/aio/VectorAutoregression.yaml
+    sha256: 8a8e67b3efe79835eb5ce1edc437fe4fe9f6f6c95d7aeb22b602c97c38d3c211
+    role: context
+  - path: data/curated/AutoBinomialMarkovRandomField.yaml
+    sha256: 603681bffd077f87a3c459b776d7c7ba0e27196edb3998666c0bce4278cfb7d1
+    role: context
+  - path: data/curated/AutoExponentialMarkovRandomField.yaml
+    sha256: 9c385d96d6f32e163ae11fab020827dfcbbcbe07880ed18425fb7223c404ebf2
+    role: context
+  - path: data/curated/AutoNormalMarkovRandomField.yaml
+    sha256: da7cfa897744f9b67bf75a4a8f0ea7748c1a052ed6ef063f0fbceec094e0ec90
+    role: context
+  - path: data/curated/AutoPoissonMarkovRandomField.yaml
+    sha256: c54d99b85a9618652e078124ef40ae66e4744e61dbda5993ac4ffb5d9418f715
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HiddenMarkovRandomField.yaml
+    sha256: 620a68339af0155d1b1f83304dde7fed4634ec95e5a9541480f0d0b37b326327
+    role: context
+  - path: data/curated/HiddenMarkovTree.yaml
+    sha256: ca89c267443e8b806d61b389943bd06a514fb8a95668bd604fae4ecc2d873e1b
+    role: context
+  - path: data/curated/IteratedConditionalModes.yaml
+    sha256: e3cab6676e99fc64d8afca411250e28eec5126524709c6e67988180fa54ffc78
+    role: context
+  - path: data/curated/IterativeConditionalEstimation.yaml
+    sha256: 98813e020f43870f725a5c1e4ab0de9197f0dc2bc85f61e66e2044ab8d87e9cc
+    role: context
+  - path: data/curated/MarkovRandomField.yaml
+    sha256: 03b1f2a66b2183a5bf5943bee7ec0619b9e07947d6c9187263e279ee475f9149
+    role: context
+  - path: data/curated/MaximumCodingLikelihoodEstimation.yaml
+    sha256: 7a298997509be9824c83fdfb953e01cb09ba5834be395d35237392eea4a00435
+    role: context
+  - path: data/curated/MaximumPseudolikelihoodEstimation.yaml
+    sha256: b529f9ae03da6f4c1153a5dcc222342b9eacb0b7496273254ee66b20b366e70c
+    role: context
+  - path: data/curated/QuadraticPoissonGraphicalModel.yaml
+    sha256: 04f1aab815e8f5daaefa32be6471d1582159d0a1463a41b36da9d6e9dce5fc34
+    role: target
+  - path: data/curated/SublinearPoissonGraphicalModel.yaml
+    sha256: cbf7f98fc65669883f6483ddda096cb6ca1b2d82de6a5bcfbcd6ecf58dce14a7
+    role: target
+  - path: data/curated/TruncatedPoissonGraphicalModel.yaml
+    sha256: e97a5d978fb8f45a4de75ca9d1e5061c68fc956b93d6ca9ec8cfc519d2c08f4a
+    role: target
+  - path: research/discovery/20261011T223137Z-truncated-quadratic-sublinear-fields.json
+    sha256: 10f05425cb348762d3218fc53acad2d853985dd4271ab9e39fdbd18dcd38b578
+    role: context
+  - path: research/discovery/truncated-quadratic-sublinear-boundaries.py
+    sha256: 488987a842806476b7905256b09d8bd170a9dd9a1011c5ebd7ea69b8cbda57f3
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TruncatedPoissonGraphicalModel
+  path: data/curated/TruncatedPoissonGraphicalModel.yaml
+  label: Truncated Poisson graphical model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TruncatedPoissonGraphicalModel.yaml
+    role: maintained
+- target_id: AIMech:QuadraticPoissonGraphicalModel
+  path: data/curated/QuadraticPoissonGraphicalModel.yaml
+  label: Quadratic Poisson graphical model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/QuadraticPoissonGraphicalModel.yaml
+    role: maintained
+- target_id: AIMech:SublinearPoissonGraphicalModel
+  path: data/curated/SublinearPoissonGraphicalModel.yaml
+  label: Sublinear Poisson graphical model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SublinearPoissonGraphicalModel.yaml
+    role: maintained
+scope:
+  description: All fields of three selected maintained concepts from the modified
+    Poisson graphical-model paper.
+  selection: Exact maintained IDs TruncatedPoissonGraphicalModel, QuadraticPoissonGraphicalModel
+    and SublinearPoissonGraphicalModel; complete selected batch without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exclusions:
+  - target: Author implementations, empirical fitting and general recovery guarantees
+    reason: No author code, parameter fitting, training or benchmark ran. Original
+      finite witnesses and analytic bounds test the stated mathematical distinctions.
+      The source leaves general statistical recovery extensions to future work.
+  - target: Previous records and remaining frontier
+    reason: Fourteen native contextual records inform boundaries without renewed scientific
+      approval. Later source abstracts and cited bibliography entries supply provisional
+      leads; their full methods were not read. 240 pending inspection leads plus other
+      unresolved dispositions remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 131.43s (0:02:11)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 409 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 117 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 114,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Truncated means, Winsorized compatibility, quadratic bounds and bounded-statistic
+    calculations
+  command: python3 research/discovery/truncated-quadratic-sublinear-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"truncated": {"cap": 4, "states": 25, "partition_function": "1481491/8",
+    "all_full_conditionals_verified": true, "underlying_poisson_parameter": "4", "actual_truncated_conditional_mean":
+    "284/103", "scope": "Finite-support joint with positive interaction; neither an
+    unbounded Poisson nor a Winsorized law."}, "winsorization": {"cap": 4, "independent_product_is_valid":
+    true, "incompatible_interacting_mixed_odds": ["16", "20.4537335336456044778446999158348507493933984237915400113280"],
+    "interpretation": "Independent Winsorized conditionals are compatible. A symmetric
+    log-mean interaction example is not; no claim that arbitrary interacting Winsorization
+    is valid follows."}, "quadratic": {"once_counted_edge_coefficient": "3/2", "symmetric_off_diagonal":
+    "3/4", "uniform_negative_quadratic_bound": "-(x^2+y^2)/4", "indefinite_but_orthant_negative_example":
+    true, "discrete_partition_lower_bound": 1.0, "claimed_gaussian_integral_bound_at_eta_0":
+    0.1772453850905516, "claimed_gaussian_integral_bound_at_eta_1": 0.17768905290697157,
+    "interpretation": "The source Gaussian sum-to-integral inequality is not a universal
+    upper bound. These counterexamples concern the approximation, not existence of
+    the quadratic count model."}, "sublinear": {"r0": "1", "r": "3", "statistic_values":
+    ["0", "1", "7/4", "2", "2", "2", "2", "2", "2", "2"], "high_count_kernel_ratio":
+    "1/(x+1) beyond the plateau", "positive_eta_termwise_poisson_bound_holds": true,
+    "negative_eta_termwise_bound_reverses": true, "zero_unary_parameter_bounded_interaction":
+    true, "interpretation": "The full partition bound uses globally bounded B and
+    the convergent product of reciprocal-factorial sums, not a finite numerical cutoff.
+    An arbitrary unbounded sublinear statistic is not covered."}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T223137Z-truncated-quadratic-sublinear-fields.json
+  accessed_at: '2026-10-11T22:31:48Z'
+  support: supports
+  summary: 'No normalized identity match was found across all 442 pinned AIO labels
+    and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string
+    full-checkout searches included ignored and hidden files in worktree and main,
+    yielding six and six matched lines; all five unique contents were read. Hits are
+    the prior publication lead and source URLs, not existing records of these identities.
+    All 185 semantic label/synonym hits were read. Forty-five fully annotated exact
+    CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected
+    nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated
+    and 14 native records: 54 byte-verified after prior reading and five freshly read.
+    Acronyms were included in normalized identity comparison and the text-search terms.
+    Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic
+    neighborhood.'
+  search_scope: 'No normalized identity match was found across all 442 pinned AIO
+    labels and all scoped synonyms and 406 preceding native IDs, names and aliases.
+    Fixed-string full-checkout searches included ignored and hidden files in worktree
+    and main, yielding six and six matched lines; all five unique contents were read.
+    Hits are the prior publication lead and source URLs, not existing records of these
+    identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated
+    exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior
+    inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45
+    generated and 14 native records: 54 byte-verified after prior reading and five
+    freshly read. Acronyms were included in normalized identity comparison and the
+    text-search terms. Absence is bounded to the pinned snapshot, maintained corpus
+    and inspected semantic neighborhood.'
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 45 exact CLASS nodes and outgoing edges, and 185 semantic label/synonym
+    hits in source_analysis.aio_mapping_inspection
+  accessed_at: '2026-10-11T22:31:48Z'
+  support: supports
+  summary: All three count-field families map broad to Model and related to the task-scoped
+    ProbabilisticGraphicalModel. This is a curator assessment, not an upstream AIO
+    assertion. Finite truncation, quadratic site penalties and bounded sufficient
+    statistics change supports or full-conditional families, so the three constructions
+    are not exact aliases of the classical auto-Poisson field or one another. The
+    auto-binomial field has a different combinatorial base measure, and the auto-exponential
+    and proper auto-normal fields have continuous rather than integer support. GeneralizedLinearModel,
+    LinearRegression, LogisticRegression, SpatialRegression and RegressionAnalysis
+    denote regression contexts, not these particular compatible joint distributions.
+    LassoRegression and RidgeRegression do not define the count families merely because
+    neighborhood estimation may use regularization. BinaryClassification, MulticlassClassification
+    and ProbabilisticTopicModel impose task or latent-topic semantics not inherent
+    in a count law. Neural Boltzmann, restricted Boltzmann and Hopfield classes add
+    architecture or dynamics; none is identified by these count supports and potentials.
+    GaussianNoiseLayer and GaussianDropoutLayer are neural components, not integer-valued
+    quadratic fields. Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical
+    functions are not graphical models; a shared saturating shape does not identify
+    the SPGM with an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive
+    classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork
+    and CausalGraphicalModel do not preserve undirected graph or causal semantics
+    through arbitrary factorization. Language-model, autoencoder, hidden-layer, sparse-representation,
+    encoding, data normalization and tensor-maximum classes do not supply the same
+    identities. The 14 native contextual records distinguish general MRFs, latent-state
+    models, continuous/count auto-models, process regression, parameter estimation,
+    state optimization and sampling. Contextual reuse does not renew scientific approval
+    of those records.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261011T223137Z-truncated-quadratic-sublinear-fields.json
+  locator: source_analysis.aio_mapping_inspection.native_neighbors and context_reading
+  accessed_at: '2026-10-11T22:31:48Z'
+  support: supports
+  summary: 'Fourteen complete native contextual records read or byte-verified after
+    prior full reading: MRF, HMRF, HMT, EM, ICE, ICM, Gibbs sampling, Gaussian-process
+    regression, proper auto-normal fields, pseudolikelihood, coding likelihood, auto-binomial,
+    auto-Poisson and auto-exponential fields. These distinguish probability models,
+    observation layers and estimation/inference procedures. Context reading does not
+    renew scientific approval of these earlier records.'
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/truncated-quadratic-sublinear-boundaries.py
+  locator: Exact truncated conditionals and means; independent and incompatible interacting
+    Winsorized examples; quadratic-matrix and Gaussian-integral counterexamples; bounded-statistic
+    and sign checks
+  accessed_at: '2026-10-11T22:31:48Z'
+  snapshot_sha256: 488987a842806476b7905256b09d8bd170a9dd9a1011c5ebd7ea69b8cbda57f3
+  support: supports
+  summary: Original exact/decimal calculations enumerate a 25-state TPGM with R=4
+    and verify every full conditional, yielding partition function 1481491/8. Its
+    lambda=4 truncated conditional has mean 284/103 rather than 4. Independent Winsorized
+    Poisson variables form a valid product joint, while a symmetric interacting example
+    has inconsistent mixed odds 16 versus approximately 20.454. For QPGM the half-edge
+    matrix convention is checked, a negative-definite example permits positive interactions,
+    and an indefinite real-space matrix remains uniformly negative on the nonnegative
+    orthant. The paper's Gaussian integral bounds at d=-100 and eta=0 or 1 are below
+    0.18 while the discrete sums include a unit mass, disproving their universal upper-bound
+    interpretation. Exact SPGM values for R0=1,R=3 are 0,1,7/4,2,2,...; plateau tail
+    ratios equal 1/(k+1), and the Poisson conditional bound requires nonnegative eta.
+    Bounded-statistic domination includes zero unary parameters. These finite witnesses
+    and explicit inequalities are not author-code reproduction, empirical fitting,
+    numerical certification of arbitrary infinite sums or generic performance evidence.
+- evidence_id: truncatedpoissongraphicalmodel-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf
+  locator: Section 2.1.2, printed/PDF p. 4, Equation (3), Theorem 2 and cutoff limitations;
+    Section 2.1.1 and Theorem 1, pp. 3–4, Winsorization comparison; Section 4, pp.
+    7–8, evaluation scope
+  accessed_at: '2026-10-11T22:19:45Z'
+  snapshot_sha256: 43358362c5a5b49eeb4ac9e63cab0ca6b4d40ee792610ae41991644542b7bba4
+  support: supports
+  summary: On Poisson Graphical Models. Advances in Neural Information Processing
+    Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages
+    1–9. All nine pages, both figures and all 27 references visually read. The later
+    PDF metadata modification date is not the publication date. No full extracted-text/OCR
+    reading is claimed. All cited method pages were visually read. The source-analysis
+    notes distinguish main-paper support, discussion context, source restrictions
+    and access/extraction limitations.
+- evidence_id: truncatedpoissongraphicalmodel-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip
+  locator: Appendix A, printed p. 10 / supplemental PDF p. 1, future-work limitations;
+    Appendix B.2, pp. 10–11 / supplemental PDF pp. 1–2, nonzero-interaction assumption
+    in the Winsorized-conditional proof
+  accessed_at: '2026-10-11T22:20:49Z'
+  snapshot_sha256: 38b42f678bb1d7eee457d0dc1729d00d2925a328b0b6b757eaf27a6f88a3cf7b
+  support: supports
+  summary: 'On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental
+    ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies
+    that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond
+    to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read.
+    Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1.
+    No author code or empirical data ran. All cited method pages were visually read.
+    The source-analysis notes distinguish main-paper support, discussion context,
+    source restrictions and access/extraction limitations.'
+- evidence_id: quadraticpoissongraphicalmodel-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf
+  locator: Section 3.1, printed/PDF p. 5, Equation (6) and Proposition 2; p. 6 before
+    Section 3.2, claimed Gaussian integral bound; Section 4, pp. 7–8, stated evaluation
+    and recovery limitations
+  accessed_at: '2026-10-11T22:19:45Z'
+  snapshot_sha256: 43358362c5a5b49eeb4ac9e63cab0ca6b4d40ee792610ae41991644542b7bba4
+  support: supports
+  summary: On Poisson Graphical Models. Advances in Neural Information Processing
+    Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages
+    1–9. All nine pages, both figures and all 27 references visually read. The later
+    PDF metadata modification date is not the publication date. No full extracted-text/OCR
+    reading is claimed. All cited method pages were visually read. The source-analysis
+    notes distinguish main-paper support, discussion context, source restrictions
+    and access/extraction limitations.
+- evidence_id: quadraticpoissongraphicalmodel-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip
+  locator: Appendix A, printed p. 10 / supplemental PDF p. 1, model-family discussion
+    and deferred fitting/statistical-recovery work
+  accessed_at: '2026-10-11T22:20:49Z'
+  snapshot_sha256: 38b42f678bb1d7eee457d0dc1729d00d2925a328b0b6b757eaf27a6f88a3cf7b
+  support: supports
+  summary: 'On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental
+    ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies
+    that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond
+    to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read.
+    Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1.
+    No author code or empirical data ran. All cited method pages were visually read.
+    The source-analysis notes distinguish main-paper support, discussion context,
+    source restrictions and access/extraction limitations.'
+- evidence_id: sublinearpoissongraphicalmodel-source-0
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf
+  locator: Section 3.2, printed/PDF p. 6, Equation (7), piecewise B, Theorem 4 and
+    Proposition 3; Section 4, pp. 7–8, fitting and evaluation limitations
+  accessed_at: '2026-10-11T22:19:45Z'
+  snapshot_sha256: 43358362c5a5b49eeb4ac9e63cab0ca6b4d40ee792610ae41991644542b7bba4
+  support: supports
+  summary: On Poisson Graphical Models. Advances in Neural Information Processing
+    Systems 26, 2013; official nine-page conference PDF. Printed pages equal PDF pages
+    1–9. All nine pages, both figures and all 27 references visually read. The later
+    PDF metadata modification date is not the publication date. No full extracted-text/OCR
+    reading is claimed. All cited method pages were visually read. The source-analysis
+    notes distinguish main-paper support, discussion context, source restrictions
+    and access/extraction limitations.
+- evidence_id: sublinearpoissongraphicalmodel-source-1
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip
+  locator: Figure 3 and Appendix A, printed p. 10 / supplemental PDF p. 1; Appendix
+    B.3–B.4, printed p. 12 / supplemental PDF p. 3, normalization and sign-restricted
+    conditional bound
+  accessed_at: '2026-10-11T22:20:49Z'
+  snapshot_sha256: 38b42f678bb1d7eee457d0dc1729d00d2925a328b0b6b757eaf27a6f88a3cf7b
+  support: supports
+  summary: 'On Poisson Graphical Models — Supplemental Appendix. Official 2013 supplemental
+    ZIP, containing the sole member final_supp.pdf. The evidence SHA-256 identifies
+    that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond
+    to supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read.
+    Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1.
+    No author code or empirical data ran. All cited method pages were visually read.
+    The source-analysis notes distinguish main-paper support, discussion context,
+    source restrictions and access/extraction limitations.'
+assessments:
+- assessment_id: truncatedpoissongraphicalmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - truncatedpoissongraphicalmodel-source-0
+  - truncatedpoissongraphicalmodel-source-1
+  summary: 'The TPGM in Yang et al. conditions a Poisson kernel on counts no larger
+    than R. It does not Winsorize by moving all tail mass to the cutoff. The cutoff
+    belongs to the model support, not merely an observation-clipping procedure. TPGM
+    is distinct from the classical unbounded auto-Poisson field and from an auto-binomial
+    field with combinatorial trial-count factors. Its full conditionals are truncated
+    Poisson laws; this does not assert the same family for every marginal distribution.
+    No normalized identity match was found across all 442 pinned AIO labels and all
+    scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string
+    full-checkout searches included ignored and hidden files in worktree and main,
+    yielding six and six matched lines; all five unique contents were read. Hits are
+    the prior publication lead and source URLs, not existing records of these identities.
+    All 185 semantic label/synonym hits were read. Forty-five fully annotated exact
+    CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected
+    nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated
+    and 14 native records: 54 byte-verified after prior reading and five freshly read.
+    Acronyms were included in normalized identity comparison and the text-search terms.
+    Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic
+    neighborhood.'
+  details: 'For a finite graph with X_i in {0,...,R} and fixed integer R>=1, define
+    p(x)=Z^(-1)*exp[sum_i(a_i*x_i-log(x_i!))+sum_(i<j) b_ij*x_i*x_j], using symmetric
+    b_ij and zero coefficients on nonedges. Finite real parameters give a finite positive
+    Z on the finite support. The full conditional at i is proportional to exp(eta_i*k)/k!
+    for k=0,...,R, where eta_i=a_i+sum_(j!=i) b_ij*x_j. Its normalizer is C_R(lambda_i)=sum_(k=0)^R
+    lambda_i^k/k!, with lambda_i=exp(eta_i). Thus lambda_i is the underlying Poisson
+    parameter, while the actual truncated conditional mean is lambda_i*C_(R-1)(lambda_i)/C_R(lambda_i).
+    This mean is generally not lambda_i. With all edge parameters zero the joint factors
+    into independent truncated Poisson laws. Limitations: Positive interactions and
+    large neighboring counts can concentrate conditional mass at the cutoff. R changes
+    the model, and a cutoff selected as the observed maximum does not guarantee that
+    future counts will lie within its support. The unbounded limit cannot retain arbitrary
+    positive pairwise coefficients while preserving the classical Poisson joint law.
+    Finite-support normalizability is not evidence of unbounded-model validity. The
+    source Theorem 1 is worded as a universal impossibility result for Winsorized
+    conditionals, but independent constant-parameter Winsorized variables form a valid
+    joint product. Its supplemental contradiction assumes nonzero interaction. Original
+    calculations preserve that exception and separately show incompatibility of one
+    symmetric log-mean interacting specification; the blanket impossibility statement
+    is not adopted. The finite graph and the symmetric once-counted edge parameters
+    must be specified. Independently fitted node regressions do not automatically
+    agree on a compatible joint parameterization. Model definition, numerical estimation
+    and graph selection are distinct. The source sketches l1-penalized neighborhood
+    fitting, but explicitly leaves extensions of statistical graph-recovery guarantees
+    to future work. A model existence result is not a sparsistency theorem or a guarantee
+    that a chosen approximate optimizer finds the intended fit. The reported network
+    experiments are contextual evidence, not a universal performance guarantee. The
+    processed breast-cancer microRNA data and cited biological associations do not
+    establish causal regulation or clinical predictive validity. No author implementation,
+    empirical fit or benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Three finite-graph count model families distinguished by truncation,
+      quadratic site penalties or bounded sufficient statistics, with explicit joint
+      validity conditions.
+    evidence_ids:
+    - truncatedpoissongraphicalmodel-source-0
+    - truncatedpoissongraphicalmodel-source-1
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three count-field families map broad to Model and related to the
+      task-scoped ProbabilisticGraphicalModel. This is a curator assessment, not an
+      upstream AIO assertion. Finite truncation, quadratic site penalties and bounded
+      sufficient statistics change supports or full-conditional families, so the three
+      constructions are not exact aliases of the classical auto-Poisson field or one
+      another. The auto-binomial field has a different combinatorial base measure,
+      and the auto-exponential and proper auto-normal fields have continuous rather
+      than integer support. GeneralizedLinearModel, LinearRegression, LogisticRegression,
+      SpatialRegression and RegressionAnalysis denote regression contexts, not these
+      particular compatible joint distributions. LassoRegression and RidgeRegression
+      do not define the count families merely because neighborhood estimation may
+      use regularization. BinaryClassification, MulticlassClassification and ProbabilisticTopicModel
+      impose task or latent-topic semantics not inherent in a count law. Neural Boltzmann,
+      restricted Boltzmann and Hopfield classes add architecture or dynamics; none
+      is identified by these count supports and potentials. GaussianNoiseLayer and
+      GaussianDropoutLayer are neural components, not integer-valued quadratic fields.
+      Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical functions are
+      not graphical models; a shared saturating shape does not identify the SPGM with
+      an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive
+      classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork
+      and CausalGraphicalModel do not preserve undirected graph or causal semantics
+      through arbitrary factorization. Language-model, autoencoder, hidden-layer,
+      sparse-representation, encoding, data normalization and tensor-maximum classes
+      do not supply the same identities. The 14 native contextual records distinguish
+      general MRFs, latent-state models, continuous/count auto-models, process regression,
+      parameter estimation, state optimization and sampling. Contextual reuse does
+      not renew scientific approval of those records.
+    evidence_ids:
+    - mapping
+- assessment_id: quadraticpoissongraphicalmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:QuadraticPoissonGraphicalModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - quadraticpoissongraphicalmodel-source-0
+  - quadraticpoissongraphicalmodel-source-1
+  summary: 'The QPGM name follows Yang et al., but its conditional laws are quadratic
+    exponential count distributions, not ordinary Poisson laws. The model replaces
+    the Poisson factorial penalty with quadratic site terms. It is not the continuous
+    auto-normal field, nor is assigning quadratic masses at integer points equivalent
+    to rounding a continuous Gaussian. A Gaussian integral approximation is a separate
+    numerical proposal and does not define the discrete model. No normalized identity
+    match was found across all 442 pinned AIO labels and all scoped synonyms and 406
+    preceding native IDs, names and aliases. Fixed-string full-checkout searches included
+    ignored and hidden files in worktree and main, yielding six and six matched lines;
+    all five unique contents were read. Hits are the prior publication lead and source
+    URLs, not existing records of these identities. All 185 semantic label/synonym
+    hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges
+    were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read.
+    Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified
+    after prior reading and five freshly read. Acronyms were included in normalized
+    identity comparison and the text-search terms. Absence is bounded to the pinned
+    snapshot, maintained corpus and inspected semantic neighborhood.'
+  details: 'On a finite graph with X_i in {0,1,...}, define p(x)=Z^(-1)*exp[sum_i
+    a_i*x_i+sum_i d_i*x_i^2+sum_(i<j) b_ij*x_i*x_j], with symmetric edge coefficients
+    and finite Z. The site conditional is proportional to exp(d_i*k^2+eta_i*k), k>=0,
+    where eta_i=a_i+sum_(j!=i) b_ij*x_j. There is no factorial base measure in this
+    construction. Define the symmetric matrix H with H_ii=d_i and H_ij=b_ij/2 for
+    i!=j, so the quadratic contribution is x^T H x without double counting. A sufficient
+    validity condition is x^T H x<=-c*||x||^2 for some c>0 on the nonnegative orthant;
+    finite linear terms are then dominated by quadratic decay. Negative definiteness
+    of H on the whole real space is one sufficient condition and permits either sign
+    of the off-diagonal interactions. It is not asserted to be a necessary characterization
+    of all admissible parameters. Limitations: Individually summable site quadratics
+    do not alone ensure a finite joint partition function when positive interactions
+    create growing joint directions. The joint validity condition must be checked;
+    flat quadratic boundary cases require separate linear-tail analysis. The source
+    claims that a full-real Gaussian integral universally upper-bounds the nonnegative-integer
+    quadratic kernel sum. This inequality fails, for example, with d=-100 and eta=0
+    or eta=1: the discrete sum includes a unit term at zero, but the Gaussian integral
+    is less than 0.18. This is an original mathematical counterexample to the approximation
+    claim, not a failure of the discrete model. Consequently, Gaussian-regression
+    behavior or optimization guarantees cannot be inferred from that claimed bound
+    without an additional justified approximation. Integer support, normalization,
+    moments and fitted parameters must be treated as those of the discrete law. The
+    source numerical plots compare TPGM and SPGM with other estimators; they do not
+    supply a general empirical evaluation of QPGM. The record makes no generic accuracy
+    claim. The finite graph and the symmetric once-counted edge parameters must be
+    specified. Independently fitted node regressions do not automatically agree on
+    a compatible joint parameterization. Model definition, numerical estimation and
+    graph selection are distinct. The source sketches l1-penalized neighborhood fitting,
+    but explicitly leaves extensions of statistical graph-recovery guarantees to future
+    work. A model existence result is not a sparsistency theorem or a guarantee that
+    a chosen approximate optimizer finds the intended fit. The reported network experiments
+    are contextual evidence, not a universal performance guarantee. The processed
+    breast-cancer microRNA data and cited biological associations do not establish
+    causal regulation or clinical predictive validity. No author implementation, empirical
+    fit or benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Three finite-graph count model families distinguished by truncation,
+      quadratic site penalties or bounded sufficient statistics, with explicit joint
+      validity conditions.
+    evidence_ids:
+    - quadraticpoissongraphicalmodel-source-0
+    - quadraticpoissongraphicalmodel-source-1
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three count-field families map broad to Model and related to the
+      task-scoped ProbabilisticGraphicalModel. This is a curator assessment, not an
+      upstream AIO assertion. Finite truncation, quadratic site penalties and bounded
+      sufficient statistics change supports or full-conditional families, so the three
+      constructions are not exact aliases of the classical auto-Poisson field or one
+      another. The auto-binomial field has a different combinatorial base measure,
+      and the auto-exponential and proper auto-normal fields have continuous rather
+      than integer support. GeneralizedLinearModel, LinearRegression, LogisticRegression,
+      SpatialRegression and RegressionAnalysis denote regression contexts, not these
+      particular compatible joint distributions. LassoRegression and RidgeRegression
+      do not define the count families merely because neighborhood estimation may
+      use regularization. BinaryClassification, MulticlassClassification and ProbabilisticTopicModel
+      impose task or latent-topic semantics not inherent in a count law. Neural Boltzmann,
+      restricted Boltzmann and Hopfield classes add architecture or dynamics; none
+      is identified by these count supports and potentials. GaussianNoiseLayer and
+      GaussianDropoutLayer are neural components, not integer-valued quadratic fields.
+      Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical functions are
+      not graphical models; a shared saturating shape does not identify the SPGM with
+      an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive
+      classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork
+      and CausalGraphicalModel do not preserve undirected graph or causal semantics
+      through arbitrary factorization. Language-model, autoencoder, hidden-layer,
+      sparse-representation, encoding, data normalization and tensor-maximum classes
+      do not supply the same identities. The 14 native contextual records distinguish
+      general MRFs, latent-state models, continuous/count auto-models, process regression,
+      parameter estimation, state optimization and sampling. Contextual reuse does
+      not renew scientific approval of those records.
+    evidence_ids:
+    - mapping
+- assessment_id: sublinearpoissongraphicalmodel
+  area: evidence
+  topic: Identity, definition, mechanism, limitations, evidence version and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:SublinearPoissonGraphicalModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - sublinearpoissongraphicalmodel-source-0
+  - sublinearpoissongraphicalmodel-source-1
+  summary: 'SPGM denotes the particular sublinear Poisson graphical construction in
+    Yang et al. Its sufficient statistic is linear for small counts, bends quadratically
+    over an interval and is constant for large counts. Counts remain unbounded: the
+    model saturates their interaction statistic rather than truncating their values.
+    The full conditional is a transformed-statistic count distribution, not an ordinary
+    Poisson law, a generic arbitrary sublinear exponential family or a neural activation
+    layer. No normalized identity match was found across all 442 pinned AIO labels
+    and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string
+    full-checkout searches included ignored and hidden files in worktree and main,
+    yielding six and six matched lines; all five unique contents were read. Hits are
+    the prior publication lead and source URLs, not existing records of these identities.
+    All 185 semantic label/synonym hits were read. Forty-five fully annotated exact
+    CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected
+    nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated
+    and 14 native records: 54 byte-verified after prior reading and five freshly read.
+    Acronyms were included in normalized identity comparison and the text-search terms.
+    Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic
+    neighborhood.'
+  details: 'Choose finite 0<=R0<R and set B(x)=x for x<=R0; B(x)=-x^2/[2*(R-R0)]+R*x/(R-R0)-R0^2/[2*(R-R0)]
+    for R0<x<=R; and B(x)=(R+R0)/2 for x>R. On a finite graph define p(x)=Z^(-1)*exp[sum_i
+    a_i*B(x_i)+sum_(i<j) b_ij*B(x_i)*B(x_j)-sum_i log(x_i!)], with symmetric edge
+    parameters. The site conditional is proportional to exp[eta_i*B(k)]/k!, where
+    eta_i=a_i+sum_(j!=i) b_ij*B(x_j). Since B is globally bounded, all finite unary
+    and edge parameters give a finite positive Z: bound the parameter-dependent factor
+    by a constant and sum the product of reciprocal factorials. This argument includes
+    zero unary parameters. The conditional log partition D(eta)=log sum_(k>=0) exp[eta*B(k)]/k!
+    satisfies D(eta)<=exp(eta) when eta>=0 because B(k)<=k; this bound is not asserted
+    for negative eta. Once both k and k+1 lie on the plateau, the successive conditional
+    mass ratio is 1/(k+1). Limitations: Finite distinct thresholds with R0<R are required
+    by the stated formula. B is bounded; a general unbounded function called sublinear
+    need not inherit the same normalization result. Neighbor values above the plateau
+    threshold have identical effects through B. This suppresses sensitivity to large-count
+    differences and changes the conditional family; exp(eta_i) is not generally its
+    conditional mean. The Poisson log-partition upper bound requires nonnegative eta.
+    For negative eta the underlying termwise inequality reverses, so unconstrained
+    regression updates cannot blindly use the same bound as a certificate. The supplement
+    illustrates its normalization proof with two variables and a threshold construction
+    that can fail when a unary coefficient is zero. The direct bounded-statistic domination
+    argument stated here supplies the finite-graph justification without dividing
+    by unary parameters. Exact conditional normalization still involves an infinite
+    sum or a justified tail calculation. Existence for all finite parameters does
+    not establish numerical accuracy, sampler mixing or recovery of the graph from
+    finite data. The finite graph and the symmetric once-counted edge parameters must
+    be specified. Independently fitted node regressions do not automatically agree
+    on a compatible joint parameterization. Model definition, numerical estimation
+    and graph selection are distinct. The source sketches l1-penalized neighborhood
+    fitting, but explicitly leaves extensions of statistical graph-recovery guarantees
+    to future work. A model existence result is not a sparsistency theorem or a guarantee
+    that a chosen approximate optimizer finds the intended fit. The reported network
+    experiments are contextual evidence, not a universal performance guarantee. The
+    processed breast-cancer microRNA data and cited biological associations do not
+    establish causal regulation or clinical predictive validity. No author implementation,
+    empirical fit or benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: Three finite-graph count model families distinguished by truncation,
+      quadratic site penalties or bounded sufficient statistics, with explicit joint
+      validity conditions.
+    evidence_ids:
+    - sublinearpoissongraphicalmodel-source-0
+    - sublinearpoissongraphicalmodel-source-1
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three count-field families map broad to Model and related to the
+      task-scoped ProbabilisticGraphicalModel. This is a curator assessment, not an
+      upstream AIO assertion. Finite truncation, quadratic site penalties and bounded
+      sufficient statistics change supports or full-conditional families, so the three
+      constructions are not exact aliases of the classical auto-Poisson field or one
+      another. The auto-binomial field has a different combinatorial base measure,
+      and the auto-exponential and proper auto-normal fields have continuous rather
+      than integer support. GeneralizedLinearModel, LinearRegression, LogisticRegression,
+      SpatialRegression and RegressionAnalysis denote regression contexts, not these
+      particular compatible joint distributions. LassoRegression and RidgeRegression
+      do not define the count families merely because neighborhood estimation may
+      use regularization. BinaryClassification, MulticlassClassification and ProbabilisticTopicModel
+      impose task or latent-topic semantics not inherent in a count law. Neural Boltzmann,
+      restricted Boltzmann and Hopfield classes add architecture or dynamics; none
+      is identified by these count supports and potentials. GaussianNoiseLayer and
+      GaussianDropoutLayer are neural components, not integer-valued quadratic fields.
+      Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical functions are
+      not graphical models; a shared saturating shape does not identify the SPGM with
+      an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive
+      classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork
+      and CausalGraphicalModel do not preserve undirected graph or causal semantics
+      through arbitrary factorization. Language-model, autoencoder, hidden-layer,
+      sparse-representation, encoding, data normalization and tensor-maximum classes
+      do not supply the same identities. The 14 native contextual records distinguish
+      general MRFs, latent-state models, continuous/count auto-models, process regression,
+      parameter estimation, state optimization and sampling. Contextual reuse does
+      not renew scientific approval of those records.
+    evidence_ids:
+    - mapping
+- assessment_id: truncated-boundary
+  area: consistency
+  topic: Finite support, truncated means and Winsorized compatibility
+  outcome: supported
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  evidence_ids:
+  - truncatedpoissongraphicalmodel-source-0
+  - truncatedpoissongraphicalmodel-source-1
+  - finite-boundaries
+  - neighbors
+  summary: Retain the truncated Poisson model family.
+  details: The finite support and factorial base measure yield compatible truncated-Poisson
+    full conditionals with either interaction sign. The conditional mean is lambda*C_(R-1)/C_R,
+    not the underlying Poisson parameter lambda. Exact enumeration verifies all conditionals
+    and an explicit unequal mean. Truncation conditions and renormalizes the kernel,
+    whereas Winsorization places the upper tail at the cap. Independent Winsorized
+    conditionals form a joint product, refuting the literal universal impossibility
+    wording; the supplemental proof assumes a nonzero edge. A separate incompatible
+    interacting example does not settle every original Winsorized formulation. The
+    cutoff changes the model, and observed training maxima do not cover arbitrary
+    future counts.
+- assessment_id: quadratic-boundary
+  area: consistency
+  topic: Quadratic count laws, normalization and approximation bounds
+  outcome: supported
+  target_ids:
+  - AIMech:QuadraticPoissonGraphicalModel
+  evidence_ids:
+  - quadraticpoissongraphicalmodel-source-0
+  - quadraticpoissongraphicalmodel-source-1
+  - finite-boundaries
+  - neighbors
+  summary: Retain the quadratic count model family.
+  details: 'QPGM replaces the factorial base measure with quadratic site terms; its
+    conditional laws are discrete quadratic exponential distributions rather than
+    Poisson or continuous Gaussian laws. The matrix off-diagonal is half the once-counted
+    edge coefficient. Uniform quadratic decay on the nonnegative orthant suffices
+    for normalization, while whole-space negative definiteness is sufficient but not
+    necessary. The source Gaussian integral bound fails at valid narrow kernels: the
+    discrete partition includes a unit term and the proposed bounds at eta=0 and eta=1
+    are below 0.18. The record explicitly rejects the universal-bound interpretation
+    without rejecting the supported discrete model. It does not claim a certified
+    Gaussian-regression fit, reproduced empirical performance or an exhaustive parameter-domain
+    characterization.'
+- assessment_id: sublinear-boundary
+  area: consistency
+  topic: Bounded sufficient statistic on unbounded count support
+  outcome: supported
+  target_ids:
+  - AIMech:SublinearPoissonGraphicalModel
+  evidence_ids:
+  - sublinearpoissongraphicalmodel-source-0
+  - sublinearpoissongraphicalmodel-source-1
+  - finite-boundaries
+  - neighbors
+  summary: Retain the specified sublinear Poisson model family.
+  details: The piecewise statistic is linear, quadratic and then constant, with finite
+    0<=R0<R. Counts remain unbounded and factorial penalties remain present. Globally
+    bounded statistics give a constant times a product of reciprocal-factorial sums,
+    proving finite-graph normalization for all finite parameters, including zero unary
+    coefficients. This avoids the supplemental proof threshold that divides by a unary
+    coefficient. The conditional log-partition bound by exp(eta) requires eta>=0;
+    the sign reversal for eta<0 is explicit. Plateau tail ratios equal 1/(k+1). An
+    arbitrary unbounded sublinear statistic, a truncated count and a neural activation
+    are not equivalent identities.
+- assessment_id: mapping-boundary
+  area: grounding
+  topic: Directional AIO mappings and neighboring identities
+  outcome: supported
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain all three native identities with scoped AIO mappings.
+  details: All three count-field families map broad to Model and related to the task-scoped
+    ProbabilisticGraphicalModel. This is a curator assessment, not an upstream AIO
+    assertion. Finite truncation, quadratic site penalties and bounded sufficient
+    statistics change supports or full-conditional families, so the three constructions
+    are not exact aliases of the classical auto-Poisson field or one another. The
+    auto-binomial field has a different combinatorial base measure, and the auto-exponential
+    and proper auto-normal fields have continuous rather than integer support. GeneralizedLinearModel,
+    LinearRegression, LogisticRegression, SpatialRegression and RegressionAnalysis
+    denote regression contexts, not these particular compatible joint distributions.
+    LassoRegression and RidgeRegression do not define the count families merely because
+    neighborhood estimation may use regularization. BinaryClassification, MulticlassClassification
+    and ProbabilisticTopicModel impose task or latent-topic semantics not inherent
+    in a count law. Neural Boltzmann, restricted Boltzmann and Hopfield classes add
+    architecture or dynamics; none is identified by these count supports and potentials.
+    GaussianNoiseLayer and GaussianDropoutLayer are neural components, not integer-valued
+    quadratic fields. Sigmoid, hard-sigmoid, exponential, ELU and SELU mathematical
+    functions are not graphical models; a shared saturating shape does not identify
+    the SPGM with an activation. ExponentialSmoothingStateSpaceModel, temporal autoregressive
+    classes and MarkovChain impose ordering absent from arbitrary site graphs. BayesianNetwork
+    and CausalGraphicalModel do not preserve undirected graph or causal semantics
+    through arbitrary factorization. Language-model, autoencoder, hidden-layer, sparse-representation,
+    encoding, data normalization and tensor-maximum classes do not supply the same
+    identities. The 14 native contextual records distinguish general MRFs, latent-state
+    models, continuous/count auto-models, process regression, parameter estimation,
+    state optimization and sampling. Contextual reuse does not renew scientific approval
+    of those records.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:TruncatedPoissonGraphicalModel
+  - AIMech:QuadraticPoissonGraphicalModel
+  - AIMech:SublinearPoissonGraphicalModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - truncatedpoissongraphicalmodel-source-0
+  - truncatedpoissongraphicalmodel-source-1
+  - quadraticpoissongraphicalmodel-source-0
+  - quadraticpoissongraphicalmodel-source-1
+  - sublinearpoissongraphicalmodel-source-0
+  - sublinearpoissongraphicalmodel-source-1
+  rationale: Truncation changes count support while retaining factorial weights; the
+    quadratic model replaces factorial penalties by site quadratics; the sublinear
+    model retains unbounded count support and factorial penalties but bounds the interaction
+    statistic. Their full conditional families and admissible parameter conditions
+    differ. Preserve the three local identities and directional AIO mappings.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 12 main/supplement PDF pages were visually inspected, including figures and
+  main references. Extracted text exists but was not completely read. Bibliographic
+  year is the 2013 conference date, not later PDF modification metadata.
+- The initial PDF-only download of the supplement failed because the official link
+  is a ZIP. Its sole final_supp.pdf member was subsequently inspected and extracted
+  to a controlled path. Evidence hashes identify that PDF, while its source URL identifies
+  the ZIP; both hashes are preserved.
+- The independent Winsorized product and invalid Gaussian integral bound are original
+  counterexamples. They qualify specific source assertions without establishing a
+  universal classification of alternative models. No source erratum or independent
+  verification is asserted.
+- The SPGM bounded-statistic argument covers zero unary coefficients. The record does
+  not generalize this result to arbitrary sublinear statistics or treat a sign-restricted
+  partition bound as universal.
+- Frontier abstracts, including Kaiser and Cressie 1997 and Park et al. 2017, are
+  provisional context. Initial source opens failed but ordinary search/alternate public
+  links supplied abstracts; no challenge was bypassed and no unseen full methods are
+  claimed as read.
+- No empirical data preprocessing, author-code reproduction, model fitting or generic
+  performance evaluation was performed. Mathematical witnesses do not certify numerical
+  estimators or biological causality.
+- 240 pending leads plus other unresolved dispositions remain; discovery continues.
+links: []
+tags:
+- native-concepts
+- truncated-quadratic-sublinear-fields
+- self-review
+- discovery-ongoing
+```

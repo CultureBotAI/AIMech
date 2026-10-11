@@ -1,0 +1,131 @@
+name: Sublinear Poisson graphical model
+definition: A finite-graph model for unbounded nonnegative integer counts that retains factorial base
+  measures while replacing counts in unary and pairwise interactions by a specified bounded, saturating
+  sufficient statistic.
+concept_kind: model_family
+identity_notes: 'SPGM denotes the particular sublinear Poisson graphical construction in Yang et al. Its
+  sufficient statistic is linear for small counts, bends quadratically over an interval and is constant
+  for large counts. Counts remain unbounded: the model saturates their interaction statistic rather than
+  truncating their values. The full conditional is a transformed-statistic count distribution, not an
+  ordinary Poisson law, a generic arbitrary sublinear exponential family or a neural activation layer.
+  No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and
+  406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and
+  hidden files in worktree and main, yielding six and six matched lines; all five unique contents were
+  read. Hits are the prior publication lead and source URLs, not existing records of these identities.
+  All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing
+  edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual
+  YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly
+  read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is
+  bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.'
+limitations:
+- Finite distinct thresholds with R0<R are required by the stated formula. B is bounded; a general unbounded
+  function called sublinear need not inherit the same normalization result.
+- Neighbor values above the plateau threshold have identical effects through B. This suppresses sensitivity
+  to large-count differences and changes the conditional family; exp(eta_i) is not generally its conditional
+  mean.
+- The Poisson log-partition upper bound requires nonnegative eta. For negative eta the underlying termwise
+  inequality reverses, so unconstrained regression updates cannot blindly use the same bound as a certificate.
+- The supplement illustrates its normalization proof with two variables and a threshold construction that
+  can fail when a unary coefficient is zero. The direct bounded-statistic domination argument stated here
+  supplies the finite-graph justification without dividing by unary parameters.
+- Exact conditional normalization still involves an infinite sum or a justified tail calculation. Existence
+  for all finite parameters does not establish numerical accuracy, sampler mixing or recovery of the graph
+  from finite data.
+- The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted
+  node regressions do not automatically agree on a compatible joint parameterization. Model definition,
+  numerical estimation and graph selection are distinct.
+- The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical
+  graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or
+  a guarantee that a chosen approximate optimizer finds the intended fit.
+- The reported network experiments are contextual evidence, not a universal performance guarantee. The
+  processed breast-cancer microRNA data and cited biological associations do not establish causal regulation
+  or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.
+id: AIMech:SublinearPoissonGraphicalModel
+aliases:
+- SPGM
+- Sublinear Poisson Markov random field
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2, printed/PDF p. 6, Equation (7), piecewise B, Theorem 4 and Proposition 3; Section
+    4, pp. 7–8, fitting and evaluation limitations
+  relation: supports
+- source_id: supplement
+  locator: Figure 3 and Appendix A, printed p. 10 / supplemental PDF p. 1; Appendix B.3–B.4, printed p.
+    12 / supplemental PDF p. 3, normalization and sign-restricted conditional bound
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Choose finite 0<=R0<R and set B(x)=x for x<=R0; B(x)=-x^2/[2*(R-R0)]+R*x/(R-R0)-R0^2/[2*(R-R0)]
+    for R0<x<=R; and B(x)=(R+R0)/2 for x>R. On a finite graph define p(x)=Z^(-1)*exp[sum_i a_i*B(x_i)+sum_(i<j)
+    b_ij*B(x_i)*B(x_j)-sum_i log(x_i!)], with symmetric edge parameters. The site conditional is proportional
+    to exp[eta_i*B(k)]/k!, where eta_i=a_i+sum_(j!=i) b_ij*B(x_j). Since B is globally bounded, all finite
+    unary and edge parameters give a finite positive Z: bound the parameter-dependent factor by a constant
+    and sum the product of reciprocal factorials. This argument includes zero unary parameters. The conditional
+    log partition D(eta)=log sum_(k>=0) exp[eta*B(k)]/k! satisfies D(eta)<=exp(eta) when eta>=0 because
+    B(k)<=k; this bound is not asserted for negative eta. Once both k and k+1 lie on the plateau, the
+    successive conditional mass ratio is 1/(k+1).'
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, printed/PDF p. 6, Equation (7), piecewise B, Theorem 4 and Proposition 3; Section
+      4, pp. 7–8, fitting and evaluation limitations
+    relation: supports
+  - source_id: supplement
+    locator: Figure 3 and Appendix A, printed p. 10 / supplemental PDF p. 1; Appendix B.3–B.4, printed
+      p. 12 / supplemental PDF p. 3, normalization and sign-restricted conditional bound
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Poisson Graphical Models
+  authors:
+  - Eunho Yang
+  - Pradeep Ravikumar
+  - Genevera I. Allen
+  - Zhandong Liu
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf
+  version: Advances in Neural Information Processing Systems 26, 2013; official nine-page conference PDF.
+    Printed pages equal PDF pages 1–9. All nine pages, both figures and all 27 references visually read.
+    The later PDF metadata modification date is not the publication date. No full extracted-text/OCR reading
+    is claimed.
+  access_level: full_text
+  accessed_at: '2026-10-11T22:19:45Z'
+  sha256: 43358362c5a5b49eeb4ac9e63cab0ca6b4d40ee792610ae41991644542b7bba4
+- source_id: supplement
+  title: On Poisson Graphical Models — Supplemental Appendix
+  authors:
+  - Eunho Yang
+  - Pradeep Ravikumar
+  - Genevera I. Allen
+  - Zhandong Liu
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip
+  version: 'Official 2013 supplemental ZIP, containing the sole member final_supp.pdf. The evidence SHA-256
+    identifies that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond to
+    supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read. Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1.
+    No author code or empirical data ran.'
+  access_level: full_text
+  accessed_at: '2026-10-11T22:20:49Z'
+  sha256: 38b42f678bb1d7eee457d0dc1729d00d2925a328b0b6b757eaf27a6f88a3cf7b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This is a specified joint probability family on integer-valued graph sites and falls within
+    the broader mathematical representation described by Model. A particular optimizer or prediction task
+    is not its identity.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The family encodes undirected graphical conditional dependencies. The pinned target is task-scoped,
+    so a related mapping connects this probability model to graphical modeling without asserting a model
+    is-a task relationship.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:28:17Z'
+  updated_at: '2026-10-11T22:28:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

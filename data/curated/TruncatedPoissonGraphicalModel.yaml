@@ -1,0 +1,126 @@
+name: Truncated Poisson graphical model
+definition: A finite pairwise count graphical model with a fixed upper count limit, factorial base measures
+  and Poisson-kernel full conditionals renormalized over the bounded support, allowing finite symmetric
+  interactions of either sign.
+concept_kind: model_family
+identity_notes: 'The TPGM in Yang et al. conditions a Poisson kernel on counts no larger than R. It does
+  not Winsorize by moving all tail mass to the cutoff. The cutoff belongs to the model support, not merely
+  an observation-clipping procedure. TPGM is distinct from the classical unbounded auto-Poisson field
+  and from an auto-binomial field with combinatorial trial-count factors. Its full conditionals are truncated
+  Poisson laws; this does not assert the same family for every marginal distribution. No normalized identity
+  match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs,
+  names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree
+  and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior
+  publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym
+  hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent
+  to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and
+  14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included
+  in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot,
+  maintained corpus and inspected semantic neighborhood.'
+limitations:
+- Positive interactions and large neighboring counts can concentrate conditional mass at the cutoff. R
+  changes the model, and a cutoff selected as the observed maximum does not guarantee that future counts
+  will lie within its support.
+- The unbounded limit cannot retain arbitrary positive pairwise coefficients while preserving the classical
+  Poisson joint law. Finite-support normalizability is not evidence of unbounded-model validity.
+- The source Theorem 1 is worded as a universal impossibility result for Winsorized conditionals, but
+  independent constant-parameter Winsorized variables form a valid joint product. Its supplemental contradiction
+  assumes nonzero interaction. Original calculations preserve that exception and separately show incompatibility
+  of one symmetric log-mean interacting specification; the blanket impossibility statement is not adopted.
+- The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted
+  node regressions do not automatically agree on a compatible joint parameterization. Model definition,
+  numerical estimation and graph selection are distinct.
+- The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical
+  graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or
+  a guarantee that a chosen approximate optimizer finds the intended fit.
+- The reported network experiments are contextual evidence, not a universal performance guarantee. The
+  processed breast-cancer microRNA data and cited biological associations do not establish causal regulation
+  or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.
+id: AIMech:TruncatedPoissonGraphicalModel
+aliases:
+- TPGM
+- Truncated Poisson Markov random field
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1.2, printed/PDF p. 4, Equation (3), Theorem 2 and cutoff limitations; Section 2.1.1
+    and Theorem 1, pp. 3–4, Winsorization comparison; Section 4, pp. 7–8, evaluation scope
+  relation: supports
+- source_id: supplement
+  locator: Appendix A, printed p. 10 / supplemental PDF p. 1, future-work limitations; Appendix B.2, pp.
+    10–11 / supplemental PDF pp. 1–2, nonzero-interaction assumption in the Winsorized-conditional proof
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a finite graph with X_i in {0,...,R} and fixed integer R>=1, define p(x)=Z^(-1)*exp[sum_i(a_i*x_i-log(x_i!))+sum_(i<j)
+    b_ij*x_i*x_j], using symmetric b_ij and zero coefficients on nonedges. Finite real parameters give
+    a finite positive Z on the finite support. The full conditional at i is proportional to exp(eta_i*k)/k!
+    for k=0,...,R, where eta_i=a_i+sum_(j!=i) b_ij*x_j. Its normalizer is C_R(lambda_i)=sum_(k=0)^R lambda_i^k/k!,
+    with lambda_i=exp(eta_i). Thus lambda_i is the underlying Poisson parameter, while the actual truncated
+    conditional mean is lambda_i*C_(R-1)(lambda_i)/C_R(lambda_i). This mean is generally not lambda_i.
+    With all edge parameters zero the joint factors into independent truncated Poisson laws.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1.2, printed/PDF p. 4, Equation (3), Theorem 2 and cutoff limitations; Section
+      2.1.1 and Theorem 1, pp. 3–4, Winsorization comparison; Section 4, pp. 7–8, evaluation scope
+    relation: supports
+  - source_id: supplement
+    locator: Appendix A, printed p. 10 / supplemental PDF p. 1, future-work limitations; Appendix B.2,
+      pp. 10–11 / supplemental PDF pp. 1–2, nonzero-interaction assumption in the Winsorized-conditional
+      proof
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: On Poisson Graphical Models
+  authors:
+  - Eunho Yang
+  - Pradeep Ravikumar
+  - Genevera I. Allen
+  - Zhandong Liu
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf
+  version: Advances in Neural Information Processing Systems 26, 2013; official nine-page conference PDF.
+    Printed pages equal PDF pages 1–9. All nine pages, both figures and all 27 references visually read.
+    The later PDF metadata modification date is not the publication date. No full extracted-text/OCR reading
+    is claimed.
+  access_level: full_text
+  accessed_at: '2026-10-11T22:19:45Z'
+  sha256: 43358362c5a5b49eeb4ac9e63cab0ca6b4d40ee792610ae41991644542b7bba4
+- source_id: supplement
+  title: On Poisson Graphical Models — Supplemental Appendix
+  authors:
+  - Eunho Yang
+  - Pradeep Ravikumar
+  - Genevera I. Allen
+  - Zhandong Liu
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip
+  version: 'Official 2013 supplemental ZIP, containing the sole member final_supp.pdf. The evidence SHA-256
+    identifies that extracted three-page PDF, not the ZIP container. Printed pages 10–12 correspond to
+    supplemental PDF pages 1–3. All three pages, Figure 3 and proofs visually read. Archive SHA-256: 79b2f5f0f1218c0ba51b1dfcf2b16a0a6dafef64afaa052096cf15c7a6a60ec1.
+    No author code or empirical data ran.'
+  access_level: full_text
+  accessed_at: '2026-10-11T22:20:49Z'
+  sha256: 38b42f678bb1d7eee457d0dc1729d00d2925a328b0b6b757eaf27a6f88a3cf7b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This is a specified joint probability family on integer-valued graph sites and falls within
+    the broader mathematical representation described by Model. A particular optimizer or prediction task
+    is not its identity.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The family encodes undirected graphical conditional dependencies. The pinned target is task-scoped,
+    so a related mapping connects this probability model to graphical modeling without asserting a model
+    is-a task relationship.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T22:28:17Z'
+  updated_at: '2026-10-11T22:28:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
