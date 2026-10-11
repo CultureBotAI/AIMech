@@ -1,0 +1,115 @@
+name: Laplacian Eigenmaps
+definition: A spectral embedding algorithm that builds a weighted neighborhood graph and uses nonconstant
+  generalized eigenvectors of its graph Laplacian to place strongly connected points close together.
+concept_kind: algorithm
+identity_notes: The record denotes the neighborhood-graph Laplacian embedding algorithm, not the Laplace–Beltrami
+  operator itself or every spectral-clustering method. LLE instead uses reconstruction weights; diffusion
+  maps explicitly scale Markov eigenvectors with diffusion time. All 442 pinned AIO labels/scoped synonyms
+  and 109 preceding native identities were compared, together with hidden/ignored-inclusive searches of
+  both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- Graph connectivity, neighborhood size and edge weighting are consequential; the original construction
+  treats disconnected components separately.
+- The local graph objective does not guarantee preservation of all pairwise distances, sampling density
+  or topology.
+- The inspected 2006 convergence result uses a particular heat-kernel point-cloud operator, i.i.d. uniform
+  sampling on a compact smooth boundaryless manifold and a suitable shrinking bandwidth sequence; it is
+  not a finite-sample guarantee for every neighborhood graph.
+- Nonuniform sampling can change the limiting operator under ordinary graph normalization; interpreting
+  an embedding as pure manifold geometry requires additional assumptions or normalization.
+aliases:
+- Laplacian Eigenmap
+id: AIMech:LaplacianEigenmaps
+definition_evidence:
+- source_id: original-paper
+  locator: Section 1, steps 1–3, and Section 2, equations (1)–(2), PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Connect nearby observations by an epsilon or symmetrized nearest-neighbor rule, assign Gaussian
+    heat-kernel or unit edge weights, form D from weighted degrees and L = D − W, and solve Ly = λDy.
+    On a connected component, discard the constant zero mode and use the smallest nonzero modes as coordinates.
+    This minimizes weighted squared separations along graph edges subject to degree-weighted normalization
+    and exclusion of the constant mode.
+  evidence:
+  - source_id: original-paper
+    locator: Section 1, steps 1–3, and Section 2, equations (1)–(2), PDF pp. 2–4
+    relation: supports
+- claim_id: convergence-assumptions
+  kind: limitation
+  statement: The convergence study assumes i.i.d. uniform sampling on a compact infinitely differentiable
+    embedded manifold without boundary and establishes the existence of a bandwidth sequence tending to
+    zero for spectral convergence in probability. Its analyzed heat-kernel operator does not certify arbitrary
+    finite graphs or noisy data.
+  evidence:
+  - source_id: convergence-analysis
+    locator: Sections 1.1–2 and Theorem 2.1, PDF pp. 2–3
+    relation: supports
+- claim_id: sampling-density-limit
+  kind: limitation
+  statement: Coifman and Lafon distinguish ordinary isotropic graph normalization, whose continuum behavior
+    depends on nonuniform sampling density, from alpha-normalized constructions. Their alpha = 1 construction
+    removes density dependence in the stated continuum limit; this is not an unconditional property of
+    every Laplacian embedding.
+  evidence:
+  - source_id: density-analysis
+    locator: Sections 3.1–3.4, printed pp. 14–16 / PDF pp. 10–12
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Laplacian Eigenmaps and Spectral Techniques for Embedding and Clustering
+  authors:
+  - Mikhail Belkin
+  - Partha Niyogi
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2001/file/f106b7f99d2cb30c3db1c3cc0fde9ccb-Paper.pdf
+  version: NIPS 2001, volume 14, proceedings PDF
+  persistent_id: https://proceedings.neurips.cc/paper/2001/hash/f106b7f99d2cb30c3db1c3cc0fde9ccb-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: aba984615a8fdb028aaea6f7b1716d4252838b42538457d03678a5ce8c1132a0
+- source_id: convergence-analysis
+  title: Convergence of Laplacian Eigenmaps
+  authors:
+  - Mikhail Belkin
+  - Partha Niyogi
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2006/file/5848ad959570f87753a60ce8be1567f3-Paper.pdf
+  version: NIPS 2006, volume 19, proceedings PDF
+  persistent_id: https://proceedings.neurips.cc/paper/2006/hash/5848ad959570f87753a60ce8be1567f3-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:09:25Z'
+  sha256: 8f348bb88e34d885596230891c9143f7a651f292992165f30387f6f3fdfd7f18
+- source_id: density-analysis
+  title: Diffusion maps
+  authors:
+  - Ronald R. Coifman
+  - Stéphane Lafon
+  source_type: primary_paper
+  url: https://www.math.ucdavis.edu/~strohmer/courses/270/diffusion_maps.pdf
+  version: Applied and Computational Harmonic Analysis 21(1):5–30, July 2006; published PDF mirrored by
+    UC Davis
+  persistent_id: doi:10.1016/j.acha.2006.04.006
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: cf2188865324a22da7dcea1072466881ef47723d50e5ac34253bc7b057ff43ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific unsupervised embedding algorithm used for dimensionality reduction. The pinned
+    target inherits the machine-learning-task hierarchy; this association does not assert algorithm/task
+    identity or subclass membership. RepresentationLearning in this pin specifically denotes a deep neural
+    network, and EmbeddingLayer denotes an integer-index lookup layer, neither of which defines this method.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:11:14Z'
+  updated_at: '2026-10-11T05:11:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

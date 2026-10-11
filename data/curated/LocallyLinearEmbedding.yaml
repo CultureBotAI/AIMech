@@ -1,0 +1,92 @@
+name: Locally Linear Embedding
+definition: A nonlinear dimensionality-reduction algorithm that learns sparse, sum-to-one linear reconstructions
+  of each point from nearby points and computes embedding coordinates by minimizing reconstruction error
+  with those same weights.
+concept_kind: algorithm
+identity_notes: LLE preserves local reconstruction relations rather than explicitly fitting all-pairs
+  geodesic distances. It is distinct from Isomap, a linear PCA projection, Laplacian Eigenmaps, and a
+  learned neural embedding layer. The expanded 2003 paper elaborates the same LLE identity; optional extensions
+  are not automatically separate aliases. All 442 pinned AIO labels/scoped synonyms and 109 preceding
+  native identities were compared, together with hidden/ignored-inclusive searches of both checkouts;
+  source citations and pending frontier mentions were distinguished from existing concept identities.
+limitations:
+- Neighborhoods must adequately represent local structure; excessive neighborhood size can violate local
+  linearity and sparse or disconnected neighborhoods require separate treatment.
+- The optimized weights are invariant to translation, rotation and homogeneous scaling of a neighborhood,
+  not to arbitrary affine shears.
+- Global minimization of the stated quadratic embedding objective does not establish faithful recovery
+  of an arbitrary manifold or a unique coordinate system when eigenspaces are degenerate.
+- The core algorithm embeds its supplied point set; applying it to new points requires an additional mapping
+  or recomputation.
+aliases:
+- LLE
+id: AIMech:LocallyLinearEmbedding
+definition_evidence:
+- source_id: original-paper
+  locator: Equations (1)–(3), Figure 2 and notes 5–9, printed pp. 2323–2326 / PDF pp. 1–4
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Select neighbors, solve a constrained least-squares reconstruction for each input with weights
+    zero outside its neighborhood and summing to one, then keep the weights fixed while minimizing embedded
+    reconstruction error under centering and covariance constraints. The final step uses the smallest
+    eigenmodes of (I − W)^T(I − W), excluding the constant translation mode. Weight regularization is
+    needed for singular or poorly conditioned local fits.
+  evidence:
+  - source_id: original-paper
+    locator: Equations (1)–(3), Figure 2 and notes 5–9, printed pp. 2323–2326 / PDF pp. 1–4
+    relation: supports
+- claim_id: local-fit-and-extension-limits
+  kind: limitation
+  statement: The expanded LLE paper explicitly distinguishes similarity-transform invariance from shear
+    invariance, discusses neighborhood and connectivity failures, conditions singular Gram matrices with
+    a weight penalty, and separates the fixed-data embedding from optional mappings to unseen points.
+  evidence:
+  - source_id: expanded-method
+    locator: Section 2 and Figure 4, pp. 122–125 / PDF pp. 4–7; Sections 4.1–4.3, pp. 131–135 / PDF pp.
+      13–17; Section 6, p. 141 / PDF p. 23
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Nonlinear Dimensionality Reduction by Locally Linear Embedding
+  authors:
+  - Sam T. Roweis
+  - Lawrence K. Saul
+  source_type: primary_paper
+  url: https://cs.nyu.edu/home/people/in_memoriam/roweis/papers/2323.pdf
+  version: Science 290(5500):2323–2326, 2000-12-22; author-hosted published PDF
+  persistent_id: doi:10.1126/science.290.5500.2323
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: 45f23283c05024390cf1f2aea6c755b5785fdd261e23ef7d9a8595cd9413f8f6
+- source_id: expanded-method
+  title: 'Think Globally, Fit Locally: Unsupervised Learning of Low Dimensional Manifolds'
+  authors:
+  - Lawrence K. Saul
+  - Sam T. Roweis
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume4/saul03a/saul03a.pdf
+  version: JMLR 4:119–155, June 2003
+  persistent_id: https://www.jmlr.org/papers/v4/saul03a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:55Z'
+  sha256: 399b54bc2ff284b2994cc12173f7c9d2edbb04bf3a2f4ab850045b7bed867ce9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific unsupervised embedding algorithm used for dimensionality reduction. The pinned
+    target inherits the machine-learning-task hierarchy; this association does not assert algorithm/task
+    identity or subclass membership. RepresentationLearning in this pin specifically denotes a deep neural
+    network, and EmbeddingLayer denotes an integer-index lookup layer, neither of which defines this method.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:11:14Z'
+  updated_at: '2026-10-11T05:12:37Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

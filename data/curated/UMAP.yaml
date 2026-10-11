@@ -1,0 +1,119 @@
+name: UMAP
+definition: A nonlinear embedding algorithm that constructs a locally scaled, symmetrized nearest-neighbor
+  similarity graph and places its vertices in a lower-dimensional space using sampled attractive and repulsive
+  updates.
+concept_kind: algorithm
+identity_notes: UMAP denotes the original nonparametric graph-embedding algorithm, not a guarantee of
+  topology preservation, the generic dimensionality-reduction task, t-SNE, or the separately proposed
+  Parametric UMAP and density-preserving variants. All 442 pinned AIO labels/scoped synonyms and 109 preceding
+  native identities were compared, together with hidden/ignored-inclusive searches of both checkouts;
+  source citations and pending frontier mentions were distinguished from existing concept identities.
+limitations:
+- Neighbor count, metric, local scaling, minimum distance, initialization and sampling choices influence
+  the embedding; displayed distances and densities do not generally reproduce those in the input space.
+- The nominal all-pairs cross-entropy is not the effective objective of the analyzed negative-sampling
+  procedure. The original asymmetric expected update need not be a gradient field; the explicit modified
+  loss in Damrich and Hamprecht applies to their symmetrized negative update.
+- No general topology-preservation or global-optimization guarantee is asserted. Wegmann’s later preprint
+  identifies unresolved theoretical links; the complete categorical proofs were not certified here.
+- The evidence concerns the specified papers and their described algorithms, not every current implementation
+  or a reproduced benchmark.
+aliases:
+- Uniform Manifold Approximation and Projection
+- Uniform Manifold Approximation and Projection for Dimension Reduction
+id: AIMech:UMAP
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3.1–3.2 and 4.1, PDF pp. 14–21, especially graph weights, symmetrization, Definition
+    11 and Algorithm 5
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Compute directed nearest-neighbor weights using exponential distance decay after subtracting
+    a local connectivity offset and fitting a local scale. Combine reciprocal weights with the probabilistic
+    union formula a + b − ab. Initialize embedding coordinates, commonly spectrally, and update them using
+    sampled positive edges and negative samples with a smooth low-dimensional similarity function controlled
+    by the minimum-distance parameter. The paper motivates the updates through fuzzy-set cross-entropy;
+    their actual sampled dynamics require the qualifications in the follow-up analysis.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3.1–3.2 and 4.1, PDF pp. 14–21, especially graph weights, symmetrization, Definition
+      11 and Algorithm 5
+    relation: supports
+- claim_id: sampled-update-limit
+  kind: limitation
+  statement: Damrich and Hamprecht show that the analyzed sampling procedure changes repulsive weights
+    and that its asymmetric expected update generally does not correspond to a scalar loss. Their explicit
+    effective loss is obtained after also updating negative samples, a symmetrized variant they find qualitatively
+    similar in their experiments; it is not an exact objective for every original update.
+  evidence:
+  - source_id: sampling-analysis
+    locator: Sections 3–5, equations (5)–(12), PDF pp. 3–6
+    relation: supports
+- claim_id: theoretical-scope
+  kind: limitation
+  statement: Wegmann’s thesis-derived preprint treats the finite metric-realization construction separately
+    from the empirical algorithm and identifies further work needed to justify local uniformization, edge-probability
+    interpretation and topology preservation. This is a qualified critique of the theoretical justification,
+    not evidence that the algorithm has no practical use.
+  evidence:
+  - source_id: theory-analysis
+    locator: Section 5.4 and conclusion, printed pp. 73–75 / PDF pp. 79–81
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: 'UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction'
+  authors:
+  - Leland McInnes
+  - John Healy
+  - James Melville
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.03426v3
+  version: arXiv:1802.03426v3, revised 2020-09-18
+  persistent_id: arXiv:1802.03426
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: 45ca6cfcd08d5808ab20b5cf53364d2b2d5ab19dca95a594f54af515a15421c3
+- source_id: sampling-analysis
+  title: On UMAP’s True Loss Function
+  authors:
+  - Sebastian Damrich
+  - Fred A. Hamprecht
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2021/file/2de5d16682c3c35007e4e92982f1a2ba-Paper.pdf
+  version: NeurIPS 2021, volume 34, proceedings PDF
+  persistent_id: https://proceedings.neurips.cc/paper/2021/hash/2de5d16682c3c35007e4e92982f1a2ba-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: 131723625e0d68e6caac92bd3e904a96000a9b590550fcaf13be33f66a1dceed
+- source_id: theory-analysis
+  title: The Theory behind UMAP?
+  authors:
+  - David Wegmann
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2603.03375v1
+  version: arXiv:2603.03375v1, submitted 2026-03-02; PDF title page dated 2026-03-05; derived from a masters
+    thesis
+  persistent_id: arXiv:2603.03375
+  access_level: full_text
+  accessed_at: '2026-10-11T05:07:44Z'
+  sha256: 1d03b47d72e85e3ad7b7c37406a8da871dd2673fde8bd49cfe91f31669b17b49
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific unsupervised embedding algorithm used for dimensionality reduction. The pinned
+    target inherits the machine-learning-task hierarchy; this association does not assert algorithm/task
+    identity or subclass membership. RepresentationLearning in this pin specifically denotes a deep neural
+    network, and EmbeddingLayer denotes an integer-index lookup layer, neither of which defines this method.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:11:14Z'
+  updated_at: '2026-10-11T05:11:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
