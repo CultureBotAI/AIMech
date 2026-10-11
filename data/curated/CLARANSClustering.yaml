@@ -1,0 +1,93 @@
+name: CLARANS clustering
+definition: A randomized medoid-clustering algorithm that searches fixed-size sets of representative observations
+  by accepting improving single swaps and restarting after a budget of unsuccessful neighbor trials.
+concept_kind: algorithm
+identity_notes: CLARANS searches the graph of all k-object medoid sets. It samples possible swaps at each
+  state rather than confining all medoids to a fixed subsample as CLARA does, and differs from PAM’s exhaustive
+  best-swap search. Medoids are actual observations, unlike k-means centroids. The record covers the original
+  1994 clustering method, not its SD/NSD spatial data-mining wrappers or the expanded 2002 polygon-handling
+  methods. No normalized identity match for this candidate was found across all 442 pinned AIO labels/scoped
+  synonyms and 227 preceding native IDs/names/aliases. The same search identified BIRCH as an existing
+  native record and excluded it from additions. Full-checkout word-delimited fixed-string searches included
+  ignored and hidden files, with 79 worktree and 79 main-checkout matching lines; these concern BIRCH
+  identity/proposal/review context and discovery leads. Ten exact AIO CLASS nodes with scoped synonyms
+  and outgoing edges, and nine neighboring native records, were inspected.
+limitations:
+- A sampled unsuccessful-trial budget does not certify a local minimum over all possible swaps or a global
+  optimum. The paper’s quoted local-minimum terminology is a stopping heuristic.
+- The original pseudocode specifies a random neighbor but does not state a sampling-without-replacement
+  rule or a particular probability law. This record does not add one, and it does not treat the trial
+  counter as a count of distinct neighbors.
+- Section 2.1 describes cost contributions for currently nonselected objects before Equation (5). Interpreting
+  that literally as excluding every current medoid can omit the removed medoid’s new assignment cost.
+  The full-objective definition in Section 3.1 is retained; an original finite calculation demonstrates
+  the omission, not an author-issued erratum or executed implementation.
+- The requested k, dissimilarity, initialization, trial budget and restart count affect the result. The
+  paper’s experimental numlocal=2 and maxneighbor=max(250, 1.25% of k(n-k)) are experimental choices,
+  not guarantees or identity requirements. No runtime or quality advantage is asserted.
+id: AIMech:CLARANSClustering
+aliases:
+- CLARANS
+- Clustering Large Applications based on RANdomized Search
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.2, PDF pp. 4–5 (printed 147–148), graph objective and Algorithm CLARANS; Section
+    2.1, PDF p. 3 (printed 146), cost cases and Equation (5)
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For n observations, supplied dissimilarities and 1<=k<n, represent a search state by k selected
+    observations M. Assign each observation to a nearest medoid and define F(M)=sum_(x in X)min_(m in
+    M)d(x,m), over all n observations. A neighboring state replaces one selected medoid with one unselected
+    observation, giving k(n-k) possible neighbors. Begin a run at an arbitrary state. Sample a random
+    neighbor; if its total cost is strictly lower, accept it and reset the unsuccessful-trial counter.
+    Otherwise increment that counter. After maxneighbor unsuccessful trials at the current state, compare
+    its cost with the best completed run and restart until numlocal runs have finished. Return the lowest-cost
+    retained state. Swaps are judged by the full objective difference, including the observation whose
+    medoid role is removed.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.2, PDF pp. 4–5 (printed 147–148), graph objective and Algorithm CLARANS; Section
+      2.1, PDF p. 3 (printed 146), cost cases and Equation (5)
+    relation: supports
+- claim_id: source-convention-check
+  kind: limitation
+  statement: 'Curator calculation: with observations {0,6,10,11}, absolute distance and medoids {0,10},
+    swapping 0 for 6 increases the full cost from 5 to 7. Summing changes only over the old nonmedoids
+    gives -4 and misses the removed medoid’s contribution +6. This demonstrates why the full graph-state
+    objective, not that restricted sum, must govern acceptance. The exact calculation is saved in research/discovery/metric-source-boundaries.py.'
+  evidence:
+  - source_id: method-source
+    locator: Section 3.1, PDF p. 4, defines cost over every object; Section 2.1, PDF p. 3, gives the cost
+      contributions whose literal nonmedoid-only scope is tested by the curator.
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Efficient and Effective Clustering Methods for Spatial Data Mining
+  authors:
+  - Raymond T. Ng
+  - Jiawei Han
+  source_type: primary_paper
+  url: https://www.vldb.org/conf/1994/P144.PDF
+  version: VLDB 1994, pp. 144–155; 12-page original proceedings PDF
+  persistent_id: https://www.vldb.org/dblp/db/conf/vldb/vldb94-144.html
+  access_level: full_text
+  accessed_at: '2026-10-11T09:51:25Z'
+  sha256: de9f91b1e1ee13e968eade273e116d2ec14ff3ebea0471c7608c5e796587a48d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: CLARANS is a specified medoid-search procedure for grouping unlabeled observations. The AIO
+    target is a clustering task; this method-to-task relation is not equivalence or subclass membership.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:58:22Z'
+  updated_at: '2026-10-11T09:58:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

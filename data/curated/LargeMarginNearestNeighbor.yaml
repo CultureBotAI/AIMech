@@ -1,0 +1,101 @@
+name: Large margin nearest neighbor
+definition: A supervised metric-learning method that fits a positive-semidefinite distance matrix by pulling
+  fixed same-class target neighbors together while penalizing margin violations by differently labeled
+  observations.
+concept_kind: algorithm
+identity_notes: The core single-metric LMNN formulation fixes directed target-neighbor assignments before
+  fitting and uses a convex objective in a positive-semidefinite matrix. It is not NCA’s stochastic classification
+  objective, a generic triplet loss, or a deep embedding network. Iteratively reassigning targets, learning
+  local metrics, kernelization and rank constraints are distinct extensions; their behavior is not inferred
+  from the core convex program. The energy-based prediction rule in Section 3.5 is separate from ordinary
+  k-nearest-neighbor voting. No normalized identity match for this candidate was found across all 442
+  pinned AIO labels/scoped synonyms and 227 preceding native IDs/names/aliases. The same search identified
+  BIRCH as an existing native record and excluded it from additions. Full-checkout word-delimited fixed-string
+  searches included ignored and hidden files, with 79 worktree and 79 main-checkout matching lines; these
+  concern BIRCH identity/proposal/review context and discovery leads. Ten exact AIO CLASS nodes with scoped
+  synonyms and outgoing edges, and nine neighboring native records, were inspected.
+limitations:
+- Each point needs enough other same-class observations for its chosen target count. Target selection,
+  labels, weighting, feature scale and the solver affect the learned representation; training margins
+  do not certify held-out accuracy.
+- The source uses metric terminology for quadratic distances. The displayed d_M is a squared distance
+  and does not itself generally satisfy the triangle inequality; its square root is a pseudometric when
+  M is positive semidefinite and may collapse distinct points if M is rank deficient.
+- Convexity applies to the fixed-target optimization over M, not to arbitrary factorized, rank-constrained
+  or target-reassignment extensions. Convexity also does not imply a unique optimum, perfect training
+  separation or a certified result from every numerical solver.
+- The endpoints of the stated weight interval can remove one training term; mu=0 permits the collapsed
+  M=0 solution. The paper’s unit margin is a scale convention. No benchmark, special-purpose solver implementation
+  or extension was reproduced.
+id: AIMech:LargeMarginNearestNeighbor
+aliases:
+- LMNN
+- Large-margin nearest-neighbor classification
+- Large margin nearest neighbour
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, PDF pp. 3–4 (printed 209–210), squared-distance parameterization; Sections 3.1–3.4,
+    PDF pp. 9–15 (printed 215–221), Equations (10)–(14) and boxed semidefinite program; Section 3.5 for
+    prediction-rule distinction
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For labeled vectors choose k other same-class target neighbors T_i for each training point,
+    usually using Euclidean distance before fitting; these directed sets remain fixed in the core method.
+    Let d_M(i,j)=(x_i-x_j)^T M(x_i-x_j), with M positive semidefinite. Minimize (1-mu)sum_i sum_(j in
+    T_i)d_M(i,j)+mu sum_i sum_(j in T_i)sum_(l:y_l!=y_i)max(0,1+d_M(i,j)-d_M(i,l)), with mu in [0,1].
+    The pull term concerns target neighbors, not all same-class pairs, and the hinge is not squared. Introducing
+    nonnegative slack variables for the margin violations yields a semidefinite program. After learning,
+    factor M=L^T L and use the learned distances for k-nearest-neighbor classification. The matrix-variable
+    objective is convex for fixed target sets; optimizing directly in L is not generally convex.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF pp. 3–4 (printed 209–210), squared-distance parameterization; Sections 3.1–3.4,
+      PDF pp. 9–15 (printed 215–221), Equations (10)–(14) and boxed semidefinite program; Section 3.5
+      for prediction-rule distinction
+    relation: supports
+- claim_id: source-convention-check
+  kind: limitation
+  statement: 'Curator calculation: for one-dimensional points 0,1,2 and M=1, d_M(0,2)=4 exceeds d_M(0,1)+d_M(1,2)=2.
+    The squared expression used for training therefore need not satisfy a metric triangle inequality.
+    The exact calculation is saved in research/discovery/metric-source-boundaries.py.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF pp. 3–4, Equations (1)–(3) define the squared distances evaluated by the
+      curator; the surrounding metric terminology is qualified.
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Distance Metric Learning for Large Margin Nearest Neighbor Classification
+  authors:
+  - Kilian Q. Weinberger
+  - Lawrence K. Saul
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume10/weinberger09a/weinberger09a.pdf
+  version: Journal of Machine Learning Research 10 (2009), pp. 207–244; 38-page expanded primary paper
+  persistent_id: https://www.jmlr.org/papers/v10/weinberger09a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T09:51:25Z'
+  sha256: 514d0b11319e0f37c900bc51e18a8130867d5b739a0d6438097142f5d8d630d1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:KnearestNeighborClassificationAlgorithm
+  relation: related_match
+  rationale: LMNN learns the distance used in nearest-neighbor voting. The target describes the voting
+    task, so this is a related metric-training-to-classification association, not algorithm identity.
+- target: AIO:SupervisedLearning
+  relation: related_match
+  rationale: Class labels determine target eligibility and differently labeled margin constraints. The
+    target is a broad learning task, while LMNN is a specific metric-learning algorithm; this related
+    mapping preserves that abstraction difference.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T09:58:22Z'
+  updated_at: '2026-10-11T09:58:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
