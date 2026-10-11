@@ -1,0 +1,101 @@
+name: AntNet
+definition: A distributed adaptive routing algorithm in which forward agents sample network paths and
+  backward agents use the measured trip times to update local traffic models and probabilistic routing
+  tables.
+concept_kind: algorithm
+identity_notes: This record denotes the 1998 datagram-network AntNet formulation. Forward ants experience
+  ordinary data queues and backward ants return with priority; the proposed later scheme using fast forward
+  ants and estimated virtual delays is a separate extension. It is an instantiated routing method within
+  the ant-colony approach, not all ACO algorithms, a static TSP optimizer, Q-routing, or a generic multi-agent
+  system. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and
+  295 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden
+  files in worktree and main, returning 57 and 57 lines respectively. Text hits were prior candidate leads
+  and neighboring-method mentions in maintained records, saved reviews and discovery reports; they did
+  not identify an existing record for these candidates. Six exact AIO CLASS nodes with scoped synonyms/comments
+  and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this
+  snapshot and semantic neighborhood.
+limitations:
+- Backward traversal requires bidirectional links; forward and reverse costs need not be equal. The simulation
+  omits full transport-layer error, flow and congestion control, so its comparisons are not deployment
+  guarantees or universal superiority claims.
+- The full-neighbor queue formula uses l_n=1−q_n/sum(q) and weights P_n+alpha*l_n. Zero queue sums and
+  sampling from the restricted unvisited set require a declared normalization/fallback convention. The
+  record does not silently treat the full-neighbor denominator as normalized after exclusions. Zero local
+  traffic also needs a destination-selection convention.
+- Every selected completed route receives positive reinforcement in the baseline, including poorly scored
+  routes; alternatives decrease by normalization. This is not a negative reward on the selected bad route.
+  At r=1 other probabilities become zero, so the algebra alone supplies no permanent full-support guarantee.
+  Positive probabilities remain positive under a finite power reweighting in exact arithmetic; that transformation
+  suppresses rather than categorically forbids rare data routes.
+- The score’s interval is a deliberately rough asymmetric estimate built from adaptive statistics, not
+  a calibrated confidence guarantee. Score parameters, window reset, zero dispersion, denominators, queue
+  behavior and finite precision require declared conventions. Returned information can already be stale
+  under changing traffic.
+- The explicit method and Figure 3 allow good-subpath updates; Section 8.3’s one-destination summary is
+  a simplification. Relations to actor–critic, Monte Carlo and temporal-difference learning are qualified
+  analogies in the paper; the method does not inherit tabular Q-learning convergence or require TD bootstrapping.
+  No author simulator or empirical benchmark was run.
+id: AIMech:AntNet
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 4.1–4.2, PDF pp.9–18 / journal pp.325–334, Equations 1–9 and Figures 2–3; model limits,
+    PDF p.7; Sections 8–10, PDF pp.35–42
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: At each node maintain destination-specific next-hop probabilities summing to one and local
+    statistics of experienced trip times, including mean, variance and a recent best time. Periodically
+    launch forward ants with destinations biased by local data traffic. They share data queues, record
+    visited nodes and elapsed times, and choose among unvisited neighbors whenever any are available,
+    falling back to all neighbors only when all have already been visited. Within that eligible set, choices
+    use routing probabilities plus an instantaneous queue-length heuristic. On revisiting a node, remove
+    the cycle from memory; discard an ant if the cycle consumed more than half its current age. At the
+    destination, create a backward ant carrying the recorded path; it returns along that path through
+    higher-priority queues. At each visited node, use forward-trip elapsed times to update the destination’s
+    local statistics and reinforce the neighbor leading forward toward that destination. Statistically
+    good subpaths can also update their corresponding destinations. For a chosen forward neighbor f and
+    reinforcement r in (0,1], set P_f_new=P_f+r*(1−P_f) and each other P_n_new=(1−r)*P_n. The inspected
+    scoring scheme combines a recent-best-time ratio with a dispersion-based correction and a normalized
+    nonlinear squash; it rewards a path relative to local traffic conditions. Data packets sample from
+    a power-reweighted routing table, whereas forward ants also use queue heuristics. Updates are concurrent
+    and local; measured forward times, not recursively bootstrapped estimates from downstream nodes, supply
+    the feedback.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1–4.2, PDF pp.9–18 / journal pp.325–334, Equations 1–9 and Figures 2–3; model
+      limits, PDF p.7; Sections 8–10, PDF pp.35–42
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'AntNet: Distributed Stigmergetic Control for Communications Networks'
+  authors:
+  - Gianni Di Caro
+  - Marco Dorigo
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1105.5449
+  version: JAIR 9:317–365 (1998), 49-page article archived as arXiv:1105.5449v1 on 27 May 2011; archive
+    upload date is not the publication year
+  persistent_id: doi:10.1613/jair.530
+  access_level: full_text
+  accessed_at: '2026-10-11T13:41:42Z'
+  sha256: bee45446fa421191bd2e9396261532b5a0a6c339c369792b37506a0242cd867d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The source explicitly analyzes AntNet as adaptive stochastic routing with reinforcement-based
+    policy updates and discusses its connection to reinforcement learning. The AIO target is a learning
+    task; this related match does not equate AntNet to that task, to Q-learning, or to a stationary Markov
+    controller.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T13:47:28Z'
+  updated_at: '2026-10-11T13:50:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
