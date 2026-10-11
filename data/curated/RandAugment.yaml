@@ -1,0 +1,76 @@
+name: RandAugment
+definition: An image-augmentation procedure that applies a uniformly sampled sequence of operations sharing
+  one magnitude parameter, reducing augmentation selection to tuning the operation count and shared magnitude
+  on the target task.
+concept_kind: algorithm
+identity_notes: RandAugment is distinct from the learned operation probabilities and per-operation magnitudes
+  of AutoAugment, the feedback-adapted parameter weights of CTAugment, and a particular library’s later
+  RandAugment variant. Reducing the search to N and M does not eliminate hyperparameter tuning or make
+  the procedure parameter-free. No normalized identity match was found across all 442 pinned AIO labels/scoped
+  synonyms and 238 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored
+  and hidden files in both worktree and main checkout, returning 34 lines in each from prior discovery,
+  saved reviews and related native records. Ten exact AIO CLASS nodes, their scoped synonyms and outgoing
+  edges, plus five neighboring native mechanisms were inspected. This absence assessment is bounded to
+  the pinned snapshot and inspected semantic neighborhood.
+limitations:
+- Uniformly sampled transformations still require a suitable operation set and magnitudes for the data;
+  label preservation is an assumption.
+- N and M are hyperparameters, and the paper’s absence of a separate proxy search is not an absence of
+  validation or model training.
+- The source explores magnitude schedules and ranges beyond the nominal scale; no one schedule, numerical
+  range or claimed optimal value is made universal.
+- No benchmark reproduction or general accuracy/robustness guarantee is asserted.
+id: AIMech:RandAugment
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 4 and Figure 3, PDF/printed pp. 5–6; target-task search context in Sections 3 and 5
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For each training image, sample N operations uniformly with replacement from the selected
+    transformation set and apply them in the sampled order, using the same magnitude parameter M with
+    each operation’s own magnitude scale. The paper’s Figure3 uses 14 operations, including identity,
+    geometric and appearance transformations, and permits repeated choices. The sequence therefore has
+    K^N possible operation choices for a K-operation set, rather than sampling N distinct operations.
+    Tune N and M using target-task validation, for example with the reported simple grid search, instead
+    of a separate proxy-task controller search. The source also investigates different schedules for the
+    shared magnitude. Its nominal magnitude scale and exploratory ranges are protocol choices; a shared
+    M does not mean the same physical transformation strength across operation types.
+  evidence:
+  - source_id: method-source
+    locator: Section 4 and Figure 3, PDF/printed pp. 5–6; target-task search context in Sections 3 and
+      5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'RandAugment: Practical Automated Data Augmentation with a Reduced Search Space'
+  authors:
+  - Ekin D. Cubuk
+  - Barret Zoph
+  - Jonathan Shlens
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2020/file/d85b63ef0ccb114d0a3bb7b7d808028f-Paper.pdf
+  version: NeurIPS 2020 proceedings paper; twelve PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:26:17Z'
+  sha256: 00796fa0e1edf667567fbdd43cfca7644f8176cbd2bb55dc33d448ea83e73fa7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm selects or learns transformations used for augmented training examples. The
+    AIO target denotes data augmentation in the preprocessing branch, while the local identity includes
+    a selection or training procedure; no equivalence or subclass membership is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:34:59Z'
+  updated_at: '2026-10-11T10:34:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

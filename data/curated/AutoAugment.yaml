@@ -1,0 +1,81 @@
+name: AutoAugment
+definition: An automated augmentation-policy search procedure that trains a controller to propose image-transform
+  subpolicies and rewards those proposals using validation accuracy of a child model trained with the
+  proposed augmentation.
+concept_kind: algorithm
+identity_notes: AutoAugment denotes a learned policy-search process and its resulting policies, not a
+  single image transform or a network checkpoint. It differs from RandAugment’s uniform operation sampling
+  and compact target-task hyperparameter search, and from CTAugment’s online prediction-feedback adaptation.
+  Reinforcement learning is used to choose augmentations here; the child’s classification task is not
+  thereby reclassified as reinforcement learning. No normalized identity match was found across all 442
+  pinned AIO labels/scoped synonyms and 238 preceding native IDs/names/aliases. Full-checkout fixed-string
+  searches included ignored and hidden files in both worktree and main checkout, returning 34 lines in
+  each from prior discovery, saved reviews and related native records. Ten exact AIO CLASS nodes, their
+  scoped synonyms and outgoing edges, plus five neighboring native mechanisms were inspected. This absence
+  assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+limitations:
+- Searching by training child models requires computation, and a policy selected on a smaller proxy model
+  or dataset may not transfer optimally to the final training setting.
+- Operation probabilities and magnitudes are task-sensitive; an operation can destroy class information.
+- The record follows the augmentation decision space and does not import the paper’s unrelated convolutional-cell/block
+  wording in the controller hyperparameter paragraph.
+- No claim of globally optimal policies, fixed controller architecture, universal policy transfer or benchmark
+  improvement is made.
+id: AIMech:AutoAugment
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: 'Section 3, PDF pp. 2–4 / printed pp. 114–116: policy search space, controller training and
+    final-policy selection'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: In the published search space, a policy contains five subpolicies, each with two ordered
+    operations. An operation has a type, application probability and magnitude; the search uses 16 operation
+    types, 11 probability values and 10 magnitude values, with magnitude ignored when an operation does
+    not need it. During child-model training, select a subpolicy uniformly for each image and apply its
+    operations according to their respective probabilities. An autoregressive recurrent controller samples
+    the policy decisions. Train the child model on the training split with that policy, measure held-out
+    validation accuracy, and use that reward to update the controller with proximal policy optimization.
+    The described controller emits 30 decisions for the five two-operation subpolicies. After search,
+    concatenate the subpolicies from the five best policies into a 25-subpolicy policy for final model
+    training. Particular child architectures, search budgets and augmentation baselines are experimental
+    settings rather than the identity of the procedure.
+  evidence:
+  - source_id: method-source
+    locator: 'Section 3, PDF pp. 2–4 / printed pp. 114–116: policy search space, controller training and
+      final-policy selection'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'AutoAugment: Learning Augmentation Strategies From Data'
+  authors:
+  - Ekin D. Cubuk
+  - Barret Zoph
+  - Dandelion Mané
+  - Vijay Vasudevan
+  - Quoc V. Le
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_CVPR_2019/papers/Cubuk_AutoAugment_Learning_Augmentation_Strategies_From_Data_CVPR_2019_paper.pdf
+  version: CVPR 2019 accepted proceedings paper, pp. 113–123; eleven PDF pages
+  access_level: full_text
+  accessed_at: '2026-10-11T10:26:17Z'
+  sha256: 9a8a7cb244b06c68998604f76084d611c02de65e1d01b7406b58c150e062921f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataAugmentation
+  relation: related_match
+  rationale: This algorithm selects or learns transformations used for augmented training examples. The
+    AIO target denotes data augmentation in the preprocessing branch, while the local identity includes
+    a selection or training procedure; no equivalence or subclass membership is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T10:34:59Z'
+  updated_at: '2026-10-11T10:34:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
