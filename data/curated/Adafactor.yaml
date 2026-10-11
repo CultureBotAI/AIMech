@@ -1,0 +1,53 @@
+id: AIMech:Adafactor
+name: Adafactor
+definition: An adaptive gradient optimization method that approximates matrix-valued second-moment statistics
+  using row and column factors.
+concept_kind: algorithm
+identity_notes: Adafactor factors the adaptive second-moment state; it is not low-rank adaptation of model
+  weights such as LoRA. Vector parameters use an unfactored second-moment estimate.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: Adafactor.__doc__, algorithm lines 178–224 and implementation differences lines 229–285
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: For matrix parameters, row and column statistics reconstruct a factored second-moment estimate
+    used to normalize gradients; the inspected implementation also clips update RMS and scales steps using
+    parameter RMS.
+  evidence:
+  - source_id: pytorch-docs
+    locator: Adafactor.__doc__, algorithm lines 178–224 and implementation differences lines 229–285
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch Adafactor implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/_adafactor.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: 1846d20844694cd312c6a20d2eaca3b62b679021f919b0a76545fd44d736f5cf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- PyTorch documents differences from the original paper in learning-rate control and epsilon handling;
+  the record does not equate their exact update equations.
+- No measured memory reduction, benchmark superiority or convergence guarantee is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

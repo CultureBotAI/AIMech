@@ -1,0 +1,52 @@
+id: AIMech:AdamW
+name: AdamW
+definition: An Adam optimization variant that applies weight decay directly to parameters separately from
+  gradient moment estimation.
+concept_kind: algorithm
+identity_notes: Decoupled weight decay distinguishes AdamW from Adam with a penalty included in its gradient
+  moments. It is an optimization algorithm, not a new model architecture.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: AdamW.__doc__, algorithm lines 61–97
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: Parameters receive a weight-decay shrinkage step, while first and second gradient moments
+    are updated from the objective gradient and used for the adaptive step.
+  evidence:
+  - source_id: pytorch-docs
+    locator: AdamW.__doc__, algorithm lines 61–97
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch AdamW implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/adamw.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: 3112d8799ef9ab608b855a5708087d5576971463923c41d4a6a227006871f551
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The cited implementation also offers an optional AMSGrad variant; that option is not required by the
+  AdamW definition.
+- No universal convergence or performance advantage is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

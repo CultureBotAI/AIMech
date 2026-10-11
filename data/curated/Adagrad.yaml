@@ -1,0 +1,53 @@
+id: AIMech:Adagrad
+name: Adagrad
+definition: An adaptive gradient optimization method that scales each coordinate's update using accumulated
+  squared gradients.
+concept_kind: algorithm
+identity_notes: This record covers the commonly implemented diagonal Adagrad algorithm. Its cumulative
+  accumulator differs from the exponentially decayed squared-gradient estimate in RMSprop.
+definition_evidence:
+- source_id: pytorch-docs
+  locator: Adagrad.__doc__, diagonal update algorithm lines 193–218
+  relation: supports
+claims:
+- claim_id: update-rule
+  kind: mechanism
+  statement: The diagonal variant accumulates squared gradients over iterations and divides the current
+    gradient by the square root of that accumulator plus a numerical stabilizer.
+  evidence:
+  - source_id: pytorch-docs
+    locator: Adagrad.__doc__, diagonal update algorithm lines 193–218
+    relation: supports
+evidence_sources:
+- source_id: pytorch-docs
+  title: PyTorch Adagrad implementation and algorithm documentation
+  authors:
+  - PyTorch contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/pytorch/pytorch/d38164a545b4a4e4e0cf73ce67173f70574890b6/torch/optim/adagrad.py
+  version: PyTorch v2.9.1; commit d38164a545b4a4e4e0cf73ce67173f70574890b6
+  access_level: documentation
+  accessed_at: '2026-10-11T03:19:24Z'
+  sha256: 8cdb9ea6c999615837165a00f9ed82b17eb8f59c3352d9b626f8ce5ddcc6b0fa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This algorithm can implement parameter fitting, but the pinned TrainingStrategy definition
+    uses a preprocessing genus. This is a contextual training relationship, not equivalence or a subclass
+    assertion.
+limitations:
+- The definition is scoped to the inspected diagonal implementation, not every full-matrix adaptive subgradient
+  formulation.
+- Initialization, learning-rate decay and regularization settings are implementation choices; no benchmark
+  or convergence claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T03:25:18Z'
+  updated_at: '2026-10-11T03:25:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
