@@ -1,0 +1,109 @@
+name: Iterated local search
+definition: A metaheuristic that builds a single search trajectory among solutions returned by an embedded
+  optimizer by perturbing the current accepted solution, rerunning that optimizer, and applying an acceptance
+  criterion to the resulting candidate.
+concept_kind: algorithm
+identity_notes: 'The ILS framework includes the common local-minimum formulation but permits a more general,
+  possibly stochastic or history-dependent embedded optimizer. Historical names such as iterated Lin–Kernighan
+  and large-step Markov chains denote particular developments, not exact aliases of every ILS configuration.
+  Single-chain search distinguishes the framework from population selection and distribution refitting;
+  optional restarts and hybrids require their own declared choices. No normalized identity match was found
+  across all 442 pinned AIO labels/scoped synonyms and 301 preceding native IDs/names/aliases. Full-checkout
+  fixed-string searches included ignored and hidden files in worktree and main, returning 37 and 37 lines
+  respectively. All 13 unique hit contents were inspected: prior local-search candidate leads, Ant System’s
+  feasibility-list distinction, and their saved reports/reviews. These were references to methods rather
+  than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing
+  edges and seven native neighboring mechanisms were inspected. Absence is bounded to this snapshot and
+  semantic neighborhood.'
+limitations:
+- Perturbations that are too weak can return repeatedly to the same optimizer output; independent large
+  perturbations remove the current solution’s influence from proposed starts and approach random-restart
+  behavior. The full behavior still depends on the acceptance rule and the embedded optimizer.
+- A deterministic memoryless embedded routine supports the simplified basin-of-attraction picture. General
+  stochastic or history-dependent routines need not define the same fixed partition; history-free transition
+  descriptions cannot be assumed for every ILS variant.
+- Transitions between optimized solutions need not be reversible, and deterministic perturbations can
+  produce short cycles. The framework alone is neither a target-invariant MCMC sampler nor a global-optimality
+  or cycle-freedom guarantee.
+- Initialization, perturbation, local-search termination, acceptance, best-so-far bookkeeping and restart
+  conventions must be declared for an executable instance. The source reports sensitivity to module interactions,
+  including settings worse than random restart; no universal performance ranking or empirical result is
+  curated.
+id: AIMech:IteratedLocalSearch
+aliases:
+- ILS
+definition_evidence:
+- source_id: method-source
+  locator: Introduction, PDF pp.1–2; Sections 2.1–2.4, PDF pp.3–9, framework assumptions and pseudocode
+    across pp.7–8; Section 3.3, PDF pp.19–21, acceptance variants and problem dependence
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Generate an initial solution and apply the embedded LocalSearch routine to obtain a current
+    optimized solution. Repeat: perturb that current solution, apply LocalSearch to the perturbed intermediate
+    point, then use an acceptance criterion comparing the current and candidate optimized solutions, potentially
+    with search history, to choose the next current solution. Repeat until the declared termination condition.
+    In the simplified deterministic memoryless setting, LocalSearch maps candidates into a reduced set
+    of local optima, and perturbation followed by local search induces transitions among them. The general
+    framework need not explicitly enumerate neighborhoods in that reduced space. Accepted variants include
+    retaining only strict improvements, always accepting the newly optimized candidate, or temperature-dependent
+    acceptance; improvement-only selection is not a universal requirement. Perturbation and acceptance
+    may use history, and the embedded procedure can itself be stochastic or use memory.'
+  evidence:
+  - source_id: method-source
+    locator: Introduction, PDF pp.1–2; Sections 2.1–2.4, PDF pp.3–9, framework assumptions and pseudocode
+      across pp.7–8; Section 3.3, PDF pp.19–21, acceptance variants and problem dependence
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Iterated Local Search
+  authors:
+  - Helena R. Lourenço
+  - Olivier C. Martin
+  - Thomas Stützle
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/math/0102188v1
+  version: arXiv:math/0102188v1, submitted 23 February 2001, 49-page chapter manuscript. The later handbook
+    chapter and 2010/2019 revisions are not silently substituted.
+  persistent_id: arXiv:math/0102188v1
+  access_level: full_text
+  accessed_at: '2026-10-11T14:07:24Z'
+  sha256: 6e60a8114c7d188e2b90d558a4e4387a9fab1b94b14768830ece01fa9175a070
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 pinned AIO CLASS identities and scoped synonyms, all 301 preceding maintained
+    identities, ignored/hidden full-checkout text, six exact AIO targets and seven native neighboring
+    methods.
+  rationale: No suitable AIO target was found for this general optimization framework in the inspected
+    snapshot and semantic neighborhood. Search memory, local costs and optional machine-learning applications
+    do not by themselves identify a learning task or model class.
+  examined_targets:
+  - target: AIO:TrainingStrategy
+    rejection_reason: The definition concerns preprocessing or training machine-learning models. General
+      local-search optimization is not restricted to such training.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target concerns learning methods from data; minimizing a supplied combinatorial
+      objective is not necessarily that task.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Memory, adaptive penalties or an acceptance criterion do not themselves define a
+      policy/environment learning problem. Exploration terminology is insufficient for a forced mapping.
+  - target: AIO:ReinforcementLearningLLM
+    rejection_reason: The method is not a language model fine-tuned through reward feedback.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: The target is a large language model. Its related evolutionary-algorithms synonym
+      does not identify all optimizers or convert a single-trajectory method into a model.
+  - target: AIO:MarkovChain
+    rejection_reason: Some memoryless configurations admit a Markov description, while others use search
+      history. That mathematical representation alone does not identify the optimization framework with
+      the pinned network/model class or its semantic parent.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T14:13:40Z'
+  updated_at: '2026-10-11T14:13:40Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
