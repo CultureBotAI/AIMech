@@ -1,0 +1,85 @@
+name: Regularized information maximization
+definition: A discriminative clustering framework that fits conditional class probabilities by maximizing
+  empirical input–assignment mutual information penalized by classifier complexity, with linear and kernel
+  softmax configurations.
+concept_kind: algorithm
+identity_notes: 'RIM denotes Gomes et al.’s named clustering framework. This record keeps its linear,
+  kernel, nonuniform-prior and semi-supervised configurations explicit. It differs from IMSAT’s augmentation-consistency
+  regularizer and from IIC’s information between paired assignment variables. No normalized identity match
+  was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases.
+  Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout
+  lines: existing component discussions and discovery/review references, plus unrelated ignored dependency
+  text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms
+  and eleven exact AIO candidate nodes with direct parent edges were inspected.'
+limitations:
+- The information objective is nonconcave. Finite L-BFGS optimization and a regularization sweep do not
+  guarantee a global optimum or a true cluster count. Softmax probabilities are positive at finite parameters;
+  exact class deletion is an ideal limiting description.
+- The uniform empirical input distribution and class-balance preference implicit in marginal entropy may
+  not fit the desired population. The nonuniform-prior variant changes the objective and requires compatible
+  prior support.
+- Kernel scores require an appropriate positive-semidefinite kernel for the stated RKHS penalty. Equation
+  (8) omits the regularization coefficient while the following derivative includes it; this record makes
+  that coefficient explicit.
+- The paper reports ground-truth adjusted-Rand scores across regularization settings. Those plots are
+  not evidence for an automatic label-free hyperparameter or true-cluster-count selection rule.
+- Primary methods and declared experimental context were inspected; no RIM implementation, optimizer behavior
+  or benchmark was reproduced.
+id: AIMech:RegularizedInformationMaximization
+aliases:
+- RIM
+- Regularised information maximisation
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–5, PDF pp. 2–5, Equations (1)–(10); Section 6.1, p. 6 for initialization and regularization-sweep
+    context
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For N unlabeled inputs let p_theta(y|x_i) be conditional cluster probabilities and q(y)=N^−1
+    sum_i p_theta(y|x_i). Maximize H(q)−N^−1 sum_i H(p_theta(.|x_i))−R(theta). The linear configuration
+    uses softmax(w_y^T x+b_y), R=lambda sum_y ||w_y||², and unpenalized biases, optimized with L-BFGS.
+    Initialize by oversegmenting the data, fitting a multinomial logistic classifier to the resulting
+    pseudo-labels, then optimizing the regularized information objective. Redundant categories can shrink
+    toward zero marginal probability as their weights decay and biases become negative. The kernel configuration
+    replaces linear scores with sum_i alpha_yi K(x_i,x)+b_y and penalizes RKHS squared norms alpha_y^T
+    K alpha_y, with a regularization coefficient. A nonuniform-prior variant instead maximizes −mean conditional
+    entropy−KL(q||D)−R for a chosen class prior D. A semi-supervised extension adds labeled log likelihood
+    and weights the unlabeled information term separately.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–5, PDF pp. 2–5, Equations (1)–(10); Section 6.1, p. 6 for initialization and regularization-sweep
+      context
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Discriminative Clustering by Regularized Information Maximization
+  authors:
+  - Ryan Gomes
+  - Andreas Krause
+  - Pietro Perona
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2010/file/42998cf32d552343bc8e460416382dca-Paper.pdf
+  version: NIPS 2010; nine-page proceedings PDF; author order follows PDF title page
+  persistent_id: https://papers.nips.cc/paper_files/paper/2010/hash/42998cf32d552343bc8e460416382dca-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:34:36Z'
+  sha256: 9da080bfdbab78fc03b89f5970b045b779386c79c73f82c474d2ad7fc420e33e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The unlabeled RIM configuration learns cluster assignments. The AIO target is the clustering
+    task; this is an algorithm-to-task association, not an is-a assertion. The optional semi-supervised
+    extension is stated separately.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:44:37Z'
+  updated_at: '2026-10-11T08:45:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

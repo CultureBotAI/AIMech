@@ -1,0 +1,156 @@
+name: Mutual information neural estimation
+definition: A mutual-information estimation procedure that trains a neural statistics function to maximize
+  a Donsker–Varadhan objective contrasting joint samples with product-of-marginals samples, using stochastic
+  optimization and an optional moving-average denominator for gradient estimation.
+concept_kind: algorithm
+identity_notes: 'MINE denotes the original neural Donsker–Varadhan estimator and its moving-average training
+  heuristic. The paper’s alternative MINE-f objective is a different variational bound and is not silently
+  equated with this record. MINE estimates dependence; DIM is a representation-learning framework that
+  can use dependence critics, and InfoNCE is a different finite-candidate objective. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases.
+  Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout
+  lines: existing component discussions and discovery/review references, plus unrelated ignored dependency
+  text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms
+  and eleven exact AIO candidate nodes with direct parent edges were inspected.'
+limitations:
+- Finite-sample log-moment estimation is biased, can be unstable for large critic scores, and need not
+  remain below true mutual information. Reusing samples for critic fitting adds selection effects.
+- The moving-average denominator is a bias-reduction heuristic. Its fixed-denominator alternative-bound
+  interpretation does not prove that a same-batch updated running statistic is independent of the current
+  samples or that the original Donsker–Varadhan gradient is unbiased.
+- Strong-consistency arguments separate neural approximation from empirical estimation under compactness,
+  continuity and measure assumptions. The fixed-family uniform-convergence result is not a proof that
+  stochastic gradient optimization reaches the required supremum. Bounded/Lipschitz critic sample-complexity
+  assumptions do not hold automatically for arbitrary networks and distributions.
+- Shuffling one finite batch can include fixed points and dependent pairs; it is not literally independent
+  sampling from the population product distribution. Sampling construction must be stated when interpreting
+  estimates.
+- As a mathematical consequence of a loose lower bound, reducing a poorly optimized estimated lower bound
+  does not certify a reduction in true mutual information. No author implementation or numerical estimator
+  experiment was audited.
+id: AIMech:MutualInformationNeuralEstimation
+aliases:
+- MINE
+- Mutual information neural estimator
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, PDF pp. 2–4, Equations (2)–(6), Algorithm 1 and estimator-consistency discussion
+  relation: supports
+- source_id: additional-1
+  locator: 'Sections 8.2.1–8.2.3, supplementary PDF pp. 4–7: Donsker–Varadhan proof, approximation/estimation
+    assumptions and bounded Lipschitz critic sample-complexity result'
+  relation: supports
+- source_id: additional-2
+  locator: 'Section 2.2, PDF pp. 2–4, Equations (3)–(7): Monte Carlo bias of the log-partition term and
+    moving-average-gradient interpretation'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a neural statistics function T_theta(x,z), optimize J(theta)=E_joint[T_theta]−log(E_product[exp(T_theta)]).
+    Under the variational representation’s integrability assumptions, each population J(theta) is a lower
+    bound on I(X;Z); optimizing within a neural family yields its restricted supremum. Estimate expectations
+    from observed joint pairs and samples approximating the product of marginals, such as mismatched or
+    shuffled pairs. The minibatch gradient contains a ratio of product-sample means and is generally biased.
+    The original training heuristic replaces its exponential-moment denominator by an exponential moving
+    average to reduce this bias. Poole et al. show that, when a positive running denominator is held fixed
+    for an update, the resulting update has an interpretation as the gradient of a different unnormalized
+    variational bound. This interpretation does not make the moving-average update a generally unbiased
+    gradient estimator of the population Donsker–Varadhan objective. After fitting a critic, evaluating
+    sample means in the Donsker–Varadhan expression gives a finite estimate, not a certified mutual-information
+    lower bound for that sample.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, PDF pp. 2–4, Equations (2)–(6), Algorithm 1 and estimator-consistency discussion
+    relation: supports
+  - source_id: additional-1
+    locator: 'Sections 8.2.1–8.2.3, supplementary PDF pp. 4–7: Donsker–Varadhan proof, approximation/estimation
+      assumptions and bounded Lipschitz critic sample-complexity result'
+    relation: supports
+  - source_id: additional-2
+    locator: 'Section 2.2, PDF pp. 2–4, Equations (3)–(7): Monte Carlo bias of the log-partition term
+      and moving-average-gradient interpretation'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Mutual Information Neural Estimation
+  authors:
+  - Mohamed Ishmael Belghazi
+  - Aristide Baratin
+  - Sai Rajeswar
+  - Sherjil Ozair
+  - Yoshua Bengio
+  - Aaron Courville
+  - R Devon Hjelm
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/belghazi18a/belghazi18a.pdf
+  version: ICML 2018, PMLR 80:531–540; ten-page main PDF
+  persistent_id: https://proceedings.mlr.press/v80/belghazi18a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:34:36Z'
+  sha256: 8fd7e622220a5995e47230971d383a737ac12e10ced30d48734fd513f8c0d3be
+- source_id: additional-1
+  title: Mutual Information Neural Estimation — Supplementary Material
+  authors:
+  - Mohamed Ishmael Belghazi
+  - Aristide Baratin
+  - Sai Rajeswar
+  - Sherjil Ozair
+  - Yoshua Bengio
+  - Aaron Courville
+  - R Devon Hjelm
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v80/belghazi18a/belghazi18a-supp.zip
+  version: ICML 2018 publisher supplementary ZIP member mine_appendix.pdf; eight pages; sha256 identifies
+    extracted PDF, not ZIP
+  persistent_id: https://proceedings.mlr.press/v80/belghazi18a/belghazi18a-supp.zip
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:13Z'
+  sha256: 327266969da08050035408ffd27ae1125105469da0ed3e4c653ba13dd3d71425
+- source_id: additional-2
+  title: On Variational Bounds of Mutual Information
+  authors:
+  - Ben Poole
+  - Sherjil Ozair
+  - Aaron van den Oord
+  - Alex Alemi
+  - George Tucker
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v97/poole19a/poole19a.pdf
+  version: ICML 2019, PMLR 97:5171–5180; ten-page main PDF
+  persistent_id: https://proceedings.mlr.press/v97/poole19a.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:36:10Z'
+  sha256: 38da74b0bae67ce3e565808b7bf81ce3efbcb2e2477f436d9afe7d114d1198cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: All 442 CLASS labels and scoped synonyms in pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and all 203 preceding native IDs/names/aliases were compared. Ignored-inclusive searches covered both
+    full checkouts. Exact candidate AIO nodes, definitions, scoped synonyms and direct parents were inspected;
+    this no-match assessment is bounded to this snapshot and the stated semantic neighborhood.
+  rationale: The inspected snapshot has no suitable class for this neural statistical estimator. A critic
+    architecture or downstream representation-learning/GAN use is not sufficient to map the estimator
+    itself.
+  examined_targets:
+  - target: AIO:DeepNeuralNetwork
+    rejection_reason: A neural network is the parameterized critic component, not the joint-versus-product
+      estimation algorithm.
+  - target: AIO:RepresentationLearning
+    rejection_reason: Learning reusable features is a possible application; it is not the definition of
+      mutual-information estimation.
+  - target: AIO:ContrastiveLearning
+    rejection_reason: This network/representation-learning class does not specify the Donsker–Varadhan
+      estimator or its stochastic-gradient correction.
+  - target: AIO:GenerativeAdversarialNetwork
+    rejection_reason: An optional downstream use in generative training does not make MINE a generator/discriminator
+      architecture.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:44:37Z'
+  updated_at: '2026-10-11T08:45:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
