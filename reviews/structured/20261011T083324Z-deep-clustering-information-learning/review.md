@@ -1,0 +1,939 @@
+# Scientific self-review of deep clustering and information-based learning
+
+- Review: 20261011T083324Z-deep-clustering-information-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-11T08:32:10Z
+- Finished UTC: 2026-10-11T08:33:24Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain DEC, JULE, IMSAT and Deep InfoMax with explicit method boundaries and AIO task associations. Issue41 corrected an overextended gradient identity; validation removed a duplicate alias. No actionable finding remains in these current records. All remain DRAFT.
+
+## Scope And Provenance
+
+Four maintained deep clustering or information-based representation procedures.
+
+Selection: Exactly DeepEmbeddedClustering, JointUnsupervisedLearning, InformationMaximizingSelfAugmentedTraining and DeepInfoMax from the discovery ledger; no sampling.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base aea2aa096ed1cacd00c94bc7ee8d910290f0779d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DeepEmbeddedClustering | data/curated/DeepEmbeddedClustering.yaml | maintained | Deep embedded clustering |
+| AIMech:JointUnsupervisedLearning | data/curated/JointUnsupervisedLearning.yaml | maintained | Joint unsupervised learning of deep representations and image clusters |
+| AIMech:InformationMaximizingSelfAugmentedTraining | data/curated/InformationMaximizingSelfAugmentedTraining.yaml | maintained | Information maximizing self-augmented training |
+| AIMech:DeepInfoMax | data/curated/DeepInfoMax.yaml | maintained | Deep InfoMax |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DeepEmbeddedClustering, AIMech:JointUnsupervisedLearning, AIMech:InformationMaximizingSelfAugmentedTraining, AIMech:DeepInfoMax | All checks passed!<br>........................................................................ [ 30%]<br>........................................................................ [ 61%]<br>........................................................................ [ 91%]<br>................sss                                                      [100%]<br>232 passed, 3 skipped in 50.15s<br>Checked 442 record(s); 0 failed.<br>Checked 203 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 41 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 40,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DeepEmbeddedClustering, AIMech:JointUnsupervisedLearning, AIMech:InformationMaximizingSelfAugmentedTraining, AIMech:DeepInfoMax | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+
+## Scientific And Domain Assessments
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:DeepEmbeddedClustering.
+
+DEC denotes the original Xie et al. algorithm. Autoencoder reconstruction initializes the encoder; reconstruction is not retained in the clustering objective. This is distinct from k-means alone, hard pseudo-label classification in DeepCluster, balanced transport in SeLa, and later reconstruction-regularized extensions. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts found eight prior discovery/review references in each. Short acronyms were compared in normalized record identities; broad text searches used the full names and longer aliases. Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+
+Initialize the encoder with a stacked denoising autoencoder followed by reconstruction fine-tuning; discard the decoder and initialize K cluster centers with k-means on embeddings. With z_i=f_theta(x_i), set s_ij=(1+&#124;&#124;z_i−mu_j&#124;&#124;²/alpha)^(-(alpha+1)/2), then q_ij=s_ij/sum_k s_ik; the reported experiments use alpha=1. At a target refresh compute f_j=sum_i q_ij and p_ij=(q_ij²/f_j)/sum_k(q_ik²/f_k). Hold P fixed while using minibatch gradient updates of encoder parameters and centers to reduce KL(P&#124;&#124;Q)=sum_ij p_ij log(p_ij/q_ij). Recompute assignments and targets periodically and repeat. Hard labels are argmax_j q_ij; the reported stopping rule uses the fraction changing between checks. The pinned Python driver materializes the target weights for a subsequent Caffe optimization interval, confirming that it does not differentiate through target construction. Limitations: K, initialization, representation capacity and the target-refresh schedule affect the result. Frequency normalization compensates for cluster mass but does not enforce equal cluster sizes or an externally specified prior. The auxiliary distribution amplifies confident assignments, including incorrect ones. Nonconvex optimization and changing targets do not provide a general global-optimum or semantic-recovery guarantee. The 0.1% label-change threshold is a stopping heuristic, not proof that an objective gradient is zero. Student-t assignments are normalized similarity weights, not calibrated class probabilities. The Python training driver was inspected, but the Caffe kernel and its gradients were not independently audited or executed. No reported benchmark was reproduced.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:JointUnsupervisedLearning.
+
+JULE denotes Yang et al.’s CVPR 2016 joint procedure. It couples a changing image representation to an irreversible agglomeration history; it is neither generic hierarchical clustering nor an ordinary fixed-label triplet embedding. The published method and its appendix are the authority here; the later Torch reimplementation is not treated as the original Caffe experiment code. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts found eight prior discovery/review references in each. Short acronyms were compared in normalized record identities; broad text searches used the full names and longer aliases. Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+
+Build a directed nearest-neighbor graph from current image features, with Gaussian edge weights and a distance-derived bandwidth. Measure cluster affinity using the symmetric sum of directed graph-degree linkage: A(C,D)=1/&#124;C&#124;² 1_C^T W_CD W_DC 1_C + 1/&#124;D&#124;² 1_D^T W_DC W_CD 1_D. During a forward period hold features fixed. For each cluster rank neighboring clusters by affinity; choose a merge using the loss consisting of negative nearest-neighbor affinity plus a term favoring its affinity gap over the remaining K_c−1 neighbors. Merge the selected cluster with its best neighbor. After a partially unrolled period, keep the resulting labels fixed and update the CNN using the paper’s approximate sample-level weighted triplet loss, encouraging same-cluster affinity relative to nearby different-cluster samples. The paper limits negative selection to at most K_c neighboring samples from other clusters in the training batch. Refresh features and graph affinities after neural updates and continue until the requested cluster count. Fast initial small clusters reduce the number of merge steps. Limitations: Cluster count, graph neighborhood sizes, bandwidth, initialization and unrolling schedule are inputs or hyperparameters. Agglomerative merges are irreversible; a later representation update does not undo earlier mistaken merges. The cluster-to-sample loss reduction and minibatch neighbor restriction are approximations. Its positive weight depends on the merge history and is simplified in practice; it is not asserted to be one exact generic hinge-triplet objective or an exact gradient through all merge decisions. The appendix separates exact linkage from optional faster affinity updates under extra assumptions. Similar empirical results do not make those updates algebraically identical. The procedure does not certify a global optimum or semantic categories. No implementation, gradient or benchmark reproduction was performed; the linked current Torch repository explicitly differs from the original Caffe implementation.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:InformationMaximizingSelfAugmentedTraining.
+
+IMSAT is the named Hu et al. procedure with explicitly different clustering and hashing configurations. It learns discrete output variables, unlike continuous embedding dependence estimators. Its information between input and output, plus consistency to a fixed current prediction, differs from IIC information between two assignment variables. This umbrella record does not equate the categorical, nonuniform-prior and hash objectives. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts found eight prior discovery/review references in each. Short acronyms were compared in normalized record identities; broad text searches used the full names and longer aliases. Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+
+For a current network snapshot, hold the original-input output distribution fixed and minimize cross-entropy against the network prediction on a transformed input, summed over discrete output components and averaged over samples. Transformations include random perturbations or virtual adversarial perturbations approximately chosen to maximize local prediction change. For categorical clustering use R_SAT−lambda[H(Y)−H(Y&#124;X)], with the marginal obtained by averaging conditional predictions. The nonuniform-prior variant instead minimizes R_SAT+lambda H(Y&#124;X) subject to KL(p(Y)&#124;&#124;q(Y))≤delta, implemented with an increasing positive-part penalty. For binary hashing the factorized conditional model uses the truncated information objective sum_d I(X;Y_d)−sum_(d≠e) I(Y_d;Y_e), with ordered distinct bit pairs. The pinned hash code enumerates unordered pairs and multiplies their mutual-information sum by two, confirming that convention. Its clustering code detaches the teacher and implements epsilon-stabilized KL consistency. Ideal KL and cross-entropy have the same parameter gradient for a fixed teacher; the code adds epsilon inside the logarithm and therefore only approximates that unstabilized identity. That code defaults to H(Y&#124;X)−4H(Y), a weighted entropy variant rather than the unit-weight information expression. Limitations: Hashing truncates the information expansion; pairwise penalties do not establish joint independence or exact information for the full bit vector. The ordered-pair convention affects its relative regularization strength. The minibatch KL inequality is an expectation bound from convexity, not a bound for every batch or a guarantee that finite stochastic optimization satisfies the prior constraint. Penalty-method idealizations do not certify the trained nonconvex network. Consistency depends on suitable transformations and perturbation radii. A transformation can preserve a nuisance factor or change desired semantics. Balanced marginal entropy can conflict with genuinely imbalanced classes. The pinned clustering code uses a weighted marginal entropy default; it must not be silently described as exact unit-weight mutual information. Epsilon stabilization and approximate virtual perturbations further distinguish numerical loss from ideal formulas. Some reported image experiments use features from an ImageNet-pretrained ResNet and hyperparameter selection uses labeled clustering accuracy. Unsupervised final training does not mean every source of representation or model-selection information is label-free. No model was run.
+
+### Identity, source support, mechanism, limitations and mapping
+
+evidence: supported. Targets: AIMech:DeepInfoMax.
+
+Deep InfoMax (DIM) denotes Hjelm et al.’s framework, including explicitly configurable global/local objectives and prior matching. It is not IIC’s discrete cluster-assignment objective or a generic synonym for mutual information. The JSD, Donsker–Varadhan and InfoNCE options have different mathematical and numerical meanings. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts found eight prior discovery/review references in each. Short acronyms were compared in normalized record identities; broad text searches used the full names and longer aliases. Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+
+Encode an input into an intermediate feature map and a global representation. Train encoder and critic together to score same-input feature/representation pairs above pairs formed from different inputs. The global objective relates an image feature map to its global code; the local objective averages dependence scores between local feature locations and the global code. The paper considers a Donsker–Varadhan KL bound, a logistic JSD proxy and an InfoNCE classification objective. For JSD, maximize mean_joint[−softplus(−T)]−mean_product[softplus(T)], up to constants; this is a dependence proxy, not a numerical KL mutual-information value. Combine global and local losses with chosen weights. Optional prior matching trains a separate discriminator to distinguish samples from a chosen prior and encoder outputs, while training the encoder to fool that discriminator. The pinned implementation detaches encoder outputs for discriminator training and uses a non-saturating encoder loss. Its main Fenchel-dual implementation averages same-image scores and masks cross-image scores separately; its InfoNCE branch uses finite negative logits to suppress same-image negatives. Limitations: A bounded JSD dependence proxy is not identical to KL mutual information. The appendix’s pointwise relationship and sampled correlations do not establish a universal ranking equivalence between changing joint distributions. Finite neural critics and batches further limit estimation. Local/global dependence can capture nuisance information. Finite representation capacity, receptive fields, negative sampling and the input distribution affect which shared factors are learned; semantic correctness is not guaranteed. The pinned InfoNCE implementation replaces masked negative scores by −10 rather than excluding them with negative infinity. Those terms retain finite mass in its denominator; no exact equality to an ideal exclusion-based InfoNCE formula is asserted. Prior matching is an optional adversarial regularizer, not an input reconstruction decoder or a proof of component independence. Finite optimization need not match the requested prior exactly. Only declared primary passages and code ranges were inspected. No runtime environment, training, benchmark, mutual-information estimator accuracy or gradient implementation was independently reproduced.
+
+### DEC and JULE versus existing clustering records
+
+scope: supported. Targets: AIMech:DeepEmbeddedClustering, AIMech:JointUnsupervisedLearning.
+
+Retain soft-target refinement and agglomerative representation learning as distinct algorithms.
+
+DEC refreshes normalized squared Student-t assignments, then holds targets fixed while fitting encoder and centers. It has no reconstruction term during this clustering phase and no equal-size assignment constraint. JULE uses exact graph-degree linkage and gap-aware merges with approximate sample-loss updates; its appendix distinguishes optional affinity approximations from exact linkage. A recurrent description does not imply differentiation through discrete merges. These mechanisms differ from centroid updates alone, hard pseudo-label prediction in DeepCluster and balanced transport in SeLa.
+
+### Discrete IMSAT objectives and continuous DIM dependence critics
+
+representation: supported. Targets: AIMech:InformationMaximizingSelfAugmentedTraining, AIMech:DeepInfoMax.
+
+Retain two named frameworks with their configurations and paper/code distinctions explicit.
+
+IMSAT categorical information, nonuniform-prior constraint and approximate multi-bit objective are not equated. Hash code confirms the factor two for unordered bit pairs; clustering code detaches its teacher and defaults to marginal-entropy weight four. Expected minibatch KL bounds are not per-batch guarantees, and pretrained feature/labeled model-selection context remains explicit. DIM JSD is a bounded dependence proxy rather than numeric KL information; its local/global branches, finite negative masking and optional non-saturating prior-matching update are qualified. Neither high dependence nor consistency certifies semantic recovery. IIC uses a different joint distribution over paired discrete assignments.
+
+### Explicit qualified AIO mappings
+
+scope: supported. Targets: AIMech:DeepEmbeddedClustering, AIMech:JointUnsupervisedLearning, AIMech:InformationMaximizingSelfAugmentedTraining, AIMech:DeepInfoMax.
+
+Related task associations preserve algorithm identity and configuration scope.
+
+Seven exact AIO nodes and incident edges were inspected. DEC, JULE and categorical IMSAT relate to UnsupervisedClustering; JULE also relates to HierarchicalClustering. IMSAT and DIM relate to SelfsupervisedLearning. All links are qualified algorithm-to-task related matches. Generic representation-network, contrastive-network and LLM nodes do not provide exact identities; no forced is-a relations were added.
+
+### Prepublication review issue41
+
+representation: supported. Targets: AIMech:InformationMaximizingSelfAugmentedTraining.
+
+Current wording separates the ideal fixed-teacher identity from epsilon-stabilized code.
+
+For fixed teacher p, ideal KL(p&#124;&#124;q) and cross-entropy differ by a parameter-independent entropy. The code uses log((p+epsilon)/(q+epsilon)); the q+epsilon denominator changes its gradient from the usual unstabilized formula. The draft wording overextended the identity to this code. Issue41 records the minor defect; the current record explicitly corrects it, and the ledger preserves its old statement/hash and actual correction time. This is a current-state review; no earlier structured review or independent approval is invented.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:DeepEmbeddedClustering, AIMech:JointUnsupervisedLearning, AIMech:InformationMaximizingSelfAugmentedTraining, AIMech:DeepInfoMax. Refreshed soft assignments, graph agglomeration with neural updates, discrete information plus augmentation consistency, and continuous feature dependence critics are distinct procedures. IMSAT and DIM are named frameworks whose configurations remain explicit rather than being treated as mathematically identical. Shared tasks and information terminology do not justify lumping.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261011T083140Z-deep-clustering-information-learning.json | supports | No normalized identity match among all 442 AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts found eight earlier discovery/review references each. Short acronyms were normalized against every record identity; full text used full names, longer aliases and reference identifiers. Existing k-means, DeepCluster, SeLa and IIC mechanisms were inspected and remain distinct. |
+| mapping | sources/aio/aio.json; Seven exact CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection; generated SelfsupervisedLearning, UnsupervisedClustering, RepresentationLearning and Clustering records | supports | Seven exact AIO nodes and incident edges were inspected. DEC, JULE and categorical IMSAT relate to UnsupervisedClustering; JULE also relates to HierarchicalClustering. IMSAT and DIM relate to SelfsupervisedLearning. All links are qualified algorithm-to-task related matches. Generic representation-network, contrastive-network and LLM nodes do not provide exact identities; no forced is-a relations were added. |
+| neighbors | data/curated/KMeans.yaml; Actual definitions, claims and mappings in KMeans, DeepCluster, SeLa and InvariantInformationClustering | supports | Neighboring methods use centroid clustering, hard pseudo-label classification, balanced transport assignments and paired discrete-assignment information. Shared components and representation-learning purpose do not establish identity. |
+| deepembeddedclustering-source | https://proceedings.mlr.press/v48/xieb16.pdf; Sections 3.1–3.2, Equations (1)–(5), PDF pp. 3–4; Section 4 implementation paragraph, PDF p. 6 | supports | A neural clustering procedure that jointly refines an embedding and cluster centers by fitting Student-t soft assignments to periodically refreshed, frequency-normalized squared-assignment targets. Version: ICML 2016, PMLR 48:478–487; ten-page proceedings PDF. Complete local text pages read: 1, 2, 3, 4. Actual image pages viewed: 3. Partial/web reads are separately recorded. No training or benchmark execution. |
+| deepembeddedclustering-source-1 | https://raw.githubusercontent.com/piiswrong/dec/e551e01f90a3d67d2ef9c90e968c8faf5d8f857d/dec/dec.py; dec/dec.py lines 194–220, 330–355 and 650–748: Student-t layer configuration, k-means initialization, refreshed fixed target database and label-change stopping | supports | Inspected source: piiswrong/dec author implementation: dec/dec.py. piiswrong/dec commit e551e01f90a3d67d2ef9c90e968c8faf5d8f857d. Pinned author code was read at the cited ranges without execution. |
+| jointunsupervisedlearning-source | https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Yang_Joint_Unsupervised_Learning_CVPR_2016_paper.pdf; Sections 3.2–3.6, Equations (2)–(11), Algorithm 1, PDF pp. 3–5 | supports | An image representation and clustering procedure that alternates periods of graph-based agglomerative merging with convolutional-network updates from a cluster-derived weighted triplet objective. Version: CVPR 2016, pp. 5147–5156; ten-page proceedings PDF. Complete local text pages read: 3, 4, 5. Actual image pages viewed: 4. Partial/web reads are separately recorded. No training or benchmark execution. |
+| jointunsupervisedlearning-source-1 | https://arxiv.org/pdf/1604.03628v3; Appendix A.1–A.3, PDF pp. 11–13, Equations (12)–(34): exact graph-degree linkage, optional affinity approximations and history-dependent sample-loss reduction | supports | Inspected source: Joint Unsupervised Learning of Deep Representations and Image Clusters. arXiv:1604.03628v3, 2016-06-20; 19 pages including appendix. Supplement/appendix reading scope is separately declared in source_analysis. |
+| informationmaximizingselfaugmentedtraining-source | https://proceedings.mlr.press/v70/hu17b/hu17b.pdf; Sections 3.1–3.4, Equations (1)–(18), PDF pp. 3–5 | supports | A discrete representation-learning procedure that combines self-augmentation consistency with an information objective, using categorical outputs for clustering or a pairwise approximation for multi-bit hashing. Version: ICML 2017, PMLR 70:1558–1567; ten-page main PDF. Complete local text pages read: 5. Actual image pages viewed: 3, 4. Partial/web reads are separately recorded. No training or benchmark execution. |
+| informationmaximizingselfaugmentedtraining-source-1 | https://proceedings.mlr.press/v70/hu17b/hu17b-supp.pdf; Appendices B–C, supplementary PDF p. 1, Equations (19)–(20); Appendix E p. 2 and G p. 3 for feature and hyperparameter-selection context | supports | Inspected source: Learning Discrete Representations via Information Maximizing Self-Augmented Training — Supplementary Material. ICML 2017 supplementary PDF; five pages. Supplement/appendix reading scope is separately declared in source_analysis. |
+| informationmaximizingselfaugmentedtraining-source-2 | https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_cluster.py; imsat_cluster.py lines 1–112 and 135–178: default mu=4, fixed teacher, virtual perturbation approximation and weighted marginal entropy | supports | Inspected source: weihua916/imsat author implementation: imsat_cluster.py. weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655. Pinned author code was read at the cited ranges without execution. |
+| informationmaximizingselfaugmentedtraining-source-3 | https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_hash.py; imsat_hash.py lines 169–211 and 230–250: Bernoulli entropies, pairwise joint estimates, doubled unordered pair sum and combined training loss | supports | Inspected source: weihua916/imsat author implementation: imsat_hash.py. weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655. Pinned author code was read at the cited ranges without execution. |
+| deepinfomax-source | https://arxiv.org/pdf/1808.06670v5; Sections 2–3, Equations (1)–(8), PDF pp. 2–6; Appendix A.1 p. 15 and architecture passages in A.2 pp. 16–18 | supports | A representation-learning procedure that jointly trains an encoder and a dependence critic on matched versus mismatched global or local-to-global features, optionally regularizing the encoder output toward a chosen prior. Version: ICLR 2019; arXiv:1808.06670v5, 2019-02-22; 24 pages. Complete local text pages read: 2, 3, 4, 5, 15. Actual image pages viewed: 4, 15. Partial/web reads are separately recorded. No training or benchmark execution. |
+| deepinfomax-source-1 | https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/dim.py; compute_dim_loss lines 40–63; GlobalDIM extraction/routine lines 136–181; LocalDIM extraction/routine lines 244–304 | supports | Inspected source: rdevon/DIM author implementation: cortex_DIM/models/dim.py. rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code was read at the cited ranges without execution. |
+| deepinfomax-source-2 | https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/dim_losses.py; lines 13–106: Fenchel-dual positive/negative masking and finite-logit InfoNCE masking | supports | Inspected source: rdevon/DIM author implementation: cortex_DIM/functions/dim_losses.py. rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code was read at the cited ranges without execution. |
+| deepinfomax-source-3 | https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/gan_losses.py; lines 22–112: JSD constants and non-saturating generator objective | supports | Inspected source: rdevon/DIM author implementation: cortex_DIM/functions/gan_losses.py. rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code was read at the cited ranges without execution. |
+| deepinfomax-source-4 | https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/prior_matching.py; lines 24–75: prior selection, optional sigmoid, detached discriminator input and encoder prior loss | supports | Inspected source: rdevon/DIM author implementation: cortex_DIM/models/prior_matching.py. rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code was read at the cited ranges without execution. |
+| corrections | research/discovery/20261011T083140Z-deep-clustering-information-learning.json; review_refinements | supports | The ledger preserves both original record hashes and values, exact correction times and final record hashes. Issue41 addresses IMSAT stabilized KL wording; the duplicate DIM alias was a validation finding. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all four records remain DRAFT.
+- Full-text access does not imply every page was read. Exact page/image/code scope is saved in the discovery ledger.
+- The JULE appendix and IMSAT supplement were inspected; no JULE implementation equivalence or Caffe kernel audit is asserted.
+- No numerical experiment, benchmark, gradient implementation or historical software environment was reproduced.
+- The first curated validation failed on a redundant DIM alias; the corrected collection passed. The initial vendored check could not resolve the remote host inside the sandbox; a network-enabled rerun passed all 22 files.
+- Positive discoveries and outstanding leads keep the goal active.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261011T083324Z-deep-clustering-information-learning
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of deep clustering and information-based learning
+started_at: '2026-10-11T08:32:10Z'
+finished_at: '2026-10-11T08:33:24Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially reviewed all four current
+    YAMLs against primary method text, visible equations, JULE appendix, IMSAT supplement,
+    seven pinned author code files, four neighboring native records and seven exact
+    AIO nodes. The corrected IMSAT statement and DIM alias were reread and reinspected.
+    No independent approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain DEC, JULE, IMSAT and Deep InfoMax with explicit method boundaries
+  and AIO task associations. Issue41 corrected an overextended gradient identity;
+  validation removed a duplicate alias. No actionable finding remains in these current
+  records. All remain DRAFT.
+source:
+  git_revision: aea2aa096ed1cacd00c94bc7ee8d910290f0779d
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SelfsupervisedLearning.yaml
+    sha256: ad9a98dfee5629f6433f13470f56e333316f8f03847df2c5678faf023d979c0e
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/DeepCluster.yaml
+    sha256: de6d053aade652d6b54f83654c2b7f26bbc9d2800dcc3344ec3d5d820a5bb42d
+    role: context
+  - path: data/curated/DeepEmbeddedClustering.yaml
+    sha256: 7b90073cfb13c3433ec9df68e542ca7a7c90375a466312d9f06a3840a8f02531
+    role: target
+  - path: data/curated/DeepInfoMax.yaml
+    sha256: ebda53a216420e7455b5435a380e383d78569acf9b3e0031ae036f8c25b23fb1
+    role: target
+  - path: data/curated/InformationMaximizingSelfAugmentedTraining.yaml
+    sha256: cd1a3bf10ff09203c9ac3271d82257aeb14ec0bb43064e5a604a0e5eef47196a
+    role: target
+  - path: data/curated/InvariantInformationClustering.yaml
+    sha256: e70989718b3aefcd6a76f96ba225c17319bcc5975276290a239bdcec3d7c5da9
+    role: context
+  - path: data/curated/JointUnsupervisedLearning.yaml
+    sha256: 4ff8445782d65e1ddb97808762a04867a4a6bea0a08e29b05c786c3609c06fb1
+    role: target
+  - path: data/curated/KMeans.yaml
+    sha256: 50fc1d8d18403a8f314636f68b6812ffd15fec2dfaaf4c32aaad423dfa7ffa03
+    role: context
+  - path: data/curated/SeLa.yaml
+    sha256: 0b5e4c15b065fcf3fd0958d25d93c2c18a418dedac7e29c8a805cb3fd3a674ea
+    role: context
+  - path: research/discovery/20261011T083140Z-deep-clustering-information-learning.json
+    sha256: 165a62df9a13290fa1ad8e8288a235dddb5a723fd18106b3aced501a667fb8f4
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 0600ec8ca628d2dac611f2a068074ebcd4b83b6b5f31832a32dbc4f4bfa35b06
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepEmbeddedClustering
+  path: data/curated/DeepEmbeddedClustering.yaml
+  label: Deep embedded clustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepEmbeddedClustering.yaml
+    role: maintained
+- target_id: AIMech:JointUnsupervisedLearning
+  path: data/curated/JointUnsupervisedLearning.yaml
+  label: Joint unsupervised learning of deep representations and image clusters
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/JointUnsupervisedLearning.yaml
+    role: maintained
+- target_id: AIMech:InformationMaximizingSelfAugmentedTraining
+  path: data/curated/InformationMaximizingSelfAugmentedTraining.yaml
+  label: Information maximizing self-augmented training
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/InformationMaximizingSelfAugmentedTraining.yaml
+    role: maintained
+- target_id: AIMech:DeepInfoMax
+  path: data/curated/DeepInfoMax.yaml
+  label: Deep InfoMax
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepInfoMax.yaml
+    role: maintained
+scope:
+  description: Four maintained deep clustering or information-based representation
+    procedures.
+  selection: Exactly DeepEmbeddedClustering, JointUnsupervisedLearning, InformationMaximizingSelfAugmentedTraining
+    and DeepInfoMax from the discovery ledger; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  exclusions:
+  - target: Contrastive predictive coding, RIM, VAT, graph clustering components,
+      MINE and previous unresolved leads
+    reason: Original-method and identity inspections remain in the continuing frontier.
+  - target: Uninspected source pages, original Caffe kernels, JULE implementations
+      and historical runtime reproduction
+    reason: Only declared passages and code ranges support this review; no training
+      was run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 30%]\n........................................................................\
+    \ [ 61%]\n........................................................................\
+    \ [ 91%]\n................sss                                                \
+    \      [100%]\n232 passed, 3 skipped in 50.15s\nChecked 442 record(s); 0 failed.\n\
+    Checked 203 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing,\
+    \ 0 changed, 0 unexpected.\nChecked 41 history record(s); 0 error(s).\n{\n  \"\
+    repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 40,\n  \"coverage\"\
+    : \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261011T083140Z-deep-clustering-information-learning.json
+  accessed_at: '2026-10-11T08:32:10Z'
+  support: supports
+  summary: No normalized identity match among all 442 AIO labels/scoped synonyms and
+    199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches
+    of both full checkouts found eight earlier discovery/review references each. Short
+    acronyms were normalized against every record identity; full text used full names,
+    longer aliases and reference identifiers. Existing k-means, DeepCluster, SeLa
+    and IIC mechanisms were inspected and remain distinct.
+  search_scope: All 442 AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases;
+    both full checkouts including hidden and ignored files.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-11T08:32:10Z'
+  support: supports
+  locator: Seven exact CLASS nodes and incident edges listed in source_analysis.aio_mapping_inspection;
+    generated SelfsupervisedLearning, UnsupervisedClustering, RepresentationLearning
+    and Clustering records
+  summary: Seven exact AIO nodes and incident edges were inspected. DEC, JULE and
+    categorical IMSAT relate to UnsupervisedClustering; JULE also relates to HierarchicalClustering.
+    IMSAT and DIM relate to SelfsupervisedLearning. All links are qualified algorithm-to-task
+    related matches. Generic representation-network, contrastive-network and LLM nodes
+    do not provide exact identities; no forced is-a relations were added.
+- evidence_id: neighbors
+  kind: record_content
+  reference: data/curated/KMeans.yaml
+  accessed_at: '2026-10-11T08:32:10Z'
+  support: supports
+  locator: Actual definitions, claims and mappings in KMeans, DeepCluster, SeLa and
+    InvariantInformationClustering
+  summary: Neighboring methods use centroid clustering, hard pseudo-label classification,
+    balanced transport assignments and paired discrete-assignment information. Shared
+    components and representation-learning purpose do not establish identity.
+- evidence_id: deepembeddedclustering-source
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v48/xieb16.pdf
+  locator: Sections 3.1–3.2, Equations (1)–(5), PDF pp. 3–4; Section 4 implementation
+    paragraph, PDF p. 6
+  accessed_at: '2026-10-11T08:19:18Z'
+  snapshot_sha256: d0d6b668038fd8d365c89bebe6bfdfbe31e611a71a803e95a0acfdd8b18f6e3f
+  support: supports
+  summary: 'A neural clustering procedure that jointly refines an embedding and cluster
+    centers by fitting Student-t soft assignments to periodically refreshed, frequency-normalized
+    squared-assignment targets. Version: ICML 2016, PMLR 48:478–487; ten-page proceedings
+    PDF. Complete local text pages read: 1, 2, 3, 4. Actual image pages viewed: 3.
+    Partial/web reads are separately recorded. No training or benchmark execution.'
+- evidence_id: deepembeddedclustering-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/piiswrong/dec/e551e01f90a3d67d2ef9c90e968c8faf5d8f857d/dec/dec.py
+  locator: 'dec/dec.py lines 194–220, 330–355 and 650–748: Student-t layer configuration,
+    k-means initialization, refreshed fixed target database and label-change stopping'
+  accessed_at: '2026-10-11T08:23:30Z'
+  support: supports
+  summary: 'Inspected source: piiswrong/dec author implementation: dec/dec.py. piiswrong/dec
+    commit e551e01f90a3d67d2ef9c90e968c8faf5d8f857d. Pinned author code was read at
+    the cited ranges without execution.'
+  snapshot_sha256: eb6ed719bdb8e9a5a06ec06c0ea82a2212f318b829d5800368e5981fee6d9cbb
+- evidence_id: jointunsupervisedlearning-source
+  kind: primary_source
+  reference: https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Yang_Joint_Unsupervised_Learning_CVPR_2016_paper.pdf
+  locator: Sections 3.2–3.6, Equations (2)–(11), Algorithm 1, PDF pp. 3–5
+  accessed_at: '2026-10-11T08:19:18Z'
+  snapshot_sha256: dbddc50b2f798c0061bccf29f05577bc15e985dd00c77fa1d42f1615df936f8f
+  support: supports
+  summary: 'An image representation and clustering procedure that alternates periods
+    of graph-based agglomerative merging with convolutional-network updates from a
+    cluster-derived weighted triplet objective. Version: CVPR 2016, pp. 5147–5156;
+    ten-page proceedings PDF. Complete local text pages read: 3, 4, 5. Actual image
+    pages viewed: 4. Partial/web reads are separately recorded. No training or benchmark
+    execution.'
+- evidence_id: jointunsupervisedlearning-source-1
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1604.03628v3
+  locator: 'Appendix A.1–A.3, PDF pp. 11–13, Equations (12)–(34): exact graph-degree
+    linkage, optional affinity approximations and history-dependent sample-loss reduction'
+  accessed_at: '2026-10-11T08:28:18Z'
+  support: supports
+  summary: 'Inspected source: Joint Unsupervised Learning of Deep Representations
+    and Image Clusters. arXiv:1604.03628v3, 2016-06-20; 19 pages including appendix.
+    Supplement/appendix reading scope is separately declared in source_analysis.'
+  snapshot_sha256: 80ea0b6c2376561a806a884d646911168004e469eaa9c302c15e68390a03fa2b
+- evidence_id: informationmaximizingselfaugmentedtraining-source
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v70/hu17b/hu17b.pdf
+  locator: Sections 3.1–3.4, Equations (1)–(18), PDF pp. 3–5
+  accessed_at: '2026-10-11T08:19:19Z'
+  snapshot_sha256: 1afaa43f87d0adaabf5b8f9281946c83e3a3bd65d9be0d8e6ab4947643182460
+  support: supports
+  summary: 'A discrete representation-learning procedure that combines self-augmentation
+    consistency with an information objective, using categorical outputs for clustering
+    or a pairwise approximation for multi-bit hashing. Version: ICML 2017, PMLR 70:1558–1567;
+    ten-page main PDF. Complete local text pages read: 5. Actual image pages viewed:
+    3, 4. Partial/web reads are separately recorded. No training or benchmark execution.'
+- evidence_id: informationmaximizingselfaugmentedtraining-source-1
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v70/hu17b/hu17b-supp.pdf
+  locator: Appendices B–C, supplementary PDF p. 1, Equations (19)–(20); Appendix E
+    p. 2 and G p. 3 for feature and hyperparameter-selection context
+  accessed_at: '2026-10-11T08:28:16Z'
+  support: supports
+  summary: 'Inspected source: Learning Discrete Representations via Information Maximizing
+    Self-Augmented Training — Supplementary Material. ICML 2017 supplementary PDF;
+    five pages. Supplement/appendix reading scope is separately declared in source_analysis.'
+  snapshot_sha256: 3dd79437865369c2aeb9de715bcf5b3350ecb3b94505e21d373bff2928569d6b
+- evidence_id: informationmaximizingselfaugmentedtraining-source-2
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_cluster.py
+  locator: 'imsat_cluster.py lines 1–112 and 135–178: default mu=4, fixed teacher,
+    virtual perturbation approximation and weighted marginal entropy'
+  accessed_at: '2026-10-11T08:23:31Z'
+  support: supports
+  summary: 'Inspected source: weihua916/imsat author implementation: imsat_cluster.py.
+    weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655. Pinned author
+    code was read at the cited ranges without execution.'
+  snapshot_sha256: 8b9ae69c6a188de8e26116d303dcf5b8ba1f8a3ad0b6c04d9484ab79e2016d42
+- evidence_id: informationmaximizingselfaugmentedtraining-source-3
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_hash.py
+  locator: 'imsat_hash.py lines 169–211 and 230–250: Bernoulli entropies, pairwise
+    joint estimates, doubled unordered pair sum and combined training loss'
+  accessed_at: '2026-10-11T08:23:31Z'
+  support: supports
+  summary: 'Inspected source: weihua916/imsat author implementation: imsat_hash.py.
+    weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655. Pinned author
+    code was read at the cited ranges without execution.'
+  snapshot_sha256: 70dec23cb6297a85e5b934bade113e088b98e870c2e3144ae30f560e9071310a
+- evidence_id: deepinfomax-source
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1808.06670v5
+  locator: Sections 2–3, Equations (1)–(8), PDF pp. 2–6; Appendix A.1 p. 15 and architecture
+    passages in A.2 pp. 16–18
+  accessed_at: '2026-10-11T08:19:19Z'
+  snapshot_sha256: 8325c5969b7b03654b206e4a27c9e036d17c6723295be86e3d05d8d6fff4e9c9
+  support: supports
+  summary: 'A representation-learning procedure that jointly trains an encoder and
+    a dependence critic on matched versus mismatched global or local-to-global features,
+    optionally regularizing the encoder output toward a chosen prior. Version: ICLR
+    2019; arXiv:1808.06670v5, 2019-02-22; 24 pages. Complete local text pages read:
+    2, 3, 4, 5, 15. Actual image pages viewed: 4, 15. Partial/web reads are separately
+    recorded. No training or benchmark execution.'
+- evidence_id: deepinfomax-source-1
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/dim.py
+  locator: compute_dim_loss lines 40–63; GlobalDIM extraction/routine lines 136–181;
+    LocalDIM extraction/routine lines 244–304
+  accessed_at: '2026-10-11T08:23:31Z'
+  support: supports
+  summary: 'Inspected source: rdevon/DIM author implementation: cortex_DIM/models/dim.py.
+    rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code
+    was read at the cited ranges without execution.'
+  snapshot_sha256: 64189b9d75c77301e78e4a0218b8c72c384c89cf30fe3340ea667442122435f2
+- evidence_id: deepinfomax-source-2
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/dim_losses.py
+  locator: 'lines 13–106: Fenchel-dual positive/negative masking and finite-logit
+    InfoNCE masking'
+  accessed_at: '2026-10-11T08:23:32Z'
+  support: supports
+  summary: 'Inspected source: rdevon/DIM author implementation: cortex_DIM/functions/dim_losses.py.
+    rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code
+    was read at the cited ranges without execution.'
+  snapshot_sha256: 5baf43bb648a32885d766e635fbb88675702a057553a1f5df3d9daf4a8afccc7
+- evidence_id: deepinfomax-source-3
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/gan_losses.py
+  locator: 'lines 22–112: JSD constants and non-saturating generator objective'
+  accessed_at: '2026-10-11T08:23:32Z'
+  support: supports
+  summary: 'Inspected source: rdevon/DIM author implementation: cortex_DIM/functions/gan_losses.py.
+    rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code
+    was read at the cited ranges without execution.'
+  snapshot_sha256: 3de9171924253c8279641e3b6200583aef4806cf7d405f407599fb4cc0b5c6ae
+- evidence_id: deepinfomax-source-4
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/prior_matching.py
+  locator: 'lines 24–75: prior selection, optional sigmoid, detached discriminator
+    input and encoder prior loss'
+  accessed_at: '2026-10-11T08:23:32Z'
+  support: supports
+  summary: 'Inspected source: rdevon/DIM author implementation: cortex_DIM/models/prior_matching.py.
+    rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51. Pinned author code
+    was read at the cited ranges without execution.'
+  snapshot_sha256: 86b990d4cfdc733a64b26738cdc5944b3aa638503935a6a3c0f6f38794c23cd5
+- evidence_id: corrections
+  kind: record_content
+  reference: research/discovery/20261011T083140Z-deep-clustering-information-learning.json
+  accessed_at: '2026-10-11T08:32:10Z'
+  support: supports
+  locator: review_refinements
+  summary: The ledger preserves both original record hashes and values, exact correction
+    times and final record hashes. Issue41 addresses IMSAT stabilized KL wording;
+    the duplicate DIM alias was a validation finding.
+assessments:
+- assessment_id: deepembeddedclustering
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - deepembeddedclustering-source
+  - deepembeddedclustering-source-1
+  summary: DEC denotes the original Xie et al. algorithm. Autoencoder reconstruction
+    initializes the encoder; reconstruction is not retained in the clustering objective.
+    This is distinct from k-means alone, hard pseudo-label classification in DeepCluster,
+    balanced transport in SeLa, and later reconstruction-regularized extensions. No
+    normalized identity match was found across all 442 pinned AIO labels/scoped synonyms
+    and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches
+    of both full checkouts found eight prior discovery/review references in each.
+    Short acronyms were compared in normalized record identities; broad text searches
+    used the full names and longer aliases. Nearest maintained mechanisms and seven
+    exact AIO nodes with incident edges were inspected.
+  details: 'Initialize the encoder with a stacked denoising autoencoder followed by
+    reconstruction fine-tuning; discard the decoder and initialize K cluster centers
+    with k-means on embeddings. With z_i=f_theta(x_i), set s_ij=(1+||z_i−mu_j||²/alpha)^(-(alpha+1)/2),
+    then q_ij=s_ij/sum_k s_ik; the reported experiments use alpha=1. At a target refresh
+    compute f_j=sum_i q_ij and p_ij=(q_ij²/f_j)/sum_k(q_ik²/f_k). Hold P fixed while
+    using minibatch gradient updates of encoder parameters and centers to reduce KL(P||Q)=sum_ij
+    p_ij log(p_ij/q_ij). Recompute assignments and targets periodically and repeat.
+    Hard labels are argmax_j q_ij; the reported stopping rule uses the fraction changing
+    between checks. The pinned Python driver materializes the target weights for a
+    subsequent Caffe optimization interval, confirming that it does not differentiate
+    through target construction. Limitations: K, initialization, representation capacity
+    and the target-refresh schedule affect the result. Frequency normalization compensates
+    for cluster mass but does not enforce equal cluster sizes or an externally specified
+    prior. The auxiliary distribution amplifies confident assignments, including incorrect
+    ones. Nonconvex optimization and changing targets do not provide a general global-optimum
+    or semantic-recovery guarantee. The 0.1% label-change threshold is a stopping
+    heuristic, not proof that an objective gradient is zero. Student-t assignments
+    are normalized similarity weights, not calibrated class probabilities. The Python
+    training driver was inspected, but the Caffe kernel and its gradients were not
+    independently audited or executed. No reported benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified neural clustering or representation-learning procedure,
+      not a checkpoint, generic network shape or reported benchmark outcome.
+    evidence_ids:
+    - deepembeddedclustering-source
+  - name: aio-assessment
+    value: 'related_match: AIO:UnsupervisedClustering'
+    definition: The algorithm learns assignments for an unlabeled clustering task.
+      For IMSAT this mapping concerns its categorical configuration, not binary hashing.
+      The AIO target is a task; this is an algorithm-to-task association, not equivalence
+      or an is-a assertion.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: jointunsupervisedlearning
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:JointUnsupervisedLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - jointunsupervisedlearning-source
+  - jointunsupervisedlearning-source-1
+  summary: JULE denotes Yang et al.’s CVPR 2016 joint procedure. It couples a changing
+    image representation to an irreversible agglomeration history; it is neither generic
+    hierarchical clustering nor an ordinary fixed-label triplet embedding. The published
+    method and its appendix are the authority here; the later Torch reimplementation
+    is not treated as the original Caffe experiment code. No normalized identity match
+    was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native
+    IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts
+    found eight prior discovery/review references in each. Short acronyms were compared
+    in normalized record identities; broad text searches used the full names and longer
+    aliases. Nearest maintained mechanisms and seven exact AIO nodes with incident
+    edges were inspected.
+  details: 'Build a directed nearest-neighbor graph from current image features, with
+    Gaussian edge weights and a distance-derived bandwidth. Measure cluster affinity
+    using the symmetric sum of directed graph-degree linkage: A(C,D)=1/|C|² 1_C^T
+    W_CD W_DC 1_C + 1/|D|² 1_D^T W_DC W_CD 1_D. During a forward period hold features
+    fixed. For each cluster rank neighboring clusters by affinity; choose a merge
+    using the loss consisting of negative nearest-neighbor affinity plus a term favoring
+    its affinity gap over the remaining K_c−1 neighbors. Merge the selected cluster
+    with its best neighbor. After a partially unrolled period, keep the resulting
+    labels fixed and update the CNN using the paper’s approximate sample-level weighted
+    triplet loss, encouraging same-cluster affinity relative to nearby different-cluster
+    samples. The paper limits negative selection to at most K_c neighboring samples
+    from other clusters in the training batch. Refresh features and graph affinities
+    after neural updates and continue until the requested cluster count. Fast initial
+    small clusters reduce the number of merge steps. Limitations: Cluster count, graph
+    neighborhood sizes, bandwidth, initialization and unrolling schedule are inputs
+    or hyperparameters. Agglomerative merges are irreversible; a later representation
+    update does not undo earlier mistaken merges. The cluster-to-sample loss reduction
+    and minibatch neighbor restriction are approximations. Its positive weight depends
+    on the merge history and is simplified in practice; it is not asserted to be one
+    exact generic hinge-triplet objective or an exact gradient through all merge decisions.
+    The appendix separates exact linkage from optional faster affinity updates under
+    extra assumptions. Similar empirical results do not make those updates algebraically
+    identical. The procedure does not certify a global optimum or semantic categories.
+    No implementation, gradient or benchmark reproduction was performed; the linked
+    current Torch repository explicitly differs from the original Caffe implementation.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified neural clustering or representation-learning procedure,
+      not a checkpoint, generic network shape or reported benchmark outcome.
+    evidence_ids:
+    - jointunsupervisedlearning-source
+  - name: aio-assessment
+    value: 'related_match: AIO:UnsupervisedClustering; related_match: AIO:HierarchicalClustering'
+    definition: The algorithm learns assignments for an unlabeled clustering task.
+      For IMSAT this mapping concerns its categorical configuration, not binary hashing.
+      The AIO target is a task; this is an algorithm-to-task association, not equivalence
+      or an is-a assertion. JULE constructs an agglomerative cluster hierarchy while
+      learning the representation. The target is the hierarchy-building task; it does
+      not specify JULE linkage, merge selection or neural updates.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: informationmaximizingselfaugmentedtraining
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - informationmaximizingselfaugmentedtraining-source
+  - informationmaximizingselfaugmentedtraining-source-1
+  - informationmaximizingselfaugmentedtraining-source-2
+  - informationmaximizingselfaugmentedtraining-source-3
+  summary: IMSAT is the named Hu et al. procedure with explicitly different clustering
+    and hashing configurations. It learns discrete output variables, unlike continuous
+    embedding dependence estimators. Its information between input and output, plus
+    consistency to a fixed current prediction, differs from IIC information between
+    two assignment variables. This umbrella record does not equate the categorical,
+    nonuniform-prior and hash objectives. No normalized identity match was found across
+    all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases.
+    Ignored-inclusive word-delimited searches of both full checkouts found eight prior
+    discovery/review references in each. Short acronyms were compared in normalized
+    record identities; broad text searches used the full names and longer aliases.
+    Nearest maintained mechanisms and seven exact AIO nodes with incident edges were
+    inspected.
+  details: 'For a current network snapshot, hold the original-input output distribution
+    fixed and minimize cross-entropy against the network prediction on a transformed
+    input, summed over discrete output components and averaged over samples. Transformations
+    include random perturbations or virtual adversarial perturbations approximately
+    chosen to maximize local prediction change. For categorical clustering use R_SAT−lambda[H(Y)−H(Y|X)],
+    with the marginal obtained by averaging conditional predictions. The nonuniform-prior
+    variant instead minimizes R_SAT+lambda H(Y|X) subject to KL(p(Y)||q(Y))≤delta,
+    implemented with an increasing positive-part penalty. For binary hashing the factorized
+    conditional model uses the truncated information objective sum_d I(X;Y_d)−sum_(d≠e)
+    I(Y_d;Y_e), with ordered distinct bit pairs. The pinned hash code enumerates unordered
+    pairs and multiplies their mutual-information sum by two, confirming that convention.
+    Its clustering code detaches the teacher and implements epsilon-stabilized KL
+    consistency. Ideal KL and cross-entropy have the same parameter gradient for a
+    fixed teacher; the code adds epsilon inside the logarithm and therefore only approximates
+    that unstabilized identity. That code defaults to H(Y|X)−4H(Y), a weighted entropy
+    variant rather than the unit-weight information expression. Limitations: Hashing
+    truncates the information expansion; pairwise penalties do not establish joint
+    independence or exact information for the full bit vector. The ordered-pair convention
+    affects its relative regularization strength. The minibatch KL inequality is an
+    expectation bound from convexity, not a bound for every batch or a guarantee that
+    finite stochastic optimization satisfies the prior constraint. Penalty-method
+    idealizations do not certify the trained nonconvex network. Consistency depends
+    on suitable transformations and perturbation radii. A transformation can preserve
+    a nuisance factor or change desired semantics. Balanced marginal entropy can conflict
+    with genuinely imbalanced classes. The pinned clustering code uses a weighted
+    marginal entropy default; it must not be silently described as exact unit-weight
+    mutual information. Epsilon stabilization and approximate virtual perturbations
+    further distinguish numerical loss from ideal formulas. Some reported image experiments
+    use features from an ImageNet-pretrained ResNet and hyperparameter selection uses
+    labeled clustering accuracy. Unsupervised final training does not mean every source
+    of representation or model-selection information is label-free. No model was run.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified neural clustering or representation-learning procedure,
+      not a checkpoint, generic network shape or reported benchmark outcome.
+    evidence_ids:
+    - informationmaximizingselfaugmentedtraining-source
+  - name: aio-assessment
+    value: 'related_match: AIO:UnsupervisedClustering; related_match: AIO:SelfsupervisedLearning'
+    definition: The algorithm learns assignments for an unlabeled clustering task.
+      For IMSAT this mapping concerns its categorical configuration, not binary hashing.
+      The AIO target is a task; this is an algorithm-to-task association, not equivalence
+      or an is-a assertion. This algorithm learns from self-generated augmentation
+      targets or matched local/global input relationships without manual target labels.
+      The target is a task; the relation is not equivalence or an is-a assertion,
+      nor a claim that all experimental preprocessing or selection is label-free.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: deepinfomax
+  area: evidence
+  topic: Identity, source support, mechanism, limitations and mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DeepInfoMax
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - deepinfomax-source
+  - deepinfomax-source-1
+  - deepinfomax-source-2
+  - deepinfomax-source-3
+  - deepinfomax-source-4
+  summary: Deep InfoMax (DIM) denotes Hjelm et al.’s framework, including explicitly
+    configurable global/local objectives and prior matching. It is not IIC’s discrete
+    cluster-assignment objective or a generic synonym for mutual information. The
+    JSD, Donsker–Varadhan and InfoNCE options have different mathematical and numerical
+    meanings. No normalized identity match was found across all 442 pinned AIO labels/scoped
+    synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited
+    searches of both full checkouts found eight prior discovery/review references
+    in each. Short acronyms were compared in normalized record identities; broad text
+    searches used the full names and longer aliases. Nearest maintained mechanisms
+    and seven exact AIO nodes with incident edges were inspected.
+  details: 'Encode an input into an intermediate feature map and a global representation.
+    Train encoder and critic together to score same-input feature/representation pairs
+    above pairs formed from different inputs. The global objective relates an image
+    feature map to its global code; the local objective averages dependence scores
+    between local feature locations and the global code. The paper considers a Donsker–Varadhan
+    KL bound, a logistic JSD proxy and an InfoNCE classification objective. For JSD,
+    maximize mean_joint[−softplus(−T)]−mean_product[softplus(T)], up to constants;
+    this is a dependence proxy, not a numerical KL mutual-information value. Combine
+    global and local losses with chosen weights. Optional prior matching trains a
+    separate discriminator to distinguish samples from a chosen prior and encoder
+    outputs, while training the encoder to fool that discriminator. The pinned implementation
+    detaches encoder outputs for discriminator training and uses a non-saturating
+    encoder loss. Its main Fenchel-dual implementation averages same-image scores
+    and masks cross-image scores separately; its InfoNCE branch uses finite negative
+    logits to suppress same-image negatives. Limitations: A bounded JSD dependence
+    proxy is not identical to KL mutual information. The appendix’s pointwise relationship
+    and sampled correlations do not establish a universal ranking equivalence between
+    changing joint distributions. Finite neural critics and batches further limit
+    estimation. Local/global dependence can capture nuisance information. Finite representation
+    capacity, receptive fields, negative sampling and the input distribution affect
+    which shared factors are learned; semantic correctness is not guaranteed. The
+    pinned InfoNCE implementation replaces masked negative scores by −10 rather than
+    excluding them with negative infinity. Those terms retain finite mass in its denominator;
+    no exact equality to an ideal exclusion-based InfoNCE formula is asserted. Prior
+    matching is an optional adversarial regularizer, not an input reconstruction decoder
+    or a proof of component independence. Finite optimization need not match the requested
+    prior exactly. Only declared primary passages and code ranges were inspected.
+    No runtime environment, training, benchmark, mutual-information estimator accuracy
+    or gradient implementation was independently reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A specified neural clustering or representation-learning procedure,
+      not a checkpoint, generic network shape or reported benchmark outcome.
+    evidence_ids:
+    - deepinfomax-source
+  - name: aio-assessment
+    value: 'related_match: AIO:SelfsupervisedLearning'
+    definition: This algorithm learns from self-generated augmentation targets or
+      matched local/global input relationships without manual target labels. The target
+      is a task; the relation is not equivalence or an is-a assertion, nor a claim
+      that all experimental preprocessing or selection is label-free.
+    evidence_ids:
+    - identity
+    - mapping
+- assessment_id: clustering-boundaries
+  area: scope
+  topic: DEC and JULE versus existing clustering records
+  outcome: supported
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  evidence_ids:
+  - deepembeddedclustering-source
+  - deepembeddedclustering-source-1
+  - jointunsupervisedlearning-source
+  - jointunsupervisedlearning-source-1
+  - neighbors
+  summary: Retain soft-target refinement and agglomerative representation learning
+    as distinct algorithms.
+  details: DEC refreshes normalized squared Student-t assignments, then holds targets
+    fixed while fitting encoder and centers. It has no reconstruction term during
+    this clustering phase and no equal-size assignment constraint. JULE uses exact
+    graph-degree linkage and gap-aware merges with approximate sample-loss updates;
+    its appendix distinguishes optional affinity approximations from exact linkage.
+    A recurrent description does not imply differentiation through discrete merges.
+    These mechanisms differ from centroid updates alone, hard pseudo-label prediction
+    in DeepCluster and balanced transport in SeLa.
+- assessment_id: information-boundaries
+  area: representation
+  topic: Discrete IMSAT objectives and continuous DIM dependence critics
+  outcome: supported
+  target_ids:
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  evidence_ids:
+  - informationmaximizingselfaugmentedtraining-source
+  - informationmaximizingselfaugmentedtraining-source-1
+  - informationmaximizingselfaugmentedtraining-source-2
+  - informationmaximizingselfaugmentedtraining-source-3
+  - deepinfomax-source
+  - deepinfomax-source-2
+  - deepinfomax-source-3
+  - deepinfomax-source-4
+  - neighbors
+  summary: Retain two named frameworks with their configurations and paper/code distinctions
+    explicit.
+  details: IMSAT categorical information, nonuniform-prior constraint and approximate
+    multi-bit objective are not equated. Hash code confirms the factor two for unordered
+    bit pairs; clustering code detaches its teacher and defaults to marginal-entropy
+    weight four. Expected minibatch KL bounds are not per-batch guarantees, and pretrained
+    feature/labeled model-selection context remains explicit. DIM JSD is a bounded
+    dependence proxy rather than numeric KL information; its local/global branches,
+    finite negative masking and optional non-saturating prior-matching update are
+    qualified. Neither high dependence nor consistency certifies semantic recovery.
+    IIC uses a different joint distribution over paired discrete assignments.
+- assessment_id: task-mapping-scope
+  area: scope
+  topic: Explicit qualified AIO mappings
+  outcome: supported
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Related task associations preserve algorithm identity and configuration
+    scope.
+  details: Seven exact AIO nodes and incident edges were inspected. DEC, JULE and
+    categorical IMSAT relate to UnsupervisedClustering; JULE also relates to HierarchicalClustering.
+    IMSAT and DIM relate to SelfsupervisedLearning. All links are qualified algorithm-to-task
+    related matches. Generic representation-network, contrastive-network and LLM nodes
+    do not provide exact identities; no forced is-a relations were added.
+- assessment_id: epsilon-identity-correction
+  area: representation
+  topic: Prepublication review issue41
+  outcome: supported
+  target_ids:
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  evidence_ids:
+  - informationmaximizingselfaugmentedtraining-source
+  - informationmaximizingselfaugmentedtraining-source-2
+  - corrections
+  summary: Current wording separates the ideal fixed-teacher identity from epsilon-stabilized
+    code.
+  details: For fixed teacher p, ideal KL(p||q) and cross-entropy differ by a parameter-independent
+    entropy. The code uses log((p+epsilon)/(q+epsilon)); the q+epsilon denominator
+    changes its gradient from the usual unstabilized formula. The draft wording overextended
+    the identity to this code. Issue41 records the minor defect; the current record
+    explicitly corrects it, and the ledger preserves its old statement/hash and actual
+    correction time. This is a current-state review; no earlier structured review
+    or independent approval is invented.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  - AIMech:JointUnsupervisedLearning
+  - AIMech:InformationMaximizingSelfAugmentedTraining
+  - AIMech:DeepInfoMax
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - deepembeddedclustering-source
+  - deepembeddedclustering-source-1
+  - jointunsupervisedlearning-source
+  - jointunsupervisedlearning-source-1
+  - informationmaximizingselfaugmentedtraining-source
+  - informationmaximizingselfaugmentedtraining-source-1
+  - informationmaximizingselfaugmentedtraining-source-2
+  - informationmaximizingselfaugmentedtraining-source-3
+  - deepinfomax-source
+  - deepinfomax-source-1
+  - deepinfomax-source-2
+  - deepinfomax-source-3
+  - deepinfomax-source-4
+  - corrections
+  rationale: Refreshed soft assignments, graph agglomeration with neural updates,
+    discrete information plus augmentation consistency, and continuous feature dependence
+    critics are distinct procedures. IMSAT and DIM are named frameworks whose configurations
+    remain explicit rather than being treated as mathematically identical. Shared
+    tasks and information terminology do not justify lumping.
+limitations:
+- Adversarial author self-review only; all four records remain DRAFT.
+- Full-text access does not imply every page was read. Exact page/image/code scope
+  is saved in the discovery ledger.
+- The JULE appendix and IMSAT supplement were inspected; no JULE implementation equivalence
+  or Caffe kernel audit is asserted.
+- No numerical experiment, benchmark, gradient implementation or historical software
+  environment was reproduced.
+- The first curated validation failed on a redundant DIM alias; the corrected collection
+  passed. The initial vendored check could not resolve the remote host inside the
+  sandbox; a network-enabled rerun passed all 22 files.
+- Positive discoveries and outstanding leads keep the goal active.
+tags:
+- native-concepts
+- clustering
+- representation-learning
+- mutual-information
+- self-review
+- discovery-ongoing
+```

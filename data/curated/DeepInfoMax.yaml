@@ -1,0 +1,162 @@
+name: Deep InfoMax
+definition: A representation-learning procedure that jointly trains an encoder and a dependence critic
+  on matched versus mismatched global or local-to-global features, optionally regularizing the encoder
+  output toward a chosen prior.
+concept_kind: algorithm
+identity_notes: Deep InfoMax (DIM) denotes Hjelm et al.’s framework, including explicitly configurable
+  global/local objectives and prior matching. It is not IIC’s discrete cluster-assignment objective or
+  a generic synonym for mutual information. The JSD, Donsker–Varadhan and InfoNCE options have different
+  mathematical and numerical meanings. No normalized identity match was found across all 442 pinned AIO
+  labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited
+  searches of both full checkouts found eight prior discovery/review references in each. Short acronyms
+  were compared in normalized record identities; broad text searches used the full names and longer aliases.
+  Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+limitations:
+- A bounded JSD dependence proxy is not identical to KL mutual information. The appendix’s pointwise relationship
+  and sampled correlations do not establish a universal ranking equivalence between changing joint distributions.
+  Finite neural critics and batches further limit estimation.
+- Local/global dependence can capture nuisance information. Finite representation capacity, receptive
+  fields, negative sampling and the input distribution affect which shared factors are learned; semantic
+  correctness is not guaranteed.
+- The pinned InfoNCE implementation replaces masked negative scores by −10 rather than excluding them
+  with negative infinity. Those terms retain finite mass in its denominator; no exact equality to an ideal
+  exclusion-based InfoNCE formula is asserted.
+- Prior matching is an optional adversarial regularizer, not an input reconstruction decoder or a proof
+  of component independence. Finite optimization need not match the requested prior exactly.
+- Only declared primary passages and code ranges were inspected. No runtime environment, training, benchmark,
+  mutual-information estimator accuracy or gradient implementation was independently reproduced.
+id: AIMech:DeepInfoMax
+aliases:
+- DIM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2–3, Equations (1)–(8), PDF pp. 2–6; Appendix A.1 p. 15 and architecture passages
+    in A.2 pp. 16–18
+  relation: supports
+- source_id: additional-1
+  locator: compute_dim_loss lines 40–63; GlobalDIM extraction/routine lines 136–181; LocalDIM extraction/routine
+    lines 244–304
+  relation: supports
+- source_id: additional-2
+  locator: 'lines 13–106: Fenchel-dual positive/negative masking and finite-logit InfoNCE masking'
+  relation: supports
+- source_id: additional-3
+  locator: 'lines 22–112: JSD constants and non-saturating generator objective'
+  relation: supports
+- source_id: additional-4
+  locator: 'lines 24–75: prior selection, optional sigmoid, detached discriminator input and encoder prior
+    loss'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: Encode an input into an intermediate feature map and a global representation. Train encoder
+    and critic together to score same-input feature/representation pairs above pairs formed from different
+    inputs. The global objective relates an image feature map to its global code; the local objective
+    averages dependence scores between local feature locations and the global code. The paper considers
+    a Donsker–Varadhan KL bound, a logistic JSD proxy and an InfoNCE classification objective. For JSD,
+    maximize mean_joint[−softplus(−T)]−mean_product[softplus(T)], up to constants; this is a dependence
+    proxy, not a numerical KL mutual-information value. Combine global and local losses with chosen weights.
+    Optional prior matching trains a separate discriminator to distinguish samples from a chosen prior
+    and encoder outputs, while training the encoder to fool that discriminator. The pinned implementation
+    detaches encoder outputs for discriminator training and uses a non-saturating encoder loss. Its main
+    Fenchel-dual implementation averages same-image scores and masks cross-image scores separately; its
+    InfoNCE branch uses finite negative logits to suppress same-image negatives.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2–3, Equations (1)–(8), PDF pp. 2–6; Appendix A.1 p. 15 and architecture passages
+      in A.2 pp. 16–18
+    relation: supports
+  - source_id: additional-1
+    locator: compute_dim_loss lines 40–63; GlobalDIM extraction/routine lines 136–181; LocalDIM extraction/routine
+      lines 244–304
+    relation: supports
+  - source_id: additional-2
+    locator: 'lines 13–106: Fenchel-dual positive/negative masking and finite-logit InfoNCE masking'
+    relation: supports
+  - source_id: additional-3
+    locator: 'lines 22–112: JSD constants and non-saturating generator objective'
+    relation: supports
+  - source_id: additional-4
+    locator: 'lines 24–75: prior selection, optional sigmoid, detached discriminator input and encoder
+      prior loss'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning deep representations by mutual information estimation and maximization
+  authors:
+  - R Devon Hjelm
+  - Alex Fedorov
+  - Samuel Lavoie-Marchildon
+  - Karan Grewal
+  - Phil Bachman
+  - Adam Trischler
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1808.06670v5
+  version: ICLR 2019; arXiv:1808.06670v5, 2019-02-22; 24 pages
+  persistent_id: https://arxiv.org/abs/1808.06670v5
+  access_level: full_text
+  accessed_at: '2026-10-11T08:19:19Z'
+  sha256: 8325c5969b7b03654b206e4a27c9e036d17c6723295be86e3d05d8d6fff4e9c9
+- source_id: additional-1
+  title: 'rdevon/DIM author implementation: cortex_DIM/models/dim.py'
+  authors:
+  - rdevon/DIM contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/dim.py
+  version: rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51
+  persistent_id: https://github.com/rdevon/DIM/blob/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/dim.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:31Z'
+  sha256: 64189b9d75c77301e78e4a0218b8c72c384c89cf30fe3340ea667442122435f2
+- source_id: additional-2
+  title: 'rdevon/DIM author implementation: cortex_DIM/functions/dim_losses.py'
+  authors:
+  - rdevon/DIM contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/dim_losses.py
+  version: rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51
+  persistent_id: https://github.com/rdevon/DIM/blob/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/dim_losses.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:32Z'
+  sha256: 5baf43bb648a32885d766e635fbb88675702a057553a1f5df3d9daf4a8afccc7
+- source_id: additional-3
+  title: 'rdevon/DIM author implementation: cortex_DIM/functions/gan_losses.py'
+  authors:
+  - rdevon/DIM contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/gan_losses.py
+  version: rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51
+  persistent_id: https://github.com/rdevon/DIM/blob/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/functions/gan_losses.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:32Z'
+  sha256: 3de9171924253c8279641e3b6200583aef4806cf7d405f407599fb4cc0b5c6ae
+- source_id: additional-4
+  title: 'rdevon/DIM author implementation: cortex_DIM/models/prior_matching.py'
+  authors:
+  - rdevon/DIM contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/rdevon/DIM/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/prior_matching.py
+  version: rdevon/DIM commit bac4765a8126746675f517c7bfa1b04b88044d51
+  persistent_id: https://github.com/rdevon/DIM/blob/bac4765a8126746675f517c7bfa1b04b88044d51/cortex_DIM/models/prior_matching.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:32Z'
+  sha256: 86b990d4cfdc733a64b26738cdc5944b3aa638503935a6a3c0f6f38794c23cd5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This algorithm learns from self-generated augmentation targets or matched local/global input
+    relationships without manual target labels. The target is a task; the relation is not equivalence
+    or an is-a assertion, nor a claim that all experimental preprocessing or selection is label-free.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:30:19Z'
+  updated_at: '2026-10-11T08:31:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

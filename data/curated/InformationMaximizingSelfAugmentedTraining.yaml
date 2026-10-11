@@ -1,0 +1,158 @@
+name: Information maximizing self-augmented training
+definition: A discrete representation-learning procedure that combines self-augmentation consistency with
+  an information objective, using categorical outputs for clustering or a pairwise approximation for multi-bit
+  hashing.
+concept_kind: algorithm
+identity_notes: IMSAT is the named Hu et al. procedure with explicitly different clustering and hashing
+  configurations. It learns discrete output variables, unlike continuous embedding dependence estimators.
+  Its information between input and output, plus consistency to a fixed current prediction, differs from
+  IIC information between two assignment variables. This umbrella record does not equate the categorical,
+  nonuniform-prior and hash objectives. No normalized identity match was found across all 442 pinned AIO
+  labels/scoped synonyms and 199 preceding native IDs/names/aliases. Ignored-inclusive word-delimited
+  searches of both full checkouts found eight prior discovery/review references in each. Short acronyms
+  were compared in normalized record identities; broad text searches used the full names and longer aliases.
+  Nearest maintained mechanisms and seven exact AIO nodes with incident edges were inspected.
+limitations:
+- Hashing truncates the information expansion; pairwise penalties do not establish joint independence
+  or exact information for the full bit vector. The ordered-pair convention affects its relative regularization
+  strength.
+- The minibatch KL inequality is an expectation bound from convexity, not a bound for every batch or a
+  guarantee that finite stochastic optimization satisfies the prior constraint. Penalty-method idealizations
+  do not certify the trained nonconvex network.
+- Consistency depends on suitable transformations and perturbation radii. A transformation can preserve
+  a nuisance factor or change desired semantics. Balanced marginal entropy can conflict with genuinely
+  imbalanced classes.
+- The pinned clustering code uses a weighted marginal entropy default; it must not be silently described
+  as exact unit-weight mutual information. Epsilon stabilization and approximate virtual perturbations
+  further distinguish numerical loss from ideal formulas.
+- Some reported image experiments use features from an ImageNet-pretrained ResNet and hyperparameter selection
+  uses labeled clustering accuracy. Unsupervised final training does not mean every source of representation
+  or model-selection information is label-free. No model was run.
+id: AIMech:InformationMaximizingSelfAugmentedTraining
+aliases:
+- IMSAT
+- Information maximising self-augmented training
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1–3.4, Equations (1)–(18), PDF pp. 3–5
+  relation: supports
+- source_id: additional-1
+  locator: Appendices B–C, supplementary PDF p. 1, Equations (19)–(20); Appendix E p. 2 and G p. 3 for
+    feature and hyperparameter-selection context
+  relation: supports
+- source_id: additional-2
+  locator: 'imsat_cluster.py lines 1–112 and 135–178: default mu=4, fixed teacher, virtual perturbation
+    approximation and weighted marginal entropy'
+  relation: supports
+- source_id: additional-3
+  locator: 'imsat_hash.py lines 169–211 and 230–250: Bernoulli entropies, pairwise joint estimates, doubled
+    unordered pair sum and combined training loss'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: For a current network snapshot, hold the original-input output distribution fixed and minimize
+    cross-entropy against the network prediction on a transformed input, summed over discrete output components
+    and averaged over samples. Transformations include random perturbations or virtual adversarial perturbations
+    approximately chosen to maximize local prediction change. For categorical clustering use R_SAT−lambda[H(Y)−H(Y|X)],
+    with the marginal obtained by averaging conditional predictions. The nonuniform-prior variant instead
+    minimizes R_SAT+lambda H(Y|X) subject to KL(p(Y)||q(Y))≤delta, implemented with an increasing positive-part
+    penalty. For binary hashing the factorized conditional model uses the truncated information objective
+    sum_d I(X;Y_d)−sum_(d≠e) I(Y_d;Y_e), with ordered distinct bit pairs. The pinned hash code enumerates
+    unordered pairs and multiplies their mutual-information sum by two, confirming that convention. Its
+    clustering code detaches the teacher and implements epsilon-stabilized KL consistency. Ideal KL and
+    cross-entropy have the same parameter gradient for a fixed teacher; the code adds epsilon inside the
+    logarithm and therefore only approximates that unstabilized identity. That code defaults to H(Y|X)−4H(Y),
+    a weighted entropy variant rather than the unit-weight information expression.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1–3.4, Equations (1)–(18), PDF pp. 3–5
+    relation: supports
+  - source_id: additional-1
+    locator: Appendices B–C, supplementary PDF p. 1, Equations (19)–(20); Appendix E p. 2 and G p. 3 for
+      feature and hyperparameter-selection context
+    relation: supports
+  - source_id: additional-2
+    locator: 'imsat_cluster.py lines 1–112 and 135–178: default mu=4, fixed teacher, virtual perturbation
+      approximation and weighted marginal entropy'
+    relation: supports
+  - source_id: additional-3
+    locator: 'imsat_hash.py lines 169–211 and 230–250: Bernoulli entropies, pairwise joint estimates,
+      doubled unordered pair sum and combined training loss'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning Discrete Representations via Information Maximizing Self-Augmented Training
+  authors:
+  - Weihua Hu
+  - Takeru Miyato
+  - Seiya Tokui
+  - Eiichi Matsumoto
+  - Masashi Sugiyama
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/hu17b/hu17b.pdf
+  version: ICML 2017, PMLR 70:1558–1567; ten-page main PDF
+  persistent_id: https://proceedings.mlr.press/v70/hu17b.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:19:19Z'
+  sha256: 1afaa43f87d0adaabf5b8f9281946c83e3a3bd65d9be0d8e6ab4947643182460
+- source_id: additional-1
+  title: Learning Discrete Representations via Information Maximizing Self-Augmented Training — Supplementary
+    Material
+  authors:
+  - Weihua Hu
+  - Takeru Miyato
+  - Seiya Tokui
+  - Eiichi Matsumoto
+  - Masashi Sugiyama
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/hu17b/hu17b-supp.pdf
+  version: ICML 2017 supplementary PDF; five pages
+  persistent_id: https://proceedings.mlr.press/v70/hu17b/hu17b-supp.pdf
+  access_level: full_text
+  accessed_at: '2026-10-11T08:28:16Z'
+  sha256: 3dd79437865369c2aeb9de715bcf5b3350ecb3b94505e21d373bff2928569d6b
+- source_id: additional-2
+  title: 'weihua916/imsat author implementation: imsat_cluster.py'
+  authors:
+  - weihua916/imsat contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_cluster.py
+  version: weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655
+  persistent_id: https://github.com/weihua916/imsat/blob/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_cluster.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:31Z'
+  sha256: 8b9ae69c6a188de8e26116d303dcf5b8ba1f8a3ad0b6c04d9484ab79e2016d42
+- source_id: additional-3
+  title: 'weihua916/imsat author implementation: imsat_hash.py'
+  authors:
+  - weihua916/imsat contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/weihua916/imsat/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_hash.py
+  version: weihua916/imsat commit 948f25f6033cc98e20655cdad2e4b182e5a17655
+  persistent_id: https://github.com/weihua916/imsat/blob/948f25f6033cc98e20655cdad2e4b182e5a17655/imsat_hash.py
+  access_level: documentation
+  accessed_at: '2026-10-11T08:23:31Z'
+  sha256: 70dec23cb6297a85e5b934bade113e088b98e870c2e3144ae30f560e9071310a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm learns assignments for an unlabeled clustering task. For IMSAT this mapping
+    concerns its categorical configuration, not binary hashing. The AIO target is a task; this is an algorithm-to-task
+    association, not equivalence or an is-a assertion.
+- target: AIO:SelfsupervisedLearning
+  relation: related_match
+  rationale: This algorithm learns from self-generated augmentation targets or matched local/global input
+    relationships without manual target labels. The target is a task; the relation is not equivalence
+    or an is-a assertion, nor a claim that all experimental preprocessing or selection is label-free.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:30:19Z'
+  updated_at: '2026-10-11T08:31:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,108 @@
+name: Joint unsupervised learning of deep representations and image clusters
+definition: An image representation and clustering procedure that alternates periods of graph-based agglomerative
+  merging with convolutional-network updates from a cluster-derived weighted triplet objective.
+concept_kind: algorithm
+identity_notes: JULE denotes Yang et al.’s CVPR 2016 joint procedure. It couples a changing image representation
+  to an irreversible agglomeration history; it is neither generic hierarchical clustering nor an ordinary
+  fixed-label triplet embedding. The published method and its appendix are the authority here; the later
+  Torch reimplementation is not treated as the original Caffe experiment code. No normalized identity
+  match was found across all 442 pinned AIO labels/scoped synonyms and 199 preceding native IDs/names/aliases.
+  Ignored-inclusive word-delimited searches of both full checkouts found eight prior discovery/review
+  references in each. Short acronyms were compared in normalized record identities; broad text searches
+  used the full names and longer aliases. Nearest maintained mechanisms and seven exact AIO nodes with
+  incident edges were inspected.
+limitations:
+- Cluster count, graph neighborhood sizes, bandwidth, initialization and unrolling schedule are inputs
+  or hyperparameters. Agglomerative merges are irreversible; a later representation update does not undo
+  earlier mistaken merges.
+- The cluster-to-sample loss reduction and minibatch neighbor restriction are approximations. Its positive
+  weight depends on the merge history and is simplified in practice; it is not asserted to be one exact
+  generic hinge-triplet objective or an exact gradient through all merge decisions.
+- The appendix separates exact linkage from optional faster affinity updates under extra assumptions.
+  Similar empirical results do not make those updates algebraically identical.
+- The procedure does not certify a global optimum or semantic categories. No implementation, gradient
+  or benchmark reproduction was performed; the linked current Torch repository explicitly differs from
+  the original Caffe implementation.
+id: AIMech:JointUnsupervisedLearning
+aliases:
+- JULE
+- Joint unsupervised learning
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.2–3.6, Equations (2)–(11), Algorithm 1, PDF pp. 3–5
+  relation: supports
+- source_id: additional-1
+  locator: 'Appendix A.1–A.3, PDF pp. 11–13, Equations (12)–(34): exact graph-degree linkage, optional
+    affinity approximations and history-dependent sample-loss reduction'
+  relation: supports
+claims:
+- claim_id: method
+  kind: mechanism
+  statement: 'Build a directed nearest-neighbor graph from current image features, with Gaussian edge
+    weights and a distance-derived bandwidth. Measure cluster affinity using the symmetric sum of directed
+    graph-degree linkage: A(C,D)=1/|C|² 1_C^T W_CD W_DC 1_C + 1/|D|² 1_D^T W_DC W_CD 1_D. During a forward
+    period hold features fixed. For each cluster rank neighboring clusters by affinity; choose a merge
+    using the loss consisting of negative nearest-neighbor affinity plus a term favoring its affinity
+    gap over the remaining K_c−1 neighbors. Merge the selected cluster with its best neighbor. After a
+    partially unrolled period, keep the resulting labels fixed and update the CNN using the paper’s approximate
+    sample-level weighted triplet loss, encouraging same-cluster affinity relative to nearby different-cluster
+    samples. The paper limits negative selection to at most K_c neighboring samples from other clusters
+    in the training batch. Refresh features and graph affinities after neural updates and continue until
+    the requested cluster count. Fast initial small clusters reduce the number of merge steps.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2–3.6, Equations (2)–(11), Algorithm 1, PDF pp. 3–5
+    relation: supports
+  - source_id: additional-1
+    locator: 'Appendix A.1–A.3, PDF pp. 11–13, Equations (12)–(34): exact graph-degree linkage, optional
+      affinity approximations and history-dependent sample-loss reduction'
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Joint Unsupervised Learning of Deep Representations and Image Clusters
+  authors:
+  - Jianwei Yang
+  - Devi Parikh
+  - Dhruv Batra
+  source_type: primary_paper
+  url: https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Yang_Joint_Unsupervised_Learning_CVPR_2016_paper.pdf
+  version: CVPR 2016, pp. 5147–5156; ten-page proceedings PDF
+  persistent_id: https://www.cv-foundation.org/openaccess/content_cvpr_2016/html/Yang_Joint_Unsupervised_Learning_CVPR_2016_paper.html
+  access_level: full_text
+  accessed_at: '2026-10-11T08:19:18Z'
+  sha256: dbddc50b2f798c0061bccf29f05577bc15e985dd00c77fa1d42f1615df936f8f
+- source_id: additional-1
+  title: Joint Unsupervised Learning of Deep Representations and Image Clusters
+  authors:
+  - Jianwei Yang
+  - Devi Parikh
+  - Dhruv Batra
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1604.03628v3
+  version: arXiv:1604.03628v3, 2016-06-20; 19 pages including appendix
+  persistent_id: https://arxiv.org/abs/1604.03628v3
+  access_level: full_text
+  accessed_at: '2026-10-11T08:28:18Z'
+  sha256: 80ea0b6c2376561a806a884d646911168004e469eaa9c302c15e68390a03fa2b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm learns assignments for an unlabeled clustering task. For IMSAT this mapping
+    concerns its categorical configuration, not binary hashing. The AIO target is a task; this is an algorithm-to-task
+    association, not equivalence or an is-a assertion.
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: JULE constructs an agglomerative cluster hierarchy while learning the representation. The
+    target is the hierarchy-building task; it does not specify JULE linkage, merge selection or neural
+    updates.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T08:30:19Z'
+  updated_at: '2026-10-11T08:30:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
