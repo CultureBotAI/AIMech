@@ -1,0 +1,73 @@
+name: LargeVis
+definition: A dimensionality-reduction and graph-visualization algorithm that constructs an approximate
+  weighted nearest-neighbor graph and learns low-dimensional coordinates with sampled attractive-edge
+  and repulsive-pair likelihood terms.
+concept_kind: algorithm
+identity_notes: LargeVis combines a specific approximate-neighbor construction with a probabilistic layout
+  objective. It is distinct from t-SNE’s normalized KL objective, UMAP’s locally scaled graph weights,
+  LINE graph representations, and generic nearest-neighbor search. All 442 pinned AIO labels/scoped synonyms
+  and 114 preceding native identities were compared, together with hidden/ignored-inclusive searches of
+  both checkouts; source citations and pending frontier mentions were distinguished from existing concept
+  identities.
+limitations:
+- Graph construction is approximate; the reported near-perfect neighbor recovery on selected datasets
+  is not a guarantee for arbitrary input.
+- The sampled objective in equation (6) replaces the all-negative-pairs expression in equation (5); it
+  is not asserted to be an unbiased evaluation of every original negative term.
+- The linear layout-cost statement assumes fixed embedding dimension and negative-sample count with a
+  number of updates proportional to points; it does not establish linear cost for all graph construction
+  or convergence.
+- Perplexity, graph quality, negative distribution, optimizer and chosen low-dimensional probability function
+  affect results. No universal geometric fidelity or benchmark superiority is asserted.
+id: AIMech:LargeVis
+definition_evidence:
+- source_id: original-paper
+  locator: Sections 3.1–3.2, Algorithm 1 and equations (1)–(6), PDF pp. 3–5; Section 4.2 for the graph/visualization
+    distinction
+  relation: supports
+claims:
+- claim_id: method-scope
+  kind: mechanism
+  statement: Initialize approximate neighbors with random projection trees and refine candidate neighbors
+    through neighbors-of-neighbors exploration. Assign locally normalized Gaussian weights with a perplexity-controlled
+    bandwidth and symmetrize them. Model edge likelihood using a decreasing function of embedded distance,
+    sample positive edges in proportion to their weights, draw negative endpoints with degree-to-the-three-quarters
+    weighting, and optimize the sampled log objective using asynchronous stochastic gradients.
+  evidence:
+  - source_id: original-paper
+    locator: Sections 3.1–3.2, Algorithm 1 and equations (1)–(6), PDF pp. 3–5; Section 4.2 for the graph/visualization
+      distinction
+    relation: supports
+evidence_sources:
+- source_id: original-paper
+  title: Visualizing Large-scale and High-dimensional Data
+  authors:
+  - Jian Tang
+  - Jingzhou Liu
+  - Ming Zhang
+  - Qiaozhu Mei
+  source_type: primary_paper
+  url: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/06/www2016_BigDataVisualization-1.pdf
+  version: WWW 2016 proceedings, pp. 287–297; Microsoft Research-hosted published PDF
+  persistent_id: doi:10.1145/2872427.2883041
+  access_level: full_text
+  accessed_at: '2026-10-11T05:16:52Z'
+  sha256: 556c0e20fd7dda30c1ca152efc9ef9b866d8f6ac629239c7ff91dce1c0d6004d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A specific algorithm for constructing lower-dimensional representations, associated with
+    the pinned dimensionality-reduction task. The target inherits UnsupervisedLearning under MachineLearningTask;
+    related_match avoids treating the algorithm as identical to or a subclass of that task. Shared embedding
+    components do not make this concept identical to PCA, MDS or t-SNE.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-11T05:21:17Z'
+  updated_at: '2026-10-11T05:21:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
