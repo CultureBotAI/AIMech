@@ -1,0 +1,121 @@
+name: Classification Expectation Maximization
+aliases:
+- Classification EM
+- CEM (classification expectation maximization)
+concept_kind: algorithm
+definition: A model-based hard-clustering algorithm that computes mixture responsibilities, assigns every
+  observation to a highest-responsibility component, and maximizes the completed-data classification likelihood
+  for that assignment.
+identity_notes: 'CEM optimizes a joint parameter-and-partition classification criterion rather than ordinary
+  marginal-mixture likelihood. The historical name refers to clustering unlabeled observations, not necessarily
+  supervised classification. It differs from posterior-label sampling in SEM, cross-entropy optimization,
+  and soft-responsibility EM. k-means is a restricted equal-weight spherical-Gaussian specialization,
+  not an alias for every CEM instance. Bare CEM is not asserted as a unique alias. No normalized identity
+  matches among 442 pinned and 473 maintained records, including the bare acronym probes. Existing supplemented
+  EM and cross-entropy optimization are distinct methods; qualified aliases avoid claiming SEM or CEM
+  as unique names. ICE, MCEM, SAEM, deterministic tempered EM, simulated annealing and k-means provide
+  neighboring but different scopes. Existing stochastic-EM frontier and incidental references are not
+  records of the new identities. The absence assessment is bounded to this snapshot and corpus. Identity-search
+  counts: 227 matched lines in the worktree and 245 in main; all 137 distinct matching-text windows were
+  read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: cem-source
+  locator: Section 3 Eq3.1-3.4, p.5 / PDF7; Section 2 Eq2.3-2.7, pp.3-4 / PDF5-6
+  relation: supports
+evidence_sources:
+- source_id: cem-source
+  title: A classification EM algorithm for clustering and two stochastic versions
+  authors:
+  - Gilles Celeux
+  - Gérard Govaert
+  source_type: author_technical_report
+  url: https://inria.hal.science/inria-00075196v1/document
+  persistent_id: inria-00075196v1
+  version: 'INRIA RR-1364, January 1991 according to the actual report cover; HAL v1 deposited May 24,
+    2006. All 19 PDF pages visually read: HAL cover, report cover, printed pp.1-16 and blank ISSN back
+    cover. Printed page equals PDF page minus 2. The 1992 journal version DOI 10.1016/0167-9473(92)90042-E
+    was identified but its full PDF was not obtained; version equivalence is not claimed.'
+  access_level: full_text
+  accessed_at: '2026-10-12T04:13:22Z'
+  sha256: 30bd7f969d0f06c00a71773f5470fcd86a44b36a948479258910287405f637cc
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The defining procedure estimates a hard grouping of unlabeled observations alongside fitted
+    component parameters. The pinned target is a clustering task, so the algorithm is related without
+    an is-a assertion. The word classification in the historical name does not identify the explicitly
+    supervised AIO:Classification class.
+claims:
+- claim_id: e-c-m
+  kind: mechanism
+  statement: Compute t_ik proportional to p_k f_k(x_i) at the current fit. Assign observation i to a maximizing
+    component; the inspected report chooses the smallest component index on ties. Fit parameters by maximizing
+    the hard-assignment completed log likelihood. When mixing weights are estimated, p_k becomes n_k/N
+    and each component fit uses its assigned data. Exact admissible C and M steps make that classification
+    criterion nondecreasing; undefined or singular maximizers need an explicit policy.
+  evidence:
+  - source_id: cem-source
+    locator: Section 3 Eq3.1-3.4, p.5 / PDF7; Proposition 2, pp.6-7 / PDF8-9
+    relation: supports
+- claim_id: criterion-and-kmeans
+  kind: scope
+  statement: The mixture classification criterion is sum_i log[p_(z_i) f_(z_i)(x_i)], which includes sum_k
+    n_k log p_k. The separate-sampling criterion omits that weight term. With fixed equal weights and
+    a common spherical Gaussian covariance, assignment to the nearest mean and centroid refitting recover
+    the k-means variance objective. Estimating arbitrary mixing weights or using unequal covariances changes
+    the assignment geometry and objective.
+  evidence:
+  - source_id: cem-source
+    locator: Section 2 Eq2.3-2.7 and Proposition 1, pp.3-4 / PDF5-6; Section 3, p.5 / PDF7
+    relation: supports
+- claim_id: marginal-and-geometry
+  kind: limitation
+  statement: 'Classification-likelihood ascent is not marginal-mixture likelihood ascent: the saved two-component
+    Bernoulli example increases the former and decreases the latter in one nonempty CEM step. The report’s
+    general claim that CEM classes have disjoint convex hulls also fails for unequal-variance Gaussian
+    components; the saved one-dimensional example assigns outer points to a broad component and inner
+    points to a narrow one. Those limitations do not negate the restricted equal-covariance k-means case.'
+  evidence:
+  - source_id: cem-source
+    locator: Proposition 2, pp.6-7 / PDF8-9; Section 4.1 convex-hull prose, p.10 / PDF12; curator finite
+      counterexamples
+    relation: supports
+- claim_id: convergence-scope
+  kind: scope
+  statement: The finite-partition argument for stabilization needs admissible finite profiled objectives
+    and well-defined maximizer selection; it is not a global-optimum guarantee. Initial partitions and
+    ties can affect the solution. The local-rate proposition invokes stronger curvature and coordinate-optimization
+    assumptions. Because the relaxed objective is affine in the assignment matrix, no generic negative-definite
+    assignment Hessian or universal linear-rate claim is certified here.
+  evidence:
+  - source_id: cem-source
+    locator: Propositions 2-3 and following discussion, pp.6-8 / PDF8-10; Eq2.3-2.5, pp.3-4 / PDF5-6
+    relation: supports
+limitations:
+- The inspected primary version is the January 1991 author report, not the inaccessible 1992 journal full
+  text. Eq2.2 prints a malformed marginal likelihood without the component sum; the mixture law in Eq2.1
+  determines the correct normalization. Eq2.7 doubles the variable-dependent Gaussian log-likelihood terms,
+  leaving the displayed optimizer but not literal likelihood values unchanged.
+- Hard reassignment can empty a component; unrestricted component likelihoods can become singular or unbounded.
+  Fixed component count, nonempty partitions and finite M-step solutions are not guaranteed by an argmax
+  assignment alone.
+- The source’s local-rate proof and its external grouped-coordinate theorem were not independently repaired.
+  Affine assignment dependence and boundary solutions require care before importing smooth interior curvature
+  claims.
+- The numerical experiments evaluate a variance criterion under selected mixture and serum-data settings.
+  A practical SEM-then-CEM hybrid is distinct from pure CEM; no universal superiority, generalization
+  or semantic-cluster claim is curated.
+- No author implementation or historical numerical experiment was reproduced. Finite curator calculations
+  check formula boundaries, not empirical performance or a repaired convergence proof.
+id: AIMech:ClassificationExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:22:35Z'
+  updated_at: '2026-10-12T04:22:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

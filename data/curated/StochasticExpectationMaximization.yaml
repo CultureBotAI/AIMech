@@ -1,0 +1,138 @@
+name: Stochastic Expectation Maximization
+aliases:
+- Stochastic EM
+- SEM (stochastic expectation maximization)
+concept_kind: algorithm
+definition: A finite-mixture fitting algorithm that draws one hard component assignment for each observation
+  from its current posterior responsibilities, fits the resulting completed-data model, and recomputes
+  the responsibilities for the next iteration.
+identity_notes: 'This record denotes the Celeux-Diebolt stochastic-completion construction. It is a single-completion
+  specialization of Monte Carlo EM and corresponds algebraically to a one-draw, unit-weight replacement
+  in the SAEM recursion, rather than decreasing-step recursive averaging. Its named stochastic process
+  and stationary-summary interpretation differ from CEM posterior-mode assignment, supplemented-EM covariance
+  estimation, general ICE estimator averaging and Bayesian sampling of model parameters. Bare SEM is not
+  asserted as a unique alias. No normalized identity matches among 442 pinned and 473 maintained records,
+  including the bare acronym probes. Existing supplemented EM and cross-entropy optimization are distinct
+  methods; qualified aliases avoid claiming SEM or CEM as unique names. ICE, MCEM, SAEM, deterministic
+  tempered EM, simulated annealing and k-means provide neighboring but different scopes. Existing stochastic-EM
+  frontier and incidental references are not records of the new identities. The absence assessment is
+  bounded to this snapshot and corpus. Identity-search counts: 227 matched lines in the worktree and 245
+  in main; all 137 distinct matching-text windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: sem-source
+  locator: Section 4.1, pp.40-41 / PDF7-8; S, M and E steps
+  relation: supports
+- source_id: cem-source
+  locator: Section 4.1, pp.8-10 / PDF10-12
+  relation: supports
+evidence_sources:
+- source_id: sem-source
+  title: 'L’algorithme SEM : un algorithme d’apprentissage probabiliste pour la reconnaissance de mélange
+    de densités'
+  authors:
+  - Gilles Celeux
+  - Jean Diebolt
+  source_type: primary_paper
+  url: https://www.numdam.org/article/RSA_1986__34_2_35_0.pdf
+  persistent_id: RSA_1986__34_2_35_0
+  version: 'Revue de Statistique Appliquée 34(2):35-52, 1986. Numdam scan: archive cover and eighteen
+    article pages. All 19 PDF pages visually read, including tables and references; printed page equals
+    PDF page plus 33. This is not the distinct 1986 INRIA asymptotic report RR563.'
+  access_level: full_text
+  accessed_at: '2026-10-12T04:09:10Z'
+  sha256: ba2086b4746b4356ccbc95b34185ab96ae34ca5bb676174e776e81c9c249a152
+- source_id: cem-source
+  title: A classification EM algorithm for clustering and two stochastic versions
+  authors:
+  - Gilles Celeux
+  - Gérard Govaert
+  source_type: author_technical_report
+  url: https://inria.hal.science/inria-00075196v1/document
+  persistent_id: inria-00075196v1
+  version: 'INRIA RR-1364, January 1991 according to the actual report cover; HAL v1 deposited May 24,
+    2006. All 19 PDF pages visually read: HAL cover, report cover, printed pp.1-16 and blank ISSN back
+    cover. Printed page equals PDF page minus 2. The 1992 journal version DOI 10.1016/0167-9473(92)90042-E
+    was identified but its full PDF was not obtained; version equivalence is not claimed.'
+  access_level: full_text
+  accessed_at: '2026-10-12T04:13:22Z'
+  sha256: 30bd7f969d0f06c00a71773f5470fcd86a44b36a948479258910287405f637cc
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The procedure estimates finite-mixture parameters from observed unlabeled data. The AIO target
+    denotes a learning task/process; this algorithm-to-task relation is not equivalence or a subclass
+    assertion.
+claims:
+- claim_id: random-completion
+  kind: mechanism
+  statement: For current weights and component densities, normalize p_k f_k(x_i) over k to obtain responsibilities
+    t_ik. Independently draw a categorical label for each observation under t_i, then maximize the completed-data
+    log likelihood. With unrestricted mixture weights the update is the sampled class count divided by
+    N; each component parameter uses its assigned observations and the selected distribution family. Recompute
+    responsibilities from the fit. The original cyclic S-M-E presentation is equivalent to E-S-M when
+    starting from current parameters.
+  evidence:
+  - source_id: sem-source
+    locator: Section 4.1, pp.40-41 / PDF7-8
+    relation: supports
+- claim_id: process-and-summary
+  kind: scope
+  statement: Random complete-data refitting can retain fluctuations on a fixed observed data set. The
+    source proposes summary means and variances after a stationary regime, rather than equating every
+    iterate with a converged point estimate. Its stated asymptotic result is restricted to two components
+    with an unknown mixing proportion and refers to an earlier technical proof; the general extension
+    is conjectural. A reliable universal burn-in cutoff, unbiased estimator or global maximum is not established.
+  evidence:
+  - source_id: sem-source
+    locator: Sections 4.2-4.4, pp.41-42 / PDF8-9
+    relation: supports
+- claim_id: small-class-policy
+  kind: scope
+  statement: 'The stated baseline restarts when a sampled class has fewer than N*c(N,d) observations.
+    A later practical variant instead deletes a class with count at most d and continues with one fewer
+    component. Restart and deletion define different transition and model-order behavior. Neither automatic
+    component-count recovery nor ergodicity follows from the unprotected assignment/count formula: a zero
+    weight can make that component unreachable.'
+  evidence:
+  - source_id: sem-source
+    locator: Section 4.1, p.40 / PDF7; Section 4.3, p.42 / PDF9; Section 5.4, p.49 / PDF16
+    relation: supports
+- claim_id: likelihood-and-partition
+  kind: limitation
+  statement: A sampled hard partition is not the actual posterior-responsibility matrix. The entropy identity
+    for the actual posterior does not imply equality of completed and marginal likelihood for arbitrary
+    sampled labels, contrary to the report prose following Eq4.4. The saved normalized Bernoulli-mixture
+    example has a positive-probability nonempty completion whose fitted mixing weight decreases marginal
+    likelihood. Per-step ordinary EM ascent therefore cannot be inherited by this stochastic update.
+  evidence:
+  - source_id: cem-source
+    locator: Section 4.1 Eq4.2-4.4 and following prose, p.9 / PDF11; curator finite-mixture counterexample
+    relation: supports
+limitations:
+- Source stationarity claims depend on the complete transition construction, admissible fits and recurrence
+  assumptions. The original 1985 English article, 1984 proof report and distinct 1986 INRIA RR563 were
+  not fully inspected; generic stationary normality, point convergence or global convergence is not certified.
+- Model-specific completed-data estimators matter. Empty or undersized classes, unbounded Gaussian fits
+  and identifiability up to label permutation require explicit treatment. The raw formula alone does not
+  specify those policies.
+- The 1986 numerical tables use 1000 post-stationary iterations, not 1000 independent data sets; their
+  mean-plus/minus-SD summaries are not calibrated confidence intervals. Printed component-weight, mean-sign
+  and component-location discrepancies remain unresolved, so no quantitative superiority or recovery claim
+  is curated.
+- The optional posterior-threshold classification can leave points unassigned; at threshold one half,
+  tied probabilities can place a point in more than one set. It is a separate readout from the stochastic
+  fitting transition.
+- No author implementation or historical numerical experiment was reproduced. Finite curator calculations
+  check formula boundaries, not empirical performance or a repaired convergence proof.
+id: AIMech:StochasticExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:22:35Z'
+  updated_at: '2026-10-12T04:22:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
