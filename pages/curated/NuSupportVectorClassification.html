@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nu support vector classification · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Nu support vector classification</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nu support vector classification</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NuSupportVectorClassification</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Nu-SVC, ν-SVC, Nu-SV classification
+    </div>
+
+  <div class="detail-desc">
+    A supervised binary-classification algorithm that jointly fits a regularized kernel hyperplane and a nonnegative margin level, using nu to reward that level relative to linearly penalized margin shortfalls.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The original binary nu-SVC formulation in Scholkopf, Smola, Williamson and Bartlett (2000) is the selected identity. It differs from a particular decomposition solver, multiclass reduction, nu-SVR and the one-class estimator; source-specific equivalence to C-SVC requires fitted positive rho and parameter conversion. Compared all442 pinned AIO IDs, labels and scoped synonyms against all520 preceding native IDs, names and aliases, without a normalized collision. Full-text fixed-string whole-word searches in both checkouts included ignored and hidden files, expanded labels, acronyms, DOI and paper identifiers. Read all25 distinct matching text windows across88 locations: these are the existing one-class record context, its review/renderings and the preceding discovery lead, not supervised nu records. All125 semantic AIO rows and115 prior native name/definition rows match the previous reading; the additional one-class row and complete record were read. Thirty-one contextual full-record readings are retained with matching hashes. Absence is bounded to this snapshot and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#learned-margin-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n observations with both binary labels y_i in{-1,+1} represented and a positive-semidefinite kernel, minimize (1/2)||w||^2-nu*rho+sum_i xi_i/n, subject to y_i*(w.Phi(x_i)+b)&gt;=rho-xi_i, xi_i&gt;=0 and rho&gt;=0. A positive feasible nu is at most2*min(n_positive,n_negative)/n, as follows directly from the balanced dual masses and coefficient caps. Values beyond this class-balance limit make the stated dual infeasible and primal unbounded. For three positive and one negative label, nu=3/4 exceeds the limit1/2; w=0,b=rho=t and negative slack2t give objective -t/4.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF pp17-19 / printed pp1223-1225, Equations 7.3-7.12; feasibility implication and exact example in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dual-and-decision</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The dual minimizes (1/2)*alpha^T*Y*K*Y*alpha, with0&lt;=alpha_i&lt;=1/n, sum_i alpha_i*y_i=0 and sum_i alpha_i&gt;=nu. The score is g(x)=sum_i alpha_i*y_i*k(x_i,x)+b and the classifier takes its sign. The source does not specify how an exactly zero score is assigned to one binary label. When free coefficients exist in both classes, KKT equalities give g(x_positive)=rho and g(x_negative)=-rho and permit recovery of b and rho. Such free coefficients need not exist; general recovery must respect the remaining KKT inequalities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF pp18-19 / printed pp1224-1225, Equations 7.7-7.15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#margin-error-counts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an exact optimum with rho&gt;0, sum_i alpha_i=nu. Thus nu bounds the fraction of strict margin errors y_i*g(x_i)&lt;rho from above and the positive-coefficient fraction from below. A margin error can still be correctly classified; it is not the same event as misclassification. Finite counts need not equal nu, and capped coefficients can occur on the margin. Four linear-kernel inputs -1,-1,1,1 with matching labels and nu=1/2 admit alpha_i=1/8,w=1/2,b=0,rho=1/2: all points are support vectors and none is a strict margin error. The source states the finite result under an analytic-kernel assumption; its additional asymptotic distribution and boundary-mass arguments are not promoted to unconditional calibration.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7 Proposition 5, PDF pp20-21 / printed pp1226-1227; exact finite certificate in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c-svc-correspondence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    If the fitted rho is positive, dividing w,b and slacks by rho yields a C-SVC optimum with C=1/rho in the paper’s C/n slack-penalty convention, preserving the sign decision. The numerical conversion differs when software uses C times the unaveraged slack sum. A global positive multiplier on the nu-SVC loss terms scales the solution without changing its boundary, explaining removal of that separate C parameter. This does not remove kernel selection or make arbitrary C and nu settings equivalent, and the conversion cannot divide by rho=0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF p19 / printed p1225, homogeneity discussion; Proposition 6, PDF p21 / printed p1227</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#degenerate-and-nonunique-offsets</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Feasibility does not guarantee positive rho or a useful binary separator. Balanced opposite labels at identical zero inputs admit w=b=rho=0. Even at rho&gt;0, b and rho can be nonunique when no coefficient is free: for linear-kernel inputs -1 and1 with matching labels and nu=1, both coefficients are1/2 and w=1, while (b,rho)=(0,1) and(3,4) attain the same objective -1/2 and classify the first training point differently. Strict convexity fixes the optimal normal w, not necessarily the intercept, margin variable or singular-Gram coefficient representation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF pp18-21 / printed pp1224-1227, primal/dual constraints, free-coefficient formulas and positive-rho condition; exact certificates in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#generalization-and-robustness-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The generalization analysis adds sample-size, confidence, margin and function-class complexity terms to empirical margin error; test risk is not bounded by nu alone. Its displayed normalized radial-kernel bound omits the intercept b, and the authors explicitly note that treating b requires a modification. Their resistance statement is conditional on a representation using free support vectors and local movements in feature space parallel to w; it is not arbitrary input-space or label-noise robustness. External proof dependencies were not independently audited.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 7 Propositions 7-10, PDF pp21-24 / printed pp1227-1230, including the paragraph following Proposition 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#classification-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The classification study shows a two-dimensional circles-versus-disks example with a Gaussian kernel and nu values from0.1 to0.8, reporting support-vector and margin-error fractions plus geometric margins. The paper leaves real-world nu-SVC evaluation and efficient chunking methods to future work. It supplies no universal accuracy or runtime advantage over C-SVC, and later decomposition solvers are not identified with this original optimization formulation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 8.2 and Table 4/Figure 11, PDF pp32 and35 / printed pp1238 and1241; Section 9, PDF p36 / printed p1242</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite nu bounds are conditional inequalities, not exact sparsity, calibrated test error or a universal parameter choice.</li>
+      <li>All39 original journal pages were read; the conference precursor, later decomposition methods and external proof dependencies were not fully audited.</li>
+      <li>Exact rational feasibility and KKT certificates were evaluated without running a solver, training a model or reproducing the historical benchmarks.</li>
+      <li>The record remains a native DRAFT. Parametric-insensitivity and later solver/extension identities remain separate discovery work.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO BinaryClassification identifies the supervised two-group task, while this native record specifies a particular margin-based fitting algorithm. A related match preserves this abstraction difference. Classification and SupervisedLearning are broader task context, not exact identities for the nu objective.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupportVectorMachine.html" style="font-weight: 600;"><code>AIO:SupportVectorMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Support Vector Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source derives this supervised kernel optimization from support-vector methods, but the pinned AIO target describes a network with input, hidden and output parts. This native identity is an optimization algorithm, so the network abstraction is related rather than an asserted exact or broader class. KernelLayer names a component, and generic Network or TrainingStrategy also does not identify the objective. Twelve annotated AIO CLASS nodes and their outgoing edges were inspected.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-scholkopf2000">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">scholkopf2000</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.stat.purdue.edu/~yuzhu/stat598m3/Papers/NewSVM.pdf" target="_blank" rel="noopener">New Support Vector Algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernhard Schölkopf, Alex J. Smola, Robert C. Williamson, Peter L. Bartlett
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1162/089976600300015565</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:57eb6d4db2e8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T11:18:19Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T11:18:19Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NuSupportVectorClassification.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NuSupportVectorClassification.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

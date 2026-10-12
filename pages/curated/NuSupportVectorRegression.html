@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nu support vector regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Nu support vector regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nu support vector regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NuSupportVectorRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Nu-SVR, ν-SVR, Nu-SV regression
+    </div>
+
+  <div class="detail-desc">
+    A supervised regression algorithm that jointly fits a regularized kernel expansion and a nonnegative constant epsilon-insensitive tube half-width, using nu to penalize the width relative to linearly penalized residual excesses.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The original symmetric constant-width nu-SVR in Scholkopf, Smola, Williamson and Bartlett (2000) is the selected identity. It differs from fixed-epsilon SVR parameterization, the paper’s supplied parametric-insensitivity extension, later learned-insensitivity/twin models, supervised nu-SVC and one-class support estimation. Compared all442 pinned AIO IDs, labels and scoped synonyms against all520 preceding native IDs, names and aliases, without a normalized collision. Full-text fixed-string whole-word searches in both checkouts included ignored and hidden files, expanded labels, acronyms, DOI and paper identifiers. Read all25 distinct matching text windows across88 locations: these are the existing one-class record context, its review/renderings and the preceding discovery lead, not supervised nu records. All125 semantic AIO rows and115 prior native name/definition rows match the previous reading; the additional one-class row and complete record were read. Thirty-one contextual full-record readings are retained with matching hashes. Absence is bounded to this snapshot and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#learned-tube-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n&gt;=1 input/real-response pairs and a positive-semidefinite kernel with feature map Phi, fit f(x)=w.Phi(x)+b by minimizing (1/2)||w||^2+C*(nu*epsilon+sum_i(xi_i+xi_star_i)/n), with C&gt;0, nu&gt;=0, epsilon&gt;=0 and nonnegative slacks. The constraints are f(x_i)-y_i&lt;=epsilon+xi_i and y_i-f(x_i)&lt;=epsilon+xi_star_i. Thus the symmetric, input-independent tube half-width is optimized jointly with the fit; C and the kernel still require specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp4-6 / printed pp1210-1212, Equations 2.1-2.15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dual-and-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Write beta_i=alpha_star_i-alpha_i. The dual maximizes sum_i beta_i*y_i-(1/2)*beta^T*K*beta, subject to sum_i beta_i=0, 0&lt;=alpha_i,alpha_star_i&lt;=C/n and sum_i(alpha_i+alpha_star_i)&lt;=C*nu. Prediction is sum_i beta_i*k(x_i,x)+b. A free alpha_i gives f(x_i)-y_i=epsilon; a free alpha_star_i gives y_i-f(x_i)=epsilon. These equations can recover b and epsilon when adequate free coefficients exist. Otherwise the original KKT inequalities must be respected; neither an interior coefficient nor unique b, epsilon or dual coefficients is guaranteed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp5-6 / printed pp1211-1212, Equations 2.6-2.15 and following KKT discussion; exact certificates in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#conditional-nu-counts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At an exact optimum with epsilon&gt;0, the fraction of training observations strictly outside the tube is at most nu, and the fraction with a nonzero expansion coefficient is at least nu. The two sides separately obey the corresponding nu/2 bounds relative to the entire sample, not relative to each side. These are inequalities, not exact finite counts or calibrated test error. For four zero inputs with responses -1,-1,1,1, C=1 and nu=1/2, an exact optimum has b=0, epsilon=1 and four free coefficients of magnitude1/8: every point is a support vector and none is outside. The paper’s asymptotic equality additionally uses iid data, conditional-density regularity and function-class arguments; it is not asserted here unconditionally.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Proposition 1 and discussion, PDF pp7-8 / printed pp1213-1214; finite certificate in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fixed-epsilon-correspondence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fixing epsilon at a value learned by nu-SVR, while retaining the same C, gives an epsilon-SVR problem sharing that fitted primal optimum. This conditional correspondence does not make arbitrary independently selected epsilon and nu interchangeable. The original nu-SVR estimates one constant tube half-width; the asymmetric quantile losses and supplied heteroscedastic basis functions described in this paper change the objective or constraints. Later learned parametric-insensitive methods remain pending separate full-method assessment and are not covered by this source claim.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Proposition 2, PDF pp8-9 / printed pp1214-1215; Sections 3 and 5, PDF pp10 and12-14 / printed pp1216 and1218-1220</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#degenerate-width-and-endpoints</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A positive nu need not produce a positive epsilon. With all inputs and responses zero, zero coefficients, b=0 and epsilon=0 attain the exact minimum, so the positive-width support-count lower bound cannot be applied. At nu=0 an unpenalized sufficiently wide tube permits a constant fit. For nu&gt;1, epsilon=0 reduces the loss to absolute residuals. At nu=1, epsilon and b can be nonunique: with two zero inputs, responses -1 and1 and C=1, (b,epsilon)=(0,0),(1/2,0),(0,1) all attain objective1. The fitted function or accepted tube can therefore vary between optimal solutions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp6-8 / printed pp1212-1214, endpoint discussion and Equations 2.1-2.15; exact certificates in research/discovery/nu-svm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#robustness-and-parameter-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The linear penalty outside the tube yields resistance to local response changes that keep those observations strictly outside on the same side; an existing optimum remains valid after matching slack changes. This is not resistance to arbitrary input leverage or unlimited contamination. The paper’s proposed asymptotically optimal nu calculation assumes a specified additive-noise scale family and convergence of the regression estimator, and is justified in a location-estimation model. The authors explicitly identify these restrictions; it is not a universal automatic nu selector.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Proposition 3, PDF pp9-10 / printed pp1215-1216; Section 4 and its final caveats, PDF pp10-12 / printed pp1216-1218</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The authors use LOQO for selected noisy-sinc experiments and a Boston-housing regression study. Sinc risk measures integrated absolute deviation from the noiseless target; the housing study reports response MSE over 100 random splits of 506 observations into 481 training and 25 test observations. Table 3 reports sweeps over nu and fixed epsilon, with other settings held fixed. The text compares nu-SVR with the best fixed-epsilon test result after evaluation; this is not nested parameter validation or proof of universal superiority. The supplied-noise-shape experiment studies a separate parametric-insensitivity extension. No numerical performance advantage is curated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2000">New Support Vector Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 8.1, PDF pp24-34 / printed pp1230-1240, Figures 3-10 and Tables 2-3; discussion PDF p36 / printed p1242</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite nu bounds are conditional inequalities, not exact sparsity, calibrated test error or a universal parameter choice.</li>
+      <li>All39 original journal pages were read; the conference precursor, later decomposition methods and external proof dependencies were not fully audited.</li>
+      <li>Exact rational feasibility and KKT certificates were evaluated without running a solver, training a model or reproducing the historical benchmarks.</li>
+      <li>The record remains a native DRAFT. Parametric-insensitivity and later solver/extension identities remain separate discovery work.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO RegressionAnalysis identifies a supervised estimation task, while this native record specifies one fitting algorithm for real-valued responses. A related match captures its task without asserting algorithm/task equivalence. LinearRegression, RidgeRegression and LeastsquaresAnalysis do not identify the kernel, learned tube or piecewise-linear loss.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupportVectorMachine.html" style="font-weight: 600;"><code>AIO:SupportVectorMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Support Vector Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source derives this supervised kernel optimization from support-vector methods, but the pinned AIO target describes a network with input, hidden and output parts. This native identity is an optimization algorithm, so the network abstraction is related rather than an asserted exact or broader class. KernelLayer names a component, and generic Network or TrainingStrategy also does not identify the objective. Twelve annotated AIO CLASS nodes and their outgoing edges were inspected.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-scholkopf2000">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">scholkopf2000</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.stat.purdue.edu/~yuzhu/stat598m3/Papers/NewSVM.pdf" target="_blank" rel="noopener">New Support Vector Algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernhard Schölkopf, Alex J. Smola, Robert C. Williamson, Peter L. Bartlett
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1162/089976600300015565</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:57eb6d4db2e8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T11:18:19Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T11:25:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NuSupportVectorRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NuSupportVectorRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
