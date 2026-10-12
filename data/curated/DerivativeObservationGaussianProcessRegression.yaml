@@ -1,0 +1,149 @@
+id: AIMech:DerivativeObservationGaussianProcessRegression
+name: Derivative-observation Gaussian process regression
+aliases:
+- Gaussian process regression with derivative observations
+concept_kind: algorithm
+definition: A Gaussian-process regression procedure that jointly conditions a sufficiently differentiable
+  scalar-function prior on function values and partial-derivative values using differentiated kernel covariance
+  blocks and a specified Gaussian observation-error model.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 539 native IDs, names
+  and aliases against the proposed name, ID, descriptive variants and neighboring gradient-enhanced terminology:
+  no normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery worktree,
+  older discovery worktree and original Documents checkout returned 23, zero and zero lines. All returned
+  lines were inspected; they contain virtual-sign contextual mentions, a pending derivative-observation
+  cohort or an unrelated recursive-estimation derivative calculation. Read all 34 semantic AIO rows, 66
+  native name/definition neighbors, five complete annotated AIO CLASS nodes with incident edges and their
+  generated records, and both complete native GP neighbors. Generic GPR does not require derivative observations;
+  the virtual-derivative monotonicity algorithm uses non-Gaussian sign likelihoods and EP. This record
+  specifies Gaussian conditioning on derivative values. Local-linearization summaries are an optional
+  source of those observations, not a second identity established here. Direct gradient-enhanced kriging
+  may overlap; the umbrella also includes indirect Taylor pseudo-observations, so no blanket alias is
+  asserted without its own full-method comparison. The absence assessment is bounded to the inspected
+  snapshot and records.'
+definition_evidence:
+- source_id: solak2002
+  locator: Sections 2.1–2.3, Equations 1–9, PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: joint-kernel-derivatives
+  kind: mechanism
+  statement: For a sufficiently mean-square differentiable scalar GP f, form a joint Gaussian vector of
+    function values and selected partial derivative values. Its covariance blocks are k(x,x_prime), derivatives
+    with respect to the appropriate first or second kernel argument, and mixed derivatives with respect
+    to both arguments. Differentiate the latent kernel, then add the observation-error covariance. The
+    inspected squared-exponential construction gives cov(f_prime(x),f(x_prime))=-(x-x_prime)*exp(-(x-x_prime)²/2)
+    in the one-dimensional unit-kernel case. Modeling all derivatives through the same scalar function
+    enforces mutual integrability of the latent derivative field; it does not force noisy observed gradients
+    to be matched exactly.
+  evidence:
+  - source_id: solak2002
+    locator: Sections 2.1–2.2, Equations 1–6 and Figure 1, PDF pp. 2–3; Section 4, PDF pp. 6–7
+    relation: supports
+- claim_id: gaussian-conditioning
+  kind: mechanism
+  statement: With fixed kernel parameters and additive jointly Gaussian observation errors independent
+    of the latent function, combine the value and derivative observations in one Gaussian conditioning
+    calculation. A full error covariance can retain correlations among observations. Posterior means and
+    covariances are available for both values and derivatives. The paper fits kernel hyperparameters by
+    joint marginal likelihood; conditional exactness under the specified Gaussian model does not integrate
+    hyperparameter uncertainty or guarantee a globally optimal fit.
+  evidence:
+  - source_id: solak2002
+    locator: Sections 2.1–2.3, Equations 2–3 and covariance construction, PDF pp. 2–4
+    relation: supports
+- claim_id: local-linearization-summaries
+  kind: mechanism
+  statement: An optional system-identification construction fits a local linear model to perturbation
+    data around an operating point. Its intercept supplies a function-value observation and its D slopes
+    supply D partial-derivative observations, with the estimated full (D+1)-dimensional coefficient covariance
+    added as an error block. Treating different blocks as independent requires the corresponding error
+    assumption. These summaries can reduce the dense GP system size when many locally linear observations
+    are replaced by fewer coefficients; they are not generally a lossless representation of arbitrary
+    nonlinear data.
+  evidence:
+  - source_id: solak2002
+    locator: Section 2.3, Equations 7–9, PDF pp. 3–4; Section 4, PDF pp. 6–7
+    relation: supports
+- claim_id: mean-and-uncertainty
+  kind: mechanism
+  statement: Derivative observations can change both the posterior mean and its uncertainty. For a zero-mean
+    unit squared-exponential GP conditioned on exact f(0)=1 and f_prime(0)=d, the mean at x is exp(-x²/2)*(1+x*d)
+    and latent variance is 1-exp(-x²)*(1+x²). The zero-derivative symmetric example leaves the value-only
+    mean unchanged, but d=1 changes it. At x=1 the variance is 1-2/e, about 0.2642. These are fixed-parameter
+    curator conditioning calculations, not a reproduction of the paper’s fitted examples.
+  evidence:
+  - source_id: solak2002
+    locator: Sections 2.1–2.2 and 2.4, Equations 2–6 and Figure 2, PDF pp. 2–5; analytic checks in research/discovery/derivative-gp-boundaries.py
+    relation: supports
+- claim_id: finite-difference-and-dependence
+  kind: limitation
+  statement: 'Two exact function values at distinct locations are not literally the same observations
+    as an exact derivative and a function value. With the unit kernel, f(0) and f(1) fix the variance
+    at x=1 to zero, whereas f(0) and f_prime(0) leave variance 1-2/e. The source’s exact-equivalence wording
+    therefore requires a derivative-limit qualification. Estimated slopes and reused raw data can also
+    share errors: treating them as independent evidence can misstate uncertainty. A curator scalar Gaussian
+    example gives posterior variance 1/2 from one noisy observation, but 1/3 when a copy is incorrectly
+    counted as independent.'
+  evidence:
+  - source_id: solak2002
+    locator: Section 2.3 discussion following Equation 9, PDF p. 4; fixed-parameter finite-separation
+      and dependence checks in research/discovery/derivative-gp-boundaries.py
+    relation: supports
+evidence_sources:
+- source_id: solak2002
+  title: Derivative Observations in Gaussian Process Models of Dynamic Systems
+  authors:
+  - E. Solak
+  - R. Murray-Smith
+  - W. E. Leithead
+  - D. J. Leith
+  - C. E. Rasmussen
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2002/file/5b8e4fd39d9786228649a8a8bec4e008-Paper.pdf
+  persistent_id: https://proceedings.neurips.cc/paper_files/paper/2002/hash/5b8e4fd39d9786228649a8a8bec4e008-Abstract.html
+  version: Official Advances in Neural Information Processing Systems 15 (NIPS 2002) proceedings PDF,
+    eight pages without printed page numbers; also cited as the 2003 volume. All eight pages, five figures
+    and references visually read. Citations use PDF page indices because secondary bibliographic page
+    ranges differ.
+  access_level: full_text
+  accessed_at: '2026-10-12T15:03:09Z'
+  sha256: 72c7205d979b8c836c4cee652ec8959f17368c94be40c1a446ce47978991fff1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The procedure estimates a response relationship using function and derivative observations.
+    RegressionAnalysis names the broader task, whereas this record specifies an inference algorithm; the
+    mapping does not assert exact identity or an upstream subclass.
+limitations:
+- This record scopes direct Gaussian conditioning on derivative values, including noisy estimates, with
+  function values. Virtual derivative signs with EP, finite-difference pseudo-observation augmentation,
+  a separately fitted GP for every gradient component, and particular nonlinear controllers are separate
+  constructions. No universal gradient-enhanced-kriging alias is assigned.
+- The latent kernel must support the required mean-square derivatives. Gaussian conditional formulas assume
+  a valid covariance and specified error model; nonsmooth kernels, correlated errors treated as independent,
+  ill-conditioning and duplicate constraints need appropriate handling. Smooth latent integrability is
+  not a proof of dynamical stability, controllability or globally accurate identification.
+- Local-linearization compression needs a justified local approximation and error covariance. Equations
+  7–9 give a particular regularized fit and covariance estimate; they do not establish exact uncertainty
+  for every prior scaling or every regularized estimator. Correlation within coefficient blocks and with
+  any retained original data matters. Local equilibrium models alone do not identify general off-equilibrium
+  dynamics.
+- At fixed Gaussian hyperparameters, adding observations cannot increase conditional covariance, but refitting
+  hyperparameters changes the comparison. The source’s near-equivalence of 150 raw observations and a
+  summary is a particular illustration, not a sufficiency theorem or universal accuracy/computational
+  gain. The general cubic dense-system cost uses the total value and derivative observation count.
+- The source’s two-nearby-values equivalence and zero-derivative mean wording are qualified by explicit
+  curator calculations. The nonlinear demonstration’s output-time indexing and noise notation need resolution
+  before any exact numerical reproduction. No benchmark, dynamical simulation, fitted GP or author implementation
+  was executed; the record remains DRAFT after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T20:48:44Z'
+  updated_at: '2026-10-12T20:48:44Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
