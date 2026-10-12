@@ -1,0 +1,259 @@
+id: AIMech:RapidSupportVectorDataDescriptionSampling
+name: RAPID support vector data description sampling
+aliases:
+- RAPID
+- Reducing samples by pruning of inlier densities
+concept_kind: preprocessing_method
+definition: A density-based training-subset selection method for support vector data description that
+  prefilters low-density observations and greedily removes high-density inliers while testing a retained-density
+  threshold on the original inlier set.
+identity_notes: 'RAPID denotes the Englhardt-Trittenbach-Kottke-Sick-Böhm density-pruning procedure, expanded
+  as Reducing sAmples by Pruning of Inlier Densities. The intended candidate-set rule, printed pseudocode
+  and versioned implementation conventions are distinguished below. It is neither an SVDD prediction rule
+  nor a generic random-sampling algorithm. Compared all 442 pinned AIO IDs, labels and scoped synonyms
+  with all 518 preceding native IDs, names and aliases. No normalized identity collision was found. Fixed-string
+  whole-word searches included ignored and hidden files in both checkouts, expanded names, RAPID, the
+  publication title, DOI and arXiv identifier. All 126 distinct matched-text windows were read: these
+  are prior discovery/review references, pending RAPID leads and ordinary uses of rapid, not an existing
+  RAPID concept. All 125 semantic AIO rows and 114 native name/definition rows were read or reused after
+  exact equality checks. Annotated AIO nodes and outgoing edges, and 29 contextual YAMLs with full readings,
+  distinguish preprocessing, prediction tasks, neural components and neighboring subset-selection methods.
+  Absence is bounded to this snapshot and maintained corpus.'
+definition_evidence:
+- source_id: englhardt2022
+  locator: Sections 4.1 and 4.3, PDF pp8-10 and13-14 / printed pp1356-1358 and1361-1362
+  relation: supports
+- source_id: rapid-code
+  locator: src/sampler/RAPID.jl, sample function
+  relation: supports
+claims:
+- claim_id: density-prefilter
+  kind: mechanism
+  statement: For a nonempty finite observation set X and a unit-diagonal kernel k with k(x,x)=1, compute
+    the unnormalized empirical density d_X(x)=sum_{z in X} k(x,z). An expected-outlier parameter selects
+    a low-density threshold; keep I={x in X:d_X(x)>=theta_pre}, discard the other observations and recompute
+    densities using only I as kernel centers. Subsequent subset selection prepares data for hard SVDD
+    with C=1. This prefilter-plus-hard-fit procedure is not identical to fitting arbitrary-C soft SVDD
+    on the original data. The paper leaves quantile index rounding, endpoints and ties under-specified;
+    exact requested rejection fractions are not assured.
+  evidence:
+  - source_id: englhardt2022
+    locator: Sections 2 and 4.1, PDF pp3-4 and8-10 / printed pp1351-1352 and1356-1358; Algorithm 1
+    relation: supports
+- claim_id: greedy-pruning-rule
+  kind: mechanism
+  statement: The stated intended rule starts with S=I and, while |S|>1, selects a highest-density retained
+    observation r, and subtracts its kernel contribution at every original inlier. For the candidate T=S
+    minus {r}, define theta_T=min_{z in T} d_T(z). Accept the removal only if d_T(x)>=theta_T for every
+    x in I; otherwise stop and return the preceding S. If S reaches a singleton, return it without testing
+    an empty candidate. This intended-rule stopping convention is distinct from the stricter public-code
+    floor described below. The returned observations are used to train SVDD. The rule is a greedy density-surrogate
+    selection, not repeated SVDD optimization, a globally minimum-cardinality subset, or a certified global
+    solution of the mixed-integer problem.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 4.3 prose, PDF pp13-14 / printed pp1361-1362; compare Algorithm 2
+    relation: supports
+  - source_id: rapid-code
+    locator: src/sampler/RAPID.jl, sample function, candidate mask update and feasibility test
+    relation: supports
+- claim_id: optimization-and-guarantee-scope
+  kind: limitation
+  statement: The source SOP minimizes the range theta_max-theta_min of empirical densities over the original
+    inlier set, subject to nonempty binary subset selection and a selected minimum-density witness. Minimum
+    cardinality is a tie-breaker between SOP optima. Theorem 1 establishes a finite-inlier label statement
+    for exactly uniform densities, not a quantitative bound on a continuous decision boundary under approximate
+    uniformity. Theorem 2 uses separated density extrema and a small-bandwidth limiting argument, while
+    its displayed comparison treats old extrema as if they remained extrema after removal. Those steps
+    do not establish an unconditional finite-data SVDD boundary-preservation guarantee for greedy pruning.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 4.2, PDF pp10-13 / printed pp1358-1361; Theorems 1-2, Equations 5-8 and Remarks 3-4
+    relation: supports
+- claim_id: finite-density-boundary-distinction
+  kind: limitation
+  statement: Unweighted kernel-density level sets and fitted finite-sample SVDD decision regions are generally
+    different. An exact curator example uses k(x,y)=2^(-(x-y)^2) on points 0,1,4. Positive hard-SVDD coefficients
+    (1205376,1198391,1802240)/4206007 give the same weighted boundary score 1804599/4206007 at all three
+    nonstationary boundary crossings. Their unweighted densities are respectively 98305/65536, 769/512
+    and 65665/65536, so no single unweighted-density threshold has all three as boundary points. This
+    challenges an unqualified global identity, not the trivial fact that two rules can accept the same
+    finite inlier set. The cited Vert-Vert results concern asymptotic density-level estimation under distribution,
+    regularization and bandwidth conditions; they do not supply that finite global identity.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 4.1 Characteristic 1 and following equivalence argument, PDF p9 / printed p1357;
+      curator calculation in research/discovery/rapid-svdd-boundaries.py
+    relation: supports
+  - source_id: vert2006
+    locator: Section 2 assumptions, Theorems 3,8,9 and Section 8.1, PDF pp3,5,7-8,33 / printed pp819,821,823-824,849
+    relation: supports
+- claim_id: printed-pseudocode-discrepancy
+  kind: limitation
+  statement: Printed Algorithm 2 subtracts r from the density sum but computes the minimum over the old
+    S before deleting r. This differs from the candidate-set rule in the prose and inspected Julia code.
+    For the specified Gaussian kernel 2^(-(x-y)^2), with retained inliers 0,1,2, removing the middle point
+    leaves densities (17/16,1,17/16). The old-set minimum 1 accepts the removal, whereas the candidate-set
+    minimum 17/16 rejects it because the removed middle observation is still an original inlier. The literal
+    printed flow can continue to one point for this nonidentical dataset. This is exact pseudocode arithmetic
+    after retaining all three inliers, not an execution of the public code or its percentage-prefilter
+    convention.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 4.3, Algorithm 2 lines 4-9, PDF p13 / printed p1361; single-point interpretation
+      PDF p14 / printed p1362; curator calculation in research/discovery/rapid-svdd-boundaries.py
+    relation: supports
+  - source_id: rapid-code
+    locator: src/sampler/RAPID.jl, sample_mask[idx]=false before minimum
+    relation: supports
+- claim_id: versioned-code-conventions
+  kind: limitation
+  statement: At the inspected public commit, RAPID removes r from the candidate mask before the minimum
+    test and reconstructs the final mask from accepted removals, undoing a failed candidate. For m initial
+    inliers, its loop starts at i=1 and continues while i<m-2, permitting at most m-3 accepted removals
+    when m>=3; smaller sets are unchanged. The percentage threshold clamps floor(p_out*N) to the one-based
+    index range and averages adjacent sorted densities. With a unique minimum it can exclude one observation
+    at p_out=0; equal-density ties can retain all observations. The source also offers a ground-truth
+    mask and a mode deriving p_out from supplied labels, so all package configurations are not unsupervised.
+    These are source-code observations, not verified historical experimental behavior.
+  evidence:
+  - source_id: rapid-code
+    locator: src/sampler/RAPID.jl complete sample function; src/pwc.jl OutlierPercentageThresholdStrategy,
+      GroundTruthThresholdStrategy and split_masks; curator exact threshold illustration
+    relation: supports
+- claim_id: kernel-and-experiment-version
+  kind: limitation
+  statement: The paper calls exp(-gamma*||x-y||) Gaussian in its displayed formula, omitting the squared
+    norm. The inspected sampling code delegates to MLKernels.GaussianKernel; the evaluation-pinned MLKernels
+    v0.4.0 implements exp(-gamma*||x-y||^2). These formulas must not be silently conflated. Although the
+    MLKernels tree matches the evaluation manifest, its OneClassSampling entry points to an author-local
+    development directory without a revision or tree hash. The inspected public sampling commit therefore
+    cannot be identified as the exact experimental version from that manifest.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 2 displayed kernel following Equation 1, PDF p3 / printed p1351
+    relation: supports
+  - source_id: rapid-code
+    locator: src/density_util.jl, get_gaussian_kernel and KDECache
+    relation: supports
+  - source_id: mlkernels
+    locator: squaredexponential.jl GaussianKernel alias, basefunction and kappa; src/basefunctions/squaredeuclidean.jl
+    relation: supports
+  - source_id: evaluation-manifest
+    locator: Manifest.toml, MLKernels lines516-520 and OneClassSampling lines629-633
+    relation: supports
+- claim_id: cost-and-evaluation-boundaries
+  kind: limitation
+  statement: The source gives O(N^2) sampling work under unit-cost kernel evaluation, and its optional
+    Gram matrix and inspected KDE cache use quadratic storage. Input dimension, parameter selection and
+    the downstream SVDD fit add costs. The experiments compare selected synthetic mixtures and real outlier
+    datasets with specified bandwidth heuristics and prefiltering; the main setup supplies the true outlier
+    percentage. Some costly competitors are excluded and the full-data baseline is limited to smaller
+    datasets. These results do not establish universal speed, accuracy, compression or preserved generalization.
+    The method still requires a kernel and an outlier-setting convention; no numerical performance advantage
+    is curated.
+  evidence:
+  - source_id: englhardt2022
+    locator: Section 4.3 cost, PDF p14 / printed p1362; Sections 5 and Appendix A, PDF pp14-24 / printed
+      pp1362-1372; Figures 4-14 and Tables 2-3
+    relation: supports
+  - source_id: rapid-code
+    locator: src/density_util.jl, KDECache full kernel matrix
+    relation: supports
+evidence_sources:
+- source_id: englhardt2022
+  title: Efficient SVDD sampling with approximation guarantees for the decision boundary
+  authors:
+  - Adrian Englhardt
+  - Holger Trittenbach
+  - Daniel Kottke
+  - Bernhard Sick
+  - Klemens Böhm
+  source_type: primary_paper
+  url: https://link.springer.com/content/pdf/10.1007/s10994-022-06149-0.pdf
+  persistent_id: https://doi.org/10.1007/s10994-022-06149-0
+  version: Version of record, 7 April 2022, Machine Learning 111:1349-1375. All 27 PDF pages visually
+    read, including figures, tables, algorithms and references. Printed page = PDF page + 1348.
+  access_level: full_text
+  accessed_at: '2026-10-12T10:22:47Z'
+  sha256: 1e926feb7ef74f17490a5de4fb959fe6d9ecdb91e439628fb40f7fa6cabb317e
+- source_id: rapid-code
+  title: OneClassSampling.jl RAPID implementation and density utilities
+  authors:
+  - Adrian Englhardt
+  source_type: official_documentation
+  url: https://github.com/englhardt/OneClassSampling.jl/tree/a4964843b884cd25dd953d424be928145425e94a
+  version: Commit a4964843b884cd25dd953d424be928145425e94a. Complete RAPID.jl, pwc.jl, density_util.jl,
+    sampler_util.jl, sampler_base.jl and README read. SHA-256 identifies RAPID.jl; other inspected file
+    hashes are retained in the discovery report. Code was read, not executed.
+  access_level: documentation
+  accessed_at: '2026-10-12T10:41:52Z'
+  sha256: 8a13216d478d0d5a98a16eade79374480cabee430d9f3eb7c7b4f117263e0c23
+- source_id: evaluation-manifest
+  title: ocs-evaluation dependency manifest
+  authors:
+  - Adrian Englhardt
+  source_type: official_documentation
+  url: https://github.com/englhardt/ocs-evaluation/blob/051b6f27d4085c00d951801cabf2310c24a6b316/Manifest.toml
+  version: Commit 051b6f27d4085c00d951801cabf2310c24a6b316. MLKernels and OneClassSampling entries inspected;
+    whole manifest not scientifically reviewed or executed.
+  access_level: documentation
+  accessed_at: '2026-10-12T10:41:52Z'
+  sha256: f165f86c8013a12f446c642b894a62ba5562d676de273597a0f4f744fa74ea43
+- source_id: mlkernels
+  title: MLKernels.jl Gaussian kernel implementation
+  authors:
+  - Tim Thatcher
+  source_type: official_documentation
+  url: https://github.com/trthatcher/MLKernels.jl/blob/38e6aec6a621b446e46d76ee82c908177a22d407/src/kernelfunctions/mercer/squaredexponential.jl
+  version: v0.4.0, commit 38e6aec6a621b446e46d76ee82c908177a22d407, tree d8ae6ac28480a25ddaae9ad9108371035ef9a346
+    exactly matching the evaluation manifest. Squared-exponential, exponential and squared-Euclidean files
+    fully read; SHA-256 identifies squaredexponential.jl.
+  access_level: documentation
+  accessed_at: '2026-10-12T10:36:00Z'
+  sha256: 407693f7b5d9c038d1bc7f6d5194677186db71ea8bcdad149d959e3476f7e76b
+- source_id: vert2006
+  title: Consistency and Convergence Rates of One-Class SVMs and Related Algorithms
+  authors:
+  - Régis Vert
+  - Jean-Philippe Vert
+  source_type: primary_paper
+  url: https://jmlr.csail.mit.edu/papers/volume7/vert06a/vert06a.pdf
+  version: 'JMLR 7:817-854 (2006), 38-page PDF. Scoped context reading: visual PDF pages 3,5,7,8,33 (printed
+    819,821,823,824,849), with Section 2 and 8 extracted text. This is not a complete proof audit.'
+  access_level: full_text
+  accessed_at: '2026-10-12T10:34:53Z'
+  sha256: e1bf86aad7a250b956c563965e0efbed903eae20428047f710685aac22422b3e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Preprocessing
+  relation: broad_match
+  rationale: 'AIO:Preprocessing is broader: RAPID transforms the available observations into a selected
+    training subset before an SVDD model is fitted. This mapping states the intended role of the procedure,
+    not a guarantee of improved data quality or classifier accuracy. DataPreparation and TrainingStrategy
+    are generic neighboring scopes, not exact names for this density-pruning method. BinaryClassification
+    is the downstream accept/reject task rather than the selection algorithm. SupportVectorMachine describes
+    a supervised category-separating network; KernelLayer is a neural component. SelectionAndSamplingBias
+    is a bias condition, not a sample-selection procedure. Native SVDD fits a sphere; CSVDD grows a core
+    using repeated SVDD fits, whereas RAPID prunes a density surrogate without those fits. CNNDD and CPDD
+    use different distance-based consistency or coverage rules.'
+limitations:
+- A density-surrogate feasibility check is not an unconditional guarantee of finite SVDD boundary or prediction
+  equivalence.
+- Printed pseudocode, public code and percentage-prefilter conventions differ. The exact historical sampling
+  package revision is not pinned by the inspected evaluation manifest.
+- All 27 final RAPID PDF pages were visually read; source files and scoped consistency-theory passages
+  were inspected. Exact rational formula checks were executed, but no Julia code, optimizer, model training
+  or benchmark was run.
+- This remains a native DRAFT. Competing boundary selectors, active-learning parameter methods and bandwidth
+  heuristics require their own primary-method assessments.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T10:41:52Z'
+  updated_at: '2026-10-12T10:49:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

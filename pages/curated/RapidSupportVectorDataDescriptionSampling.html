@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAPID support vector data description sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/preprocessing_method.html">Preprocessing Methods</a>
+  <span>/</span>
+  <strong>RAPID support vector data description sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RAPID support vector data description sampling</h1>
+    <span class="badge badge-curated">Preprocessing Methods</span>
+    <span class="detail-id">AIMech:RapidSupportVectorDataDescriptionSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RAPID, Reducing samples by pruning of inlier densities
+    </div>
+
+  <div class="detail-desc">
+    A density-based training-subset selection method for support vector data description that prefilters low-density observations and greedily removes high-density inliers while testing a retained-density threshold on the original inlier set.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      RAPID denotes the Englhardt-Trittenbach-Kottke-Sick-Böhm density-pruning procedure, expanded as Reducing sAmples by Pruning of Inlier Densities. The intended candidate-set rule, printed pseudocode and versioned implementation conventions are distinguished below. It is neither an SVDD prediction rule nor a generic random-sampling algorithm. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 518 preceding native IDs, names and aliases. No normalized identity collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts, expanded names, RAPID, the publication title, DOI and arXiv identifier. All 126 distinct matched-text windows were read: these are prior discovery/review references, pending RAPID leads and ordinary uses of rapid, not an existing RAPID concept. All 125 semantic AIO rows and 114 native name/definition rows were read or reused after exact equality checks. Annotated AIO nodes and outgoing edges, and 29 contextual YAMLs with full readings, distinguish preprocessing, prediction tasks, neural components and neighboring subset-selection methods. Absence is bounded to this snapshot and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">8 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#density-prefilter</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a nonempty finite observation set X and a unit-diagonal kernel k with k(x,x)=1, compute the unnormalized empirical density d_X(x)=sum_{z in X} k(x,z). An expected-outlier parameter selects a low-density threshold; keep I={x in X:d_X(x)&gt;=theta_pre}, discard the other observations and recompute densities using only I as kernel centers. Subsequent subset selection prepares data for hard SVDD with C=1. This prefilter-plus-hard-fit procedure is not identical to fitting arbitrary-C soft SVDD on the original data. The paper leaves quantile index rounding, endpoints and ties under-specified; exact requested rejection fractions are not assured.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Sections 2 and 4.1, PDF pp3-4 and8-10 / printed pp1351-1352 and1356-1358; Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#greedy-pruning-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The stated intended rule starts with S=I and, while |S|&gt;1, selects a highest-density retained observation r, and subtracts its kernel contribution at every original inlier. For the candidate T=S minus {r}, define theta_T=min_{z in T} d_T(z). Accept the removal only if d_T(x)&gt;=theta_T for every x in I; otherwise stop and return the preceding S. If S reaches a singleton, return it without testing an empty candidate. This intended-rule stopping convention is distinct from the stricter public-code floor described below. The returned observations are used to train SVDD. The rule is a greedy density-surrogate selection, not repeated SVDD optimization, a globally minimum-cardinality subset, or a certified global solution of the mixed-integer problem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 prose, PDF pp13-14 / printed pp1361-1362; compare Algorithm 2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rapid-code">OneClassSampling.jl RAPID implementation and density utilities</a></span>
+        <span>· <strong>Locator:</strong> src/sampler/RAPID.jl, sample function, candidate mask update and feasibility test</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#optimization-and-guarantee-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source SOP minimizes the range theta_max-theta_min of empirical densities over the original inlier set, subject to nonempty binary subset selection and a selected minimum-density witness. Minimum cardinality is a tie-breaker between SOP optima. Theorem 1 establishes a finite-inlier label statement for exactly uniform densities, not a quantitative bound on a continuous decision boundary under approximate uniformity. Theorem 2 uses separated density extrema and a small-bandwidth limiting argument, while its displayed comparison treats old extrema as if they remained extrema after removal. Those steps do not establish an unconditional finite-data SVDD boundary-preservation guarantee for greedy pruning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, PDF pp10-13 / printed pp1358-1361; Theorems 1-2, Equations 5-8 and Remarks 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-density-boundary-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unweighted kernel-density level sets and fitted finite-sample SVDD decision regions are generally different. An exact curator example uses k(x,y)=2^(-(x-y)^2) on points 0,1,4. Positive hard-SVDD coefficients (1205376,1198391,1802240)/4206007 give the same weighted boundary score 1804599/4206007 at all three nonstationary boundary crossings. Their unweighted densities are respectively 98305/65536, 769/512 and 65665/65536, so no single unweighted-density threshold has all three as boundary points. This challenges an unqualified global identity, not the trivial fact that two rules can accept the same finite inlier set. The cited Vert-Vert results concern asymptotic density-level estimation under distribution, regularization and bandwidth conditions; they do not supply that finite global identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Characteristic 1 and following equivalence argument, PDF p9 / printed p1357; curator calculation in research/discovery/rapid-svdd-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-vert2006">Consistency and Convergence Rates of One-Class SVMs and Related Algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section 2 assumptions, Theorems 3,8,9 and Section 8.1, PDF pp3,5,7-8,33 / printed pp819,821,823-824,849</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#printed-pseudocode-discrepancy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Printed Algorithm 2 subtracts r from the density sum but computes the minimum over the old S before deleting r. This differs from the candidate-set rule in the prose and inspected Julia code. For the specified Gaussian kernel 2^(-(x-y)^2), with retained inliers 0,1,2, removing the middle point leaves densities (17/16,1,17/16). The old-set minimum 1 accepts the removal, whereas the candidate-set minimum 17/16 rejects it because the removed middle observation is still an original inlier. The literal printed flow can continue to one point for this nonidentical dataset. This is exact pseudocode arithmetic after retaining all three inliers, not an execution of the public code or its percentage-prefilter convention.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3, Algorithm 2 lines 4-9, PDF p13 / printed p1361; single-point interpretation PDF p14 / printed p1362; curator calculation in research/discovery/rapid-svdd-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rapid-code">OneClassSampling.jl RAPID implementation and density utilities</a></span>
+        <span>· <strong>Locator:</strong> src/sampler/RAPID.jl, sample_mask[idx]=false before minimum</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#versioned-code-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At the inspected public commit, RAPID removes r from the candidate mask before the minimum test and reconstructs the final mask from accepted removals, undoing a failed candidate. For m initial inliers, its loop starts at i=1 and continues while i&lt;m-2, permitting at most m-3 accepted removals when m&gt;=3; smaller sets are unchanged. The percentage threshold clamps floor(p_out*N) to the one-based index range and averages adjacent sorted densities. With a unique minimum it can exclude one observation at p_out=0; equal-density ties can retain all observations. The source also offers a ground-truth mask and a mode deriving p_out from supplied labels, so all package configurations are not unsupervised. These are source-code observations, not verified historical experimental behavior.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rapid-code">OneClassSampling.jl RAPID implementation and density utilities</a></span>
+        <span>· <strong>Locator:</strong> src/sampler/RAPID.jl complete sample function; src/pwc.jl OutlierPercentageThresholdStrategy, GroundTruthThresholdStrategy and split_masks; curator exact threshold illustration</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kernel-and-experiment-version</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper calls exp(-gamma*||x-y||) Gaussian in its displayed formula, omitting the squared norm. The inspected sampling code delegates to MLKernels.GaussianKernel; the evaluation-pinned MLKernels v0.4.0 implements exp(-gamma*||x-y||^2). These formulas must not be silently conflated. Although the MLKernels tree matches the evaluation manifest, its OneClassSampling entry points to an author-local development directory without a revision or tree hash. The inspected public sampling commit therefore cannot be identified as the exact experimental version from that manifest.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 2 displayed kernel following Equation 1, PDF p3 / printed p1351</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rapid-code">OneClassSampling.jl RAPID implementation and density utilities</a></span>
+        <span>· <strong>Locator:</strong> src/density_util.jl, get_gaussian_kernel and KDECache</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mlkernels">MLKernels.jl Gaussian kernel implementation</a></span>
+        <span>· <strong>Locator:</strong> squaredexponential.jl GaussianKernel alias, basefunction and kappa; src/basefunctions/squaredeuclidean.jl</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-evaluation-manifest">ocs-evaluation dependency manifest</a></span>
+        <span>· <strong>Locator:</strong> Manifest.toml, MLKernels lines516-520 and OneClassSampling lines629-633</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#cost-and-evaluation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source gives O(N^2) sampling work under unit-cost kernel evaluation, and its optional Gram matrix and inspected KDE cache use quadratic storage. Input dimension, parameter selection and the downstream SVDD fit add costs. The experiments compare selected synthetic mixtures and real outlier datasets with specified bandwidth heuristics and prefiltering; the main setup supplies the true outlier percentage. Some costly competitors are excluded and the full-data baseline is limited to smaller datasets. These results do not establish universal speed, accuracy, compression or preserved generalization. The method still requires a kernel and an outlier-setting convention; no numerical performance advantage is curated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-englhardt2022">Efficient SVDD sampling with approximation guarantees for the decision boundary</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 cost, PDF p14 / printed p1362; Sections 5 and Appendix A, PDF pp14-24 / printed pp1362-1372; Figures 4-14 and Tables 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rapid-code">OneClassSampling.jl RAPID implementation and density utilities</a></span>
+        <span>· <strong>Locator:</strong> src/density_util.jl, KDECache full kernel matrix</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A density-surrogate feasibility check is not an unconditional guarantee of finite SVDD boundary or prediction equivalence.</li>
+      <li>Printed pseudocode, public code and percentage-prefilter conventions differ. The exact historical sampling package revision is not pinned by the inspected evaluation manifest.</li>
+      <li>All 27 final RAPID PDF pages were visually read; source files and scoped consistency-theory passages were inspected. Exact rational formula checks were executed, but no Julia code, optimizer, model training or benchmark was run.</li>
+      <li>This remains a native DRAFT. Competing boundary selectors, active-learning parameter methods and bandwidth heuristics require their own primary-method assessments.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Preprocessing.html" style="font-weight: 600;"><code>AIO:Preprocessing</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Preprocessing</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:Preprocessing is broader: RAPID transforms the available observations into a selected training subset before an SVDD model is fitted. This mapping states the intended role of the procedure, not a guarantee of improved data quality or classifier accuracy. DataPreparation and TrainingStrategy are generic neighboring scopes, not exact names for this density-pruning method. BinaryClassification is the downstream accept/reject task rather than the selection algorithm. SupportVectorMachine describes a supervised category-separating network; KernelLayer is a neural component. SelectionAndSamplingBias is a bias condition, not a sample-selection procedure. Native SVDD fits a sphere; CSVDD grows a core using repeated SVDD fits, whereas RAPID prunes a density surrogate without those fits. CNNDD and CPDD use different distance-based consistency or coverage rules.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-englhardt2022">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">englhardt2022</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://link.springer.com/content/pdf/10.1007/s10994-022-06149-0.pdf" target="_blank" rel="noopener">Efficient SVDD sampling with approximation guarantees for the decision boundary</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Adrian Englhardt, Holger Trittenbach, Daniel Kottke, Bernhard Sick, Klemens Böhm
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/s10994-022-06149-0</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1e926feb7ef7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-rapid-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rapid-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/englhardt/OneClassSampling.jl/tree/a4964843b884cd25dd953d424be928145425e94a" target="_blank" rel="noopener">OneClassSampling.jl RAPID implementation and density utilities</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Adrian Englhardt
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8a13216d478d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-evaluation-manifest">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">evaluation-manifest</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/englhardt/ocs-evaluation/blob/051b6f27d4085c00d951801cabf2310c24a6b316/Manifest.toml" target="_blank" rel="noopener">ocs-evaluation dependency manifest</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Adrian Englhardt
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f165f86c8013…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-mlkernels">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mlkernels</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/trthatcher/MLKernels.jl/blob/38e6aec6a621b446e46d76ee82c908177a22d407/src/kernelfunctions/mercer/squaredexponential.jl" target="_blank" rel="noopener">MLKernels.jl Gaussian kernel implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tim Thatcher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:407693f7b5d9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-vert2006">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">vert2006</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.csail.mit.edu/papers/volume7/vert06a/vert06a.pdf" target="_blank" rel="noopener">Consistency and Convergence Rates of One-Class SVMs and Related Algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Régis Vert, Jean-Philippe Vert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e1bf86aad7a2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T10:41:52Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T10:49:58Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RapidSupportVectorDataDescriptionSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RapidSupportVectorDataDescriptionSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
