@@ -1,0 +1,224 @@
+id: AIMech:CoreVectorMachine
+name: Core vector machine
+aliases:
+- CVM
+concept_kind: algorithm
+definition: An approximate kernel training algorithm that reformulates supported constant-diagonal simplex
+  quadratic programs as minimum enclosing balls and repeatedly enlarges a core subset with a violating
+  point while reoptimizing its ball.
+identity_notes: 'This record denotes the original Tsang-Kwok-Cheung CVM procedure and its stated L2 SVM
+  reformulation, with exhaustive and practical sampled-search distinctions. It does not conflate every
+  SVM loss, generalized CVM, core vector regression, core vector data description or BVM. Compared all
+  442 pinned AIO IDs, labels and scoped synonyms with all 513 preceding native IDs, names and aliases.
+  No normalized identity collision was found for either candidate. Whole-word fixed-string searches of
+  both checkouts included ignored and hidden files, expanded names, CVM/BVM acronyms and primary-source
+  identifiers. All 22 matches per checkout were inspected in 14 distinct text windows at 44 locations:
+  prior queries and unresolved discovery notes, not existing records. All 93 semantic AIO rows and 35
+  native name/definition matches were read. Twelve annotated AIO CLASS nodes and outgoing edges and 17
+  contextual YAMLs were inspected or reused after unchanged-byte checks. This is a bounded local corpus
+  assessment.'
+definition_evidence:
+- source_id: tsang2005
+  locator: Sections 2-4.1, printed pp365-372 / PDF pp3-10, Equations 1-19 and CVM iteration
+  relation: supports
+claims:
+- claim_id: constant-diagonal-reduction
+  kind: mechanism
+  statement: For feature vectors with a positive-semidefinite kernel, the minimum-enclosing-ball dual
+    maximizes sum_i alpha_i*K_ii-alpha^T*K*alpha over nonnegative coefficients summing to one. Its center
+    is the feature combination defined by alpha. If K_ii is constant kappa, this differs from maximizing
+    -alpha^T*K*alpha only by kappa. Dropping the diagonal term for a nonconstant-diagonal kernel changes
+    the optimization. Kernel normalization additionally requires positive self-similarities and changes
+    the feature geometry.
+  evidence:
+  - source_id: tsang2005
+    locator: Sections 2-4.1, printed pp365-372 / PDF pp3-10, Equations 1-19 and CVM iteration
+    relation: supports
+- claim_id: specific-l2-svm
+  kind: mechanism
+  statement: The binary formulation minimizes ||w||²+b²-2*rho+C*sum_i xi_i² subject to y_i*(w^T*phi(x_i)+b)>=rho-xi_i,
+    with C>0 and labels +/-1. Its transformed kernel is Ktilde_ij=y_i*y_j*(k_ij+1)+delta_ij/C, with constant
+    diagonal kappa+1+1/C when k_ii=kappa. The simplex dual maximizes -alpha^T*Ktilde*alpha. Recover w=sum_i
+    alpha_i*y_i*phi(x_i), b=sum_i alpha_i*y_i and xi_i=alpha_i/C. This uses squared slack loss and penalized
+    bias; it is not every L1-hinge or unpenalized-bias SVM. The source also derives an L2 one-class formulation,
+    which has a different transformed kernel.
+  evidence:
+  - source_id: tsang2005
+    locator: Sections 3.2.1-3.2.2, printed pp368-370 / PDF pp6-8; binary formulation and recovery in Equations
+      12-17 and following transformed-feature display
+    relation: supports
+- claim_id: growing-core-reoptimization
+  kind: mechanism
+  statement: For 0<epsilon<=1, maintain a subset of transformed observations and its exact minimum enclosing
+    ball. If any training feature lies farther than (1+epsilon) times the current radius, add a farthest
+    such feature and recompute the subset MEB; stop only when all features satisfy the bound. Kernel expansions
+    compute distances without explicit feature coordinates. Added core observations are not deleted, although
+    their optimized coefficients can become zero; core membership is not identical to final support-vector
+    membership. The practical implementation uses warm-started SMO for the inner problem.
+  evidence:
+  - source_id: tsang2005
+    locator: Sections 2-4.1, printed pp365-372 / PDF pp3-10, Equations 1-19 and CVM iteration
+    relation: supports
+- claim_id: radius-and-shifted-objective-guarantee
+  kind: limitation
+  statement: With exact subset optimization and exhaustive outside-point checking, the final core radius
+    R satisfies R<=R_star<=(1+epsilon)*R. For the stated simplex quadratic program, the corresponding
+    relative approximation is on the shifted objective p_star+kappa_tilde=R_star². It is not a relative
+    guarantee on the unshifted SVM objective, classifier labels or test accuracy. Finite inner-solver
+    and outer termination tolerances must be distinguished.
+  evidence:
+  - source_id: tsang2005
+    locator: Section 4.2, printed pp372-374 / PDF pp10-12, Equations 21-25
+    relation: supports
+  - source_id: loosli2007
+    locator: Section 3, printed pp295-298 / PDF pp5-8
+    relation: supports
+- claim_id: sampled-search-is-not-global-certification
+  kind: limitation
+  statement: The implementation samples 59 observations to approximate the farthest-point search and repeats
+    probabilistic checks near termination. Under independent sampling with replacement, 59 draws hit the
+    farthest 5 percent with probability about 0.9515, but miss a single violating observation among 1000
+    with probability about 0.9427. These curator calculations distinguish a rank-sampling statement from
+    a certificate that every point is enclosed; they do not diagnose the historical random generator or
+    reproduce the implementation.
+  evidence:
+  - source_id: tsang2005
+    locator: Section 4.1.2, printed p371 / PDF p9; Section 6 introduction and footnote 5, printed p376
+      / PDF p14; curator calculations in research/discovery/core-ball-vector-boundaries.py
+    relation: supports
+- claim_id: qualified-computational-cost
+  kind: limitation
+  statement: The paper derives O(n/epsilon²+1/epsilon^4) work for full farthest-point scans with its stated
+    core-size and inner-QP cost model, treating kernel evaluations as constant cost. Its O(1/epsilon²)
+    auxiliary QP workspace bound excludes the input dataset. Practical implementations store the input
+    and may use caches; approximate sampling and numerical solves alter what is certified. Fixed-epsilon
+    bounds do not establish unconditional sample-size-independent total runtime or memory.
+  evidence:
+  - source_id: tsang2005
+    locator: Section 4.3, printed pp374-375 / PDF pp12-13; Section 6 introduction, printed pp376-377 /
+      PDF pp14-15
+    relation: supports
+- claim_id: historical-critique-and-disagreement
+  kind: limitation
+  statement: 'Loosli and Canu report sensitivity and reproduction difficulties for selected checkers experiments
+    using the CVM v1.1 Linux binary downloaded in April 2006, alongside specific LIBSVM and SimpleSVM
+    comparisons. Their analysis discusses inner and outer stopping rules and makes an equivalence assumption
+    for part of the derivation. The authors’ reply is retained as abstract-only context: it disputes parts
+    of the stopping analysis and attributes some behavior to historical sampling. Neither account is treated
+    as a universal verdict on every CVM implementation, and the reply’s full derivation was unavailable
+    here.'
+  evidence:
+  - source_id: loosli2007
+    locator: Sections 2-4, printed pp292-298 / PDF pp2-8, especially p297 inner-criterion assumption
+    relation: supports
+  - source_id: tsang-reply-context
+    locator: Abstract; no full reply equations or experiments inspected
+    relation: context
+- claim_id: identity-and-empirical-boundary
+  kind: scope
+  statement: CVM is an approximate training procedure for supported kernel quadratic programs, not a synonym
+    for generic SVM, a learned classifier instance, support-vector data description or BVM. BVM replaces
+    repeated core MEB optimization with fixed-radius center movement and optional radius refinement. The
+    original and critique experiments involve selected datasets, regularization, kernels, software, tolerances
+    and hardware; no universal runtime or accuracy advantage, current implementation validation or reproduced
+    benchmark is asserted.
+  evidence:
+  - source_id: tsang2005
+    locator: Sections 2-4.1, printed pp365-372 / PDF pp3-10, Equations 1-19 and CVM iteration
+    relation: supports
+  - source_id: tsang2007
+    locator: Sections 2-3, printed pp912-915 / PDF pp2-5
+    relation: supports
+  - source_id: tsang2005
+    locator: Section 6, printed pp376-389 / PDF pp14-27
+    relation: supports
+  - source_id: loosli2007
+    locator: Sections 2-4, printed pp292-300 / PDF pp2-10
+    relation: supports
+evidence_sources:
+- source_id: tsang2005
+  title: 'Core Vector Machines: Fast SVM Training on Very Large Data Sets'
+  authors:
+  - Ivor W. Tsang
+  - James T. Kwok
+  - Pak-Ming Cheung
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/tsang05a/tsang05a.pdf
+  version: JMLR 6(13):363-392 (2005); all 30 official PDF pages visually read. Printed page equals PDF
+    page plus 362.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:14:57Z'
+  sha256: 8ba1804ac23354545055b8490072284dd3baa971106fe86fc74ce69e44103685
+- source_id: loosli2007
+  title: 'Comments on the "Core Vector Machines: Fast SVM Training on Very Large Data Sets"'
+  authors:
+  - Gaëlle Loosli
+  - Stéphane Canu
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume8/loosli07a/loosli07a.pdf
+  version: JMLR 8(11):291-301 (2007); all 11 official PDF pages visually read, including rotated plots.
+    Printed page equals PDF page plus 290.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:14:57Z'
+  sha256: 13b6dd2ef91ff22bde8eac38d624568cfb287f9d3749aec98dc04813310af657
+- source_id: tsang2007
+  title: Simpler Core Vector Machines with Enclosing Balls
+  authors:
+  - Ivor W. Tsang
+  - Andras Kocsor
+  - James T. Kwok
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~jamesk/papers/icml07b.pdf
+  version: ICML 2007:911-918; all eight author-hosted proceedings PDF pages visually read. Printed page
+    equals PDF page plus 910.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:14:58Z'
+  sha256: 3bb017075a6122bf9090d3ea92001967eff3af9f45e23dedef61f528ea9ad273
+- source_id: tsang-reply-context
+  title: 'Authors’ Reply to the “Comments on the Core Vector Machines: Fast SVM Training on Very Large
+    Data Sets”'
+  authors:
+  - Ivor W. Tsang
+  - James T. Kwok
+  source_type: author_technical_report
+  url: https://citeseerx.ist.psu.edu/document?doi=51e0060ba2d0fc9246ad87bcbaf79ccb76da71a0&repid=rep1&type=pdf
+  version: Indexed March 2007 author draft, with placeholder JMLR publication fields; journal publication
+    not established. Abstract read as context only. Author PDFs returned 403; CiteSeer download redirected
+    to HTML. No full-PDF inspection or checksum claimed.
+  access_level: abstract_only
+  accessed_at: '2026-10-12T09:24:32Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: The algorithm trains a particular support-vector formulation, making AIO:SupportVectorMachine
+    a related model-family target. The pinned target is a Network with layer relations and supervised
+    classification/regression scope; it is not identical to this training algorithm. Related matching
+    asserts neither equivalence nor subclassing. BinaryClassification, Classification, SupervisedLearning
+    and UnsupervisedLearning are tasks, not the specific solver; encoding labels in a feature map does
+    not make binary training unsupervised. KernelLayer is a component, TrainingStrategy is described as
+    preprocessing, and DataPreparation or SelectionAndSamplingBias do not identify the procedure. Native
+    SVDD fits a support boundary, SVC adds component labeling, kernel PCA extracts variance directions,
+    and margin clustering infers labels. Shared kernels or enclosing spheres do not establish identity.
+limitations:
+- Kernel validity and normalization, regularization, numerical tolerances, violation-search policy and
+  data geometry affect guarantees and costs. A geometric approximation is not a calibrated uncertainty
+  estimate or a generalization guarantee.
+- All 30 CVM and eight BVM primary PDF pages were visually read; the CVM critique’s 11 pages were also
+  read for that record. The reply remains abstract-only context and its software diagnosis was not independently
+  verified.
+- Exact rational formula and boundary checks were executed. No historical binary, full optimizer, trained
+  model or benchmark was executed. Original software access links failed; current implementation behavior
+  is not asserted.
+- This maintained native record remains DRAFT, with a local related AIO mapping. Generalized solvers,
+  data-description variants and other discovered source leads remain unresolved.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T09:31:37Z'
+  updated_at: '2026-10-12T09:40:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
