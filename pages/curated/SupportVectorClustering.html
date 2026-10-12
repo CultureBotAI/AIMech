@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support Vector Clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Support Vector Clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Support Vector Clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SupportVectorClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SVC
+    </div>
+
+  <div class="detail-desc">
+    An unsupervised clustering procedure that fits a soft enclosing sphere to observations in Gaussian-kernel feature space, then labels retained observations by connected components of a graph whose input-space segments remain within the sphere preimage.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the Ben-Hur-Horn-Siegelmann-Vapnik sphere-and-connectivity procedure in the exact inspected JMLR PDF. The support description alone does not assign component labels. This is distinct from supervised support-vector classification, label-margin clustering, kernel k-means, density-connected neighborhoods and iterative mode seeking. Low- and high-outlier regimes are parameter settings within the method. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 501 prior native IDs, names and aliases; no normalized identity collision for Support Vector Clustering or SVC. Full fixed-string searches of both checkouts included ignored and hidden files, expanded terminology, source identifiers and adjacent support-description names. They returned 13 lines per checkout: nine distinct texts at 26 locations, all inspected as query, bibliography or provisional frontier references in the preceding discovery ledger, not maintained concepts. Eight annotated AIO nodes and outgoing edges, eight generated records and five native neighbors distinguish the selected procedure. Absence is bounded to the inspected pin and corpus; inaccessible source revisions do not establish absence upstream.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sphere-fit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For N input observations, Gaussian kernel K(x,y)=exp(-q*||x-y||²), q&gt;0, and slack penalty C&gt;0, fit a center a and radius R by minimizing R²+C*sum_i xi_i subject to ||Phi(x_i)-a||²&lt;=R²+xi_i and xi_i&gt;=0. The displayed dual maximizes sum_i beta_i*K_ii-beta^T*K*beta with sum_i beta_i=1 and 0&lt;=beta_i&lt;=C. Its feasibility requires N*C&gt;=1. The center is sum_i beta_i*Phi(x_i); kernel evaluation avoids explicitly constructing those features. The convex quadratic dual concerns sphere fitting, not globally optimal clustering or parameter selection.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section2.1, printed pp.126-127 / PDF pp.2-3, Equations1-11; feasibility follows by summing the box bounds</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#radius-and-bound-vectors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The squared distance of a new input is K(x,x)-2*sum_i beta_i*K(x_i,x)+beta^T*K*beta. A free support vector with 0&lt;beta_i&lt;C lies on the sphere and supplies R. If no free support vector exists, the stated radius rule needs an additional convention. A coefficient beta_i=C permits distance equal to R as well as greater than R; bounded coefficients alone do not prove strict exclusion. With N=2, C=1/2 and Gaussian off-diagonal kernel value 1/2, beta=(1/2,1/2), and every squared radius from 0 to 1/4 with equal slacks 1/4-R² attains primal and dual value 1/4. At R²=1/4 both bounded vectors are on the boundary and no free vector exists.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section2.1, printed pp.127-128 / PDF pp.3-4, Equations3-14; curator exact two-observation KKT and primal-dual calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#component-assignment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For observations retained inside or on the sphere, form an edge when every point on their straight line segment in input space also maps inside or onto the sphere. Assign clusters as connected components of this observation graph. The reported implementation approximates each continuous segment test with 20 sampled points. Points treated as outliers are initially unassigned; leaving them unassigned or assigning them to a nearest cluster is an additional policy, and the paper uses the latter in its examples.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section2.2, printed p.128 / PDF p.4, Equation16 and following paragraphs</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-connectivity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An exact accepted segment gives a path inside the sphere preimage, but a graph on finitely many observations need not capture every path-connected component of that continuous set. Finite segment sampling can miss an excursion outside and introduce a false connection. The 20-sample implementation therefore has no stated exact topological recovery guarantee. Restricting adjacency tests to support vectors is a heuristic described in Section 5 reported to agree on the tried datasets, not a general equivalence proof.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section2.2, printed p.128 / PDF p.4; Section5, printed p.135 / PDF p.11; curator distinction between continuous paths and finite sampled edges</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#scale-and-outlier-control</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The parameters q and p=1/(N*C) explore spatial scale and allowable slack. Larger q means a narrower Gaussian; larger p means a smaller penalty C. The box and sum constraints imply that the fraction of coefficients at their upper bound is at most p; the paper’s stricter inequality requires remaining positive coefficient mass. High-p fits can describe cluster cores rather than the envelope of all data. The weighted kernel score sum_i beta_i*K(x_i,x) approaches the equal-weight Parzen score as p approaches 1, up to density normalization; this resemblance does not make the component procedure identical to mode seeking.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Sections3.2-4, printed pp.130-133 / PDF pp.6-9, Equations17-22; bound qualification follows from Equations3,9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#selection-and-hierarchy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source proposes increasing q and adjusting p while monitoring support-vector fractions and stability. It explicitly reports counterexamples to a strict hierarchy when bounded support vectors are used. These choices do not provide a universal cluster-count selector or nested partition guarantee. Strong overlap may leave small cluster cores; the finite experiments also show sensitivity to retained PCA dimensions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Sections4.1-4.2 and 6, printed pp.134-136 / PDF pp.10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#computational-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source uses an adapted sequential minimal optimization fit and sampled pairwise connectivity checks. With a fixed number of segment samples, straightforward labeling scales with retained-point pairs, nonzero-coefficient kernel evaluations and input dimension. The stated overall quadratic scaling assumes a bounded support-vector count and empirical solver behavior; it is not an unconditional complexity guarantee for all kernels or datasets.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-svc-source">Support Vector Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section5, printed p.135 / PDF p.11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record describes the exact inspected source and qualifies its KKT, connectivity, hierarchy and cost statements; the separately listed revision remains unavailable for comparison.</li>
+      <li>Gaussian scale, penalty, numerical tolerances, radius conventions, segment sampling and outlier reassignment affect results. The original comparison does not establish universal performance, unbiased parameter choice or recovery of arbitrary population clusters.</li>
+      <li>All 13 source pages, seven figures and references were visually read. Iris results depend on PCA dimension and, for the two-dimensional example, combining two returned clusters. No historical optimizer, benchmark or model training was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure performs the inspected unlabeled clustering task, so AIO:UnsupervisedClustering is a related task mapping, not algorithm-task identity or an upstream subclass assertion. Inspected eight annotated AIO nodes and their generated records: UnsupervisedClustering, Clustering, UnsupervisedLearning, MachineLearningTask, SupportVectorMachine, Network, KernelLayer and Model. The supervised classification/regression network definition of SupportVectorMachine does not cover this unsupervised sphere-and-connectivity algorithm; a shared support-vector name is insufficient. Generic networks, kernel layers and model abstractions do not specify it. All442 AIO class labels and 153 semantic matches reuse byte-verified prior readings; expanded support/sphere/density/novelty/anomaly searches add no rows. KernelPCA, KernelKMeans and SemidefiniteMaximumMarginClustering were checked against their unchanged complete readings; DBSCAN and MeanShift were fully read as additional context. Their projections, variance objectives, label matrices, neighborhoods and mode updates differ from the selected sphere preimage and segment graph. Context is not renewed scientific approval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-svc-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">svc-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume2/horn01a/horn01a.pdf" target="_blank" rel="noopener">Support Vector Clustering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Asa Ben-Hur, David Horn, Hava T. Siegelmann, Vladimir Vapnik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:001d2385ad19…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T07:15:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T07:16:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SupportVectorClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SupportVectorClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
