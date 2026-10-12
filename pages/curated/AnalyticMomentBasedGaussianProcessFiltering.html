@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analytic moment-based Gaussian-process filtering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Analytic moment-based Gaussian-process filtering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Analytic moment-based Gaussian-process filtering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AnalyticMomentBasedGaussianProcessFiltering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Gaussian-process assumed-density filtering, GP-ADF
+    </div>
+
+  <div class="detail-desc">
+    A Gaussian assumed-density filtering algorithm that uses trained squared-exponential Gaussian-process transition and measurement models, analytically matches predictive moments under Gaussian state inputs, and conditions a moment-matched Gaussian approximation to the joint state/measurement distribution to update the hidden-state estimate.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO IDs, labels and scoped synonyms and 542 maintained IDs, names and aliases against the proposed ID, name, two aliases and filtering terms: no normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery, older discovery and original Documents checkouts returned 20, 0 and 0 lines. All 15 distinct matched strings were read and refer to pending filtering leads, primary-paper metadata or reading notes. Read all 44 semantic AIO rows, 104 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges/generated records and four complete native context records. GP-ADF here is the 2009 analytic moment-based Gaussian assumed-density filter, not generic GP regression, an uncertain-input moment transform alone, the earlier local Taylor prediction method, or a fixed-image MAP Wiener filter. It includes both prediction and measurement conditioning. Generic assumed-density filtering, sigma-point GP filters and later sparse-spectrum filters require their own scope assessments. Absence is bounded to this pin and inspected corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#trained-state-space-model</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source models discrete-time dynamics x_k=f(x_{k-1})+w and measurements y_k=g(x_k)+v with trained squared-exponential GP models for the unknown transition and measurement functions. Its additive white Gaussian process and measurement noises have uncorrelated dimensions. Scalar GP output models are trained independently, with fixed fitted hyperparameters for prediction. The training setup assumes access to ground-truth hidden-state observations; the filtering stage subsequently estimates hidden states from noisy measurements. This is not an algorithm for learning the whole latent dynamics model from observation-only sequences.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-deisenroth2009">Analytic Moment-based Gaussian Process Filtering</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 1–4, PDF p. 2; Section 4.2 and Section 5, PDF p. 4; discussion of training and future work, PDF p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#prediction-moments</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Starting from a Gaussian approximation to the current state distribution, GP-ADF analytically evaluates the first two moments of the next-state prediction under its fixed GP transition model, then replaces that predictive distribution by a Gaussian with those moments. Gaussian-input squared-exponential kernel integrals supply the required mean and covariance terms. Independent scalar GP outputs can acquire nonzero marginal cross-covariances through their shared uncertain input; their conditional independence does not justify discarding those cross terms. Exact integrated moments under the assumed Gaussian input do not imply that the predictive mixture itself is Gaussian.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-deisenroth2009">Analytic Moment-based Gaussian Process Filtering</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1–4.2, Equations 8–12, PDF pp. 3–4; Section 5.1, PDF p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-filter-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a Gaussian predicted state with mean m_p and covariance C_p, the measurement GP gives an observation mean m_y, covariance C_y and state-observation cross-covariance C_xy. GP-ADF approximates the joint state/measurement distribution by a Gaussian and applies m_e=m_p+C_xy*C_y^{-1}*(y-m_y) and C_e=C_p-C_xy*C_y^{-1}*C_xy^T, assuming the innovation covariance C_y is invertible. With column-vector states and measurements, C_xy has state-by-observation dimensions. Here C_p and C_y refer to the noisy transition/measurement quantities in the state-space model: if starting from latent GP moment covariances, include the corresponding independent process or measurement noise once. The joint-Gaussian conditioning step is exact for that approximate joint distribution, not generally for the original nonlinear filtering posterior.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-deisenroth2009">Analytic Moment-based Gaussian Process Filtering</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 1–2, PDF p. 2; Section 5.2, joint covariance, state-observation moment derivation and Equation 14, PDF p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nonlinear-conditioning-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source explicitly uses both a Gaussian prediction approximation and a Gaussian approximation to the joint state/measurement law. Preserving the first two joint moments cannot generally preserve nonlinear conditional moments. A curator illustration takes X~N(0,1) and the noiseless observation Y=X^2: E[Y]=1, Var[Y]=2 and Cov(X,Y)=0. Conditioning the moment-matched joint Gaussian leaves the state mean 0 and variance 1 for every observed y, whereas for y&gt;0 the true conditional distribution has equal masses at plus and minus sqrt(y), with variance y. This is a mathematical boundary example for the Gaussian conditioning step, not an SE-GP benchmark or source experiment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-deisenroth2009">Analytic Moment-based Gaussian Process Filtering</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.2–5.3, Equation 14 and the two Gaussian approximation assumptions, PDF p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#temporal-dependence-limit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A sequence driven by one uncertain GP dynamics function generally creates dependence between that function and later states. Applying a fixed GP predictive model repeatedly to independently prescribed Gaussian state inputs does not retain all of this dependence. Hewing and colleagues analyze this distinction for GP trajectory prediction and contrast it with persistent-function sampling and correlation-aware approximations. Thus analytic single-step moments and a full covariance within each state approximation do not establish exact inference for the entire shared-function trajectory; this is separate from the Gaussian joint-measurement approximation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-deisenroth2009">Analytic Moment-based Gaussian Process Filtering</a></span>
+        <span>· <strong>Locator:</strong> Prediction and update assumptions, Sections 5.1–5.3, PDF pp. 4–5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hewing2020">On Simulation and Trajectory Prediction with Gaussian Process Dynamics</a></span>
+        <span>· <strong>Locator:</strong> Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exact moment claims condition on the chosen squared-exponential posterior models, fixed training data/hyperparameters and the Gaussian input approximation. Gaussian prediction and joint-state/measurement projection discard higher-order structure; the method is not an exact general nonlinear Bayes filter.</li>
+      <li>The source uses independent scalar GP outputs and diagonal white process/measurement noises. Correlated conditional outputs, correlated noises, non-Gaussian inputs and hyperparameter uncertainty require additional treatment. Shared uncertain input alone still induces cross-output covariance.</li>
+      <li>Training requires hidden-state observations in the described setup. Smoothing and learning without direct state observations are discussed as future work, not delivered by this filter.</li>
+      <li>The corrected source introduces process and measurement noise in its state-space model while later covariance additions are implicit. This record defines noisy versus latent covariances explicitly and adds independent noise once; no claim of reproducing an uninspected author implementation is made. Singular innovation covariance requires a separate supported treatment rather than an unconditional inverse.</li>
+      <li>The inspected sources do not justify universally calibrated intervals, always-consistent state estimates or superiority over other filters. Their one-dimensional and pendulum illustrations are task-specific; no numerical performance claim is curated. A linear-Gaussian curator check validates only the displayed conditioning arithmetic.</li>
+      <li>The Gaussian joint-conditioning counterexample and shared-input covariance check are curator analytic illustrations, not trained SE-GP experiments. No author code, fitting, stochastic trajectory simulation or benchmark was run. The record remains DRAFT after author self-review.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GP regression models learned for transition and measurement responses are essential components of this filter. RegressionAnalysis supplies that modeling-task relationship, not an equivalent filtering identity or asserted subclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesAnalysis.html" style="font-weight: 600;"><code>AIO:TimeSeriesAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Time Series Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm infers hidden states recursively from time-indexed noisy measurements. This is a concrete time-series analysis relationship; the complete filter includes measurement conditioning, rather than only prediction of future values.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-deisenroth2009">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">deisenroth2009</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://mlg.eng.cam.ac.uk/pub/pdf/DeiHubHan09.pdf" target="_blank" rel="noopener">Analytic Moment-based Gaussian Process Filtering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marc Peter Deisenroth, Marco F. Huber, Uwe D. Hanebeck
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/1553374.1553403</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:14aa8c3914e7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-hewing2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hewing2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf" target="_blank" rel="noopener">On Simulation and Trajectory Prediction with Gaussian Process Dynamics</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lukas Hewing, Elena Arcari, Lukas P. Fröhlich, Melanie N. Zeilinger
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v120/hewing20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e03bc1f12364…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T21:36:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T21:36:01Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
