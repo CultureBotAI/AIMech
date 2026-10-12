@@ -1,0 +1,216 @@
+id: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+name: Sparse-spectrum Gaussian-process linearized uncertain-input prediction
+aliases:
+- SSGP-Lin
+concept_kind: algorithm
+definition: A local uncertain-input prediction algorithm for a fixed sparse-spectrum Gaussian-process
+  posterior that linearizes the posterior mean at the Gaussian input mean, freezes the conditional variance
+  there, and uses the resulting approximate mean and covariance for a Gaussian output representation.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 543 maintained IDs, names
+  and aliases: neither proposed identity nor its acronym matched. Full-text searches in the recovery,
+  older discovery and original Documents checkouts included ignored and hidden files and returned 98,
+  0 and 0 lines; all 62 distinct matched strings were read. Hits concern pending sparse-spectrum leads,
+  source reading notes and scope distinctions in existing GP records. Read all 39 semantic AIO rows and
+  107 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges and
+  generated records, and four native context records. The fixed finite-feature posterior differs from
+  the full squared-exponential kernel model; SSGP-EMM integrates its moments, whereas SSGP-Lin linearizes
+  its mean and freezes its conditional variance. Neither identity denotes learning the underlying sparse-spectrum
+  regression model, general Fourier feature construction, a complete Bayesian filter, or a model predictive
+  controller. The earlier Girard Taylor record retains a conditional-variance Hessian term that SSGP-Lin
+  omits. Absence is bounded to this inspected pin and corpus.'
+definition_evidence:
+- source_id: pan2017
+  locator: Sections 2–3 and 3.2, Equations 12–16, PDF pp. 2–3 and 5
+  relation: supports
+- source_id: pan2017-supp
+  locator: Sections 3.1 and 3.5, PDF pp. 2 and 5–6
+  relation: supports
+claims:
+- claim_id: fixed-feature-posterior
+  kind: mechanism
+  statement: For fixed frequencies omega_i, the source uses a 2m-dimensional feature vector with cosine
+    and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training input/response pairs, Phi=[phi(x_1),...,phi(x_n)]
+    is the 2m by n feature-design matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses.
+    With Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance sigma_n^2,
+    its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y, S=sigma_n^2*A^{-1} and
+    A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x).
+    Uncertain-input prediction integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient
+    posterior, conditional on the training data, frequencies and hyperparameters. These prediction methods
+    do not require one particular training solver once the posterior coefficient moments are supplied.
+  evidence:
+  - source_id: pan2017
+    locator: Section 2, Equations 4, 6–7 and following remark, PDF pp. 2–3; Section 3 assumptions, PDF
+      p. 3
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Sections 2–3.1, Equations 1–5 and Gaussian-input assumptions, PDF pp. 1–2
+    relation: supports
+- claim_id: local-mean-frozen-variance
+  kind: mechanism
+  statement: SSGP-Lin linearizes m(x)=alpha^T*phi(x) at the input mean mu and evaluates the conditional
+    response variance at mu. With J=Dphi(mu) of size 2m by d and column gradient g=J^T*alpha, the approximate
+    mean is m(mu) and variance is sigma_n^2+phi(mu)^T*S*phi(mu)+g^T*Sigma*g. The cosine feature derivative
+    is -sigma_k*sin(omega_i^T*mu)*omega_i^T and the sine derivative is sigma_k*cos(omega_i^T*mu)*omega_i^T.
+    This formula omits posterior-mean curvature and input-dependent conditional-variance curvature. Nonnegative
+    component variances give a nonnegative scalar variance, which does not establish approximation accuracy.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3.2, Equations 12–14, PDF p. 5
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Section 3.1, definition of M=Dphi, PDF p. 2; Section 3.5, PDF pp. 5–6
+    relation: supports
+- claim_id: local-cross-covariance
+  kind: mechanism
+  statement: With column input X, the local input-response cross-covariance is Sigma*g, a d by 1 column.
+    For two conditionally independent scalar output models with independent residual noise, the off-diagonal
+    response covariance is g_a^T*Sigma*g_b. This retains covariance induced by the shared uncertain input
+    while freezing each conditional variance. It does not model conditional cross-output covariance. The
+    main paper’s M underbrace and final input-response covariance orientation are inconsistent; the supplemental
+    definition M=Dphi and explicit matrix dimensions determine the formulas used here.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3.2, Equations 12 and 15–16, PDF p. 5
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Section 3.1, PDF p. 2; Section 3.5, PDF pp. 5–6; Section 6.1, PDF p. 12
+    relation: supports
+- claim_id: distinct-variance-truncation
+  kind: limitation
+  statement: Freezing the conditional variance differs from the earlier Girard local GP approximation,
+    which adds one half of the trace of its conditional-variance Hessian times Sigma. In a curator finite-feature
+    illustration Y=W*cos(X), with independent W~N(0,1) and X~N(0,2), SSGP-Lin gives variance 1, exact
+    integration gives (1+exp(-4))/2, and retaining the second-order conditional-variance term gives -1.
+    This limiting rank-one coefficient example distinguishes the truncations; it is not a trained-model
+    benchmark or a claim that the earlier method always fails. Both local approximations can differ substantially
+    from exact moments away from a sufficiently local input regime.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3.2, Equation 14, PDF p. 5
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Section 3.5, PDF pp. 5–6
+    relation: supports
+  - source_id: girard-tr2002
+    locator: Sections 3.3–3.4, Equations 14–22, PDF pp. 8–9
+    relation: supports
+- claim_id: sequential-use
+  kind: limitation
+  statement: The source uses these prediction transforms inside Bayesian filtering and future-state prediction
+    for control. Gaussian moment propagation alone does not retain the full predictive shape or all dependence
+    between a repeatedly used uncertain dynamics function and subsequent states. Hewing and colleagues
+    explicitly analyze the successive-evaluation independence approximation in Pan-style trajectory prediction.
+    This prediction transform is therefore not an exact shared-function trajectory inference algorithm
+    or, by itself, a complete filter or controller.
+  evidence:
+  - source_id: pan2017
+    locator: Section 4.1 prediction and filtering stages, PDF pp. 5–6; Section 4.2, PDF pp. 6–7
+    relation: supports
+  - source_id: hewing2020
+    locator: Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: pan2017
+  title: Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering
+    and Control
+  authors:
+  - Yunpeng Pan
+  - Xinyan Yan
+  - Evangelos A. Theodorou
+  - Byron Boots
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/pan17a/pan17a.pdf
+  persistent_id: https://proceedings.mlr.press/v70/pan17a.html
+  version: ICML 2017, PMLR 70:2760–2768; official nine-page proceedings PDF, all pages visually read.
+    Locators use PDF indices; method pages have no printed page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:10:55Z'
+  sha256: f6419aa3e01484a8a221de3080dff9496b2ffc87d7f2ba4cef601824ac88797d
+- source_id: pan2017-supp
+  title: Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications
+    to Filtering and Control
+  authors:
+  - Yunpeng Pan
+  - Xinyan Yan
+  - Evangelos A. Theodorou
+  - Byron Boots
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/pan17a/pan17a-supp.zip
+  persistent_id: https://proceedings.mlr.press/v70/pan17a.html
+  version: Official ICML 2017 supplementary ZIP. The source hash identifies the archive. All 15 pages
+    of member Supplementary/supplementary.pdf were visually read; its extracted SHA-256 is bfcedf97bfa95140092a5b540e4d771d74c9273acb56ee7cf2e22f1821d8086b.
+    Printed and PDF page indices coincide. README and archive member list inspected; driving video not
+    viewed.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:23:41Z'
+  sha256: 4cdea13525c08fb71b20c8b6cf5cf0560989ec5063b6dfa9a02b25ff6f43527c
+- source_id: hewing2020
+  title: On Simulation and Trajectory Prediction with Gaussian Process Dynamics
+  authors:
+  - Lukas Hewing
+  - Elena Arcari
+  - Lukas P. Fröhlich
+  - Melanie N. Zeilinger
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  persistent_id: https://proceedings.mlr.press/v120/hewing20a.html
+  version: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices
+    are 1–11, which are used for locators.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:55:19Z'
+  sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+- source_id: girard-tr2002
+  title: 'Gaussian Process priors with Uncertain Inputs: Multiple-Step-Ahead Prediction'
+  authors:
+  - Agathe Girard
+  - Carl Edward Rasmussen
+  - Roderick Murray-Smith
+  source_type: author_technical_report
+  url: https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf
+  persistent_id: TR-2002-119
+  version: University of Glasgow Technical Report TR-2002-119, October 2002; all 18 PDF pages visually
+    read, with matching printed page indices. Earlier Taylor method, distinct authorship and experiments
+    from the four-author proceedings paper.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:50:34Z'
+  sha256: f2e78afd674d4a4224933b3b4c0e4656a93553491a65ffcd4f118b7d740d006b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: This procedure predicts a learned regression response while integrating or approximating
+    uncertainty in its test input. The mapping expresses that regression-task relationship rather than
+    algorithm identity or an asserted subclass.
+- target: AIO:TimeSeriesForecasting
+  relation: related_match
+  rationale: The primary source repeatedly applies the transform to predict future dynamical states in
+    filtering and model predictive control. This is a demonstrated forecasting application, not a restriction
+    of the generic prediction algorithm to time series.
+limitations:
+- Mean linearization and frozen conditional variance can miss both mean and variance curvature. Positive
+  covariance is not a guarantee of accurate moments, calibrated uncertainty or performance superiority.
+- The input Gaussian is prescribed independently of the fixed trained coefficient posterior. Frequencies,
+  hyperparameters, training data and feature count are conditioned on rather than integrated out; finite-feature
+  kernel approximation remains a separate source of error.
+- The displayed variance includes a future independent observation-noise term once. A latent-function
+  prediction omits that additive future-noise term while retaining the trained posterior coefficient covariance.
+- Multivariate cross-output formulas assume conditionally independent scalar models and independent residual
+  noises. Shared input covariance remains; correlated-output priors and correlated measurement noises
+  require additional terms.
+- Gaussian representations and repeated independent-input propagation discard predictive shape and shared-function
+  temporal dependence. Filtering updates and belief-space controller optimization are additional algorithms,
+  not identities of this prediction transform.
+- Source notation inconsistencies were checked against the supplement and independent algebra. Table 1
+  spectral-density constants, controller derivative formulas, runtime claims and numerical comparative
+  performance are not asserted here. No author implementation, training, paid provider or benchmark was
+  run; analytic examples are curator illustrations. The record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T21:48:25Z'
+  updated_at: '2026-10-12T21:55:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

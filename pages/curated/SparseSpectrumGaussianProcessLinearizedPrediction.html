@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparse-spectrum Gaussian-process linearized uncertain-input prediction · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sparse-spectrum Gaussian-process linearized uncertain-input prediction</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sparse-spectrum Gaussian-process linearized uncertain-input prediction</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SparseSpectrumGaussianProcessLinearizedPrediction</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SSGP-Lin
+    </div>
+
+  <div class="detail-desc">
+    A local uncertain-input prediction algorithm for a fixed sparse-spectrum Gaussian-process posterior that linearizes the posterior mean at the Gaussian input mean, freezes the conditional variance there, and uses the resulting approximate mean and covariance for a Gaussian output representation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO IDs, labels and scoped synonyms and 543 maintained IDs, names and aliases: neither proposed identity nor its acronym matched. Full-text searches in the recovery, older discovery and original Documents checkouts included ignored and hidden files and returned 98, 0 and 0 lines; all 62 distinct matched strings were read. Hits concern pending sparse-spectrum leads, source reading notes and scope distinctions in existing GP records. Read all 39 semantic AIO rows and 107 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges and generated records, and four native context records. The fixed finite-feature posterior differs from the full squared-exponential kernel model; SSGP-EMM integrates its moments, whereas SSGP-Lin linearizes its mean and freezes its conditional variance. Neither identity denotes learning the underlying sparse-spectrum regression model, general Fourier feature construction, a complete Bayesian filter, or a model predictive controller. The earlier Girard Taylor record retains a conditional-variance Hessian term that SSGP-Lin omits. Absence is bounded to this inspected pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-feature-posterior</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed frequencies omega_i, the source uses a 2m-dimensional feature vector with cosine and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training input/response pairs, Phi=[phi(x_1),...,phi(x_n)] is the 2m by n feature-design matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses. With Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y, S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient posterior, conditional on the training data, frequencies and hyperparameters. These prediction methods do not require one particular training solver once the posterior coefficient moments are supplied.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 4, 6–7 and following remark, PDF pp. 2–3; Section 3 assumptions, PDF p. 3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017-supp">Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3.1, Equations 1–5 and Gaussian-input assumptions, PDF pp. 1–2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#local-mean-frozen-variance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SSGP-Lin linearizes m(x)=alpha^T*phi(x) at the input mean mu and evaluates the conditional response variance at mu. With J=Dphi(mu) of size 2m by d and column gradient g=J^T*alpha, the approximate mean is m(mu) and variance is sigma_n^2+phi(mu)^T*S*phi(mu)+g^T*Sigma*g. The cosine feature derivative is -sigma_k*sin(omega_i^T*mu)*omega_i^T and the sine derivative is sigma_k*cos(omega_i^T*mu)*omega_i^T. This formula omits posterior-mean curvature and input-dependent conditional-variance curvature. Nonnegative component variances give a nonnegative scalar variance, which does not establish approximation accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equations 12–14, PDF p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017-supp">Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, definition of M=Dphi, PDF p. 2; Section 3.5, PDF pp. 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#local-cross-covariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With column input X, the local input-response cross-covariance is Sigma*g, a d by 1 column. For two conditionally independent scalar output models with independent residual noise, the off-diagonal response covariance is g_a^T*Sigma*g_b. This retains covariance induced by the shared uncertain input while freezing each conditional variance. It does not model conditional cross-output covariance. The main paper’s M underbrace and final input-response covariance orientation are inconsistent; the supplemental definition M=Dphi and explicit matrix dimensions determine the formulas used here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equations 12 and 15–16, PDF p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017-supp">Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF p. 2; Section 3.5, PDF pp. 5–6; Section 6.1, PDF p. 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#distinct-variance-truncation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Freezing the conditional variance differs from the earlier Girard local GP approximation, which adds one half of the trace of its conditional-variance Hessian times Sigma. In a curator finite-feature illustration Y=W*cos(X), with independent W~N(0,1) and X~N(0,2), SSGP-Lin gives variance 1, exact integration gives (1+exp(-4))/2, and retaining the second-order conditional-variance term gives -1. This limiting rank-one coefficient example distinguishes the truncations; it is not a trained-model benchmark or a claim that the earlier method always fails. Both local approximations can differ substantially from exact moments away from a sufficiently local input regime.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equation 14, PDF p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017-supp">Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 3.5, PDF pp. 5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-girard-tr2002">Gaussian Process priors with Uncertain Inputs: Multiple-Step-Ahead Prediction</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3–3.4, Equations 14–22, PDF pp. 8–9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sequential-use</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source uses these prediction transforms inside Bayesian filtering and future-state prediction for control. Gaussian moment propagation alone does not retain the full predictive shape or all dependence between a repeatedly used uncertain dynamics function and subsequent states. Hewing and colleagues explicitly analyze the successive-evaluation independence approximation in Pan-style trajectory prediction. This prediction transform is therefore not an exact shared-function trajectory inference algorithm or, by itself, a complete filter or controller.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pan2017">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 prediction and filtering stages, PDF pp. 5–6; Section 4.2, PDF pp. 6–7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hewing2020">On Simulation and Trajectory Prediction with Gaussian Process Dynamics</a></span>
+        <span>· <strong>Locator:</strong> Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Mean linearization and frozen conditional variance can miss both mean and variance curvature. Positive covariance is not a guarantee of accurate moments, calibrated uncertainty or performance superiority.</li>
+      <li>The input Gaussian is prescribed independently of the fixed trained coefficient posterior. Frequencies, hyperparameters, training data and feature count are conditioned on rather than integrated out; finite-feature kernel approximation remains a separate source of error.</li>
+      <li>The displayed variance includes a future independent observation-noise term once. A latent-function prediction omits that additive future-noise term while retaining the trained posterior coefficient covariance.</li>
+      <li>Multivariate cross-output formulas assume conditionally independent scalar models and independent residual noises. Shared input covariance remains; correlated-output priors and correlated measurement noises require additional terms.</li>
+      <li>Gaussian representations and repeated independent-input propagation discard predictive shape and shared-function temporal dependence. Filtering updates and belief-space controller optimization are additional algorithms, not identities of this prediction transform.</li>
+      <li>Source notation inconsistencies were checked against the supplement and independent algebra. Table 1 spectral-density constants, controller derivative formulas, runtime claims and numerical comparative performance are not asserted here. No author implementation, training, paid provider or benchmark was run; analytic examples are curator illustrations. The record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure predicts a learned regression response while integrating or approximating uncertainty in its test input. The mapping expresses that regression-task relationship rather than algorithm identity or an asserted subclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesForecasting.html" style="font-weight: 600;"><code>AIO:TimeSeriesForecasting</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Time Series Forecasting</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary source repeatedly applies the transform to predict future dynamical states in filtering and model predictive control. This is a demonstrated forecasting application, not a restriction of the generic prediction algorithm to time series.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-pan2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pan2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/pan17a/pan17a.pdf" target="_blank" rel="noopener">Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yunpeng Pan, Xinyan Yan, Evangelos A. Theodorou, Byron Boots
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/pan17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f6419aa3e014…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pan2017-supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pan2017-supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v70/pan17a/pan17a-supp.zip" target="_blank" rel="noopener">Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering and Control</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yunpeng Pan, Xinyan Yan, Evangelos A. Theodorou, Byron Boots
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v70/pan17a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4cdea13525c0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-hewing2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hewing2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf" target="_blank" rel="noopener">On Simulation and Trajectory Prediction with Gaussian Process Dynamics</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lukas Hewing, Elena Arcari, Lukas P. Fröhlich, Melanie N. Zeilinger
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v120/hewing20a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e03bc1f12364…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-girard-tr2002">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">girard-tr2002</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf" target="_blank" rel="noopener">Gaussian Process priors with Uncertain Inputs: Multiple-Step-Ahead Prediction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Agathe Girard, Carl Edward Rasmussen, Roderick Murray-Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> TR-2002-119</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f2e78afd674d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T21:48:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T21:55:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
