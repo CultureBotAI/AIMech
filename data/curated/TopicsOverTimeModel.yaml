@@ -1,0 +1,104 @@
+name: Topics over Time model
+definition: A topic-model family combining fixed topic-word distributions with topic-specific continuous
+  timestamp densities, so that words and their observed times jointly inform document topic assignments.
+concept_kind: model_family
+identity_notes: Scoped to Wang and McCallum's KDD2006 Topics over Time model, especially its fitted token-level
+  timestamp construction with Beta densities over normalized time. The paper also proposes a distinct
+  single-document-timestamp view. Fixed topic-word distributions distinguish TOT from dynamic topic models
+  with evolving word probabilities; continuous observed time does not imply a Markov process or point-process
+  intensity. TOT is a source acronym within this scope. No normalized candidate identity matched all 442
+  pinned AIO IDs, labels and scoped synonyms or 432 preceding native IDs, names and aliases. Full-checkout
+  searches included ignored and hidden files in both checkouts; six matching lines per checkout came from
+  three unique file contents containing prior frontier leads, bibliography context and a cached publication-list
+  mention. All candidate-matching excerpts were read; the long cached browser transcript was not reread
+  in full. All 205 semantic label/synonym hits were byte-verified unchanged from prior reading. Eighteen
+  annotated AIO CLASS nodes and outgoing edges comprise 17 verified prior inspections and one fresh reading.
+  Twenty-seven contextual YAMLs comprise 25 unchanged prior readings, one fresh generated AIO reading
+  and one final round102 native record verified against its fully read review inputs. No candidate record
+  is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- A repeated timestamp provides one density factor per token unless explicitly reweighted. Its restriction
+  to one common timestamp is not automatically a normalized single-time document density. The proposed
+  balancing exponent does not prove equivalence between the two generative descriptions.
+- Bayes inversion can produce a token-topic probability given time using an assumed or estimated topic
+  prior. This is not generally the same quantity as the posterior mean of a random document topic vector,
+  despite notation on p.4. Continuous density values are not probabilities; endpoint handling, normalization
+  range and balancing conventions matter.
+- One Beta per topic limits temporal shapes. Extending the bounded time range for prediction is a modeling
+  choice rather than a guarantee of future extrapolation. Fixed word distributions do not directly model
+  changing word meanings, and topic split/merge interpretations are descriptive.
+- Historical evaluations use selected address, email and NIPS collections with heuristic preprocessing
+  and particular finite samples. Topic names, KL distinctness, thresholded co-occurrence and decade prediction
+  do not establish causal trends, universal semantic accuracy or future forecasting. No author code or
+  benchmark was executed.
+aliases:
+- TOT
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1-2, PDF pp.1-4, Figure 1 and token-level generative process
+  relation: supports
+claims:
+- claim_id: token-time-generation
+  kind: mechanism
+  statement: 'The fitted construction gives each document a Dirichlet topic mixture, each topic a corpus-shared
+    categorical word vector, and each topic a Beta timestamp density on a normalized bounded interval.
+    A token draws a topic, a word and a timestamp; fitting copies the document timestamp to every token.
+    Word distributions remain fixed across time, while topic-specific time densities influence assignment.
+    The alternative description generates one timestamp from a document-mixture-weighted combination of
+    topic densities. These are different generative laws: repeating topic-time factors, even with inverse-length
+    weighting, is not generally identical to one mixture density for a document timestamp.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF pp.2-4, Figure 1(b,c), generative steps and alternative description
+    relation: supports
+- claim_id: time-weighted-inference
+  kind: mechanism
+  statement: With topic timestamp parameters fixed, the collapsed token assignment weight combines leave-one-out
+    document-topic and topic-word predictive factors with the assigned topic's timestamp density. The
+    paper introduces an exponent to balance time and word contributions and updates Beta parameters from
+    empirical moments. These adaptations change the fitting objective and require positive valid shapes
+    and safeguards for empty topics or zero variance. The printed density uses (1-t)^(psi1-1)*t^(psi2-1),
+    whereas its moment estimates assign psi1=mean*c and psi2=(1-mean)*c. A coherent calculation must use
+    one consistent shape convention; for the conventional Beta(a,b), the density is proportional to t^(a-1)*(1-t)^(b-1).
+    No behavior of uninspected historical software is inferred from this notation conflict.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF pp.3-4, conditional and Algorithm 1; Appendix A p.10, density and moment estimates
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Topics over Time: A Non-Markov Continuous-Time Model of Topical Trends'
+  authors:
+  - Xuerui Wang
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/tot-kdd06.pdf
+  version: Author-hosted ten-page KDD2006 paper, including Appendix A on p.10; all pages visually read.
+    No numeric printed page labels visible; locators use PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:14:13Z'
+  sha256: 96102cc116a8f5b01ad4ec82a841a4684bb63d4b6ecd6cc3a5e67d4890d3bf04
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined latent-variable model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: The model analyzes topical prevalence associated with observed times, but its joint timestamp/content
+    law is not the same identity as the broad time-series task.
+id: AIMech:TopicsOverTimeModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:24:39Z'
+  updated_at: '2026-10-12T00:24:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
