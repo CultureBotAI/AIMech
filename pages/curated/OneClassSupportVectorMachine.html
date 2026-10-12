@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One-class support vector machine · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>One-class support vector machine</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">One-class support vector machine</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OneClassSupportVectorMachine</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> OCSVM, One-class SVM, Single-class support vector machine
+    </div>
+
+  <div class="detail-desc">
+    A support-estimation algorithm that optimizes a kernel feature-space score relative to the origin using a norm penalty, a learned offset and linearly penalized shortfalls controlled by nu, then accepts a query when its score meets the learned threshold.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the original origin-relative one-class hyperplane support estimator in Scholkopf, Platt, Shawe-Taylor, Smola and Williamson (2001). It does not denote supervised nu-SVC or nu-SVR, sphere-fitting SVDD, support-vector clustering with component assignment, or later negative-example feature extraction. Compared all442 pinned AIO IDs, labels and scoped synonyms with all519 preceding native IDs, names and aliases, with no normalized collision. Fixed-string whole-word searches in both checkouts included ignored and hidden files, expanded names, acronyms, DOI and paper identifiers. All11 distinct matched-text windows were read; the locations are prior discovery leads and neighboring method context. All125 semantic AIO rows and114 native identity rows exactly match the preceding read capture; the additional RAPID row and full record were read. Thirty complete contextual record readings were retained with matching hashes. Absence is bounded to the inspected pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">8 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#soft-origin-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a nonempty sample of n observations, a positive-semidefinite kernel with feature map Phi, and 0&lt;nu&lt;=1, minimize (1/2)||w||^2 + sum_i xi_i/(nu*n) - rho subject to w.Phi(x_i)&gt;=rho-xi_i and xi_i&gt;=0. The offset rho is unrestricted. The method learns from the supplied observations without requiring a representative negative class. It does not minimize input-space Lebesgue volume, and a degenerate feature configuration need not yield a nonzero separating normal.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Sections 2-3, PDF pp3-5 / printed pp1445-1447, Equations 3.1-3.6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dual-score-and-threshold</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The dual minimizes (1/2)*alpha^T*K*alpha subject to sum_i alpha_i=1 and 0&lt;=alpha_i&lt;=C, where C=1/(nu*n). The score is g(x)=sum_i alpha_i*k(x_i,x); accept g(x)&gt;=rho, including equality. A coefficient strictly between zero and C fixes rho=g(x_i). Such a coefficient need not exist. KKT conditions instead bound rho below by max_{alpha_i&gt;0} g(x_i) and above by min_{alpha_i&lt;C} g(x_i); an empty upper-bound set gives no finite upper bound. Different optimal offsets can give different acceptance regions. The primal normal is fixed by strict convexity in w, while coefficients can be nonunique for a singular Gram matrix.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp4-6 / printed pp1446-1448, Equations 3.4-3.12 and sign convention; KKT interval derived from these constraints; research/discovery/ocsvm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-nu-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At an exact optimum, nu bounds the fraction of strictly rejected training observations from above and the fraction of positive expansion coefficients from below. The paper states these properties under rho!=0. Neither bound requires equality in a finite sample; a coefficient at its upper bound can lie on the accepted boundary. A support-vector count is not a calibrated future rejection probability or a guaranteed sparse fraction. With the analytic nonconstant kernel k(x,y)=1+x*y and four balanced points -3/4,-1/4,1/4,3/4, nu=1/2 admits optimal weights 1/4, rho=1 and a constant score: all four points are support vectors and none is rejected. This is a finite illustration, not an iid asymptotic counterexample.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Proposition 3, PDF p11 / printed p1453; Appendix B proof sketch, PDF p23 / printed p1465; curator calculation in research/discovery/ocsvm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#sphere-correspondence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For 0&lt;nu&lt;1, a kernel whose diagonal k(x,x) is constant over both training and query inputs makes the matched-penalty SVDD and hyperplane dual objectives differ only by scale and a constant. Compatible radius and offset choices then give the same acceptance rule. This restricted correspondence does not identify the algorithms for arbitrary kernels. For linear-kernel observations 1 and 2 with nu=1/4, the exact hyperplane rule accepts x&gt;=1, while matched-penalty SVDD accepts only 1&lt;=x&lt;=2. Training-only diagonal equality also does not justify dropping the query diagonal.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp6-7 / printed pp1448-1449, Equations 3.13-3.17 and following comparison; curator calculation in research/discovery/ocsvm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pairwise-optimization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The proposed SMO adaptation updates two coefficients while preserving their sum and the box constraints. For positive pair curvature k_ii+k_jj-2*k_ij, the unconstrained second-coefficient update adds (g_i-g_j)/(k_ii+k_jj-2*k_ij), then clips to the jointly feasible interval before recovering the first coefficient. Zero curvature cannot be handled by dividing that formula. The paper alternates full and non-bound KKT scans and refers to fallback selection rules; it also discusses tolerance adjustments and a modification for pathological convergence cases. This describes an optimization procedure, not a universal runtime or implementation-convergence guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp7-9 / printed pp1449-1451, Equations 4.1-4.8 and termination discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#density-and-endpoint</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At nu=1 the constraints force every expansion coefficient to 1/n. For appropriately normalized density kernels this recovers a Parzen-type score, but does not by itself determine a useful acceptance threshold. The source explicitly changes the offset in its Parzen comparison. For linear-kernel observations 1 and 2 at nu=1, offsets 3 and 4 share the exact optimal objective -9/8 but respectively accept one and zero training points. For smaller nu, nonuniform learned weights generally differ from an ordinary unweighted kernel-density estimate; an arbitrary kernel score is not a normalized probability density.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p6 / printed p1448; Figure 2 caption, PDF p14 / printed p1456; curator endpoint calculation in research/discovery/ocsvm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#generalization-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper gives a high-probability bound for rejection outside an enlarged region using offset rho-gamma with gamma&gt;0, under iid sampling, a distribution without discrete components and the stated function-class/complexity conditions. It does not set the original region’s future rejection probability exactly to nu or establish unconditional complete-support recovery. The authors describe the bound as loose and unsuitable for direct parameter selection. Their asymptotic nu-equality discussion depends on additional distribution, kernel and vanishing-boundary-fraction arguments; it is not asserted here as a general guarantee for every kernel.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF pp11-13 / printed pp1453-1455, Proposition 3 and Theorem 1; Appendix B, PDF pp23-26 / printed pp1465-1468</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The experiments use selected two-dimensional examples and USPS digits with specified Gaussian width and nu. The digit-zero experiment trains on training-set zeros and tests against zeros and other digits. A separate outlier experiment fits the USPS test set itself after adding ten class-label coordinates, so that study is neither a held-out test nor an unlabeled-pixel-only experiment. Reported SMO scaling uses small selected subsets and is explicitly described as noisy. These studies do not establish universal accuracy, kernel choice, robustness or computational scaling. No numerical performance advantage is curated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-scholkopf2001">Estimating the Support of a High-Dimensional Distribution</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF pp13-18 / printed pp1455-1460, Figures 1-6 and Table 1; discussion PDF pp19-21 / printed pp1461-1463</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Kernel, scaling, regularization and threshold conventions affect the region; support estimation does not guarantee calibrated future error or detection of every anomaly.</li>
+      <li>All29 journal pages were read, but the earlier technical report and external proof dependencies were not independently audited. Asymptotic claims remain qualified.</li>
+      <li>Exact rational examples were executed without training a model, running a historical implementation or reproducing a benchmark.</li>
+      <li>This remains a native DRAFT; supervised nu algorithms, percentile feature extraction and regularized manifolds remain distinct discovery leads.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedLearning.html" style="font-weight: 600;"><code>AIO:UnsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The AIO target describes the task of learning patterns from unlabeled observations, whereas this local record specifies one support-estimation algorithm. The relation captures that learning setting without equating an algorithm with a task or asserting a subclass edge. Users may supply a selected target class; the mathematical objective does not require negative training examples. BinaryClassification and Classification inherit supervised task scope and do not identify this objective. KernelLayer is a neural component, and generic Model/Network nodes do not identify the estimator.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupportVectorMachine.html" style="font-weight: 600;"><code>AIO:SupportVectorMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Support Vector Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The origin-relative kernel hyperplane and norm/slack optimization are directly related to support-vector classification. The pinned AIO target specifically describes a supervised category-separating network, so it is not treated as an exact or broader identity for this one-class support estimator. The source explicitly derives the connection and its changed objective. Native SVDD has only a conditional constant-diagonal correspondence; KernelPCA optimizes variance directions and SVC additionally assigns connected components.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-scholkopf2001">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">scholkopf2001</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://alex.smola.org/papers/2001/SchPlaShaSmoetal01.pdf" target="_blank" rel="noopener">Estimating the Support of a High-Dimensional Distribution</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernhard Schölkopf, John C. Platt, John Shawe-Taylor, Alex J. Smola, Robert C. Williamson
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1162/089976601750264965</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:65e412e8d167…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T11:03:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T11:03:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OneClassSupportVectorMachine.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OneClassSupportVectorMachine.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
