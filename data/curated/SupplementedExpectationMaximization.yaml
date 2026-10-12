@@ -1,0 +1,131 @@
+name: Supplemented Expectation Maximization
+aliases:
+- Supplemented EM
+- SEM Algorithm (Supplemented EM)
+concept_kind: algorithm
+definition: A numerical supplement to expectation maximization that combines expected complete-data information
+  with the local Jacobian of the EM update map to estimate the observed-data asymptotic parameter covariance.
+identity_notes: Supplemented EM estimates uncertainty around a converged EM fit; it is distinct from stochastic
+  EM, structural equation modeling, EM acceleration and the fitting algorithm itself. Bare SEM is not
+  asserted as an alias. The full 1995 SECM primary follow-up gives the SEM equations and explicit implementation
+  as a special case, supporting this record despite the inaccessible original 1991 full PDF. All 442 pinned
+  AIO labels/scoped synonyms and 466 preceding native IDs, names and aliases were compared. The sole normalized
+  search-term collision, bare SAGE, identifies the existing sparse additive text model; the new optimization
+  method uses qualified aliases. Ignored-inclusive fixed-string searches of both full checkouts returned
+  436 and 459 line instances. Context windows for all 143 distinct normalized matched texts were inspected;
+  duplicate ledger/review mentions, unrelated environment strings and the stochastic-EM lead do not establish
+  these four method identities. All 225 semantic label/synonym rows and 17 annotated AIO nodes with outgoing
+  edges were inspected; sixteen nodes were byte-verified unchanged after prior reading and UncertaintyBias
+  was newly read. Thirty-one contextual YAMLs comprise 17 AIO and 14 native records, with 27 verified
+  prior readings and four full new readings; the existing sparse text SAGE was also reread. Absence is
+  bounded to this pin, maintained corpus and inspected neighborhood.
+evidence_sources:
+- source_id: method-source
+  title: 'Maximum Likelihood Estimation via the ECM Algorithm: Computing the Asymptotic Variance'
+  authors:
+  - David A. van Dyk
+  - Xiao-Li Meng
+  - Donald B. Rubin
+  source_type: primary_paper
+  url: https://www.ma.imperial.ac.uk/~dvandyk/Research/95-sinica-secm.pdf
+  persistent_id: https://www.ma.imperial.ac.uk/~dvandyk/Research/95-sinica-secm.pdf
+  version: Author-hosted Statistica Sinica 5(1995):55-75 primary paper. All 21 PDF pages visually read,
+    including algorithms, flowchart, matrices, examples, diagnostics and references. Printed page equals
+    PDF page plus 54. Section 3.1 explicitly gives supplemented EM as a special case; the original 1991
+    SEM full PDF was not obtained.
+  access_level: full_text
+  accessed_at: '2026-10-12T03:25:18Z'
+  sha256: 31ec9fba0523f0c6e5b7d0e3f8d68a3a6847a71e1ca0d36eb353fc2041224d62
+aio_no_match:
+  search_scope: All 442 pinned CLASS labels and scoped synonyms,466 preceding native identities and ignored-inclusive
+    full-checkout searches;225 semantic label/synonym rows and 17 annotated AIO nodes with outgoing edges
+    were inspected. Assessment is bounded to the recorded AIO snapshot.
+  rationale: This method computes asymptotic parameter covariance by supplementing an EM-type fit with
+    expected complete information and update-map derivatives. The inspected pin supplies no fitting-uncertainty
+    or observed-information method counterpart. A generic task, fitted model, preprocessing operation
+    or uncertainty-related bias would conflate the inferential calculation with a different kind of concept.
+  examined_targets:
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is the learning process/task. Supplemented covariance computation is
+      a general inferential calculation after fitting, not itself a learned-task identity; that broad
+      association alone is not used to force a link.
+  - target: AIO:Model
+    rejection_reason: The calculation does not define a distribution/model family or a trained model instance.
+  - target: AIO:TrainingStrategy
+    rejection_reason: This pinned node is a preprocessing strategy, not an inverse-information or numerical
+      covariance procedure.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: Regression is only one possible application; the procedure applies to other incomplete-data
+      likelihood models.
+  - target: AIO:DataAugmentation
+    rejection_reason: The pinned term enriches training examples by transformations. Conditional latent-data
+      information in EM is a different construction.
+  - target: AIO:UncertaintyBias
+    rejection_reason: This bias favors groups better represented in training because of lower prediction
+      uncertainty. It does not denote parameter covariance estimation.
+  - target: AIO:EvaluationBias
+    rejection_reason: This is a bias in evaluation; a numerical covariance calculation is not such a bias
+      or a predictive benchmark.
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.3, pp.58-59 / PDF 4-5; Section 3.1, p.61 / PDF 7
+  relation: supports
+claims:
+- claim_id: information-from-em-map
+  kind: mechanism
+  statement: At a regular interior fit theta*, let Ic be the conditional expected negative complete-data
+    Hessian and D the EM map derivative using input-coordinate rows and output-coordinate columns. The
+    missing-information identity gives Io=(I-D)Ic, so Vobs=Ic^(-1)(I-D)^(-1). Equivalently add Ic^(-1)D(I-D)^(-1)
+    to the complete-data covariance. The factors and derivative convention matter; a single scalar convergence
+    rate cannot replace the full Jacobian in a multiparameter problem.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3 Eq 2.3.1-2.3.4, pp.58-59 / PDF 4-5; Section 2.5 SEM reduction, p.60 / PDF 6
+    relation: supports
+- claim_id: coordinate-map-probes
+  kind: mechanism
+  statement: Obtain a tightly converged fit and expected complete information. Perturb one input coordinate
+    away from theta*, holding the other input coordinates at theta*, and perform one full ordinary EM
+    update. Divide each output change from theta* by the input perturbation to approximate one row of
+    D, using stabilized ratios as perturbations approach the fit. Section 3 implements SEM by making CMSTEPS
+    a joint Q maximization and setting the separate CM derivative to zero.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.1-3.4, Algorithms 1-2 and Eq 3.3.2-3.3.4, pp.61-65 / PDF 7-11
+    relation: supports
+- claim_id: asymptotic-and-numerical-boundaries
+  kind: limitation
+  statement: Inverse observed curvature is an asymptotic uncertainty approximation requiring a regular
+    interior fit and nonsingular information. Ratio calculations become unreliable with inaccurate fitting,
+    tiny denominators or missing-information fractions near one. Components reaching their fitted values
+    exactly can require special treatment instead of zero-denominator ratios. Inspecting asymmetry is
+    a useful diagnostic, but symmetric output does not certify the correct covariance or statistical coverage.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, p.57 / PDF 3; Sections 3.4 and 5, pp.64-65,71-73 / PDF 10-11,17-19; curator
+      symmetry counterexample
+    relation: supports
+limitations:
+- The inspected full-text mechanism source is the 1995 primary follow-up, not the original 1991 paper.
+  Original-paper access remains a documented evidence gap; no unseen original proof is claimed.
+- The method additionally requires expected complete-data information. The simple sufficient-statistic
+  implementation assumes an appropriate exponential-family complete model; general expected-curvature
+  calculation may require integration.
+- Boundary optima, nonidentifiability, singular information and incomplete convergence can invalidate
+  the inverse-curvature calculation or its statistical interpretation. It does not provide a full posterior
+  distribution or guaranteed finite-sample interval coverage.
+- The source’s strong informal language about symmetry assuring correctness is not adopted as a theorem.
+  A wrong common information scaling can preserve symmetry while giving wrong variances. Finite Gaussian
+  matrix checks are not a calibration study or replication of the source examples.
+id: AIMech:SupplementedExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T03:40:12Z'
+  updated_at: '2026-10-12T03:45:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
