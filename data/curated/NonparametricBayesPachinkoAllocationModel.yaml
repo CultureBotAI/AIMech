@@ -1,0 +1,111 @@
+name: Nonparametric Bayes pachinko allocation model
+definition: A Bayesian pachinko topic-model family using coupled hierarchical Dirichlet-process allocations
+  to infer occupied supertopics and shared subtopics, with subtopic allocation groups determined by latent
+  supertopic assignments.
+concept_kind: model_family
+identity_notes: Scoped to Li, Blei and McCallum's UAI2007 nonparametric four-level PAM construction. Its
+  countably unbounded prior supports data-dependent finite topic occupancy while retaining root, supertopic,
+  subtopic and word levels. A two-level allocation franchise selects shared supertopics; a three-level
+  franchise selects shared subtopics conditional on the selected supertopic. This differs from fixed-count
+  PAM, internal-word-emission hPAM, a single-document-path nested Chinese restaurant process and a generic
+  HDP with externally fixed groups. No normalized candidate identity matched all 442 pinned AIO IDs, labels
+  and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches included
+  ignored and hidden files in both checkouts; two matching lines per checkout came from one unique prior
+  discovery-ledger content with a source URL and pending extension cohort. All matching excerpts were
+  read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified
+  unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and
+  two fully read final round104 native targets verified against saved review inputs. No candidate record
+  is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- Nonparametric means an unbounded prior on available components, not absence of hyperparameters or guaranteed
+  recovery of an objectively correct topic count. Finite chains, concentration priors and auxiliary allocation
+  bookkeeping affect inference.
+- The source's general correlation rhetoric does not establish universal DAG expressivity, literal independence
+  of Dirichlet topic proportions, or exact CTM equivalence. The record follows the explicit four-level
+  franchise construction.
+- Synthetic recovery and selected comp5, Rexa and NIPS studies provide bounded evidence. Likelihood is
+  estimated from a finite mixture of generated documents; non-significant pairwise differences do not
+  prove model equivalence. The comp5 HDP baseline uses document group information unavailable to the other
+  models.
+- An unused edge can remain possible under the prior. Proposed pre-pruning and large-scale extensions
+  are not evaluated exact algorithms in this source. No author code or benchmark was executed.
+aliases:
+- NPB PAM
+- nonparametric PAM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1-2.3, PDF pp.2-4, Table 1 and Figure 1
+  relation: supports
+claims:
+- claim_id: coupled-allocation-franchises
+  kind: mechanism
+  statement: Each token selects a document-local entryway; a newly created entryway selects a globally
+    shared category representing a supertopic. Conditional on that category, the token selects a local
+    document/category table. A new table selects a category-specific corpus-shared menu, and a new menu
+    selects a globally shared dish representing a subtopic. Existing auxiliary objects retain their assigned
+    category, menu or dish. A dish has a shared categorical word distribution with a Dirichlet base. Super-topic
+    assignments therefore dynamically define groups for the lower franchise.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3.1, PDF pp.3-4, five generative steps and Figure 1
+    relation: supports
+- claim_id: collapsed-franchise-inference
+  kind: mechanism
+  statement: The source proposes jointly sampling a token's entryway, category, table, menu and dish assignments,
+    combining franchise predictive factors with a corpus dish-word predictive factor. Customer, entryway,
+    table and menu counts play different roles; a correct leave-one-out calculation must consistently
+    remove emptied auxiliary objects. Positive concentration parameters receive Gamma priors and are resampled
+    by a cited HDP procedure. The word factor follows the dish identity in Table 1, despite nearby prose
+    loosely calling that object a menu.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3.2, PDF p.4, three conditional factors and hyperparameter discussion; Table 1
+      p.3
+    relation: supports
+- claim_id: occupied-sparsity-boundary
+  kind: mechanism
+  statement: 'Reported sparse connectivity records which supertopic/subtopic pairs were occupied in finite
+    assignments. It need not impose structural zero transition probabilities: a new local table and category
+    menu can select a globally existing dish not previously used by that supertopic. In a synthetic positive-concentration
+    example, such an unobserved edge retains predictive probability 1/24. Learning occupied topic counts
+    within the fixed four-level organization is distinct from learning arbitrary DAG topology or guaranteeing
+    the true finite number of topics.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3.1, PDF pp.3-4, new-object probabilities; Section 3.4 p.6 and Conclusions p.8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Nonparametric Bayes Pachinko Allocation
+  authors:
+  - Wei Li
+  - David Blei
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/npbpam-uai2007.pdf
+  version: Author-hosted eight-page UAI2007 paper; all pages visually read. No numeric printed page labels
+    visible; locators use PDF pages. The arXiv:1206.5270 metadata identifies UAI2007 and a later 2012
+    deposit; that archive PDF was not substituted or byte-compared.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:27:38Z'
+  sha256: a7c2ca36e34926513d8a8de4e80c934e1534b500f862c922085ba1991e8dc476
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined latent-variable model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+id: AIMech:NonparametricBayesPachinkoAllocationModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:36:41Z'
+  updated_at: '2026-10-12T00:36:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

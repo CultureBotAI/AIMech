@@ -1,0 +1,108 @@
+name: Hierarchical pachinko allocation model
+definition: A pachinko topic-model family that associates word-emission distributions with internal topic
+  nodes as well as terminal topics, allowing document tokens to use multiple paths and emit from different
+  levels of a topic DAG.
+concept_kind: model_family
+identity_notes: Scoped to Mimno, Li and McCallum's ICML2007 hierarchical PAM family and its two explicit
+  variants. Internal vocabulary emissions distinguish it from the demonstrated four-level PAM with word
+  emissions only at subtopics. Token-specific DAG paths and shared subtopics distinguish it from hierarchical
+  LDA's single document path in a tree. The path-level and local-exit variants remain one source-defined
+  family with explicit differences, not asserted interchangeable parameterizations. This paper uses fixed
+  topic counts; nonparametric PAM is a separate construction. No normalized candidate identity matched
+  all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout
+  searches included ignored and hidden files in both checkouts; two matching lines per checkout came from
+  one unique prior discovery-ledger content with a source URL and pending extension cohort. All matching
+  excerpts were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges
+  were byte-verified unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged
+  prior readings and two fully read final round104 native targets verified against saved review inputs.
+  No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- Experiments use fixed three-level topic structures and finite topic counts. Probabilistic routing hierarchies
+  are not automatically ontological subsumption or causal graphs. Private/public children, separate Beta
+  exits and other proposed DAG variations are sketches outside the two evaluated constructions.
+- Collapsed counts exclude the current token and respect shared emitting nodes. A literal independent
+  word distribution per path/level triple would change the model. Finite calculations verify both variants'
+  conditionals on synthetic examples, not historical software or chain convergence.
+- Selected Medline and newsgroup studies use particular hyperparameters, finite topic grids and simulated-document
+  likelihood estimates with plug-in shared parameters. Topic/journal mutual information is not direct
+  taxonomy recovery or document classification accuracy. Some numeric prose and table summaries disagree;
+  no disputed summary is adopted.
+- Reported speed and performance comparisons depend on author implementations and chosen datasets. No
+  author software, benchmark, universal superiority or exact marginal evidence is certified.
+aliases:
+- hPAM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1-2.4, PDF pp.1-4, Figures 1-2 and both generative processes
+  relation: supports
+claims:
+- claim_id: path-level-variant
+  kind: mechanism
+  statement: In model 1 each document draws a root-to-supertopic vector and a subtopic vector for each
+    supertopic. Each token chooses a supertopic and subtopic, then a level from a corpus-shared distribution
+    specific to that path. It emits from the shared root, supertopic or subtopic word vector according
+    to the selected level. Even root-emitted tokens have a latent complete path and contribute routing
+    counts. With fixed priors, collapsed assignment weights combine document routing, corpus path-level
+    and actual emitting-node word counts. Word counts must pool all paths that use the same emission vector.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.4, PDF p.3, Figure 1, model 1 and Equation 1; Figure 2 p.4
+    relation: supports
+- claim_id: local-exit-variant
+  kind: mechanism
+  statement: 'Model 2 adds an exit coordinate to each document-local routing vector. A root exit emits
+    from the root; otherwise a supertopic is selected and either exits to its word distribution or routes
+    to a subtopic. The path stops at the emitting node, so unused lower routing choices are not sampled.
+    There is no model 1 path-specific level vector. The variants have different cross-document sharing:
+    in a one-path example a shared Beta(1,2) root-level probability gives joint root emission probability
+    1/6 across two documents, whereas independent document-local Beta(1,2) exits give 1/9 despite the
+    same marginal probability.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.4, PDF p.3, model 2 and comparison; Figure 2 p.4
+    relation: supports
+- claim_id: collapsed-fitting
+  kind: mechanism
+  statement: The paper describes Gibbs sampling with a factorization that first marginalizes paths to
+    sample an emitting node, then samples a compatible path conditional on that node. This preserves the
+    conditional when those probabilities are computed exactly. Document routing hyperparameters are periodically
+    fitted from sampled counts by a Gibbs-EM procedure using fixed-point Dirichlet estimation. Such adaptation
+    is distinct from a chain targeting one fixed-hyperparameter posterior throughout training.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.4, PDF pp.3-4, sampling factorization and parameter fitting
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Mixtures of Hierarchical Topics with Pachinko Allocation
+  authors:
+  - David Mimno
+  - Wei Li
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/hpam-icml2007.pdf
+  version: Author-hosted eight-page ICML2007 paper; all pages visually read. No numeric printed page labels
+    visible; locators use PDF pages. Models 1 and 2 are separate variants within the scoped family.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:27:35Z'
+  sha256: d6a539a2286436376a34974870e4f80c2f09e1af83ddd33136e7a049110f0e6e
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined latent-variable model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+id: AIMech:HierarchicalPachinkoAllocationModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:36:41Z'
+  updated_at: '2026-10-12T00:36:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

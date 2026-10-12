@@ -1,0 +1,911 @@
+# Scientific self-review of hierarchical, nonparametric and temporal PAM extensions
+
+- Review: 20261012T004044Z-pachinko-extensions
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T00:37:03Z
+- Finished UTC: 2026-10-12T00:40:44Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain three DRAFT PAM extensions for internal topic emissions, nonparametric occupied-topic allocation and multilevel time factors. Explicit qualifications preserve variant sharing, auxiliary counts, unused-edge support and distinct timestamp laws. No actionable curation finding remains in this selected cohort.
+
+## Scope And Provenance
+
+All fields of three maintained probability-model records.
+
+Selection: Exact maintained IDs HierarchicalPachinkoAllocationModel, NonparametricBayesPachinkoAllocationModel and PachinkoAllocationTopicsOverTimeModel; complete selected cohort without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 59277d1cc0b708c5d26b15f7cb533befd074ab4f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:HierarchicalPachinkoAllocationModel | data/curated/HierarchicalPachinkoAllocationModel.yaml | maintained | Hierarchical pachinko allocation model |
+| AIMech:NonparametricBayesPachinkoAllocationModel | data/curated/NonparametricBayesPachinkoAllocationModel.yaml | maintained | Nonparametric Bayes pachinko allocation model |
+| AIMech:PachinkoAllocationTopicsOverTimeModel | data/curated/PachinkoAllocationTopicsOverTimeModel.yaml | maintained | Pachinko allocation topics over time model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 115.35s (0:01:55)<br>Checked 442 record(s); 0 failed.<br>Checked 438 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 127 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 124,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel | Command exited 0 with no output. |
+| Pachinko extension probability boundaries | passed | True | AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel | {"hpam_model1": {"states": 1728, "conditionals": 5184, "max_error": 6.106226635438361e-16}, "hpam_model2": {"states": 343, "conditionals": 1029, "max_error": 5.551115123125783e-16}, "cross_document_root_emission": {"shared_level_joint": 0.16666666666666666, "independent_local_exit_joint": 0.1111111111111111}, "franchise_predictive": {"previously_unused_edge": 0.041666666666666664, "new_global_dish": 0.013888888888888888, "observed_dish": 0.9444444444444444}, "pamtot": {"diagonal_integrals": [1.3333333333333313, 0.6666666666666659], "repeated_time_path_probabilities": [0.25, 0.75], "normalized_single_time_path_probabilities": [0.14285714285714288, 0.8571428571428571], "valid_beta_product_boundary_exponent": -1.2}} |
+
+## Scientific And Domain Assessments
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:HierarchicalPachinkoAllocationModel.
+
+Scoped to Mimno, Li and McCallum's ICML2007 hierarchical PAM family and its two explicit variants. Internal vocabulary emissions distinguish it from the demonstrated four-level PAM with word emissions only at subtopics. Token-specific DAG paths and shared subtopics distinguish it from hierarchical LDA's single document path in a tree. The path-level and local-exit variants remain one source-defined family with explicit differences, not asserted interchangeable parameterizations. This paper uses fixed topic counts; nonparametric PAM is a separate construction. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; two matching lines per checkout came from one unique prior discovery-ledger content with a source URL and pending extension cohort. All matching excerpts were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two fully read final round104 native targets verified against saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+
+In model 1 each document draws a root-to-supertopic vector and a subtopic vector for each supertopic. Each token chooses a supertopic and subtopic, then a level from a corpus-shared distribution specific to that path. It emits from the shared root, supertopic or subtopic word vector according to the selected level. Even root-emitted tokens have a latent complete path and contribute routing counts. With fixed priors, collapsed assignment weights combine document routing, corpus path-level and actual emitting-node word counts. Word counts must pool all paths that use the same emission vector. Model 2 adds an exit coordinate to each document-local routing vector. A root exit emits from the root; otherwise a supertopic is selected and either exits to its word distribution or routes to a subtopic. The path stops at the emitting node, so unused lower routing choices are not sampled. There is no model 1 path-specific level vector. The variants have different cross-document sharing: in a one-path example a shared Beta(1,2) root-level probability gives joint root emission probability 1/6 across two documents, whereas independent document-local Beta(1,2) exits give 1/9 despite the same marginal probability. The paper describes Gibbs sampling with a factorization that first marginalizes paths to sample an emitting node, then samples a compatible path conditional on that node. This preserves the conditional when those probabilities are computed exactly. Document routing hyperparameters are periodically fitted from sampled counts by a Gibbs-EM procedure using fixed-point Dirichlet estimation. Such adaptation is distinct from a chain targeting one fixed-hyperparameter posterior throughout training. Limitations: Experiments use fixed three-level topic structures and finite topic counts. Probabilistic routing hierarchies are not automatically ontological subsumption or causal graphs. Private/public children, separate Beta exits and other proposed DAG variations are sketches outside the two evaluated constructions. Collapsed counts exclude the current token and respect shared emitting nodes. A literal independent word distribution per path/level triple would change the model. Finite calculations verify both variants' conditionals on synthetic examples, not historical software or chain convergence. Selected Medline and newsgroup studies use particular hyperparameters, finite topic grids and simulated-document likelihood estimates with plug-in shared parameters. Topic/journal mutual information is not direct taxonomy recovery or document classification accuracy. Some numeric prose and table summaries disagree; no disputed summary is adopted. Reported speed and performance comparisons depend on author implementations and chosen datasets. No author software, benchmark, universal superiority or exact marginal evidence is certified.
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:NonparametricBayesPachinkoAllocationModel.
+
+Scoped to Li, Blei and McCallum's UAI2007 nonparametric four-level PAM construction. Its countably unbounded prior supports data-dependent finite topic occupancy while retaining root, supertopic, subtopic and word levels. A two-level allocation franchise selects shared supertopics; a three-level franchise selects shared subtopics conditional on the selected supertopic. This differs from fixed-count PAM, internal-word-emission hPAM, a single-document-path nested Chinese restaurant process and a generic HDP with externally fixed groups. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; two matching lines per checkout came from one unique prior discovery-ledger content with a source URL and pending extension cohort. All matching excerpts were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two fully read final round104 native targets verified against saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+
+Each token selects a document-local entryway; a newly created entryway selects a globally shared category representing a supertopic. Conditional on that category, the token selects a local document/category table. A new table selects a category-specific corpus-shared menu, and a new menu selects a globally shared dish representing a subtopic. Existing auxiliary objects retain their assigned category, menu or dish. A dish has a shared categorical word distribution with a Dirichlet base. Super-topic assignments therefore dynamically define groups for the lower franchise. The source proposes jointly sampling a token's entryway, category, table, menu and dish assignments, combining franchise predictive factors with a corpus dish-word predictive factor. Customer, entryway, table and menu counts play different roles; a correct leave-one-out calculation must consistently remove emptied auxiliary objects. Positive concentration parameters receive Gamma priors and are resampled by a cited HDP procedure. The word factor follows the dish identity in Table 1, despite nearby prose loosely calling that object a menu. Reported sparse connectivity records which supertopic/subtopic pairs were occupied in finite assignments. It need not impose structural zero transition probabilities: a new local table and category menu can select a globally existing dish not previously used by that supertopic. In a synthetic positive-concentration example, such an unobserved edge retains predictive probability 1/24. Learning occupied topic counts within the fixed four-level organization is distinct from learning arbitrary DAG topology or guaranteeing the true finite number of topics. Limitations: Nonparametric means an unbounded prior on available components, not absence of hyperparameters or guaranteed recovery of an objectively correct topic count. Finite chains, concentration priors and auxiliary allocation bookkeeping affect inference. The source's general correlation rhetoric does not establish universal DAG expressivity, literal independence of Dirichlet topic proportions, or exact CTM equivalence. The record follows the explicit four-level franchise construction. Synthetic recovery and selected comp5, Rexa and NIPS studies provide bounded evidence. Likelihood is estimated from a finite mixture of generated documents; non-significant pairwise differences do not prove model equivalence. The comp5 HDP baseline uses document group information unavailable to the other models. An unused edge can remain possible under the prior. Proposed pre-pruning and large-scale extensions are not evaluated exact algorithms in this source. No author code or benchmark was executed.
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:PachinkoAllocationTopicsOverTimeModel.
+
+Scoped to the 2006 Li, Wang and McCallum workshop model combining PAM and Topics over Time, particularly the demonstrated four-level PAMTOT construction. Both supertopics and subtopics supply time factors, whereas subtopics supply corpus-shared word distributions. This differs from plain PAM, single-topic-level TOT, and dynamic topic models with evolving word probabilities. PAMTOT is the source acronym. The construction models observed timestamp/content associations, not a continuous-time Markov process or causal event graph. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; two matching lines per checkout came from one unique prior discovery-ledger content with a source URL and pending extension cohort. All matching excerpts were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two fully read final round104 native targets verified against saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+
+In four-level PAMTOT each document draws root and supertopic routing vectors, while subtopic word vectors are shared across the corpus. Each token chooses a supertopic/subtopic path, emits a word and generates separate timestamps from Beta densities at both topic levels. Fitting repeats the observed document timestamp in all these time slots. With fixed parameters, the collapsed path weight is the three PAM leave-one-out count factors multiplied by supertopic and subtopic time densities; a common root time factor cancels from assignment odds. The source acknowledges that forward generation yields distinct times even though fitting repeats one document time. Restricting a product of timestamp densities to a shared time is not automatically a normalized single-time model. Its integral can depend on the chosen path, and can even diverge for otherwise valid individual Beta shapes. A finite two-path example gives assignment probabilities (1/4,3/4) for repeated time factors versus (1/7,6/7) after separately normalizing each path as a single-time density. These are different model interpretations. A coherent general marginal sums complete paths while retaining the product of all their time factors; the printed marginal display on p.2 has inconsistent indexing. The experimental fitting updates Dirichlet and Beta parameters by empirical moments during Gibbs-style assignment updates. This differs from fixed-target posterior sampling with all parameters integrated. The printed Beta exponent order is (1-t)^(psi1-1)*t^(psi2-1), so a chosen estimator must use a consistent shape convention. This workshop paper does not print its moment formulas; the notation conflict in the separate TOT paper is not asserted as a demonstrated implementation defect here. Limitations: Fixed topic-word vectors do not represent changing word meanings. Topic correlations and manually labeled temporal plots do not establish causality, future extrapolation or automatic topic birth and death. Repeated timestamps and density products require explicit interpretation. Moment fitting also needs policies for empty groups, zero or invalid variance, valid positive Beta shapes, time normalization and endpoints. The general document-local and experimental corpus-shared emission formulations require different corpus marginalization. The experiment uses 4454 selected Rexa documents from 1991-2005, near-uniform year subsampling, 50 supertopics and 100 subtopics. The timestamp-prediction comparison lacks an explicit held-out split and complete scoring derivation in this short paper; it is not certified forecasting evidence. Selected KL-matched topic examples and reported timestamp metrics are source results with bounded scope. Finite curator calculations distinguish probability laws, not historical software behavior. No author code or benchmark was executed.
+
+### Path-level sharing, local exits and actual emission pooling
+
+consistency: supported. Targets: AIMech:HierarchicalPachinkoAllocationModel.
+
+Retain two explicitly distinct variants within hPAM.
+
+Model1 samples a complete token path and a corpus-shared path-level choice; model2 uses document-local exits and stops routing at the emitting node. Word counts pool by the actual root, supertopic or subtopic emission vector. Finite enumeration verifies 5184 model1 and 1029 model2 conditionals below 6.2e-16. Shared root-level probabilities give cross-document joint 1/6 versus 1/9 for independent exits with matched marginals. Exact sampling factorization and adaptive Gibbs-EM fitting are separately scoped.
+
+### Auxiliary allocation counts and finite occupied support
+
+consistency: supported. Targets: AIMech:NonparametricBayesPachinkoAllocationModel.
+
+Retain the specified nonparametric four-level franchise.
+
+Two CRP levels select supertopics and three dynamically grouped levels select globally shared subtopics. Customer, entryway, table and menu counts are distinct. A positive-concentration example gives an unused edge probability 1/24 and a new dish 1/72, so unoccupied edges are not necessarily structural zeros. The source does not learn arbitrary graph depth/topology or guarantee the true topic count. Printed dish/menu prose and general correlation rhetoric are qualified.
+
+### Multiple generated timestamps and one-time normalization
+
+consistency: supported. Targets: AIMech:PachinkoAllocationTopicsOverTimeModel.
+
+Retain PAMTOT with its repeated multilevel time factors.
+
+The model supplies separate supertopic and subtopic time slots, but fitting copies one document time into them. Pathwise diagonal integrals can differ: 4/3 and 2/3 in the example, changing path odds from (1/4,3/4) to (1/7,6/7) if each path is normalized as one time. Other valid Beta shapes produce nonintegrable diagonals. The workshop paper does not print moment formulas, so a notation conflict from the separate TOT source is not transplanted as a demonstrated code defect. General marginal indexing and shared corpus integration remain qualified.
+
+### Primary versions, author order and bounded experiments
+
+consistency: supported. Targets: AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel.
+
+Preserve all three fully inspected primary versions.
+
+All 22 primary PDF pages were visually read, including tables and bibliographies. UAI2007 publication identity differs from the later 2012 arXiv deposit; that archive PDF was not substituted. PAMTOT author order follows the actual title page. Selected synthetic/text studies, finite likelihood estimates, topic/journal mutual information and incomplete timestamp-evaluation protocols do not establish universal superiority, semantic taxonomy recovery or author-code reproduction.
+
+### Model/task mapping direction and neighboring constructions
+
+grounding: supported. Targets: AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel.
+
+Retain three distinct native model families.
+
+All three source-defined probability-model families map broadly to AIO Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps related to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel are neighboring labels, not exact identities for internal topic emissions or franchise priors. Learned topic routing is not CausalGraphicalModel or a guaranteed semantic taxonomy. Continuous observed timestamps do not establish MarkovChain or TimeSeriesForecasting identity. RepresentationLearning is deep-neural scoped in the pinned ontology and is not justified by classical latent features alone. Eight native contextual records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs, EM and tempered EM without renewed scientific approval.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:HierarchicalPachinkoAllocationModel, AIMech:NonparametricBayesPachinkoAllocationModel, AIMech:PachinkoAllocationTopicsOverTimeModel. Internal vocabulary emissions, coupled nonparametric franchises and multilevel timestamp factors are distinct model structures. Broad Model and related topic/time-analysis mappings preserve AIO abstraction without forcing exact matches.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T003642Z-pachinko-extensions.json | supports | No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; two matching lines per checkout came from one unique prior discovery-ledger content with a source URL and pending extension cohort. All matching excerpts were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two fully read final round104 native targets verified against saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search. |
+| mapping | sources/aio/aio.json; 18 exact annotated CLASS nodes and outgoing edges and all 205 label/synonym hits verified unchanged from prior readings | supports | All three source-defined probability-model families map broadly to AIO Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps related to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel are neighboring labels, not exact identities for internal topic emissions or franchise priors. Learned topic routing is not CausalGraphicalModel or a guaranteed semantic taxonomy. Continuous observed timestamps do not establish MarkovChain or TimeSeriesForecasting identity. RepresentationLearning is deep-neural scoped in the pinned ontology and is not justified by classical latent features alone. Eight native contextual records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs, EM and tempered EM without renewed scientific approval. |
+| neighbors | research/discovery/20261012T003642Z-pachinko-extensions.json; Eight native neighbors and 18 generated contextual YAMLs in source_analysis.context_reading | supports | Native LDA, CTM, DTM, PAM, TOT, Gibbs, EM and tempered EM records inform identity distinctions. Twenty-four contextual files are unchanged from prior readings; two final round104 native targets were fully read and verified against their saved review inputs. No contextual record receives renewed scientific approval. |
+| finite-boundaries | research/discovery/pachinko-extension-boundaries.py; Both hPAM collapsed conditionals, cross-document parameter sharing, franchise predictive support and multilevel timestamp normalization | supports | Enumerated 1728 model1 and 343 model2 assignment states to verify 5184 and 1029 hPAM collapsed conditionals against integrated joints, with maximum errors below 6.2e-16. Shared Beta root-level probabilities give cross-document joint 1/6, unlike independent local exits 1/9 with the same marginals. A finite nonparametric franchise example gives a previously unused edge positive probability 1/24 and a new dish 1/72. Two PAMTOT pathwise density products have diagonal integrals 4/3 and2/3; normalizing each as a single-time density changes path probabilities from(1/4,3/4) to(1/7,6/7). Valid individual Beta densities can have a nonintegrable diagonal product. These curator checks illustrate specified model boundaries, not author code, chain convergence or empirical reproduction. |
+| hierarchicalpachinkoallocationmodel-source-0 | https://people.cs.umass.edu/~mccallum/papers/hpam-icml2007.pdf; Section 2.4, PDF p.3, Figure 1, model 1 and Equation 1; Figure 2 p.4; Section 2.4, PDF p.3, model 2 and comparison; Figure 2 p.4; Section 2.4, PDF pp.3-4, sampling factorization and parameter fitting; Sections 1-2.4, PDF pp.1-4, Figures 1-2 and both generative processes | supports | Mixtures of Hierarchical Topics with Pachinko Allocation. Author-hosted eight-page ICML2007 paper; all pages visually read. No numeric printed page labels visible; locators use PDF pages. Models 1 and 2 are separate variants within the scoped family. All pages of the primary PDF were visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+| nonparametricbayespachinkoallocationmodel-source-0 | https://people.cs.umass.edu/~mccallum/papers/npbpam-uai2007.pdf; Section 2.3.1, PDF pp.3-4, five generative steps and Figure 1; Section 2.3.1, PDF pp.3-4, new-object probabilities; Section 3.4 p.6 and Conclusions p.8; Section 2.3.2, PDF p.4, three conditional factors and hyperparameter discussion; Table 1 p.3; Sections 2.1-2.3, PDF pp.2-4, Table 1 and Figure 1 | supports | Nonparametric Bayes Pachinko Allocation. Author-hosted eight-page UAI2007 paper; all pages visually read. No numeric printed page labels visible; locators use PDF pages. The arXiv:1206.5270 metadata identifies UAI2007 and a later 2012 deposit; that archive PDF was not substituted or byte-compared. All pages of the primary PDF were visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+| pachinkoallocationtopicsovertimemodel-source-0 | https://people.cs.umass.edu/~mccallum/papers/pamtot-aaaiws06.pdf; Combining PAM and TOT, PDF p.2, joint and marginal displays; acknowledgment of multiple generated timestamps p.3; Combining PAM and TOT, PDF pp.2-3; Figure 1 and Inference and Parameter Estimation p.3; Inference and Parameter Estimation, PDF p.3; Experimental Results p.5; The Model and Combining PAM and TOT, PDF p.2; Four-Level PAMTOT and Figure 1 p.3 | supports | A Continuous-Time Model of Topic Co-occurrence Trends. Author-hosted six-page 2006 AAAI workshop paper; all pages visually read. No numeric printed page labels visible; locators use PDF pages. Author order follows the actual title page, which differs from the author-index listing. All pages of the primary PDF were visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 22 pages of three author-hosted primary PDFs were visually read, including figures, equations, tables and bibliographies; locators use PDF pages. No extracted-text reading or author-code execution is asserted.
+- hPAM is the ICML2007 version and nonparametric PAM the author-hosted UAI2007 version. The 2012 arXiv deposit is metadata context, not a replacement PDF. PAMTOT authors follow the actual title page rather than a differently ordered index.
+- hPAM variants differ in shared path-level versus local exit parameters. Nonparametric PAM learns finite occupied support within a fixed-level franchise; unused edges are not necessarily structural zeros. PAMTOT repeated-time factors are distinct from normalized single-time densities.
+- Finite calculations do not certify uninspected software or empirical claims. Particular source numeric summaries, general correlation rhetoric, incomplete scoring protocols and prospective extensions remain qualified.
+- Seven new provisional cohorts leave 296 pending leads plus other unresolved dispositions. The author-index extension cohort remains partially addressed. All three additions remain DRAFT.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T004044Z-pachinko-extensions
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of hierarchical, nonparametric and temporal PAM extensions
+started_at: '2026-10-12T00:37:03Z'
+finished_at: '2026-10-12T00:40:44Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read all fields of three final
+    records against 22 complete primary PDF pages, 18 annotated AIO nodes and eight
+    native contextual records. Finite calculations tested both hPAM collapsed conditionals,
+    cross-document sharing, franchise support and timestamp normalization. This is
+    author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain three DRAFT PAM extensions for internal topic emissions, nonparametric
+  occupied-topic allocation and multilevel time factors. Explicit qualifications preserve
+  variant sharing, auxiliary counts, unused-edge support and distinct timestamp laws.
+  No actionable curation finding remains in this selected cohort.
+source:
+  git_revision: 59277d1cc0b708c5d26b15f7cb533befd074ab4f
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/FactoredLanguageModel.yaml
+    sha256: d5e425f3c7cc5b57fdab859cdc777b62398077a6ac9312aef6a89af42c6eb421
+    role: context
+  - path: data/aio/HierarchicalLanguageModel.yaml
+    sha256: d37f9eda55372f4e261249cdefc3b88b036e214884ef612ced2bb40076d29622
+    role: context
+  - path: data/aio/LanguageModel.yaml
+    sha256: 67c8faa6d8ac8fb5194931f662d513d1527cefb92ab1d7c283b2c8d1ddc20c4a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SubwordSegmentation.yaml
+    sha256: d1841cd8a888cbb54840f58b6edd8bfad7b2bf4dd46e459f06010b89ad3d194a
+    role: context
+  - path: data/aio/TextVectorizationLayer.yaml
+    sha256: d1f98ff810cf2407c1a6783fd62e68054e7446db089573f017c918b109f8a1f6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/aio/Tokenization.yaml
+    sha256: 723d21fd60d200e6eea998a88ebeed5e33fd47d32d5a3fc5c459c8b93847f5ff
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/CorrelatedTopicModel.yaml
+    sha256: 22654d8ad69cbe6a464faf19d4c0bbd9a8a74b966197cd05443f9d01f851b893
+    role: context
+  - path: data/curated/DynamicTopicModel.yaml
+    sha256: 3ea748baf3dcedb99616573346822cb7d7bd3cb75ed496fcbb0cb152bee76f0e
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HierarchicalPachinkoAllocationModel.yaml
+    sha256: 284652d20aeb6238ac19b8a76b5151f5d1e6a5a6b62b752902419b20645e73fa
+    role: target
+  - path: data/curated/LatentDirichletAllocation.yaml
+    sha256: d8147371973fa1a5d5e9d3487d092e64ab70271ab42c18d199cd868bb8eb5aef
+    role: context
+  - path: data/curated/NonparametricBayesPachinkoAllocationModel.yaml
+    sha256: 2fda5e917a5c44a295ea67f877b7b60d3bf51f4eb8015941bae6a3be43773323
+    role: target
+  - path: data/curated/PachinkoAllocationModel.yaml
+    sha256: 9b1121412afd6a0eaaa1f0aa0cfb757c27220f354f6b2b6bd22770eabf59be23
+    role: context
+  - path: data/curated/PachinkoAllocationTopicsOverTimeModel.yaml
+    sha256: 19f7151007b3c381f7b725c8c918360f0f85f7d0febd43b54041b7ba7e916d67
+    role: target
+  - path: data/curated/TemperedExpectationMaximization.yaml
+    sha256: 792d43ce4f38f485002b9fadbb1e9d9ac32879069cb2ec6e42b3443b57441ca5
+    role: context
+  - path: data/curated/TopicsOverTimeModel.yaml
+    sha256: 502679a2878af64111a8e70f974632aa99c5e2e05ccd06fa44fdccd1a4147ca8
+    role: context
+  - path: research/discovery/20261012T003642Z-pachinko-extensions.json
+    sha256: fc48b708ee591c057d01624849d16891738493e9c47a8ff576d3668674892f78
+    role: context
+  - path: research/discovery/pachinko-extension-boundaries.py
+    sha256: beb89942fd9269bc28f86e5a9b78d74fb5179c83fbed43c193c50761979bec77
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:HierarchicalPachinkoAllocationModel
+  path: data/curated/HierarchicalPachinkoAllocationModel.yaml
+  label: Hierarchical pachinko allocation model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HierarchicalPachinkoAllocationModel.yaml
+    role: maintained
+- target_id: AIMech:NonparametricBayesPachinkoAllocationModel
+  path: data/curated/NonparametricBayesPachinkoAllocationModel.yaml
+  label: Nonparametric Bayes pachinko allocation model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonparametricBayesPachinkoAllocationModel.yaml
+    role: maintained
+- target_id: AIMech:PachinkoAllocationTopicsOverTimeModel
+  path: data/curated/PachinkoAllocationTopicsOverTimeModel.yaml
+  label: Pachinko allocation topics over time model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PachinkoAllocationTopicsOverTimeModel.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained probability-model records.
+  selection: Exact maintained IDs HierarchicalPachinkoAllocationModel, NonparametricBayesPachinkoAllocationModel
+    and PachinkoAllocationTopicsOverTimeModel; complete selected cohort without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exclusions:
+  - target: Author software, trained instances and empirical reproduction
+    reason: No author implementation or benchmark was executed. Finite curator calculations
+      do not certify historical software, chain mixing or empirical findings.
+  - target: Contextual records, other topic extensions and remaining frontier
+    reason: Context informs identity without renewed scientific approval. Seven new
+      reference cohorts, 296 pending leads and other unresolved dispositions remain.
+      Generic HDP/hLDA and further author-index extensions require separate primary
+      inspection.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 115.35s (0:01:55)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 438 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 127 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 124,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Pachinko extension probability boundaries
+  command: python3 research/discovery/pachinko-extension-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"hpam_model1": {"states": 1728, "conditionals": 5184, "max_error": 6.106226635438361e-16},
+    "hpam_model2": {"states": 343, "conditionals": 1029, "max_error": 5.551115123125783e-16},
+    "cross_document_root_emission": {"shared_level_joint": 0.16666666666666666, "independent_local_exit_joint":
+    0.1111111111111111}, "franchise_predictive": {"previously_unused_edge": 0.041666666666666664,
+    "new_global_dish": 0.013888888888888888, "observed_dish": 0.9444444444444444},
+    "pamtot": {"diagonal_integrals": [1.3333333333333313, 0.6666666666666659], "repeated_time_path_probabilities":
+    [0.25, 0.75], "normalized_single_time_path_probabilities": [0.14285714285714288,
+    0.8571428571428571], "valid_beta_product_boundary_exponent": -1.2}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T003642Z-pachinko-extensions.json
+  accessed_at: '2026-10-12T00:37:03Z'
+  support: supports
+  summary: No normalized candidate identity matched all 442 pinned AIO IDs, labels
+    and scoped synonyms or 435 preceding native IDs, names and aliases. Full-checkout
+    searches included ignored and hidden files in both checkouts; two matching lines
+    per checkout came from one unique prior discovery-ledger content with a source
+    URL and pending extension cohort. All matching excerpts were read. All 205 semantic
+    label/synonym hits and 18 annotated AIO nodes with outgoing edges were byte-verified
+    unchanged from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged
+    prior readings and two fully read final round104 native targets verified against
+    saved review inputs. No candidate record is present within this bounded pinned-snapshot
+    and maintained-corpus search.
+  search_scope: All matching excerpts in the one unique prior discovery-ledger content
+    were read. Both checkouts, including ignored and hidden files, were searched;
+    no unmatched cached source content is asserted read.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 18 exact annotated CLASS nodes and outgoing edges and all 205 label/synonym
+    hits verified unchanged from prior readings
+  accessed_at: '2026-10-12T00:37:03Z'
+  support: supports
+  summary: All three source-defined probability-model families map broadly to AIO
+    Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps related
+    to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel are
+    neighboring labels, not exact identities for internal topic emissions or franchise
+    priors. Learned topic routing is not CausalGraphicalModel or a guaranteed semantic
+    taxonomy. Continuous observed timestamps do not establish MarkovChain or TimeSeriesForecasting
+    identity. RepresentationLearning is deep-neural scoped in the pinned ontology
+    and is not justified by classical latent features alone. Eight native contextual
+    records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs, EM and tempered EM without
+    renewed scientific approval.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T003642Z-pachinko-extensions.json
+  locator: Eight native neighbors and 18 generated contextual YAMLs in source_analysis.context_reading
+  accessed_at: '2026-10-12T00:37:03Z'
+  support: supports
+  summary: Native LDA, CTM, DTM, PAM, TOT, Gibbs, EM and tempered EM records inform
+    identity distinctions. Twenty-four contextual files are unchanged from prior readings;
+    two final round104 native targets were fully read and verified against their saved
+    review inputs. No contextual record receives renewed scientific approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/pachinko-extension-boundaries.py
+  locator: Both hPAM collapsed conditionals, cross-document parameter sharing, franchise
+    predictive support and multilevel timestamp normalization
+  accessed_at: '2026-10-12T00:37:03Z'
+  snapshot_sha256: beb89942fd9269bc28f86e5a9b78d74fb5179c83fbed43c193c50761979bec77
+  support: supports
+  summary: Enumerated 1728 model1 and 343 model2 assignment states to verify 5184
+    and 1029 hPAM collapsed conditionals against integrated joints, with maximum errors
+    below 6.2e-16. Shared Beta root-level probabilities give cross-document joint
+    1/6, unlike independent local exits 1/9 with the same marginals. A finite nonparametric
+    franchise example gives a previously unused edge positive probability 1/24 and
+    a new dish 1/72. Two PAMTOT pathwise density products have diagonal integrals
+    4/3 and2/3; normalizing each as a single-time density changes path probabilities
+    from(1/4,3/4) to(1/7,6/7). Valid individual Beta densities can have a nonintegrable
+    diagonal product. These curator checks illustrate specified model boundaries,
+    not author code, chain convergence or empirical reproduction.
+- evidence_id: hierarchicalpachinkoallocationmodel-source-0
+  kind: primary_source
+  reference: https://people.cs.umass.edu/~mccallum/papers/hpam-icml2007.pdf
+  locator: Section 2.4, PDF p.3, Figure 1, model 1 and Equation 1; Figure 2 p.4; Section
+    2.4, PDF p.3, model 2 and comparison; Figure 2 p.4; Section 2.4, PDF pp.3-4, sampling
+    factorization and parameter fitting; Sections 1-2.4, PDF pp.1-4, Figures 1-2 and
+    both generative processes
+  accessed_at: '2026-10-12T00:27:35Z'
+  snapshot_sha256: d6a539a2286436376a34974870e4f80c2f09e1af83ddd33136e7a049110f0e6e
+  support: supports
+  summary: Mixtures of Hierarchical Topics with Pachinko Allocation. Author-hosted
+    eight-page ICML2007 paper; all pages visually read. No numeric printed page labels
+    visible; locators use PDF pages. Models 1 and 2 are separate variants within the
+    scoped family. All pages of the primary PDF were visually read. Curator qualifications
+    and synthetic calculations are distinguished from historical empirical claims
+    and uninspected implementations.
+- evidence_id: nonparametricbayespachinkoallocationmodel-source-0
+  kind: primary_source
+  reference: https://people.cs.umass.edu/~mccallum/papers/npbpam-uai2007.pdf
+  locator: Section 2.3.1, PDF pp.3-4, five generative steps and Figure 1; Section
+    2.3.1, PDF pp.3-4, new-object probabilities; Section 3.4 p.6 and Conclusions p.8;
+    Section 2.3.2, PDF p.4, three conditional factors and hyperparameter discussion;
+    Table 1 p.3; Sections 2.1-2.3, PDF pp.2-4, Table 1 and Figure 1
+  accessed_at: '2026-10-12T00:27:38Z'
+  snapshot_sha256: a7c2ca36e34926513d8a8de4e80c934e1534b500f862c922085ba1991e8dc476
+  support: supports
+  summary: Nonparametric Bayes Pachinko Allocation. Author-hosted eight-page UAI2007
+    paper; all pages visually read. No numeric printed page labels visible; locators
+    use PDF pages. The arXiv:1206.5270 metadata identifies UAI2007 and a later 2012
+    deposit; that archive PDF was not substituted or byte-compared. All pages of the
+    primary PDF were visually read. Curator qualifications and synthetic calculations
+    are distinguished from historical empirical claims and uninspected implementations.
+- evidence_id: pachinkoallocationtopicsovertimemodel-source-0
+  kind: primary_source
+  reference: https://people.cs.umass.edu/~mccallum/papers/pamtot-aaaiws06.pdf
+  locator: Combining PAM and TOT, PDF p.2, joint and marginal displays; acknowledgment
+    of multiple generated timestamps p.3; Combining PAM and TOT, PDF pp.2-3; Figure
+    1 and Inference and Parameter Estimation p.3; Inference and Parameter Estimation,
+    PDF p.3; Experimental Results p.5; The Model and Combining PAM and TOT, PDF p.2;
+    Four-Level PAMTOT and Figure 1 p.3
+  accessed_at: '2026-10-12T00:27:40Z'
+  snapshot_sha256: 8695fa9194442673e58b0ae712afe49b7797128082a80896f9bf2baa3c393a3e
+  support: supports
+  summary: A Continuous-Time Model of Topic Co-occurrence Trends. Author-hosted six-page
+    2006 AAAI workshop paper; all pages visually read. No numeric printed page labels
+    visible; locators use PDF pages. Author order follows the actual title page, which
+    differs from the author-index listing. All pages of the primary PDF were visually
+    read. Curator qualifications and synthetic calculations are distinguished from
+    historical empirical claims and uninspected implementations.
+assessments:
+- assessment_id: hierarchicalpachinkoallocationmodel
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - hierarchicalpachinkoallocationmodel-source-0
+  summary: Scoped to Mimno, Li and McCallum's ICML2007 hierarchical PAM family and
+    its two explicit variants. Internal vocabulary emissions distinguish it from the
+    demonstrated four-level PAM with word emissions only at subtopics. Token-specific
+    DAG paths and shared subtopics distinguish it from hierarchical LDA's single document
+    path in a tree. The path-level and local-exit variants remain one source-defined
+    family with explicit differences, not asserted interchangeable parameterizations.
+    This paper uses fixed topic counts; nonparametric PAM is a separate construction.
+    No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped
+    synonyms or 435 preceding native IDs, names and aliases. Full-checkout searches
+    included ignored and hidden files in both checkouts; two matching lines per checkout
+    came from one unique prior discovery-ledger content with a source URL and pending
+    extension cohort. All matching excerpts were read. All 205 semantic label/synonym
+    hits and 18 annotated AIO nodes with outgoing edges were byte-verified unchanged
+    from prior readings. Twenty-six contextual YAMLs comprise 24 unchanged prior readings
+    and two fully read final round104 native targets verified against saved review
+    inputs. No candidate record is present within this bounded pinned-snapshot and
+    maintained-corpus search.
+  details: 'In model 1 each document draws a root-to-supertopic vector and a subtopic
+    vector for each supertopic. Each token chooses a supertopic and subtopic, then
+    a level from a corpus-shared distribution specific to that path. It emits from
+    the shared root, supertopic or subtopic word vector according to the selected
+    level. Even root-emitted tokens have a latent complete path and contribute routing
+    counts. With fixed priors, collapsed assignment weights combine document routing,
+    corpus path-level and actual emitting-node word counts. Word counts must pool
+    all paths that use the same emission vector. Model 2 adds an exit coordinate to
+    each document-local routing vector. A root exit emits from the root; otherwise
+    a supertopic is selected and either exits to its word distribution or routes to
+    a subtopic. The path stops at the emitting node, so unused lower routing choices
+    are not sampled. There is no model 1 path-specific level vector. The variants
+    have different cross-document sharing: in a one-path example a shared Beta(1,2)
+    root-level probability gives joint root emission probability 1/6 across two documents,
+    whereas independent document-local Beta(1,2) exits give 1/9 despite the same marginal
+    probability. The paper describes Gibbs sampling with a factorization that first
+    marginalizes paths to sample an emitting node, then samples a compatible path
+    conditional on that node. This preserves the conditional when those probabilities
+    are computed exactly. Document routing hyperparameters are periodically fitted
+    from sampled counts by a Gibbs-EM procedure using fixed-point Dirichlet estimation.
+    Such adaptation is distinct from a chain targeting one fixed-hyperparameter posterior
+    throughout training. Limitations: Experiments use fixed three-level topic structures
+    and finite topic counts. Probabilistic routing hierarchies are not automatically
+    ontological subsumption or causal graphs. Private/public children, separate Beta
+    exits and other proposed DAG variations are sketches outside the two evaluated
+    constructions. Collapsed counts exclude the current token and respect shared emitting
+    nodes. A literal independent word distribution per path/level triple would change
+    the model. Finite calculations verify both variants'' conditionals on synthetic
+    examples, not historical software or chain convergence. Selected Medline and newsgroup
+    studies use particular hyperparameters, finite topic grids and simulated-document
+    likelihood estimates with plug-in shared parameters. Topic/journal mutual information
+    is not direct taxonomy recovery or document classification accuracy. Some numeric
+    prose and table summaries disagree; no disputed summary is adopted. Reported speed
+    and performance comparisons depend on author implementations and chosen datasets.
+    No author software, benchmark, universal superiority or exact marginal evidence
+    is certified.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - hierarchicalpachinkoallocationmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three source-defined probability-model families map broadly to
+      AIO Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps
+      related to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel
+      are neighboring labels, not exact identities for internal topic emissions or
+      franchise priors. Learned topic routing is not CausalGraphicalModel or a guaranteed
+      semantic taxonomy. Continuous observed timestamps do not establish MarkovChain
+      or TimeSeriesForecasting identity. RepresentationLearning is deep-neural scoped
+      in the pinned ontology and is not justified by classical latent features alone.
+      Eight native contextual records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs,
+      EM and tempered EM without renewed scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: nonparametricbayespachinkoallocationmodel
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - nonparametricbayespachinkoallocationmodel-source-0
+  summary: Scoped to Li, Blei and McCallum's UAI2007 nonparametric four-level PAM
+    construction. Its countably unbounded prior supports data-dependent finite topic
+    occupancy while retaining root, supertopic, subtopic and word levels. A two-level
+    allocation franchise selects shared supertopics; a three-level franchise selects
+    shared subtopics conditional on the selected supertopic. This differs from fixed-count
+    PAM, internal-word-emission hPAM, a single-document-path nested Chinese restaurant
+    process and a generic HDP with externally fixed groups. No normalized candidate
+    identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding
+    native IDs, names and aliases. Full-checkout searches included ignored and hidden
+    files in both checkouts; two matching lines per checkout came from one unique
+    prior discovery-ledger content with a source URL and pending extension cohort.
+    All matching excerpts were read. All 205 semantic label/synonym hits and 18 annotated
+    AIO nodes with outgoing edges were byte-verified unchanged from prior readings.
+    Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two fully
+    read final round104 native targets verified against saved review inputs. No candidate
+    record is present within this bounded pinned-snapshot and maintained-corpus search.
+  details: 'Each token selects a document-local entryway; a newly created entryway
+    selects a globally shared category representing a supertopic. Conditional on that
+    category, the token selects a local document/category table. A new table selects
+    a category-specific corpus-shared menu, and a new menu selects a globally shared
+    dish representing a subtopic. Existing auxiliary objects retain their assigned
+    category, menu or dish. A dish has a shared categorical word distribution with
+    a Dirichlet base. Super-topic assignments therefore dynamically define groups
+    for the lower franchise. The source proposes jointly sampling a token''s entryway,
+    category, table, menu and dish assignments, combining franchise predictive factors
+    with a corpus dish-word predictive factor. Customer, entryway, table and menu
+    counts play different roles; a correct leave-one-out calculation must consistently
+    remove emptied auxiliary objects. Positive concentration parameters receive Gamma
+    priors and are resampled by a cited HDP procedure. The word factor follows the
+    dish identity in Table 1, despite nearby prose loosely calling that object a menu.
+    Reported sparse connectivity records which supertopic/subtopic pairs were occupied
+    in finite assignments. It need not impose structural zero transition probabilities:
+    a new local table and category menu can select a globally existing dish not previously
+    used by that supertopic. In a synthetic positive-concentration example, such an
+    unobserved edge retains predictive probability 1/24. Learning occupied topic counts
+    within the fixed four-level organization is distinct from learning arbitrary DAG
+    topology or guaranteeing the true finite number of topics. Limitations: Nonparametric
+    means an unbounded prior on available components, not absence of hyperparameters
+    or guaranteed recovery of an objectively correct topic count. Finite chains, concentration
+    priors and auxiliary allocation bookkeeping affect inference. The source''s general
+    correlation rhetoric does not establish universal DAG expressivity, literal independence
+    of Dirichlet topic proportions, or exact CTM equivalence. The record follows the
+    explicit four-level franchise construction. Synthetic recovery and selected comp5,
+    Rexa and NIPS studies provide bounded evidence. Likelihood is estimated from a
+    finite mixture of generated documents; non-significant pairwise differences do
+    not prove model equivalence. The comp5 HDP baseline uses document group information
+    unavailable to the other models. An unused edge can remain possible under the
+    prior. Proposed pre-pruning and large-scale extensions are not evaluated exact
+    algorithms in this source. No author code or benchmark was executed.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - nonparametricbayespachinkoallocationmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three source-defined probability-model families map broadly to
+      AIO Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps
+      related to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel
+      are neighboring labels, not exact identities for internal topic emissions or
+      franchise priors. Learned topic routing is not CausalGraphicalModel or a guaranteed
+      semantic taxonomy. Continuous observed timestamps do not establish MarkovChain
+      or TimeSeriesForecasting identity. RepresentationLearning is deep-neural scoped
+      in the pinned ontology and is not justified by classical latent features alone.
+      Eight native contextual records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs,
+      EM and tempered EM without renewed scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: pachinkoallocationtopicsovertimemodel
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - pachinkoallocationtopicsovertimemodel-source-0
+  summary: Scoped to the 2006 Li, Wang and McCallum workshop model combining PAM and
+    Topics over Time, particularly the demonstrated four-level PAMTOT construction.
+    Both supertopics and subtopics supply time factors, whereas subtopics supply corpus-shared
+    word distributions. This differs from plain PAM, single-topic-level TOT, and dynamic
+    topic models with evolving word probabilities. PAMTOT is the source acronym. The
+    construction models observed timestamp/content associations, not a continuous-time
+    Markov process or causal event graph. No normalized candidate identity matched
+    all 442 pinned AIO IDs, labels and scoped synonyms or 435 preceding native IDs,
+    names and aliases. Full-checkout searches included ignored and hidden files in
+    both checkouts; two matching lines per checkout came from one unique prior discovery-ledger
+    content with a source URL and pending extension cohort. All matching excerpts
+    were read. All 205 semantic label/synonym hits and 18 annotated AIO nodes with
+    outgoing edges were byte-verified unchanged from prior readings. Twenty-six contextual
+    YAMLs comprise 24 unchanged prior readings and two fully read final round104 native
+    targets verified against saved review inputs. No candidate record is present within
+    this bounded pinned-snapshot and maintained-corpus search.
+  details: 'In four-level PAMTOT each document draws root and supertopic routing vectors,
+    while subtopic word vectors are shared across the corpus. Each token chooses a
+    supertopic/subtopic path, emits a word and generates separate timestamps from
+    Beta densities at both topic levels. Fitting repeats the observed document timestamp
+    in all these time slots. With fixed parameters, the collapsed path weight is the
+    three PAM leave-one-out count factors multiplied by supertopic and subtopic time
+    densities; a common root time factor cancels from assignment odds. The source
+    acknowledges that forward generation yields distinct times even though fitting
+    repeats one document time. Restricting a product of timestamp densities to a shared
+    time is not automatically a normalized single-time model. Its integral can depend
+    on the chosen path, and can even diverge for otherwise valid individual Beta shapes.
+    A finite two-path example gives assignment probabilities (1/4,3/4) for repeated
+    time factors versus (1/7,6/7) after separately normalizing each path as a single-time
+    density. These are different model interpretations. A coherent general marginal
+    sums complete paths while retaining the product of all their time factors; the
+    printed marginal display on p.2 has inconsistent indexing. The experimental fitting
+    updates Dirichlet and Beta parameters by empirical moments during Gibbs-style
+    assignment updates. This differs from fixed-target posterior sampling with all
+    parameters integrated. The printed Beta exponent order is (1-t)^(psi1-1)*t^(psi2-1),
+    so a chosen estimator must use a consistent shape convention. This workshop paper
+    does not print its moment formulas; the notation conflict in the separate TOT
+    paper is not asserted as a demonstrated implementation defect here. Limitations:
+    Fixed topic-word vectors do not represent changing word meanings. Topic correlations
+    and manually labeled temporal plots do not establish causality, future extrapolation
+    or automatic topic birth and death. Repeated timestamps and density products require
+    explicit interpretation. Moment fitting also needs policies for empty groups,
+    zero or invalid variance, valid positive Beta shapes, time normalization and endpoints.
+    The general document-local and experimental corpus-shared emission formulations
+    require different corpus marginalization. The experiment uses 4454 selected Rexa
+    documents from 1991-2005, near-uniform year subsampling, 50 supertopics and 100
+    subtopics. The timestamp-prediction comparison lacks an explicit held-out split
+    and complete scoring derivation in this short paper; it is not certified forecasting
+    evidence. Selected KL-matched topic examples and reported timestamp metrics are
+    source results with bounded scope. Finite curator calculations distinguish probability
+    laws, not historical software behavior. No author code or benchmark was executed.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - pachinkoallocationtopicsovertimemodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match,related_match
+    definition: All three source-defined probability-model families map broadly to
+      AIO Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps
+      related to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel
+      are neighboring labels, not exact identities for internal topic emissions or
+      franchise priors. Learned topic routing is not CausalGraphicalModel or a guaranteed
+      semantic taxonomy. Continuous observed timestamps do not establish MarkovChain
+      or TimeSeriesForecasting identity. RepresentationLearning is deep-neural scoped
+      in the pinned ontology and is not justified by classical latent features alone.
+      Eight native contextual records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs,
+      EM and tempered EM without renewed scientific approval.
+    evidence_ids:
+    - mapping
+- assessment_id: hpam-variants
+  area: consistency
+  topic: Path-level sharing, local exits and actual emission pooling
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  evidence_ids:
+  - hierarchicalpachinkoallocationmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain two explicitly distinct variants within hPAM.
+  details: Model1 samples a complete token path and a corpus-shared path-level choice;
+    model2 uses document-local exits and stops routing at the emitting node. Word
+    counts pool by the actual root, supertopic or subtopic emission vector. Finite
+    enumeration verifies 5184 model1 and 1029 model2 conditionals below 6.2e-16. Shared
+    root-level probabilities give cross-document joint 1/6 versus 1/9 for independent
+    exits with matched marginals. Exact sampling factorization and adaptive Gibbs-EM
+    fitting are separately scoped.
+- assessment_id: franchise-support
+  area: consistency
+  topic: Auxiliary allocation counts and finite occupied support
+  outcome: supported
+  target_ids:
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  evidence_ids:
+  - nonparametricbayespachinkoallocationmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the specified nonparametric four-level franchise.
+  details: Two CRP levels select supertopics and three dynamically grouped levels
+    select globally shared subtopics. Customer, entryway, table and menu counts are
+    distinct. A positive-concentration example gives an unused edge probability 1/24
+    and a new dish 1/72, so unoccupied edges are not necessarily structural zeros.
+    The source does not learn arbitrary graph depth/topology or guarantee the true
+    topic count. Printed dish/menu prose and general correlation rhetoric are qualified.
+- assessment_id: pamtot-time-law
+  area: consistency
+  topic: Multiple generated timestamps and one-time normalization
+  outcome: supported
+  target_ids:
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  evidence_ids:
+  - pachinkoallocationtopicsovertimemodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain PAMTOT with its repeated multilevel time factors.
+  details: 'The model supplies separate supertopic and subtopic time slots, but fitting
+    copies one document time into them. Pathwise diagonal integrals can differ: 4/3
+    and 2/3 in the example, changing path odds from (1/4,3/4) to (1/7,6/7) if each
+    path is normalized as one time. Other valid Beta shapes produce nonintegrable
+    diagonals. The workshop paper does not print moment formulas, so a notation conflict
+    from the separate TOT source is not transplanted as a demonstrated code defect.
+    General marginal indexing and shared corpus integration remain qualified.'
+- assessment_id: versions-and-empirics
+  area: consistency
+  topic: Primary versions, author order and bounded experiments
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  evidence_ids:
+  - hierarchicalpachinkoallocationmodel-source-0
+  - nonparametricbayespachinkoallocationmodel-source-0
+  - pachinkoallocationtopicsovertimemodel-source-0
+  summary: Preserve all three fully inspected primary versions.
+  details: All 22 primary PDF pages were visually read, including tables and bibliographies.
+    UAI2007 publication identity differs from the later 2012 arXiv deposit; that archive
+    PDF was not substituted. PAMTOT author order follows the actual title page. Selected
+    synthetic/text studies, finite likelihood estimates, topic/journal mutual information
+    and incomplete timestamp-evaluation protocols do not establish universal superiority,
+    semantic taxonomy recovery or author-code reproduction.
+- assessment_id: mapping-boundary
+  area: grounding
+  topic: Model/task mapping direction and neighboring constructions
+  outcome: supported
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three distinct native model families.
+  details: All three source-defined probability-model families map broadly to AIO
+    Model and related to task-scoped ProbabilisticTopicModel. PAMTOT also maps related
+    to TimeSeriesAnalysis. HierarchicalLanguageModel and FactoredLanguageModel are
+    neighboring labels, not exact identities for internal topic emissions or franchise
+    priors. Learned topic routing is not CausalGraphicalModel or a guaranteed semantic
+    taxonomy. Continuous observed timestamps do not establish MarkovChain or TimeSeriesForecasting
+    identity. RepresentationLearning is deep-neural scoped in the pinned ontology
+    and is not justified by classical latent features alone. Eight native contextual
+    records distinguish LDA, CTM, DTM, plain PAM, TOT, Gibbs, EM and tempered EM without
+    renewed scientific approval.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:HierarchicalPachinkoAllocationModel
+  - AIMech:NonparametricBayesPachinkoAllocationModel
+  - AIMech:PachinkoAllocationTopicsOverTimeModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - hierarchicalpachinkoallocationmodel-source-0
+  - nonparametricbayespachinkoallocationmodel-source-0
+  - pachinkoallocationtopicsovertimemodel-source-0
+  rationale: Internal vocabulary emissions, coupled nonparametric franchises and multilevel
+    timestamp factors are distinct model structures. Broad Model and related topic/time-analysis
+    mappings preserve AIO abstraction without forcing exact matches.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 22 pages of three author-hosted primary PDFs were visually read, including figures,
+  equations, tables and bibliographies; locators use PDF pages. No extracted-text
+  reading or author-code execution is asserted.
+- hPAM is the ICML2007 version and nonparametric PAM the author-hosted UAI2007 version.
+  The 2012 arXiv deposit is metadata context, not a replacement PDF. PAMTOT authors
+  follow the actual title page rather than a differently ordered index.
+- hPAM variants differ in shared path-level versus local exit parameters. Nonparametric
+  PAM learns finite occupied support within a fixed-level franchise; unused edges
+  are not necessarily structural zeros. PAMTOT repeated-time factors are distinct
+  from normalized single-time densities.
+- Finite calculations do not certify uninspected software or empirical claims. Particular
+  source numeric summaries, general correlation rhetoric, incomplete scoring protocols
+  and prospective extensions remain qualified.
+- Seven new provisional cohorts leave 296 pending leads plus other unresolved dispositions.
+  The author-index extension cohort remains partially addressed. All three additions
+  remain DRAFT.
+links: []
+tags:
+- native-concepts
+- pachinko-extensions
+- self-review
+- discovery-ongoing
+```
