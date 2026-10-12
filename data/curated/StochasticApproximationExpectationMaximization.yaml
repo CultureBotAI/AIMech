@@ -1,0 +1,148 @@
+name: Stochastic Approximation Expectation Maximization
+aliases:
+- SAEM
+- Stochastic Approximation EM
+concept_kind: algorithm
+definition: An incomplete-data fitting method that recursively averages simulated complete-data log objectives
+  or sufficient statistics using a step-size sequence, then maximizes the accumulated objective to update
+  the model parameters.
+identity_notes: The Delyon-Lavielle-Moulines SAEM construction fits a fixed observed data set while stochastic
+  approximation controls integration noise. It is distinct from fresh-batch MCEM, stochastic-gradient
+  parameter steps, parameter-iterate averaging, and online learning from newly arriving observations.
+  A persistent MCMC simulation step is a separately scoped extension because exact conditional draws and
+  Markovian perturbations require different arguments. All 442 pinned AIO labels/scoped synonyms and 470
+  preceding native IDs, names and aliases were compared with no normalized identity match. Ignored-inclusive
+  whole-checkout fixed-string searches found 218 matched lines in each checkout; context windows for all
+  41 distinct matched texts were read. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation
+  mention applications or adjacent estimators, not these identities. All 225 semantic label/synonym rows
+  were recomputed and verified identical to the preceding fully read inventory. Sixteen annotated AIO
+  nodes and outgoing edges comprise fourteen verified prior readings and two new readings. Thirty-four
+  contextual YAMLs comprise twenty-seven byte-verified prior readings and seven full new readings. Absence
+  is bounded to this pin, maintained corpus and inspected neighborhood. No normalized name/alias matches
+  among 442 pinned and 470 maintained records. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation
+  matches are applications or adjacent estimators, not duplicate generic MCEM, SAEM or MCMC-SAEM records.
+  The inspected sufficient-statistic maximization and fixed-data scope distinguish SAEM from averaged
+  parameter gradients, ICE and sequential-task continual learning. Persistent Markovian simulation distinguishes
+  the MCMC extension from the exact-conditional-draw base theorem.
+evidence_sources:
+- source_id: saem-source
+  title: Convergence of a stochastic approximation version of the EM algorithm
+  authors:
+  - Bernard Delyon
+  - Marc Lavielle
+  - Eric Moulines
+  source_type: primary_paper
+  url: https://oa.ee.tsinghua.edu.cn/ouzhijian/pgm/pgm-pdf/Delyon99_Convergence%20of%20a%20Stochastic%20Approximation%20Version%20of%20the%20EM%20Algorithm.pdf
+  persistent_id: 10.1214/aos/1018031103
+  version: Annals of Statistics 27(1):94-128 (1999), university-hosted annotated JSTOR scan. All 35 PDF
+    pages visually read, including appendices and references. Printed page equals PDF page plus 93. Existing
+    highlights and handwritten marks are not author errata; the 2015 download stamp is not the publication
+    date. Section 2 explicitly defines MCEM as the comparison method.
+  access_level: full_text
+  accessed_at: '2026-10-12T03:50:09Z'
+  sha256: f2c7a8005a1dee0a14bb243cb0bb2cb135227b1e9bff459eb07b3d0e6cc0b9bf
+- source_id: mcmc-source
+  title: Coupling a stochastic approximation version of EM with an MCMC procedure
+  authors:
+  - Estelle Kuhn
+  - Marc Lavielle
+  source_type: primary_paper
+  url: https://www.numdam.org/article/PS_2004__8__115_0.pdf
+  persistent_id: 10.1051/ps:2004007
+  version: 'ESAIM: Probability and Statistics 8:115-131, August 2004, Numdam-hosted full journal PDF.
+    All 17 pages visually read, including three tables, proof, appendix and references. Printed page equals
+    PDF page plus 114.'
+  access_level: full_text
+  accessed_at: '2026-10-12T03:50:08Z'
+  sha256: 48f3b9861570d00ae772287633202a42b06fcaa2cb44ad528d2fcf437bd1838b
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This algorithm fits statistical-model parameters from observed data. The inspected AIO target
+    denotes a learning task/process, so this is related algorithm-to-task context, not equivalence or
+    a subclass assertion. The pinned TrainingStrategy and transformation-based DataAugmentation nodes
+    do not identify statistical latent-data integration, and fixed-data iteration is not the pinned sequential-task
+    ContinualLearning network.
+definition_evidence:
+- source_id: saem-source
+  locator: Section 3 Eq6, pp.97-98 / PDF4-5; Section 6 Eq30, p.107 / PDF14
+  relation: supports
+claims:
+- claim_id: recursive-expectation
+  kind: mechanism
+  statement: 'Simulate latent completions under the current conditional law and update Q_k(theta)=(1-gamma_k)Q_(k-1)(theta)+gamma_k
+    times the current sample mean of complete log objectives. Maximize Q_k to obtain the next parameter.
+    For the stated curved exponential family, store sufficient statistics instead: s_k=s_(k-1)+gamma_k(S(z_k)-s_(k-1)),
+    followed by theta_k=theta_hat(s_k). The one-draw construction can therefore retain past information
+    without storing every prior completion.'
+  evidence:
+  - source_id: saem-source
+    locator: Section 3 Eq6, pp.97-98 / PDF4-5; M1-M5, pp.99-100 / PDF6-7; Section 6 Eq30, p.107 / PDF14
+    relation: supports
+- claim_id: step-sizes-and-stationary-set
+  kind: scope
+  statement: The single-draw stationary-set theorem requires a smooth curved-exponential complete model
+    and maximizer map, exact conditional simulation given the past, finite continuous second moments,
+    step sizes in [0,1] with divergent sum and finite sum of squares, and almost-sure containment of the
+    statistic iterates in a compact subset of their domain. Under those hypotheses the distance to the
+    stated stationary sets tends to zero. Step-size conditions alone do not supply stability, point convergence,
+    a global maximum or observed-likelihood ascent at every iteration.
+  evidence:
+  - source_id: saem-source
+    locator: Section 6 SAEM1-SAEM4 and Theorem 5, pp.107-109 / PDF14-16
+    relation: supports
+- claim_id: averaging-and-estimation-boundaries
+  kind: scope
+  statement: Recursive averaging of the expected objective precedes its maximization. Optional averaging
+    of fitted parameter iterates is a separate operation with additional local stability, moment and step-size
+    conditions. Averaging statistics before a nonlinear maximizer need not equal averaging parameter values.
+    Simulation-iteration uncertainty around a fixed-data solution is distinct from sampling uncertainty
+    of the statistical estimator.
+  evidence:
+  - source_id: saem-source
+    locator: Sections 5.1 and 7, pp.104-106 and 110-113 / PDF11-13 and 17-20; Eq26 and Eq48-55
+    relation: supports
+- claim_id: source-sign-and-zero-step
+  kind: limitation
+  statement: 'In Eq6, gamma=0 freezes the accumulated objective, while gamma=1 replaces it by the current
+    Monte Carlo objective; the paragraph identifying gamma=0 with ordinary stochastic EM is inconsistent
+    with that recursion. The 1999 covariance prose also reverses the Hessian sign: its H=G-Delta Delta^T
+    estimates the observed log Hessian, while observed information is -H, as explicitly used in the 2004
+    follow-up. These printed statements are not used as implementation rules.'
+  evidence:
+  - source_id: saem-source
+    locator: Section 3 Eq6 and following paragraph, p.97 / PDF4; Section 3 Eq11 and Hessian prose, p.99
+      / PDF6
+    relation: supports
+  - source_id: mcmc-source
+    locator: Section 2.3 Eq8-10, p.119 / PDF5; compare 1999 Section 3 Eq6 and Eq11, pp.97,99 / PDF4,6
+    relation: supports
+limitations:
+- The core mechanism is supported independently of the source’s stronger local-maximizer and averaging
+  claims. Those results need additional isolated-stationary-point, curvature, excitation and local-rate
+  hypotheses. Their printed exposition contains sign/wording inconsistencies; no blanket theorem repair
+  or global convergence certification is claimed.
+- A finite stochastic update need not increase the observed likelihood. The finite Gaussian example lowers
+  it even with a positive averaging weight; stabilization and convergence need separate arguments.
+- The source’s expanding-compact reset scheme, approximate conditional maximizations and stochastic-gradient
+  extensions introduce additional assumptions. They are not silently covered by the core exact-maximizer
+  theorem.
+- The source’s Eq27 average-noise expression omits a Jacobian factor present in its later proof, and its
+  Section 8 Newton direction and convexity wording conflict with concave maximization. These extension
+  formulas are not implemented or endorsed by this record.
+- Independent exact conditional draws are an assumption of the inspected base theorem, not a property
+  of a short MCMC run. The separately scoped MCMC-SAEM extension handles a different noise structure.
+- All 52 pages of the two primary papers were read. No author software, historical fit, empirical speed
+  comparison or uncertainty-calibration study was reproduced.
+id: AIMech:StochasticApproximationExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:03:36Z'
+  updated_at: '2026-10-12T04:03:36Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
