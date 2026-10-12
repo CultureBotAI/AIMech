@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorized variational sparse-spectrum Gaussian-process inference · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Factorized variational sparse-spectrum Gaussian-process inference</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Factorized variational sparse-spectrum Gaussian-process inference</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FactorizedVariationalSparseSpectrumGaussianProcessInference</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> fVSSGP
+    </div>
+
+  <div class="detail-desc">
+    The Gal–Turner finite spectral regression inference procedure that explicitly optimizes diagonal Gaussian output-coefficient factors and independent spectral variational factors using an evidence lower bound written as a sum of per-observation expected log likelihoods and global KL penalties.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO IDs, names and scoped synonyms and 546 maintained IDs, names and aliases; none matches the three proposed identities after normalization. Full-text searches of the recovery, older discovery and original Documents checkouts included hidden and ignored files, with 22, 0 and 0 matched lines. All 21 distinct matched contents were read: pending source leads and source-reading context, not existing records. Assessed 50 semantic AIO rows and 172 maintained names/definitions, ten full annotated AIO CLASS nodes with incident edges and generated YAML, and five complete native context records. Generic mean-field methods and stochastic gradient descent do not identify this finite spectral regression procedure. The paired-feature SSGP model and its uncertain-test-input transforms also differ: these methods infer uncertain spectral parameters from training data. The three source labels distinguish optimal unrestricted coefficient factors, explicit diagonal factors, and data-minibatch optimization. Absence is bounded to the searched pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#finite-feature-model</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For one squared-exponential component, use K features phi_k(x)=sqrt(2*sigma^2/K)*cos(2*pi*w_k^T*L^{-1}*(x-z_k)+b_k), where L=diag(2*pi*l_j), l_j&gt;0, and z_k are feature locations. Independent standardized frequencies have prior N(0,I); phases have uniform priors on [0,2*pi]. For N inputs, Phi has shape N by K. Each output column y_d has likelihood N(Phi*a_d,tau^{-1}*I), tau&gt;0, with independent unit-Gaussian coefficient priors a_d. The variational family separates q(A) from q(omega), omega collecting frequencies and phases, and factors q(omega) across k with diagonal-Gaussian frequency factors and uniform phase intervals [alpha_k,beta_k] with 0&lt;=alpha_k&lt;beta_k&lt;=2*pi. This is a finite-feature hierarchical regression model; integrating its random features does not generally yield the original full-kernel GP.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, feature construction, Equation 2 and variational family, PDF pp. 2–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015-supp">Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix</a></span>
+        <span>· <strong>Locator:</strong> Propositions 1–2, PDF pp. 1–2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#variational-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The evidence lower bound is the expected Gaussian log likelihood minus KL(q(A)||p(A)) and KL(q(omega)||p(omega)). For F=E_q[Phi], H=E_q[Phi^T*Phi], q(a_d)=N(m_d,S_d) and response column y_d, its output-d likelihood contribution is -N/2*log(2*pi/tau)-tau/2*[y_d^T*y_d-2*y_d^T*F*m_d+tr(H*(S_d+m_d*m_d^T))]. Gaussian trigonometric moments and uniform-phase integrals give F and H analytically. Distinct feature moments factor under the declared independent spectral factors; a feature’s second moment must be computed as E[phi_k^2], not (E[phi_k])^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equation 6 and diagonal/off-diagonal moments, PDF p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015-supp">Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix</a></span>
+        <span>· <strong>Locator:</strong> Identities 1–3, PDF p. 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#explicit-diagonal-factors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The fVSSGP variant retains explicit means m_d and positive diagonal covariances S_d for each coefficient vector, jointly optimizing them with spectral variational parameters. The data term in Equation 6 decomposes into individual observation/output contributions L_nd, giving Equation 8 with two global KL penalties subtracted once. The diagonal coefficient family is restricted relative to the generally full analytic coefficient optimum of VSSGP; the factorized expression and the optimized full-covariance bound are not interchangeable. Distributing the sum of likelihood contributions does not itself change the variational family.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equation 6, Section 5 Equation 8 and Section 7 variant naming, PDF pp. 4–5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015-supp">Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix</a></span>
+        <span>· <strong>Locator:</strong> Diagonal-factor bound discussion, PDF p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#predictive-moments</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed query, let phi be its K-dimensional column feature vector, f=E_q[phi], R=E_q[phi*phi^T], and M=[m_1,...,m_D]. Under q(A)q(omega), the response mean is M^T*f and its covariance is tau^{-1}*I+diag_d[tr(R*S_d)]+M^T*(R-f*f^T)*M. Shared spectral uncertainty can therefore correlate different outputs even though their coefficient factors are independent. These are moments of the variational predictive mixture, which is not generally Gaussian; the latent-output covariance omits only the future-observation-noise term.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Equations 10–11, PDF p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015-supp">Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix</a></span>
+        <span>· <strong>Locator:</strong> Propositions 4–5, PDF pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#implementation-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected author model source computes Gaussian-frequency moments with the phase alpha fixed inside each cosine; its beta argument does not enter those moments and its objective contains frequency KL without a phase KL. Thus that revision implements a fixed-phase conditional variant, not integration over the paper’s positive-width uniform phase factors. Its second-moment diagonal uses the cosine-square expectation. The optimal-coefficient routine retains a full covariance and adds numerical diagonal regularization; source-code reading does not establish an executed result or exact correspondence to every published experiment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-implementation">VSSGP author implementation: VSSGP_model.py</a></span>
+        <span>· <strong>Locator:</strong> get_EPhi, lines 61–78; get_opt_A, lines 80–85; get_model and get_model_exact_A, lines 87–131</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gal2015">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a></span>
+        <span>· <strong>Locator:</strong> Experimental setup, fixed randomized phases, Section 8.1, PDF p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The ELBO and predictive moments concern the specified finite-feature model and variational family. Spectral posterior factorization discards dependencies, and optimization can have local optima. Neither exact full-GP inference nor prevention of overfitting is guaranteed.</li>
+      <li>A single random-phase cosine per frequency differs from the earlier paired cosine/sine SSGP prior. Conditional finite-feature covariances need not be stationary. Frequency uncertainty here is not uncertainty in a supplied test-input distribution.</li>
+      <li>Paper phase integration and fixed phases in the inspected implementation are separate cases. A point mass against a continuous phase or frequency prior is not a finite-KL endpoint of the stated density family; no zero-width or zero-variance ELBO equivalence is asserted.</li>
+      <li>The supplement’s displayed covariance diagonal on its final page appears to substitute squared first moments for second moments. This record follows the main derivation, supplement Identity 3 and inspected implementation instead. Decay of expected features does not mean each random feature vanishes, and far-field variance need not equal the original GP prior variance.</li>
+      <li>All ten main and four supplementary pages were read. Author code was inspected statically only; no model fitting, author-code execution, paid provider or benchmark was run. Fixed finite arithmetic checks selected moment and objective identities, not convergence or empirical calibration. The record remains DRAFT.</li>
+      <li>A data-factorized objective does not mean all latent variables are independent in the target model. The diagonal restriction is an approximation, and a looser ELBO does not prove worse predictive accuracy on every task.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This inference procedure fits a probabilistic mapping from covariates to response variables. The AIO target denotes the regression task; it does not identify this finite spectral model, variational family or optimizer. This is an algorithm-to-task relationship without an equivalence or subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gal2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gal2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v37/galb15.pdf" target="_blank" rel="noopener">Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency Inputs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yarin Gal, Richard Turner
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/galb15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:158bdd0ef09c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-gal2015-supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gal2015-supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v37/galb15-supp.pdf" target="_blank" rel="noopener">Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yarin Gal, Richard Turner
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v37/galb15.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:19b4948bcf25…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-implementation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-implementation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/yaringal/VSSGP/f0331a963c0779828a178f0c86f597f0c451dcaf/VSSGP_model.py" target="_blank" rel="noopener">VSSGP author implementation: VSSGP_model.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yarin Gal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/yaringal/VSSGP/blob/f0331a963c0779828a178f0c86f597f0c451dcaf/VSSGP_model.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1227bfd02ccd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T22:21:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T22:21:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FactorizedVariationalSparseSpectrumGaussianProcessInference.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FactorizedVariationalSparseSpectrumGaussianProcessInference.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

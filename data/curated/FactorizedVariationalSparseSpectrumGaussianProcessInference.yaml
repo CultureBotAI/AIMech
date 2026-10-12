@@ -1,0 +1,182 @@
+id: AIMech:FactorizedVariationalSparseSpectrumGaussianProcessInference
+name: Factorized variational sparse-spectrum Gaussian-process inference
+aliases:
+- fVSSGP
+concept_kind: algorithm
+definition: The Gal–Turner finite spectral regression inference procedure that explicitly optimizes diagonal
+  Gaussian output-coefficient factors and independent spectral variational factors using an evidence lower
+  bound written as a sum of per-observation expected log likelihoods and global KL penalties.
+identity_notes: 'Compared all 442 pinned AIO IDs, names and scoped synonyms and 546 maintained IDs, names
+  and aliases; none matches the three proposed identities after normalization. Full-text searches of the
+  recovery, older discovery and original Documents checkouts included hidden and ignored files, with 22,
+  0 and 0 matched lines. All 21 distinct matched contents were read: pending source leads and source-reading
+  context, not existing records. Assessed 50 semantic AIO rows and 172 maintained names/definitions, ten
+  full annotated AIO CLASS nodes with incident edges and generated YAML, and five complete native context
+  records. Generic mean-field methods and stochastic gradient descent do not identify this finite spectral
+  regression procedure. The paired-feature SSGP model and its uncertain-test-input transforms also differ:
+  these methods infer uncertain spectral parameters from training data. The three source labels distinguish
+  optimal unrestricted coefficient factors, explicit diagonal factors, and data-minibatch optimization.
+  Absence is bounded to the searched pin and corpus.'
+definition_evidence:
+- source_id: gal2015
+  locator: Sections 4–5 and explicit three-variant naming in Section 7, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: finite-feature-model
+  kind: mechanism
+  statement: For one squared-exponential component, use K features phi_k(x)=sqrt(2*sigma^2/K)*cos(2*pi*w_k^T*L^{-1}*(x-z_k)+b_k),
+    where L=diag(2*pi*l_j), l_j>0, and z_k are feature locations. Independent standardized frequencies
+    have prior N(0,I); phases have uniform priors on [0,2*pi]. For N inputs, Phi has shape N by K. Each
+    output column y_d has likelihood N(Phi*a_d,tau^{-1}*I), tau>0, with independent unit-Gaussian coefficient
+    priors a_d. The variational family separates q(A) from q(omega), omega collecting frequencies and
+    phases, and factors q(omega) across k with diagonal-Gaussian frequency factors and uniform phase intervals
+    [alpha_k,beta_k] with 0<=alpha_k<beta_k<=2*pi. This is a finite-feature hierarchical regression model;
+    integrating its random features does not generally yield the original full-kernel GP.
+  evidence:
+  - source_id: gal2015
+    locator: Sections 2–4, feature construction, Equation 2 and variational family, PDF pp. 2–4
+    relation: supports
+  - source_id: gal2015-supp
+    locator: Propositions 1–2, PDF pp. 1–2
+    relation: supports
+- claim_id: variational-objective
+  kind: mechanism
+  statement: The evidence lower bound is the expected Gaussian log likelihood minus KL(q(A)||p(A)) and
+    KL(q(omega)||p(omega)). For F=E_q[Phi], H=E_q[Phi^T*Phi], q(a_d)=N(m_d,S_d) and response column y_d,
+    its output-d likelihood contribution is -N/2*log(2*pi/tau)-tau/2*[y_d^T*y_d-2*y_d^T*F*m_d+tr(H*(S_d+m_d*m_d^T))].
+    Gaussian trigonometric moments and uniform-phase integrals give F and H analytically. Distinct feature
+    moments factor under the declared independent spectral factors; a feature’s second moment must be
+    computed as E[phi_k^2], not (E[phi_k])^2.
+  evidence:
+  - source_id: gal2015
+    locator: Section 4.1, Equation 6 and diagonal/off-diagonal moments, PDF p. 4
+    relation: supports
+  - source_id: gal2015-supp
+    locator: Identities 1–3, PDF p. 1
+    relation: supports
+- claim_id: explicit-diagonal-factors
+  kind: mechanism
+  statement: The fVSSGP variant retains explicit means m_d and positive diagonal covariances S_d for each
+    coefficient vector, jointly optimizing them with spectral variational parameters. The data term in
+    Equation 6 decomposes into individual observation/output contributions L_nd, giving Equation 8 with
+    two global KL penalties subtracted once. The diagonal coefficient family is restricted relative to
+    the generally full analytic coefficient optimum of VSSGP; the factorized expression and the optimized
+    full-covariance bound are not interchangeable. Distributing the sum of likelihood contributions does
+    not itself change the variational family.
+  evidence:
+  - source_id: gal2015
+    locator: Section 4, Equation 6, Section 5 Equation 8 and Section 7 variant naming, PDF pp. 4–5
+    relation: supports
+  - source_id: gal2015-supp
+    locator: Diagonal-factor bound discussion, PDF p. 4
+    relation: supports
+- claim_id: predictive-moments
+  kind: mechanism
+  statement: For a fixed query, let phi be its K-dimensional column feature vector, f=E_q[phi], R=E_q[phi*phi^T],
+    and M=[m_1,...,m_D]. Under q(A)q(omega), the response mean is M^T*f and its covariance is tau^{-1}*I+diag_d[tr(R*S_d)]+M^T*(R-f*f^T)*M.
+    Shared spectral uncertainty can therefore correlate different outputs even though their coefficient
+    factors are independent. These are moments of the variational predictive mixture, which is not generally
+    Gaussian; the latent-output covariance omits only the future-observation-noise term.
+  evidence:
+  - source_id: gal2015
+    locator: Section 6, Equations 10–11, PDF p. 5
+    relation: supports
+  - source_id: gal2015-supp
+    locator: Propositions 4–5, PDF pp. 2–3
+    relation: supports
+- claim_id: implementation-boundary
+  kind: scope
+  statement: The inspected author model source computes Gaussian-frequency moments with the phase alpha
+    fixed inside each cosine; its beta argument does not enter those moments and its objective contains
+    frequency KL without a phase KL. Thus that revision implements a fixed-phase conditional variant,
+    not integration over the paper’s positive-width uniform phase factors. Its second-moment diagonal
+    uses the cosine-square expectation. The optimal-coefficient routine retains a full covariance and
+    adds numerical diagonal regularization; source-code reading does not establish an executed result
+    or exact correspondence to every published experiment.
+  evidence:
+  - source_id: author-implementation
+    locator: get_EPhi, lines 61–78; get_opt_A, lines 80–85; get_model and get_model_exact_A, lines 87–131
+    relation: supports
+  - source_id: gal2015
+    locator: Experimental setup, fixed randomized phases, Section 8.1, PDF p. 6
+    relation: supports
+evidence_sources:
+- source_id: gal2015
+  title: Improving the Gaussian Process Sparse Spectrum Approximation by Representing Uncertainty in Frequency
+    Inputs
+  authors:
+  - Yarin Gal
+  - Richard Turner
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/galb15.pdf
+  persistent_id: https://proceedings.mlr.press/v37/galb15.html
+  version: ICML 2015, PMLR 37:655–664; all ten official main-paper PDF pages, figures, tables and references
+    visually read. Locators use PDF page indices.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:01:48Z'
+  sha256: 158bdd0ef09cc1926957e34b45c98327e437745f88a658453eda98fdc4798177
+- source_id: gal2015-supp
+  title: Variational Inference for Sparse Spectrum Approximation in Gaussian Process Regression – Appendix
+  authors:
+  - Yarin Gal
+  - Richard Turner
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/galb15-supp.pdf
+  persistent_id: https://proceedings.mlr.press/v37/galb15.html
+  version: Official four-page supplement linked from the Gal–Turner ICML 2015 proceedings page; all pages
+    visually read. Its title differs from the main paper and some equation references are stale.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:01:48Z'
+  sha256: 19b4948bcf25f2e6aa6306bab66586c501e3ad2ffca185fb5dbd074b83e7c235
+- source_id: author-implementation
+  title: 'VSSGP author implementation: VSSGP_model.py'
+  authors:
+  - Yarin Gal
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/yaringal/VSSGP/f0331a963c0779828a178f0c86f597f0c451dcaf/VSSGP_model.py
+  persistent_id: https://github.com/yaringal/VSSGP/blob/f0331a963c0779828a178f0c86f597f0c451dcaf/VSSGP_model.py
+  version: Author repository commit f0331a963c0779828a178f0c86f597f0c451dcaf (2015-04-07), complete 131-line
+    model source read statically, with README, optimizer and example as context. This revision predates
+    the proceedings; exact experimental-version correspondence is not established. No code imported or
+    executed.
+  access_level: documentation
+  accessed_at: '2026-10-12T22:08:51Z'
+  sha256: 1227bfd02ccd6a6577b9eea0db2135e7483954fd0ff35a1d77ec14458900ebfa
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: This inference procedure fits a probabilistic mapping from covariates to response variables.
+    The AIO target denotes the regression task; it does not identify this finite spectral model, variational
+    family or optimizer. This is an algorithm-to-task relationship without an equivalence or subclass
+    assertion.
+limitations:
+- The ELBO and predictive moments concern the specified finite-feature model and variational family. Spectral
+  posterior factorization discards dependencies, and optimization can have local optima. Neither exact
+  full-GP inference nor prevention of overfitting is guaranteed.
+- A single random-phase cosine per frequency differs from the earlier paired cosine/sine SSGP prior. Conditional
+  finite-feature covariances need not be stationary. Frequency uncertainty here is not uncertainty in
+  a supplied test-input distribution.
+- Paper phase integration and fixed phases in the inspected implementation are separate cases. A point
+  mass against a continuous phase or frequency prior is not a finite-KL endpoint of the stated density
+  family; no zero-width or zero-variance ELBO equivalence is asserted.
+- The supplement’s displayed covariance diagonal on its final page appears to substitute squared first
+  moments for second moments. This record follows the main derivation, supplement Identity 3 and inspected
+  implementation instead. Decay of expected features does not mean each random feature vanishes, and far-field
+  variance need not equal the original GP prior variance.
+- All ten main and four supplementary pages were read. Author code was inspected statically only; no model
+  fitting, author-code execution, paid provider or benchmark was run. Fixed finite arithmetic checks selected
+  moment and objective identities, not convergence or empirical calibration. The record remains DRAFT.
+- A data-factorized objective does not mean all latent variables are independent in the target model.
+  The diagonal restriction is an approximation, and a looser ELBO does not prove worse predictive accuracy
+  on every task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T22:21:35Z'
+  updated_at: '2026-10-12T22:21:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
