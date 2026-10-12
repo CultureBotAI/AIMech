@@ -1,0 +1,788 @@
+# Scientific author self-review of orthogonal least squares forward selection
+
+- Review: 20261012T125047Z-orthogonal-least-squares-review
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T12:47:03Z
+- Finished UTC: 2026-10-12T12:50:47Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the distinct forward gain-based selection rule with explicit subset-optimality, numerical, source and mapping boundaries. No actionable finding in the declared scope.
+
+## Scope And Provenance
+
+All fields of the single maintained forward OLS algorithm.
+
+Selection: Exact maintained ID AIMech:OrthogonalLeastSquaresForwardSelection
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7f781ffb35fddc9cc6c459a4154e4a2df651dca5.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OrthogonalLeastSquaresForwardSelection | data/curated/OrthogonalLeastSquaresForwardSelection.yaml | maintained | Orthogonal least squares forward selection |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:OrthogonalLeastSquaresForwardSelection | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 121.84s (0:02:01)<br>Checked 442 record(s); 0 failed.<br>Checked 528 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 175 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 173,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:OrthogonalLeastSquaresForwardSelection | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:OrthogonalLeastSquaresForwardSelection | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:OrthogonalLeastSquaresForwardSelection | Exited0withoutoutput. |
+| Exact forward-selection examples | passed | True | AIMech:OrthogonalLeastSquaresForwardSelection | {"ols_versus_omp": {"dictionary": [["1", "0", "0"], ["12/13", "5/13", "0"], ["0", "0", "1"]], "signal": ["10", "4/5", "3/5"], "ols": [{"selected": [0], "coefficients": ["10"], "residual": ["0", "4/5", "3/5"], "residual_energy": "1", "gain": "100", "err": "100/101"}, {"selected": [0, 1], "coefficients": ["202/25", "52/25"], "residual": ["0", "0", "3/5"], "residual_energy": "9/25", "gain": "16/25", "err": "16/2525"}, {"selected": [0, 1, 2], "coefficients": ["202/25", "52/25", "3/5"], "residual": ["0", "0", "0"], "residual_energy": "0", "gain": "9/25", "err": "9/2525"}], "omp": [{"selected": [0], "coefficients": ["10"], "residual": ["0", "4/5", "3/5"]}, {"selected": [0, 2], "coefficients": ["10", "3/5"], "residual": ["0", "4/5", "0"]}, {"selected": [0, 2, 1], "coefficients": ["202/25", "3/5", "52/25"], "residual": ["0", "0", "0"]}]}, "scaling_preserves_selection_and_residual": true, "greedy_nonminimal_support": [{"selected": [1], "coefficients": ["-4/9"], "residual": ["1/9", "0", "-1/9"], "residual_energy": "2/81", "gain": "16/81", "err": "8/9"}, {"selected": [1, 0], "coefficients": ["-4/9", "1/9"], "residual": ["0", "0", "-1/9"], "residual_energy": "1/81", "gain": "1/81", "err": "1/18"}, {"selected": [1, 0, 2], "coefficients": ["-4/9", "1/9", "-1/9"], "residual": ["0", "0", "0"], "residual_energy": "0", "gain": "1/81", "err": "1/18"}], "minimum_possible_support": 2, "zero_and_dependent_cases_handled": true, "uncentered_constant_fit_err": "9/10", "scope": "Exact rational finite real inputs with lowest-index ties; source-derived algebra, not empirical evaluation."} |
+
+## Scientific And Domain Assessments
+
+### Forward subset selection versus OMP and ordinary least squares
+
+identity: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Retain a distinct, narrowly scoped algorithm.
+
+A greedy fixed-candidate regression algorithm that repeatedly adds the column giving the largest reduction in squared residual after joint least-squares refitting over the augmented selected span. All 442 pinned AIO IDs, labels and scoped synonyms and 527 native IDs, names and aliases were compared with the proposed full names and OLS/OFR/FROLS terms, with no normalized identity match. Ignored- and hidden-inclusive full-text searches of the independent public clone and the readable prior worktree returned 37 and 12 lines, all inspected. Hits concern this source lead, historical OMP review boundaries, ordinary least-squares proposals, Ontology Lookup Service indexing, and ordinary orthogonal projection context. Bare OLS is not asserted as an alias because it also abbreviates ordinary least squares. The original Documents checkout remains inaccessible, so its untracked files were not re-audited in this round. All 62 semantic AIO rows and 82 native name/definition neighbors were read, followed by 12 full annotated AIO CLASS nodes with incident edges and 18 contextual YAMLs. The algorithm differs from OMP’s raw-correlation selection, MP’s single-atom update, exact minimum-L1 basis pursuit, the LARS equiangular path, and PLS/supervised-PCA component fitting. The new recovery worktree has the verified merged public tree. This is a bounded corpus assessment.
+
+### Algorithm and AIO task/network scope
+
+grounding: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Related mappings are justified; no identity or subclass assertion.
+
+The algorithm uses least-squares projection at every candidate augmentation, directly relating it to the target’s residual-squared fitting task. The pinned target describes overdetermined regression analysis, whereas this record denotes a specific greedy subset-selection algorithm and also allows overcomplete candidate sets. Related mapping preserves that algorithm/task and scope distinction; it is not exact identity or an asserted subclass. The procedure seeks a parsimonious representation from supplied columns. The pinned target denotes a representation-learning network and identifies dictionary elements; the local algorithm neither requires a network nor learns those elements. Related mapping reflects sparse representation without treating this algorithm as dictionary learning. RepresentationLearning and SparseAutoEncoder are different neural scopes; LassoRegression and RidgeRegression do not specify this greedy gain criterion. LinearRegression and RegressionAnalysis describe fitting tasks, PLS and supervised PCA fit latent components, and FeatureExtraction is too general. RadialBasisNetwork and autoregressive model classes are potential model contexts, not identities for this selection rule.
+
+### forward selection and refit
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+For a fixed finite real candidate matrix P and response y, start with an empty selected set S and residual y. For each unselected column p_j with nonzero residualized direction w_j=(I-Proj_S)*p_j, evaluate gain_j=(r^T*w_j)^2/(w_j^T*w_j). Choose a maximum-gain candidate, augment S and compute the least-squares fit over that span. This minimizes the residual sum of squares among single-column augmentations of the current S. The residual is orthogonal to the selected span in exact arithmetic. Original columns need not be orthogonal or unit length. Zero-gain termination and rank/zero-direction handling are necessary boundary conventions; they do not imply that y lies in the dictionary span. Locators: Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889; Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft
+
+### error reduction ratio
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+For nonzero y the source defines ERR_j=g_j^2*(w_j^T*w_j)/(y^T*y), where g_j=(w_j^T*y)/(w_j^T*w_j). Thus ERR is the incremental fitted energy divided by the original response energy. Orthogonality gives &#124;&#124;r_k&#124;&#124;^2/&#124;&#124;y&#124;&#124;^2=1-sum_{i&lt;=k} ERR_i. The denominator is uncentered energy despite the paper’s variance terminology: fitting a constant to y=(1,2) has ERR=9/10 while explaining none of the centered variation. Centered-variance interpretation needs appropriate centering/intercept conventions. The ratio is undefined at y=0, for which the zero fit already has zero error. Locators: Section 4.1, Equations 64–70, and Section 4.2 Equation 74, PDF pp. 13–16 / printed pp. 1884–1887; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py
+
+### omp selection distinction
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+OMP compares absolute residual correlations with the original unit atoms. OLS instead compares correlations with their normalized residualized directions; the different denominators can reverse the ranking. For D=[e1,b,e3], b=(12/13,5/13,0), y=(10,4/5,3/5), both first choose e1. OMP then chooses e3 because 3/5&gt;4/13; OLS chooses b because its squared-error reduction 16/25 exceeds 9/25. The two-step residual energies are respectively 16/25 and 9/25. Both refit their chosen span, so refitting alone does not make the algorithms identical. Locators: Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py; Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py
+
+### greedy optimality and scaling
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+Best single augmentation is conditional on earlier selections and does not establish globally best subset selection or minimum support. For unit columns [e1,e2,e3,b], b=(8/9,4/9,1/9), and y=e1-b, exact forward OLS with lowest-index tie resolution selects e2,e1,e3 and uses three atoms for zero error. A two-atom representation e1-b exists and no one atom is collinear with y. In the ideal fixed-matrix unregularized procedure, nonzero rescaling of individual columns preserves the gain scores, selected subspaces and residuals under the same tie rule, though coefficient values change. Finite-precision tolerances and regularized variants need separate analysis. Locators: Sections 2 and 4, PDF pp. 4–5,13–18 / printed pp. 1875–1876,1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py; Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py
+
+### stopping and numerical variants
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+The paper implements the forward criterion through classical Gram-Schmidt, modified Gram-Schmidt and Householder transformations, with differing storage and roundoff behavior. Orthogonal decomposition is an implementation mechanism, not a requirement that the supplied features be orthogonal. It describes residual-energy tolerance, incremental criteria and penalized AIC-based stopping; none is an unconditional prediction or true-support guarantee. The mathematical rule and its implementation/stopping choices must be distinguished. No universal runtime superiority over OMP or other subset methods is asserted. Locators: Sections 3.2 and 4, PDF pp. 8–18 / printed pp. 1879–1889; Sections III and V, PDF pp. 2–3
+
+### nonlinear identification boundary
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+A polynomial NARX model can be nonlinear in lagged observed inputs and outputs while remaining linear in its unknown coefficients, so its fixed candidate columns fit this selection procedure. Polynomial NARMAX identification additionally uses lagged noise terms that are not directly observed. The paper’s outer iterative scheme substitutes prediction residuals, rebuilds noise regressors and reestimates models; that changing-regressor extension is not a single fixed-matrix OLS pass and its reported iteration counts are not a convergence theorem. The fitted algorithm does not itself establish causal identification of a physical system. Locators: Sections 2 and 5, Equations 1–13 and 83–91, PDF pp. 3–5,18–20 / printed pp. 1874–1876,1889–1891
+
+### frols name scope
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Supported within the stated mathematical and source boundaries.
+
+The official SysIdentPy documentation expands FROLS as Forward Regression Orthogonal Least Squares and cites the Chen–Billings–Luo paper. This record uses that naming for the basic unregularized forward selection procedure. A software class with that name may expose other estimators or regularization options; its full configurable behavior is not asserted equivalent to this narrowly defined procedure. Locators: FROLS class heading, introductory description, source references and displayed constructor; Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889
+
+### Single-step versus global optimality
+
+consistency: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Exact calculations reject a universal minimum-support interpretation.
+
+The unit-column example selects e2,e1,e3, but e1-b represents y using two atoms and no single column is collinear. Selected-set least squares and best augmentation do not optimize all subsets. Correlation-versus-gain case verifies different second choices with residual energies16/25 and9/25. The calculator fits the selected span exactly and checks each gain against its residual-energy decrease.
+
+### Energy, scaling and degeneracy
+
+consistency: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Uncentered energy and zero-direction caveats are explicit.
+
+ERR telescopes to residual energy divided by original y energy. A constant-only fit to(1,2) has ERR9/10 but zero centered explained variation. Negative and positive column rescaling preserve the selected sequence and residuals in the exact example. y=0 exits without division; dependent or zero directions are excluded; a response orthogonal to all columns retains its nonzero residual. These are exact cases, not a finite-precision stability proof.
+
+### Historical draft, software options and causal scope
+
+evidence: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+Source access and claim scope are distinguished.
+
+The2007paper is explicitly an author draft. The1989cover has a2007download date, not a new method date. FROLS nomenclature is grounded in the current official page, while its configurable estimators are excluded. Unobserved-noise iteration changes regressors; neither that extension nor finite data fitting establishes physical causality. Equation44 apparent missing squares is not used to support the correctly squared Section4 identity.
+
+### Complete maintained target after capture
+
+provenance: supported. Targets: AIMech:OrthogonalLeastSquaresForwardSelection.
+
+All target fields were read after input capture.
+
+Read identifier, name, both aliases, kind, definition, identity notes, all seven claims and locators, three source metadata blocks, both mappings and pin, five limitations, DRAFT status and actual UTC curation. The report mirror, source hashes, context hashes and exact calculation result match. No generated record was edited. Original Documents checkout is outside accessible current scope; the isolated recovery worktree uses the verified merged public tree.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:OrthogonalLeastSquaresForwardSelection. Largest post-refit gain differs from OMP correlation selection, MP single-atom updates, exact minimum-L1 synthesis, generic least squares and latent-component regression. Numerical decomposition variants do not automatically create new identities.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T124642Z-orthogonal-least-squares.json | supports | All 442 pinned AIO IDs, labels and scoped synonyms and 527 native IDs, names and aliases were compared with the proposed full names and OLS/OFR/FROLS terms, with no normalized identity match. Ignored- and hidden-inclusive full-text searches of the independent public clone and the readable prior worktree returned 37 and 12 lines, all inspected. Hits concern this source lead, historical OMP review boundaries, ordinary least-squares proposals, Ontology Lookup Service indexing, and ordinary orthogonal projection context. Bare OLS is not asserted as an alias because it also abbreviates ordinary least squares. The original Documents checkout remains inaccessible, so its untracked files were not re-audited in this round. All 62 semantic AIO rows and 82 native name/definition neighbors were read, followed by 12 full annotated AIO CLASS nodes with incident edges and 18 contextual YAMLs. The algorithm differs from OMP’s raw-correlation selection, MP’s single-atom update, exact minimum-L1 basis pursuit, the LARS equiangular path, and PLS/supervised-PCA component fitting. The new recovery worktree has the verified merged public tree. This is a bounded corpus assessment. |
+| mapping | sources/aio/aio.json; Twelve complete annotated CLASS nodes and incident edges; eighteen contextual YAMLs. | supports | Both mappings use related_match and preserve algorithm/task/network distinctions. Names, exact and related synonyms, definitions, parents, branches and snapshot were read. |
+| calculations | research/discovery/orthogonal-least-squares-boundaries.py | supports | Exact cases distinguish OLS and OMP, prove a three-atom greedy result despite a two-atom minimum, verify nonzero column scaling and energy telescoping, and distinguish uncentered energy from centered variance. The development script initially failed because delayed Python generator evaluation produced repeated basis vectors; eager tuples corrected the implementation before these recorded successful calculations. |
+| chen1989 | https://eprints.soton.ac.uk/251147/2/778742007_content.pdf; International Journal of Control 50(5):1873–1896, 1989. University-hosted publisher PDF with 2007 download cover; 25 PDF pages including cover, all visually read. Article printed page equals PDF page plus 1871. Includes Sections 1–7, Equations 1–94, Figures 1–3, Tables 1–3 and all references. | supports | All source pages were visually read for the two papers. After capture, Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span projection and triangular refit. The current official documentation is inspected nomenclature only and is expressly not a pinned implementation audit. |
+| blumensath2007 | https://eprints.soton.ac.uk/142469/1/BDOMPvsOLS07.pdf; Three-page author manuscript explicitly marked DRAFT: MARCH 29, 2007; all pages visually read, Sections I–VI, Equations 1–4, algorithm lists, Figure 1 and 13 references. No final publication or peer-review status asserted. | supports | All source pages were visually read for the two papers. After capture, Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span projection and triangular refit. The current official documentation is inspected nomenclature only and is expressly not a pinned implementation audit. |
+| sysidentpy-naming | https://sysidentpy.org/user-guide/API/frols/; Unversioned official documentation snapshot accessed on 2026-10-12, identified by its SHA-256. Class name, introductory description, source reference and displayed wrapper inspected for nomenclature only. Not a pinned implementation release or an audit of the inherited estimator, regularization or numerical behavior. | supports | All source pages were visually read for the two papers. After capture, Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span projection and triangular refit. The current official documentation is inspected nomenclature only and is expressly not a pinned implementation audit. |
+
+## Limits And Additional Notes
+
+- Author self-review only; native status remains DRAFT.
+- Initial vendored-check lacked sandbox DNS access; the public pinned verification succeeded on the authorized network retry.
+- One native DRAFT addition: 528 curated concepts and 442 unchanged generated AIO records. Discovery remains active with 465 pending and 46 partly addressed cohorts, plus other unresolved scopes.
+- The 1989 paper and 2007 draft were fully visually read; current SysIdentPy documentation is nomenclature context only. No final-publication status is inferred for the explicitly dated draft. Earlier cited algorithms and later variants remain pending.
+- No empirical benchmark, author implementation, model training or paid service was run. Calculations are exact finite curator examples, not experimental replication.
+- Original Documents checkout access remains denied by the OS. Work proceeds in a dedicated worktree of the independent public clone; original user files were not modified. Original checkout synchronization and old local branch cleanup remain pending restored access.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T125047Z-orthogonal-least-squares-review
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of orthogonal least squares forward selection
+started_at: '2026-10-12T12:47:03Z'
+finished_at: '2026-10-12T12:50:47Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read both full papers, challenged claims
+    with exact rational examples and reread the complete record and key source passages
+    after capture. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the distinct forward gain-based selection rule with explicit subset-optimality,
+  numerical, source and mapping boundaries. No actionable finding in the declared
+  scope.
+source:
+  git_revision: 7f781ffb35fddc9cc6c459a4154e4a2df651dca5
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveDistributedLag.yaml
+    sha256: ec96eff60d187277db7e53193e2a91671c047127c75a493ff764bb362521458e
+    role: context
+  - path: data/aio/AutoregressiveMovingAverage.yaml
+    sha256: eb69aaedb34d8c9e620ef4f0d20111feaf9c3dd09236f57536561e9a6cccdf53
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/RadialBasisNetwork.yaml
+    sha256: 67023f07d0faf5c76e4ef59d1be8b78edf40775223592ab94324607e5403a489
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/curated/BasisPursuit.yaml
+    sha256: 962cb52fb514105bea0b9296ad29569b0857a9fe8ecf437894dc1c1426010730
+    role: context
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/MatchingPursuit.yaml
+    sha256: a24959ced5e8f39c3b861dd89fe7ab4407ac632f9187bc4bfa8f0cb1c30a5953
+    role: context
+  - path: data/curated/OrthogonalLeastSquaresForwardSelection.yaml
+    sha256: 909a5791745c4970ecf2897f8000df528a5d20275e64765b61165d2e73a63931
+    role: target
+  - path: data/curated/OrthogonalMatchingPursuit.yaml
+    sha256: 3b61cc7ec2356d4e8789480e10a8edb24ec303f5fa63df10db5652145b1d6d42
+    role: context
+  - path: data/curated/PartialLeastSquaresRegression.yaml
+    sha256: 3d34b3313b0580f1aa7316f588cc38589056e8b58711d1944b346f8a0c394ea4
+    role: context
+  - path: data/curated/SupervisedPrincipalComponents.yaml
+    sha256: 5bebcc98a45b584ad28b0bb5b49ad298fa0308ddffd1bfb398af5658aeada61f
+    role: context
+  - path: research/discovery/20261012T124642Z-orthogonal-least-squares.json
+    sha256: 2060a3205ea6f690d6bde37f02dbac67645921351b9adfd9dd9a49a37c70cc74
+    role: context
+  - path: research/discovery/orthogonal-least-squares-boundaries.py
+    sha256: 91a7bfc7a3a1b0f13f557b13fdf6f6b197e2c238ae9b4c5b43a3c8198c35958d
+    role: context
+  - path: research/discovery/pursuit-boundaries.py
+    sha256: 1827b271d2ea9cf3a8a3ce6c06aeec770f04a4880bee73676af4977de02c646a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:OrthogonalLeastSquaresForwardSelection
+  path: data/curated/OrthogonalLeastSquaresForwardSelection.yaml
+  label: Orthogonal least squares forward selection
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OrthogonalLeastSquaresForwardSelection.yaml
+    role: maintained
+scope:
+  description: All fields of the single maintained forward OLS algorithm.
+  selection: Exact maintained ID AIMech:OrthogonalLeastSquaresForwardSelection
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exclusions:
+  - target: Contextual records
+    reason: Identity and mapping context only.
+  - target: External recovery, earlier algorithms and later variants
+    reason: Original primary methods not fully audited.
+  - target: Empirical execution and software implementation
+    reason: Only exact curator calculations; no benchmark or code audit.
+  - target: Discovery frontier
+    reason: 465 pending and46 partly addressed cohorts plus other unresolved scopes
+      remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 121.84s (0:02:01)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 528 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 175 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 173,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0withoutoutput.
+- check_id: calculations
+  name: Exact forward-selection examples
+  command: python3 research/discovery/orthogonal-least-squares-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"ols_versus_omp": {"dictionary": [["1", "0", "0"], ["12/13", "5/13",
+    "0"], ["0", "0", "1"]], "signal": ["10", "4/5", "3/5"], "ols": [{"selected": [0],
+    "coefficients": ["10"], "residual": ["0", "4/5", "3/5"], "residual_energy": "1",
+    "gain": "100", "err": "100/101"}, {"selected": [0, 1], "coefficients": ["202/25",
+    "52/25"], "residual": ["0", "0", "3/5"], "residual_energy": "9/25", "gain": "16/25",
+    "err": "16/2525"}, {"selected": [0, 1, 2], "coefficients": ["202/25", "52/25",
+    "3/5"], "residual": ["0", "0", "0"], "residual_energy": "0", "gain": "9/25", "err":
+    "9/2525"}], "omp": [{"selected": [0], "coefficients": ["10"], "residual": ["0",
+    "4/5", "3/5"]}, {"selected": [0, 2], "coefficients": ["10", "3/5"], "residual":
+    ["0", "4/5", "0"]}, {"selected": [0, 2, 1], "coefficients": ["202/25", "3/5",
+    "52/25"], "residual": ["0", "0", "0"]}]}, "scaling_preserves_selection_and_residual":
+    true, "greedy_nonminimal_support": [{"selected": [1], "coefficients": ["-4/9"],
+    "residual": ["1/9", "0", "-1/9"], "residual_energy": "2/81", "gain": "16/81",
+    "err": "8/9"}, {"selected": [1, 0], "coefficients": ["-4/9", "1/9"], "residual":
+    ["0", "0", "-1/9"], "residual_energy": "1/81", "gain": "1/81", "err": "1/18"},
+    {"selected": [1, 0, 2], "coefficients": ["-4/9", "1/9", "-1/9"], "residual": ["0",
+    "0", "0"], "residual_energy": "0", "gain": "1/81", "err": "1/18"}], "minimum_possible_support":
+    2, "zero_and_dependent_cases_handled": true, "uncentered_constant_fit_err": "9/10",
+    "scope": "Exact rational finite real inputs with lowest-index ties; source-derived
+    algebra, not empirical evaluation."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T124642Z-orthogonal-least-squares.json
+  accessed_at: '2026-10-12T12:47:03Z'
+  support: supports
+  summary: All 442 pinned AIO IDs, labels and scoped synonyms and 527 native IDs,
+    names and aliases were compared with the proposed full names and OLS/OFR/FROLS
+    terms, with no normalized identity match. Ignored- and hidden-inclusive full-text
+    searches of the independent public clone and the readable prior worktree returned
+    37 and 12 lines, all inspected. Hits concern this source lead, historical OMP
+    review boundaries, ordinary least-squares proposals, Ontology Lookup Service indexing,
+    and ordinary orthogonal projection context. Bare OLS is not asserted as an alias
+    because it also abbreviates ordinary least squares. The original Documents checkout
+    remains inaccessible, so its untracked files were not re-audited in this round.
+    All 62 semantic AIO rows and 82 native name/definition neighbors were read, followed
+    by 12 full annotated AIO CLASS nodes with incident edges and 18 contextual YAMLs.
+    The algorithm differs from OMP’s raw-correlation selection, MP’s single-atom update,
+    exact minimum-L1 basis pursuit, the LARS equiangular path, and PLS/supervised-PCA
+    component fitting. The new recovery worktree has the verified merged public tree.
+    This is a bounded corpus assessment.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. The original Documents checkout cannot be read because
+    of OS permissions, so its untracked files are not claimed re-audited in this round.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Twelve complete annotated CLASS nodes and incident edges; eighteen contextual
+    YAMLs.
+  accessed_at: '2026-10-12T12:47:03Z'
+  support: supports
+  summary: Both mappings use related_match and preserve algorithm/task/network distinctions.
+    Names, exact and related synonyms, definitions, parents, branches and snapshot
+    were read.
+- evidence_id: calculations
+  kind: record_content
+  reference: research/discovery/orthogonal-least-squares-boundaries.py
+  accessed_at: '2026-10-12T12:47:03Z'
+  snapshot_sha256: 91a7bfc7a3a1b0f13f557b13fdf6f6b197e2c238ae9b4c5b43a3c8198c35958d
+  support: supports
+  summary: Exact cases distinguish OLS and OMP, prove a three-atom greedy result despite
+    a two-atom minimum, verify nonzero column scaling and energy telescoping, and
+    distinguish uncentered energy from centered variance. The development script initially
+    failed because delayed Python generator evaluation produced repeated basis vectors;
+    eager tuples corrected the implementation before these recorded successful calculations.
+- evidence_id: chen1989
+  kind: primary_source
+  reference: https://eprints.soton.ac.uk/251147/2/778742007_content.pdf
+  locator: International Journal of Control 50(5):1873–1896, 1989. University-hosted
+    publisher PDF with 2007 download cover; 25 PDF pages including cover, all visually
+    read. Article printed page equals PDF page plus 1871. Includes Sections 1–7, Equations
+    1–94, Figures 1–3, Tables 1–3 and all references.
+  accessed_at: '2026-10-12T12:30:51Z'
+  snapshot_sha256: 62199a403df8853661f7b802d4dd0797b800a84eaf99e846ed6fb82631a02224
+  support: supports
+  summary: All source pages were visually read for the two papers. After capture,
+    Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span
+    projection and triangular refit. The current official documentation is inspected
+    nomenclature only and is expressly not a pinned implementation audit.
+- evidence_id: blumensath2007
+  kind: primary_source
+  reference: https://eprints.soton.ac.uk/142469/1/BDOMPvsOLS07.pdf
+  locator: 'Three-page author manuscript explicitly marked DRAFT: MARCH 29, 2007;
+    all pages visually read, Sections I–VI, Equations 1–4, algorithm lists, Figure
+    1 and 13 references. No final publication or peer-review status asserted.'
+  accessed_at: '2026-10-12T12:39:39Z'
+  snapshot_sha256: 5c62d9787b52f6f05f3abc4d943899b63c405d3bcb950d72c44a08a9059f0957
+  support: supports
+  summary: All source pages were visually read for the two papers. After capture,
+    Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span
+    projection and triangular refit. The current official documentation is inspected
+    nomenclature only and is expressly not a pinned implementation audit.
+- evidence_id: sysidentpy-naming
+  kind: authority
+  reference: https://sysidentpy.org/user-guide/API/frols/
+  locator: Unversioned official documentation snapshot accessed on 2026-10-12, identified
+    by its SHA-256. Class name, introductory description, source reference and displayed
+    wrapper inspected for nomenclature only. Not a pinned implementation release or
+    an audit of the inherited estimator, regularization or numerical behavior.
+  accessed_at: '2026-10-12T12:39:40Z'
+  snapshot_sha256: 297aacc718694e287a0e98a3ffe29b6a149a9d4a408f2396c059f2dda2ffcb11
+  support: supports
+  summary: All source pages were visually read for the two papers. After capture,
+    Chen PDF pages14 and17 were reread to verify error reduction, threshold, augmented-span
+    projection and triangular refit. The current official documentation is inspected
+    nomenclature only and is expressly not a pinned implementation audit.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Forward subset selection versus OMP and ordinary least squares
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - identity
+  - chen1989
+  - blumensath2007
+  - sysidentpy-naming
+  summary: Retain a distinct, narrowly scoped algorithm.
+  details: A greedy fixed-candidate regression algorithm that repeatedly adds the
+    column giving the largest reduction in squared residual after joint least-squares
+    refitting over the augmented selected span. All 442 pinned AIO IDs, labels and
+    scoped synonyms and 527 native IDs, names and aliases were compared with the proposed
+    full names and OLS/OFR/FROLS terms, with no normalized identity match. Ignored-
+    and hidden-inclusive full-text searches of the independent public clone and the
+    readable prior worktree returned 37 and 12 lines, all inspected. Hits concern
+    this source lead, historical OMP review boundaries, ordinary least-squares proposals,
+    Ontology Lookup Service indexing, and ordinary orthogonal projection context.
+    Bare OLS is not asserted as an alias because it also abbreviates ordinary least
+    squares. The original Documents checkout remains inaccessible, so its untracked
+    files were not re-audited in this round. All 62 semantic AIO rows and 82 native
+    name/definition neighbors were read, followed by 12 full annotated AIO CLASS nodes
+    with incident edges and 18 contextual YAMLs. The algorithm differs from OMP’s
+    raw-correlation selection, MP’s single-atom update, exact minimum-L1 basis pursuit,
+    the LARS equiangular path, and PLS/supervised-PCA component fitting. The new recovery
+    worktree has the verified merged public tree. This is a bounded corpus assessment.
+- assessment_id: mapping
+  area: grounding
+  topic: Algorithm and AIO task/network scope
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - mapping
+  - chen1989
+  - blumensath2007
+  summary: Related mappings are justified; no identity or subclass assertion.
+  details: The algorithm uses least-squares projection at every candidate augmentation,
+    directly relating it to the target’s residual-squared fitting task. The pinned
+    target describes overdetermined regression analysis, whereas this record denotes
+    a specific greedy subset-selection algorithm and also allows overcomplete candidate
+    sets. Related mapping preserves that algorithm/task and scope distinction; it
+    is not exact identity or an asserted subclass. The procedure seeks a parsimonious
+    representation from supplied columns. The pinned target denotes a representation-learning
+    network and identifies dictionary elements; the local algorithm neither requires
+    a network nor learns those elements. Related mapping reflects sparse representation
+    without treating this algorithm as dictionary learning. RepresentationLearning
+    and SparseAutoEncoder are different neural scopes; LassoRegression and RidgeRegression
+    do not specify this greedy gain criterion. LinearRegression and RegressionAnalysis
+    describe fitting tasks, PLS and supervised PCA fit latent components, and FeatureExtraction
+    is too general. RadialBasisNetwork and autoregressive model classes are potential
+    model contexts, not identities for this selection rule.
+- assessment_id: forward-selection-and-refit
+  area: evidence
+  topic: forward selection and refit
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - blumensath2007
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'For a fixed finite real candidate matrix P and response y, start with
+    an empty selected set S and residual y. For each unselected column p_j with nonzero
+    residualized direction w_j=(I-Proj_S)*p_j, evaluate gain_j=(r^T*w_j)^2/(w_j^T*w_j).
+    Choose a maximum-gain candidate, augment S and compute the least-squares fit over
+    that span. This minimizes the residual sum of squares among single-column augmentations
+    of the current S. The residual is orthogonal to the selected span in exact arithmetic.
+    Original columns need not be orthogonal or unit length. Zero-gain termination
+    and rank/zero-direction handling are necessary boundary conventions; they do not
+    imply that y lies in the dictionary span. Locators: Section 4, Equations 64–82,
+    PDF pp. 13–18 / printed pp. 1884–1889; Sections II–IV and VI, PDF pp. 2–3, March
+    29, 2007 draft'
+- assessment_id: error-reduction-ratio
+  area: evidence
+  topic: error reduction ratio
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'For nonzero y the source defines ERR_j=g_j^2*(w_j^T*w_j)/(y^T*y), where
+    g_j=(w_j^T*y)/(w_j^T*w_j). Thus ERR is the incremental fitted energy divided by
+    the original response energy. Orthogonality gives ||r_k||^2/||y||^2=1-sum_{i<=k}
+    ERR_i. The denominator is uncentered energy despite the paper’s variance terminology:
+    fitting a constant to y=(1,2) has ERR=9/10 while explaining none of the centered
+    variation. Centered-variance interpretation needs appropriate centering/intercept
+    conventions. The ratio is undefined at y=0, for which the zero fit already has
+    zero error. Locators: Section 4.1, Equations 64–70, and Section 4.2 Equation 74,
+    PDF pp. 13–16 / printed pp. 1884–1887; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py'
+- assessment_id: omp-selection-distinction
+  area: evidence
+  topic: omp selection distinction
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - blumensath2007
+  - chen1989
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'OMP compares absolute residual correlations with the original unit atoms.
+    OLS instead compares correlations with their normalized residualized directions;
+    the different denominators can reverse the ranking. For D=[e1,b,e3], b=(12/13,5/13,0),
+    y=(10,4/5,3/5), both first choose e1. OMP then chooses e3 because 3/5>4/13; OLS
+    chooses b because its squared-error reduction 16/25 exceeds 9/25. The two-step
+    residual energies are respectively 16/25 and 9/25. Both refit their chosen span,
+    so refitting alone does not make the algorithms identical. Locators: Sections
+    II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations in
+    research/discovery/orthogonal-least-squares-boundaries.py; Section 4, Equations
+    64–82, PDF pp. 13–18 / printed pp. 1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py'
+- assessment_id: greedy-optimality-and-scaling
+  area: evidence
+  topic: greedy optimality and scaling
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - blumensath2007
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'Best single augmentation is conditional on earlier selections and does
+    not establish globally best subset selection or minimum support. For unit columns
+    [e1,e2,e3,b], b=(8/9,4/9,1/9), and y=e1-b, exact forward OLS with lowest-index
+    tie resolution selects e2,e1,e3 and uses three atoms for zero error. A two-atom
+    representation e1-b exists and no one atom is collinear with y. In the ideal fixed-matrix
+    unregularized procedure, nonzero rescaling of individual columns preserves the
+    gain scores, selected subspaces and residuals under the same tie rule, though
+    coefficient values change. Finite-precision tolerances and regularized variants
+    need separate analysis. Locators: Sections 2 and 4, PDF pp. 4–5,13–18 / printed
+    pp. 1875–1876,1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py;
+    Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations
+    in research/discovery/orthogonal-least-squares-boundaries.py'
+- assessment_id: stopping-and-numerical-variants
+  area: evidence
+  topic: stopping and numerical variants
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - blumensath2007
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'The paper implements the forward criterion through classical Gram-Schmidt,
+    modified Gram-Schmidt and Householder transformations, with differing storage
+    and roundoff behavior. Orthogonal decomposition is an implementation mechanism,
+    not a requirement that the supplied features be orthogonal. It describes residual-energy
+    tolerance, incremental criteria and penalized AIC-based stopping; none is an unconditional
+    prediction or true-support guarantee. The mathematical rule and its implementation/stopping
+    choices must be distinguished. No universal runtime superiority over OMP or other
+    subset methods is asserted. Locators: Sections 3.2 and 4, PDF pp. 8–18 / printed
+    pp. 1879–1889; Sections III and V, PDF pp. 2–3'
+- assessment_id: nonlinear-identification-boundary
+  area: evidence
+  topic: nonlinear identification boundary
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'A polynomial NARX model can be nonlinear in lagged observed inputs and
+    outputs while remaining linear in its unknown coefficients, so its fixed candidate
+    columns fit this selection procedure. Polynomial NARMAX identification additionally
+    uses lagged noise terms that are not directly observed. The paper’s outer iterative
+    scheme substitutes prediction residuals, rebuilds noise regressors and reestimates
+    models; that changing-regressor extension is not a single fixed-matrix OLS pass
+    and its reported iteration counts are not a convergence theorem. The fitted algorithm
+    does not itself establish causal identification of a physical system. Locators:
+    Sections 2 and 5, Equations 1–13 and 83–91, PDF pp. 3–5,18–20 / printed pp. 1874–1876,1889–1891'
+- assessment_id: frols-name-scope
+  area: evidence
+  topic: frols name scope
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - sysidentpy-naming
+  - chen1989
+  - calculations
+  summary: Supported within the stated mathematical and source boundaries.
+  details: 'The official SysIdentPy documentation expands FROLS as Forward Regression
+    Orthogonal Least Squares and cites the Chen–Billings–Luo paper. This record uses
+    that naming for the basic unregularized forward selection procedure. A software
+    class with that name may expose other estimators or regularization options; its
+    full configurable behavior is not asserted equivalent to this narrowly defined
+    procedure. Locators: FROLS class heading, introductory description, source references
+    and displayed constructor; Section 4, Equations 64–82, PDF pp. 13–18 / printed
+    pp. 1884–1889'
+- assessment_id: adversarial-greedy
+  area: consistency
+  topic: Single-step versus global optimality
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - calculations
+  - chen1989
+  - blumensath2007
+  summary: Exact calculations reject a universal minimum-support interpretation.
+  details: The unit-column example selects e2,e1,e3, but e1-b represents y using two
+    atoms and no single column is collinear. Selected-set least squares and best augmentation
+    do not optimize all subsets. Correlation-versus-gain case verifies different second
+    choices with residual energies16/25 and9/25. The calculator fits the selected
+    span exactly and checks each gain against its residual-energy decrease.
+- assessment_id: adversarial-energy
+  area: consistency
+  topic: Energy, scaling and degeneracy
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - calculations
+  - chen1989
+  summary: Uncentered energy and zero-direction caveats are explicit.
+  details: ERR telescopes to residual energy divided by original y energy. A constant-only
+    fit to(1,2) has ERR9/10 but zero centered explained variation. Negative and positive
+    column rescaling preserve the selected sequence and residuals in the exact example.
+    y=0 exits without division; dependent or zero directions are excluded; a response
+    orthogonal to all columns retains its nonzero residual. These are exact cases,
+    not a finite-precision stability proof.
+- assessment_id: adversarial-source
+  area: evidence
+  topic: Historical draft, software options and causal scope
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - chen1989
+  - blumensath2007
+  - sysidentpy-naming
+  summary: Source access and claim scope are distinguished.
+  details: The2007paper is explicitly an author draft. The1989cover has a2007download
+    date, not a new method date. FROLS nomenclature is grounded in the current official
+    page, while its configurable estimators are excluded. Unobserved-noise iteration
+    changes regressors; neither that extension nor finite data fitting establishes
+    physical causality. Equation44 apparent missing squares is not used to support
+    the correctly squared Section4 identity.
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete maintained target after capture
+  outcome: supported
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - identity
+  - mapping
+  - chen1989
+  - blumensath2007
+  - calculations
+  summary: All target fields were read after input capture.
+  details: Read identifier, name, both aliases, kind, definition, identity notes,
+    all seven claims and locators, three source metadata blocks, both mappings and
+    pin, five limitations, DRAFT status and actual UTC curation. The report mirror,
+    source hashes, context hashes and exact calculation result match. No generated
+    record was edited. Original Documents checkout is outside accessible current scope;
+    the isolated recovery worktree uses the verified merged public tree.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:OrthogonalLeastSquaresForwardSelection
+  evidence_ids:
+  - identity
+  - mapping
+  - chen1989
+  - blumensath2007
+  - calculations
+  rationale: Largest post-refit gain differs from OMP correlation selection, MP single-atom
+    updates, exact minimum-L1 synthesis, generic least squares and latent-component
+    regression. Numerical decomposition variants do not automatically create new identities.
+limitations:
+- Author self-review only; native status remains DRAFT.
+- Initial vendored-check lacked sandbox DNS access; the public pinned verification
+  succeeded on the authorized network retry.
+- 'One native DRAFT addition: 528 curated concepts and 442 unchanged generated AIO
+  records. Discovery remains active with 465 pending and 46 partly addressed cohorts,
+  plus other unresolved scopes.'
+- The 1989 paper and 2007 draft were fully visually read; current SysIdentPy documentation
+  is nomenclature context only. No final-publication status is inferred for the explicitly
+  dated draft. Earlier cited algorithms and later variants remain pending.
+- No empirical benchmark, author implementation, model training or paid service was
+  run. Calculations are exact finite curator examples, not experimental replication.
+- Original Documents checkout access remains denied by the OS. Work proceeds in a
+  dedicated worktree of the independent public clone; original user files were not
+  modified. Original checkout synchronization and old local branch cleanup remain
+  pending restored access.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- orthogonal-least-squares
+- self-review
+- discovery-ongoing
+```

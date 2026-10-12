@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orthogonal least squares forward selection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Orthogonal least squares forward selection</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Orthogonal least squares forward selection</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OrthogonalLeastSquaresForwardSelection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Forward regression orthogonal least squares, FROLS
+    </div>
+
+  <div class="detail-desc">
+    A greedy fixed-candidate regression algorithm that repeatedly adds the column giving the largest reduction in squared residual after joint least-squares refitting over the augmented selected span.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      All 442 pinned AIO IDs, labels and scoped synonyms and 527 native IDs, names and aliases were compared with the proposed full names and OLS/OFR/FROLS terms, with no normalized identity match. Ignored- and hidden-inclusive full-text searches of the independent public clone and the readable prior worktree returned 37 and 12 lines, all inspected. Hits concern this source lead, historical OMP review boundaries, ordinary least-squares proposals, Ontology Lookup Service indexing, and ordinary orthogonal projection context. Bare OLS is not asserted as an alias because it also abbreviates ordinary least squares. The original Documents checkout remains inaccessible, so its untracked files were not re-audited in this round. All 62 semantic AIO rows and 82 native name/definition neighbors were read, followed by 12 full annotated AIO CLASS nodes with incident edges and 18 contextual YAMLs. The algorithm differs from OMP’s raw-correlation selection, MP’s single-atom update, exact minimum-L1 basis pursuit, the LARS equiangular path, and PLS/supervised-PCA component fitting. The new recovery worktree has the verified merged public tree. This is a bounded corpus assessment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#forward-selection-and-refit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed finite real candidate matrix P and response y, start with an empty selected set S and residual y. For each unselected column p_j with nonzero residualized direction w_j=(I-Proj_S)*p_j, evaluate gain_j=(r^T*w_j)^2/(w_j^T*w_j). Choose a maximum-gain candidate, augment S and compute the least-squares fit over that span. This minimizes the residual sum of squares among single-column augmentations of the current S. The residual is orthogonal to the selected span in exact arithmetic. Original columns need not be orthogonal or unit length. Zero-gain termination and rank/zero-direction handling are necessary boundary conventions; they do not imply that y lies in the dictionary span.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blumensath2007">On the Difference Between Orthogonal Matching Pursuit and Orthogonal Least Squares</a></span>
+        <span>· <strong>Locator:</strong> Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#error-reduction-ratio</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonzero y the source defines ERR_j=g_j^2*(w_j^T*w_j)/(y^T*y), where g_j=(w_j^T*y)/(w_j^T*w_j). Thus ERR is the incremental fitted energy divided by the original response energy. Orthogonality gives ||r_k||^2/||y||^2=1-sum_{i&lt;=k} ERR_i. The denominator is uncentered energy despite the paper’s variance terminology: fitting a constant to y=(1,2) has ERR=9/10 while explaining none of the centered variation. Centered-variance interpretation needs appropriate centering/intercept conventions. The ratio is undefined at y=0, for which the zero fit already has zero error.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations 64–70, and Section 4.2 Equation 74, PDF pp. 13–16 / printed pp. 1884–1887; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#omp-selection-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    OMP compares absolute residual correlations with the original unit atoms. OLS instead compares correlations with their normalized residualized directions; the different denominators can reverse the ranking. For D=[e1,b,e3], b=(12/13,5/13,0), y=(10,4/5,3/5), both first choose e1. OMP then chooses e3 because 3/5&gt;4/13; OLS chooses b because its squared-error reduction 16/25 exceeds 9/25. The two-step residual energies are respectively 16/25 and 9/25. Both refit their chosen span, so refitting alone does not make the algorithms identical.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blumensath2007">On the Difference Between Orthogonal Matching Pursuit and Orthogonal Least Squares</a></span>
+        <span>· <strong>Locator:</strong> Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#greedy-optimality-and-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Best single augmentation is conditional on earlier selections and does not establish globally best subset selection or minimum support. For unit columns [e1,e2,e3,b], b=(8/9,4/9,1/9), and y=e1-b, exact forward OLS with lowest-index tie resolution selects e2,e1,e3 and uses three atoms for zero error. A two-atom representation e1-b exists and no one atom is collinear with y. In the ideal fixed-matrix unregularized procedure, nonzero rescaling of individual columns preserves the gain scores, selected subspaces and residuals under the same tie rule, though coefficient values change. Finite-precision tolerances and regularized variants need separate analysis.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Sections 2 and 4, PDF pp. 4–5,13–18 / printed pp. 1875–1876,1884–1889; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blumensath2007">On the Difference Between Orthogonal Matching Pursuit and Orthogonal Least Squares</a></span>
+        <span>· <strong>Locator:</strong> Sections II–IV and VI, PDF pp. 2–3, March 29, 2007 draft; curator exact calculations in research/discovery/orthogonal-least-squares-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#stopping-and-numerical-variants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper implements the forward criterion through classical Gram-Schmidt, modified Gram-Schmidt and Householder transformations, with differing storage and roundoff behavior. Orthogonal decomposition is an implementation mechanism, not a requirement that the supplied features be orthogonal. It describes residual-energy tolerance, incremental criteria and penalized AIC-based stopping; none is an unconditional prediction or true-support guarantee. The mathematical rule and its implementation/stopping choices must be distinguished. No universal runtime superiority over OMP or other subset methods is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 and 4, PDF pp. 8–18 / printed pp. 1879–1889</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-blumensath2007">On the Difference Between Orthogonal Matching Pursuit and Orthogonal Least Squares</a></span>
+        <span>· <strong>Locator:</strong> Sections III and V, PDF pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#nonlinear-identification-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A polynomial NARX model can be nonlinear in lagged observed inputs and outputs while remaining linear in its unknown coefficients, so its fixed candidate columns fit this selection procedure. Polynomial NARMAX identification additionally uses lagged noise terms that are not directly observed. The paper’s outer iterative scheme substitutes prediction residuals, rebuilds noise regressors and reestimates models; that changing-regressor extension is not a single fixed-matrix OLS pass and its reported iteration counts are not a convergence theorem. The fitted algorithm does not itself establish causal identification of a physical system.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Sections 2 and 5, Equations 1–13 and 83–91, PDF pp. 3–5,18–20 / printed pp. 1874–1876,1889–1891</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#frols-name-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The official SysIdentPy documentation expands FROLS as Forward Regression Orthogonal Least Squares and cites the Chen–Billings–Luo paper. This record uses that naming for the basic unregularized forward selection procedure. A software class with that name may expose other estimators or regularization options; its full configurable behavior is not asserted equivalent to this narrowly defined procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sysidentpy-naming">SysIdentPy documentation for FROLS</a></span>
+        <span>· <strong>Locator:</strong> FROLS class heading, introductory description, source references and displayed constructor</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen1989">Orthogonal least squares methods and their application to non-linear system identification</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations 64–82, PDF pp. 13–18 / printed pp. 1884–1889</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record covers finite real fixed-regressor, unregularized forward selection. Complex spaces, regularization, backward/floating revisions, multi-output joint selection and changing-noise-regressor estimation require their own evidence and conditions.</li>
+      <li>Zero response and zero/dependent candidate directions require explicit handling. Candidate construction, tie resolution, numerical rank and stopping affect the fitted subset; no universal support-recovery or out-of-sample guarantee is curated.</li>
+      <li>All 25 pages of the 1989 publisher PDF including its cover and all three pages of the 2007 draft were visually read. The current official documentation is nomenclature context only, not versioned implementation validation. Earlier cited methods and later variants are pending primary audits.</li>
+      <li>The source’s uncentered energy is not automatically centered variance. The apparent missing norm squares in Equation 44 are not used; the record uses the squared-energy identities of Section 4. No author erratum is claimed.</li>
+      <li>Exact rational examples are curator calculations. No empirical benchmark, author software, model training or paid provider was run. The record remains DRAFT and has no independent scientific approval.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LeastsquaresAnalysis.html" style="font-weight: 600;"><code>AIO:LeastsquaresAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Least-squares Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm uses least-squares projection at every candidate augmentation, directly relating it to the target’s residual-squared fitting task. The pinned target describes overdetermined regression analysis, whereas this record denotes a specific greedy subset-selection algorithm and also allows overcomplete candidate sets. Related mapping preserves that algorithm/task and scope distinction; it is not exact identity or an asserted subclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure seeks a parsimonious representation from supplied columns. The pinned target denotes a representation-learning network and identifies dictionary elements; the local algorithm neither requires a network nor learns those elements. Related mapping reflects sparse representation without treating this algorithm as dictionary learning. RepresentationLearning and SparseAutoEncoder are different neural scopes; LassoRegression and RidgeRegression do not specify this greedy gain criterion. LinearRegression and RegressionAnalysis describe fitting tasks, PLS and supervised PCA fit latent components, and FeatureExtraction is too general. RadialBasisNetwork and autoregressive model classes are potential model contexts, not identities for this selection rule.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-chen1989">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">chen1989</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://eprints.soton.ac.uk/251147/2/778742007_content.pdf" target="_blank" rel="noopener">Orthogonal least squares methods and their application to non-linear system identification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            S. Chen, S. A. Billings, W. Luo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1080/00207178908953472</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:62199a403df8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-blumensath2007">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">blumensath2007</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://eprints.soton.ac.uk/142469/1/BDOMPvsOLS07.pdf" target="_blank" rel="noopener">On the Difference Between Orthogonal Matching Pursuit and Orthogonal Least Squares</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Blumensath, Mike E. Davies
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5c62d9787b52…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sysidentpy-naming">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sysidentpy-naming</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://sysidentpy.org/user-guide/API/frols/" target="_blank" rel="noopener">SysIdentPy documentation for FROLS</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            SysIdentPy developers
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:297aacc71869…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T12:45:27Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T12:45:27Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OrthogonalLeastSquaresForwardSelection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OrthogonalLeastSquaresForwardSelection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
