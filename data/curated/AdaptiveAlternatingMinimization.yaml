@@ -1,0 +1,121 @@
+name: Adaptive Alternating Minimization
+aliases:
+- AAM (adaptive alternating minimization)
+concept_kind: algorithm
+definition: A two-coordinate minimization procedure that performs one exact alternating sweep over a newly
+  supplied pair of feasible sets at each iteration, aiming at the optimum of their limiting sets.
+identity_notes: 'This is Niesen-Shah-Wornell’s changing-domain AAM, not adaptive step-size selection,
+  arbitrary online EM, a fully solved inner optimization at every time point, or a generic nonstationary
+  tracking guarantee. Fixed families recover exact alternating minimization. The2009KL mixture application
+  adds coefficient floors and an empirical-marginal correction, so it is not identical to unconstrained
+  fixed-component weight EM. No normalized identity collision across all 442 pinned AIO IDs, labels/scoped
+  synonyms and 483 maintained IDs, names and aliases. Full-checkout searches in the worktree and main
+  included ignored and hidden files: 8 and 9 matched lines, respectively, reduce to six distinct matched
+  texts, all inspected. Hits concern existing discovery leads and the unrelated assembler mnemonic AAM.
+  The fixed-family exact KL projection procedure is narrower than generalized alternating minimization;
+  weight-only EM fixes component laws rather than fitting a full mixture model; rate-distortion BA minimizes
+  information plus distortion with a fixed source, whereas the IM algorithm maximizes a variational information
+  bound; adaptive alternating minimization changes the feasible families at each iteration. Qualified
+  AAM and descriptive weight-only names avoid unsupported acronym or historical naming claims. Absence
+  is bounded to this snapshot and inspected corpus. Identity-search counts: 8 worktree and 9 main matched
+  lines, all six distinct texts read, including ignored and hidden files.'
+definition_evidence:
+- source_id: adaptive-source
+  locator: SectionsIB and IIIA-B, pp1424-1425 / PDF2-3, adaptive update equations
+  relation: supports
+evidence_sources:
+- source_id: adaptive-source
+  title: Adaptive Alternating Minimization Algorithms
+  authors:
+  - Urs Niesen
+  - Devavrat Shah
+  - Gregory W. Wornell
+  source_type: primary_paper
+  url: https://sia.mit.edu/wp-content/uploads/2015/04/2009-niesen-shah-wornell-it.pdf
+  version: IEEE Transactions on Information Theory 55(3):1423-1429 (March 2009); final seven-page journal
+    PDF from the MIT author laboratory. All pages visually read, including theorem proof and application
+    formulas. Printed page = PDF page + 1422.
+  access_level: full_text
+  accessed_at: '2026-10-12T05:14:18Z'
+  sha256: addb105074fad71973f420baad7830651ca6bd8772fb52978e19179e649e6e24
+  persistent_id: doi:10.1109/TIT.2008.2011442
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The inspected procedure includes statistical distribution fitting from observations. This
+    relates that fitting realization to the task-scoped AIO learning process, without making all mathematical
+    applications learning tasks or asserting algorithm/task equivalence or an is-a edge.
+claims:
+- claim_id: changing-domain-sweep
+  kind: mechanism
+  statement: Given a real-valued objective D and an initial Q_0 in family Q_0, at iteration n choose P_n
+    in argmin over family P_n of D(P,Q_(n-1)), then Q_n in argmin over family Q_n of D(P_n,Q). The family
+    subscripts denote the newly revealed domains, while P_n and Q_n denote chosen points. Each coordinate
+    step is exact, but the pair need not solve that iteration’s full joint problem. Changing domains can
+    raise the objective relative to the preceding iteration.
+  evidence:
+  - source_id: adaptive-source
+    locator: SectionsIB and IIIA-B, pp1424-1425 / PDF2-3
+    relation: supports
+- claim_id: liminf-and-convergence
+  kind: scope
+  statement: Theorem4 assumes compact families within a common compact metric space, Hausdorff convergence
+    to compact limiting families, continuous D, and its compatible three-point/four-point inequalities
+    C1-C2. It first guarantees that the objective liminf equals the limiting global minimum and that cluster
+    points of subsequences attaining that liminf are optimal. Full objective convergence and optimality
+    of all cluster points additionally follow if sum_n omega_D(2epsilon_n) is finite, where epsilon_n
+    is the sum of the two Hausdorff errors and omega_D is the modulus of continuity on the sum product
+    metric. This is a sufficient condition, not a necessary one, and does not require a unique optimum
+    or imply convergence of the entire point sequence.
+  evidence:
+  - source_id: adaptive-source
+    locator: SectionII notation, pp1424-1425 / PDF2-3; SectionIIIC-D Theorem4 and proof, pp1425-1427 /
+      PDF3-5
+    relation: supports
+- claim_id: adaptive-mixture-domain
+  kind: scope
+  statement: The finite-mixture realization keeps component laws fixed and bounded below, constrains coefficients
+    by a positive floor, and updates the prescribed data marginal as observations arrive. Its M projection
+    thresholds and rescales component masses to satisfy the coefficient floor; its E projection rescales
+    the lifted model to the current marginal. The paper also modifies small empirical frequencies to maintain
+    positivity, a correction that is eventually inactive under its iid assumptions. For the ordinary empirical
+    convergence rate, the authors conclude liminf optimality and explicitly withhold the stronger full-convergence
+    conclusion from this theorem.
+  evidence:
+  - source_id: adaptive-source
+    locator: SectionIVA-B, Eq18-21 and floor construction, pp1427-1428 / PDF5-6
+    relation: supports
+- claim_id: application-formula-boundary
+  kind: limitation
+  statement: The Hilbert specialization uses squared distance. Its product-space weighted-mean projection
+    therefore minimizes a sum of weighted squared distances to sets, although printed Eq22 instead displays
+    unsquared distances. For singleton sets{0},{4},{4} with equal weights, the projection mean8/3 minimizes
+    the squared cost while the unsquared cost is minimized at4. This qualifies that application formula,
+    not the general changing-domain theorem. AAM’s theorem also does not give generic tracking of domains
+    that never settle.
+  evidence:
+  - source_id: adaptive-source
+    locator: SectionVA-B, Eq22-23 and projection formulas, pp1428-1429 / PDF6-7; curator singleton-set
+      calculation
+    relation: supports
+limitations:
+- C1-C2 are substantive compatibility inequalities, not consequences of convexity of an arbitrary paired
+  objective. The auxiliary delta is not required to be nonnegative in this adaptive theorem.
+- Positive floors, a common compact domain, and the stated set convergence matter in the KL application.
+  The absence of a stronger theorem conclusion is not proof of divergence.
+- The arXiv version page was checked; no separate audit of its12-page preprint or adaptive-step-size algorithms
+  is claimed.
+- Finite curator calculations check selected support, normalization and convergence boundaries. They are
+  not author software, historical experiments or a proof of every source theorem.
+id: AIMech:AdaptiveAlternatingMinimization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:22:42Z'
+  updated_at: '2026-10-12T05:29:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
