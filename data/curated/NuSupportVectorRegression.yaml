@@ -1,0 +1,169 @@
+id: AIMech:NuSupportVectorRegression
+name: Nu support vector regression
+aliases:
+- Nu-SVR
+- ν-SVR
+- Nu-SV regression
+concept_kind: algorithm
+definition: A supervised regression algorithm that jointly fits a regularized kernel expansion and a nonnegative
+  constant epsilon-insensitive tube half-width, using nu to penalize the width relative to linearly penalized
+  residual excesses.
+identity_notes: 'The original symmetric constant-width nu-SVR in Scholkopf, Smola, Williamson and Bartlett
+  (2000) is the selected identity. It differs from fixed-epsilon SVR parameterization, the paper’s supplied
+  parametric-insensitivity extension, later learned-insensitivity/twin models, supervised nu-SVC and one-class
+  support estimation. Compared all442 pinned AIO IDs, labels and scoped synonyms against all520 preceding
+  native IDs, names and aliases, without a normalized collision. Full-text fixed-string whole-word searches
+  in both checkouts included ignored and hidden files, expanded labels, acronyms, DOI and paper identifiers.
+  Read all25 distinct matching text windows across88 locations: these are the existing one-class record
+  context, its review/renderings and the preceding discovery lead, not supervised nu records. All125 semantic
+  AIO rows and115 prior native name/definition rows match the previous reading; the additional one-class
+  row and complete record were read. Thirty-one contextual full-record readings are retained with matching
+  hashes. Absence is bounded to this snapshot and corpus.'
+definition_evidence:
+- source_id: scholkopf2000
+  locator: Section 2, PDF pp4-6 / printed pp1210-1212, Equations 2.1-2.15
+  relation: supports
+claims:
+- claim_id: learned-tube-objective
+  kind: mechanism
+  statement: For n>=1 input/real-response pairs and a positive-semidefinite kernel with feature map Phi,
+    fit f(x)=w.Phi(x)+b by minimizing (1/2)||w||^2+C*(nu*epsilon+sum_i(xi_i+xi_star_i)/n), with C>0, nu>=0,
+    epsilon>=0 and nonnegative slacks. The constraints are f(x_i)-y_i<=epsilon+xi_i and y_i-f(x_i)<=epsilon+xi_star_i.
+    Thus the symmetric, input-independent tube half-width is optimized jointly with the fit; C and the
+    kernel still require specification.
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 2, PDF pp4-6 / printed pp1210-1212, Equations 2.1-2.15
+    relation: supports
+- claim_id: dual-and-recovery
+  kind: mechanism
+  statement: Write beta_i=alpha_star_i-alpha_i. The dual maximizes sum_i beta_i*y_i-(1/2)*beta^T*K*beta,
+    subject to sum_i beta_i=0, 0<=alpha_i,alpha_star_i<=C/n and sum_i(alpha_i+alpha_star_i)<=C*nu. Prediction
+    is sum_i beta_i*k(x_i,x)+b. A free alpha_i gives f(x_i)-y_i=epsilon; a free alpha_star_i gives y_i-f(x_i)=epsilon.
+    These equations can recover b and epsilon when adequate free coefficients exist. Otherwise the original
+    KKT inequalities must be respected; neither an interior coefficient nor unique b, epsilon or dual
+    coefficients is guaranteed.
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 2, PDF pp5-6 / printed pp1211-1212, Equations 2.6-2.15 and following KKT discussion;
+      exact certificates in research/discovery/nu-svm-boundaries.py
+    relation: supports
+- claim_id: conditional-nu-counts
+  kind: scope
+  statement: 'At an exact optimum with epsilon>0, the fraction of training observations strictly outside
+    the tube is at most nu, and the fraction with a nonzero expansion coefficient is at least nu. The
+    two sides separately obey the corresponding nu/2 bounds relative to the entire sample, not relative
+    to each side. These are inequalities, not exact finite counts or calibrated test error. For four zero
+    inputs with responses -1,-1,1,1, C=1 and nu=1/2, an exact optimum has b=0, epsilon=1 and four free
+    coefficients of magnitude1/8: every point is a support vector and none is outside. The paper’s asymptotic
+    equality additionally uses iid data, conditional-density regularity and function-class arguments;
+    it is not asserted here unconditionally.'
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 2 Proposition 1 and discussion, PDF pp7-8 / printed pp1213-1214; finite certificate
+      in research/discovery/nu-svm-boundaries.py
+    relation: supports
+- claim_id: fixed-epsilon-correspondence
+  kind: scope
+  statement: Fixing epsilon at a value learned by nu-SVR, while retaining the same C, gives an epsilon-SVR
+    problem sharing that fitted primal optimum. This conditional correspondence does not make arbitrary
+    independently selected epsilon and nu interchangeable. The original nu-SVR estimates one constant
+    tube half-width; the asymmetric quantile losses and supplied heteroscedastic basis functions described
+    in this paper change the objective or constraints. Later learned parametric-insensitive methods remain
+    pending separate full-method assessment and are not covered by this source claim.
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 2 Proposition 2, PDF pp8-9 / printed pp1214-1215; Sections 3 and 5, PDF pp10 and12-14
+      / printed pp1216 and1218-1220
+    relation: supports
+- claim_id: degenerate-width-and-endpoints
+  kind: limitation
+  statement: 'A positive nu need not produce a positive epsilon. With all inputs and responses zero, zero
+    coefficients, b=0 and epsilon=0 attain the exact minimum, so the positive-width support-count lower
+    bound cannot be applied. At nu=0 an unpenalized sufficiently wide tube permits a constant fit. For
+    nu>1, epsilon=0 reduces the loss to absolute residuals. At nu=1, epsilon and b can be nonunique: with
+    two zero inputs, responses -1 and1 and C=1, (b,epsilon)=(0,0),(1/2,0),(0,1) all attain objective1.
+    The fitted function or accepted tube can therefore vary between optimal solutions.'
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 2, PDF pp6-8 / printed pp1212-1214, endpoint discussion and Equations 2.1-2.15; exact
+      certificates in research/discovery/nu-svm-boundaries.py
+    relation: supports
+- claim_id: robustness-and-parameter-limits
+  kind: limitation
+  statement: The linear penalty outside the tube yields resistance to local response changes that keep
+    those observations strictly outside on the same side; an existing optimum remains valid after matching
+    slack changes. This is not resistance to arbitrary input leverage or unlimited contamination. The
+    paper’s proposed asymptotically optimal nu calculation assumes a specified additive-noise scale family
+    and convergence of the regression estimator, and is justified in a location-estimation model. The
+    authors explicitly identify these restrictions; it is not a universal automatic nu selector.
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 3 Proposition 3, PDF pp9-10 / printed pp1215-1216; Section 4 and its final caveats,
+      PDF pp10-12 / printed pp1216-1218
+    relation: supports
+- claim_id: evaluation-scope
+  kind: limitation
+  statement: The authors use LOQO for selected noisy-sinc experiments and a Boston-housing regression
+    study. Sinc risk measures integrated absolute deviation from the noiseless target; the housing study
+    reports response MSE over 100 random splits of 506 observations into 481 training and 25 test observations.
+    Table 3 reports sweeps over nu and fixed epsilon, with other settings held fixed. The text compares
+    nu-SVR with the best fixed-epsilon test result after evaluation; this is not nested parameter validation
+    or proof of universal superiority. The supplied-noise-shape experiment studies a separate parametric-insensitivity
+    extension. No numerical performance advantage is curated.
+  evidence:
+  - source_id: scholkopf2000
+    locator: Section 8.1, PDF pp24-34 / printed pp1230-1240, Figures 3-10 and Tables 2-3; discussion PDF
+      p36 / printed p1242
+    relation: supports
+evidence_sources:
+- source_id: scholkopf2000
+  title: New Support Vector Algorithms
+  authors:
+  - Bernhard Schölkopf
+  - Alex J. Smola
+  - Robert C. Williamson
+  - Peter L. Bartlett
+  source_type: primary_paper
+  url: https://www.stat.purdue.edu/~yuzhu/stat598m3/Papers/NewSVM.pdf
+  persistent_id: https://doi.org/10.1162/089976600300015565
+  version: Neural Computation12(5):1207-1245, May2000. Exact39-page journal PDF hosted by Purdue; allpages
+    visually read including11figures,4tables and references. Printedpage=PDFpage+1206. The1998 conference
+    precursor and external proof dependencies were not fully audited.
+  access_level: full_text
+  accessed_at: '2026-10-12T11:05:38Z'
+  sha256: 57eb6d4db2e8d90f5a1c34055c91fe36deb34977d54031f9c09acbd9dc3b9bb4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: AIO RegressionAnalysis identifies a supervised estimation task, while this native record
+    specifies one fitting algorithm for real-valued responses. A related match captures its task without
+    asserting algorithm/task equivalence. LinearRegression, RidgeRegression and LeastsquaresAnalysis do
+    not identify the kernel, learned tube or piecewise-linear loss.
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: The source derives this supervised kernel optimization from support-vector methods, but the
+    pinned AIO target describes a network with input, hidden and output parts. This native identity is
+    an optimization algorithm, so the network abstraction is related rather than an asserted exact or
+    broader class. KernelLayer names a component, and generic Network or TrainingStrategy also does not
+    identify the objective. Twelve annotated AIO CLASS nodes and their outgoing edges were inspected.
+limitations:
+- Finite nu bounds are conditional inequalities, not exact sparsity, calibrated test error or a universal
+  parameter choice.
+- All39 original journal pages were read; the conference precursor, later decomposition methods and external
+  proof dependencies were not fully audited.
+- Exact rational feasibility and KKT certificates were evaluated without running a solver, training a
+  model or reproducing the historical benchmarks.
+- The record remains a native DRAFT. Parametric-insensitivity and later solver/extension identities remain
+  separate discovery work.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T11:18:19Z'
+  updated_at: '2026-10-12T11:25:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
