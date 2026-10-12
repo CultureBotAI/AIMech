@@ -1,0 +1,105 @@
+name: Topical n-gram model
+definition: A topic-conditioned sequence model that chooses whether each word uses a topic-specific unigram
+  distribution or a topic-and-previous-word bigram distribution, with that choice depending on the preceding
+  word and its topic.
+concept_kind: model_family
+identity_notes: Scoped to Wang, McCallum and Wei's ICDM2007 TNG model in Figure 1(c). The Bernoulli gate
+  uses the previous token's topic and word; the emission uses the current topic. Consecutive bigram choices
+  form longer phrases, but the local generative law remains first order. This differs from the always-bigram
+  topic model, the topic-independent LDA collocation components and generic tokenization. TNG is the source
+  acronym. Topic assignments need not be identical within an extracted phrase. No normalized candidate
+  identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 432 preceding native IDs, names
+  and aliases. Full-checkout searches included ignored and hidden files in both checkouts; six matching
+  lines per checkout came from three unique file contents containing prior frontier leads, bibliography
+  context and a cached publication-list mention. All candidate-matching excerpts were read; the long cached
+  browser transcript was not reread in full. All 205 semantic label/synonym hits were byte-verified unchanged
+  from prior reading. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 17 verified prior
+  inspections and one fresh reading. Twenty-seven contextual YAMLs comprise 25 unchanged prior readings,
+  one fresh generated AIO reading and one final round102 native record verified against its fully read
+  review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus
+  search.
+limitations:
+- The model represents long phrases through successive first-order bigrams, not an unrestricted higher-order
+  n-gram table. Fixed topic count, vocabulary, boundary rules and many topic/word parameter rows constrain
+  the model and require smoothing.
+- The optional same-topic phrase modification on p.4 has an if/else inconsistent with its verbal intention.
+  The record follows the main Figure 1(c) construction. Printed minus-one counts must be interpreted as
+  removing the old assignment, not subtracting one from every candidate category.
+- The retrieval section uses a plug-in first-order query score that averages the previous-topic gate under
+  document weights. It is not generally exact filtering or posterior prediction for the full latent sequence.
+  Query-level mixture and term-level interpolation are different scoring rules; the reported study uses
+  term-level interpolation.
+- The NIPS/TREC experiments use selected preparations, fixed hyperparameters and model-specific interpolation
+  weights selected for best performance. Topic/phrase labels and retrieval comparisons do not establish
+  linguistic ground truth or universal superiority. The finite counterexample audits a printed equation,
+  not source implementation or benchmark execution.
+aliases:
+- TNG
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.3, PDF pp.3-4, Figure 1(c) and generative steps
+  relation: supports
+claims:
+- claim_id: topic-conditioned-gate
+  kind: mechanism
+  statement: Each document has a Dirichlet topic vector theta. Each topic has a categorical unigram vector
+    phi, each topic/previous-word pair has a categorical bigram vector sigma, and each previous-topic/previous-word
+    pair has a Bernoulli gate psi with a Beta prior. At position i, x_i is drawn from psi_(z_(i-1),w_(i-1)),
+    z_i from theta, and w_i from phi_z_i if x_i=0 or sigma_(z_i,w_(i-1)) if x_i=1. Initial and other specified
+    boundaries constrain gates to unigrams. Runs of bigram choices induce phrases; the paper labels a
+    phrase by its last word's topic as an output convention. This does not impose a shared latent topic
+    across the phrase.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.2-2.3, PDF pp.2-4, boundary handling, Figure 1(c) and topic-consistency discussion
+    relation: supports
+- claim_id: next-gate-inference-boundary
+  kind: mechanism
+  statement: The generative law makes z_i a parent of the next gate x_(i+1). Consequently a topic update
+    conditioned on the other assignments must account for that outgoing gate as well as the current emission
+    and document mixture. The full joint in Appendix A includes those factors, but the printed joint/topic
+    conditional displays on pp.4 and10 omit the next-gate contribution. A collapsed implementation must
+    remove all affected factors and preserve shared-parameter count corrections before evaluating candidates.
+    A finite integrated example yields a topic conditional of (2/3,1/3), whereas dropping that contribution
+    gives (4/7,3/7). This qualifies the printed inference expression, without asserting that uninspected
+    author software used it.
+  evidence:
+  - source_id: method-source
+    locator: Figure 1(c), PDF p.3; Section 2.3 p.4; Appendix A joint p.9 and conditionals p.10
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Topical N-grams: Phrase and Topic Discovery, with an Application to Information Retrieval'
+  authors:
+  - Xuerui Wang
+  - Andrew McCallum
+  - Xing Wei
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/tng-icdm07.pdf
+  version: Author-hosted ten-page ICDM2007 paper, including Appendix A pp.9-10; all pages visually read.
+    No numeric printed page labels visible; locators use PDF pages. The earlier 2005 technical report
+    was located but not read or substituted for this version.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:14:16Z'
+  sha256: 3ed0ce0b6b73a932d08af8dc81fdd06148c20c6cea7ee7e284091064059e1a3c
+aio_mappings:
+- target: AIO:LanguageModel
+  relation: broad_match
+  rationale: This source-defined model assigns probabilities to word sequences and is narrower than the
+    pinned LanguageModel class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+id: AIMech:TopicalNGramModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:24:39Z'
+  updated_at: '2026-10-12T00:24:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

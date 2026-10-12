@@ -1,0 +1,104 @@
+name: Pachinko allocation model
+definition: A topic-model family that generates each word by traversing a directed acyclic graph from
+  a root through topic nodes to a word leaf, using probability distributions over each node's children.
+concept_kind: model_family
+identity_notes: Scoped to Li and McCallum's PAM construction, with Dirichlet child-distribution priors
+  and the four-level experimental variant in ICML2006. Interior topics can have multiple parents, and
+  paths may skip levels. A new path is selected for each token. This differs from a single topic path
+  assigned to an entire document, a logistic-normal topic mixture, or a causal graph of semantic concepts.
+  PAM is a source acronym within this scope; later hierarchical, nonparametric and scalable variants are
+  not asserted as exact aliases. No normalized candidate identity matched all 442 pinned AIO IDs, labels
+  and scoped synonyms or 432 preceding native IDs, names and aliases. Full-checkout searches included
+  ignored and hidden files in both checkouts; six matching lines per checkout came from three unique file
+  contents containing prior frontier leads, bibliography context and a cached publication-list mention.
+  All candidate-matching excerpts were read; the long cached browser transcript was not reread in full.
+  All 205 semantic label/synonym hits were byte-verified unchanged from prior reading. Eighteen annotated
+  AIO CLASS nodes and outgoing edges comprise 17 verified prior inspections and one fresh reading. Twenty-seven
+  contextual YAMLs comprise 25 unchanged prior readings, one fresh generated AIO reading and one final
+  round102 native record verified against its fully read review inputs. No candidate record is present
+  within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- The experiments fix a fully connected four-level structure and topic counts. Learning arbitrary DAG
+  structure or a nonparametric number of nodes is prospective in this paper. A DAG can encode nested and
+  overlapping mixtures without establishing a universal representation theorem for every correlation structure.
+- Dirichlet topic proportions are compositionally dependent, with negative off-diagonal covariances; the
+  introductory LDA-independence contrast is not literal independence. Logistic-normal covariance parameters
+  likewise do not mean higher-order dependence vanishes. PAM supplies a different mixing construction,
+  not proof that CTM is exactly equivalent to a two-child DAG.
+- Moment updates require policies for unvisited parent nodes, zero or invalid variances and nonpositive
+  concentration estimates. Smoothing child means alone does not specify all edge cases. LDA reductions
+  require compatible shared or fixed emissions; redrawing every word-emission vector independently per
+  document is a different model.
+- Evidence includes selected topics, a small human-judgment study, approximate held-out likelihood and
+  five-way newsgroup classification. The prose and Table 2 disagree on majority-vote counts. The generated-document
+  likelihood approximation is not exact marginal likelihood, and the reported results do not establish
+  universal superiority. No author code or benchmark was executed.
+aliases:
+- PAM
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1-2, PDF pp.2-3, Figure 1 and generative process
+  relation: supports
+claims:
+- claim_id: dag-path-generation
+  kind: mechanism
+  statement: 'In the general Dirichlet formulation, each document draws a categorical child vector for
+    each interior node. Each token starts at the root and repeatedly chooses a child until it reaches
+    a word leaf. The finite rooted DAG and reachable word leaves ensure termination. In the demonstrated
+    four-level variant, root-to-supertopic and supertopic-to-subtopic vectors vary per document, while
+    subtopic-to-word vectors are drawn once and shared across the corpus. The latter sharing changes corpus
+    marginalization: shared random emissions must be integrated jointly. The product of separately marginalized
+    documents written for the fully document-local formulation is not automatically the marginal law of
+    this shared-emission variant.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF p.3, document/corpus probability displays; Section 2.1 pp.3-4 and Figure 2
+    relation: supports
+- claim_id: collapsed-paths-and-moments
+  kind: mechanism
+  statement: 'For fixed positive hyperparameters in the four-level variant, a token''s collapsed supertopic/subtopic
+    weight multiplies three leave-one-out predictive factors: the document root-to-supertopic count, the
+    document supertopic-to-subtopic count, and the corpus subtopic-to-word count, each smoothed and normalized
+    by its Dirichlet prior. The source jointly samples both topic levels. Its experimental fitting also
+    changes supertopic hyperparameters using smoothed empirical moments and a concentration heuristic,
+    rather than exact maximum likelihood or MAP. That changing-parameter procedure is not simply fixed-target
+    posterior Gibbs sampling; neither finite samples nor moment updates establish convergence or optimality.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, PDF p.4, collapsed update and moment-based parameter estimates
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Pachinko Allocation: DAG-Structured Mixture Models of Topic Correlations'
+  authors:
+  - Wei Li
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/pam-icml06.pdf
+  version: Author-hosted eight-page ICML2006 paper; all pages visually read. No numeric printed page labels
+    are visible, so locators use PDF pages. Later hierarchical, nonparametric and scalable PAM papers
+    are separate versions/extensions.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:14:11Z'
+  sha256: 645882dd892aa9e308625fd2227dccaa1c91e6ece9bf81cee2e6f857320d9255
+  persistent_id: doi:10.1145/1143844.1143917
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined latent-variable model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+id: AIMech:PachinkoAllocationModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:24:39Z'
+  updated_at: '2026-10-12T00:24:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
