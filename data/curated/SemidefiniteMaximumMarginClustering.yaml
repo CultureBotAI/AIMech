@@ -1,0 +1,119 @@
+id: AIMech:SemidefiniteMaximumMarginClustering
+name: Semidefinite Maximum Margin Clustering
+aliases:
+- Xu2004 Maximum Margin Clustering
+concept_kind: algorithm
+definition: A binary clustering procedure that relaxes latent label-equivalence matrices to a convex semidefinite
+  program for a fixed-kernel soft-margin objective and recovers soft assignments from the leading matrix
+  eigenvector.
+identity_notes: This is the Xu-Neufeld-Larson-Schuurmans2004 unlabeled semidefinite procedure, not every
+  method called maximum-margin clustering. Its label matrix and convex relaxation differ from direct nonconvex
+  cutting-plane fits, multiple-kernel weight learning, kernel k-means and the same paper variant with
+  observed-label constraints. The general MMC acronym is therefore not a unique alias. Compared all 442
+  pinned AIO IDs, labels and scoped synonyms with all 498 prior native IDs, names and aliases; no normalized
+  identity collision. Full searches of both checkouts include ignored and hidden files, returning 57 worktree
+  and 57 main matched lines. All 41 distinct matched texts were inspected as multiple-kernel neighbors,
+  bibliographic/query/frontier references or their rendered copies. Fifteen annotated AIO nodes and outgoing
+  edges, fifteen generated YAMLs and six native neighbors were examined. Thirteen annotated targets, their
+  generated records, all 442 class labels and 152 semantic rows reuse byte-verified prior readings; two
+  additional annotated targets and one new semantic row were read (153 rows total). Absence is bounded
+  to this pin and corpus.
+definition_evidence:
+- source_id: sdp-source
+  locator: Section3, PDF pp.3-5, L1-L4, Equations4-7 and soft-assignment recovery
+  relation: supports
+claims:
+- claim_id: label-matrix-relaxation
+  kind: mechanism
+  statement: For N observations with fixed PSD kernel matrix K, the hard binary label matrix is M=y*y^T
+    with y_i in {-1,+1}. Replace its integer entries by a symmetric PSD matrix with diagonal 1 and entries
+    in [-1,1], retaining m_ik>=m_ij+m_jk-1 and m_jk>=-m_ij-m_ik-1 for every triple, and |sum_i m_ij|<=ell
+    for every column. The first two linear families preserve constraints satisfied by binary equivalence
+    relations; PSD and these constraints do not force rank one after relaxation. In the integer case the
+    column bound equals a bound on the difference in class counts; ell<N excludes assigning everything
+    to one class, subject to feasibility.
+  evidence:
+  - source_id: sdp-source
+    locator: Section3, PDF pp.3-5, L1-L4 and Equations4-6
+    relation: supports
+- claim_id: semidefinite-margin-objective
+  kind: mechanism
+  statement: Minimize over the feasible label matrix M the convex objective max_{0<=lambda_i<=C} [2*sum_i
+    lambda_i-lambda^T*(K elementwise M)*lambda], with C>0. The paper equivalent SDP minimizes delta over
+    M, delta and nonnegative mu,nu, requiring the block matrix with upper-left K elementwise M, off-diagonal
+    1+mu-nu and bottom-right delta-2*C*sum_i nu_i to be PSD. This optimizes a relaxation for a fixed input
+    kernel; it does not learn a combination of input kernels. The derivation fixes the classifier intercept
+    to zero, which centering does not make identical to freely optimizing an intercept.
+  evidence:
+  - source_id: sdp-source
+    locator: Sections2-3, PDF pp.3-5, Equations3-7
+    relation: supports
+- claim_id: spectral-recovery-boundary
+  kind: limitation
+  statement: The stated recovery is the soft vector sqrt(lambda_max(M))*v_max(M), not necessarily a binary
+    partition or probabilities. A global SDP solution need not solve the discrete clustering problem.
+    The source mentions randomized rounding without specifying a complete rounding policy or balance certificate.
+    A feasible convex mixture of three balanced six-point label matrices can have a unique leading eigenvector
+    whose signs split the data 4-to-2 despite zero column sums. These matrix constraints therefore do
+    not alone guarantee count balance after sign rounding. Eigenvector sign, zero entries and repeated
+    top eigenvalues require conventions.
+  evidence:
+  - source_id: sdp-source
+    locator: Section3, PDF p.5 after Equation7 and footnote2; curator exact Gram-mixture example
+    relation: supports
+- claim_id: soft-margin-normalization
+  kind: limitation
+  statement: The record uses the displayed dual and SDP convention. The printed Equation3 norm-squared
+    primal has slack coefficient C, but its displayed dual bound lambda<=C corresponds to slack coefficient
+    2*C under alpha=2*lambda. With two zero-feature observations of opposite labels and C=1, the displayed
+    primal optimum is 2 while the printed dual optimum is 4. Thus those displays should not be treated
+    as numerically identical with the same C. A soft-margin regularized objective with nonzero slacks
+    is also not simply the reciprocal squared geometric margin.
+  evidence:
+  - source_id: sdp-source
+    locator: Section2, PDF pp.2-3, Equations1-3; curator dual-scaling derivation and zero-feature check
+    relation: supports
+evidence_sources:
+- source_id: sdp-source
+  title: Maximum Margin Clustering
+  authors:
+  - Linli Xu
+  - James Neufeld
+  - Bryce Larson
+  - Dale Schuurmans
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2004/file/6403675579f6114559c90de0014cd3d6-Paper.pdf
+  version: NIPS2004, Advances in Neural Information Processing Systems17, pp.1537-1544. All eight official
+    proceedings PDF pages visually read; no visible printed page numbers, so locators use PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-12T06:41:58Z'
+  sha256: 015d9811484d2ef0c28be5840c68084d45771cbdaafe4043079014ff1f8cfbac
+limitations:
+- The method targets binary clustering with a supplied PSD kernel, penalty and feasible balance constraints,
+  and fixes the classifier intercept to zero. The continuous matrix problem is convex; its rounded discrete
+  output has no asserted global-optimality or approximation guarantee.
+- The formulation maintains an N-by-N label matrix and constraints indexed by triples, in addition to
+  conic constraints. Kernel construction, solver tolerances and recovery policies affect cost and results.
+  No unconditional linear-time or large-scale efficiency claim is made.
+- 'All eight source pages, figures and tables were read. The clustering experiments use selected RBF widths,
+  C=100 and majority labels per cluster. The semisupervised experiments are transductive: unlabeled input
+  points participate in fitting while their labels are withheld. The finite comparisons do not establish
+  universal superiority or inductive generalization. No historical code, benchmark or model training was
+  executed.'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm performs the inspected unlabeled clustering task through a label-matrix relaxation.
+    This is a related task mapping, not algorithm-task equivalence or an upstream subclass. Supervised
+    SVM, kernel layers, PCA projections and generic model terms have different scopes.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T06:54:11Z'
+  updated_at: '2026-10-12T06:54:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

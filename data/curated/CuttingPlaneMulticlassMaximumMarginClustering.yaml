@@ -1,0 +1,118 @@
+id: AIMech:CuttingPlaneMulticlassMaximumMarginClustering
+name: Cutting Plane Multiclass Maximum Margin Clustering
+aliases:
+- CPM3C
+concept_kind: algorithm
+definition: A fixed-kernel multiclass clustering procedure that fits latent winning-class margins by adding
+  violated aggregate constraints and repeatedly solving quadratic programs with frozen class winners.
+identity_notes: This is Zhao-Wang-Zhang2008 CPM3C, with a supplied feature map or kernel and supplied
+  class count. Its scalar beta is regularization, not learned kernel-combination weights. It differs from
+  the later multiple-kernel procedure, the binary intercept-bearing CPMMC solver, semidefinite label-matrix
+  relaxations and supervised structured-output training. Compared all 442 pinned AIO IDs, labels and scoped
+  synonyms with all 498 prior native IDs, names and aliases; no normalized identity collision. Full searches
+  of both checkouts include ignored and hidden files, returning 57 worktree and 57 main matched lines.
+  All 41 distinct matched texts were inspected as multiple-kernel neighbors, bibliographic/query/frontier
+  references or their rendered copies. Fifteen annotated AIO nodes and outgoing edges, fifteen generated
+  YAMLs and six native neighbors were examined. Thirteen annotated targets, their generated records, all
+  442 class labels and 152 semantic rows reuse byte-verified prior readings; two additional annotated
+  targets and one new semantic row were read (153 rows total). Absence is bounded to this pin and corpus.
+definition_evidence:
+- source_id: cp-source
+  locator: Sections2.1-2.4, PDF pp.2-5, Equations2-20 and Algorithms1-2
+  relation: supports
+claims:
+- claim_id: fixed-kernel-score-objective
+  kind: mechanism
+  statement: For supplied k classes and feature vectors x_i, use intercept-free scores g_ip=w_p^T*x_i
+    and regularization beta>0. Fit beta/2*sum_p ||w_p||^2+mean_i xi_i with latent winner-versus-competitor
+    margins. For a unique winner p_i and runner-up r_i, the optimal slack at fixed scores is max(0,1-(g_i,p_i-g_i,r_i)).
+    Impose |sum_i(g_ip-g_iq)|<=ell for every class pair; these aggregate score bounds do not impose class-count
+    balance or ensure every class is occupied. Kernel-PCA coordinates are one suggested representation
+    of a supplied kernel, not learned multiple-kernel weights.
+  evidence:
+  - source_id: cp-source
+    locator: Sections2.1-2.3, PDF pp.2-4, Equations1-17
+    relation: supports
+- claim_id: cutting-plane-and-quadratic-fit
+  kind: mechanism
+  statement: Aggregate slacks into a shared xi using masks c_i in {0,e_1,...,e_k}. Under a unique winner,
+    the most violated constraint selects the runner-up one-hot vector when the top-runner gap is below
+    1 and the zero vector otherwise. Starting with an empty working set, fit its constraints, add the
+    most violated mask and stop when violation is at most epsilon. Within a restricted fit, freeze previous
+    winning-class indicators and solve the quadratic program with those indicators and the score-balance
+    constraints; repeat under the stopping rule. The source uses a relative objective-change threshold
+    of 0.01 percent in its experiments.
+  evidence:
+  - source_id: cp-source
+    locator: Sections2.2-2.4, PDF pp.3-5, Equations11-20 and Algorithms1-2
+    relation: supports
+- claim_id: indicator-and-convexity-limits
+  kind: limitation
+  statement: 'The strict winner product makes every indicator zero at a tied maximum, yielding label 0
+    outside {1,...,k}; tie handling is not fully specified. Moreover, the source claimed convex term includes
+    a winner-dependent indicator and need not be convex: for one observation, mask e_1 and scores (x,0),
+    it is max(x,0)+I[x>0]. At x=-0.2 and 0.2, a 3/4 mixture gives x=0.1 with value 1.1, exceeding the
+    convex interpolation bound 0.9. These points have unique winners. Thus convexity of the frozen-indicator
+    QP does not justify an unconditional global constrained concave-convex convergence or monotonicity
+    claim for the printed nonconvex procedure.'
+  evidence:
+  - source_id: cp-source
+    locator: Sections2.2 and2.4, PDF pp.2-5, strict indicators and Equations18-20; curator exact Jensen
+      check
+    relation: supports
+- claim_id: tolerance-and-runtime-scope
+  kind: limitation
+  statement: With correct constraint separation and a feasible restricted solution, the epsilon test permits
+    feasibility for all masks after increasing the shared slack by epsilon. This does not itself bound
+    misclassification error or the gap to a global optimum. The stated per-iteration scaling assumes a
+    constant working-set size and supplied feature sparsity; the source iteration-count and linear-runtime
+    theorems explicitly concern k=2, while multiclass scaling is empirical. Nonconvex restricted fitting,
+    feature construction and stopping assumptions prevent an unconditional end-to-end linear-time or optimality
+    guarantee.
+  evidence:
+  - source_id: cp-source
+    locator: Sections2.5-3, PDF pp.5-6, Theorems4-7; Section4.4, PDF pp.7-8
+    relation: supports
+evidence_sources:
+- source_id: cp-source
+  title: Efficient MultiClass Maximum Margin Clustering
+  authors:
+  - Bin Zhao
+  - Fei Wang
+  - Changshui Zhang
+  source_type: primary_paper
+  url: https://icml.cc/Conferences/2008/papers/168.pdf
+  version: ICML2008 proceedings pp.1248-1255. All eight official proceedings PDF pages visually read;
+    no visible printed page numbers, so locators use PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-12T06:41:55Z'
+  sha256: db9db473e6a00cb0a68c651ac7c9f074c41ef4f16f26d564e3839a2ba9cb2b7a
+  persistent_id: doi:10.1145/1390156.1390313
+limitations:
+- This record describes the printed working-set and frozen-winner procedure with explicit tie and nonconvexity
+  limits. No unmentioned tie repair, globally optimal restricted solver, global optimum or universal convergence
+  guarantee is silently supplied.
+- The class count, fixed kernel/features, regularization beta, score-balance bound and epsilon are supplied
+  choices. Pairwise score balance is not class-count balance; the displayed formulation has no intercept.
+- All eight paper pages, tables and figures were read. Experiments supply true class counts, use selected
+  datasets and kernel tuning, and assess majority-label accuracy per cluster and Rand index. The tables
+  include accuracy and runtime cases favoring comparators, so no universal superiority is asserted. No
+  historical implementation or benchmark was reproduced.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: CPM3C groups unlabeled observations through latent multiclass margins, so UnsupervisedClustering
+    is the related task. The algorithm is not an equivalent supervised multiclass classification task
+    or supervised SVM network, and its kernel coordinates do not identify it with PCA. No upstream subclass
+    is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T06:54:11Z'
+  updated_at: '2026-10-12T06:54:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
