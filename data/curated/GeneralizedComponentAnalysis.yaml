@@ -1,0 +1,119 @@
+name: Generalized component analysis
+definition: An undirected latent-component model family coupling categorical text and heterogeneous document
+  attributes to positive lognormal hidden variables, with variables conditionally independent within either
+  layer given the other and shared attribute-specific interaction weights.
+concept_kind: model_family
+identity_notes: Scoped to Wang, Pal and McCallum's KDD2007 GCA harmonium for words, author positions and
+  discrete time bins. Its positive hidden coordinates couple through their logarithms, giving an equivalent
+  Gaussian-hidden representation under a change of variables. This differs from the native Replicated
+  Softmax model with binary hidden variables and its length-scaled bias. It is not ordinary PCA, a simplex
+  topic mixture, or every method subsequently named generalized component analysis. No normalized candidate
+  identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 438 preceding native IDs, names
+  and aliases. Full-checkout searches included ignored and hidden files in both checkouts; eleven matching
+  lines per checkout came from four unique prior discovery-ledger contents with pending leads and bibliography
+  context. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes
+  with outgoing edges were byte-verified against prior readings. Twenty-nine contextual YAMLs comprise
+  28 unchanged prior readings and one fully read final round103 native target verified against its saved
+  review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus
+  search.
+limitations:
+- Finite categorical sample spaces make the partition function finite for each fixed number of word and
+  author positions and finite weights. The source does not specify a normalized distribution over unbounded
+  document lengths. Independent author positions can repeat authors; this is not automatically a distribution
+  over unique author sets.
+- The evaluated timestamps are discrete years or months. Proposed Gaussian or Beta visible attributes
+  require their own compatible joint and normalization analysis. Broad PCA comparisons do not establish
+  equivalence to probabilistic PCA with Gaussian observations.
+- The reported author/recipient evaluation retrieves training documents by cosine similarity in latent
+  space and scores the first result sharing an author or recipient. This is not exact author-set conditional-probability
+  ranking. Treatment of missing target-modality features in embeddings is underspecified; no data-leakage
+  allegation or unprovided implementation is inferred.
+- Selected NIPS and single-user email data, random splits, twenty components and best reported iteration
+  scores provide bounded empirical evidence. Finite checks verify fixed-size probabilities, a gradient,
+  rotation invariance and missing-modality mixtures, not historical software, convergence or the reported
+  benchmark.
+aliases:
+- GCA
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.3-3, PDF pp.3-5, Figure 1 and Equations 3-8
+  relation: supports
+claims:
+- claim_id: log-hidden-harmonium
+  kind: mechanism
+  statement: For fixed document length and author-position count, word tokens, author tokens and a discrete
+    timestamp contribute shared matrix columns to a vector S. The positive-hidden joint contains exp(sum_i[-log(t_i)-log(t_i)^2/2+S_i*log(t_i)]).
+    Changing variables to y=log(t), including the Jacobian, gives y conditional on all visible observations
+    distributed as N(S,I), and visible mass proportional to exp(||S||^2/2). The positive-hidden mean is
+    exp(S_i+1/2), not S_i; positive coordinates do not by themselves create a normalized simplex of topics.
+    Missing visible modalities generally produce mixtures after marginalization rather than the same single
+    Gaussian with their columns set to zero.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3, PDF p.3, Equations 3-5; Section 3, PDF pp.4-5, conditional inference and prediction
+    relation: supports
+- claim_id: contrastive-training-statistics
+  kind: mechanism
+  statement: The source fits approximate joint or conditional likelihood using contrastive divergence
+    and Gaussian weight shrinkage. Conditional training clamps words and time while reconstructing authors.
+    Replicated categorical author positions use occurrence counts as sufficient statistics, including
+    when a reconstruction repeats an author. Equation 8 instead displays a presence indicator and prints
+    A-1 as a word-sum limit; the general statistic requires author counts and the vocabulary dimension.
+    The exact fixed-length likelihood gradient contrasts observed count-times-S statistics with their
+    model expectation, with an additional prior gradient if regularized. Short-chain CD approximates that
+    expectation and is not exact maximum likelihood.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1-3.2, PDF pp.4-5, Equations 6-8 and Algorithm 1
+    relation: supports
+- claim_id: latent-rotation-boundary
+  kind: limitation
+  statement: A common orthogonal transformation of the hidden rows of all interaction matrices preserves
+    ||S||^2 and therefore every fixed-size visible probability. It also preserves an isotropic Gaussian
+    weight penalty. Such shrinkage consequently does not remove all latent rotation ambiguity or guarantee
+    a uniquely interpretable set or number of components. The source's suggestion that the prior addresses
+    nonidentifiability or enables automatic component selection has this mathematical boundary.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.1, PDF p.4, Gaussian priors and identifiability discussion; Section 2.3, PDF p.3,
+      model law
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Generalized Component Analysis for Text with Heterogeneous Attributes
+  authors:
+  - Xuerui Wang
+  - Chris Pal
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/ulda-kdd07.pdf
+  version: Author-hosted ten-page KDD2007 paper; all pages visually read. No numeric printed page labels
+    visible; locators use PDF pages. An alternate institutional PDF was located but not byte-compared.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:35:44Z'
+  sha256: e0c6abaef2310cb5f0cdc0691032793720d799fe8a8e6ff28ce585ec0759a3dc
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The family supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: GCA has the bipartite conditional-independence structure of an exponential-family harmonium,
+    but its lognormal/Gaussian hidden law and heterogeneous categorical positions are not asserted identical
+    to the underspecified pinned RBM class.
+id: AIMech:GeneralizedComponentAnalysis
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:49:25Z'
+  updated_at: '2026-10-12T00:49:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

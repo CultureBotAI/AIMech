@@ -1,0 +1,111 @@
+name: Author-persona-topic model
+definition: A probabilistic topic-model family in which each author has a mixture of personas, each persona
+  has a topic distribution, and one persona shared across a document generates its token topics.
+concept_kind: model_family
+identity_notes: Scoped to the author-persona-topic model in Mimno and McCallum's KDD2007 expertise paper.
+  Author-specific persona mixtures and one persona per whole document distinguish it from the author-topic
+  model, which selects a coauthor per token, and from message-role models with sender/recipient role pairs.
+  Persona counts are fixed by a document-count heuristic in the reported experiment, not inferred by a
+  nonparametric prior. APT is the source acronym in this scope. No normalized candidate identity matched
+  all 442 pinned AIO IDs, labels and scoped synonyms or 438 preceding native IDs, names and aliases. Full-checkout
+  searches included ignored and hidden files in both checkouts; eleven matching lines per checkout came
+  from four unique prior discovery-ledger contents with pending leads and bibliography context. All matching
+  excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges
+  were byte-verified against prior readings. Twenty-nine contextual YAMLs comprise 28 unchanged prior
+  readings and one fully read final round103 native target verified against its saved review inputs. No
+  candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- Persona counts and topic counts are fixed heuristics in the evaluated construction. The displayed persona
+  rule needs an additional policy for an author with no documents; none is invented here. Mentioned logarithmic
+  and Dirichlet-process variants are not reported complete methods in this evidence.
+- The study uses 148 accepted NIPS2006 papers and 364 reviewers drawn from NIPS2005 according to its footnote.
+  The 650 pooled judgments cover candidates retrieved by the compared systems, not every paper/reviewer
+  pair. Authors and conflicts are not excluded, so this is relevance ranking rather than a complete constrained
+  reviewer-assignment algorithm.
+- Reported comparisons depend on relevance thresholds, disagreement handling, 75 or 200 topics and averaging
+  ten chains after specified sampling. The single-document language model leads at the first five ranks,
+  while APT200 improves several later ranks; no universal superiority, convergence or objectively correct
+  persona interpretation follows.
+- Finite calculations verify collapsed assignment probabilities and document-level sharing on synthetic
+  examples. They do not reproduce author software, ranking scores or the benchmark.
+aliases:
+- APT
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.2.2, printed p.503 / PDF p.4; Figure 1, printed p.504 / PDF p.5
+  relation: supports
+claims:
+- claim_id: document-persona-generation
+  kind: mechanism
+  statement: Corpus-shared topic word vectors have Dirichlet priors. Each author has a Dirichlet persona
+    vector and each author/persona pair has a Dirichlet topic vector. A single-author document chooses
+    one persona, then each token independently chooses a topic from that persona and a word from that
+    topic conditional on the parameters. Multi-author publications are replicated once per relevant author
+    and treated as single-author copies; this preprocessing does not infer which coauthor contributed
+    each token.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, printed pp.501-502 / PDF pp.2-3; Section 3.2.2, printed p.503 / PDF p.4 and Figure
+      1
+    relation: supports
+- claim_id: collapsed-document-update
+  kind: mechanism
+  statement: With fixed hyperparameters, a collapsed topic update combines leave-token-out persona-topic
+    and shared topic-word predictive factors. A persona update removes the entire document, combines the
+    author-persona document-count factor with a Dirichlet-multinomial ratio for the document's whole topic
+    histogram, and preserves within-document count reinforcement. Topic-word factors cancel when those
+    topic assignments are fixed. The reported persona count is the ceiling of author document count divided
+    by twenty, and each persona coordinate has prior value ten, so total persona concentration grows with
+    the chosen count.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2.2, printed pp.503-504 / PDF pp.4-5, Equations 5-6 and parameter discussion
+    relation: supports
+- claim_id: query-persona-sharing
+  kind: mechanism
+  statement: For a query treated as a new document and fixed parameters, the generative law sums over
+    a shared persona outside the product over query tokens. Moving that sum inside the product instead
+    gives independent token personas and a different law. With two equiprobable personas assigning word
+    probability 0.9 and 0.1, a two-copy query has probability 0.41 under a shared persona versus 0.25
+    under independent token personas. The paper prints plug-in query scoring for its single-author AT
+    comparator but does not provide a complete separate APT ranking formula; this model-law distinction
+    does not certify the historical ranking implementation.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2.2, printed p.503 / PDF p.4, generative process; Section 3.3, printed pp.504-505
+      / PDF pp.5-6, Equations 7-9
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Expertise Modeling for Matching Papers with Reviewers
+  authors:
+  - David Mimno
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/expertise-kdd07.pdf
+  version: Author-hosted ten-page KDD2007 paper, printed pp.500-509; all pages visually read. Printed
+    page = PDF page + 499. Earlier draft and NESCAI versions found in search were not substituted or read
+    as mechanism evidence.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:35:37Z'
+  sha256: 2e8b3a9641a3fff4b036d99fab6963fc53c6ee5f28f3c49899edf34ec05bb22b
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: This source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The family supports probabilistic topic modeling; the pinned target is task-scoped, so related
+    match preserves the model/task distinction.
+id: AIMech:AuthorPersonaTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:49:25Z'
+  updated_at: '2026-10-12T00:49:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
