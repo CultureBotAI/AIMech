@@ -1,0 +1,126 @@
+name: Hierarchical harmonium
+definition: A labeled harmonium model family coupling binary words, Gaussian image features and binary
+  category indicators to shared Gaussian latent variables, with a proper joint Gaussian precision and
+  classification through posterior label probabilities.
+concept_kind: model_family
+identity_notes: Scoped to Yang and colleagues' shared hierarchical harmonium for semantic video. The label
+  layer couples to the same hidden topics as text and images, unlike FoH's independently parameterized
+  class models. Although its diagram has three tiers, the graph is bipartite between the latent variables
+  and the combined text/image/label layer. The source uses one-hot labeled training shots and a single-label
+  decision rule, while its Bernoulli label conditionals define a joint over the full binary label cube;
+  the conclusion explicitly permits multiple active categories. This is not an ontology class hierarchy
+  or an asserted one-hot generative model. No normalized identity matched four candidates against all
+  442 pinned AIO IDs, labels and scoped synonyms or 444 preceding native IDs, names and aliases. Full-checkout
+  searches included ignored and hidden files in both checkouts; five matching lines per checkout came
+  from two unique prior discovery-ledger contents, and all matching excerpts were read. All 205 semantic
+  label/synonym hits were byte-verified against prior readings. Twenty-nine annotated AIO nodes and outgoing
+  edges comprise 28 unchanged prior readings and one newly read multimodal-deep-learning node. Thirty-nine
+  contextual YAMLs comprise 34 unchanged prior readings and five fully read current records. Three candidates
+  are curated; the unbounded-count DWH specialization remains deferred because the inspected joint is
+  not normalizable with nonzero count couplings. Absence is bounded to this pinned snapshot and maintained
+  corpus. Unlike the maintained conditional-RBM record, which conditions on an externally supplied input
+  and curates binary hidden units, HH specifies a joint over text, images and labels with Gaussian hidden
+  variables.
+limitations:
+- One-hot training observations, independent Bernoulli label conditionals and a single-label argmax decision
+  are different statements. The binary-cube law can assign positive probability to zero or multiple labels;
+  posterior marginals need not sum to one. The graph's tiers do not establish hierarchical class subsumption.
+- Normalizability requires constraints on Gaussian couplings, which the inspected manuscript does not
+  describe enforcing. The Appendix log-partition display is qualified as for FoH. The source's claimed
+  general convergence of CD to maximum likelihood is not adopted.
+- The Gibbs description lists label and hidden updates appropriate to clamped-feature prediction, without
+  fully specifying every free-phase update used during learning. The Langevin display perturbs parameters
+  with likelihood-gradient information and short-chain approximations; its target, prior and discretization
+  controls are not sufficient to certify exact Bayesian parameter inference.
+- The selected TRECVID experiments, latent-topic visualizations and class-similarity heatmap do not establish
+  causal relationships, uniquely identified topics or universal classification gains. Finite calculations
+  check binary versus one-hot support and a plug-in inference discrepancy; no author code or benchmark
+  was run.
+aliases:
+- HH
+definition_evidence:
+- source_id: method-source
+  locator: Section 3.3, PDF pp.5-6, Figure 3 and Equations 3.8-3.12; Section 6, p.11
+  relation: supports
+claims:
+- claim_id: shared-label-coupling
+  kind: mechanism
+  statement: The model shares word/image parameters across classes and adds label biases tau_t and label-topic
+    couplings V_tk. Given h, words and labels have independent Bernoulli logits alpha+Wh and tau+Vh, while
+    image features have Gaussian mean beta+Uh and identity covariance. Given all x,z,y, hidden variables
+    are independent unit Gaussians with mean W^T x+U^T z+V^T y. As in FoH, the unbounded image/hidden
+    joint requires I-UU^T positive definite; finite binary words and labels do not remove this requirement.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.3, PDF pp.5-6, Equations 3.8-3.11; inherited Gaussian specification in Section
+      3.2, p.5
+    relation: supports
+- claim_id: label-support-and-posterior
+  kind: mechanism
+  statement: For observed x,z, write a=W^T x+U^T z. Integrating hidden variables gives p(y|x,z) proportional
+    to exp(tau dot y+||a+V^T y||^2/2) over all binary label vectors. Labels generally become dependent
+    after hidden marginalization; exact summation over 2^T configurations is possible in principle. Restricting
+    support to exactly one active label would define a different model with categorical, rather than independent
+    Bernoulli, h-conditioned labels. The reported single-label classifier chooses the largest posterior
+    marginal P(Y_t=1|x,z); this decision does not enforce one-hot support in the joint.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.3, PDF p.6, Equations 3.8-3.12; Section 6, p.11
+    relation: supports
+- claim_id: missing-label-inference
+  kind: mechanism
+  statement: When labels are unknown, the simple all-observed hidden Gaussian is replaced by a mixture
+    over label configurations. Substituting the posterior mean hidden vector into a logistic label conditional
+    is not generally the exact label marginal. The source explores fully factorized mean field and finite-chain
+    approximations for prediction and learning, and compares CD with a noisy parameter-gradient procedure.
+    These approximations are distinguished from exact finite label enumeration and from an independently
+    verified posterior sampler over model parameters.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.1-4.4, PDF pp.7-8; Section 5.2, pp.9-11
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Harmonium Models for Semantic Video Representation and Classification
+  authors:
+  - Jun Yang
+  - Yan Liu
+  - Eric P. Xing
+  - Alexander G. Hauptmann
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/~epxing/papers/sdm07jyang.pdf
+  version: Author-hosted twelve-page manuscript associated with SDM2007 by primary proceedings and author-lab
+    metadata. The title page prints Eric X. Ping, while proceedings metadata names Eric P. Xing. All pages
+    including the Appendix visually read. Numeric printed labels are absent; locators use PDF pages. Not
+    asserted byte-identical to a final publisher file.
+  access_level: full_text
+  accessed_at: '2026-10-12T01:04:31Z'
+  sha256: 23177fca49a459f341ea4654825537c14f417330de069cfa20b29e8a235938b1
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Bipartite conditional-independence structure is shared with harmoniums, but the pinned RBM
+    class does not identify this exact observation, hidden-support and parameter-sharing construction.
+- target: AIO:Classification
+  relation: related_match
+  rationale: The model supplies classification from labeled examples; the pinned target is a supervised
+    task, not an exact probability-model identity.
+- target: AIO:MultimodalLearning
+  relation: related_match
+  rationale: Text and image features are modeled jointly. The pinned target denotes a task; its deep-learning
+    comment is not used to assert that this classical harmonium is a deep neural network.
+id: AIMech:HierarchicalHarmonium
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:13:01Z'
+  updated_at: '2026-10-12T01:16:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
