@@ -1,0 +1,128 @@
+name: Supervised Principal Components
+aliases:
+- Supervised Principal Components Regression
+concept_kind: algorithm
+definition: A prediction procedure that screens features by their marginal association with an outcome,
+  computes principal components of the retained feature matrix, and uses those components in an outcome
+  regression.
+identity_notes: This record denotes the Bair-Hastie-Paul-Tibshirani screening/PCA/regression procedure.
+  It is distinct from ordinary principal-component regression, sparse PCA, PPCA, partial least squares,
+  supervised gene shaving, and other objectives also called supervised PCA. The ambiguous acronym SPCA
+  is searched but not asserted as an alias. Unlabeled observations are optional in a proposed extension,
+  not required by the base procedure. Three candidate identities were compared against all 442 pinned
+  AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized
+  collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144
+  matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long
+  serialized web captures were inspected around each match with 220-character flanks, not reread in full.
+  Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references,
+  not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated
+  AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings.
+  Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including
+  ten native neighbors. This is a bounded snapshot/corpus assessment.
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, four-step proposal and Equations 1-8, printed pp. 120-122 / PDF pp. 2-4
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Prediction by Supervised Principal Components
+  authors:
+  - Eric Bair
+  - Trevor Hastie
+  - Debashis Paul
+  - Robert Tibshirani
+  source_type: primary_paper
+  url: https://hastie.su.domains/public/Papers/spca_JASA.pdf
+  version: Author-hosted final Journal of the American Statistical Association 101(473):119-137, March
+    2006. DOI 10.1198/016214505000000628 appears on the first page. All 19 pages visually read; printed
+    page equals PDF page plus 118. Distinct from the 2004 preprint.
+  persistent_id: doi:10.1198/016214505000000628
+  access_level: full_text
+  accessed_at: '2026-10-12T02:29:57Z'
+  sha256: a879f3c53af4a70f6cfedf90092e3725e7a05049ab252fabecc10a8f4051ba0b
+claims:
+- claim_id: screen-then-project
+  kind: mechanism
+  statement: For centered training feature columns x_j and response y, the linear-response version scores
+    each nonzero column by s_j=x_j^T y/||x_j|| and retains those with |s_j| greater than a threshold.
+    It computes an SVD of the retained matrix and regresses the outcome on its first or first few left
+    singular vectors. The threshold and component count are tuning choices. Outcome-dependent selection
+    makes the entire fitting procedure nonlinear in the training responses, even though the fitted linear-response
+    predictor is linear in new features.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equations 1-7, pp. 120-121 / PDF pp. 2-3; Section 6.1, p. 125 / PDF p. 7
+    relation: supports
+- claim_id: new-sample-prediction
+  kind: mechanism
+  statement: With retained training SVD X_theta=U D V^T, use weights V D^(-1) for nonzero retained singular
+    values to project new observations centered by the training feature means. For one unit-norm component
+    u, the training linear fit is ybar+(u^T y)u; the same fitted outcome coefficient multiplies the new
+    projected score. The new observation does not need an outcome to obtain its prediction. Generalized-response
+    versions replace the marginal score and outcome regression appropriately, including score-statistic
+    screening and proportional-hazards regression for survival data.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equations 4-8 and test-vector instructions, pp. 120-122 / PDF pp. 2-4; curator
+      nonzero-singular-value qualification
+    relation: supports
+- claim_id: screening-and-consistency-limits
+  kind: limitation
+  statement: The consistency analysis assumes a specified Gaussian latent-factor structure, identifiable
+    separated signal directions, suitable relevant-dimension and signal-to-noise scaling, and adequate
+    recovery of the relevant coordinates. With multiple factors, cancellation can make a relevant feature
+    marginally uncorrelated with the outcome. The paper does not prove that cross-validation selects the
+    correct feature set and notes substantial variability in small samples. Its detailed analysis also
+    distinguishes noise-corrected latent regression coefficients from attenuated uncorrected component
+    coefficients at fixed nonzero noise.
+  evidence:
+  - source_id: method-source
+    locator: Section 9, Theorems 1-2 and Equations 36-45, pp. 130-134 / PDF pp. 12-16; Section 11, p.
+      135 / PDF p. 17; curator jointly-informative zero-marginal-covariance example
+    relation: supports
+- claim_id: extensions-and-comparisons
+  kind: scope
+  statement: An optional unlabeled-data extension selects features using labeled observations and their
+    outcomes, then estimates components from those selected columns in labeled plus unlabeled observations.
+    This differs from repeatedly selecting all features by correlation with the current component, which
+    loses the original outcome supervision. The procedure does not guarantee better prediction than ridge,
+    partial least squares or other regression methods. The historical microarray examples do not establish
+    clinical validity.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, p. 124 / PDF p. 6; Section 7 and Table 4, pp. 129-130 / PDF pp. 11-12; Section
+      10, p. 134 / PDF p. 16
+    relation: supports
+limitations:
+- The retained feature set may be empty, columns may have zero norm, and singular values may vanish. A
+  usable implementation must handle these cases; inverses and component formulas do not establish full
+  rank automatically.
+- Marginally unassociated but jointly predictive variables can be missed; marginal associations can also
+  select conditionally irrelevant variables. Feature scaling, threshold selection, component count and
+  the response model affect the result.
+- The fitted latent components need not identify causal biological processes. Survival and classification
+  extensions have their own outcome assumptions; the source acknowledges incomplete theoretical justification
+  for its Cox setting.
+- All 19 primary pages were read. Finite orthogonal-vector calculations check selection, projection and
+  a marginal-screening failure. Historical microarray results and software were not reproduced.
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: The procedure computes PCA after outcome-based screening, but adds supervised selection and
+    prediction. The target is task-scoped PCA rather than this complete algorithm.
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The algorithm predicts an outcome through selected component scores. This relates an explicit
+    fitting procedure to the pinned regression task without asserting task/algorithm equivalence.
+id: AIMech:SupervisedPrincipalComponents
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:46:01Z'
+  updated_at: '2026-10-12T02:47:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
