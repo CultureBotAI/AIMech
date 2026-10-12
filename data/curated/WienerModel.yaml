@@ -1,0 +1,124 @@
+id: AIMech:WienerModel
+name: Wiener model
+concept_kind: model_family
+definition: A real-valued, single-input single-output, discrete-time deterministic nonlinear dynamical
+  model family formed by a causal linear time-invariant system followed by a memoryless static nonlinearity.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and all scoped synonyms and 532 native IDs, names
+  and aliases with both candidate names, expanded cascade descriptions and IDs: no normalized identity
+  match. Ignored- and hidden-inclusive full-text searches of the accessible recovery worktree and readable
+  previous worktree returned four and zero lines; all four were read and concern prior discovery leads
+  or a source example. Original Documents untracked files remain inaccessible and are not claimed re-audited.
+  Read all 55 semantic AIO rows and 62 native name/definition neighbors, nine complete annotated AIO CLASS
+  nodes with incident edges, all nine contextual generated YAMLs, and the complete IteratedWienerFilter,
+  LinearStateSpaceLayer, NARX and NARMAX records. The existing iterated Wiener filter is a fixed-prior
+  image-denoising algorithm. Neural linear state-space layers and NARX/NARMAX recurrences can overlap
+  in representation without defining these ordered two-block model families. GLM specifies a statistical
+  link/variance model; ARDL specifies lag structure; neither specifies this cascade identity. AIO convolutional
+  layers and recurrent networks require neural-component/network scope, and ETS adds smoothing/trend/seasonality
+  structure. These are not exact matches. This assessment is bounded to the inspected pin and accessible
+  records.'
+definition_evidence:
+- source_id: leontaritis-billings1984-part2
+  locator: Section 3, Figure 3.1 and Equations 3.1–3.4, PDF pp. 13–14 / printed pp. 10–11
+  relation: supports
+claims:
+- claim_id: linear-then-static
+  kind: mechanism
+  statement: 'Write z_t=sum_{j=0}^{t-1} h_j*u_(t-j) for the zero-state linear response and y_t=g(z_t).
+    The linear block first combines inputs across time; the memoryless nonlinearity then transforms that
+    scalar. This differs in general from applying g before filtering: with h=(1,2), inputs (1,2,-1) and
+    g(v)=v², the first three Wiener outputs are (1,16,9), whereas the corresponding Hammerstein outputs
+    are (1,6,9). This is a finite curator example of block-order dependence, not an empirical comparison.'
+  evidence:
+  - source_id: leontaritis-billings1984-part2
+    locator: Section 3, Figure 3.1 and Equations 3.1–3.4, PDF pp. 13–14 / printed pp. 10–11; curator exact
+      calculations in research/discovery/cascade-model-boundaries.py
+    relation: supports
+- claim_id: conditional-output-recurrence
+  kind: mechanism
+  statement: For a finite-dimensional linear block satisfying z_(t+n)=sum_{i=1}^n a_i*z_(t+n-i)+sum_{j=0}^n
+    b_j*u_(t+n-j), an inverse of g on the relevant internal-signal range gives y_(t+n)=g(sum_i a_i*g^(-1)(y_(t+n-i))+sum_j
+    b_j*u_(t+n-j)). If the inverse is only valid on a selected interval, the required internal history
+    must stay on that branch. The convolutional cascade itself does not require an inverse. Finite state
+    order also does not imply a finite impulse-response memory.
+  evidence:
+  - source_id: leontaritis-billings1984-part2
+    locator: Section 3, Equations 3.2–3.8, PDF pp. 14–15 / printed pp. 11–12
+    relation: supports
+- claim_id: noninjective-output-boundary
+  kind: limitation
+  statement: For the source example x_next=x+u and y=x+x², two reachable internal states x=0 and x=-1
+    have the same output 0, but with the same current input u=1/4 the next outputs are 5/16 and -3/16.
+    Thus a single-valued update from only current y and u cannot cover both branches. Restricting x>-1/2
+    gives the inverse branch used in the source. This does not rule out other histories, state tracking
+    or a narrower operating domain.
+  evidence:
+  - source_id: leontaritis-billings1984-part2
+    locator: Section 2, Example 2.1, Equations 2.6 and 2.22–2.25, PDF pp. 9,11–12 / printed pp. 6,8–9;
+      curator exact calculations in research/discovery/cascade-model-boundaries.py
+    relation: supports
+- claim_id: internal-scale-ambiguity
+  kind: limitation
+  statement: Without a normalization, internal gain can be exchanged between the two blocks. For nonzero
+    c, replacing the zero-state linear operator L by c*L and g(v) by g(v/c) preserves g(Lu) for every
+    admissible input. A c=3 finite example reproduces the same outputs. This algebraic ambiguity means
+    identical external responses alone do not uniquely determine both internal block gains; it does not
+    establish the full set of identification ambiguities.
+  evidence:
+  - source_id: leontaritis-billings1984-part2
+    locator: Section 3, Equations 3.1–3.4, PDF p. 14 / printed p. 11; direct curator consequence of the
+      cascade equations; curator exact calculations in research/discovery/cascade-model-boundaries.py
+    relation: supports
+evidence_sources:
+- source_id: leontaritis-billings1984-part2
+  title: Input-Output Parametric Models for Nonlinear Systems. Part II Stochastic Nonlinear Systems
+  authors:
+  - I. J. Leontaritis
+  - S. A. Billings
+  source_type: author_technical_report
+  url: https://eprints.whiterose.ac.uk/id/eprint/76841/1/report%20252.pdf
+  persistent_id: https://eprints.whiterose.ac.uk/id/eprint/76841/
+  version: 'ACSE Research Report 252, University of Sheffield, April 1984. Repository scan: 24 PDF pages,
+    all visually read; PDF pages 1–3 are repository cover, title and abstract, and printed page equals
+    PDF page minus 3 thereafter. This is the technical report, not the subsequently published 1985 International
+    Journal of Control article (DOI 10.1080/0020718508961130), whose abstract and metadata were located
+    but full text was not compared.'
+  access_level: full_text
+  accessed_at: '2026-10-12T13:09:31Z'
+  sha256: 6ef50a90a7539ca16d5b354f8ef60e11e2cb2f4955f31e54b16f406c9ce22af1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: The source develops this ordered input-output dynamical representation for analyzing and
+    identifying nonlinear systems from temporal observations. The pinned target denotes the analysis task;
+    a related model/task mapping preserves that distinction and does not assert that the cascade is a
+    task, neural layer or particular estimator.
+limitations:
+- The scoped evidence covers real-valued, single-input single-output, discrete-time deterministic cascades
+  with a causal time-invariant linear block and a memoryless single-valued nonlinearity. Direct feedthrough
+  is permitted. Continuous-time, multivariable, parallel and stochastic variants need explicit additional
+  assumptions.
+- A model family is distinct from its parameter estimator, internal-state realization, trained instance
+  and physical mechanism. Noise placement, initial state, stability, excitation, identifiability and generalization
+  are separate choices; no universal identification or forecasting guarantee is asserted.
+- Invertibility assumptions used to derive a particular output-history recurrence are not definition-level
+  requirements for a cascade model. Nonlinear and linear special cases can overlap across model families
+  without making their ordered structures equivalent.
+- Evidence is the fully read 1984 technical report. The final 1985 journal version and earlier correlation-based
+  identification reports remain follow-up sources. Several displayed equations in the report have scope
+  or transcription problems; the cited cascade definitions and directly checked algebra are used here,
+  not its unchecked global claims.
+- No model was trained and no empirical result was replicated. Exact finite examples are curator derivations,
+  not author-reported experiments. Both records remain DRAFT; author self-review does not constitute independent
+  scientific approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T13:46:47Z'
+  updated_at: '2026-10-12T13:55:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,825 @@
+# Scientific author self-review of Wiener and Hammerstein model families
+
+- Review: 20261012T140059Z-wiener-hammerstein-resolved
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T13:56:03Z
+- Finished UTC: 2026-10-12T14:00:59Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain both model families and related mappings; the definition-scope finding is resolved.
+
+## Scope And Provenance
+
+All fields of the exact two-record Wiener/Hammerstein cohort.
+
+Selection: Exact IDs: AIMech:WienerModel, AIMech:HammersteinModel
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 931d520389478b7c7abfa18532fcb0212352bcfc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:WienerModel | data/curated/WienerModel.yaml | maintained | Wiener model |
+| AIMech:HammersteinModel | data/curated/HammersteinModel.yaml | maintained | Hammerstein model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:WienerModel, AIMech:HammersteinModel | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 126.58s (0:02:06)<br>Checked 442 record(s); 0 failed.<br>Checked 534 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 181 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 179,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:WienerModel, AIMech:HammersteinModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:WienerModel, AIMech:HammersteinModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:WienerModel, AIMech:HammersteinModel | Exited 0 without output. |
+| Exact cascade and source-audit examples | passed | True | AIMech:WienerModel, AIMech:HammersteinModel | {"wiener_output": ["1", "16", "9"], "hammerstein_output": ["1", "6", "9"], "rescaled_wiener_output": ["1", "16", "9"], "rescaled_hammerstein_output": ["1", "6", "9"], "wiener_branch_next_outputs": ["5/16", "-3/16"], "hammerstein_squared_input_path": ["1", "5", "6"], "source_hankel_ranks_H11_H1infty_H2infty": [1, 2, 2], "source_cubic_formula_missing_term": "1"} |
+
+## Scientific And Domain Assessments
+
+### Ordered nonlinear dynamical cascade families
+
+identity: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+Retain two model families.
+
+Wiener filters inputs linearly before a static nonlinearity; Hammerstein applies the static nonlinearity before linear temporal mixing. Exact h=(1,2), u=(1,2,-1), g(v)=v² outputs differ: (1,16,9) versus (1,6,9). Linear or other special-case overlap does not imply equivalent ordered families. The existing iterated Wiener image filter is a different algorithm.
+
+### Declared real-valued SISO discrete-time deterministic boundary
+
+scope: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+Definitions state the same scope as the evidence limitations.
+
+Both first limitations explicitly restrict the curated evidence to real-valued, single-input single-output, discrete-time deterministic cascades. The definitions should carry those qualifiers so readers of standalone definitions receive the same scoped concept. This is bounded wording clarification, not a rejection of continuous-time or multivariable uses of the general names.
+
+### Model versus temporal analysis task
+
+grounding: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+Related mappings are supported curator inferences.
+
+The source develops this ordered input-output dynamical representation for analyzing and identifying nonlinear systems from temporal observations. The pinned target denotes the analysis task; a related model/task mapping preserves that distinction and does not assert that the cascade is a task, neural layer or particular estimator. The source develops this ordered input-output dynamical representation for analyzing and identifying nonlinear systems from temporal observations. The pinned target denotes the analysis task; a related model/task mapping preserves that distinction and does not assert that the cascade is a task, neural layer or particular estimator.
+
+### linear-then-static
+
+evidence: supported. Targets: AIMech:WienerModel.
+
+Claim is supported within its stated boundary.
+
+Write z_t=sum_{j=0}^{t-1} h_j*u_(t-j) for the zero-state linear response and y_t=g(z_t). The linear block first combines inputs across time; the memoryless nonlinearity then transforms that scalar. This differs in general from applying g before filtering: with h=(1,2), inputs (1,2,-1) and g(v)=v², the first three Wiener outputs are (1,16,9), whereas the corresponding Hammerstein outputs are (1,6,9). This is a finite curator example of block-order dependence, not an empirical comparison. Locator: Section 3, Figure 3.1 and Equations 3.1–3.4, PDF pp. 13–14 / printed pp. 10–11; curator exact calculations in research/discovery/cascade-model-boundaries.py
+
+### conditional-output-recurrence
+
+evidence: supported. Targets: AIMech:WienerModel.
+
+Claim is supported within its stated boundary.
+
+For a finite-dimensional linear block satisfying z_(t+n)=sum_{i=1}^n a_i*z_(t+n-i)+sum_{j=0}^n b_j*u_(t+n-j), an inverse of g on the relevant internal-signal range gives y_(t+n)=g(sum_i a_i*g^(-1)(y_(t+n-i))+sum_j b_j*u_(t+n-j)). If the inverse is only valid on a selected interval, the required internal history must stay on that branch. The convolutional cascade itself does not require an inverse. Finite state order also does not imply a finite impulse-response memory. Locator: Section 3, Equations 3.2–3.8, PDF pp. 14–15 / printed pp. 11–12
+
+### noninjective-output-boundary
+
+evidence: supported. Targets: AIMech:WienerModel.
+
+Claim is supported within its stated boundary.
+
+For the source example x_next=x+u and y=x+x², two reachable internal states x=0 and x=-1 have the same output 0, but with the same current input u=1/4 the next outputs are 5/16 and -3/16. Thus a single-valued update from only current y and u cannot cover both branches. Restricting x&gt;-1/2 gives the inverse branch used in the source. This does not rule out other histories, state tracking or a narrower operating domain. Locator: Section 2, Example 2.1, Equations 2.6 and 2.22–2.25, PDF pp. 9,11–12 / printed pp. 6,8–9; curator exact calculations in research/discovery/cascade-model-boundaries.py
+
+### internal-scale-ambiguity
+
+evidence: supported. Targets: AIMech:WienerModel.
+
+Claim is supported within its stated boundary.
+
+Without a normalization, internal gain can be exchanged between the two blocks. For nonzero c, replacing the zero-state linear operator L by c*L and g(v) by g(v/c) preserves g(Lu) for every admissible input. A c=3 finite example reproduces the same outputs. This algebraic ambiguity means identical external responses alone do not uniquely determine both internal block gains; it does not establish the full set of identification ambiguities. Locator: Section 3, Equations 3.1–3.4, PDF p. 14 / printed p. 11; direct curator consequence of the cascade equations; curator exact calculations in research/discovery/cascade-model-boundaries.py
+
+### static-then-linear
+
+evidence: supported. Targets: AIMech:HammersteinModel.
+
+Claim is supported within its stated boundary.
+
+Set z_t=g(u_t) and pass z through the linear dynamics, giving the zero-state response y_t=sum_{j=0}^{t-1} h_j*g(u_(t-j)). The nonlinearity acts on each input value before temporal mixing. Reversing these blocks generally changes the response; a Wiener model instead applies g to the mixed linear output. The family specifies the composition, not a particular nonlinear basis, fitting algorithm or neural implementation. Locator: Section 3, Figure 3.2 and Equations 3.11–3.14, PDF pp. 15–16 / printed pp. 12–13
+
+### recurrence-without-inversion
+
+evidence: supported. Targets: AIMech:HammersteinModel.
+
+Claim is supported within its stated boundary.
+
+When the finite-dimensional linear block has coefficients a_i and b_j for its difference equation, substitution gives y_(t+n)=sum_{i=1}^n a_i*y_(t+n-i)+sum_{j=0}^n b_j*g(u_(t+n-j)). This construction uses the input nonlinearity directly and does not require g to be invertible. Its validity on the specified input domain does not imply stable trajectories, a correct fitted structure or uniquely recovered component parameters. Locator: Section 3, Equations 3.11–3.15 and following discussion, PDF pp. 15–16 / printed pp. 12–13
+
+### sufficient-rank-condition-boundary
+
+evidence: supported. Targets: AIMech:HammersteinModel.
+
+Claim is supported within its stated boundary.
+
+A general local-realization theorem can impose stronger sufficient conditions than this special structure needs. The source example x_next=x+u², y=x has the exact recurrence y_next=y+u² even though the derivative of the input nonlinearity at zero vanishes. For inputs (1,2,-1) from zero the outputs after each transition are (1,5,6). Failure of that equilibrium derivative condition is therefore not proof that an explicit Hammerstein recurrence is unavailable. Locator: Section 2, Equations 2.31–2.32, PDF p. 13 / printed p. 10; Section 3, Equations 3.15–3.18 and discussion, PDF p. 16 / printed p. 13; curator exact calculations in research/discovery/cascade-model-boundaries.py
+
+### internal-scale-ambiguity
+
+evidence: supported. Targets: AIMech:HammersteinModel.
+
+Claim is supported within its stated boundary.
+
+Without a normalization, multiplying g by a nonzero constant c and dividing the linear operator L by c preserves L(g(u)) for every admissible input in the zero-state response. A c=3 finite example gives the same outputs. This gain exchange alone prevents unique recovery of both block scales from external responses; it is an algebraic boundary, not a claim that all other parameters are identifiable or that a particular estimator converges. Locator: Section 3, Equations 3.11–3.14, PDF pp. 15–16 / printed pp. 12–13; direct curator consequence of the cascade equations; curator exact calculations in research/discovery/cascade-model-boundaries.py
+
+### Cascade existence versus output-history inversion
+
+consistency: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+An inverse is required by one recurrence construction, not by the model definition.
+
+The x+x² output readout is not injective: x=0 and -1 yield output 0 but the same next input 1/4 yields 5/16 and -3/16. This defeats a global single-step function of current y and u, without ruling out longer histories or state tracking. A positive-branch restriction is retained. Hammerstein input substitution needs no inverse; x_next=x+u² provides an explicit recurrence despite a zero equilibrium input derivative.
+
+### Internal gain and finite memory boundaries
+
+consistency: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+Block gain normalization and state order do not establish identifiability or finite memory.
+
+Nonzero c rescales Wiener L by c and its output g argument by 1/c; Hammerstein rescales g by c and L by 1/c. The exact c=3 examples preserve outputs. The statements are direct curator algebra, not experimental evidence or an exhaustive identifiability theorem. Finite-dimensional linear dynamics can have an infinite impulse response.
+
+### Source equation defects and bounded reuse
+
+evidence: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+Printed source problems are explicitly preserved and excluded from unchecked adoption.
+
+Part I printed p. 13 states a multivariable Hankel-rank implication contradicted by the saved A,B,C,D example: ranks H11=1, H1infty=H2infty=2. This does not refute sufficiently large Hankel realization. Part II Eq. 2.34 omits +u for x_next=x+u,y=x+x³; at x=0,u=1 the missing contribution is 1. Eq. 3.13 has malformed notation; the Hammerstein record uses the direct substitution and Eq. 3.15. Other three-block claims and original mathematical proofs remain follow-up scopes.
+
+### Complete maintained records, source versions and report mirrors
+
+provenance: supported. Targets: AIMech:WienerModel, AIMech:HammersteinModel.
+
+All selected fields and report mirrors inspected.
+
+Read both IDs and names, absent alias lists, model_family kinds, definitions and citations, eight claims and locators, full technical-report metadata/hash, two related mappings and pin, limitations, DRAFT status and actual curation times. The records cite the fully read 1984 report, with final 1985 journal metadata only as context. No priority, upstream acceptance, empirical replication or independent review is asserted.
+
+## Findings
+
+### definition-scope: State the curated scope in Wiener and Hammerstein definitions
+
+minor / resolved / confirmed; issue key: aimech-wiener-hammerstein-definition-scope.
+
+Both record definitions state the ordered cascade structure but omit the real-valued, single-input single-output, discrete-time deterministic scope explicitly declared in their first limitation and inspected evidence. Add those qualifiers to the standalone definitions and report mirrors, preserving the general model names and the separately deferred variants. This is a bounded wording defect; the existing limitations already constrain interpretation.
+
+Disposition: Both maintained definitions and report mirrors now explicitly state real-valued, single-input single-output, discrete-time deterministic scope. Actual EDIT history and regenerated pages are saved. All eight claims and mappings remain unchanged; the successor rechecks both full records and the changed wording. DRAFT/self-review provenance is stated without a stale future-tense promise.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:WienerModel, AIMech:HammersteinModel. Linear-then-static and static-then-linear composition produce different responses in general. Shared linear special cases do not establish family equivalence; fitting procedures, neural implementations and Wiener filtering remain separate identities.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T134856Z-wiener-hammerstein-models.json | supports | Compared all 442 pinned AIO IDs, labels and all scoped synonyms and 532 native IDs, names and aliases with both candidate names, expanded cascade descriptions and IDs: no normalized identity match. Ignored- and hidden-inclusive full-text searches of the accessible recovery worktree and readable previous worktree returned four and zero lines; all four were read and concern prior discovery leads or a source example. Original Documents untracked files remain inaccessible and are not claimed re-audited. Read all 55 semantic AIO rows and 62 native name/definition neighbors, nine complete annotated AIO CLASS nodes with incident edges, all nine contextual generated YAMLs, and the complete IteratedWienerFilter, LinearStateSpaceLayer, NARX and NARMAX records. The existing iterated Wiener filter is a fixed-prior image-denoising algorithm. Neural linear state-space layers and NARX/NARMAX recurrences can overlap in representation without defining these ordered two-block model families. GLM specifies a statistical link/variance model; ARDL specifies lag structure; neither specifies this cascade identity. AIO convolutional layers and recurrent networks require neural-component/network scope, and ETS adds smoothing/trend/seasonality structure. These are not exact matches. This assessment is bounded to the inspected pin and accessible records. |
+| mapping | sources/aio/aio.json | supports | Read all 55 semantic AIO rows, 62 native name/definition neighbors, nine complete annotated CLASS nodes with incident edges, nine contextual generated YAMLs and four complete native neighbors. Two related TimeSeriesAnalysis mappings preserve model/task distinctions. |
+| calculations | research/discovery/cascade-model-boundaries.py | supports | Exact arithmetic distinguishes cascade order, verifies gain rescaling and inverse-branch ambiguity, and exhibits a Hammerstein recurrence despite a zero equilibrium input derivative. Separate source-audit calculations refute a printed multivariable Hankel-rank implication and expose a missing cubic-recurrence term. These are finite curator derivations, not empirical reproductions or a refutation of all local realization theory. |
+| part1 | https://eprints.whiterose.ac.uk/id/eprint/76818/1/report%20251%20%282%29.pdf; Leontaritis and Billings (1984), Input-Output Parametric Models for Nonlinear Systems, Part I—Deterministic Nonlinear Systems, ACSE Report 251 | supports | All 44 PDF pages visually read. Assessed finite-history realization, multivariable Hankel ranks and local equilibrium assumptions. Original cited proofs and final 1985 journal text were not compared. |
+| part2 | https://eprints.whiterose.ac.uk/76841/1/report%20252.pdf; Leontaritis and Billings (1984), Input-Output Parametric Models for Nonlinear Systems, Part II—Stochastic Nonlinear Systems, ACSE Report 252, April 1984 | supports | All 24 PDF pages visually read. After category capture, reread PDF pages 13–16: the SISO scope, both block diagrams, convolutional responses, inverse-branch construction and Hammerstein recurrence. Report equation transcription problems are retained separately from supported cascade definitions. |
+| prior | reviews/structured/20261012T135425Z-wiener-hammerstein-open/review.yaml | supports | Initial immutable review retained both model identities and requested explicit definition scope. |
+
+## Limits And Additional Notes
+
+- Author self-review only; both records remain DRAFT.
+- Two native DRAFT model families added: 534 curated and 442 unchanged generated records. Discovery remains active with 470 pending and 49 partly addressed cohorts plus other unresolved scopes.
+- All 68 pages of the two 1984 reports visually read. Final 1985 journal versions are metadata/abstract context, not inspected substitutes. Earlier identification reports were downloaded but unread at discovery-report creation; later reading belongs to a separate cohort.
+- Scope is deterministic SISO discrete-time cascades; identification, stochastic, multivariable and other composition variants need separate evidence. Source-audit examples do not validate all realization theorems.
+- No empirical replication, model training or paid service. Original Documents checkout synchronization and old local branch cleanup still require restored OS access.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T140059Z-wiener-hammerstein-resolved
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Wiener and Hammerstein model families
+started_at: '2026-10-12T13:56:03Z'
+finished_at: '2026-10-12T14:00:59Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read both primary reports, checked all fields
+    and challenged block order, inverse scope and gain ambiguity with exact examples.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain both model families and related mappings; the definition-scope finding
+  is resolved.
+source:
+  git_revision: 931d520389478b7c7abfa18532fcb0212352bcfc
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveDistributedLag.yaml
+    sha256: ec96eff60d187277db7e53193e2a91671c047127c75a493ff764bb362521458e
+    role: context
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/ExponentialSmoothingStateSpaceModel.yaml
+    sha256: e54f9504ddd176b6fc08542cdacb2ab5cdb5a25cec8501ccf071de34881ec79d
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/curated/HammersteinModel.yaml
+    sha256: 03e25ac3b355174c7011e2aec536286009102d3dac75be07ac041025861db56b
+    role: target
+  - path: data/curated/IteratedWienerFilter.yaml
+    sha256: 803905a00467ecfc963cbd5a24f5616013484c0d0ce57d205c386868346addac
+    role: context
+  - path: data/curated/LinearStateSpaceLayer.yaml
+    sha256: 05d7d834a8c0db4c33613384cde4a250838290cce6960fda10e7209da318c151
+    role: context
+  - path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    sha256: 3157f6cbd735ef6792e7afbc5a0ff4e2be97305d9896e7e91452b674524fc0ec
+    role: context
+  - path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    sha256: e25a5536febcea04ba4cb8b8240737f819572629e6bc3f213e84de13854b33ed
+    role: context
+  - path: data/curated/WienerModel.yaml
+    sha256: 3e327ccc2366267909e7c0bf3e31156a1b1461ffa5a2d8f79fc9a764555c5b01
+    role: target
+  - path: research/discovery/20261012T134856Z-wiener-hammerstein-models.json
+    sha256: dd48b6cda3da5c822632cc31aa99169b09d80c4044919c9cfe2ca7d338f2867b
+    role: context
+  - path: research/discovery/cascade-model-boundaries.py
+    sha256: c1a2e2f94d88e94cec8be3dfd0f114b723b7bfe8550a4878ec959896fbf1154a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:WienerModel
+  path: data/curated/WienerModel.yaml
+  label: Wiener model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WienerModel.yaml
+    role: maintained
+- target_id: AIMech:HammersteinModel
+  path: data/curated/HammersteinModel.yaml
+  label: Hammerstein model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HammersteinModel.yaml
+    role: maintained
+scope:
+  description: All fields of the exact two-record Wiener/Hammerstein cohort.
+  selection: 'Exact IDs: AIMech:WienerModel, AIMech:HammersteinModel'
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exclusions:
+  - target: Other composition, identification and stochastic variants
+    reason: Separate pending primary-source audits.
+  - target: Contextual ontology and neighboring records
+    reason: Identity/mapping context, not full scientific review.
+  - target: Empirical replication or implementation audit
+    reason: Only exact finite curator calculations were executed.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 126.58s (0:02:06)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 534 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 181 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 179,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculations
+  name: Exact cascade and source-audit examples
+  command: python3 research/discovery/cascade-model-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"wiener_output": ["1", "16", "9"], "hammerstein_output": ["1", "6", "9"],
+    "rescaled_wiener_output": ["1", "16", "9"], "rescaled_hammerstein_output": ["1",
+    "6", "9"], "wiener_branch_next_outputs": ["5/16", "-3/16"], "hammerstein_squared_input_path":
+    ["1", "5", "6"], "source_hankel_ranks_H11_H1infty_H2infty": [1, 2, 2], "source_cubic_formula_missing_term":
+    "1"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T134856Z-wiener-hammerstein-models.json
+  accessed_at: '2026-10-12T13:56:03Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO IDs, labels and all scoped synonyms and 532
+    native IDs, names and aliases with both candidate names, expanded cascade descriptions
+    and IDs: no normalized identity match. Ignored- and hidden-inclusive full-text
+    searches of the accessible recovery worktree and readable previous worktree returned
+    four and zero lines; all four were read and concern prior discovery leads or a
+    source example. Original Documents untracked files remain inaccessible and are
+    not claimed re-audited. Read all 55 semantic AIO rows and 62 native name/definition
+    neighbors, nine complete annotated AIO CLASS nodes with incident edges, all nine
+    contextual generated YAMLs, and the complete IteratedWienerFilter, LinearStateSpaceLayer,
+    NARX and NARMAX records. The existing iterated Wiener filter is a fixed-prior
+    image-denoising algorithm. Neural linear state-space layers and NARX/NARMAX recurrences
+    can overlap in representation without defining these ordered two-block model families.
+    GLM specifies a statistical link/variance model; ARDL specifies lag structure;
+    neither specifies this cascade identity. AIO convolutional layers and recurrent
+    networks require neural-component/network scope, and ETS adds smoothing/trend/seasonality
+    structure. These are not exact matches. This assessment is bounded to the inspected
+    pin and accessible records.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. The original Documents checkout cannot be read because
+    of OS permissions, so its untracked files are not claimed re-audited in this round.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T13:56:03Z'
+  support: supports
+  summary: Read all 55 semantic AIO rows, 62 native name/definition neighbors, nine
+    complete annotated CLASS nodes with incident edges, nine contextual generated
+    YAMLs and four complete native neighbors. Two related TimeSeriesAnalysis mappings
+    preserve model/task distinctions.
+- evidence_id: calculations
+  kind: record_content
+  reference: research/discovery/cascade-model-boundaries.py
+  accessed_at: '2026-10-12T13:56:03Z'
+  snapshot_sha256: c1a2e2f94d88e94cec8be3dfd0f114b723b7bfe8550a4878ec959896fbf1154a
+  support: supports
+  summary: Exact arithmetic distinguishes cascade order, verifies gain rescaling and
+    inverse-branch ambiguity, and exhibits a Hammerstein recurrence despite a zero
+    equilibrium input derivative. Separate source-audit calculations refute a printed
+    multivariable Hankel-rank implication and expose a missing cubic-recurrence term.
+    These are finite curator derivations, not empirical reproductions or a refutation
+    of all local realization theory.
+- evidence_id: part1
+  kind: primary_source
+  reference: https://eprints.whiterose.ac.uk/id/eprint/76818/1/report%20251%20%282%29.pdf
+  locator: Leontaritis and Billings (1984), Input-Output Parametric Models for Nonlinear
+    Systems, Part I—Deterministic Nonlinear Systems, ACSE Report 251
+  accessed_at: '2026-10-12T13:09:59Z'
+  snapshot_sha256: 2d2e4ac9b254275a036e6e231fd0886db81abf3d51fdfd4eb37a06fb45a47275
+  support: supports
+  summary: All 44 PDF pages visually read. Assessed finite-history realization, multivariable
+    Hankel ranks and local equilibrium assumptions. Original cited proofs and final
+    1985 journal text were not compared.
+- evidence_id: part2
+  kind: primary_source
+  reference: https://eprints.whiterose.ac.uk/76841/1/report%20252.pdf
+  locator: Leontaritis and Billings (1984), Input-Output Parametric Models for Nonlinear
+    Systems, Part II—Stochastic Nonlinear Systems, ACSE Report 252, April 1984
+  accessed_at: '2026-10-12T13:09:31Z'
+  snapshot_sha256: 6ef50a90a7539ca16d5b354f8ef60e11e2cb2f4955f31e54b16f406c9ce22af1
+  support: supports
+  summary: 'All 24 PDF pages visually read. After category capture, reread PDF pages
+    13–16: the SISO scope, both block diagrams, convolutional responses, inverse-branch
+    construction and Hammerstein recurrence. Report equation transcription problems
+    are retained separately from supported cascade definitions.'
+- evidence_id: prior
+  kind: prior_review
+  reference: reviews/structured/20261012T135425Z-wiener-hammerstein-open/review.yaml
+  accessed_at: '2026-10-12T13:56:03Z'
+  support: supports
+  summary: Initial immutable review retained both model identities and requested explicit
+    definition scope.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Ordered nonlinear dynamical cascade families
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - identity
+  - part2
+  - calculations
+  summary: Retain two model families.
+  details: 'Wiener filters inputs linearly before a static nonlinearity; Hammerstein
+    applies the static nonlinearity before linear temporal mixing. Exact h=(1,2),
+    u=(1,2,-1), g(v)=v² outputs differ: (1,16,9) versus (1,6,9). Linear or other special-case
+    overlap does not imply equivalent ordered families. The existing iterated Wiener
+    image filter is a different algorithm.'
+- assessment_id: definition-scope
+  area: scope
+  topic: Declared real-valued SISO discrete-time deterministic boundary
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  summary: Definitions state the same scope as the evidence limitations.
+  details: Both first limitations explicitly restrict the curated evidence to real-valued,
+    single-input single-output, discrete-time deterministic cascades. The definitions
+    should carry those qualifiers so readers of standalone definitions receive the
+    same scoped concept. This is bounded wording clarification, not a rejection of
+    continuous-time or multivariable uses of the general names.
+- assessment_id: mapping
+  area: grounding
+  topic: Model versus temporal analysis task
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - mapping
+  - identity
+  summary: Related mappings are supported curator inferences.
+  details: The source develops this ordered input-output dynamical representation
+    for analyzing and identifying nonlinear systems from temporal observations. The
+    pinned target denotes the analysis task; a related model/task mapping preserves
+    that distinction and does not assert that the cascade is a task, neural layer
+    or particular estimator. The source develops this ordered input-output dynamical
+    representation for analyzing and identifying nonlinear systems from temporal observations.
+    The pinned target denotes the analysis task; a related model/task mapping preserves
+    that distinction and does not assert that the cascade is a task, neural layer
+    or particular estimator.
+- assessment_id: r0-linear-then-static
+  area: evidence
+  topic: linear-then-static
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'Write z_t=sum_{j=0}^{t-1} h_j*u_(t-j) for the zero-state linear response
+    and y_t=g(z_t). The linear block first combines inputs across time; the memoryless
+    nonlinearity then transforms that scalar. This differs in general from applying
+    g before filtering: with h=(1,2), inputs (1,2,-1) and g(v)=v², the first three
+    Wiener outputs are (1,16,9), whereas the corresponding Hammerstein outputs are
+    (1,6,9). This is a finite curator example of block-order dependence, not an empirical
+    comparison. Locator: Section 3, Figure 3.1 and Equations 3.1–3.4, PDF pp. 13–14
+    / printed pp. 10–11; curator exact calculations in research/discovery/cascade-model-boundaries.py'
+- assessment_id: r0-conditional-output-recurrence
+  area: evidence
+  topic: conditional-output-recurrence
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'For a finite-dimensional linear block satisfying z_(t+n)=sum_{i=1}^n a_i*z_(t+n-i)+sum_{j=0}^n
+    b_j*u_(t+n-j), an inverse of g on the relevant internal-signal range gives y_(t+n)=g(sum_i
+    a_i*g^(-1)(y_(t+n-i))+sum_j b_j*u_(t+n-j)). If the inverse is only valid on a
+    selected interval, the required internal history must stay on that branch. The
+    convolutional cascade itself does not require an inverse. Finite state order also
+    does not imply a finite impulse-response memory. Locator: Section 3, Equations
+    3.2–3.8, PDF pp. 14–15 / printed pp. 11–12'
+- assessment_id: r0-noninjective-output-boundary
+  area: evidence
+  topic: noninjective-output-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'For the source example x_next=x+u and y=x+x², two reachable internal states
+    x=0 and x=-1 have the same output 0, but with the same current input u=1/4 the
+    next outputs are 5/16 and -3/16. Thus a single-valued update from only current
+    y and u cannot cover both branches. Restricting x>-1/2 gives the inverse branch
+    used in the source. This does not rule out other histories, state tracking or
+    a narrower operating domain. Locator: Section 2, Example 2.1, Equations 2.6 and
+    2.22–2.25, PDF pp. 9,11–12 / printed pp. 6,8–9; curator exact calculations in
+    research/discovery/cascade-model-boundaries.py'
+- assessment_id: r0-internal-scale-ambiguity
+  area: evidence
+  topic: internal-scale-ambiguity
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'Without a normalization, internal gain can be exchanged between the two
+    blocks. For nonzero c, replacing the zero-state linear operator L by c*L and g(v)
+    by g(v/c) preserves g(Lu) for every admissible input. A c=3 finite example reproduces
+    the same outputs. This algebraic ambiguity means identical external responses
+    alone do not uniquely determine both internal block gains; it does not establish
+    the full set of identification ambiguities. Locator: Section 3, Equations 3.1–3.4,
+    PDF p. 14 / printed p. 11; direct curator consequence of the cascade equations;
+    curator exact calculations in research/discovery/cascade-model-boundaries.py'
+- assessment_id: r1-static-then-linear
+  area: evidence
+  topic: static-then-linear
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'Set z_t=g(u_t) and pass z through the linear dynamics, giving the zero-state
+    response y_t=sum_{j=0}^{t-1} h_j*g(u_(t-j)). The nonlinearity acts on each input
+    value before temporal mixing. Reversing these blocks generally changes the response;
+    a Wiener model instead applies g to the mixed linear output. The family specifies
+    the composition, not a particular nonlinear basis, fitting algorithm or neural
+    implementation. Locator: Section 3, Figure 3.2 and Equations 3.11–3.14, PDF pp.
+    15–16 / printed pp. 12–13'
+- assessment_id: r1-recurrence-without-inversion
+  area: evidence
+  topic: recurrence-without-inversion
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'When the finite-dimensional linear block has coefficients a_i and b_j
+    for its difference equation, substitution gives y_(t+n)=sum_{i=1}^n a_i*y_(t+n-i)+sum_{j=0}^n
+    b_j*g(u_(t+n-j)). This construction uses the input nonlinearity directly and does
+    not require g to be invertible. Its validity on the specified input domain does
+    not imply stable trajectories, a correct fitted structure or uniquely recovered
+    component parameters. Locator: Section 3, Equations 3.11–3.15 and following discussion,
+    PDF pp. 15–16 / printed pp. 12–13'
+- assessment_id: r1-sufficient-rank-condition-boundary
+  area: evidence
+  topic: sufficient-rank-condition-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'A general local-realization theorem can impose stronger sufficient conditions
+    than this special structure needs. The source example x_next=x+u², y=x has the
+    exact recurrence y_next=y+u² even though the derivative of the input nonlinearity
+    at zero vanishes. For inputs (1,2,-1) from zero the outputs after each transition
+    are (1,5,6). Failure of that equilibrium derivative condition is therefore not
+    proof that an explicit Hammerstein recurrence is unavailable. Locator: Section
+    2, Equations 2.31–2.32, PDF p. 13 / printed p. 10; Section 3, Equations 3.15–3.18
+    and discussion, PDF p. 16 / printed p. 13; curator exact calculations in research/discovery/cascade-model-boundaries.py'
+- assessment_id: r1-internal-scale-ambiguity
+  area: evidence
+  topic: internal-scale-ambiguity
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Claim is supported within its stated boundary.
+  details: 'Without a normalization, multiplying g by a nonzero constant c and dividing
+    the linear operator L by c preserves L(g(u)) for every admissible input in the
+    zero-state response. A c=3 finite example gives the same outputs. This gain exchange
+    alone prevents unique recovery of both block scales from external responses; it
+    is an algebraic boundary, not a claim that all other parameters are identifiable
+    or that a particular estimator converges. Locator: Section 3, Equations 3.11–3.14,
+    PDF pp. 15–16 / printed pp. 12–13; direct curator consequence of the cascade equations;
+    curator exact calculations in research/discovery/cascade-model-boundaries.py'
+- assessment_id: adversarial-branches
+  area: consistency
+  topic: Cascade existence versus output-history inversion
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: An inverse is required by one recurrence construction, not by the model
+    definition.
+  details: 'The x+x² output readout is not injective: x=0 and -1 yield output 0 but
+    the same next input 1/4 yields 5/16 and -3/16. This defeats a global single-step
+    function of current y and u, without ruling out longer histories or state tracking.
+    A positive-branch restriction is retained. Hammerstein input substitution needs
+    no inverse; x_next=x+u² provides an explicit recurrence despite a zero equilibrium
+    input derivative.'
+- assessment_id: adversarial-scale
+  area: consistency
+  topic: Internal gain and finite memory boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part2
+  - calculations
+  summary: Block gain normalization and state order do not establish identifiability
+    or finite memory.
+  details: Nonzero c rescales Wiener L by c and its output g argument by 1/c; Hammerstein
+    rescales g by c and L by 1/c. The exact c=3 examples preserve outputs. The statements
+    are direct curator algebra, not experimental evidence or an exhaustive identifiability
+    theorem. Finite-dimensional linear dynamics can have an infinite impulse response.
+- assessment_id: source-audit
+  area: evidence
+  topic: Source equation defects and bounded reuse
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - part1
+  - part2
+  - calculations
+  summary: Printed source problems are explicitly preserved and excluded from unchecked
+    adoption.
+  details: 'Part I printed p. 13 states a multivariable Hankel-rank implication contradicted
+    by the saved A,B,C,D example: ranks H11=1, H1infty=H2infty=2. This does not refute
+    sufficiently large Hankel realization. Part II Eq. 2.34 omits +u for x_next=x+u,y=x+x³;
+    at x=0,u=1 the missing contribution is 1. Eq. 3.13 has malformed notation; the
+    Hammerstein record uses the direct substitution and Eq. 3.15. Other three-block
+    claims and original mathematical proofs remain follow-up scopes.'
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete maintained records, source versions and report mirrors
+  outcome: supported
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - identity
+  - mapping
+  - part2
+  summary: All selected fields and report mirrors inspected.
+  details: Read both IDs and names, absent alias lists, model_family kinds, definitions
+    and citations, eight claims and locators, full technical-report metadata/hash,
+    two related mappings and pin, limitations, DRAFT status and actual curation times.
+    The records cite the fully read 1984 report, with final 1985 journal metadata
+    only as context. No priority, upstream acceptance, empirical replication or independent
+    review is asserted.
+findings:
+- finding_id: definition-scope
+  issue_key: aimech-wiener-hammerstein-definition-scope
+  category: scope
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: State the curated scope in Wiener and Hammerstein definitions
+  description: Both record definitions state the ordered cascade structure but omit
+    the real-valued, single-input single-output, discrete-time deterministic scope
+    explicitly declared in their first limitation and inspected evidence. Add those
+    qualifiers to the standalone definitions and report mirrors, preserving the general
+    model names and the separately deferred variants. This is a bounded wording defect;
+    the existing limitations already constrain interpretation.
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  field_paths:
+  - definition
+  - limitations[0]
+  evidence_ids:
+  - prior
+  - part2
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WienerModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HammersteinModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T134856Z-wiener-hammerstein-models.json
+    role: discovery_report
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261012T135425Z-wiener-hammerstein-open
+    finding_id: definition-scope
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/190
+  disposition_reason: Both maintained definitions and report mirrors now explicitly
+    state real-valued, single-input single-output, discrete-time deterministic scope.
+    Actual EDIT history and regenerated pages are saved. All eight claims and mappings
+    remain unchanged; the successor rechecks both full records and the changed wording.
+    DRAFT/self-review provenance is stated without a stale future-tense promise.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:WienerModel
+  - AIMech:HammersteinModel
+  evidence_ids:
+  - identity
+  - part2
+  - calculations
+  rationale: Linear-then-static and static-then-linear composition produce different
+    responses in general. Shared linear special cases do not establish family equivalence;
+    fitting procedures, neural implementations and Wiener filtering remain separate
+    identities.
+limitations:
+- Author self-review only; both records remain DRAFT.
+- 'Two native DRAFT model families added: 534 curated and 442 unchanged generated
+  records. Discovery remains active with 470 pending and 49 partly addressed cohorts
+  plus other unresolved scopes.'
+- All 68 pages of the two 1984 reports visually read. Final 1985 journal versions
+  are metadata/abstract context, not inspected substitutes. Earlier identification
+  reports were downloaded but unread at discovery-report creation; later reading belongs
+  to a separate cohort.
+- Scope is deterministic SISO discrete-time cascades; identification, stochastic,
+  multivariable and other composition variants need separate evidence. Source-audit
+  examples do not validate all realization theorems.
+- No empirical replication, model training or paid service. Original Documents checkout
+  synchronization and old local branch cleanup still require restored OS access.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261012T135425Z-wiener-hammerstein-open
+  relationship: Successor resolves definition scope while retaining both original
+    targets.
+links: []
+tags:
+- native-concepts
+- nonlinear-system-models
+- self-review
+- discovery-ongoing
+```
