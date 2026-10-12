@@ -1,0 +1,137 @@
+id: AIMech:BinaryMultipleKernelMaximumMarginClustering
+name: Binary Multiple Kernel Maximum Margin Clustering
+aliases:
+- Two-Class Multiple Kernel Clustering
+concept_kind: algorithm
+definition: A two-class unsupervised clustering procedure that jointly fits a nonnegative multiple-kernel
+  combination and absolute-margin classifier using cutting-plane constraints and constrained concave-convex
+  updates.
+identity_notes: This record denotes the binary Zhao-Kwok-Zhang2009 procedure with an intercept and aggregate
+  score balancing. It differs from the same paper multiclass winner-versus-runner-up procedure, supervised
+  multiple-kernel SVM training, fixed-kernel maximum-margin solvers and variance-minimizing multiview
+  kernel k-means. The paper uses MKC for both variants, so that ambiguous acronym is not a unique alias.
+  Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 496 prior native IDs, names and
+  aliases; no normalized identity collision. Full searches of both checkouts include ignored and hidden
+  files, returning 16 worktree and 16 main matched lines. All 11 distinct matched texts were inspected
+  as bibliographic, query or frontier references, not existing identities. Thirteen annotated AIO nodes
+  and outgoing edges, thirteen generated YAMLs and five native neighbors were examined. Nine unchanged
+  annotated targets, their generated records, all 442 class labels and 147 semantic rows reuse byte-verified
+  earlier readings; four additional annotated targets and five new semantic rows were read (152 rows total).
+  Absence is bounded to this pin and corpus.
+definition_evidence:
+- source_id: mkc-source
+  locator: Sections 2.1-2.4, PDF pp. 1-5 / printed pp. 638-642, Equations 2.2-2.17 and Algorithms 1-2
+  relation: supports
+claims:
+- claim_id: kernel-weight-geometry
+  kind: mechanism
+  statement: Given supplied PSD base kernels K_k and feature maps Phi_k, learn nonnegative weights beta_k
+    with sum_k beta_k^2<=1, not a simplex constraint. The resulting mixed kernel is sum_k beta_k*K_k,
+    consistently represented by concatenated sqrt(beta_k)*Phi_k blocks. The paper introductory sum of
+    feature maps must not be read as an arbitrary vector sum that adds cross terms, especially when feature
+    dimensions differ. Its reparameterization v_k=beta_k*w_k gives a quadratic-over-linear regularizer.
+    At beta_k=0 the closed perspective has cost zero for v_k=0 and infinite cost otherwise. Kernel scaling
+    affects the optimization.
+  evidence:
+  - source_id: mkc-source
+    locator: PDF pp. 1-3 / printed pp. 638-640, Equations 1.1 and 2.4-2.6; PDF pp. 8-10 / pp. 645-647,
+      Equations 4.30-4.32 and Section 5.2; curator mixed-kernel and cone checks
+    relation: supports
+- claim_id: binary-objective
+  kind: mechanism
+  statement: Let f_i=sum_k v_k^T*Phi_k(x_i)+b. Minimize 0.5*sum_k ||v_k||^2/beta_k+(C/n)*sum_i xi_i with
+    |f_i|>=1-xi_i, xi_i>=0, nonnegative L2-bounded beta and |sum_i f_i|<=l. Assign labels by the sign
+    of the fitted scores under an explicit zero-score convention. This optimizes an absolute-margin relaxation
+    of latent-label clustering, not supervised fitting to given labels.
+  evidence:
+  - source_id: mkc-source
+    locator: Section 2.1, PDF pp. 1-3 / pp. 638-640, Equations 2.2-2.6
+    relation: supports
+- claim_id: working-set-and-inner-fit
+  kind: mechanism
+  statement: Replace individual slacks by a shared xi with all binary masks c in {0,1}^n constrained by
+    mean_i c_i*|f_i|>=mean_i c_i-xi. The maximal violation selects c_i=1 where |f_i|<1 and zero otherwise,
+    giving mean_i max(0,1-|f_i|). Starting with an empty working set, alternate restricted fitting
+    and adding this most violated constraint until its violation is at most epsilon. Within a restricted
+    fit, freeze z_i as an absolute-value subgradient at the previous score, replace |f_i| by z_i*f_i and
+    solve the convex perspective problem as an SOCP; repeat subject to the chosen stopping rule. For each
+    kernel its epigraph is ||(2*v_k,t_k-beta_k)||<=t_k+beta_k.
+  evidence:
+  - source_id: mkc-source
+    locator: Sections 2.2-2.3, PDF pp. 3-5 / pp. 640-642, Theorems 2.1-2.2, Algorithms 1-2 and Equations
+      2.7-2.17
+    relation: supports
+- claim_id: balance-is-a-relaxation
+  kind: limitation
+  statement: 'The source replaces |sum_i y_i|<=l with |sum_i f_i|<=l. The latter does not guarantee the
+    former despite nearby equivalence language: with four zero-feature observations, l=1 and b=1/4, all
+    scores are positive and sum to 1, while all predicted labels are +1 and sum to 4. With C=1 this feasible
+    relaxed solution has objective 3/4, whereas every count-balanced labeling has minimum objective 1.
+    Thus the score-balanced formulation and the original hard count-balanced objective are not generally
+    equivalent.'
+  evidence:
+  - source_id: mkc-source
+    locator: Section 2.1, PDF pp. 1-2 / pp. 638-639, Equations 2.2-2.3; curator exact zero-feature derivation
+      and finite checks
+    relation: supports
+- claim_id: stopping-and-guarantee-boundary
+  kind: limitation
+  statement: 'The epsilon test bounds omitted constraint violation: increasing the shared slack by epsilon
+    makes the current score solution feasible for the full mask set. It does not bound label error or
+    distance from a global optimum. At zero scores, choosing the valid subgradient zero can make the inner
+    problem return the same zero-scoring point, even though a small feasible bias lowers the actual hinge
+    objective; initialization and tie conventions therefore qualify local-optimum language. The source
+    complexity discussion treats an empirically small CCCP iteration count as constant and contains a
+    linear beta-sum term in Equation 3.21 despite the squared beta constraint in the stated primal. No
+    unconditional end-to-end linear-time or convergence certificate is asserted here.'
+  evidence:
+  - source_id: mkc-source
+    locator: PDF pp. 4-8 / pp. 641-645, Algorithms 1-2, Theorem 2.3 and Section 3, especially Equations
+      3.21-3.22; curator zero-subgradient example
+    relation: supports
+evidence_sources:
+- source_id: mkc-source
+  title: Multiple Kernel Clustering
+  authors:
+  - Bin Zhao
+  - James T. Kwok
+  - Changshui Zhang
+  source_type: primary_paper
+  url: https://home.cse.ust.hk/~jamesk/papers/sdm09.pdf
+  persistent_id: doi:10.1137/1.9781611972795.55
+  version: SDM2009 proceedings pp. 638-649, author-hosted published copy. All twelve PDF pages visually
+    read; printed page equals PDF page plus 637.
+  access_level: full_text
+  accessed_at: '2026-10-12T06:00:50Z'
+  sha256: 1d46873539fe4a4570f8b4336061018e5cc438c2a449fe729eed1fd3759ebb19
+limitations:
+- The full problem is nonconvex. Solving convex second-order cone subproblems does not establish a globally
+  optimal kernel combination, globally optimal labels or universal local-optimum behavior. Initialization,
+  score ties, numeric tolerances and stopping conventions matter.
+- Nonnegative kernel weights preserve PSD when the supplied base kernels are PSD. Feature construction,
+  kernel choice and scaling, regularization C, balance limit l and cutting-plane tolerance epsilon remain
+  supplied choices. No class-count balance or nonempty-cluster guarantee follows solely from aggregate
+  score constraints.
+- All twelve source pages, including experiments and references, were read. The reported comparisons use
+  selected datasets, known class counts, chosen kernels and tuning; their per-cluster majority-label accuracy
+  is not stated as one-to-one cluster matching. The source whole-dataset generalization evaluation includes
+  the fitting subset. No universal performance, independent held-out guarantee, historical implementation
+  or benchmark reproduction is asserted.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The inspected procedure performs unlabeled clustering; the AIO target is the related task,
+    not an equivalent algorithm identity or asserted superclass. In this pin SupportVectorMachine is scoped
+    as a supervised classification/regression network, and BinaryClassification and MulticlassClassification
+    inherit supervised task scope. Shared margin terminology does not establish those identities.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T06:37:49Z'
+  updated_at: '2026-10-12T06:37:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
