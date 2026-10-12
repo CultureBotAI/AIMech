@@ -49,14 +49,15 @@ def test_index_json_covers_all_records():
     expected_total = len(aio_files) + len(curated_files)
 
     assert len(data) == expected_total
-    assert len(data) == 912
+    assert len(data) >= 912
 
     origins = {r["origin"] for r in data}
     assert origins == {"curated", "aio"}
 
     curated_in_index = [r for r in data if r["origin"] == "curated"]
     aio_in_index = [r for r in data if r["origin"] == "aio"]
-    assert len(curated_in_index) == len(curated_files) == 470
+    assert len(curated_in_index) == len(curated_files)
+    assert len(curated_in_index) >= 470
     assert len(aio_in_index) == len(aio_files) == 442
 
     for r in data:

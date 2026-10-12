@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stochastic Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Stochastic Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Stochastic Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:StochasticExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Stochastic EM, SEM (stochastic expectation maximization)
+    </div>
+
+  <div class="detail-desc">
+    A finite-mixture fitting algorithm that draws one hard component assignment for each observation from its current posterior responsibilities, fits the resulting completed-data model, and recomputes the responsibilities for the next iteration.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the Celeux-Diebolt stochastic-completion construction. It is a single-completion specialization of Monte Carlo EM and corresponds algebraically to a one-draw, unit-weight replacement in the SAEM recursion, rather than decreasing-step recursive averaging. Its named stochastic process and stationary-summary interpretation differ from CEM posterior-mode assignment, supplemented-EM covariance estimation, general ICE estimator averaging and Bayesian sampling of model parameters. Bare SEM is not asserted as a unique alias. No normalized identity matches among 442 pinned and 473 maintained records, including the bare acronym probes. Existing supplemented EM and cross-entropy optimization are distinct methods; qualified aliases avoid claiming SEM or CEM as unique names. ICE, MCEM, SAEM, deterministic tempered EM, simulated annealing and k-means provide neighboring but different scopes. Existing stochastic-EM frontier and incidental references are not records of the new identities. The absence assessment is bounded to this snapshot and corpus. Identity-search counts: 227 matched lines in the worktree and 245 in main; all 137 distinct matching-text windows were read, with ignored and hidden files included.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#random-completion</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For current weights and component densities, normalize p_k f_k(x_i) over k to obtain responsibilities t_ik. Independently draw a categorical label for each observation under t_i, then maximize the completed-data log likelihood. With unrestricted mixture weights the update is the sampled class count divided by N; each component parameter uses its assigned observations and the selected distribution family. Recompute responsibilities from the fit. The original cyclic S-M-E presentation is equivalent to E-S-M when starting from current parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sem-source">L’algorithme SEM : un algorithme d’apprentissage probabiliste pour la reconnaissance de mélange de densités</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, pp.40-41 / PDF7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#process-and-summary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Random complete-data refitting can retain fluctuations on a fixed observed data set. The source proposes summary means and variances after a stationary regime, rather than equating every iterate with a converged point estimate. Its stated asymptotic result is restricted to two components with an unknown mixing proportion and refers to an earlier technical proof; the general extension is conjectural. A reliable universal burn-in cutoff, unbiased estimator or global maximum is not established.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sem-source">L’algorithme SEM : un algorithme d’apprentissage probabiliste pour la reconnaissance de mélange de densités</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2-4.4, pp.41-42 / PDF8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#small-class-policy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The stated baseline restarts when a sampled class has fewer than N*c(N,d) observations. A later practical variant instead deletes a class with count at most d and continues with one fewer component. Restart and deletion define different transition and model-order behavior. Neither automatic component-count recovery nor ergodicity follows from the unprotected assignment/count formula: a zero weight can make that component unreachable.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sem-source">L’algorithme SEM : un algorithme d’apprentissage probabiliste pour la reconnaissance de mélange de densités</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, p.40 / PDF7; Section 4.3, p.42 / PDF9; Section 5.4, p.49 / PDF16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#likelihood-and-partition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A sampled hard partition is not the actual posterior-responsibility matrix. The entropy identity for the actual posterior does not imply equality of completed and marginal likelihood for arbitrary sampled labels, contrary to the report prose following Eq4.4. The saved normalized Bernoulli-mixture example has a positive-probability nonempty completion whose fitted mixing weight decreases marginal likelihood. Per-step ordinary EM ascent therefore cannot be inherited by this stochastic update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cem-source">A classification EM algorithm for clustering and two stochastic versions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Eq4.2-4.4 and following prose, p.9 / PDF11; curator finite-mixture counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Source stationarity claims depend on the complete transition construction, admissible fits and recurrence assumptions. The original 1985 English article, 1984 proof report and distinct 1986 INRIA RR563 were not fully inspected; generic stationary normality, point convergence or global convergence is not certified.</li>
+      <li>Model-specific completed-data estimators matter. Empty or undersized classes, unbounded Gaussian fits and identifiability up to label permutation require explicit treatment. The raw formula alone does not specify those policies.</li>
+      <li>The 1986 numerical tables use 1000 post-stationary iterations, not 1000 independent data sets; their mean-plus/minus-SD summaries are not calibrated confidence intervals. Printed component-weight, mean-sign and component-location discrepancies remain unresolved, so no quantitative superiority or recovery claim is curated.</li>
+      <li>The optional posterior-threshold classification can leave points unassigned; at threshold one half, tied probabilities can place a point in more than one set. It is a separate readout from the stochastic fitting transition.</li>
+      <li>No author implementation or historical numerical experiment was reproduced. Finite curator calculations check formula boundaries, not empirical performance or a repaired convergence proof.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure estimates finite-mixture parameters from observed unlabeled data. The AIO target denotes a learning task/process; this algorithm-to-task relation is not equivalence or a subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-sem-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sem-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.numdam.org/article/RSA_1986__34_2_35_0.pdf" target="_blank" rel="noopener">L’algorithme SEM : un algorithme d’apprentissage probabiliste pour la reconnaissance de mélange de densités</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gilles Celeux, Jean Diebolt
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> RSA_1986__34_2_35_0</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ba2086b4746b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-cem-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cem-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://inria.hal.science/inria-00075196v1/document" target="_blank" rel="noopener">A classification EM algorithm for clustering and two stochastic versions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gilles Celeux, Gérard Govaert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> inria-00075196v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30bd7f969d0f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T04:22:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T04:22:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StochasticExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StochasticExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

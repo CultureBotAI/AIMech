@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparse Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sparse Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sparse Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SparseExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Sparse EM
+    </div>
+
+  <div class="detail-desc">
+    An EM variant that updates relative latent-state probabilities within selected plausible sets while preserving their total mass and all outside probabilities, and fits parameters using the resulting full distributions with occasional complete posterior refreshes.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Sparse denotes selective posterior work in the Neal-Hinton construction, not sparse model weights, pruning or setting excluded states to zero. It differs from incremental EM’s selection of observations and can be combined with that method. It is also distinct from restricting a variational posterior to independent chain factors or permanently imposing a truncated support. No normalized identity matches among 442 pinned and 476 maintained records, including acronym probes. GEM is the exact-current-E/Q-improvement framework, IEM refreshes cached independent cases, sparse EM preserves frozen outside mass, and DAEM is the warm-started cooling-to-beta1 procedure. Existing TEM has the same finite-state fixed-beta update, but its broader update framework and held-out inverse-annealing realization do not define that outer cooling procedure. ECM, AECM and SAGE specialize parameter/augmentation updates, not these case or probability-subset operations. Structured factorial-HMM variational inference imposes a different family restriction. Names and incidental frontier references do not establish identity; qualified GEM/IEM aliases avoid unrelated uses. The absence assessment is bounded to this snapshot and corpus. Identity-search counts: 253 matched lines in the worktree and 260 in main; all 98 distinct matching-text windows were read, with ignored and hidden files included.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#frozen-mass-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a case with cached q and plausible set S, freeze every q_z outside S and the total Q=sum_(z in S)q_z. At the current theta compute r_z=p(z|x,theta)/sum_(u in S)p(u|x,theta) within S and set q_z=Q*r_z there. The restricted normalizer must be positive and finite. The M-step uses the full expected complete log likelihood, including outside contributions; cached sufficient statistics can avoid recomputing unchanged terms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal-source">A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants</a></span>
+        <span>· <strong>Locator:</strong> Section5 Eq13-15 and implementation discussion, PDF11-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#refresh-and-objectives</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Occasionally recompute the full posterior to refresh outside probabilities, plausible sets and their total mass. The source suggests top-count or cumulative-mass sets as heuristics, without one universal optimal threshold or refresh frequency. Exact restricted E and admissible M updates make the entropy-augmented F nondecreasing, but the source explicitly permits observed likelihood to decrease. Zeroing outside mass and renormalizing retained states to one implements a different approximation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal-source">A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants</a></span>
+        <span>· <strong>Locator:</strong> Section5, PDF11-12, particularly discussion after Eq15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#conditional-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Savings require a posterior concentrated on a manageable plausible set and a model for which unchanged contributions can be reused. Full refreshes and model-specific M-steps can dominate cost. The source’s stability wording is not a general proof of bounded iterates, parameter convergence or global optimization; admissible support, repeated refreshes and optimization conditions still need analysis.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal-source">A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants</a></span>
+        <span>· <strong>Locator:</strong> Section5, PDF11-12; Section2 Theorem2 and coordinate-optimization qualifications, PDF5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>An outside probability may remain nonzero. The saved finite example preserves outside mass and increases F while decreasing likelihood from an admissible cached state; reachability from a particular full-posterior initialization is not claimed.</li>
+      <li>The finite-state exposition does not automatically establish an arbitrary continuous-latent or dependent-factor sparse-update algorithm. A changing set requires explicit full-distribution bookkeeping.</li>
+      <li>This construction is not a guarantee of exact posterior recovery, a fixed truncation tolerance, universal acceleration or neural-network sparsity.</li>
+      <li>No author software or historical empirical study was reproduced. Finite curator calculations illustrate stated objective and schedule boundaries; they are not a general convergence proof or an empirical speed comparison.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure fits latent-model parameters from observed data. The inspected AIO target denotes a learning process/task; this algorithm-to-task relationship asserts neither equivalence nor an is-a relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-neal-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">neal-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/emk.pdf" target="_blank" rel="noopener">A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.cs.toronto.edu/~hinton/absps/emk.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b07cbc3c578…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T04:39:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T04:39:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SparseExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SparseExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

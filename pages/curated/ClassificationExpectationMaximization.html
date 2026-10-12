@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Classification Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Classification Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Classification Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ClassificationExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Classification EM, CEM (classification expectation maximization)
+    </div>
+
+  <div class="detail-desc">
+    A model-based hard-clustering algorithm that computes mixture responsibilities, assigns every observation to a highest-responsibility component, and maximizes the completed-data classification likelihood for that assignment.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      CEM optimizes a joint parameter-and-partition classification criterion rather than ordinary marginal-mixture likelihood. The historical name refers to clustering unlabeled observations, not necessarily supervised classification. It differs from posterior-label sampling in SEM, cross-entropy optimization, and soft-responsibility EM. k-means is a restricted equal-weight spherical-Gaussian specialization, not an alias for every CEM instance. Bare CEM is not asserted as a unique alias. No normalized identity matches among 442 pinned and 473 maintained records, including the bare acronym probes. Existing supplemented EM and cross-entropy optimization are distinct methods; qualified aliases avoid claiming SEM or CEM as unique names. ICE, MCEM, SAEM, deterministic tempered EM, simulated annealing and k-means provide neighboring but different scopes. Existing stochastic-EM frontier and incidental references are not records of the new identities. The absence assessment is bounded to this snapshot and corpus. Identity-search counts: 227 matched lines in the worktree and 245 in main; all 137 distinct matching-text windows were read, with ignored and hidden files included.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#e-c-m</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compute t_ik proportional to p_k f_k(x_i) at the current fit. Assign observation i to a maximizing component; the inspected report chooses the smallest component index on ties. Fit parameters by maximizing the hard-assignment completed log likelihood. When mixing weights are estimated, p_k becomes n_k/N and each component fit uses its assigned data. Exact admissible C and M steps make that classification criterion nondecreasing; undefined or singular maximizers need an explicit policy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cem-source">A classification EM algorithm for clustering and two stochastic versions</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Eq3.1-3.4, p.5 / PDF7; Proposition 2, pp.6-7 / PDF8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#criterion-and-kmeans</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The mixture classification criterion is sum_i log[p_(z_i) f_(z_i)(x_i)], which includes sum_k n_k log p_k. The separate-sampling criterion omits that weight term. With fixed equal weights and a common spherical Gaussian covariance, assignment to the nearest mean and centroid refitting recover the k-means variance objective. Estimating arbitrary mixing weights or using unequal covariances changes the assignment geometry and objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cem-source">A classification EM algorithm for clustering and two stochastic versions</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Eq2.3-2.7 and Proposition 1, pp.3-4 / PDF5-6; Section 3, p.5 / PDF7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#marginal-and-geometry</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Classification-likelihood ascent is not marginal-mixture likelihood ascent: the saved two-component Bernoulli example increases the former and decreases the latter in one nonempty CEM step. The report’s general claim that CEM classes have disjoint convex hulls also fails for unequal-variance Gaussian components; the saved one-dimensional example assigns outer points to a broad component and inner points to a narrow one. Those limitations do not negate the restricted equal-covariance k-means case.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cem-source">A classification EM algorithm for clustering and two stochastic versions</a></span>
+        <span>· <strong>Locator:</strong> Proposition 2, pp.6-7 / PDF8-9; Section 4.1 convex-hull prose, p.10 / PDF12; curator finite counterexamples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The finite-partition argument for stabilization needs admissible finite profiled objectives and well-defined maximizer selection; it is not a global-optimum guarantee. Initial partitions and ties can affect the solution. The local-rate proposition invokes stronger curvature and coordinate-optimization assumptions. Because the relaxed objective is affine in the assignment matrix, no generic negative-definite assignment Hessian or universal linear-rate claim is certified here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cem-source">A classification EM algorithm for clustering and two stochastic versions</a></span>
+        <span>· <strong>Locator:</strong> Propositions 2-3 and following discussion, pp.6-8 / PDF8-10; Eq2.3-2.5, pp.3-4 / PDF5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The inspected primary version is the January 1991 author report, not the inaccessible 1992 journal full text. Eq2.2 prints a malformed marginal likelihood without the component sum; the mixture law in Eq2.1 determines the correct normalization. Eq2.7 doubles the variable-dependent Gaussian log-likelihood terms, leaving the displayed optimizer but not literal likelihood values unchanged.</li>
+      <li>Hard reassignment can empty a component; unrestricted component likelihoods can become singular or unbounded. Fixed component count, nonempty partitions and finite M-step solutions are not guaranteed by an argmax assignment alone.</li>
+      <li>The source’s local-rate proof and its external grouped-coordinate theorem were not independently repaired. Affine assignment dependence and boundary solutions require care before importing smooth interior curvature claims.</li>
+      <li>The numerical experiments evaluate a variance criterion under selected mixture and serum-data settings. A practical SEM-then-CEM hybrid is distinct from pure CEM; no universal superiority, generalization or semantic-cluster claim is curated.</li>
+      <li>No author implementation or historical numerical experiment was reproduced. Finite curator calculations check formula boundaries, not empirical performance or a repaired convergence proof.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The defining procedure estimates a hard grouping of unlabeled observations alongside fitted component parameters. The pinned target is a clustering task, so the algorithm is related without an is-a assertion. The word classification in the historical name does not identify the explicitly supervised AIO:Classification class.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-cem-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cem-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://inria.hal.science/inria-00075196v1/document" target="_blank" rel="noopener">A classification EM algorithm for clustering and two stochastic versions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gilles Celeux, Gérard Govaert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> inria-00075196v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:30bd7f969d0f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T04:22:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T04:22:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ClassificationExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ClassificationExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

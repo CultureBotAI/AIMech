@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deterministic Annealing Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Deterministic Annealing Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Deterministic Annealing Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeterministicAnnealingExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Deterministic Annealing EM, DAEM
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable likelihood-fitting procedure that performs deterministic powered-posterior EM updates along a warm-started cooling schedule from a small positive inverse temperature to one, including an ordinary-likelihood fit at the endpoint.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      DAEM denotes the Ueda-Nakano outer cooling procedure, whose finite-state fixed-temperature update overlaps the existing tempered-EM framework. It is retained as a named schedule-defined specialization, not a disjoint update family. Hofmann’s held-out inverse-annealing realization starts at one and decreases inverse temperature, whereas this procedure increases it to one for likelihood fitting. CAEM samples hard assignments; DAEM uses fractional expectations. Neither deterministic procedure is Metropolis simulated annealing. No normalized identity matches among 442 pinned and 476 maintained records, including acronym probes. GEM is the exact-current-E/Q-improvement framework, IEM refreshes cached independent cases, sparse EM preserves frozen outside mass, and DAEM is the warm-started cooling-to-beta1 procedure. Existing TEM has the same finite-state fixed-beta update, but its broader update framework and held-out inverse-annealing realization do not define that outer cooling procedure. ECM, AECM and SAGE specialize parameter/augmentation updates, not these case or probability-subset operations. Structured factorial-HMM variational inference imposes a different family restriction. Names and incidental frontier references do not establish identity; qualified GEM/IEM aliases avoid unrelated uses. The absence assessment is bounded to this snapshot and corpus. Identity-search counts: 253 matched lines in the worktree and 260 in main; all 98 distinct matching-text windows were read, with ignored and hidden files included.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#powered-joint-stages</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At fixed beta&gt;0 define f_beta(z|x,theta)=p(x,z|theta)^beta/Z_beta(x,theta), where Z is a positive finite latent sum or integral. The power applies to the whole joint density, including mixing weights. Compute expectations under f_beta at the current parameters, then maximize the expected complete log likelihood with that distribution held fixed. Repeat the deterministic stage updates to the chosen stopping condition, increase beta, and warm-start the next stage. Explicitly fit at beta=1 to recover the ordinary EM endpoint.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-annealing-source">Deterministic Annealing Variant of the EM Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1-3.2 Eq7-14, pp547-549 / PDF3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#stage-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At fixed beta, the entropy-weighted variational objective profiles to (1/beta)*sum_i log Z_beta(x_i,theta), the negative of the paper’s free energy. Exact admissible coordinate updates increase that stage objective; beta=1 gives observed log likelihood. For beta different from one, stage improvement need not increase ordinary likelihood. Changing beta changes the optimized objective, so a cooling path is not ascent on a single unchanged likelihood surface.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-annealing-source">Deterministic Annealing Variant of the EM Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Eq11-13, p548 / PDF4; Eq15-17, p551 / PDF7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#normalization-and-global-claims</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source’s high-temperature uniqueness and global-tracking argument is conditional, not a general convergence guarantee. On an unbounded continuous latent domain, the beta=0 uniform law need not exist and positive powers of a heavy-tailed density can have infinite normalizers. Negative log density also need not be nonnegative: normalized continuous densities can exceed one. Local warm-started optimization need not follow the global optimum through temperature changes or bifurcations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-annealing-source">Deterministic Annealing Variant of the EM Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section3.1 energy note, p548 / PDF4; Section3.2 global-minimum discussion, p549 / PDF5; curator continuous-density counterexamples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#endpoint-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed pseudocode increases beta and repeats only while beta&lt;beta_max, which can stop before fitting at the desired beta_max=1. The endpoint solve is specified explicitly here; a literal transcription of that test is not certified. The experimental multiplicative rule beta_new=1.4*beta also requires an endpoint policy. The selected two-Gaussian demonstrations do not establish initialization independence or a universally successful cooling schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-annealing-source">Deterministic Annealing Variant of the EM Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section3.2 steps4-5 and endpoint prose, p549 / PDF5; Section4 and footnote3, pp550-551 / PDF6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The continuous extension requires a specified base measure, support and finite powered-density integrals at every scheduled beta. Finite mixtures avoid some integrability issues but can still have singular or inadmissible parameter fits.</li>
+      <li>At beta=1 the update is ordinary EM, not necessarily a global maximum. The beta-to-infinity hard-assignment discussion is a different limit from this cooling-to-one likelihood procedure.</li>
+      <li>The fully inspected1994proceedings version is distinct from the1998journal article. No unseen journal correction, proof or author implementation is claimed.</li>
+      <li>No author software or historical empirical study was reproduced. Finite curator calculations illustrate stated objective and schedule boundaries; they are not a general convergence proof or an empirical speed comparison.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure fits latent-model parameters from observed data. The inspected AIO target denotes a learning process/task; this algorithm-to-task relationship asserts neither equivalence nor an is-a relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-annealing-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">annealing-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/1994/file/92262bf907af914b95a0fc33c3f33bf6-Paper.pdf" target="_blank" rel="noopener">Deterministic Annealing Variant of the EM Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Naonori Ueda, Ryohei Nakano
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/1994/file/92262bf907af914b95a0fc33c3f33bf6-Paper.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4506ebe1a61b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T04:39:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T04:39:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeterministicAnnealingExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeterministicAnnealingExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
