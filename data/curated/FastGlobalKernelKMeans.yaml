@@ -1,0 +1,118 @@
+id: AIMech:FastGlobalKernelKMeans
+name: Fast Global Kernel K-Means
+aliases: []
+concept_kind: algorithm
+definition: An incremental kernel clustering algorithm that chooses each new singleton seed by maximizing
+  a computable lower bound on error reduction, then runs one local kernel k-means fit for that stage.
+identity_notes: This is the Tzortzis-Likas2009 fast variant with its positive observation-weight extension.
+  It maximizes a bound over datum seeds and performs one local fit per stage, rather than evaluating final
+  errors for every seed or fitting a CMM exemplar shortlist. Maximizing the bound need not select the
+  seed with greatest actual final improvement. Compared all 442 pinned AIO IDs, labels and scoped synonyms
+  with all 492 prior native IDs, names and aliases; no normalized identity collision. Full searches of
+  both checkouts include ignored and hidden files, returning 62 worktree and 62 main matched lines. All
+  47 distinct matched texts were inspected as neighboring method mentions, query/frontier references or
+  rendered copies. Eleven annotated AIO nodes, eleven generated YAMLs and seven native neighbors were
+  examined. Nine unchanged annotated nodes, their generated YAMLs, all 442 class labels and 139 semantic
+  rows reuse byte-verified earlier readings; two additional annotated targets and eight new semantic rows
+  were read (147 rows total). Absence is bounded to this pin and corpus.
+definition_evidence:
+- source_id: global-source
+  locator: Section IV-A, PDF p. 4 / printed p. 1184, Equation 4; Section V-C, PDF pp. 6-7 / pp. 1186-1187,
+    Equation 14
+  relation: supports
+claims:
+- claim_id: weighted-kernel-local-fit
+  kind: mechanism
+  statement: For a fixed PSD Gram matrix K, supplied cluster count M and positive observation weights
+    a_i, represent each center as the weighted mean of its assigned RKHS features. For cluster C with
+    A_C=sum_j_in_C a_j, compute squared distance K_ii - 2*sum_j_in_C a_j*K_ij/A_C + sum_j,l_in_C a_j*a_l*K_jl/A_C^2.
+    Alternate synchronous nearest-center assignments and mean recomputation. Unit observation weights
+    give unweighted kernel k-means. Scaling every a_i by the same positive constant preserves distances
+    and fits while scaling the objective; these weights are not learned view weights.
+  evidence:
+  - source_id: global-source
+    locator: Section II-B, PDF pp. 2-3 / printed pp. 1182-1183, Algorithm 1; Section V-A, PDF p. 6 / p.
+      1186, Equations 12-13
+    relation: supports
+- claim_id: fast-seed-bound
+  kind: mechanism
+  statement: At each stage after the one-cluster start, let d_i be the squared distance to the retained
+    old feature mean. For each datum n compute b_n=sum_i a_i*max(d_i-(K_ii+K_nn-2*K_in),0). Select a maximizer,
+    create the corresponding singleton initialization, and run one local kernel-k-means fit. Unit weights
+    recover the unweighted criterion. Candidate-scoring work remains even though only one local fit is
+    performed per stage.
+  evidence:
+  - source_id: global-source
+    locator: Sections IV-A and V-C, PDF pp. 4 and 6-7 / printed pp. 1184 and 1186-1187, Equations 4 and
+      14
+    relation: supports
+- claim_id: bound-scope
+  kind: limitation
+  statement: For converged old assignments, positive residual cluster weights and well-defined exact nonempty
+    local updates, the source bound is E_new<=E_old-b_n. Although removing the seed changes its previous
+    cluster mean, a weighted RKHS comparison shows that this shift does not raise the aggregate comparison
+    cost, so the bound extends to the displayed singleton-removal initialization under those conditions.
+    It is a bound on one stage, not a global approximation guarantee or proof that the selected seed maximizes
+    actual final improvement. Empty-cluster repairs, indefinite similarities or approximate updates need
+    separate justification.
+  evidence:
+  - source_id: global-source
+    locator: Section IV-A, PDF p. 4 / printed p. 1184; Section V-C, PDF p. 7 / p. 1187; curator singleton-removal
+      derivation and finite checks
+    relation: supports
+- claim_id: graph-objective-specializations
+  kind: scope
+  statement: For a symmetric nonnegative graph affinity A, ratio association uses unit observation weights
+    and K=A. Normalized-cut optimization uses positive degrees d_i=sum_j A_ij as observation weights and
+    K=D^(-1) A D^(-1). For fixed M these choices identify partition objective orderings, not all graph
+    algorithms or their outputs. A sufficiently large shift lambda*I for ratio association, or lambda*D^(-1)
+    for normalized cut, can ensure PSD. Either adds the partition-independent lambda*(N-M) to the corresponding
+    weighted kernel objective while potentially changing local update paths. Zero-degree vertices require
+    a convention. The source graph experiments used small shifts not necessarily ensuring PSD, so their
+    observed convergence is not a general guarantee for indefinite similarities.
+  evidence:
+  - source_id: global-source
+    locator: Section VI, PDF pp. 7-8 / printed pp. 1187-1188, Equations 20-21; Section VII-C, PDF p. 11
+      / p. 1191; curator fixed-count shift calculation
+    relation: supports
+evidence_sources:
+- source_id: global-source
+  title: The Global Kernel k-Means Algorithm for Clustering in Feature Space
+  authors:
+  - Grigorios Tzortzis
+  - Aristidis Likas
+  source_type: primary_paper
+  url: https://www.cs.uoi.gr/~arly/papers/TNN09b.pdf
+  version: IEEE Transactions on Neural Networks 20(7):1181-1194, July 2009. All fourteen author-hosted
+    PDF pages visually read; printed page equals PDF page plus 1180.
+  access_level: full_text
+  accessed_at: '2026-10-12T06:00:45Z'
+  sha256: 7a5bbe6bfbb963a47ff3c94f2446941de1a8496f06feca9ad65a3a08a4c650d9
+  persistent_id: doi:10.1109/TNN.2009.2019722
+limitations:
+- PSD kernels, positive cluster weight and well-defined nonempty updates are conditions for the RKHS distance
+  and descent arguments. Arbitrary similarities or arbitrary sigmoid-kernel parameters do not automatically
+  satisfy them. Ties, empty clusters and stopping need explicit implementation conventions.
+- Dense Gram storage is quadratic in N. Kernel choice, supplied cluster count and initialization affect
+  results. No global optimum, approximation ratio, universal empirical superiority or biological causal
+  interpretation is asserted.
+- The primary papers use particular synthetic, digit, face, expression or graph settings, chosen kernels
+  and parameters, and supplied cluster counts. Their finite comparisons do not establish universal performance.
+  No historical implementation or benchmark was reproduced.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: This fixed-kernel clustering algorithm performs the inspected unlabeled clustering task.
+    The relation does not equate algorithm and task or assert an upstream subclass. KernelLayer, PCA,
+    neural graph models and a nested cluster hierarchy have different scopes.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T06:20:54Z'
+  updated_at: '2026-10-12T06:20:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
