@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Global Kernel K-Means with Convex Mixture Models · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Global Kernel K-Means with Convex Mixture Models</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Global Kernel K-Means with Convex Mixture Models</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ConvexMixtureInitializedGlobalKernelKMeans</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CMM-Initialized Global Kernel K-Means
+    </div>
+
+  <div class="detail-desc">
+    An incremental kernel clustering algorithm that fits a convex mixture over datum exemplars once, restricts each new-cluster seed search to its selected high-weight exemplars, and retains the lowest-error local kernel k-means fit.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the Tzortzis-Likas2009 global kernel k-means with CMM procedure, including its positive observation-weight extension. It uses mixture weights to restrict initialization candidates, while final partitions optimize kernel variance over all observations. It is not the original CMM hard-clustering output, all-datum global search, fast bound maximization, or multiview mixture weighting. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 492 prior native IDs, names and aliases; no normalized identity collision. Full searches of both checkouts include ignored and hidden files, returning 62 worktree and 62 main matched lines. All 47 distinct matched texts were inspected as neighboring method mentions, query/frontier references or rendered copies. Eleven annotated AIO nodes, eleven generated YAMLs and seven native neighbors were examined. Nine unchanged annotated nodes, their generated YAMLs, all 442 class labels and 139 semantic rows reuse byte-verified earlier readings; two additional annotated targets and eight new semantic rows were read (147 rows total). Absence is bounded to this pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#weighted-kernel-local-fit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed PSD Gram matrix K, supplied cluster count M and positive observation weights a_i, represent each center as the weighted mean of its assigned RKHS features. For cluster C with A_C=sum_j_in_C a_j, compute squared distance K_ii - 2*sum_j_in_C a_j*K_ij/A_C + sum_j,l_in_C a_j*a_l*K_jl/A_C^2. Alternate synchronous nearest-center assignments and mean recomputation. Unit observation weights give unweighted kernel k-means. Scaling every a_i by the same positive constant preserves distances and fits while scaling the objective; these weights are not learned view weights.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-global-source">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a></span>
+        <span>· <strong>Locator:</strong> Section II-B, PDF pp. 2-3 / printed pp. 1182-1183, Algorithm 1; Section V-A, PDF p. 6 / p. 1186, Equations 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mixture-candidate-fit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a supplied positive beta, set S_ij=exp(-beta*(K_ii+K_jj-2*K_ij)). With empirical p_i=a_i/sum_l a_l and positive simplex q over eligible exemplars, form z_i=sum_j S_ij*q_j and update q_j&lt;-q_j*sum_i p_i*S_ij/z_i. The unweighted case has p_i=1/N. Fit this finite positive-affinity log-mixture criterion once, then select the P highest-weight exemplars. The source stops when their identities and ordering stay unchanged for a number of consecutive iterations, rather than requiring objective convergence; that iteration count and tie policies need specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-global-source">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B, PDF p. 5 / p. 1185, Equations 7-10; Section V-D, PDF p. 7 / p. 1187, Equations 15-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#restricted-global-stages</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Starting from one cluster, for each k=2,...,M try each of the selected P exemplar data as a new singleton removed from its previous group, run local kernel k-means on all N observations, and retain the least-error fit. The source recommends M&lt;P much smaller than N when useful, with P supplied. Restricting seeds reduces local fits but does not guarantee the same trajectory or objective as all-datum global search; singleton-source and later empty clusters still require conventions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-global-source">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B, PDF p. 6 / p. 1186; Section V-D, PDF p. 7 / p. 1187</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mixture-scale-and-stopping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source beta reference is N*H(p)/sum_ij p_i*distance(i,j)^2, reducing to N^2*log(N)/sum_ij distance(i,j)^2 for uniform p; it is an empirical scale guide and is undefined for a zero denominator. Stable top-P ranking does not certify an optimized mixture or globally optimal final partition. The finite log-affinity criterion is meaningful without assuming a normalized Gaussian density on an arbitrary RKHS; atomic-to-continuous KL language needs a common measure. Duplicate zero-distance observations also qualify the appendix identification of zero-distortion rate with H(p).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-global-source">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B, PDF p. 6 / p. 1186, Equation 11; Section V-D, PDF p. 7 / p. 1187, Equation 19; Appendix, PDF pp. 13-14 / pp. 1193-1194; curator stable-ranking and duplicate checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#graph-objective-specializations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a symmetric nonnegative graph affinity A, ratio association uses unit observation weights and K=A. Normalized-cut optimization uses positive degrees d_i=sum_j A_ij as observation weights and K=D^(-1) A D^(-1). For fixed M these choices identify partition objective orderings, not all graph algorithms or their outputs. A sufficiently large shift lambda*I for ratio association, or lambda*D^(-1) for normalized cut, can ensure PSD. Either adds the partition-independent lambda*(N-M) to the corresponding weighted kernel objective while potentially changing local update paths. Zero-degree vertices require a convention. The source graph experiments used small shifts not necessarily ensuring PSD, so their observed convergence is not a general guarantee for indefinite similarities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-global-source">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a></span>
+        <span>· <strong>Locator:</strong> Section VI, PDF pp. 7-8 / printed pp. 1187-1188, Equations 20-21; Section VII-C, PDF p. 11 / p. 1191; curator fixed-count shift calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>PSD kernels, positive cluster weight and well-defined nonempty updates are conditions for the RKHS distance and descent arguments. Arbitrary similarities or arbitrary sigmoid-kernel parameters do not automatically satisfy them. Ties, empty clusters and stopping need explicit implementation conventions.</li>
+      <li>Dense Gram storage is quadratic in N. Kernel choice, supplied cluster count and initialization affect results. No global optimum, approximation ratio, universal empirical superiority or biological causal interpretation is asserted.</li>
+      <li>The primary papers use particular synthetic, digit, face, expression or graph settings, chosen kernels and parameters, and supplied cluster counts. Their finite comparisons do not establish universal performance. No historical implementation or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This fixed-kernel clustering algorithm performs the inspected unlabeled clustering task. The relation does not equate algorithm and task or assert an upstream subclass. KernelLayer, PCA, neural graph models and a nested cluster hierarchy have different scopes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-global-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">global-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.uoi.gr/~arly/papers/TNN09b.pdf" target="_blank" rel="noopener">The Global Kernel k-Means Algorithm for Clustering in Feature Space</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Grigorios Tzortzis, Aristidis Likas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/TNN.2009.2019722</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7a5bbe6bfbb9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T06:20:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T06:20:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ConvexMixtureInitializedGlobalKernelKMeans.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ConvexMixtureInitializedGlobalKernelKMeans.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
