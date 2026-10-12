@@ -5,3 +5,5 @@ Added [NCVMP](../../data/curated/NonconjugateVariationalMessagePassing.yaml) as 
 [Exact finite arithmetic](ncvmp-boundaries.py) checks the Gaussian algebra and exhibits a proper target whose unit update proposes an improper Gaussian. No author code or model fitting was run.
 
 The [structured report](20261012T225250Z-nonconjugate-message-passing.json) retains source inconsistencies and pending method variants. Its 736-entry main frontier still has 485 pending and 56 partly addressed cohorts.
+
+Author review identified an incomplete Wand evidence locator. The Gaussian specialization now cites Section 4 and Equation 7 on PDF page 7 / printed page 1357; https://github.com/CultureBotAI/AIMech/issues/209 tracks the correction and successor review.
