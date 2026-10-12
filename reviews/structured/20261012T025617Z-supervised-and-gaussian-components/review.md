@@ -1,0 +1,1092 @@
+# Scientific self-review of supervised principal components, MPPCA and Gaussian factor analysis
+
+- Review: 20261012T025617Z-supervised-and-gaussian-components
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T02:52:03Z
+- Finished UTC: 2026-10-12T02:56:17Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain supervised principal components, the normalized PPCA mixture and the diagonal-uniqueness Gaussian factor model. Preserve screening and consistency assumptions, EM/GEM parameter schedules, posterior uncertainty, assignment differences and covariance-collapse limits. No actionable curation finding remains in the final three additions.
+
+## Scope And Provenance
+
+All fields of three source-defined supervised or Gaussian component methods.
+
+Selection: Exact maintained IDs SupervisedPrincipalComponents, MixturesOfProbabilisticPCA and GaussianFactorAnalysis; full selected cohort without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base bf9c0c7f3e9244ae26e5e6e0402f3bf265a58a6a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SupervisedPrincipalComponents | data/curated/SupervisedPrincipalComponents.yaml | maintained | Supervised Principal Components |
+| AIMech:MixturesOfProbabilisticPCA | data/curated/MixturesOfProbabilisticPCA.yaml | maintained | Mixtures of Probabilistic Principal Component Analyzers |
+| AIMech:GaussianFactorAnalysis | data/curated/GaussianFactorAnalysis.yaml | maintained | Gaussian Factor Analysis |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 131.89s (0:02:11)<br>Checked 442 record(s); 0 failed.<br>Checked 463 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 135 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 132,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis | Command exited 0 with no output. |
+| Supervised and Gaussian component boundaries | passed | True | AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis | {"supervised_components": {"marginal_scores": [0.0, 2.0, 2.0], "selected": [1, 2], "full_component_variances": [9, 5], "new_sample_prediction": 6, "jointly_informative_zero_marginal_covariance": 0}, "factor_analysis": {"posterior_mean": 1.2000000000000002, "posterior_variance": 0.30000000000000004, "latent_second_moment": 1.74, "em_loading": [0.9782608695652173, 0.8695652173913043], "em_uniqueness": [1.1195652173913047, 2.3043478260869565], "old_score": 3.8094379124341007, "new_score": 3.770429521612309}, "ppca_mixture": {"old_log_likelihood": -22.444714242164167, "eigen_log_likelihood": -20.524709708436053, "gem_log_likelihood": -20.47425555954522, "density_ratio": 2980.9579870417283, "reconstruction_errors": [0, 4], "collapse_log_likelihoods": [-0.9469279770973222, 3.6483918730379346, 8.253463064025194]}, "scope": "Finite arithmetic and analytic moments; no source code, training or empirical reproduction."} |
+
+## Scientific And Domain Assessments
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:SupervisedPrincipalComponents.
+
+This record denotes the Bair-Hastie-Paul-Tibshirani screening/PCA/regression procedure. It is distinct from ordinary principal-component regression, sparse PCA, PPCA, partial least squares, supervised gene shaving, and other objectives also called supervised PCA. The ambiguous acronym SPCA is searched but not asserted as an alias. Unlabeled observations are optional in a proposed extension, not required by the base procedure. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+
+For centered training feature columns x_j and response y, the linear-response version scores each nonzero column by s_j=x_j^T y/&#124;&#124;x_j&#124;&#124; and retains those with &#124;s_j&#124; greater than a threshold. It computes an SVD of the retained matrix and regresses the outcome on its first or first few left singular vectors. The threshold and component count are tuning choices. Outcome-dependent selection makes the entire fitting procedure nonlinear in the training responses, even though the fitted linear-response predictor is linear in new features. With retained training SVD X_theta=U D V^T, use weights V D^(-1) for nonzero retained singular values to project new observations centered by the training feature means. For one unit-norm component u, the training linear fit is ybar+(u^T y)u; the same fitted outcome coefficient multiplies the new projected score. The new observation does not need an outcome to obtain its prediction. Generalized-response versions replace the marginal score and outcome regression appropriately, including score-statistic screening and proportional-hazards regression for survival data. The consistency analysis assumes a specified Gaussian latent-factor structure, identifiable separated signal directions, suitable relevant-dimension and signal-to-noise scaling, and adequate recovery of the relevant coordinates. With multiple factors, cancellation can make a relevant feature marginally uncorrelated with the outcome. The paper does not prove that cross-validation selects the correct feature set and notes substantial variability in small samples. Its detailed analysis also distinguishes noise-corrected latent regression coefficients from attenuated uncorrected component coefficients at fixed nonzero noise. An optional unlabeled-data extension selects features using labeled observations and their outcomes, then estimates components from those selected columns in labeled plus unlabeled observations. This differs from repeatedly selecting all features by correlation with the current component, which loses the original outcome supervision. The procedure does not guarantee better prediction than ridge, partial least squares or other regression methods. The historical microarray examples do not establish clinical validity. Limitations: The retained feature set may be empty, columns may have zero norm, and singular values may vanish. A usable implementation must handle these cases; inverses and component formulas do not establish full rank automatically. Marginally unassociated but jointly predictive variables can be missed; marginal associations can also select conditionally irrelevant variables. Feature scaling, threshold selection, component count and the response model affect the result. The fitted latent components need not identify causal biological processes. Survival and classification extensions have their own outcome assumptions; the source acknowledges incomplete theoretical justification for its Cox setting. All 19 primary pages were read. Finite orthogonal-vector calculations check selection, projection and a marginal-screening failure. Historical microarray results and software were not reproduced.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:MixturesOfProbabilisticPCA.
+
+The normalized mixture distribution is distinct from a single PPCA model, reconstruction-error-only local PCA, a diagonal-noise mixture of factor analyzers, GTM, and predictive mixtures of experts. The model family and its EM or eigendecomposition fitting variants share this record. Mixture components need not share a meaningful latent coordinate system. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+
+For nonnegative weights summing to one, p(t)=sum_i pi_i Normal(t;mu_i,C_i), with C_i=W_i W_i^T+sigma_i^2 I and positive component noise variance. Sampling selects a component before drawing its latent factor and observation. Its posterior responsibility is pi_i p(t&#124;i)/p(t); conditional on that component, the latent posterior is Gaussian with mean M_i^(-1)W_i^T(t-mu_i) and covariance sigma_i^2 M_i^(-1), where M_i=W_i^T W_i+sigma_i^2 I. Permuting component labels or rotating a component latent basis leaves the observation distribution unchanged. With component assignments as missing data, EM computes responsibilities from the old mixture, updates each weight by its responsibility mass divided by sample count, and updates the mean by the weighted data mean. It forms a responsibility-weighted covariance around that new mean. A PPCA eigensolution supplies each covariance update when its rank and residual-variance conditions hold. Alternatively, the paper gives a two-stage generalized EM update using one inner latent-variable EM step, with the new mean, old loading/noise parameters and fixed outer responsibilities. This differs from simultaneously substituting new parameters into every posterior calculation. Responsibilities depend on the mixing weight, covariance determinant, in-subspace Mahalanobis distance and noise-scaled orthogonal residual. They need not select the component with the smallest orthogonal reconstruction error. Thus likelihood fitting supplies a density and soft partition, not a guarantee of minimum reconstruction error or a unique global manifold parameterization. Posterior latent means retain PPCA shrinkage within each component. Well-defined exact EM or the specified generalized EM step makes likelihood nondecreasing, but this does not guarantee convergence to a finite local or global maximum from every initialization. Zero loadings remain zero under the displayed iterative loading update. Without constraints preventing covariance collapse, a component centered on an observation can shrink its isotropic variance toward zero and make mixture likelihood unbounded. Empty responsibility masses, rank-deficient covariances and tied eigenvalues also require treatment. Latent dimension controls the component covariance restriction. The zero-factor case is spherical Gaussian, while q=d-1 can represent any positive-definite d-dimensional Gaussian covariance by using its smallest eigenvalue for isotropic noise. Intermediate dimensions impose a repeated residual eigenvalue. Component count and latent dimension are model-selection choices; a low-rank loading contribution is compatible with full-rank positive-noise covariance. Limitations: Components and latent axes are not uniquely labeled. Local density components need not correspond to semantic classes or physical factors; mixture fitting is nonconvex and sensitive to initialization. The source’s unqualified local-maximum statements are bounded here by stationary starts and the unconstrained mixture-collapse counterexample. Positive variances at finite iterates do not impose a positive lower bound on them. Image compression may use reconstruction-based assignments after density fitting, and digit posterior classification uses a different decision rule. Historical comparisons do not establish universally better compression, clustering or recognition. All 30 primary reprint pages were read. Finite calculations check weighted eigensolution and two-stage EM likelihood increases, assignment disagreement and variance collapse. No historical benchmark or author software was reproduced.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:GaussianFactorAnalysis.
+
+This record covers the normal linear factor model with diagonal uniqueness covariance. It does not encompass arbitrary non-Gaussian, nonlinear, nonnegative or count-data factor models. PPCA adds an isotropic uniqueness restriction; EM and ECME are fitting procedures for the factor model, not model synonyms. Confirmatory zero-loading constraints and exploratory rotations require explicit identifiability assessments. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+
+In column-vector notation, let y=mu+Wz+epsilon, z~Normal(0,R) with positive-definite R, and independent epsilon~Normal(0,Psi), where Psi is diagonal and nonnegative. Then y has covariance C=WRW^T+Psi. The residual coordinates are conditionally independent given z; observed coordinates are generally dependent. R is often fixed to identity. Unlike isotropic-noise PPCA, the uniqueness variances can differ by observed variable, and the loading span need not be the leading covariance eigenspace. For nonsingular C, the conditional factor mean is R W^T C^(-1)(y-mu), and its covariance is R-RW^T C^(-1)WR. Complete-data EM uses these first moments and second moments, including the posterior covariance. It updates allowed loading coefficients through expected Gaussian regression sufficient statistics and uniqueness variances through expected residual squares. Replacing missing factors by their means while discarding posterior uncertainty is not this EM procedure. With R fixed to identity and unrestricted loadings, an orthogonal rotation of the latent coordinates changes W without changing WW^T. Further loading/uniqueness nonidentifiability can remain in underspecified models, including constrained examples. A zero uniqueness variance is a parameter boundary; it does not alone imply singular marginal covariance, because latent contributions can supply that direction. Positive-definite observed covariance and the specified parameter constraints must be checked separately. EM can progress so slowly that an apparent plateau is not convergence. The paper’s ECME alternative updates loadings using expected complete-data likelihood, then updates uniqueness variances using actual observed likelihood; its Newton steps must be checked for an increase. Missing observed coordinates can be integrated using Gaussian conditional first and second moments and observed covariance submatrices. The demonstrated incomplete-data likelihood assumes an ignorable missingness mechanism. Neither EM nor the examples establish global optimality, universal speed improvement or applicability to arbitrary missingness. Limitations: Latent dimension, covariance constraints and loading restrictions are part of model specification. Gaussianity and conditional residual independence can be misspecified; fitted factors are not automatically causal, unique or biologically meaningful. Nonnegative uniqueness and positive-definite marginal covariance are different conditions. Log-variance parameterization remains strictly positive at finite coordinates; exact zero is a boundary limit. This record uses the fully inspected Liu-Rubin 1998 primary follow-up. The Rubin-Thayer 1982 full-text request returned HTTP 401; it was not bypassed or treated as read. The 1983 critique remains abstract-level context, not a fully reviewed proof about all stationary points. All 19 source pages were read. Finite calculations check Gaussian conditioning, inclusion of posterior variance, one EM improvement, rescaling and zero-uniqueness boundaries. Source tables have inconsistent example labels and an apparent observation-count discrepancy; those labels/counts are not asserted here. Historical fits and software were not reproduced.
+
+### Outcome screening and new-sample prediction
+
+consistency: supported. Targets: AIMech:SupervisedPrincipalComponents.
+
+Retain the supervised screen/PCA/regression procedure and nonzero-singular-value conditions.
+
+The final procedure centers new observations by training means and projects with V D inverse. For a unit-norm training component the response coefficient is u transpose y; the new observation supplies no outcome. The finite construction has ordinary leading variance 9 along a response-uncorrelated direction, whereas screening retains the predictive variance-5 direction. A second construction shows the fitting operation is nonlinear in training responses. Generalized score screening does not equate the squared score statistic with a signed Gaussian score.
+
+### Marginal screening and latent coefficient consistency
+
+consistency: supported. Targets: AIMech:SupervisedPrincipalComponents.
+
+Preserve cancellation, tuning and source-specific consistency limits.
+
+Independent latent variables give X1=Z1+Z2, X2=Z1 and Y=Z1-Z2: X1 has zero marginal outcome covariance but is jointly useful because Y=2X2-X1. The source asymptotics require Gaussian structure, signal separation, dimensional scaling and successful relevant-coordinate selection; they do not prove universal cross-validation consistency. Detailed source analysis distinguishes attenuated uncorrected coefficients from noise-corrected latent coefficients. Ridge-favoring simulation context remains in source notes; no universal prediction or clinical benefit is asserted.
+
+### Responsibilities, weighted covariance and GEM scheduling
+
+consistency: supported. Targets: AIMech:MixturesOfProbabilisticPCA.
+
+Retain the normalized mixture and distinct fitting schedules.
+
+Old parameters determine responsibilities, new responsibility-weighted means center each local covariance, and a valid local PPCA eigensolution updates the covariance. The alternative one-inner-step GEM uses old loading/noise with the new mean and fixed outer assignments. Finite checks increase observed likelihood for both schedules without asserting equality of their iterates or reproducing a historical benchmark. Conditional latent coordinates retain component-specific shrinkage and rotational ambiguity.
+
+### Density assignments, local maxima and component covariance families
+
+consistency: supported. Targets: AIMech:MixturesOfProbabilisticPCA.
+
+Qualify the primary source local-maximum wording.
+
+A finite example gives orthogonal reconstruction errors zero and four while density favors the second component by exp(8). Mixing weights, determinants and in-subspace distances matter. The covariance-collapse sequence increases likelihood without a finite unconstrained maximum; zero loading is a stationary update and empty masses/rank degeneracy need treatment. The q=d-1 covariance family can express any positive-definite covariance, while positive noise and a low-rank loading contribution are compatible. These are explicit curator deductions, not copied blanket convergence claims.
+
+### Diagonal uniqueness, factor posterior and EM
+
+consistency: supported. Targets: AIMech:GaussianFactorAnalysis.
+
+Retain the Gaussian model and posterior uncertainty.
+
+Unequal diagonal uniqueness distinguishes Gaussian factor analysis from isotropic PPCA; the loading vector need not be a covariance eigenvector. The posterior second moment includes variance, giving 1.74 rather than the squared posterior mean 1.44 in the finite example. One complete-data EM update reduces the negative-log-likelihood score. Conditional residual independence is not marginal observed independence, and latent factors do not receive causal interpretations.
+
+### Identifiability, zero uniqueness and missingness
+
+consistency: supported. Targets: AIMech:GaussianFactorAnalysis.
+
+Preserve separate covariance, loading and missingness conditions.
+
+Rotating unrestricted loadings with identity factor covariance preserves the law. A zero uniqueness can coexist with positive-definite observed covariance, while setting additional uniqueness entries to zero can make it singular. Missing-data calculations require conditional second moments and the source ignorable-missingness setting. ECME observed-likelihood Newton steps require increase checks. The source tables contain inconsistent labels and observation counts; those are retained in source notes and excluded from assertions. Historical speed and stationary-point examples do not establish universal or global guarantees.
+
+### Primary-source versions, access gaps and abstraction levels
+
+grounding: supported. Targets: AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis.
+
+Retain distinct identities and bounded evidence.
+
+All 68 pages of three primary PDFs were visually read. SPCA uses the final 2006 JASA paper rather than the 2004 preprint; MPPCA uses a dated author reprint with its own pagination; Gaussian FA uses the complete 1998 primary follow-up. The original 1982 full text returned 401, and the 1983 critique was read only as an abstract. Model/task and algorithm/task mappings avoid forced equivalence with neural architectures, task-scoped effect models and LLM mixture of experts. Twenty new provisional cohorts and 389 pending leads preclude saturation.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:SupervisedPrincipalComponents, AIMech:MixturesOfProbabilisticPCA, AIMech:GaussianFactorAnalysis. A supervised screening and prediction algorithm, a finite mixture of isotropic-noise latent models and a single diagonal-uniqueness factor model have distinct defining objects and operations. Model/task and algorithm/task mappings preserve abstraction.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T025159Z-supervised-and-gaussian-components.json | supports | Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.<br> |
+| mapping | sources/aio/aio.json; 26 annotated CLASS nodes and outgoing edges; all 222 semantic label/synonym rows | supports | Supervised principal components is a screening/PCA/regression algorithm, with related mappings to task-scoped PCA and RegressionAnalysis. It is not ordinary PCA, PLS cross-covariance optimization, LARS, ridge/lasso regularization or a clustering output. SupervisedLearning is relevant task context; SurvivalAnalysis and ProportionalHazardsModel describe an optional outcome setting rather than the whole method. MPPCA and Gaussian factor analysis map broadly to Model. MPPCA also maps related to PCA and Clustering, preserving model/task scope. It is a normalized latent Gaussian mixture, not an LLM mixture of experts, GTM discrete-latent smooth map, neural mixture-density network or hierarchical predictive experts. Gaussian FA uses variable-specific diagonal residuals and continuous latent factors; it is not identical to PCA/PPCA, GLM or the task-scoped random/fixed-effects regression records. Fixed loadings and random latent scores do not by themselves justify those AIO effect-model identities. PGM is broader contextual structure but Model suffices without a forced exact match. ANN, AutoEncoderNetwork and RepresentationLearning have network architecture scope; these candidates require no neural network. Preprocessing and preprocessing-defined TrainingStrategy cannot represent the entire model or screen-and-fit procedure. No pinned exact candidate node was found within the full normalized identity comparison and inspected semantic/context scope.<br> |
+| neighbors | research/discovery/20261012T025159Z-supervised-and-gaussian-components.json; Ten native neighbors and 26 generated contextual YAMLs in source_analysis.context_reading | supports | Thirty-six contextual YAMLs comprise 29 byte-verified prior readings and seven current complete readings. PPCA, Kernel PCA, GTM, EM, GCA, PLS regression, LARS, hierarchical mixture of experts, mixture density networks and NMF distinguish latent densities, predictors and decompositions. Contextual records receive no renewed scientific approval. |
+| finite-boundaries | research/discovery/supervised-and-gaussian-component-boundaries.py; Supervised screening and projection; Gaussian-factor posterior moments and EM; MPPCA fitting, assignments and collapse | supports | Finite orthogonal-vector calculations distinguish outcome screening from ordinary PCA, verify new-sample projection and show response-dependent fitting. Analytic Gaussian covariance gives a jointly useful predictor with zero marginal outcome association. Gaussian-factor arithmetic checks posterior first/second moments, one exact EM likelihood improvement, rotation/rescaling and zero-uniqueness boundaries; unequal uniqueness can move loading directions away from PCA axes. MPPCA calculations check one weighted-eigen update and the specified two-stage GEM update, label permutation, disagreement between density and reconstruction assignments, and a covariance-collapse sequence. These are curator arithmetic and deductions, not author software, empirical training or general convergence proofs. |
+| supervisedprincipalcomponents-source-0 | https://hastie.su.domains/public/Papers/spca_JASA.pdf; Section 2.1, Equations 1-7, pp. 120-121 / PDF pp. 2-3; Section 6.1, p. 125 / PDF p. 7; Section 2.1, Equations 4-8 and test-vector instructions, pp. 120-122 / PDF pp. 2-4; curator nonzero-singular-value qualification; Section 2.1, four-step proposal and Equations 1-8, printed pp. 120-122 / PDF pp. 2-4; Section 4, p. 124 / PDF p. 6; Section 7 and Table 4, pp. 129-130 / PDF pp. 11-12; Section 10, p. 134 / PDF p. 16; Section 9, Theorems 1-2 and Equations 36-45, pp. 130-134 / PDF pp. 12-16; Section 11, p. 135 / PDF p. 17; curator jointly-informative zero-marginal-covariance example | supports | Prediction by Supervised Principal Components. Author-hosted final Journal of the American Statistical Association 101(473):119-137, March 2006. DOI 10.1198/016214505000000628 appears on the first page. All 19 pages visually read; printed page equals PDF page plus 118. Distinct from the 2004 preprint. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| mixturesofprobabilisticpca-source-0 | https://www.miketipping.com/papers/met-mppca.pdf; Appendix A.4-A.5, pp. 25-26; Appendix C, Equations 82-84, p. 30; curator deductions and finite collapse calculation qualifying the source’s local-maximum wording; Section 3.1, Equations 3-9, p. 5; Section 4, Equations 19-21, p. 9; Appendix A.6, p. 27; Appendix C, Equations 69-72, p. 28; Section 3.3, pp. 6-7; Section 5.2, Equations 25-33 and Figure 3 discussion, pp. 10-14; Section 7, pp. 19-20; curator assignment counterexample; Section 4, Equations 19-24, internal/PDF pp. 8-9; Section 3.1, pp. 5-6; Section 4, Equations 21-24, p. 9; Appendix C, coupled Equations 75-78 and two-stage Equations 79-84, pp. 29-30; Section 6, internal/PDF pp. 16-18; covariance Equation 7 and eigensolution Equations 14-15, pp. 5-6 | supports | Mixtures of Probabilistic Principal Component Analysers. Author-hosted retypeset version dated June 26, 2006 of Neural Computation 11(2):443-482 (1999). All 30 PDF pages visually read; internal reprint pages equal PDF pages. These are not the final journal page numbers. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| gaussianfactoranalysis-source-0 | https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf; Section 2 identifiability discussion, p. 732 / PDF p. 4; Section 5.2, pp. 742-745 / PDF pp. 14-17; curator rotation and zero-uniqueness covariance examples; Section 2, pp. 731-732 / PDF pp. 3-4; Section 4 joint Gaussian distribution, p. 735 / PDF p. 7; curator two-dimensional covariance comparison; Section 2, printed pp. 731-732 / PDF pp. 3-4; Section 3, E-step and M-step, pp. 732-733 / PDF pp. 4-5; Section 4, p. 735 / PDF p. 7; column-vector translation and curator moment/EM calculations; Sections 3-4, pp. 733-737 / PDF pp. 5-9; Sections 5.1-5.2 and practical conclusion, pp. 738-745 / PDF pp. 10-17, especially the missingness assumption on p. 740 | supports | Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data. Journal-hosted Statistica Sinica 8(1998):729-747 article. All 19 PDF pages visually read; printed page equals PDF page plus 728. This is an inspected primary follow-up, not a claim to have read the inaccessible Rubin-Thayer 1982 full paper. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 68 primary PDF pages were visually read: supervised principal components 19, MPPCA 30 and Liu-Rubin factor analysis 19. Internal MPPCA reprint pages are not final journal pagination.
+- Actual access times, source versions, redirects and byte hashes are retained. Search capture does not imply inspection of every result. Full papers are not redistributed.
+- The original Rubin-Thayer 1982 full-text request returned HTTP 401 and was not bypassed. The 1983 critique remains abstract-level context; its proof was not read. The core factor model uses the fully inspected 1998 primary follow-up.
+- Supervised screening, training-only centering, nonzero singular values and multi-factor cancellation qualify the predictor. Consistency and survival extensions have source-specific assumptions; no clinical validity is asserted.
+- MPPCA likelihood assignments differ from reconstruction assignments. Conditional ascent does not ensure a finite local maximum; stationary starts, rank degeneracy and unconstrained covariance collapse remain possible.
+- Gaussian-factor rotations, diagonal uniqueness, positive marginal covariance and missingness assumptions remain distinct. Inconsistent example labels and observation counts in the 1998 source are recorded in reading notes and not promoted to assertions.
+- No source software, historical fit, biological experiment, training or benchmark was reproduced. The finite calculations check bounded mathematical claims only.
+- Twenty new provisional cohorts leave 389 pending leads and other unresolved dispositions. New cohort labels received ignored-inclusive comparison with prior labels and the checkout; underlying method distinctness still requires source-level identity work. No saturation is claimed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T025617Z-supervised-and-gaussian-components
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of supervised principal components, MPPCA and Gaussian
+  factor analysis
+started_at: '2026-10-12T02:52:03Z'
+finished_at: '2026-10-12T02:56:17Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read all fields of three final
+    maintained records against 68 complete primary PDF pages, 26 annotated AIO nodes
+    and ten native neighbors. Finite arithmetic checks screening, latent posterior
+    moments, fitting and covariance boundaries. This is author self-review; no independent
+    approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain supervised principal components, the normalized PPCA mixture and the
+  diagonal-uniqueness Gaussian factor model. Preserve screening and consistency assumptions,
+  EM/GEM parameter schedules, posterior uncertainty, assignment differences and covariance-collapse
+  limits. No actionable curation finding remains in the final three additions.
+source:
+  git_revision: bf9c0c7f3e9244ae26e5e6e0402f3bf265a58a6a
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/FixedEffectsModel.yaml
+    sha256: ce9b21b60e99bf7abfd19b9b480d5c73777ba59f38af53c3fa2d6bfc50f71a86
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MixtureofExpertsLLM.yaml
+    sha256: d9c3edb18f624102f141d1daf27aa0cc055eaf9199faf30abf88d2b87fbc1520
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProportionalHazardsModel.yaml
+    sha256: 1869e9ca3c2fd499096d734674e1b865501ad621e925199d4067bd1d7fbd5ba6
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/RidgeRegression.yaml
+    sha256: 7ee3be4552041e1ee2194a78eb0cbefe25283907027a6680395973dbf98636bb
+    role: context
+  - path: data/aio/SupervisedClustering.yaml
+    sha256: d8d9f49b7b975d8217fe675e9c670fd0246af4abcdebce2483fa773a441ee83e
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/SurvivalAnalysis.yaml
+    sha256: 15110144a2f471cd0005fd8d3de7efdde478a51e5753c547e0cdbc6cd6eeb881
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GaussianFactorAnalysis.yaml
+    sha256: bb064b83883b55e849a24d39aebcbb38ebf85aad309ff3b1e656d5f332737ef9
+    role: target
+  - path: data/curated/GeneralizedComponentAnalysis.yaml
+    sha256: 79ab7923284423c0f542c77deff5f0ce3de898c795d16e930340380b9046a8ff
+    role: context
+  - path: data/curated/GenerativeTopographicMapping.yaml
+    sha256: e91185614eb30867e91a235bbfb97cec1caf03aead662ecee161d2e2780207be
+    role: context
+  - path: data/curated/HierarchicalMixtureOfExperts.yaml
+    sha256: 726b98de332b75f77dc51f3028687650e2077216f26100a16c6fc4e8328c4e18
+    role: context
+  - path: data/curated/KernelPCA.yaml
+    sha256: a93227a6b2d6b2b89b679b8f7f9ddd5054741d1c11f9510490d82a3e691a1cab
+    role: context
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/MixtureDensityNetwork.yaml
+    sha256: 1c6eab5597faff5398e917351cea1b0ab6feca98d690219dc69d44ffe7abba52
+    role: context
+  - path: data/curated/MixturesOfProbabilisticPCA.yaml
+    sha256: ee44925815c046c15a22346e43bba2993b159ceace76c88237cf76c0d38aca29
+    role: target
+  - path: data/curated/NonnegativeMatrixFactorization.yaml
+    sha256: 3b79c0f7568f3cdc86f5779be7e9c3e2341c547682223e214a6b94031016df7b
+    role: context
+  - path: data/curated/PartialLeastSquaresRegression.yaml
+    sha256: 3d34b3313b0580f1aa7316f588cc38589056e8b58711d1944b346f8a0c394ea4
+    role: context
+  - path: data/curated/ProbabilisticPCA.yaml
+    sha256: 393a9dafbc77ca21442c597c8fcd67957698d2dd32d9175ef0ac7f006f1248b5
+    role: context
+  - path: data/curated/SupervisedPrincipalComponents.yaml
+    sha256: 5bebcc98a45b584ad28b0bb5b49ad298fa0308ddffd1bfb398af5658aeada61f
+    role: target
+  - path: research/discovery/20261012T025159Z-supervised-and-gaussian-components.json
+    sha256: c12ee5b3c109d9d749f409c0bdb7a7861d90e084bead711d168f1e55353d8ac8
+    role: context
+  - path: research/discovery/supervised-and-gaussian-component-boundaries.py
+    sha256: a97ee1712a26b57e80bbf10b458901739629401436728dee0a2cb03b91816bb9
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SupervisedPrincipalComponents
+  path: data/curated/SupervisedPrincipalComponents.yaml
+  label: Supervised Principal Components
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SupervisedPrincipalComponents.yaml
+    role: maintained
+- target_id: AIMech:MixturesOfProbabilisticPCA
+  path: data/curated/MixturesOfProbabilisticPCA.yaml
+  label: Mixtures of Probabilistic Principal Component Analyzers
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MixturesOfProbabilisticPCA.yaml
+    role: maintained
+- target_id: AIMech:GaussianFactorAnalysis
+  path: data/curated/GaussianFactorAnalysis.yaml
+  label: Gaussian Factor Analysis
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GaussianFactorAnalysis.yaml
+    role: maintained
+scope:
+  description: All fields of three source-defined supervised or Gaussian component
+    methods.
+  selection: Exact maintained IDs SupervisedPrincipalComponents, MixturesOfProbabilisticPCA
+    and GaussianFactorAnalysis; full selected cohort without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exclusions:
+  - target: Contextual AIO and maintained records
+    reason: Context informs identity and abstraction boundaries without renewed scientific
+      approval or mutation.
+  - target: Historical implementations and empirical reproduction
+    reason: No source software, empirical training, biological experiment or benchmark
+      ran. Curator arithmetic checks bounded mathematical claims only.
+  - target: Remaining discovery frontier
+    reason: Twenty new provisional cohorts and 389 pending leads remain, alongside
+      other unresolved dispositions including the original factor-analysis paper and
+      critique. The three named core identities are represented, not the whole literature.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 131.89s (0:02:11)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 463 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 135 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 132,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Supervised and Gaussian component boundaries
+  command: python3 research/discovery/supervised-and-gaussian-component-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"supervised_components": {"marginal_scores": [0.0, 2.0, 2.0], "selected":
+    [1, 2], "full_component_variances": [9, 5], "new_sample_prediction": 6, "jointly_informative_zero_marginal_covariance":
+    0}, "factor_analysis": {"posterior_mean": 1.2000000000000002, "posterior_variance":
+    0.30000000000000004, "latent_second_moment": 1.74, "em_loading": [0.9782608695652173,
+    0.8695652173913043], "em_uniqueness": [1.1195652173913047, 2.3043478260869565],
+    "old_score": 3.8094379124341007, "new_score": 3.770429521612309}, "ppca_mixture":
+    {"old_log_likelihood": -22.444714242164167, "eigen_log_likelihood": -20.524709708436053,
+    "gem_log_likelihood": -20.47425555954522, "density_ratio": 2980.9579870417283,
+    "reconstruction_errors": [0, 4], "collapse_log_likelihoods": [-0.9469279770973222,
+    3.6483918730379346, 8.253463064025194]}, "scope": "Finite arithmetic and analytic
+    moments; no source code, training or empirical reproduction."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T025159Z-supervised-and-gaussian-components.json
+  accessed_at: '2026-10-12T02:52:03Z'
+  support: supports
+  summary: 'Three candidate identities were compared against all 442 pinned AIO IDs,
+    labels and scoped synonyms and 460 preceding native IDs, names and aliases, with
+    no normalized collision. Ignored- and hidden-inclusive full-text searches of both
+    checkouts returned the same 144 matching lines across 34 files. Every matched
+    passage was read, comprising 83 unique excerpts; long serialized web captures
+    were inspected around each match with 220-character flanks, not reread in full.
+    Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization
+    references, not existing candidate records. All 222 semantic label/synonym rows
+    were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified
+    prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise
+    29 unchanged prior readings and 7 current complete readings, including ten native
+    neighbors. This is a bounded snapshot/corpus assessment.
+
+    '
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison; short acronyms were omitted
+    from broad substring searches to avoid irrelevant matches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 26 annotated CLASS nodes and outgoing edges; all 222 semantic label/synonym
+    rows
+  accessed_at: '2026-10-12T02:52:03Z'
+  support: supports
+  summary: 'Supervised principal components is a screening/PCA/regression algorithm,
+    with related mappings to task-scoped PCA and RegressionAnalysis. It is not ordinary
+    PCA, PLS cross-covariance optimization, LARS, ridge/lasso regularization or a
+    clustering output. SupervisedLearning is relevant task context; SurvivalAnalysis
+    and ProportionalHazardsModel describe an optional outcome setting rather than
+    the whole method. MPPCA and Gaussian factor analysis map broadly to Model. MPPCA
+    also maps related to PCA and Clustering, preserving model/task scope. It is a
+    normalized latent Gaussian mixture, not an LLM mixture of experts, GTM discrete-latent
+    smooth map, neural mixture-density network or hierarchical predictive experts.
+    Gaussian FA uses variable-specific diagonal residuals and continuous latent factors;
+    it is not identical to PCA/PPCA, GLM or the task-scoped random/fixed-effects regression
+    records. Fixed loadings and random latent scores do not by themselves justify
+    those AIO effect-model identities. PGM is broader contextual structure but Model
+    suffices without a forced exact match. ANN, AutoEncoderNetwork and RepresentationLearning
+    have network architecture scope; these candidates require no neural network. Preprocessing
+    and preprocessing-defined TrainingStrategy cannot represent the entire model or
+    screen-and-fit procedure. No pinned exact candidate node was found within the
+    full normalized identity comparison and inspected semantic/context scope.
+
+    '
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T025159Z-supervised-and-gaussian-components.json
+  locator: Ten native neighbors and 26 generated contextual YAMLs in source_analysis.context_reading
+  accessed_at: '2026-10-12T02:52:03Z'
+  support: supports
+  summary: Thirty-six contextual YAMLs comprise 29 byte-verified prior readings and
+    seven current complete readings. PPCA, Kernel PCA, GTM, EM, GCA, PLS regression,
+    LARS, hierarchical mixture of experts, mixture density networks and NMF distinguish
+    latent densities, predictors and decompositions. Contextual records receive no
+    renewed scientific approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/supervised-and-gaussian-component-boundaries.py
+  locator: Supervised screening and projection; Gaussian-factor posterior moments
+    and EM; MPPCA fitting, assignments and collapse
+  accessed_at: '2026-10-12T02:52:03Z'
+  snapshot_sha256: a97ee1712a26b57e80bbf10b458901739629401436728dee0a2cb03b91816bb9
+  support: supports
+  summary: Finite orthogonal-vector calculations distinguish outcome screening from
+    ordinary PCA, verify new-sample projection and show response-dependent fitting.
+    Analytic Gaussian covariance gives a jointly useful predictor with zero marginal
+    outcome association. Gaussian-factor arithmetic checks posterior first/second
+    moments, one exact EM likelihood improvement, rotation/rescaling and zero-uniqueness
+    boundaries; unequal uniqueness can move loading directions away from PCA axes.
+    MPPCA calculations check one weighted-eigen update and the specified two-stage
+    GEM update, label permutation, disagreement between density and reconstruction
+    assignments, and a covariance-collapse sequence. These are curator arithmetic
+    and deductions, not author software, empirical training or general convergence
+    proofs.
+- evidence_id: supervisedprincipalcomponents-source-0
+  kind: primary_source
+  reference: https://hastie.su.domains/public/Papers/spca_JASA.pdf
+  locator: Section 2.1, Equations 1-7, pp. 120-121 / PDF pp. 2-3; Section 6.1, p.
+    125 / PDF p. 7; Section 2.1, Equations 4-8 and test-vector instructions, pp. 120-122
+    / PDF pp. 2-4; curator nonzero-singular-value qualification; Section 2.1, four-step
+    proposal and Equations 1-8, printed pp. 120-122 / PDF pp. 2-4; Section 4, p. 124
+    / PDF p. 6; Section 7 and Table 4, pp. 129-130 / PDF pp. 11-12; Section 10, p.
+    134 / PDF p. 16; Section 9, Theorems 1-2 and Equations 36-45, pp. 130-134 / PDF
+    pp. 12-16; Section 11, p. 135 / PDF p. 17; curator jointly-informative zero-marginal-covariance
+    example
+  accessed_at: '2026-10-12T02:29:57Z'
+  snapshot_sha256: a879f3c53af4a70f6cfedf90092e3725e7a05049ab252fabecc10a8f4051ba0b
+  support: supports
+  summary: Prediction by Supervised Principal Components. Author-hosted final Journal
+    of the American Statistical Association 101(473):119-137, March 2006. DOI 10.1198/016214505000000628
+    appears on the first page. All 19 pages visually read; printed page equals PDF
+    page plus 118. Distinct from the 2004 preprint. Curator algebraic deductions are
+    distinguished from historical empirical results or uninspected software.
+- evidence_id: mixturesofprobabilisticpca-source-0
+  kind: primary_source
+  reference: https://www.miketipping.com/papers/met-mppca.pdf
+  locator: Appendix A.4-A.5, pp. 25-26; Appendix C, Equations 82-84, p. 30; curator
+    deductions and finite collapse calculation qualifying the source’s local-maximum
+    wording; Section 3.1, Equations 3-9, p. 5; Section 4, Equations 19-21, p. 9; Appendix
+    A.6, p. 27; Appendix C, Equations 69-72, p. 28; Section 3.3, pp. 6-7; Section
+    5.2, Equations 25-33 and Figure 3 discussion, pp. 10-14; Section 7, pp. 19-20;
+    curator assignment counterexample; Section 4, Equations 19-24, internal/PDF pp.
+    8-9; Section 3.1, pp. 5-6; Section 4, Equations 21-24, p. 9; Appendix C, coupled
+    Equations 75-78 and two-stage Equations 79-84, pp. 29-30; Section 6, internal/PDF
+    pp. 16-18; covariance Equation 7 and eigensolution Equations 14-15, pp. 5-6
+  accessed_at: '2026-10-12T02:30:01Z'
+  snapshot_sha256: 87ec7bac0a64b5a27425a78dd3cff475ba39036838642361fafc34bb3cbf5f1c
+  support: supports
+  summary: Mixtures of Probabilistic Principal Component Analysers. Author-hosted
+    retypeset version dated June 26, 2006 of Neural Computation 11(2):443-482 (1999).
+    All 30 PDF pages visually read; internal reprint pages equal PDF pages. These
+    are not the final journal page numbers. Curator algebraic deductions are distinguished
+    from historical empirical results or uninspected software.
+- evidence_id: gaussianfactoranalysis-source-0
+  kind: primary_source
+  reference: https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf
+  locator: Section 2 identifiability discussion, p. 732 / PDF p. 4; Section 5.2, pp.
+    742-745 / PDF pp. 14-17; curator rotation and zero-uniqueness covariance examples;
+    Section 2, pp. 731-732 / PDF pp. 3-4; Section 4 joint Gaussian distribution, p.
+    735 / PDF p. 7; curator two-dimensional covariance comparison; Section 2, printed
+    pp. 731-732 / PDF pp. 3-4; Section 3, E-step and M-step, pp. 732-733 / PDF pp.
+    4-5; Section 4, p. 735 / PDF p. 7; column-vector translation and curator moment/EM
+    calculations; Sections 3-4, pp. 733-737 / PDF pp. 5-9; Sections 5.1-5.2 and practical
+    conclusion, pp. 738-745 / PDF pp. 10-17, especially the missingness assumption
+    on p. 740
+  accessed_at: '2026-10-12T02:33:40Z'
+  snapshot_sha256: 0d03448be6ec796c4076f354bd4a9f1159b45c4c398105f54db9363bbac9aacf
+  support: supports
+  summary: Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm
+    with Complete and Incomplete Data. Journal-hosted Statistica Sinica 8(1998):729-747
+    article. All 19 PDF pages visually read; printed page equals PDF page plus 728.
+    This is an inspected primary follow-up, not a claim to have read the inaccessible
+    Rubin-Thayer 1982 full paper. Curator algebraic deductions are distinguished from
+    historical empirical results or uninspected software.
+assessments:
+- assessment_id: supervisedprincipalcomponents
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - supervisedprincipalcomponents-source-0
+  summary: This record denotes the Bair-Hastie-Paul-Tibshirani screening/PCA/regression
+    procedure. It is distinct from ordinary principal-component regression, sparse
+    PCA, PPCA, partial least squares, supervised gene shaving, and other objectives
+    also called supervised PCA. The ambiguous acronym SPCA is searched but not asserted
+    as an alias. Unlabeled observations are optional in a proposed extension, not
+    required by the base procedure. Three candidate identities were compared against
+    all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs,
+    names and aliases, with no normalized collision. Ignored- and hidden-inclusive
+    full-text searches of both checkouts returned the same 144 matching lines across
+    34 files. Every matched passage was read, comprising 83 unique excerpts; long
+    serialized web captures were inspected around each match with 220-character flanks,
+    not reread in full. Matches are discovery leads, PPCA distinctions, historical
+    reviews and PLSA/count-factorization references, not existing candidate records.
+    All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes
+    and outgoing edges comprise 22 byte-verified prior readings and 4 current complete
+    readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and
+    7 current complete readings, including ten native neighbors. This is a bounded
+    snapshot/corpus assessment.
+  details: 'For centered training feature columns x_j and response y, the linear-response
+    version scores each nonzero column by s_j=x_j^T y/||x_j|| and retains those with
+    |s_j| greater than a threshold. It computes an SVD of the retained matrix and
+    regresses the outcome on its first or first few left singular vectors. The threshold
+    and component count are tuning choices. Outcome-dependent selection makes the
+    entire fitting procedure nonlinear in the training responses, even though the
+    fitted linear-response predictor is linear in new features. With retained training
+    SVD X_theta=U D V^T, use weights V D^(-1) for nonzero retained singular values
+    to project new observations centered by the training feature means. For one unit-norm
+    component u, the training linear fit is ybar+(u^T y)u; the same fitted outcome
+    coefficient multiplies the new projected score. The new observation does not need
+    an outcome to obtain its prediction. Generalized-response versions replace the
+    marginal score and outcome regression appropriately, including score-statistic
+    screening and proportional-hazards regression for survival data. The consistency
+    analysis assumes a specified Gaussian latent-factor structure, identifiable separated
+    signal directions, suitable relevant-dimension and signal-to-noise scaling, and
+    adequate recovery of the relevant coordinates. With multiple factors, cancellation
+    can make a relevant feature marginally uncorrelated with the outcome. The paper
+    does not prove that cross-validation selects the correct feature set and notes
+    substantial variability in small samples. Its detailed analysis also distinguishes
+    noise-corrected latent regression coefficients from attenuated uncorrected component
+    coefficients at fixed nonzero noise. An optional unlabeled-data extension selects
+    features using labeled observations and their outcomes, then estimates components
+    from those selected columns in labeled plus unlabeled observations. This differs
+    from repeatedly selecting all features by correlation with the current component,
+    which loses the original outcome supervision. The procedure does not guarantee
+    better prediction than ridge, partial least squares or other regression methods.
+    The historical microarray examples do not establish clinical validity. Limitations:
+    The retained feature set may be empty, columns may have zero norm, and singular
+    values may vanish. A usable implementation must handle these cases; inverses and
+    component formulas do not establish full rank automatically. Marginally unassociated
+    but jointly predictive variables can be missed; marginal associations can also
+    select conditionally irrelevant variables. Feature scaling, threshold selection,
+    component count and the response model affect the result. The fitted latent components
+    need not identify causal biological processes. Survival and classification extensions
+    have their own outcome assumptions; the source acknowledges incomplete theoretical
+    justification for its Cox setting. All 19 primary pages were read. Finite orthogonal-vector
+    calculations check selection, projection and a marginal-screening failure. Historical
+    microarray results and software were not reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A source-defined outcome-prediction algorithm or Gaussian latent model;
+      not a trained instance.
+    evidence_ids:
+    - supervisedprincipalcomponents-source-0
+  - name: aio-assessment
+    value: related_match,related_match
+    definition: 'Supervised principal components is a screening/PCA/regression algorithm,
+      with related mappings to task-scoped PCA and RegressionAnalysis. It is not ordinary
+      PCA, PLS cross-covariance optimization, LARS, ridge/lasso regularization or
+      a clustering output. SupervisedLearning is relevant task context; SurvivalAnalysis
+      and ProportionalHazardsModel describe an optional outcome setting rather than
+      the whole method. MPPCA and Gaussian factor analysis map broadly to Model. MPPCA
+      also maps related to PCA and Clustering, preserving model/task scope. It is
+      a normalized latent Gaussian mixture, not an LLM mixture of experts, GTM discrete-latent
+      smooth map, neural mixture-density network or hierarchical predictive experts.
+      Gaussian FA uses variable-specific diagonal residuals and continuous latent
+      factors; it is not identical to PCA/PPCA, GLM or the task-scoped random/fixed-effects
+      regression records. Fixed loadings and random latent scores do not by themselves
+      justify those AIO effect-model identities. PGM is broader contextual structure
+      but Model suffices without a forced exact match. ANN, AutoEncoderNetwork and
+      RepresentationLearning have network architecture scope; these candidates require
+      no neural network. Preprocessing and preprocessing-defined TrainingStrategy
+      cannot represent the entire model or screen-and-fit procedure. No pinned exact
+      candidate node was found within the full normalized identity comparison and
+      inspected semantic/context scope.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: mixturesofprobabilisticpca
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:MixturesOfProbabilisticPCA
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - mixturesofprobabilisticpca-source-0
+  summary: The normalized mixture distribution is distinct from a single PPCA model,
+    reconstruction-error-only local PCA, a diagonal-noise mixture of factor analyzers,
+    GTM, and predictive mixtures of experts. The model family and its EM or eigendecomposition
+    fitting variants share this record. Mixture components need not share a meaningful
+    latent coordinate system. Three candidate identities were compared against all
+    442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names
+    and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text
+    searches of both checkouts returned the same 144 matching lines across 34 files.
+    Every matched passage was read, comprising 83 unique excerpts; long serialized
+    web captures were inspected around each match with 220-character flanks, not reread
+    in full. Matches are discovery leads, PPCA distinctions, historical reviews and
+    PLSA/count-factorization references, not existing candidate records. All 222 semantic
+    label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges
+    comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six
+    contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings,
+    including ten native neighbors. This is a bounded snapshot/corpus assessment.
+  details: 'For nonnegative weights summing to one, p(t)=sum_i pi_i Normal(t;mu_i,C_i),
+    with C_i=W_i W_i^T+sigma_i^2 I and positive component noise variance. Sampling
+    selects a component before drawing its latent factor and observation. Its posterior
+    responsibility is pi_i p(t|i)/p(t); conditional on that component, the latent
+    posterior is Gaussian with mean M_i^(-1)W_i^T(t-mu_i) and covariance sigma_i^2
+    M_i^(-1), where M_i=W_i^T W_i+sigma_i^2 I. Permuting component labels or rotating
+    a component latent basis leaves the observation distribution unchanged. With component
+    assignments as missing data, EM computes responsibilities from the old mixture,
+    updates each weight by its responsibility mass divided by sample count, and updates
+    the mean by the weighted data mean. It forms a responsibility-weighted covariance
+    around that new mean. A PPCA eigensolution supplies each covariance update when
+    its rank and residual-variance conditions hold. Alternatively, the paper gives
+    a two-stage generalized EM update using one inner latent-variable EM step, with
+    the new mean, old loading/noise parameters and fixed outer responsibilities. This
+    differs from simultaneously substituting new parameters into every posterior calculation.
+    Responsibilities depend on the mixing weight, covariance determinant, in-subspace
+    Mahalanobis distance and noise-scaled orthogonal residual. They need not select
+    the component with the smallest orthogonal reconstruction error. Thus likelihood
+    fitting supplies a density and soft partition, not a guarantee of minimum reconstruction
+    error or a unique global manifold parameterization. Posterior latent means retain
+    PPCA shrinkage within each component. Well-defined exact EM or the specified generalized
+    EM step makes likelihood nondecreasing, but this does not guarantee convergence
+    to a finite local or global maximum from every initialization. Zero loadings remain
+    zero under the displayed iterative loading update. Without constraints preventing
+    covariance collapse, a component centered on an observation can shrink its isotropic
+    variance toward zero and make mixture likelihood unbounded. Empty responsibility
+    masses, rank-deficient covariances and tied eigenvalues also require treatment.
+    Latent dimension controls the component covariance restriction. The zero-factor
+    case is spherical Gaussian, while q=d-1 can represent any positive-definite d-dimensional
+    Gaussian covariance by using its smallest eigenvalue for isotropic noise. Intermediate
+    dimensions impose a repeated residual eigenvalue. Component count and latent dimension
+    are model-selection choices; a low-rank loading contribution is compatible with
+    full-rank positive-noise covariance. Limitations: Components and latent axes are
+    not uniquely labeled. Local density components need not correspond to semantic
+    classes or physical factors; mixture fitting is nonconvex and sensitive to initialization.
+    The source’s unqualified local-maximum statements are bounded here by stationary
+    starts and the unconstrained mixture-collapse counterexample. Positive variances
+    at finite iterates do not impose a positive lower bound on them. Image compression
+    may use reconstruction-based assignments after density fitting, and digit posterior
+    classification uses a different decision rule. Historical comparisons do not establish
+    universally better compression, clustering or recognition. All 30 primary reprint
+    pages were read. Finite calculations check weighted eigensolution and two-stage
+    EM likelihood increases, assignment disagreement and variance collapse. No historical
+    benchmark or author software was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A source-defined outcome-prediction algorithm or Gaussian latent model;
+      not a trained instance.
+    evidence_ids:
+    - mixturesofprobabilisticpca-source-0
+  - name: aio-assessment
+    value: broad_match,related_match,related_match
+    definition: 'Supervised principal components is a screening/PCA/regression algorithm,
+      with related mappings to task-scoped PCA and RegressionAnalysis. It is not ordinary
+      PCA, PLS cross-covariance optimization, LARS, ridge/lasso regularization or
+      a clustering output. SupervisedLearning is relevant task context; SurvivalAnalysis
+      and ProportionalHazardsModel describe an optional outcome setting rather than
+      the whole method. MPPCA and Gaussian factor analysis map broadly to Model. MPPCA
+      also maps related to PCA and Clustering, preserving model/task scope. It is
+      a normalized latent Gaussian mixture, not an LLM mixture of experts, GTM discrete-latent
+      smooth map, neural mixture-density network or hierarchical predictive experts.
+      Gaussian FA uses variable-specific diagonal residuals and continuous latent
+      factors; it is not identical to PCA/PPCA, GLM or the task-scoped random/fixed-effects
+      regression records. Fixed loadings and random latent scores do not by themselves
+      justify those AIO effect-model identities. PGM is broader contextual structure
+      but Model suffices without a forced exact match. ANN, AutoEncoderNetwork and
+      RepresentationLearning have network architecture scope; these candidates require
+      no neural network. Preprocessing and preprocessing-defined TrainingStrategy
+      cannot represent the entire model or screen-and-fit procedure. No pinned exact
+      candidate node was found within the full normalized identity comparison and
+      inspected semantic/context scope.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: gaussianfactoranalysis
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianFactorAnalysis
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - gaussianfactoranalysis-source-0
+  summary: This record covers the normal linear factor model with diagonal uniqueness
+    covariance. It does not encompass arbitrary non-Gaussian, nonlinear, nonnegative
+    or count-data factor models. PPCA adds an isotropic uniqueness restriction; EM
+    and ECME are fitting procedures for the factor model, not model synonyms. Confirmatory
+    zero-loading constraints and exploratory rotations require explicit identifiability
+    assessments. Three candidate identities were compared against all 442 pinned AIO
+    IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases,
+    with no normalized collision. Ignored- and hidden-inclusive full-text searches
+    of both checkouts returned the same 144 matching lines across 34 files. Every
+    matched passage was read, comprising 83 unique excerpts; long serialized web captures
+    were inspected around each match with 220-character flanks, not reread in full.
+    Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization
+    references, not existing candidate records. All 222 semantic label/synonym rows
+    were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified
+    prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise
+    29 unchanged prior readings and 7 current complete readings, including ten native
+    neighbors. This is a bounded snapshot/corpus assessment.
+  details: 'In column-vector notation, let y=mu+Wz+epsilon, z~Normal(0,R) with positive-definite
+    R, and independent epsilon~Normal(0,Psi), where Psi is diagonal and nonnegative.
+    Then y has covariance C=WRW^T+Psi. The residual coordinates are conditionally
+    independent given z; observed coordinates are generally dependent. R is often
+    fixed to identity. Unlike isotropic-noise PPCA, the uniqueness variances can differ
+    by observed variable, and the loading span need not be the leading covariance
+    eigenspace. For nonsingular C, the conditional factor mean is R W^T C^(-1)(y-mu),
+    and its covariance is R-RW^T C^(-1)WR. Complete-data EM uses these first moments
+    and second moments, including the posterior covariance. It updates allowed loading
+    coefficients through expected Gaussian regression sufficient statistics and uniqueness
+    variances through expected residual squares. Replacing missing factors by their
+    means while discarding posterior uncertainty is not this EM procedure. With R
+    fixed to identity and unrestricted loadings, an orthogonal rotation of the latent
+    coordinates changes W without changing WW^T. Further loading/uniqueness nonidentifiability
+    can remain in underspecified models, including constrained examples. A zero uniqueness
+    variance is a parameter boundary; it does not alone imply singular marginal covariance,
+    because latent contributions can supply that direction. Positive-definite observed
+    covariance and the specified parameter constraints must be checked separately.
+    EM can progress so slowly that an apparent plateau is not convergence. The paper’s
+    ECME alternative updates loadings using expected complete-data likelihood, then
+    updates uniqueness variances using actual observed likelihood; its Newton steps
+    must be checked for an increase. Missing observed coordinates can be integrated
+    using Gaussian conditional first and second moments and observed covariance submatrices.
+    The demonstrated incomplete-data likelihood assumes an ignorable missingness mechanism.
+    Neither EM nor the examples establish global optimality, universal speed improvement
+    or applicability to arbitrary missingness. Limitations: Latent dimension, covariance
+    constraints and loading restrictions are part of model specification. Gaussianity
+    and conditional residual independence can be misspecified; fitted factors are
+    not automatically causal, unique or biologically meaningful. Nonnegative uniqueness
+    and positive-definite marginal covariance are different conditions. Log-variance
+    parameterization remains strictly positive at finite coordinates; exact zero is
+    a boundary limit. This record uses the fully inspected Liu-Rubin 1998 primary
+    follow-up. The Rubin-Thayer 1982 full-text request returned HTTP 401; it was not
+    bypassed or treated as read. The 1983 critique remains abstract-level context,
+    not a fully reviewed proof about all stationary points. All 19 source pages were
+    read. Finite calculations check Gaussian conditioning, inclusion of posterior
+    variance, one EM improvement, rescaling and zero-uniqueness boundaries. Source
+    tables have inconsistent example labels and an apparent observation-count discrepancy;
+    those labels/counts are not asserted here. Historical fits and software were not
+    reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A source-defined outcome-prediction algorithm or Gaussian latent model;
+      not a trained instance.
+    evidence_ids:
+    - gaussianfactoranalysis-source-0
+  - name: aio-assessment
+    value: broad_match
+    definition: 'Supervised principal components is a screening/PCA/regression algorithm,
+      with related mappings to task-scoped PCA and RegressionAnalysis. It is not ordinary
+      PCA, PLS cross-covariance optimization, LARS, ridge/lasso regularization or
+      a clustering output. SupervisedLearning is relevant task context; SurvivalAnalysis
+      and ProportionalHazardsModel describe an optional outcome setting rather than
+      the whole method. MPPCA and Gaussian factor analysis map broadly to Model. MPPCA
+      also maps related to PCA and Clustering, preserving model/task scope. It is
+      a normalized latent Gaussian mixture, not an LLM mixture of experts, GTM discrete-latent
+      smooth map, neural mixture-density network or hierarchical predictive experts.
+      Gaussian FA uses variable-specific diagonal residuals and continuous latent
+      factors; it is not identical to PCA/PPCA, GLM or the task-scoped random/fixed-effects
+      regression records. Fixed loadings and random latent scores do not by themselves
+      justify those AIO effect-model identities. PGM is broader contextual structure
+      but Model suffices without a forced exact match. ANN, AutoEncoderNetwork and
+      RepresentationLearning have network architecture scope; these candidates require
+      no neural network. Preprocessing and preprocessing-defined TrainingStrategy
+      cannot represent the entire model or screen-and-fit procedure. No pinned exact
+      candidate node was found within the full normalized identity comparison and
+      inspected semantic/context scope.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: supervised-screening
+  area: consistency
+  topic: Outcome screening and new-sample prediction
+  outcome: supported
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  evidence_ids:
+  - supervisedprincipalcomponents-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the supervised screen/PCA/regression procedure and nonzero-singular-value
+    conditions.
+  details: The final procedure centers new observations by training means and projects
+    with V D inverse. For a unit-norm training component the response coefficient
+    is u transpose y; the new observation supplies no outcome. The finite construction
+    has ordinary leading variance 9 along a response-uncorrelated direction, whereas
+    screening retains the predictive variance-5 direction. A second construction shows
+    the fitting operation is nonlinear in training responses. Generalized score screening
+    does not equate the squared score statistic with a signed Gaussian score.
+- assessment_id: supervised-limits
+  area: consistency
+  topic: Marginal screening and latent coefficient consistency
+  outcome: supported
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  evidence_ids:
+  - supervisedprincipalcomponents-source-0
+  - finite-boundaries
+  summary: Preserve cancellation, tuning and source-specific consistency limits.
+  details: 'Independent latent variables give X1=Z1+Z2, X2=Z1 and Y=Z1-Z2: X1 has
+    zero marginal outcome covariance but is jointly useful because Y=2X2-X1. The source
+    asymptotics require Gaussian structure, signal separation, dimensional scaling
+    and successful relevant-coordinate selection; they do not prove universal cross-validation
+    consistency. Detailed source analysis distinguishes attenuated uncorrected coefficients
+    from noise-corrected latent coefficients. Ridge-favoring simulation context remains
+    in source notes; no universal prediction or clinical benefit is asserted.'
+- assessment_id: mixture-fitting
+  area: consistency
+  topic: Responsibilities, weighted covariance and GEM scheduling
+  outcome: supported
+  target_ids:
+  - AIMech:MixturesOfProbabilisticPCA
+  evidence_ids:
+  - mixturesofprobabilisticpca-source-0
+  - finite-boundaries
+  summary: Retain the normalized mixture and distinct fitting schedules.
+  details: Old parameters determine responsibilities, new responsibility-weighted
+    means center each local covariance, and a valid local PPCA eigensolution updates
+    the covariance. The alternative one-inner-step GEM uses old loading/noise with
+    the new mean and fixed outer assignments. Finite checks increase observed likelihood
+    for both schedules without asserting equality of their iterates or reproducing
+    a historical benchmark. Conditional latent coordinates retain component-specific
+    shrinkage and rotational ambiguity.
+- assessment_id: mixture-degeneracy
+  area: consistency
+  topic: Density assignments, local maxima and component covariance families
+  outcome: supported
+  target_ids:
+  - AIMech:MixturesOfProbabilisticPCA
+  evidence_ids:
+  - mixturesofprobabilisticpca-source-0
+  - finite-boundaries
+  - mapping
+  summary: Qualify the primary source local-maximum wording.
+  details: A finite example gives orthogonal reconstruction errors zero and four while
+    density favors the second component by exp(8). Mixing weights, determinants and
+    in-subspace distances matter. The covariance-collapse sequence increases likelihood
+    without a finite unconstrained maximum; zero loading is a stationary update and
+    empty masses/rank degeneracy need treatment. The q=d-1 covariance family can express
+    any positive-definite covariance, while positive noise and a low-rank loading
+    contribution are compatible. These are explicit curator deductions, not copied
+    blanket convergence claims.
+- assessment_id: factor-posterior
+  area: consistency
+  topic: Diagonal uniqueness, factor posterior and EM
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianFactorAnalysis
+  evidence_ids:
+  - gaussianfactoranalysis-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the Gaussian model and posterior uncertainty.
+  details: Unequal diagonal uniqueness distinguishes Gaussian factor analysis from
+    isotropic PPCA; the loading vector need not be a covariance eigenvector. The posterior
+    second moment includes variance, giving 1.74 rather than the squared posterior
+    mean 1.44 in the finite example. One complete-data EM update reduces the negative-log-likelihood
+    score. Conditional residual independence is not marginal observed independence,
+    and latent factors do not receive causal interpretations.
+- assessment_id: factor-boundaries
+  area: consistency
+  topic: Identifiability, zero uniqueness and missingness
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianFactorAnalysis
+  evidence_ids:
+  - gaussianfactoranalysis-source-0
+  - finite-boundaries
+  summary: Preserve separate covariance, loading and missingness conditions.
+  details: Rotating unrestricted loadings with identity factor covariance preserves
+    the law. A zero uniqueness can coexist with positive-definite observed covariance,
+    while setting additional uniqueness entries to zero can make it singular. Missing-data
+    calculations require conditional second moments and the source ignorable-missingness
+    setting. ECME observed-likelihood Newton steps require increase checks. The source
+    tables contain inconsistent labels and observation counts; those are retained
+    in source notes and excluded from assertions. Historical speed and stationary-point
+    examples do not establish universal or global guarantees.
+- assessment_id: source-and-mapping-scope
+  area: grounding
+  topic: Primary-source versions, access gaps and abstraction levels
+  outcome: supported
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - supervisedprincipalcomponents-source-0
+  - mixturesofprobabilisticpca-source-0
+  - gaussianfactoranalysis-source-0
+  summary: Retain distinct identities and bounded evidence.
+  details: All 68 pages of three primary PDFs were visually read. SPCA uses the final
+    2006 JASA paper rather than the 2004 preprint; MPPCA uses a dated author reprint
+    with its own pagination; Gaussian FA uses the complete 1998 primary follow-up.
+    The original 1982 full text returned 401, and the 1983 critique was read only
+    as an abstract. Model/task and algorithm/task mappings avoid forced equivalence
+    with neural architectures, task-scoped effect models and LLM mixture of experts.
+    Twenty new provisional cohorts and 389 pending leads preclude saturation.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:SupervisedPrincipalComponents
+  - AIMech:MixturesOfProbabilisticPCA
+  - AIMech:GaussianFactorAnalysis
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - supervisedprincipalcomponents-source-0
+  - mixturesofprobabilisticpca-source-0
+  - gaussianfactoranalysis-source-0
+  rationale: A supervised screening and prediction algorithm, a finite mixture of
+    isotropic-noise latent models and a single diagonal-uniqueness factor model have
+    distinct defining objects and operations. Model/task and algorithm/task mappings
+    preserve abstraction.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- 'All 68 primary PDF pages were visually read: supervised principal components 19,
+  MPPCA 30 and Liu-Rubin factor analysis 19. Internal MPPCA reprint pages are not
+  final journal pagination.'
+- Actual access times, source versions, redirects and byte hashes are retained. Search
+  capture does not imply inspection of every result. Full papers are not redistributed.
+- The original Rubin-Thayer 1982 full-text request returned HTTP 401 and was not bypassed.
+  The 1983 critique remains abstract-level context; its proof was not read. The core
+  factor model uses the fully inspected 1998 primary follow-up.
+- Supervised screening, training-only centering, nonzero singular values and multi-factor
+  cancellation qualify the predictor. Consistency and survival extensions have source-specific
+  assumptions; no clinical validity is asserted.
+- MPPCA likelihood assignments differ from reconstruction assignments. Conditional
+  ascent does not ensure a finite local maximum; stationary starts, rank degeneracy
+  and unconstrained covariance collapse remain possible.
+- Gaussian-factor rotations, diagonal uniqueness, positive marginal covariance and
+  missingness assumptions remain distinct. Inconsistent example labels and observation
+  counts in the 1998 source are recorded in reading notes and not promoted to assertions.
+- No source software, historical fit, biological experiment, training or benchmark
+  was reproduced. The finite calculations check bounded mathematical claims only.
+- Twenty new provisional cohorts leave 389 pending leads and other unresolved dispositions.
+  New cohort labels received ignored-inclusive comparison with prior labels and the
+  checkout; underlying method distinctness still requires source-level identity work.
+  No saturation is claimed.
+links: []
+tags:
+- native-concepts
+- supervised-and-gaussian-components
+- self-review
+- discovery-ongoing
+```
