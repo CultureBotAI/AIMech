@@ -1,0 +1,142 @@
+id: AIMech:WeightedMultiviewSpectralClustering
+name: Weighted Multiview Spectral Clustering
+aliases:
+- MVSpec
+- Tzortzis-Likas Multiview Spectral Clustering
+concept_kind: algorithm
+definition: A multiview clustering algorithm that alternates a leading-eigenspace relaxation of within-cluster
+  variance with simplex weights for a power-weighted combination of fixed view kernels, then discretizes
+  the final embedding.
+identity_notes: This is the Tzortzis-Likas 2012 MVSpec procedure; the local descriptive name is qualified
+  by that source-specific identity. It is not every weighted multiview spectral method. Unlike MVKKM,
+  it keeps an orthonormal embedding rather than a discrete partition during weight fitting. It differs
+  from normalized-Laplacian graph clustering, power iteration clustering, kernel PCA and binary spectral
+  hashing; a shared eigenvector operation does not establish equivalence. Compared all 442 pinned AIO
+  IDs, labels and scoped synonyms with all 490 preceding native IDs, names and aliases; no normalized
+  identity collision. Full searches of both checkouts include ignored and hidden files, with 5 matched
+  lines in the worktree and 5 in main. All 3 distinct matched texts were inspected as source-query and
+  frontier references. Nine annotated AIO nodes, nine generated YAMLs and seven native contextual YAMLs
+  were assessed. Seven unchanged annotated nodes and generated records, all 442 class labels and 138 semantic
+  rows reuse byte-verified earlier readings; two additional targets and the KernelLayer semantic row were
+  read, giving 139 semantic rows. Absence is bounded to this snapshot and corpus.
+definition_evidence:
+- source_id: kernel-source
+  locator: Sections III-B and IV, PDF pp. 3-5, Equations 3-4 and 8-10; Appendix B, PDF p. 10
+  relation: supports
+claims:
+- claim_id: power-weighted-kernel
+  kind: mechanism
+  statement: Given N aligned observations, V fixed positive-semidefinite view Gram matrices K_v, a supplied
+    cluster count M and exponent p>=1, form Ktilde=sum_v w_v^p K_v with nonnegative w and sum_v w_v=1.
+    The actual kernel coefficients are w_v^p, which need not sum to one. Their feature map concatenates
+    the view features scaled by sqrt(w_v^p). The supplied kernels, M and p are not all learned by this
+    procedure.
+  evidence:
+  - source_id: kernel-source
+    locator: Section IV-A, PDF p. 3, Equations 4-7
+    relation: supports
+- claim_id: relaxed-spectral-alternation
+  kind: mechanism
+  statement: For fixed w, choose N-by-M Y with Y^T Y=I spanning a leading M-dimensional eigenspace of
+    the raw composite kernel Ktilde. This minimizes tr(Ktilde)-tr(Y^T Ktilde Y) over that relaxed set.
+    Then compute D_v=tr(K_v)-tr(Y^T K_v Y) and update w by the conditional weight solution. Repeat without
+    discretizing Y between weight updates. The paper starts w uniformly and applies k-means-based discretization
+    to the final eigenvector embedding after convergence. That postprocessing is separate from the relaxed
+    optimization and may lose its optimal value.
+  evidence:
+  - source_id: kernel-source
+    locator: Section III-B, PDF p. 3, Equation 3; Section IV-B.2/4/5, PDF p. 4; Section IV-C, PDF p. 5;
+      Appendix B, PDF p. 10
+    relation: supports
+- claim_id: conditional-weight-solution
+  kind: mechanism
+  statement: For fixed positive residuals D_v and p>1, minimize sum_v D_v*w_v^p on the simplex using w_v=D_v^(-1/(p-1))/sum_u
+    D_u^(-1/(p-1)). This gives positive weights for every positive residual. If some residuals are zero,
+    the ratio formula is undefined; any weights supported entirely on zero-residual views minimize the
+    block. At p=1, select a minimum-residual view as in the source, while ties mathematically permit any
+    simplex distribution over minimizers. Neither zero-residual nor tied cases imply a unique weight vector.
+  evidence:
+  - source_id: kernel-source
+    locator: Section IV-B, PDF p. 4, Equations 9-10; Appendices A-B, PDF p. 10, Equations 11-18; curator
+      zero-residual and tied-minimum checks
+    relation: supports
+- claim_id: weight-and-coefficient-concentration
+  kind: scope
+  statement: For fixed positive residuals, increasing p makes the simplex weight ratio (D_u/D_v)^(1/(p-1))
+    approach one. The ratio of actual kernel coefficients is (D_u/D_v)^(p/(p-1)); as p grows it approaches
+    D_u/D_v, not generally one. Thus nearly uniform w does not imply uniform effective kernel contributions.
+    The source uses sparsity to describe relative concentration; finite p>1 with positive residuals does
+    not select exact zeros. The power-of-simplex constraint is not an asserted equivalence to every conventional
+    lp multiple-kernel regularizer.
+  evidence:
+  - source_id: kernel-source
+    locator: Section IV-C, PDF pp. 4-5; Equation 4 and related norm discussion, PDF p. 3; curator large-p
+      calculation
+    relation: supports
+- claim_id: scale-normalization
+  kind: limitation
+  statement: View residual scales affect the learned weights. The source divides each view kernel by its
+    mean pairwise squared feature distance, N^(-2)*sum_ij(K_vii-2*K_vij+K_vjj), to make scales comparable.
+    This denominator vanishes for a constant feature view and needs an explicit convention. Such normalization
+    does not establish that weights quantify semantic reliability or that a method is immune to uninformative
+    views.
+  evidence:
+  - source_id: kernel-source
+    locator: Section IV-C, PDF p. 5, last paragraph; Section V-B, PDF pp. 6-7; curator constant-kernel
+      and rescaling checks
+    relation: supports
+- claim_id: spectral-convergence-and-degeneracy
+  kind: limitation
+  statement: Exact spectral and weight block updates do not increase the nonnegative relaxed objective,
+    so its values converge. This alone does not prove unique parameter convergence or that every coordinatewise
+    fixed point is a joint local minimum. For K_1=diag(1,0), K_2=diag(0,1), M=1 and p=2, w=(1/2,1/2) gives
+    a tied composite eigenspace. Choosing Y=(1,1)/sqrt(2) is a valid fixed spectral/weight update with
+    objective 1/4, yet an arbitrarily small joint rotation and weight adjustment lowers the objective.
+    This curator example qualifies the source local-minimum claim under allowed eigenvalue ties; it does
+    not reproduce the source experiments.
+  evidence:
+  - source_id: kernel-source
+    locator: Section IV-C, PDF p. 5, convergence discussion; Appendix B, PDF p. 10; curator two-kernel
+      fixed-point calculation
+    relation: supports
+evidence_sources:
+- source_id: kernel-source
+  title: Kernel-based Weighted Multi-view Clustering
+  authors:
+  - Grigorios Tzortzis
+  - Aristidis Likas
+  source_type: primary_paper
+  url: https://www.cs.uoi.gr/~arly/full/conferences/C78.pdf
+  persistent_id: doi:10.1109/ICDM.2012.43
+  version: Author-hosted ten-page manuscript corresponding to ICDM 2012, pp. 675-684. This PDF has no
+    visible printed page numbering; locators use PDF pages. All ten pages, tables, figures and appendices
+    visually read.
+  access_level: full_text
+  accessed_at: '2026-10-12T05:49:46Z'
+  sha256: 96eb9aab2cdb190edfda4f00c211693a15bfa9593368723a833b100bfe96b103
+limitations:
+- The input must provide aligned views and valid PSD kernels. An arbitrary similarity matrix is not automatically
+  an RKHS Gram matrix. Kernel selection, requested cluster count and p remain modeling choices.
+- Dense Gram matrices require storage quadratic in N per view; the source uses repeated clustering or
+  eigensolutions, with additional initialization cost. No general scalability or global-optimum guarantee
+  is curated.
+- Source experiments use known class counts, parameter sweeps, selected digit/image subsets and specific
+  preprocessing; their NMI results do not establish universal superiority or label-free model selection.
+  No historical software or benchmark was reproduced.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: This complete algorithm groups unlabeled aligned multiview observations. The inspected AIO
+    target is a clustering task, so the association asserts neither equivalence nor an upstream subclass.
+    A dot-product KernelLayer, PCA projection and neural RepresentationLearning have different scopes.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:57:18Z'
+  updated_at: '2026-10-12T05:57:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
