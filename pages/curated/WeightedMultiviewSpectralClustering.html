@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weighted Multiview Spectral Clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Weighted Multiview Spectral Clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Weighted Multiview Spectral Clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:WeightedMultiviewSpectralClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MVSpec, Tzortzis-Likas Multiview Spectral Clustering
+    </div>
+
+  <div class="detail-desc">
+    A multiview clustering algorithm that alternates a leading-eigenspace relaxation of within-cluster variance with simplex weights for a power-weighted combination of fixed view kernels, then discretizes the final embedding.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the Tzortzis-Likas 2012 MVSpec procedure; the local descriptive name is qualified by that source-specific identity. It is not every weighted multiview spectral method. Unlike MVKKM, it keeps an orthonormal embedding rather than a discrete partition during weight fitting. It differs from normalized-Laplacian graph clustering, power iteration clustering, kernel PCA and binary spectral hashing; a shared eigenvector operation does not establish equivalence. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 490 preceding native IDs, names and aliases; no normalized identity collision. Full searches of both checkouts include ignored and hidden files, with 5 matched lines in the worktree and 5 in main. All 3 distinct matched texts were inspected as source-query and frontier references. Nine annotated AIO nodes, nine generated YAMLs and seven native contextual YAMLs were assessed. Seven unchanged annotated nodes and generated records, all 442 class labels and 138 semantic rows reuse byte-verified earlier readings; two additional targets and the KernelLayer semantic row were read, giving 139 semantic rows. Absence is bounded to this snapshot and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#power-weighted-kernel</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given N aligned observations, V fixed positive-semidefinite view Gram matrices K_v, a supplied cluster count M and exponent p&gt;=1, form Ktilde=sum_v w_v^p K_v with nonnegative w and sum_v w_v=1. The actual kernel coefficients are w_v^p, which need not sum to one. Their feature map concatenates the view features scaled by sqrt(w_v^p). The supplied kernels, M and p are not all learned by this procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A, PDF p. 3, Equations 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#relaxed-spectral-alternation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed w, choose N-by-M Y with Y^T Y=I spanning a leading M-dimensional eigenspace of the raw composite kernel Ktilde. This minimizes tr(Ktilde)-tr(Y^T Ktilde Y) over that relaxed set. Then compute D_v=tr(K_v)-tr(Y^T K_v Y) and update w by the conditional weight solution. Repeat without discretizing Y between weight updates. The paper starts w uniformly and applies k-means-based discretization to the final eigenvector embedding after convergence. That postprocessing is separate from the relaxed optimization and may lose its optimal value.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, PDF p. 3, Equation 3; Section IV-B.2/4/5, PDF p. 4; Section IV-C, PDF p. 5; Appendix B, PDF p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conditional-weight-solution</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed positive residuals D_v and p&gt;1, minimize sum_v D_v*w_v^p on the simplex using w_v=D_v^(-1/(p-1))/sum_u D_u^(-1/(p-1)). This gives positive weights for every positive residual. If some residuals are zero, the ratio formula is undefined; any weights supported entirely on zero-residual views minimize the block. At p=1, select a minimum-residual view as in the source, while ties mathematically permit any simplex distribution over minimizers. Neither zero-residual nor tied cases imply a unique weight vector.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B, PDF p. 4, Equations 9-10; Appendices A-B, PDF p. 10, Equations 11-18; curator zero-residual and tied-minimum checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#weight-and-coefficient-concentration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed positive residuals, increasing p makes the simplex weight ratio (D_u/D_v)^(1/(p-1)) approach one. The ratio of actual kernel coefficients is (D_u/D_v)^(p/(p-1)); as p grows it approaches D_u/D_v, not generally one. Thus nearly uniform w does not imply uniform effective kernel contributions. The source uses sparsity to describe relative concentration; finite p&gt;1 with positive residuals does not select exact zeros. The power-of-simplex constraint is not an asserted equivalence to every conventional lp multiple-kernel regularizer.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section IV-C, PDF pp. 4-5; Equation 4 and related norm discussion, PDF p. 3; curator large-p calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#scale-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    View residual scales affect the learned weights. The source divides each view kernel by its mean pairwise squared feature distance, N^(-2)*sum_ij(K_vii-2*K_vij+K_vjj), to make scales comparable. This denominator vanishes for a constant feature view and needs an explicit convention. Such normalization does not establish that weights quantify semantic reliability or that a method is immune to uninformative views.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section IV-C, PDF p. 5, last paragraph; Section V-B, PDF pp. 6-7; curator constant-kernel and rescaling checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#spectral-convergence-and-degeneracy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Exact spectral and weight block updates do not increase the nonnegative relaxed objective, so its values converge. This alone does not prove unique parameter convergence or that every coordinatewise fixed point is a joint local minimum. For K_1=diag(1,0), K_2=diag(0,1), M=1 and p=2, w=(1/2,1/2) gives a tied composite eigenspace. Choosing Y=(1,1)/sqrt(2) is a valid fixed spectral/weight update with objective 1/4, yet an arbitrarily small joint rotation and weight adjustment lowers the objective. This curator example qualifies the source local-minimum claim under allowed eigenvalue ties; it does not reproduce the source experiments.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kernel-source">Kernel-based Weighted Multi-view Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section IV-C, PDF p. 5, convergence discussion; Appendix B, PDF p. 10; curator two-kernel fixed-point calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The input must provide aligned views and valid PSD kernels. An arbitrary similarity matrix is not automatically an RKHS Gram matrix. Kernel selection, requested cluster count and p remain modeling choices.</li>
+      <li>Dense Gram matrices require storage quadratic in N per view; the source uses repeated clustering or eigensolutions, with additional initialization cost. No general scalability or global-optimum guarantee is curated.</li>
+      <li>Source experiments use known class counts, parameter sweeps, selected digit/image subsets and specific preprocessing; their NMI results do not establish universal superiority or label-free model selection. No historical software or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This complete algorithm groups unlabeled aligned multiview observations. The inspected AIO target is a clustering task, so the association asserts neither equivalence nor an upstream subclass. A dot-product KernelLayer, PCA projection and neural RepresentationLearning have different scopes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-kernel-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">kernel-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.uoi.gr/~arly/full/conferences/C78.pdf" target="_blank" rel="noopener">Kernel-based Weighted Multi-view Clustering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Grigorios Tzortzis, Aristidis Likas
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/ICDM.2012.43</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:96eb9aab2cdb…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T05:57:18Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T05:57:18Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/WeightedMultiviewSpectralClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/WeightedMultiviewSpectralClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
