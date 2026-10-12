@@ -1,0 +1,161 @@
+id: AIMech:BasisPursuit
+name: Basis pursuit
+concept_kind: mathematical_method
+definition: A signal-representation optimization principle that minimizes the L1 norm of real synthesis
+  coefficients subject to exact reconstruction of a supplied signal from a fixed finite dictionary.
+identity_notes: 'This record selects the equality-constrained, real finite-dictionary principle of Chen,
+  Donoho and Saunders. It is not a particular LP solver, a learned dictionary, generic sparse coding or
+  the penalized denoising extension. BP is a source abbreviation but is not asserted as an unqualified
+  alias. All 442 AIO IDs, labels and scoped synonyms and 524 preceding native IDs, names and aliases were
+  compared, with no normalized collision. Ignored/hidden-inclusive searches of both checkouts returned
+  the same 38 matching lines: the preceding source lead, contextual semiparametric LP record, its review
+  and rendered copies. All 29 distinct matched text windows were inspected. The semantic comparison read
+  114 AIO name/synonym/definition rows and 151 native name/definition rows; eight full annotated AIO CLASS
+  nodes and incident edges were inspected. Native least-angle regression, elastic net, NMF and iterated
+  Wiener filtering have different objectives or roles. The semiparametric LP regression fits epsilon-insensitive
+  residuals rather than requiring equality. These are bounded identity checks, not an assertion of absence
+  from all literature.'
+definition_evidence:
+- source_id: chen2001
+  locator: Sections 2.2 and 3.1, Equations 2.2 and 3.1–3.2, PDF pp. 6,11–13 / printed pp. 134,139–141
+  relation: supports
+claims:
+- claim_id: exact-synthesis-objective
+  kind: mechanism
+  statement: For a supplied real n-by-p matrix Phi whose columns are dictionary atoms and a signal s in
+    its column span, choose a real coefficient vector a minimizing sum_j abs(a_j) subject to Phi*a=s.
+    Overcompleteness is typical but not required. The dictionary stays fixed; a need not equal the analysis
+    coefficients Phi^T*s. If s is outside the column span, the equality-constrained problem is infeasible.
+    The optimization principle does not require or define a neural network.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 2.2 and 3.1, Equations 2.2 and 3.1–3.2, PDF pp. 6,11–13 / printed pp. 134,139–141
+    relation: supports
+- claim_id: linear-program-and-dual
+  kind: mechanism
+  statement: Writing a=u-v with u,v>=0 gives the LP minimize 1^T(u+v) subject to [Phi,-Phi](u,v)=s. Its
+    dual is maximize s^T*z subject to abs(Phi^T*z)<=1 componentwise. A feasible primal and feasible dual
+    with equal objective values certify optimality; complementary signs can additionally constrain active
+    coefficients. These formulas use real coefficients and are algebraic specializations of the source
+    LP, not a claim that signed coefficients are nonnegative.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 3.1 and 6.1, Equations 3.2 and 6.1–6.2, PDF pp. 11–12,24 / printed pp. 139–140,152;
+      curator-derived certificates in research/discovery/basis-pursuit-boundaries.py
+    relation: supports
+- claim_id: sparse-basic-solution-boundary
+  kind: limitation
+  statement: The source uses LP geometry to explain why a feasible finite problem has an optimal basic
+    representation with at most n nonzero signed coefficients. Existence of such an optimum does not make
+    every optimum sparse, establish uniqueness, require exactly n active coefficients, or guarantee minimum
+    nonzero count. Source-specific exact recovery results for particular dictionaries in Section 7.1 require
+    additional hypotheses; their cited external proofs were not independently audited.
+  evidence:
+  - source_id: chen2001
+    locator: Section 3.1.1 and Section 7.1, PDF pp. 12,28 / printed pp. 140,156
+    relation: supports
+- claim_id: l1-versus-l0-certificate
+  kind: limitation
+  statement: A curator-derived unit-column example distinguishes minimum L1 from minimum support. Let
+    Phi=[e1,e2,e3,b], where b=(8/9,4/9,1/9), and s=e1-b. The unique BP coefficients are (1/9,-4/9,-1/9,0),
+    with three nonzeros and L1=2/3. The dual z=(1,-1,-1) has correlations (1,-1,-1,1/3) and value 2/3;
+    its strict fourth constraint forces the fourth coefficient to zero at any optimum. Yet (1,0,0,-1)
+    reconstructs s with two nonzeros and L1=2. No single column is collinear with s, so the minimum support
+    is two. Thus even normalized atoms do not make BP an unconditional minimum-L0 method.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 3.1.1 and 6.1, PDF pp. 12,24 / printed pp. 140,152; curator-derived certificates
+      in research/discovery/basis-pursuit-boundaries.py
+    relation: supports
+- claim_id: nonuniqueness-and-scaling
+  kind: limitation
+  statement: For Phi=[1,1] and s=1, (1,0), (0,1) and (1/2,1/2) all minimize L1 at value 1. The last has
+    more nonzeros than the one-dimensional signal space, so the sparse-basic-solution existence result
+    does not describe every minimizer. Scaling the second atom to 2 changes the preferred representation
+    to (0,1/2), with objective 1/2. These exact curator examples show why coefficient attribution, support
+    and dictionary scaling require care; a fixed unweighted coefficient norm is not invariant to independently
+    rescaling atoms.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 2.1,3.1 and 6.1, PDF pp. 2–6,11–13,24 / printed pp. 130–134,139–141,152; curator-derived
+      certificates in research/discovery/basis-pursuit-boundaries.py
+    relation: supports
+- claim_id: denoising-boundary
+  kind: scope
+  statement: Section 5.1 instead defines basis pursuit denoising by minimizing (1/2)*||y-Phi*a||_2^2+lambda*||a||_1
+    for lambda>0. That penalized problem generally permits a residual and is outside the exact-equality
+    definition here. For scalar Phi=1,y=1,lambda=1/2 its minimizer is 1/2, while exact BP gives 1. Setting
+    lambda exactly to zero discards the L1 preference; it is not the same operation as selecting the limit
+    of positive-penalty optima. Any statement that the residual tends to zero also needs an exact representation
+    to be feasible.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 5.1–5.2, Equations 5.1 and 5.3, PDF pp. 19–20 / printed pp. 147–148; curator-derived
+      certificates in research/discovery/basis-pursuit-boundaries.py
+    relation: supports
+- claim_id: principle-versus-numerical-implementation
+  kind: scope
+  statement: Section 3.1.2 distinguishes the optimization principle from simplex and interior-point implementations.
+    The paper develops a primal-dual log-barrier implementation using approximate conjugate-gradient or
+    LSQR linear solves for dictionaries with fast synthesis and analysis products. Its perturbed programs
+    and finite tolerances approximate the exact problem; nonzero quadratic or residual regularization
+    is not silently an exact BP solution. Runtime depends on dictionary structure, signal and requested
+    accuracy, and the paper explicitly declines to guarantee reaching the optimum in reasonable time.
+    Selected synthetic examples and historical Sun SPARC20 timings do not establish universal sparsity,
+    superresolution, denoising superiority or a nearly-linear exact-solver bound.
+  evidence:
+  - source_id: chen2001
+    locator: Sections 3.1.2 and 6.2–6.6, Table 6.1, PDF pp. 13,24–28 / printed pp. 141,152–156
+    relation: supports
+evidence_sources:
+- source_id: chen2001
+  title: Atomic Decomposition by Basis Pursuit
+  authors:
+  - Scott Shaobing Chen
+  - David L. Donoho
+  - Michael A. Saunders
+  source_type: primary_paper
+  url: https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf
+  persistent_id: https://doi.org/10.1137/S003614450037906X
+  version: SIAM Review 43(1),129–159,2001; actual 31-page Stanford-hosted SIAM reprint, all pages visually
+    read including figures, Table 6.1 and 50 references. Printed page = PDF page + 128. Page 1 states
+    electronic publication 2 February 2001 and original appearance in SIAM Journal on Scientific Computing
+    20(1),33–61,1998. The 1998 paper and 1995 report were not byte-compared; later additions in this reprint
+    are not retroactively attributed to them.
+  access_level: full_text
+  accessed_at: '2026-10-12T11:50:18Z'
+  sha256: d6d80bd728930c8bbfd5f0c946c1a7dc090731dfcd3147869830bba2082758b3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: The pinned target denotes a representation-learning network that finds sparse linear representations
+    and identifies their elements, with exact synonyms sparse coding and sparse dictionary learning. BP
+    supplies a particular fixed-dictionary coefficient optimization principle, without learning atoms
+    or requiring a network. The sparse-representation relationship is direct, but these differences rule
+    out exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder likewise
+    denote different neural scopes. LassoRegression, LeastsquaresAnalysis, RegularizationLayer and MathematicalFunction
+    do not identify the exact-equality minimum-L1 principle; incidental use as FeatureExtraction is not
+    its defining role.
+limitations:
+- The record is limited to real finite dictionaries and exact equality. Complex coefficients, analysis
+  sparsity, weighted/group norms, noisy constrained forms and dictionary-learning algorithms need their
+  own evidence and identity decisions.
+- Optimal L1 need not recover the fewest atoms or a unique representation. Sparse exact-recovery theorems
+  require additional dictionary/signal assumptions; their external proofs were not audited.
+- All 31 pages of the 2001 reprint were visually read. External primary sources, the 1995 precursor and
+  the separate 1998 version remain uninspected in full. The image example in Section 7.2 is expressly
+  a modified BP-inspired method, not validation of this exact implementation.
+- Exact rational examples are curator calculations, not historical experiments. No optimizer, learned
+  model, benchmark or paid provider was run. The record remains DRAFT and has no independent scientific
+  approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T12:00:54Z'
+  updated_at: '2026-10-12T12:00:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

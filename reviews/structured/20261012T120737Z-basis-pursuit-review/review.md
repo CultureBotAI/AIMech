@@ -1,0 +1,737 @@
+# Scientific author self-review of basis pursuit
+
+- Review: 20261012T120737Z-basis-pursuit-review
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T12:03:17Z
+- Finished UTC: 2026-10-12T12:07:37Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the exact finite real-dictionary optimization principle. No actionable finding remains in this scoped record; sparse-recovery, solver, noisy-formulation and version limits are explicit.
+
+## Scope And Provenance
+
+Every field of one maintained basis-pursuit record.
+
+Selection: Exact maintainedID AIMech:BasisPursuit
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d7f9cef0da682b16a8504d2ff8db21ac4f4b8b9c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BasisPursuit | data/curated/BasisPursuit.yaml | maintained | Basis pursuit |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:BasisPursuit | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 109.78s (0:01:49)<br>Checked 442 record(s); 0 failed.<br>Checked 525 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 172 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 169,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:BasisPursuit | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:BasisPursuit | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:BasisPursuit | Exited0withoutoutput. |
+| Exact basis-pursuit certificates | passed | True | AIMech:BasisPursuit | {"unit_column_l0_counterexample": {"bp": {"objective": "2/3", "support": 3, "dual_correlations": ["1", "-1", "-1", "1/3"]}, "bp_unique": true, "minimum_l0": 2, "two_sparse_l1": "2"}, "duplicate_column_optima": [{"objective": "1", "support": 1, "dual_correlations": ["1", "1"]}, {"objective": "1", "support": 1, "dual_correlations": ["1", "1"]}, {"objective": "1", "support": 2, "dual_correlations": ["1", "1"]}], "scaled_column_optimum": {"objective": "1/2", "support": 1, "dual_correlations": ["1/2", "1"]}, "scalar_bp": "1", "scalar_bpdn": "1/2", "zero_penalty_non_bp_interpolant": ["2", "-1"]} |
+
+## Scientific And Domain Assessments
+
+### Exact fixed-dictionary optimization principle
+
+identity: supported. Targets: AIMech:BasisPursuit.
+
+Retain the distinct mathematical-method identity.
+
+A signal-representation optimization principle that minimizes the L1 norm of real synthesis coefficients subject to exact reconstruction of a supplied signal from a fixed finite dictionary. This record selects the equality-constrained, real finite-dictionary principle of Chen, Donoho and Saunders. It is not a particular LP solver, a learned dictionary, generic sparse coding or the penalized denoising extension. BP is a source abbreviation but is not asserted as an unqualified alias. All 442 AIO IDs, labels and scoped synonyms and 524 preceding native IDs, names and aliases were compared, with no normalized collision. Ignored/hidden-inclusive searches of both checkouts returned the same 38 matching lines: the preceding source lead, contextual semiparametric LP record, its review and rendered copies. All 29 distinct matched text windows were inspected. The semantic comparison read 114 AIO name/synonym/definition rows and 151 native name/definition rows; eight full annotated AIO CLASS nodes and incident edges were inspected. Native least-angle regression, elastic net, NMF and iterated Wiener filtering have different objectives or roles. The semiparametric LP regression fits epsilon-insensitive residuals rather than requiring equality. These are bounded identity checks, not an assertion of absence from all literature.
+
+### Sparse coding versus fixed-dictionary principle
+
+grounding: supported. Targets: AIMech:BasisPursuit.
+
+Related mapping preserves the neural and dictionary-learning scope differences.
+
+The pinned target denotes a representation-learning network that finds sparse linear representations and identifies their elements, with exact synonyms sparse coding and sparse dictionary learning. BP supplies a particular fixed-dictionary coefficient optimization principle, without learning atoms or requiring a network. The sparse-representation relationship is direct, but these differences rule out exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder likewise denote different neural scopes. LassoRegression, LeastsquaresAnalysis, RegularizationLayer and MathematicalFunction do not identify the exact-equality minimum-L1 principle; incidental use as FeatureExtraction is not its defining role.
+
+### exact synthesis objective
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+For a supplied real n-by-p matrix Phi whose columns are dictionary atoms and a signal s in its column span, choose a real coefficient vector a minimizing sum_j abs(a_j) subject to Phi*a=s. Overcompleteness is typical but not required. The dictionary stays fixed; a need not equal the analysis coefficients Phi^T*s. If s is outside the column span, the equality-constrained problem is infeasible. The optimization principle does not require or define a neural network. Locator: Sections 2.2 and 3.1, Equations 2.2 and 3.1–3.2, PDF pp. 6,11–13 / printed pp. 134,139–141
+
+### linear program and dual
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+Writing a=u-v with u,v&gt;=0 gives the LP minimize 1^T(u+v) subject to [Phi,-Phi](u,v)=s. Its dual is maximize s^T*z subject to abs(Phi^T*z)&lt;=1 componentwise. A feasible primal and feasible dual with equal objective values certify optimality; complementary signs can additionally constrain active coefficients. These formulas use real coefficients and are algebraic specializations of the source LP, not a claim that signed coefficients are nonnegative. Locator: Sections 3.1 and 6.1, Equations 3.2 and 6.1–6.2, PDF pp. 11–12,24 / printed pp. 139–140,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py
+
+### sparse basic solution boundary
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+The source uses LP geometry to explain why a feasible finite problem has an optimal basic representation with at most n nonzero signed coefficients. Existence of such an optimum does not make every optimum sparse, establish uniqueness, require exactly n active coefficients, or guarantee minimum nonzero count. Source-specific exact recovery results for particular dictionaries in Section 7.1 require additional hypotheses; their cited external proofs were not independently audited. Locator: Section 3.1.1 and Section 7.1, PDF pp. 12,28 / printed pp. 140,156
+
+### l1 versus l0 certificate
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+A curator-derived unit-column example distinguishes minimum L1 from minimum support. Let Phi=[e1,e2,e3,b], where b=(8/9,4/9,1/9), and s=e1-b. The unique BP coefficients are (1/9,-4/9,-1/9,0), with three nonzeros and L1=2/3. The dual z=(1,-1,-1) has correlations (1,-1,-1,1/3) and value 2/3; its strict fourth constraint forces the fourth coefficient to zero at any optimum. Yet (1,0,0,-1) reconstructs s with two nonzeros and L1=2. No single column is collinear with s, so the minimum support is two. Thus even normalized atoms do not make BP an unconditional minimum-L0 method. Locator: Sections 3.1.1 and 6.1, PDF pp. 12,24 / printed pp. 140,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py
+
+### nonuniqueness and scaling
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+For Phi=[1,1] and s=1, (1,0), (0,1) and (1/2,1/2) all minimize L1 at value 1. The last has more nonzeros than the one-dimensional signal space, so the sparse-basic-solution existence result does not describe every minimizer. Scaling the second atom to 2 changes the preferred representation to (0,1/2), with objective 1/2. These exact curator examples show why coefficient attribution, support and dictionary scaling require care; a fixed unweighted coefficient norm is not invariant to independently rescaling atoms. Locator: Sections 2.1,3.1 and 6.1, PDF pp. 2–6,11–13,24 / printed pp. 130–134,139–141,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py
+
+### denoising boundary
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+Section 5.1 instead defines basis pursuit denoising by minimizing (1/2)*&#124;&#124;y-Phi*a&#124;&#124;_2^2+lambda*&#124;&#124;a&#124;&#124;_1 for lambda&gt;0. That penalized problem generally permits a residual and is outside the exact-equality definition here. For scalar Phi=1,y=1,lambda=1/2 its minimizer is 1/2, while exact BP gives 1. Setting lambda exactly to zero discards the L1 preference; it is not the same operation as selecting the limit of positive-penalty optima. Any statement that the residual tends to zero also needs an exact representation to be feasible. Locator: Sections 5.1–5.2, Equations 5.1 and 5.3, PDF pp. 19–20 / printed pp. 147–148; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py
+
+### principle versus numerical implementation
+
+evidence: supported. Targets: AIMech:BasisPursuit.
+
+Supported within the stated mathematical and source scope.
+
+Section 3.1.2 distinguishes the optimization principle from simplex and interior-point implementations. The paper develops a primal-dual log-barrier implementation using approximate conjugate-gradient or LSQR linear solves for dictionaries with fast synthesis and analysis products. Its perturbed programs and finite tolerances approximate the exact problem; nonzero quadratic or residual regularization is not silently an exact BP solution. Runtime depends on dictionary structure, signal and requested accuracy, and the paper explicitly declines to guarantee reaching the optimum in reasonable time. Selected synthetic examples and historical Sun SPARC20 timings do not establish universal sparsity, superresolution, denoising superiority or a nearly-linear exact-solver bound. Locator: Sections 3.1.2 and 6.2–6.6, Table 6.1, PDF pp. 13,24–28 / printed pp. 141,152–156
+
+### L1 optimum versus minimum support
+
+consistency: supported. Targets: AIMech:BasisPursuit.
+
+The normalized-atom counterexample has an exact optimality certificate.
+
+Allfourcolumns have squarednorm1. The signal is (1/9,-4/9,-1/9); the three-coordinate solution has L1=2/3 and matching feasible dual value. Strict absolute dual correlation1/3 for the fourth atom forces its coefficient zero at any optimum, so the identity columns make the BPsolution unique. A two-coordinate representation exists, and pairwise proportionality checks exclude all one-coordinate representations. Therefore the stated minimumL0=2 and uniqueBPsupport3 follow without running an optimizer.
+
+### Sparse basic optimum versus every optimum
+
+consistency: supported. Targets: AIMech:BasisPursuit.
+
+The record avoids overreading the LP geometry.
+
+A feasible finite BPproblem has an attained minimum because the coefficientL1 objective is coercive on a closed nonempty feasible set. Standard nonnegative LPgeometry supplies a basic optimum, but does not restrict every optimum. The duplicate-column example has both one- and two-nonzero optima. Positive splitvariables are not positive signedcoefficients. Neither a unique full dictionary representation nor a minimum-L0 guarantee follows.
+
+### Exact reconstruction and denoising boundary
+
+consistency: supported. Targets: AIMech:BasisPursuit.
+
+The scalar calculation rejects identity at an arbitrary positive penalty.
+
+For Phi1,y1,lambda1/2 the positive coefficient1/2 has zero derivative of the convex penalized objective. ExactBP requirescoefficient1. Withlambda0andduplicatecolumns, (2,-1) interpolates but is not minimumL1; removing the penalty is not selecting its positive-penalty limit. Eq5.2 has an apparent printed factor-placement error; the record cites the consistent Eq5.1/5.3 objective instead. The report makes a separately sourced matched-convention Lasso comparison and leaves residual-budget variants pending.
+
+### Exact principle and approximate numerical programs
+
+consistency: supported. Targets: AIMech:BasisPursuit.
+
+The source-specific implementation limits remain explicit.
+
+Section3.1.2 explicitly names an optimization principle. Section6uses perturbed programs, tolerances, fast implicit products and iterative linear solves. The record does not label every numerical iterate an exact minimizer, require feasible starting iterates, conflate coefficient distance with objective gap, or infer a universal nearly-linear runtime. Synthetic visual examples and SunSPARC20times are not universal performance evidence. Section7.2 explicitly concerns a modified BP-inspired image method.
+
+### Complete maintained record
+
+provenance: supported. Targets: AIMech:BasisPursuit.
+
+Every field was read after canonical capture.
+
+Read stableID,name,kind,definition,identitynotes,definitionevidence,sevenclaims andlocators,sourceidentity/version/access/hash,pinnedmappingcommit/hash,relatedmappingrationale,limitations,DRAFTstatus andactualcreation/updateUTC. Reportentry matchesrecordbytes; calculation and primaryPDFhash verified. Earlier precursor/report years are distinguished. There are461pendingand45partlyaddressedcohorts, not saturation.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:BasisPursuit. Exact minimumL1 synthesis under equality is a distinct mathematical principle. It does not train dictionary atoms, require a neural network or specify a unique numerical solver. Penalizeddenoising and constrainednoisy variants are explicitly excluded; no duplicate Lasso native record is created.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T120252Z-basis-pursuit.json | supports | This record selects the equality-constrained, real finite-dictionary principle of Chen, Donoho and Saunders. It is not a particular LP solver, a learned dictionary, generic sparse coding or the penalized denoising extension. BP is a source abbreviation but is not asserted as an unqualified alias. All 442 AIO IDs, labels and scoped synonyms and 524 preceding native IDs, names and aliases were compared, with no normalized collision. Ignored/hidden-inclusive searches of both checkouts returned the same 38 matching lines: the preceding source lead, contextual semiparametric LP record, its review and rendered copies. All 29 distinct matched text windows were inspected. The semantic comparison read 114 AIO name/synonym/definition rows and 151 native name/definition rows; eight full annotated AIO CLASS nodes and incident edges were inspected. Native least-angle regression, elastic net, NMF and iterated Wiener filtering have different objectives or roles. The semiparametric LP regression fits epsilon-insensitive residuals rather than requiring equality. These are bounded identity checks, not an assertion of absence from all literature. |
+| mapping | sources/aio/aio.json; Eight declared annotated CLASS nodes and incident edges; fourteen contextual record inputs. | supports | The pinned target denotes a representation-learning network that finds sparse linear representations and identifies their elements, with exact synonyms sparse coding and sparse dictionary learning. BP supplies a particular fixed-dictionary coefficient optimization principle, without learning atoms or requiring a network. The sparse-representation relationship is direct, but these differences rule out exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder likewise denote different neural scopes. LassoRegression, LeastsquaresAnalysis, RegularizationLayer and MathematicalFunction do not identify the exact-equality minimum-L1 principle; incidental use as FeatureExtraction is not its defining role. |
+| chen2001 | https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf; SIAM Review 43(1),129–159,2001; actual 31-page Stanford-hosted SIAM reprint, all pages visually read including figures, Table 6.1 and 50 references. Printed page = PDF page + 128. Page 1 states electronic publication 2 February 2001 and original appearance in SIAM Journal on Scientific Computing 20(1),33–61,1998. The 1998 paper and 1995 report were not byte-compared; later additions in this reprint are not retroactively attributed to them. | supports | All31PDFpages visually read, including Sections1–7,16figures,Table6.1and50references. Definition and LPgeometry pages11–13 were visually reread after canonical capture. Separate1995/1998versions and external proofs/solver papers remain uninspected in full. |
+| certificates | research/discovery/basis-pursuit-boundaries.py | supports | Exact primal/dual equality certifies a unique3-sparseBPsolution despite a2-sparse representation with normalized atoms; tied duplicate-column optima have different support sizes. Scaling changes coefficient preference. Positive-penalty denoising differs from exactBP, and setting penalty0 removes L1selection. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; native status remains DRAFT.
+- One native DRAFT mathematical-method record added;525nativeand442unchangedAIOrecords.461pendingand45partlyaddressedcohorts plus other unresolved scopes mean discovery is ongoing.
+- All31pages of the2001primaryreprint were visually read; the separate1995/1998versions and referenced primary proofs/solvers were not fully audited.
+- No empirical solver, model or benchmark was executed. Exact rational certificates establish finite mathematical examples only.
+- The1999automatic-accuracy LPpaper remains pending accessible fullPDFinspection; inaccessible sources were not treated as absence.
+- PenalizedBPDN has a matched-convention Lassoobjective; no blanket alias across all noisy constrained forms, data conventions or parameter values is asserted. Generated AIOrecords remain unedited.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T120737Z-basis-pursuit-review
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of basis pursuit
+started_at: '2026-10-12T12:03:17Z'
+finished_at: '2026-10-12T12:07:37Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read all31primarypages, challenged sparsity/uniqueness/scaling
+    with exact dual certificates, and reread every targetfield and central definitionpages
+    after canonical capture. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the exact finite real-dictionary optimization principle. No actionable
+  finding remains in this scoped record; sparse-recovery, solver, noisy-formulation
+  and version limits are explicit.
+source:
+  git_revision: d7f9cef0da682b16a8504d2ff8db21ac4f4b8b9c
+  state: working_tree
+  inputs:
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/curated/BasisPursuit.yaml
+    sha256: 962cb52fb514105bea0b9296ad29569b0857a9fe8ecf437894dc1c1426010730
+    role: target
+  - path: data/curated/ElasticNet.yaml
+    sha256: b441d7068b074ed4e86fb51f24130cb3a9fb1eaff86e4fc318e619c21699ce6c
+    role: context
+  - path: data/curated/IteratedWienerFilter.yaml
+    sha256: 803905a00467ecfc963cbd5a24f5616013484c0d0ce57d205c386868346addac
+    role: context
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/NonnegativeMatrixFactorization.yaml
+    sha256: 3b79c0f7568f3cdc86f5779be7e9c3e2341c547682223e214a6b94031016df7b
+    role: context
+  - path: data/curated/SemiparametricLinearProgrammingRegression.yaml
+    sha256: e3cdf67f5bad5096075812498e31af4e8cd28c96c7dbe5afbd3931162d9cddba
+    role: context
+  - path: data/curated/SemiparametricSupportVectorRegression.yaml
+    sha256: 80fd2ce3bd4bd0cadc816ba97ea6a83603b4b1cd9834b922440e26f39fe27c12
+    role: context
+  - path: research/discovery/20261012T120252Z-basis-pursuit.json
+    sha256: ee9ba9112025f0b4510f68dc13fc6945a05998a08aacefab2665be9ce734d5f3
+    role: context
+  - path: research/discovery/basis-pursuit-boundaries.py
+    sha256: 316d464593b1beb9941e68704f1173374f66a203b5a3243d7ff579dbe39aa1d2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BasisPursuit
+  path: data/curated/BasisPursuit.yaml
+  label: Basis pursuit
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BasisPursuit.yaml
+    role: maintained
+scope:
+  description: Every field of one maintained basis-pursuit record.
+  selection: Exact maintainedID AIMech:BasisPursuit
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:BasisPursuit
+  exclusions:
+  - target: Contextual records
+    reason: Identity/mapping context only; no broad scientific re-review.
+  - target: Historical solver and empirical studies
+    reason: No optimizer,training or benchmark executed.
+  - target: External sparse-recovery proofs and variants
+    reason: Primary2001reprint read; referenced proofs,precursorversions andsolverfullmethods
+      unaudited.
+  - target: Discovery frontier
+    reason: 461pending and45partlyaddressedcohorts remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BasisPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 109.78s (0:01:49)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 525 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 172 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 169,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BasisPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BasisPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BasisPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0withoutoutput.
+- check_id: certificates
+  name: Exact basis-pursuit certificates
+  command: python3 research/discovery/basis-pursuit-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BasisPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"unit_column_l0_counterexample": {"bp": {"objective": "2/3", "support":
+    3, "dual_correlations": ["1", "-1", "-1", "1/3"]}, "bp_unique": true, "minimum_l0":
+    2, "two_sparse_l1": "2"}, "duplicate_column_optima": [{"objective": "1", "support":
+    1, "dual_correlations": ["1", "1"]}, {"objective": "1", "support": 1, "dual_correlations":
+    ["1", "1"]}, {"objective": "1", "support": 2, "dual_correlations": ["1", "1"]}],
+    "scaled_column_optimum": {"objective": "1/2", "support": 1, "dual_correlations":
+    ["1/2", "1"]}, "scalar_bp": "1", "scalar_bpdn": "1/2", "zero_penalty_non_bp_interpolant":
+    ["2", "-1"]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T120252Z-basis-pursuit.json
+  accessed_at: '2026-10-12T12:03:17Z'
+  support: supports
+  summary: 'This record selects the equality-constrained, real finite-dictionary principle
+    of Chen, Donoho and Saunders. It is not a particular LP solver, a learned dictionary,
+    generic sparse coding or the penalized denoising extension. BP is a source abbreviation
+    but is not asserted as an unqualified alias. All 442 AIO IDs, labels and scoped
+    synonyms and 524 preceding native IDs, names and aliases were compared, with no
+    normalized collision. Ignored/hidden-inclusive searches of both checkouts returned
+    the same 38 matching lines: the preceding source lead, contextual semiparametric
+    LP record, its review and rendered copies. All 29 distinct matched text windows
+    were inspected. The semantic comparison read 114 AIO name/synonym/definition rows
+    and 151 native name/definition rows; eight full annotated AIO CLASS nodes and
+    incident edges were inspected. Native least-angle regression, elastic net, NMF
+    and iterated Wiener filtering have different objectives or roles. The semiparametric
+    LP regression fits epsilon-insensitive residuals rather than requiring equality.
+    These are bounded identity checks, not an assertion of absence from all literature.'
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison and included as explicit identity
+    terms in the full-text whole-word searches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Eight declared annotated CLASS nodes and incident edges; fourteen contextual
+    record inputs.
+  accessed_at: '2026-10-12T12:03:17Z'
+  support: supports
+  summary: The pinned target denotes a representation-learning network that finds
+    sparse linear representations and identifies their elements, with exact synonyms
+    sparse coding and sparse dictionary learning. BP supplies a particular fixed-dictionary
+    coefficient optimization principle, without learning atoms or requiring a network.
+    The sparse-representation relationship is direct, but these differences rule out
+    exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder
+    likewise denote different neural scopes. LassoRegression, LeastsquaresAnalysis,
+    RegularizationLayer and MathematicalFunction do not identify the exact-equality
+    minimum-L1 principle; incidental use as FeatureExtraction is not its defining
+    role.
+- evidence_id: chen2001
+  kind: primary_source
+  reference: https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf
+  locator: SIAM Review 43(1),129–159,2001; actual 31-page Stanford-hosted SIAM reprint,
+    all pages visually read including figures, Table 6.1 and 50 references. Printed
+    page = PDF page + 128. Page 1 states electronic publication 2 February 2001 and
+    original appearance in SIAM Journal on Scientific Computing 20(1),33–61,1998.
+    The 1998 paper and 1995 report were not byte-compared; later additions in this
+    reprint are not retroactively attributed to them.
+  accessed_at: '2026-10-12T11:50:18Z'
+  snapshot_sha256: d6d80bd728930c8bbfd5f0c946c1a7dc090731dfcd3147869830bba2082758b3
+  support: supports
+  summary: All31PDFpages visually read, including Sections1–7,16figures,Table6.1and50references.
+    Definition and LPgeometry pages11–13 were visually reread after canonical capture.
+    Separate1995/1998versions and external proofs/solver papers remain uninspected
+    in full.
+- evidence_id: certificates
+  kind: record_content
+  reference: research/discovery/basis-pursuit-boundaries.py
+  accessed_at: '2026-10-12T12:03:17Z'
+  snapshot_sha256: 316d464593b1beb9941e68704f1173374f66a203b5a3243d7ff579dbe39aa1d2
+  support: supports
+  summary: Exact primal/dual equality certifies a unique3-sparseBPsolution despite
+    a2-sparse representation with normalized atoms; tied duplicate-column optima have
+    different support sizes. Scaling changes coefficient preference. Positive-penalty
+    denoising differs from exactBP, and setting penalty0 removes L1selection.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Exact fixed-dictionary optimization principle
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - identity
+  - chen2001
+  summary: Retain the distinct mathematical-method identity.
+  details: 'A signal-representation optimization principle that minimizes the L1 norm
+    of real synthesis coefficients subject to exact reconstruction of a supplied signal
+    from a fixed finite dictionary. This record selects the equality-constrained,
+    real finite-dictionary principle of Chen, Donoho and Saunders. It is not a particular
+    LP solver, a learned dictionary, generic sparse coding or the penalized denoising
+    extension. BP is a source abbreviation but is not asserted as an unqualified alias.
+    All 442 AIO IDs, labels and scoped synonyms and 524 preceding native IDs, names
+    and aliases were compared, with no normalized collision. Ignored/hidden-inclusive
+    searches of both checkouts returned the same 38 matching lines: the preceding
+    source lead, contextual semiparametric LP record, its review and rendered copies.
+    All 29 distinct matched text windows were inspected. The semantic comparison read
+    114 AIO name/synonym/definition rows and 151 native name/definition rows; eight
+    full annotated AIO CLASS nodes and incident edges were inspected. Native least-angle
+    regression, elastic net, NMF and iterated Wiener filtering have different objectives
+    or roles. The semiparametric LP regression fits epsilon-insensitive residuals
+    rather than requiring equality. These are bounded identity checks, not an assertion
+    of absence from all literature.'
+- assessment_id: mapping
+  area: grounding
+  topic: Sparse coding versus fixed-dictionary principle
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - mapping
+  - chen2001
+  summary: Related mapping preserves the neural and dictionary-learning scope differences.
+  details: The pinned target denotes a representation-learning network that finds
+    sparse linear representations and identifies their elements, with exact synonyms
+    sparse coding and sparse dictionary learning. BP supplies a particular fixed-dictionary
+    coefficient optimization principle, without learning atoms or requiring a network.
+    The sparse-representation relationship is direct, but these differences rule out
+    exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder
+    likewise denote different neural scopes. LassoRegression, LeastsquaresAnalysis,
+    RegularizationLayer and MathematicalFunction do not identify the exact-equality
+    minimum-L1 principle; incidental use as FeatureExtraction is not its defining
+    role.
+- assessment_id: exact-synthesis-objective
+  area: evidence
+  topic: exact synthesis objective
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'For a supplied real n-by-p matrix Phi whose columns are dictionary atoms
+    and a signal s in its column span, choose a real coefficient vector a minimizing
+    sum_j abs(a_j) subject to Phi*a=s. Overcompleteness is typical but not required.
+    The dictionary stays fixed; a need not equal the analysis coefficients Phi^T*s.
+    If s is outside the column span, the equality-constrained problem is infeasible.
+    The optimization principle does not require or define a neural network. Locator:
+    Sections 2.2 and 3.1, Equations 2.2 and 3.1–3.2, PDF pp. 6,11–13 / printed pp.
+    134,139–141'
+- assessment_id: linear-program-and-dual
+  area: evidence
+  topic: linear program and dual
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'Writing a=u-v with u,v>=0 gives the LP minimize 1^T(u+v) subject to [Phi,-Phi](u,v)=s.
+    Its dual is maximize s^T*z subject to abs(Phi^T*z)<=1 componentwise. A feasible
+    primal and feasible dual with equal objective values certify optimality; complementary
+    signs can additionally constrain active coefficients. These formulas use real
+    coefficients and are algebraic specializations of the source LP, not a claim that
+    signed coefficients are nonnegative. Locator: Sections 3.1 and 6.1, Equations
+    3.2 and 6.1–6.2, PDF pp. 11–12,24 / printed pp. 139–140,152; curator-derived certificates
+    in research/discovery/basis-pursuit-boundaries.py'
+- assessment_id: sparse-basic-solution-boundary
+  area: evidence
+  topic: sparse basic solution boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'The source uses LP geometry to explain why a feasible finite problem has
+    an optimal basic representation with at most n nonzero signed coefficients. Existence
+    of such an optimum does not make every optimum sparse, establish uniqueness, require
+    exactly n active coefficients, or guarantee minimum nonzero count. Source-specific
+    exact recovery results for particular dictionaries in Section 7.1 require additional
+    hypotheses; their cited external proofs were not independently audited. Locator:
+    Section 3.1.1 and Section 7.1, PDF pp. 12,28 / printed pp. 140,156'
+- assessment_id: l1-versus-l0-certificate
+  area: evidence
+  topic: l1 versus l0 certificate
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'A curator-derived unit-column example distinguishes minimum L1 from minimum
+    support. Let Phi=[e1,e2,e3,b], where b=(8/9,4/9,1/9), and s=e1-b. The unique BP
+    coefficients are (1/9,-4/9,-1/9,0), with three nonzeros and L1=2/3. The dual z=(1,-1,-1)
+    has correlations (1,-1,-1,1/3) and value 2/3; its strict fourth constraint forces
+    the fourth coefficient to zero at any optimum. Yet (1,0,0,-1) reconstructs s with
+    two nonzeros and L1=2. No single column is collinear with s, so the minimum support
+    is two. Thus even normalized atoms do not make BP an unconditional minimum-L0
+    method. Locator: Sections 3.1.1 and 6.1, PDF pp. 12,24 / printed pp. 140,152;
+    curator-derived certificates in research/discovery/basis-pursuit-boundaries.py'
+- assessment_id: nonuniqueness-and-scaling
+  area: evidence
+  topic: nonuniqueness and scaling
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'For Phi=[1,1] and s=1, (1,0), (0,1) and (1/2,1/2) all minimize L1 at value
+    1. The last has more nonzeros than the one-dimensional signal space, so the sparse-basic-solution
+    existence result does not describe every minimizer. Scaling the second atom to
+    2 changes the preferred representation to (0,1/2), with objective 1/2. These exact
+    curator examples show why coefficient attribution, support and dictionary scaling
+    require care; a fixed unweighted coefficient norm is not invariant to independently
+    rescaling atoms. Locator: Sections 2.1,3.1 and 6.1, PDF pp. 2–6,11–13,24 / printed
+    pp. 130–134,139–141,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py'
+- assessment_id: denoising-boundary
+  area: evidence
+  topic: denoising boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'Section 5.1 instead defines basis pursuit denoising by minimizing (1/2)*||y-Phi*a||_2^2+lambda*||a||_1
+    for lambda>0. That penalized problem generally permits a residual and is outside
+    the exact-equality definition here. For scalar Phi=1,y=1,lambda=1/2 its minimizer
+    is 1/2, while exact BP gives 1. Setting lambda exactly to zero discards the L1
+    preference; it is not the same operation as selecting the limit of positive-penalty
+    optima. Any statement that the residual tends to zero also needs an exact representation
+    to be feasible. Locator: Sections 5.1–5.2, Equations 5.1 and 5.3, PDF pp. 19–20
+    / printed pp. 147–148; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py'
+- assessment_id: principle-versus-numerical-implementation
+  area: evidence
+  topic: principle versus numerical implementation
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: Supported within the stated mathematical and source scope.
+  details: 'Section 3.1.2 distinguishes the optimization principle from simplex and
+    interior-point implementations. The paper develops a primal-dual log-barrier implementation
+    using approximate conjugate-gradient or LSQR linear solves for dictionaries with
+    fast synthesis and analysis products. Its perturbed programs and finite tolerances
+    approximate the exact problem; nonzero quadratic or residual regularization is
+    not silently an exact BP solution. Runtime depends on dictionary structure, signal
+    and requested accuracy, and the paper explicitly declines to guarantee reaching
+    the optimum in reasonable time. Selected synthetic examples and historical Sun
+    SPARC20 timings do not establish universal sparsity, superresolution, denoising
+    superiority or a nearly-linear exact-solver bound. Locator: Sections 3.1.2 and
+    6.2–6.6, Table 6.1, PDF pp. 13,24–28 / printed pp. 141,152–156'
+- assessment_id: adversarial-l0
+  area: consistency
+  topic: L1 optimum versus minimum support
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: The normalized-atom counterexample has an exact optimality certificate.
+  details: Allfourcolumns have squarednorm1. The signal is (1/9,-4/9,-1/9); the three-coordinate
+    solution has L1=2/3 and matching feasible dual value. Strict absolute dual correlation1/3
+    for the fourth atom forces its coefficient zero at any optimum, so the identity
+    columns make the BPsolution unique. A two-coordinate representation exists, and
+    pairwise proportionality checks exclude all one-coordinate representations. Therefore
+    the stated minimumL0=2 and uniqueBPsupport3 follow without running an optimizer.
+- assessment_id: adversarial-geometry
+  area: consistency
+  topic: Sparse basic optimum versus every optimum
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: The record avoids overreading the LP geometry.
+  details: A feasible finite BPproblem has an attained minimum because the coefficientL1
+    objective is coercive on a closed nonempty feasible set. Standard nonnegative
+    LPgeometry supplies a basic optimum, but does not restrict every optimum. The
+    duplicate-column example has both one- and two-nonzero optima. Positive splitvariables
+    are not positive signedcoefficients. Neither a unique full dictionary representation
+    nor a minimum-L0 guarantee follows.
+- assessment_id: adversarial-noise
+  area: consistency
+  topic: Exact reconstruction and denoising boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  - certificates
+  summary: The scalar calculation rejects identity at an arbitrary positive penalty.
+  details: For Phi1,y1,lambda1/2 the positive coefficient1/2 has zero derivative of
+    the convex penalized objective. ExactBP requirescoefficient1. Withlambda0andduplicatecolumns,
+    (2,-1) interpolates but is not minimumL1; removing the penalty is not selecting
+    its positive-penalty limit. Eq5.2 has an apparent printed factor-placement error;
+    the record cites the consistent Eq5.1/5.3 objective instead. The report makes
+    a separately sourced matched-convention Lasso comparison and leaves residual-budget
+    variants pending.
+- assessment_id: adversarial-solver
+  area: consistency
+  topic: Exact principle and approximate numerical programs
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - chen2001
+  summary: The source-specific implementation limits remain explicit.
+  details: Section3.1.2 explicitly names an optimization principle. Section6uses perturbed
+    programs, tolerances, fast implicit products and iterative linear solves. The
+    record does not label every numerical iterate an exact minimizer, require feasible
+    starting iterates, conflate coefficient distance with objective gap, or infer
+    a universal nearly-linear runtime. Synthetic visual examples and SunSPARC20times
+    are not universal performance evidence. Section7.2 explicitly concerns a modified
+    BP-inspired image method.
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete maintained record
+  outcome: supported
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - identity
+  - mapping
+  - chen2001
+  - certificates
+  summary: Every field was read after canonical capture.
+  details: Read stableID,name,kind,definition,identitynotes,definitionevidence,sevenclaims
+    andlocators,sourceidentity/version/access/hash,pinnedmappingcommit/hash,relatedmappingrationale,limitations,DRAFTstatus
+    andactualcreation/updateUTC. Reportentry matchesrecordbytes; calculation and primaryPDFhash
+    verified. Earlier precursor/report years are distinguished. There are461pendingand45partlyaddressedcohorts,
+    not saturation.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:BasisPursuit
+  evidence_ids:
+  - identity
+  - mapping
+  - chen2001
+  - certificates
+  rationale: Exact minimumL1 synthesis under equality is a distinct mathematical principle.
+    It does not train dictionary atoms, require a neural network or specify a unique
+    numerical solver. Penalizeddenoising and constrainednoisy variants are explicitly
+    excluded; no duplicate Lasso native record is created.
+limitations:
+- Adversarial author self-review only; native status remains DRAFT.
+- One native DRAFT mathematical-method record added;525nativeand442unchangedAIOrecords.461pendingand45partlyaddressedcohorts
+  plus other unresolved scopes mean discovery is ongoing.
+- All31pages of the2001primaryreprint were visually read; the separate1995/1998versions
+  and referenced primary proofs/solvers were not fully audited.
+- No empirical solver, model or benchmark was executed. Exact rational certificates
+  establish finite mathematical examples only.
+- The1999automatic-accuracy LPpaper remains pending accessible fullPDFinspection;
+  inaccessible sources were not treated as absence.
+- PenalizedBPDN has a matched-convention Lassoobjective; no blanket alias across all
+  noisy constrained forms, data conventions or parameter values is asserted. Generated
+  AIOrecords remain unedited.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- basis-pursuit
+- self-review
+- discovery-ongoing
+```
