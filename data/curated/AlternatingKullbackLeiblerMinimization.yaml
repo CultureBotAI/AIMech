@@ -1,0 +1,115 @@
+name: Alternating Kullback-Leibler Minimization
+aliases:
+- Alternating I-Divergence Minimization
+- Alternating Information Projection
+concept_kind: algorithm
+definition: A paired-distribution optimization procedure that alternately minimizes Kullback-Leibler divergence
+  in its first and second arguments over specified convex probability families.
+identity_notes: 'Scoped to the exact two-family KL procedure analyzed by Csiszar and Tusnady. The information-projection
+  alias is qualified here by KL direction and the two-family objective. It is not all block coordinate
+  descent, arbitrary Bregman projection, or the later GAM framework permitting inexact parameter/distribution
+  steps. Iterative proportional fitting and Sinkhorn scaling have their own margin constraints; sharing
+  a projection interpretation does not identify the complete algorithms. No normalized identity collision
+  across all 442 pinned AIO IDs, labels/scoped synonyms and 483 maintained IDs, names and aliases. Full-checkout
+  searches in the worktree and main included ignored and hidden files: 8 and 9 matched lines, respectively,
+  reduce to six distinct matched texts, all inspected. Hits concern existing discovery leads and the unrelated
+  assembler mnemonic AAM. The fixed-family exact KL projection procedure is narrower than generalized
+  alternating minimization; weight-only EM fixes component laws rather than fitting a full mixture model;
+  rate-distortion BA minimizes information plus distortion with a fixed source, whereas the IM algorithm
+  maximizes a variational information bound; adaptive alternating minimization changes the feasible families
+  at each iteration. Qualified AAM and descriptive weight-only names avoid unsupported acronym or historical
+  naming claims. Absence is bounded to this snapshot and inspected corpus. Identity-search counts: 8 worktree
+  and 9 main matched lines, all six distinct texts read, including ignored and hidden files.'
+definition_evidence:
+- source_id: projection-source
+  locator: Sections1-3, pp205-218 / PDF1-14; Eq1.1, three/four-point properties and Theorem3
+  relation: supports
+evidence_sources:
+- source_id: projection-source
+  title: Information Geometry and Alternating Minimization Procedures
+  authors:
+  - Imre Csiszar
+  - Gabor Tusnady
+  source_type: primary_paper
+  url: https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf
+  version: Statistics & Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983.
+    MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204. Almost-empty text
+    extraction was not treated as absence of content.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:44:25Z'
+  sha256: 96ef51b835fdd5d2f26b2505476b063cb4963a39db169b342be54af94ceb2e8b
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: The inspected procedure includes statistical distribution fitting from observations. This
+    relates that fitting realization to the task-scoped AIO learning process, without making all mathematical
+    applications learning tasks or asserting algorithm/task equivalence or an is-a edge.
+claims:
+- claim_id: two-directed-minima
+  kind: mechanism
+  statement: Start with Q_0 in the second family. At each iteration choose P_n minimizing D(P||Q_(n-1))
+    over the first family, then Q_n minimizing D(P_n||Q) over the second. For probability laws, D(P||Q)=integral
+    log(dP/dQ)dP, with infinity when absolute continuity fails. The two coordinate projections have different
+    directions. Each displayed argmin must exist and be finite along the realized sequence; this is not
+    supplied by the algorithm name. Exact steps cannot increase the paired objective.
+  evidence:
+  - source_id: projection-source
+    locator: Section1 Eq1.1, pp205-208 / PDF1-4; Section3 Eq3.1 and Lemmas2-3, pp214-218 / PDF10-14
+    relation: supports
+- claim_id: accessible-infimum
+  kind: scope
+  statement: 'The convex-family KL construction has the three-point and four-point inequalities used to
+    prove a five-point descent inequality. The objective tends to the infimum over the initialization-accessible
+    first-family laws: those with finite D(P||Q_n) for some iterate. Equality of that infimum with the
+    unrestricted one is an additional support/accessibility condition. Objective convergence is distinct
+    from convergence of the distributions. In finite probability spaces, closed families are compact;
+    analogous arguments for unnormalized measures need their own boundedness or compactness justification.'
+  evidence:
+  - source_id: projection-source
+    locator: Sections1-2, Theorems1-2, pp207-213 / PDF3-9; Section3 Theorem3 and subsequent proof, pp217-218
+      / PDF13-14
+    relation: supports
+- claim_id: finite-measure-extension
+  kind: limitation
+  statement: The paper also uses uncorrected D(P||Q) for finite measures, which can be negative when their
+    masses differ. Its nonnegative auxiliary is D(P||Pprime)+Pprime(X)-P(X). That extension must not be
+    silently treated as probability KL. The stopping-bound step that integrates log(dQ_n/dQ_(n-1)) against
+    a minimizing P requires its total-mass factor unless P is normalized. A convergent Q sequence alone
+    also does not force successive density ratios to approach one at coordinates whose limit is zero.
+    The saved finite examples exhibit both issues.
+  evidence:
+  - source_id: projection-source
+    locator: Section3 Eq3.1-3.3 and Eq3.11 discussion, pp214-219 / PDF10-15; curator finite-measure scaling
+      and vanishing-coordinate examples
+    relation: supports
+- claim_id: likelihood-lifting
+  kind: scope
+  statement: For incomplete-data fitting, a family of complete laws with prescribed observed marginal
+    can be paired with a model-distribution family. Projection onto the prescribed marginal rescales the
+    current joint law by the observed-to-current marginal ratio; the other projection fits the model to
+    the completed law. A convex model-distribution family can inherit the global accessible-infimum result.
+    Jointly parameterized nonconvex mixture or neural families do not become convex merely because they
+    use EM.
+  evidence:
+  - source_id: projection-source
+    locator: Section4 Theorem4 and Eq4.1-4.6, pp220-221 / PDF16-17; Section5A, pp226-230 / PDF22-26
+    relation: supports
+limitations:
+- The maintained identity uses probability families; finite-measure formulas in the source are explicitly
+  separated. On infinite spaces, positivity alone does not ensure finite KL or compactness.
+- The unbounded off-support Q example challenges a compactness step in the finite-measure proof, not the
+  theorem for closed finite probability families. No blanket theorem refutation is asserted.
+- Finite curator calculations check selected support, normalization and convergence boundaries. They are
+  not author software, historical experiments or a proof of every source theorem.
+id: AIMech:AlternatingKullbackLeiblerMinimization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:22:42Z'
+  updated_at: '2026-10-12T05:29:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
