@@ -1,0 +1,119 @@
+name: Kernel Principal Component Analysis
+aliases:
+- Kernel PCA
+- KPCA
+concept_kind: algorithm
+definition: A spectral feature-extraction algorithm that performs principal component analysis on centered
+  implicit feature vectors by eigendecomposing a positive-semidefinite kernel Gram matrix and evaluating
+  new-point coordinates through kernel expansions.
+identity_notes: 'The Schölkopf-Smola-Müller kernel eigenvalue construction generalizes ordinary PCA to
+  a kernel-defined feature space. It includes linear PCA as a special case but is not the identity of
+  ordinary input-space PCA, an SVM classifier, a dot-product KernelLayer, Isomap, LLE or Diffusion Maps.
+  A trained embedding, chosen kernel and preimage approximation are not separate aliases for the algorithm.
+  Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms
+  and 454 preceding native IDs, names and aliases, with no normalized match. Searches of both complete
+  checkouts included ignored and hidden files and returned the same 176 matched-line set across 81 paths.
+  All matching excerpts were read and distinguished from existing concept records; historical ledgers
+  were not reread in full solely because they contained a match. All 213 semantic-search rows were read,
+  including 212 unchanged prior rows and the additional KernelLayer row. Twenty-one annotated AIO nodes
+  with outgoing edges were inspected: 19 unchanged prior readings and two new readings. Thirty-one contextual
+  YAMLs, including ten native neighbors, comprise 23 unchanged prior readings and eight complete readings
+  in this round. This identity assessment is bounded to the pinned snapshot and maintained corpus.'
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2-4.1, Equations 2.7-2.15 and 4.1, printed pp. 1301-1305 / PDF pp. 3-7; Appendix B,
+    pp. 1316-1317 / PDF pp. 18-19
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Nonlinear Component Analysis as a Kernel Eigenvalue Problem
+  authors:
+  - Bernhard Schölkopf
+  - Alexander Smola
+  - Klaus-Robert Müller
+  source_type: primary_paper
+  url: https://alex.smola.org/papers/1998/SchSmoMul98.pdf
+  version: Author-hosted final Neural Computation 10(5):1299-1319 (1998) PDF. All 21 pages visually read;
+    printed page equals PDF page plus 1298. The 1996 technical report and 1997 acceptance date are predecessor
+    metadata, not the publication year.
+  persistent_id: https://alex.smola.org/papers/1998/SchSmoMul98.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T01:53:46Z'
+  sha256: ac778f1c3740ca0fc9b197b52766d0d99a21435aa718b9d9837c5f39abc511d8
+claims:
+- claim_id: centered-kernel-eigenproblem
+  kind: mechanism
+  statement: For M training points and a positive-semidefinite kernel k, form K_ij=k(x_i,x_j) and Kc=H
+    K H with H=I-11^T/M. If Kc v=kappa v, ||v||=1 and kappa>0, coefficients alpha=v/sqrt(kappa) define
+    a unit feature-space principal axis. The corresponding empirical covariance eigenvalue is kappa/M.
+    Centered rank is at most M-1. Zero Gram eigenvalues do not define additional nonzero covariance directions.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations 2.7-2.15, printed pp. 1301-1302 / PDF pp. 3-4; Appendices A-B, pp. 1315-1317
+      / PDF pp. 17-19; curator explicit distinction of Gram and covariance eigenvalues
+    relation: supports
+- claim_id: new-point-projection
+  kind: mechanism
+  statement: 'For a new x, center its similarity to each training point using the same training feature
+    mean: kc_i(x)=k(x_i,x)-M^(-1)sum_j k(x_j,x)-M^(-1)sum_j K_ij+M^(-2)sum_jl K_jl. Its component coordinate
+    is sum_i alpha_i kc_i(x). Centering input coordinates before a nonlinear kernel does not generally
+    center the feature vectors; centering each test batch independently changes the learned projection.'
+  evidence:
+  - source_id: method-source
+    locator: Equation 4.1, printed p. 1305 / PDF p. 7; Appendix B, Equations B.1-B.4 and test-kernel formula,
+      pp. 1316-1317 / PDF pp. 18-19
+    relation: supports
+- claim_id: feature-space-optimality
+  kind: scope
+  statement: With a fixed valid kernel, leading components maximize retained empirical variance and minimize
+    rank-constrained squared reconstruction error in the centered feature space. Their sample coordinates
+    are uncorrelated, not necessarily statistically independent. They can outnumber input dimensions.
+    A linear kernel recovers ordinary PCA with consistent centering. Truncated feature reconstructions
+    or principal directions need not have an exact input-space preimage, so reconstructing original inputs
+    is a separate problem.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4.2-4.5, Figures 1-2 and Equation 4.2, printed pp. 1305-1309 / PDF pp. 7-11; Section
+      6.3.5, pp. 1314-1315 / PDF pp. 16-17
+    relation: supports
+- claim_id: kernel-validity
+  kind: limitation
+  statement: 'The feature-space covariance interpretation requires a positive-semidefinite kernel. The
+    paper lists sigmoid similarities, but arbitrary tanh parameters do not meet that requirement: a curator
+    two-point example k(x,y)=tanh(x*y), x in {1,2}, gives a negative Gram determinant and a negative eigenvalue
+    even after centering. Keeping selected positive eigenpairs of an indefinite similarity does not establish
+    that the original similarity is a Hilbert-space inner product.'
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equation 3.7, printed p. 1304 / PDF p. 6; Appendix C, Equations C.1-C.3, p. 1317
+      / PDF p. 19; curator finite PSD counterexample
+    relation: supports
+limitations:
+- Kernel and hyperparameter selection remain modeling decisions. An eigensolution for a fixed kernel does
+  not solve all kernel-selection or preimage optimization problems.
+- The exact Gram construction requires storage quadratic in training sample count; partial eigensolvers,
+  subsets and reduced-set projections are additional approximation choices. Implicit features avoid explicit
+  feature-dimension costs, not all sample-size costs.
+- Eigenvector signs and bases within degenerate eigenspaces are nonunique. Variance and reconstruction
+  guarantees concern the chosen feature space, not causal factors, independence, universal input reconstruction
+  or classification accuracy.
+- All 21 source pages were inspected. Finite calculations verify centering, eigenvalue scaling, projection
+  and PSD boundaries; the historical USPS classifier experiments and author implementation were not reproduced.
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Kernel PCA uses ordinary PCA in an implicit centered feature space and recovers it for a
+    linear kernel. The pinned task-hierarchy PCA record is related to this particular kernel algorithm;
+    the mapping asserts neither exact identity nor a forced algorithm/task subclass relation.
+id: AIMech:KernelPCA
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:05:59Z'
+  updated_at: '2026-10-12T02:05:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

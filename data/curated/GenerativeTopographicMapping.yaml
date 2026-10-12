@@ -1,0 +1,124 @@
+name: Generative Topographic Mapping
+aliases:
+- GTM
+concept_kind: model_family
+definition: A nonlinear latent-variable density model with a uniform discrete prior on fixed latent grid
+  nodes, mapped through a shared smooth function to the centers of an equal-weight Gaussian mixture with
+  common isotropic covariance.
+identity_notes: 'Scoped to the original fixed-basis GTM construction and its batch EM fitting. The shared
+  latent-to-data map ties Gaussian centers and distinguishes the model from an unconstrained mixture,
+  a conditional mixture-density network, a Kohonen map and topographic ICA energy dependence. Gaussian
+  radial basis functions are a usual map choice, not an identity with every radial-basis network. Learned
+  mixture weights, heteroscedastic extensions and mixtures of GTMs require separate scope. Three candidate
+  identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 454 preceding
+  native IDs, names and aliases, with no normalized match. Searches of both complete checkouts included
+  ignored and hidden files and returned the same 176 matched-line set across 81 paths. All matching excerpts
+  were read and distinguished from existing concept records; historical ledgers were not reread in full
+  solely because they contained a match. All 213 semantic-search rows were read, including 212 unchanged
+  prior rows and the additional KernelLayer row. Twenty-one annotated AIO nodes with outgoing edges were
+  inspected: 19 unchanged prior readings and two new readings. Thirty-one contextual YAMLs, including
+  ten native neighbors, comprise 23 unchanged prior readings and eight complete readings in this round.
+  This identity assessment is bounded to the pinned snapshot and maintained corpus.'
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2-2.1, Equations 1-14, reprint/PDF pp. 3-5; Section 2.4, p. 8
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'GTM: The Generative Topographic Mapping'
+  authors:
+  - Christopher M. Bishop
+  - Markus Svensén
+  - Christopher K. I. Williams
+  source_type: primary_paper
+  url: https://www.microsoft.com/en-us/research/wp-content/uploads/1998/01/bishop-gtm-ncomp-98.pdf
+  version: Microsoft Research author reprint of the 1998 Neural Computation 10(1):215-234 article. All
+    16 PDF pages visually read. Locators use the reprint internal pages, which coincide with PDF pages,
+    not the journal pagination.
+  persistent_id: https://www.microsoft.com/en-us/research/wp-content/uploads/1998/01/bishop-gtm-ncomp-98.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T01:53:49Z'
+  sha256: 296ee07618735e368901d1a46d5ad1a78b2fd13fcfa1efc2ea544caba9975af1
+claims:
+- claim_id: constrained-density
+  kind: mechanism
+  statement: Choose K fixed nodes x_i in a latent space of dimension L<D, fixed smooth basis vectors phi(x_i),
+    a weight matrix W and shared precision beta>0. Set y_i=W phi(x_i) and p(t)=K^(-1)sum_i Normal(t;y_i,beta^(-1)I_D).
+    This finite mixture is normalized exactly for finite parameters; the equal node weights do not imply
+    a uniform density over the mapped surface. Mixture centers move together through W rather than being
+    independent free parameters.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2-2.1, Equations 1-7, reprint/PDF pp. 3-5
+    relation: supports
+- claim_id: exact-em-fitting
+  kind: mechanism
+  statement: For N observations, the E-step gives R_in proportional to exp(-beta*||t_n-W phi(x_i)||^2/2),
+    normalized over nodes i. With Phi_ij=phi_j(x_i), T containing data rows and G_ii=sum_n R_in, the unregularized
+    M-step solves Phi^T G Phi W_new^T=Phi^T R T. Then beta_new^(-1)=(ND)^(-1)sum_ni R_in||t_n-W_new phi(x_i)||^2,
+    using the old responsibilities. Exact well-defined EM updates make the observed-data log likelihood
+    nondecreasing. Rank deficiency can require a pseudoinverse or another weighted least-squares minimizer;
+    zero residual variance lies outside the finite-positive-precision model.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equations 8-14, reprint/PDF pp. 5-6; Section 2.4, p. 8; curator rank, boundary
+      and EM qualifications
+    relation: supports
+- claim_id: posterior-visualization
+  kind: mechanism
+  statement: Bayes responsibilities define a posterior distribution over latent nodes for each observation.
+    A posterior-mean display uses sum_i R_in x_i; a modal display selects a node with maximum responsibility.
+    Multimodal posteriors can make the mean misleading. Smooth forward mapping supports local continuity,
+    but does not ensure global injectivity, distance preservation or a unique inverse. A curator circular-map
+    example has identical images for separated latent nodes and a posterior mean at a nearly unsupported
+    middle node.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, Equations 17-19, reprint/PDF p. 6; Sections 2 and 4.2, pp. 4 and 12; curator
+      smooth-map counterexample
+    relation: supports
+- claim_id: fitting-and-comparison-scope
+  kind: limitation
+  statement: EM objective nondecrease is narrower than an unconditional guarantee of convergence to a
+    local maximum or globally optimal density. Gaussian weight regularization changes the objective to
+    MAP and changes the normal equations. The original comparisons with SOM concern explicit mixture probability,
+    soft responsibilities and tied-center regression; they do not establish universal superiority, monotonic
+    posterior concentration or biologically correct topology.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equations 15-16, reprint/PDF p. 6; Sections 4.1-4.2, Equations 21-27 and Figures
+      6-7, pp. 9-13; curator qualification of the paper’s convergence language
+    relation: supports
+limitations:
+- Latent dimension, nodes, basis functions and smoothness parameters are modeling choices. The source
+  does not establish automatic recovery of the true manifold or globally preserved topology.
+- Likelihood fitting is nonconvex and sensitive to initialization and model choice. Responsibilities require
+  numerically stable evaluation; exact finite-parameter EM statements do not guarantee arbitrary approximate
+  or floating-point implementations.
+- The source’s effective regression smoother can have negative entries; it is not the posterior responsibility
+  matrix. Its row-sum property relies on the stated constant-basis and unregularized algebra.
+- The 16-page author reprint, including simulated oil-flow and toy-curve experiments, was read completely.
+  Finite calculations check a tiny exact update and a topology boundary; no author software, empirical
+  training or benchmark comparison was reproduced.
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: GTM is a specific latent-variable probability model within the pinned class of mathematical
+    representations.
+- target: AIO:ManifoldLearning
+  relation: related_match
+  rationale: GTM models a smooth lower-dimensional latent-to-data map with observation noise and uses
+    its posterior for visualization. The AIO target is in the dimensionality-reduction task hierarchy;
+    this relation preserves the model/task distinction and does not claim perfect manifold recovery.
+id: AIMech:GenerativeTopographicMapping
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:05:59Z'
+  updated_at: '2026-10-12T02:05:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
