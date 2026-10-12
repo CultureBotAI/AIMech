@@ -5,3 +5,5 @@ Added [VMP](../../data/curated/VariationalMessagePassing.yaml) as a DRAFT algori
 [Finite calculations](vmp-boundaries.py) check message routing, the Gaussian variance term and a stationary saddle. No author implementation or source experiment was run.
 
 The [structured report](20261012T231014Z-variational-message-passing.json) retains 485 pending and 56 partly addressed main-frontier cohorts and additional incompletely assessed source leads.
+
+Author review identified a minor terminology omission. The bound-accounting claim now explicitly names log model evidence, log p(v), consistently with the earlier equation and primary source; https://github.com/CultureBotAI/AIMech/issues/211 tracks the correction and successor review.
