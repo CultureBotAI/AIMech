@@ -1,0 +1,162 @@
+id: AIMech:SemiparametricSupportVectorRegression
+name: Semiparametric support vector regression
+aliases:
+- Semiparametric SV regression
+concept_kind: algorithm
+definition: A supervised regression algorithm that jointly fits an unpenalized finite expansion of supplied
+  basis functions and a kernel component, minimizing fixed epsilon-insensitive residual loss plus a squared
+  feature-space norm penalty on the kernel component.
+identity_notes: 'Selected source-specific scalar-regression formulation from Smola, Friess and Scholkopf,
+  NIPS 1998. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 522 existing native
+  IDs, names and aliases; no normalized identity collision. Fixed-string whole-word searches across both
+  checkouts included ignored and hidden files, expanded labels, semiparametric spellings, author variants
+  and paper identifiers. All 54 matching locations were accounted for through 23 distinct text windows:
+  the previous source lead, its metadata correction and an unrelated semiparametric factor-analysis reference.
+  The semantic search returned 126 AIO name/definition rows and 121 native name/definition rows. Prior
+  readings were reused only with unchanged contents; new rows were read. Thirty-five full contextual records
+  were hash-verified, including the new nu-SVR/SVC records; twelve complete annotated AIO CLASS nodes
+  and their edges were inspected. This is a bounded snapshot/corpus assessment, not a claim of absence
+  from all literature. This record covers the unpenalized parametric component in Section 2. A constant-only
+  supplied basis recovers the usual intercept special case. It is distinct from nu-SVR learning a tube
+  width, the 2000 supplied-insensitivity basis that changes the tube shape, coefficient-L1 linear-programming
+  regression and the additional penalties on the supplied basis in Section 3. Generic semiparametric statistics
+  and all later semiparametric SVM variants are not aliases.'
+definition_evidence:
+- source_id: smola1998
+  locator: Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587
+  relation: supports
+claims:
+- claim_id: joint-function-objective
+  kind: mechanism
+  statement: For scalar responses y_i, a positive-semidefinite kernel k with feature map psi, fixed epsilon>=0
+    and lambda>0, use f(x)=w.psi(x)+sum_j beta_j*phi_j(x). The finite functions phi_j are supplied; the
+    real beta_j are unpenalized. Jointly minimize sum_i max(0,abs(y_i-f(x_i))-epsilon)+(lambda/2)*||w||^2.
+    Constant phi=1 gives an intercept, but no extra intercept is implicit when it is omitted from the
+    supplied basis. The component changes the fitted function rather than learning an input-dependent
+    tube.
+  evidence:
+  - source_id: smola1998
+    locator: Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587
+    relation: supports
+- claim_id: normalized-dual
+  kind: mechanism
+  statement: 'After dividing the primal objective by lambda, write a_i=alpha_i-alpha_star_i. Maximize
+    y.a-(1/2)*a^T*K*a-epsilon*sum_i(alpha_i+alpha_star_i), subject to 0<=alpha_i,alpha_star_i<=1/lambda
+    and sum_i a_i*phi_j(x_i)=0 for every supplied basis function. Recover w=sum_i a_i*psi(x_i) and f(x)=sum_i
+    a_i*k(x_i,x)+sum_j beta_j*phi_j(x). The printed Equation 6 uses this normalized convention: its optimal
+    value equals the raw Equation 5 primal value divided by lambda, not the raw value itself.'
+  evidence:
+  - source_id: smola1998
+    locator: Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587; curator-derived exact
+      certificates in research/discovery/semiparametric-regression-boundaries.py
+    relation: supports
+- claim_id: coefficient-recovery
+  kind: mechanism
+  statement: The supplied-basis coefficients can be recovered through the primal/dual KKT conditions or
+    as equality-constraint multipliers of the normalized dual; the paper uses an interior-point method.
+    For a free alpha_i, y_i-f(x_i)=epsilon; for a free alpha_star_i, f(x_i)-y_i=epsilon. Recovering every
+    beta from such equations needs sufficient independent information. Free coefficients, full basis rank
+    and unique beta are not guaranteed.
+  evidence:
+  - source_id: smola1998
+    locator: Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587
+    relation: supports
+- claim_id: sequential-fit-boundary
+  kind: limitation
+  statement: Fitting the parametric component once and holding it fixed while fitting residuals need not
+    minimize the joint objective. A curator-derived specialization uses x=y=(1,3), epsilon=0, lambda=1/2
+    and f(x)=w*x+beta. The joint optimum w=1,beta=0 has raw objective 1/4. A first-stage absolute-loss
+    median beta=2, followed by optimal fitting with beta fixed, gives w=1/3 and objective 49/36. This
+    supports the paper’s one-pass counterexample; it does not establish failure of every iterative backfitting
+    or coordinate-descent procedure.
+  evidence:
+  - source_id: smola1998
+    locator: Section 4, PDF pp. 4–5 / printed pp. 588–589; curator-derived exact certificates in research/discovery/semiparametric-regression-boundaries.py
+    relation: supports
+- claim_id: supplied-basis-limits
+  kind: limitation
+  statement: The kernel norm does not penalize the supplied finite component. Appropriate basis choice
+    can encode prior structure, but the paper does not establish automatic recovery of the true basis,
+    globally identifiable coefficients or a universal accuracy benefit. Overlapping or rank-deficient
+    supplied functions can make beta nonunique. Section 3 changes the method when it adds an L1 penalty
+    to beta, replacing zero dual basis moments with bounds; that penalized variant is outside this record.
+  evidence:
+  - source_id: smola1998
+    locator: Sections 1–3, PDF pp. 1–4 / printed pp. 585–588, especially Equations 8 and 11
+    relation: supports
+- claim_id: evaluation-scope
+  kind: limitation
+  statement: 'The empirical study is a synthetic regression proof of concept: sin(x)+sinc(2*pi*(x-5)),
+    x uniform on [0,10], uniform additive noise with standard deviation 0.2, Gaussian RBF width 1/4 and
+    fixed epsilon=0.05. Unless stated otherwise, 100 datasets contain 50 observations each. The paper
+    compares a supplied sin(x),cos(x),1 basis, an incorrect-frequency sin(2x),cos(2x),1 basis and nonparametric
+    SV regression. Regularization is selected separately by 10-fold cross-validation; L1 and L2 errors
+    are evaluated over [0,10] with uniform measure. Table 1 parentheses count trials in which a model
+    was best. Its plus/minus uncertainty is not explicitly identified as standard deviation or standard
+    error. No numerical gain, universal superiority or guarantee that a wrong basis cannot harm is asserted
+    here.'
+  evidence:
+  - source_id: smola1998
+    locator: Section 5, Figures 2–5 and Table 1, PDF pp. 5–6 / printed pp. 589–590
+    relation: supports
+- claim_id: extension-and-proof-limits
+  kind: scope
+  statement: The discussion connects the model to smoothing splines and representer results and describes
+    polynomial augmentation for conditionally positive-definite kernels. The core record uses the positive-semidefinite
+    feature-space formulation actually specified above. Proposed compound-class risk bounds, hypothesis
+    testing and Gaussian-process extensions are future directions; the cited external kernel and representer
+    proofs were not independently audited.
+  evidence:
+  - source_id: smola1998
+    locator: Section 6 and references, PDF p. 7 / printed p. 591
+    relation: supports
+evidence_sources:
+- source_id: smola1998
+  title: Semiparametric Support Vector and Linear Programming Machines
+  authors:
+  - Alex J. Smola
+  - Thilo-Thomas Frieß
+  - Bernhard Schölkopf
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/1998/file/70efba66d3d8d53194fb1a8446ae07fa-Paper.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/1998/hash/70efba66d3d8d53194fb1a8446ae07fa-Abstract.html
+  version: Advances in Neural Information Processing Systems 11, pp. 585–591. Proceedings website and
+    BibTeX label NIPS 1998/year 1998; later bibliographies cite the book as 1999. Exact seven-page proceedings
+    PDF, all pages visually read including five figures, Table 1 and references. Printed page = PDF page
+    + 584.
+  access_level: full_text
+  accessed_at: '2026-10-12T11:27:03Z'
+  sha256: 9ff4bcbf38105cd1aa1a06e009fb559d3dc91dd895ef832860a29416776e31fb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The pinned target denotes a supervised estimation task. This record specifies a fitting algorithm
+    for real-valued responses, so the relation captures the task without asserting algorithm/task equivalence.
+    LinearRegression, RidgeRegression and LeastsquaresAnalysis do not specify this kernel expansion, fixed
+    epsilon-insensitive loss and differently regularized basis components.
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: The source extends support-vector kernel fitting, but the pinned AIO target describes a network
+    with input, hidden and output parts. The native record denotes an optimization algorithm, making this
+    a related abstraction rather than an exact match or asserted subclass. KernelLayer and RegularizationLayer
+    are neural components, while TrainingStrategy and Network are too general to identify this objective.
+limitations:
+- All seven original proceedings pages were visually read. External representer/kernel proofs, the 1998
+  report precursor and later extensions were not fully audited.
+- Exact rational primal/dual certificates are curator calculations, not historical benchmark reproductions.
+  No solver, trained model or paid provider was run.
+- The supplied basis, fixed epsilon and regularization choice remain user-specified; the record does not
+  establish automatic model selection or universal generalization.
+- This source-specific native algorithm remains DRAFT; discovery and saved author review do not imply
+  upstream AIO acceptance or independent peer review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T11:41:53Z'
+  updated_at: '2026-10-12T11:41:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,151 @@
+id: AIMech:SemiparametricLinearProgrammingRegression
+name: Semiparametric linear programming regression
+aliases:
+- Semiparametric LP regression
+concept_kind: algorithm
+definition: A supervised regression algorithm that jointly fits a finite kernel expansion and an unpenalized
+  supplied parametric basis by minimizing fixed epsilon-insensitive residual loss plus an L1 penalty on
+  the kernel expansion coefficients, yielding a linear program.
+identity_notes: 'Selected source-specific scalar-regression formulation from Smola, Friess and Scholkopf,
+  NIPS 1998. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 522 existing native
+  IDs, names and aliases; no normalized identity collision. Fixed-string whole-word searches across both
+  checkouts included ignored and hidden files, expanded labels, semiparametric spellings, author variants
+  and paper identifiers. All 54 matching locations were accounted for through 23 distinct text windows:
+  the previous source lead, its metadata correction and an unrelated semiparametric factor-analysis reference.
+  The semantic search returned 126 AIO name/definition rows and 121 native name/definition rows. Prior
+  readings were reused only with unchanged contents; new rows were read. Thirty-five full contextual records
+  were hash-verified, including the new nu-SVR/SVC records; twelve complete annotated AIO CLASS nodes
+  and their edges were inspected. This is a bounded snapshot/corpus assessment, not a claim of absence
+  from all literature. This record specifically selects Equation 9 of the 1998 paper, with its unpenalized
+  supplied basis. It is a source-defined finite-dictionary L1 regression variant, not a claim of a wholly
+  unrelated optimization principle. AIO LassoRegression supplies only a general variable-selection/regression
+  definition and does not identify this epsilon-insensitive kernel-dictionary formulation. Basis pursuit
+  is cited by the paper as related sparse coding; its broader variants remain a separate source lead.
+  Equations 8 and 10 add different penalties and generally require quadratic programming, so the whole
+  Section 3 heading is not treated as one LP algorithm. The fixed tube is distinct from later automatic-accuracy
+  LP regression.'
+definition_evidence:
+- source_id: smola1998
+  locator: Section 3, Equation 9 with Equations 4 and 7, PDF pp. 2–4 / printed pp. 586–588
+  relation: supports
+claims:
+- claim_id: coefficient-penalty-objective
+  kind: mechanism
+  statement: For scalar responses, a supplied finite basis phi_j, a fixed training-centered kernel dictionary
+    k(x_i,.) and fixed epsilon>=0, fit f(x)=sum_i c_i*k(x_i,x)+sum_j beta_j*phi_j(x). With lambda>0, minimize
+    sum_l max(0,abs(y_l-f(x_l))-epsilon)+lambda*sum_i abs(c_i). The supplied-basis beta coefficients are
+    unpenalized. The notation c distinguishes these optimized expansion coefficients from the dual multipliers
+    used in the squared-norm SV formulation; equality of those roles is not assumed.
+  evidence:
+  - source_id: smola1998
+    locator: Section 3, Equation 9 with Equations 4 and 7, PDF pp. 2–4 / printed pp. 586–588
+    relation: supports
+- claim_id: linear-program-form
+  kind: mechanism
+  statement: Introduce c_i=c_i_plus-c_i_minus with nonnegative parts and nonnegative residual slacks xi_l,xi_star_l.
+    Minimize lambda*sum_i(c_i_plus+c_i_minus)+sum_l(xi_l+xi_star_l), with y_l-f(x_l)<=epsilon+xi_l and
+    f(x_l)-y_l<=epsilon+xi_star_l. These are linear constraints and a linear objective in the coefficients
+    and slacks; beta is free. This is an algebraic expansion of Equation 9 with Equation 4, not a claimed
+    verbatim algorithm listing or a specific solver implementation.
+  evidence:
+  - source_id: smola1998
+    locator: Section 3, Equation 9 with Equations 4 and 7, PDF pp. 2–4 / printed pp. 586–588
+    relation: supports
+- claim_id: regularizer-distinction
+  kind: scope
+  statement: The coefficient-L1 penalty is different from the squared kernel norm c^T*K*c/2. With x=y=(-1,1),
+    linear kernel, constant supplied basis, epsilon=0 and lambda=3, a coefficient-L1 optimum has c=0,beta=0
+    and raw objective 2; the squared-norm formulation instead has w=2/3,beta=0 and raw objective 4/3.
+    These curator-derived exact optima show different fitted functions under the stated conventions; their
+    differently defined objective values are not comparative performance scores.
+  evidence:
+  - source_id: smola1998
+    locator: Sections 2–3, Equations 4–9, PDF pp. 2–4 / printed pp. 586–588; curator-derived exact certificates
+      in research/discovery/semiparametric-regression-boundaries.py
+    relation: supports
+- claim_id: sparsity-and-nonuniqueness
+  kind: limitation
+  statement: An L1 penalty does not guarantee a unique expansion or make every optimum equally sparse.
+    For the same two-point linear-kernel dictionary with lambda=1/2 and epsilon=0, coefficient vectors
+    (-1,0), (0,1) and (-1/2,1/2), all with beta=0, attain objective 1/2 and represent f(x)=x. The last
+    vector has two nonzero entries while the first two have one. This curator-derived certificate also
+    prevents interpreting individual kernel coefficients as uniquely identified contributions; the penalty
+    depends on the chosen dictionary and its scaling.
+  evidence:
+  - source_id: smola1998
+    locator: Section 3, Equation 9 with Equations 4 and 7, PDF pp. 2–4 / printed pp. 586–588; curator-derived
+      exact certificates in research/discovery/semiparametric-regression-boundaries.py
+    relation: supports
+- claim_id: other-regularizers-excluded
+  kind: scope
+  statement: Section 3 also gives a squared feature-space norm plus an L1 penalty on beta (Equation 8),
+    and a coefficient-L1 penalty plus beta^T*M*beta/2 for positive-semidefinite M (Equation 10). Those
+    generally have quadratic terms and are not automatically linear programs. Equation 9, selected here,
+    leaves beta unpenalized. Merely appearing under the paper’s linear-programming heading does not make
+    all its variants this algorithm.
+  evidence:
+  - source_id: smola1998
+    locator: Section 3, Equations 8–11, PDF p. 4 / printed p. 588
+    relation: supports
+- claim_id: evidence-and-use-limits
+  kind: limitation
+  statement: The supplied parametric basis provides a way to favor domain structure relative to the penalized
+    kernel dictionary. The paper’s experiments concern the squared-norm semiparametric support-vector
+    formulation, not a measured evaluation of Equation 9. No LP speed advantage, generalization benefit,
+    support-count guarantee or result transferred from the SV experiments is claimed. Other loss functions,
+    learned tube width, penalized supplied bases and classification LP machines require separate evidence
+    and identity assessment.
+  evidence:
+  - source_id: smola1998
+    locator: Abstract and Sections 3 and 5, PDF pp. 1,4–6 / printed pp. 585,588–590
+    relation: supports
+evidence_sources:
+- source_id: smola1998
+  title: Semiparametric Support Vector and Linear Programming Machines
+  authors:
+  - Alex J. Smola
+  - Thilo-Thomas Frieß
+  - Bernhard Schölkopf
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/1998/file/70efba66d3d8d53194fb1a8446ae07fa-Paper.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/1998/hash/70efba66d3d8d53194fb1a8446ae07fa-Abstract.html
+  version: Advances in Neural Information Processing Systems 11, pp. 585–591. Proceedings website and
+    BibTeX label NIPS 1998/year 1998; later bibliographies cite the book as 1999. Exact seven-page proceedings
+    PDF, all pages visually read including five figures, Table 1 and references. Printed page = PDF page
+    + 584.
+  access_level: full_text
+  accessed_at: '2026-10-12T11:27:03Z'
+  sha256: 9ff4bcbf38105cd1aa1a06e009fb559d3dc91dd895ef832860a29416776e31fb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The pinned target denotes a supervised estimation task. This record specifies a fitting algorithm
+    for real-valued responses, so the relation captures the task without asserting algorithm/task equivalence.
+    LinearRegression, RidgeRegression and LeastsquaresAnalysis do not specify this kernel expansion, fixed
+    epsilon-insensitive loss and differently regularized basis components.
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: The source extends support-vector kernel fitting, but the pinned AIO target describes a network
+    with input, hidden and output parts. The native record denotes an optimization algorithm, making this
+    a related abstraction rather than an exact match or asserted subclass. KernelLayer and RegularizationLayer
+    are neural components, while TrainingStrategy and Network are too general to identify this objective.
+limitations:
+- All seven original proceedings pages were visually read. External representer/kernel proofs, the 1998
+  report precursor and later extensions were not fully audited.
+- Exact rational primal/dual certificates are curator calculations, not historical benchmark reproductions.
+  No solver, trained model or paid provider was run.
+- The supplied basis, fixed epsilon and regularization choice remain user-specified; the record does not
+  establish automatic model selection or universal generalization.
+- This source-specific native algorithm remains DRAFT; discovery and saved author review do not imply
+  upstream AIO acceptance or independent peer review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T11:41:53Z'
+  updated_at: '2026-10-12T11:41:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

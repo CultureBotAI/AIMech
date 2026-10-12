@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Semiparametric support vector regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Semiparametric support vector regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Semiparametric support vector regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SemiparametricSupportVectorRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Semiparametric SV regression
+    </div>
+
+  <div class="detail-desc">
+    A supervised regression algorithm that jointly fits an unpenalized finite expansion of supplied basis functions and a kernel component, minimizing fixed epsilon-insensitive residual loss plus a squared feature-space norm penalty on the kernel component.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Selected source-specific scalar-regression formulation from Smola, Friess and Scholkopf, NIPS 1998. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 522 existing native IDs, names and aliases; no normalized identity collision. Fixed-string whole-word searches across both checkouts included ignored and hidden files, expanded labels, semiparametric spellings, author variants and paper identifiers. All 54 matching locations were accounted for through 23 distinct text windows: the previous source lead, its metadata correction and an unrelated semiparametric factor-analysis reference. The semantic search returned 126 AIO name/definition rows and 121 native name/definition rows. Prior readings were reused only with unchanged contents; new rows were read. Thirty-five full contextual records were hash-verified, including the new nu-SVR/SVC records; twelve complete annotated AIO CLASS nodes and their edges were inspected. This is a bounded snapshot/corpus assessment, not a claim of absence from all literature. This record covers the unpenalized parametric component in Section 2. A constant-only supplied basis recovers the usual intercept special case. It is distinct from nu-SVR learning a tube width, the 2000 supplied-insensitivity basis that changes the tube shape, coefficient-L1 linear-programming regression and the additional penalties on the supplied basis in Section 3. Generic semiparametric statistics and all later semiparametric SVM variants are not aliases.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-function-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For scalar responses y_i, a positive-semidefinite kernel k with feature map psi, fixed epsilon&gt;=0 and lambda&gt;0, use f(x)=w.psi(x)+sum_j beta_j*phi_j(x). The finite functions phi_j are supplied; the real beta_j are unpenalized. Jointly minimize sum_i max(0,abs(y_i-f(x_i))-epsilon)+(lambda/2)*||w||^2. Constant phi=1 gives an intercept, but no extra intercept is implicit when it is omitted from the supplied basis. The component changes the fitted function rather than learning an input-dependent tube.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#normalized-dual</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After dividing the primal objective by lambda, write a_i=alpha_i-alpha_star_i. Maximize y.a-(1/2)*a^T*K*a-epsilon*sum_i(alpha_i+alpha_star_i), subject to 0&lt;=alpha_i,alpha_star_i&lt;=1/lambda and sum_i a_i*phi_j(x_i)=0 for every supplied basis function. Recover w=sum_i a_i*psi(x_i) and f(x)=sum_i a_i*k(x_i,x)+sum_j beta_j*phi_j(x). The printed Equation 6 uses this normalized convention: its optimal value equals the raw Equation 5 primal value divided by lambda, not the raw value itself.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587; curator-derived exact certificates in research/discovery/semiparametric-regression-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#coefficient-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The supplied-basis coefficients can be recovered through the primal/dual KKT conditions or as equality-constraint multipliers of the normalized dual; the paper uses an interior-point method. For a free alpha_i, y_i-f(x_i)=epsilon; for a free alpha_star_i, f(x_i)-y_i=epsilon. Recovering every beta from such equations needs sufficient independent information. Free coefficients, full basis rank and unique beta are not guaranteed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 1 and 4–7, PDF pp. 2–3 / printed pp. 586–587</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sequential-fit-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fitting the parametric component once and holding it fixed while fitting residuals need not minimize the joint objective. A curator-derived specialization uses x=y=(1,3), epsilon=0, lambda=1/2 and f(x)=w*x+beta. The joint optimum w=1,beta=0 has raw objective 1/4. A first-stage absolute-loss median beta=2, followed by optimal fitting with beta fixed, gives w=1/3 and objective 49/36. This supports the paper’s one-pass counterexample; it does not establish failure of every iterative backfitting or coordinate-descent procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 4–5 / printed pp. 588–589; curator-derived exact certificates in research/discovery/semiparametric-regression-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#supplied-basis-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The kernel norm does not penalize the supplied finite component. Appropriate basis choice can encode prior structure, but the paper does not establish automatic recovery of the true basis, globally identifiable coefficients or a universal accuracy benefit. Overlapping or rank-deficient supplied functions can make beta nonunique. Section 3 changes the method when it adds an L1 penalty to beta, replacing zero dual basis moments with bounds; that penalized variant is outside this record.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–3, PDF pp. 1–4 / printed pp. 585–588, especially Equations 8 and 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The empirical study is a synthetic regression proof of concept: sin(x)+sinc(2*pi*(x-5)), x uniform on [0,10], uniform additive noise with standard deviation 0.2, Gaussian RBF width 1/4 and fixed epsilon=0.05. Unless stated otherwise, 100 datasets contain 50 observations each. The paper compares a supplied sin(x),cos(x),1 basis, an incorrect-frequency sin(2x),cos(2x),1 basis and nonparametric SV regression. Regularization is selected separately by 10-fold cross-validation; L1 and L2 errors are evaluated over [0,10] with uniform measure. Table 1 parentheses count trials in which a model was best. Its plus/minus uncertainty is not explicitly identified as standard deviation or standard error. No numerical gain, universal superiority or guarantee that a wrong basis cannot harm is asserted here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Figures 2–5 and Table 1, PDF pp. 5–6 / printed pp. 589–590</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#extension-and-proof-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The discussion connects the model to smoothing splines and representer results and describes polynomial augmentation for conditionally positive-definite kernels. The core record uses the positive-semidefinite feature-space formulation actually specified above. Proposed compound-class risk bounds, hypothesis testing and Gaussian-process extensions are future directions; the cited external kernel and representer proofs were not independently audited.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-smola1998">Semiparametric Support Vector and Linear Programming Machines</a></span>
+        <span>· <strong>Locator:</strong> Section 6 and references, PDF p. 7 / printed p. 591</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>All seven original proceedings pages were visually read. External representer/kernel proofs, the 1998 report precursor and later extensions were not fully audited.</li>
+      <li>Exact rational primal/dual certificates are curator calculations, not historical benchmark reproductions. No solver, trained model or paid provider was run.</li>
+      <li>The supplied basis, fixed epsilon and regularization choice remain user-specified; the record does not establish automatic model selection or universal generalization.</li>
+      <li>This source-specific native algorithm remains DRAFT; discovery and saved author review do not imply upstream AIO acceptance or independent peer review.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a supervised estimation task. This record specifies a fitting algorithm for real-valued responses, so the relation captures the task without asserting algorithm/task equivalence. LinearRegression, RidgeRegression and LeastsquaresAnalysis do not specify this kernel expansion, fixed epsilon-insensitive loss and differently regularized basis components.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupportVectorMachine.html" style="font-weight: 600;"><code>AIO:SupportVectorMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Support Vector Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source extends support-vector kernel fitting, but the pinned AIO target describes a network with input, hidden and output parts. The native record denotes an optimization algorithm, making this a related abstraction rather than an exact match or asserted subclass. KernelLayer and RegularizationLayer are neural components, while TrainingStrategy and Network are too general to identify this objective.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-smola1998">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">smola1998</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/1998/file/70efba66d3d8d53194fb1a8446ae07fa-Paper.pdf" target="_blank" rel="noopener">Semiparametric Support Vector and Linear Programming Machines</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alex J. Smola, Thilo-Thomas Frieß, Bernhard Schölkopf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/1998/hash/70efba66d3d8d53194fb1a8446ae07fa-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9ff4bcbf3810…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T11:41:53Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T11:41:53Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SemiparametricSupportVectorRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SemiparametricSupportVectorRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
