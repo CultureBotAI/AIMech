@@ -1,0 +1,158 @@
+name: Space-Alternating Generalized Expectation Maximization
+aliases:
+- SAGE Algorithm
+- Space-Alternating GEM
+concept_kind: algorithm
+definition: A generalized expectation-maximization method that updates selected parameter blocks using
+  block-specific hidden-data spaces or valid objective-improvement surrogates, refreshing the conditional
+  expectation or surrogate at the current estimate before the next block.
+identity_notes: Fessler-Hero SAGE is an optimization method, distinct from AIMech:SparseAdditiveGenerativeModel,
+  which already owns the bare SAGE alias. Qualified algorithm aliases are used here. The 1994 hidden-data
+  construction and 1995 penalized/surrogate extension belong to this method family; SAGE1/2/3 Poisson
+  choices are variants, not separate records. Unlike ordinary frozen-Q ECM, the construction refreshes
+  each selected-block surrogate; AECM is a broader cycle/constraint framework. All 442 pinned AIO labels/scoped
+  synonyms and 466 preceding native IDs, names and aliases were compared. The sole normalized search-term
+  collision, bare SAGE, identifies the existing sparse additive text model; the new optimization method
+  uses qualified aliases. Ignored-inclusive fixed-string searches of both full checkouts returned 436
+  and 459 line instances. Context windows for all 143 distinct normalized matched texts were inspected;
+  duplicate ledger/review mentions, unrelated environment strings and the stochastic-EM lead do not establish
+  these four method identities. All 225 semantic label/synonym rows and 17 annotated AIO nodes with outgoing
+  edges were inspected; sixteen nodes were byte-verified unchanged after prior reading and UncertaintyBias
+  was newly read. Thirty-one contextual YAMLs comprise 17 AIO and 14 native records, with 27 verified
+  prior readings and four full new readings; the existing sparse text SAGE was also reread. Absence is
+  bounded to this pin, maintained corpus and inspected neighborhood.
+evidence_sources:
+- source_id: method-source
+  title: Space-Alternating Generalized Expectation-Maximization Algorithm
+  authors:
+  - Jeffrey A. Fessler
+  - Alfred O. Hero
+  source_type: primary_paper
+  url: https://web.eecs.umich.edu/~fessler/papers/files/jour/94/pre/tsp%2Csage.pdf
+  persistent_id: 10.1109/78.324732
+  version: Author-hosted 15-page typeset copy headed IEEE TSP 42(10):2664-2677, October 1994. All 15 pages
+    visually read, including proofs, figures, pseudocode and references; PDF 8 additionally read at 190dpi.
+    This copy has its own 1-15 pagination, so locators use PDF pages, not assumed final-journal page offsets.
+    Consult the author errata.
+  access_level: full_text
+  accessed_at: '2026-10-12T03:18:06Z'
+  sha256: 3c3c323ebf2e96827e7124062c4cd0df32f17d7035c5cb9d3cda35e1fbdf2d0e
+- source_id: penalized-source
+  title: Penalized Maximum-Likelihood Image Reconstruction Using Space-Alternating Generalized EM Algorithms
+  authors:
+  - Jeffrey A. Fessler
+  - Alfred O. Hero III
+  source_type: primary_paper
+  url: https://web.eecs.umich.edu/~fessler/papers/files/jour/95/web/fessler-95-pml.pdf
+  persistent_id: 10.1109/83.465106
+  version: Author-hosted IEEE TIP 4(10):1417-1429, October 1995. All 13 PDF pages visually read, including
+    Appendix proofs and tables. Printed page equals PDF page plus 1416. Existing PDF highlights do not
+    correct the printed formulas; the 2009 download watermark is not the publication date.
+  access_level: full_text
+  accessed_at: '2026-10-12T03:18:09Z'
+  sha256: cc84e4a7f5b6611c1e9a48014f3d58682a15af5b4aec437ff5c542681a232b4e
+- source_id: author-errata
+  title: 'Jeffrey A. Fessler publication bibliography: SAGE1994 and penalized SAGE1995 errata'
+  authors:
+  - Jeffrey A. Fessler
+  source_type: official_documentation
+  url: https://web.eecs.umich.edu/~fessler/papers/bibbase.php
+  version: Author bibliography snapshot retrieved 2026-10-12. Relevant entries fessler:94:sag and fessler:95:pml
+    and their complete errata inspected; the rest of this large bibliography was not reviewed.
+  access_level: documentation
+  accessed_at: '2026-10-12T03:34:44Z'
+  sha256: 26b604621e35e17593ad4bb7fa3c326986dc429eaf0463e67b4b506fdea3b570
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This deterministic likelihood-fitting algorithm learns model parameters from data. The inspected
+    AIO target denotes a learning process/task, so this is algorithm-to-task relatedness without an is-a
+    or equivalence assertion. Statistical latent-data augmentation does not identify the pinned transformation-based
+    DataAugmentation term.
+definition_evidence:
+- source_id: method-source
+  locator: SectionsII-III, Definitions 1-2 and Theorem 1, PDF 2-4
+  relation: supports
+- source_id: penalized-source
+  locator: SectionII, Eq 2-5 and hidden-data construction, pp.1418-1419 / PDF 2-3
+  relation: supports
+claims:
+- claim_id: admissible-hidden-block
+  kind: mechanism
+  statement: For active block S, keep the complementary parameters fixed at their current values. An admissible
+    hidden space factors p(y,x;theta)=p(y|x;theta_complement)p(x;theta), with the observation channel
+    independent of theta_S. Increase the conditional expected log p(x;theta) minus the penalty over that
+    block, then carry the updated parameter forward and recompute for the next block. Different blocks
+    need not combine into one common complete-data space. The 1995 extension uses the same block-ascent
+    logic through a surrogate whose improvement lower-bounds actual objective improvement.
+  evidence:
+  - source_id: method-source
+    locator: Definitions 1-2, SectionsII-III and Theorem 1, PDF 2-4
+    relation: supports
+  - source_id: penalized-source
+    locator: SectionII Eq 2-5, pp.1418-1419 / PDF 2-3
+    relation: supports
+- claim_id: poisson-current-projections
+  kind: mechanism
+  statement: For Poisson means m_n=sum_j a_nj lambda_j+r_n with nonnegative coefficients, hold other coordinates
+    at their current values. A valid shift z_k gives hidden means a_nk(lambda_k+z_k) and residual means
+    r_n+sum_(j!=k)a_nj lambda_j-a_nk z_k. With e_k=sum_n a_nk y_n/m_n and positive a_dotk=sum_n a_nk,
+    the unpenalized update is max((lambda_k+z_k)e_k/a_dotk-z_k,0). SAGE2 uses min_(a_nk>0)r_n/a_nk; SAGE3
+    can use min_(a_nk>0)(r_n+other current contributions)/a_nk. Freeze this shift within the block, update
+    projected means immediately, and refresh the next block. A positive shift can revive an initially
+    zero coordinate.
+  evidence:
+  - source_id: penalized-source
+    locator: SectionsIII-IV and TableI, pp.1419-1423 / PDF 3-7
+    relation: supports
+- claim_id: penalty-and-convergence-conditions
+  kind: limitation
+  statement: 'Valid block surrogates establish objective ascent, while parameter convergence needs additional
+    conditions on curvature, continuity, bounded level sets and repeated coordinate coverage. The 1995
+    proof must be read with the author corrections: the mixed derivative is continuous in both arguments,
+    and the final Lemma 6 argument is restricted to surrogates separable in their first argument. Its
+    general statement is therefore not used as an unrestricted convergence guarantee for coupled multivariate
+    block surrogates.'
+  evidence:
+  - source_id: author-errata
+    locator: Entry fessler:95:pml, complete errata including final Lemma 6 restriction
+    relation: supports
+- claim_id: published-rate-and-scheduling-corrections
+  kind: limitation
+  statement: The 1994 statement suggesting restoration of old other-pixel estimates is superseded by the
+    1995 current-coordinate algorithm. The 1994 Theorem 2 proof incorrectly assumes real Gauss-Seidel
+    eigenvalues; the author restricts that proof to the case in which a maximum-magnitude eigenvalue is
+    real. This correction is a limitation of the proof, not by itself a counterexample to every speed
+    comparison.
+  evidence:
+  - source_id: author-errata
+    locator: Entry fessler:94:sag, scheduling and eigenvalue errata
+    relation: supports
+limitations:
+- Strict concavity alone does not ensure uniformly positive Hessian curvature. The cited convergence conditions,
+  boundary behavior and surrogate separability must be checked for the specific problem.
+- The source’s Gaussian residual update in the 1994 author copy PDF 8 prints a plus sign after initializing
+  residual=y-A theta. Maintaining that residual instead requires subtracting A times the parameter increment.
+  This curator-identified sign inconsistency is checked in the saved finite example and is separate from
+  the published author errata.
+- Positive shift values require valid nonnegative hidden and residual means; zero measurement sensitivities
+  are excluded from the minima and a zero column sum cannot use the displayed update. Penalized updates
+  must optimize the penalty-aware surrogate, not blindly reuse the unpenalized formula.
+- The 1995 errata also correct squared triangle-inequality terms, the factor in J, the sign in Eq 38 and
+  the limiting subscript in Lemma 6. Neither objective ascent nor symmetry of a Hessian establishes a
+  universal rate or global optimum.
+- Both full papers and relevant author errata were inspected. Finite examples check scheduling, projection
+  bookkeeping, boundary revival, a penalized scalar root and the Gaussian sign/eigenvalue issues; no author
+  implementation, phantom study or clinical reconstruction was reproduced.
+id: AIMech:SpaceAlternatingGeneralizedExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T03:40:12Z'
+  updated_at: '2026-10-12T03:45:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
