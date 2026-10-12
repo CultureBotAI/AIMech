@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DropBlock · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>DropBlock</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DropBlock</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:DropBlock</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A training-time feature-map transformation for convolutional networks that suppresses randomly placed contiguous spatial blocks of activations and rescales retained activations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      DropBlock defines a structured dropout transformation of intermediate convolutional feature maps, rather than an entire CNN, input-only Cutout augmentation or always-whole-channel SpatialDropout. The paper’s default uses separate spatial masks for feature channels; a shared-channel mask is an examined alternative. A block spanning a whole map and a block of size1 are boundary settings, not equivalence of the general methods. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 273 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 18 and 18 lines respectively. Every text hit was a prior candidate lead. Eleven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During training, sample block seeds within the spatial region whose expanded square blocks fit inside the feature map, suppress the union of those blocks, multiply activations by the resulting keep mask and normalize using the observed retained-mask fraction. The paper uses a block size and a seed probability gamma computed approximately from the desired keep probability, block area and number of valid centers. Overlap makes the formula approximate. The author-linked pinned TensorFlow implementation confirms gamma as the probability that a valid center becomes a drop seed. It supports square feature maps, clamps block size to map width, expands zeros using minimum pooling, and computes normalization from the resulting mask tensor as a whole. During ordinary inference, the transformation returns its input unchanged. The paper recommends a linear decrease of keep probability from1 to a target during training; this schedule is an experimental choice rather than a new learned mask.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">DropBlock: A regularization method for convolutional networks</a></span>
+        <span>· <strong>Locator:</strong> Section3 and Algorithm1/Equation1, PDF pp.2–4; paper-linked implementation in Section4.1, PDFp.4; discussion PDFp.9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pinned-implementation">TensorFlow TPU ResNet dropblock function</a></span>
+        <span>· <strong>Locator:</strong> dropblock(), lines276–354: inference return, square-map constraint, seed_drop_rate, valid centers, block expansion and percent_ones normalization</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Algorithm1 writes M~Bernoulli(gamma) while expanding zero entries, yet Equation1 and the pinned implementation use gamma as the drop-seed rate. These literal conventions differ under the usual Bernoulli success convention; the implementation resolves the convention used here without claiming an author-issued erratum.</li>
+      <li>The gamma expression does not guarantee the target retained fraction at every location or in every realization. Block overlap and edge coverage matter. The paper’s per-mask normalization and the pinned implementation’s whole-mask-tensor normalization should not be silently equated.</li>
+      <li>Both the displayed ratio and inspected code require a nonzero retained fraction; the inspected function has no all-zero-mask guard. Valid block sizes, probabilities, tensor shapes and numerical safeguards are implementation requirements, not consequences of the name DropBlock.</li>
+      <li>Random blocks are independent of a semantic object annotation and may remove useful information. The experiments with masking at inference are diagnostic perturbations, separate from the ordinary identity behavior. Reported architecture-specific gains and robustness do not establish universal benefits, and no author code or model was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Layer.html" style="font-weight: 600;"><code>AIO:Layer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method is represented as the defined neural-network component that transforms an input feature map for subsequent layers. The generic AIO Layer is broader than this particular transformation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DropoutLayer.html" style="font-weight: 600;"><code>AIO:DropoutLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dropout Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DropBlock shares stochastic training-time activation suppression with dropout. Its contiguous blocks, overlapping coverage and realized-mask normalization differ from the pinned independent-unit/fixed-rate description, so this is a related association rather than equivalence or a forced subclass claim.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2018/file/7edcfb2d8f6a659ef4cd1e6c9b6d7079-Paper.pdf" target="_blank" rel="noopener">DropBlock: A regularization method for convolutional networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Golnaz Ghiasi, Tsung-Yi Lin, Quoc V. Le
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bb215d0f3d8f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pinned-implementation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pinned-implementation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/tensorflow/tpu/blob/7dc921f846c9e4071f3884b768a7ddf521272a49/models/official/resnet/resnet_model.py" target="_blank" rel="noopener">TensorFlow TPU ResNet dropblock function</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            TensorFlow TPU contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0707ff8e76dd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T12:27:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T12:27:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DropBlock.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DropBlock.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

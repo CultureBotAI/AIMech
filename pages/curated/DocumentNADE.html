@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Document NADE · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Document NADE</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Document NADE</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:DocumentNADE</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DocNADE
+    </div>
+
+  <div class="detail-desc">
+    A neural autoregressive document model that predicts successive words from shared additive embeddings of the preceding words, using normalized word conditionals and a deterministic document representation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is Larochelle and Lauly’s original Document NADE. The final construction uses binary-tree word probabilities, with a flat-softmax intermediate derivation. It is inspired by Replicated Softmax but is a separately normalized directed model with deterministic hidden features, not the same undirected latent-variable model. Its full-document representation is invariant to word permutation, while its unsymmetrized sequence probability need not be. Supervised and distributional-prior extensions require separate scope decisions. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 349 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. All 3 unique matched line contents were inspected in full: the prior NADE-variant lead, RNADE source URL and previous review exclusion, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a document of given length D, form h_i=sigmoid(c+sum_(k&lt;i) W[:,v_k]); the same word embedding and output parameters are reused across positions, and the preactivation is updated by adding the newly observed word’s embedding. A flat softmax can normalize the next-word distribution. The paper’s final model replaces it with a binary tree whose leaves are vocabulary words: each internal node predicts the probability of taking its right branch, and a word probability is the product of its observed left/right branch probabilities. Multiply all observed-word conditionals to obtain a normalized probability over length-D sequences. Train by differentiating their negative log likelihood. After all words, h(v)=sigmoid(c+sum_i W[:,v_i]) is an order-invariant document representation; tanh is also tested. For count-vector input, the paper samples word occurrences without replacement to produce uniformly random distinct orderings and trains on those sequences. Its separate symmetrized sequence model averages probabilities over distinct permutations; training on sampled order log losses is a surrogate for that log mixture. A count-vector probability instead sums the unsymmetrized sequence probabilities over its distinct permutations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Neural Autoregressive Topic Model</a></span>
+        <span>· <strong>Locator:</strong> Sections 4–4.1, Equations (9)–(12), PDF/printed pp.4–6; Figure 1 and model distinctions, pp.2–4; activation alternatives, Section 6 opening, p.6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement-source">Supplementary Material: A Neural Autoregressive Topic Model</a></span>
+        <span>· <strong>Locator:</strong> Section 1, probability and gradient pseudocode, PDF/printed p.1; branch-gradient notation qualified. Page 2 visualization inspected only at figure/caption level.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Order invariance of the summed document representation does not imply exchangeability of the sequence likelihood. The symmetrized probability of each sequence differs from its count-vector probability by the number of distinct permutations; duplicate words change that number.</li>
+      <li>For a word whose tree path has length L, conditional output work is O(HL). The claimed logarithmic vocabulary scaling requires suitable tree depth or average depth; a full binary tree alone can have linear depth. The record does not assert a logarithmic worst case for every full tree.</li>
+      <li>The main paper’s text below Equation (11) retains vi=1 in the joint product although words are categorical. The curated likelihood uses the observed word and its branch path, consistent with Equations (9) and (11) and the supplement’s probability computation.</li>
+      <li>For Bernoulli tree training, the negative-log-likelihood derivative is the probability of the right branch minus the observed branch indicator. The supplement’s p(actual branch)-indicator notation must not be read literally as the probability of the observed left branch when that indicator is zero. No author implementation behavior is inferred.</li>
+      <li>The stated model is conditional on document length and does not supply a learned document-length distribution. Shared additive prefix features discard order within the observed prefix. Hidden topic features are deterministic representations, not posterior latent-topic probabilities.</li>
+      <li>No classification/retrieval advantage, semantic quality guarantee, exact symmetrized-mixture training gradient or implementation certification is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For a given length, the observed-word variables have ordered directed conditional factors, giving a fully visible Bayesian network. The AIO target is broader than this shared additive-embedding and tree-output architecture. Deterministic topic features do not add stochastic latent nodes.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source explicitly develops a probabilistic document/topic representation model, matching the topical-analysis context. The pinned AIO target lies in a task hierarchy and mentions themes and temporal changes, whereas this native identity specifies one architecture without requiring temporal modeling. A related match preserves that abstraction difference without forcing an architecture-to-task subclass or equating hidden features with normalized topic distributions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2012/file/b495ce63ede0f4efc9eec62cb947c162-Paper.pdf" target="_blank" rel="noopener">A Neural Autoregressive Topic Model</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hugo Larochelle, Stanislas Lauly
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2012/hash/b495ce63ede0f4efc9eec62cb947c162-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7811d256a50c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-supplement-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">supplement-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2012/file/b495ce63ede0f4efc9eec62cb947c162-Supplemental.zip" target="_blank" rel="noopener">Supplementary Material: A Neural Autoregressive Topic Model</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hugo Larochelle, Stanislas Lauly
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2012/hash/b495ce63ede0f4efc9eec62cb947c162-Abstract.html#supplement</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fa234cf5c169…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:49:48Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:49:48Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DocumentNADE.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DocumentNADE.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pseudo-Label · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Pseudo-Label</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Pseudo-Label</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PseudoLabel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A semi-supervised neural-network training procedure that recomputes hard labels from the model’s most probable class for unlabeled examples and jointly fits observed and generated targets using a scheduled weight on the unlabeled loss.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes Lee’s 2013 named training method and its explicitly described sigmoid-loss configuration. Generic pseudo-labeling also includes other target generators and iterative procedures; DeepCluster’s cluster assignments, SeLa’s balanced transport and FixMatch’s weak-to-strong confidence filter are distinct methods. The method’s entropy-minimization motivation does not establish an identical objective to Shannon entropy minimization. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 243 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 102 lines in the worktree and 103 in main from prior discovery, saved reviews and related native records. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus eight neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each weights update, assign each unlabeled example a one-hot pseudo-target for its argmax predicted class. Treat that chosen target as a label for the update and train the same network on both observed labeled examples and pseudo-labeled examples. The original paper’s Equation15 averages the class-summed supervised loss over the labeled minibatch of size n and separately over the unlabeled minibatch of size n_prime, with multiplier alpha(t) on the latter. The represented original configuration uses independent sigmoid output units and sums binary cross-entropy over classes, as defined in Equation5; it is not silently rewritten as softmax categorical cross-entropy. Equation16 sets alpha(t)=0 before T1, increases it linearly to alpha_f between T1 and T2, and keeps it at alpha_f thereafter. The paper uses Dropout during this training and studies both optional denoising-autoencoder pretraining and training without it. The hard labels are recalculated at each weights update rather than supplied by a separate EMA teacher. The displayed Pseudo-Label rule has no confidence-threshold rejection step.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pseudo-Label : The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1 and 2.4, Equations (5), (14)–(16), PDF pp. 2–3; entropy interpretation in Sections 3.2–3.3, PDF pp. 3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#entropy-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Equations5 and15 use hard pseudo-target loss, while Equation17 defines a different entropy expression. For normalized two-class outputs(0.8,0.2) and pseudo-target(1,0), the class-summed binary cross-entropy is−2log(0.8), whereas the printed entropy is−0.8log(0.8)−0.2log(0.2). Their unequal values refute literal objective equality in this example; this finite algebra does not refute the paper’s qualitative confidence-sharpening motivation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pseudo-Label : The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Equations (5), (15), (17) and Section 3.3, PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Wrong hard targets can reinforce early prediction errors; the ramp and low-density-separation motivation do not guarantee target correctness or improved generalization.</li>
+      <li>The original paper’s independent sigmoid outputs need not form a normalized class-probability vector. Its classwise binary loss is distinct from later softmax-based reimplementations.</li>
+      <li>The paper describes equivalence to entropy regularization, but its hard-target loss and printed entropy expression are not algebraically equal. This record preserves the shared low-entropy motivation without asserting objective equality.</li>
+      <li>Specific ramp endpoints, final weight, network widths, Dropout rates and pretraining schedules are reported experimental choices, not universal constants. The paper does not specify an argmax tie-breaking policy.</li>
+      <li>The inspected primary paper is a public third-party-hosted copy with an exact hash. Title, author and workshop identity agree with the indexed original and author-linked citation; original-host byte equality and an exact revision date were not established.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Classification.html" style="font-weight: 600;"><code>AIO:Classification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm trains class predictions using labeled and unlabeled examples. The AIO target is a classification task, not an equivalent algorithm or an asserted parent.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure realizes learning from data; this is an algorithm-to-task association at different abstraction levels.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/emintham/Papers/master/Lee-%20Pseudo-Label%3A%20The%20Simple%20and%20Efficient%20Semi-Supervised%20Learning%20Method%20for%20Deep%20Neural%20Networks.pdf" target="_blank" rel="noopener">Pseudo-Label : The Simple and Efficient Semi-Supervised Learning Method for Deep Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dong-Hyun Lee
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:47a14f59e801…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T10:45:16Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T10:45:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PseudoLabel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PseudoLabel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

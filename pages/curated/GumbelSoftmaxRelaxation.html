@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gumbel-Softmax relaxation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Gumbel-Softmax relaxation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gumbel-Softmax relaxation</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:GumbelSoftmaxRelaxation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Gumbel-Softmax, Concrete distribution, Concrete relaxation, Gumbel-Softmax distribution
+    </div>
+
+  <div class="detail-desc">
+    A continuous relaxation of a finite categorical random variable obtained by applying softmax to independent Gumbel-perturbed log weights divided by a positive temperature, producing a differentiable random vector in the simplex interior.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Gumbel-Softmax and Concrete identify the same positive-temperature distributional construction: the two inspected primary papers explicitly acknowledge the concurrent work, and their sampling formulas agree after normalizing positive weights. This record covers that shared relaxation and its pathwise-gradient use. It does not equate all training objectives in the papers, the hard Gumbel-Max sample, generic deterministic softmax, or the separate straight-through estimator. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 331 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 11 and 11 lines respectively. All 10 unique hit contents were inspected: neighboring Gumbel-Top-k contrasts, saved review and ledger references, new source leads, and incidental concrete-distribution wording in an older random-search report, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n≥2 categories with positive finite weights alpha_i and temperature tau&gt;0, draw independent standard Gumbel G_i and set y_i=exp((log(alpha_i)+G_i)/tau) divided by the sum of those exponentials. Normalizing alpha beforehand only adds a common log shift and leaves y unchanged. Each draw has positive components summing to one and is differentiable in the log weights at positive temperature. Holding the base noise fixed allows the chain rule to estimate gradients of a differentiable objective evaluated on this relaxed random vector, under the usual conditions permitting differentiation under expectation. Argmax rounding has categorical probabilities alpha_i/sum(alpha) for every positive temperature; using the same noise while tau tends to zero yields the corresponding one-hot sample almost surely. For fixed finite perturbed scores, tau tending to infinity yields the uniform vector. The relaxed vector at finite temperature is not itself a categorical one-hot draw.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Categorical Reparameterization with Gumbel-Softmax</a></span>
+        <span>· <strong>Locator:</strong> Section2, Equations(1)–(3), Figure1 and Section2.1, PDF/printed pp.2–3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-concrete-source">The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1–3.3, Equations(9)–(13), Definition1 and Proposition1, PDF/printed pp.4–7; Section4 concurrent-work distinction, p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#distribution-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Gumbel-Softmax paper explicitly calls the independently discovered distribution Concrete. Its normalized-probability formula and the Concrete paper’s unnormalized-weight formula produce the same simplex random vector after the common normalization shift cancels. The Concrete discussion distinguishes this shared distribution from choices of relaxed training objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Categorical Reparameterization with Gumbel-Softmax</a></span>
+        <span>· <strong>Locator:</strong> Section2, Equation(2) and concurrent-discovery paragraph, PDF/printed p.2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-concrete-source">The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables</a></span>
+        <span>· <strong>Locator:</strong> Section3.2, Equation(10), PDF/printed p.5; Section4, p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#objective-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For variational training, the Concrete paper uses densities matching the relaxed prior and posterior in its relaxed objective, then evaluates the discrete objective at test time. It warns that naive insertion of soft states into discrete log-mass terms need not preserve the intended lower-bound interpretation. This source-specific distinction is not an assertion that every version of every Gumbel-Softmax implementation uses the same loss.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-concrete-source">The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables</a></span>
+        <span>· <strong>Locator:</strong> Section3.3, Equations(12)–(13), PDF/printed p.6; Section4, p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Pathwise gradients can be unbiased for the specified continuous relaxed objective under regularity conditions while remaining biased for the original discrete objective. A correct categorical argmax law does not make the relaxed gradient an unbiased discrete-gradient estimator.</li>
+      <li>Temperature zero is a limit, not a valid value in the softmax division. Small temperatures can produce sharp derivatives and difficult variance or numerical behavior; no universally optimal temperature or annealing schedule is asserted.</li>
+      <li>The positive-weight construction excludes zero-mass categories or requires a declared limiting representation. Finite-precision softmax, noise endpoints and ties require numerical policies.</li>
+      <li>A uniform vector at very high temperature is different from a uniform probability density across the simplex. The relaxation is not generally a Dirichlet distribution.</li>
+      <li>Distributional equivalence does not imply equivalence of training losses. When a variational objective includes latent log probabilities, replacing discrete states by soft values without a consistent density treatment need not preserve a lower bound for the intended discrete model.</li>
+      <li>A downstream objective must be defined on the continuous simplex for relaxed training. A model may exploit interior values and suffer a gap when later evaluated with discrete states; neither task quality nor unbiased discrete optimization is guaranteed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SoftmaxFunction.html" style="font-weight: 600;"><code>AIO:SoftmaxFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Softmax Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected construction explicitly uses softmax on temperature-scaled Gumbel-perturbed log weights, and differentiates that smooth transformation. The exact pinned AIO node denotes the normalization function. This is a method-to-essential-component related match, not equivalence, subclass membership or a claim that the stochastic construction is merely ordinary deterministic softmax.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1611.01144v5" target="_blank" rel="noopener">Categorical Reparameterization with Gumbel-Softmax</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eric Jang, Shixiang Gu, Ben Poole
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1611.01144v5</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e424dbd5b4e8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-concrete-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">concrete-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1611.00712v3" target="_blank" rel="noopener">The Concrete Distribution: A Continuous Relaxation of Discrete Random Variables</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chris J. Maddison, Andriy Mnih, Yee Whye Teh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1611.00712v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:56864ffef78f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:30:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:30:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GumbelSoftmaxRelaxation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GumbelSoftmaxRelaxation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FABOLAS · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FABOLAS</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FABOLAS</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FABOLAS</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fast Bayesian Optimization on Large Data Sets
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian hyperparameter optimization algorithm that jointly chooses a model configuration and training-data subset size using surrogate models of loss and evaluation cost, directing evaluations toward information about the best configuration on the full dataset.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      FABOLAS treats dataset size as an environmental evaluation variable while retaining the full dataset as the optimization target. It differs from Gaussian-process regression alone, fixed-fidelity Bayesian optimization, a discrete multi-task optimizer with manually selected task sizes, and Hyperband’s predetermined resource brackets. The paper method and the separately pinned RoBO implementation are recorded as distinct source versions. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 262 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 9 lines in each checkout. These were prior candidate leads, source references and neighboring-method mentions, not existing records for these identities. Ten exact AIO CLASS nodes with synonyms and outgoing edges and eight neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Model loss and computational cost as functions of configuration and dataset fraction, using Gaussian-process surrogates with a kernel over configuration coordinates and a finite-rank basis over size. Begin with evaluations of configurations on small subsets. Select the next configuration/size pair using an entropy-search acquisition focused on the minimizer at full dataset size; the paper divides its information criterion by predicted evaluation cost plus optimization overhead. Evaluate the selected pair, observe loss and cost, and update the models. Select the incumbent among configurations already evaluated by projecting their predicted loss to the full dataset, rather than requiring each candidate to have been evaluated there. The paper integrates surrogate hyperparameters using MCMC and describes DIRECT/CMA-ES acquisition optimization; the inspected code has separate implementation choices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Fast Bayesian Optimization of Machine Learning Hyperparameters on Large Datasets</a></span>
+        <span>· <strong>Locator:</strong> Sections2–3.4, PDF pp.2–5, especially Section3.1 kernels, Equation7 and Algorithm1 on PDFp.4, and incumbent/initialization details on PDFp.5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pinned-implementation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the inspected RoBO revision, dataset counts are mapped to a normalized log2 coordinate between the selected minimum and maximum; proposed coordinates are transformed back and rounded to integer counts. Quadratic loss and linear cost basis functions operate on that transformed coordinate, while both observed objective values and costs are logged. The outer function uses a Latin-hypercube initial design and RandomSampling acquisition maximizer. Its marginalized acquisition update passes no overhead keyword, so the per-unit-cost estimator sets overhead to zero and divides by the exponentiated predicted log-cost mean. These are static observations of this revision, not claims of equality with the original experiments or executable compatibility.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation-1">RoBO author implementation: robo/fmin/fabolas.py</a></span>
+        <span>· <strong>Locator:</strong> fabolas(): transformations lines21–28, kernels/bases lines105–173, initialization and acquisition lines180–215, model update and proposal lines234–284</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation-2">RoBO author implementation: robo/models/fabolas_gp.py</a></span>
+        <span>· <strong>Locator:</strong> FabolasGPMCMC.train and FabolasGP.normalize/train/predict, lines32–99 and122–139</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation-3">RoBO author implementation: robo/acquisition_functions/information_gain_per_unit_cost.py</a></span>
+        <span>· <strong>Locator:</strong> InformationGainPerUnitCost.update and compute, lines59–107</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation-4">RoBO author implementation: robo/acquisition_functions/marginalization.py</a></span>
+        <span>· <strong>Locator:</strong> MarginalizationGPMCMC.update, lines49–90</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Extrapolation depends on the adequacy of the loss-versus-size and cost models. Small subsets need not preserve the ranking at full size, and the returned projected incumbent need not have a confirming full-data evaluation or optimal test performance.</li>
+      <li>The paper’s loss basis (1,(1-s)^2) allows a monotonic latent trend at fixed configuration but does not by itself force that trend to decrease when coefficient signs are unconstrained. Its polynomial-cost interpretation also depends on the size coordinate: log-cost affine in raw relative size is exponential in that coordinate; the pinned code instead uses normalized log dataset counts.</li>
+      <li>The pinned code logs both objective and cost, applies Latin-hypercube initialization and a RandomSampling acquisition optimizer, and leaves the acquisition overhead at zero through the inspected call chain. Those choices are not silently attributed to the paper’s algorithm. Positive objective/cost values and compatible parameter settings are required by that source; static inspection is not a runtime result.</li>
+      <li>No universal speedup, exact information-gain computation or independent calibration result is asserted. The full entropy-search implementation and the paper’s supplementary experiments were not audited.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This hyperparameter procedure selects model configurations and allocates training resources. The relation links that scope to the pinned training-strategy concept without treating the optimizer as preprocessing, an identical concept or a subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v54/klein17a/klein17a.pdf" target="_blank" rel="noopener">Fast Bayesian Optimization of Machine Learning Hyperparameters on Large Datasets</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Klein, Stefan Falkner, Simon Bartels, Philipp Hennig, Frank Hutter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c1369156837a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-implementation-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">implementation-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/fmin/fabolas.py" target="_blank" rel="noopener">RoBO author implementation: robo/fmin/fabolas.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / RoBO contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2f6d006f53c2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-implementation-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">implementation-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/models/fabolas_gp.py" target="_blank" rel="noopener">RoBO author implementation: robo/models/fabolas_gp.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / RoBO contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6c5f0dde17f5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-implementation-3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">implementation-3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/acquisition_functions/information_gain_per_unit_cost.py" target="_blank" rel="noopener">RoBO author implementation: robo/acquisition_functions/information_gain_per_unit_cost.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / RoBO contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fb05bd07ffb4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-implementation-4">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">implementation-4</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/RoBO/91366b12a1a3deb8e80dd08599e0eaf4df28adc1/robo/acquisition_functions/marginalization.py" target="_blank" rel="noopener">RoBO author implementation: robo/acquisition_functions/marginalization.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / RoBO contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4d7ce68913db…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T11:53:28Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T11:53:28Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FABOLAS.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FABOLAS.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novelty+ SAT heuristic · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Novelty+ SAT heuristic</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Novelty+ SAT heuristic</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NoveltyPlus</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Novelty+
+    </div>
+
+  <div class="detail-desc">
+    A Novelty extension that, at each SAT search step, chooses a random variable from a randomly selected unsatisfied clause with a fixed walk probability and otherwise uses Novelty’s recency-conditioned best/second-best selector.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is Hoos’s 1999 Novelty+ random-walk extension. The plus sign identifies an additional per-step random-walk branch, distinct from Novelty’s conditional noise parameter and from later adaptive, diversification or look-ahead variants. It does not require a periodic schedule or an SKC zero-break priority. The theorem concerns asymptotic model finding on satisfiable formulas, not probably-approximately-correct learning or a finite UNSAT decision. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 325 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 90 and 90 lines respectively. All 64 unique hit contents were inspected: neighboring variant and source references, saved reviews and candidate leads, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a complete truth assignment and variable flip timestamps. If the formula is not satisfied, randomly choose an unsatisfied clause. With fixed probability w in [0,1], choose a variable uniformly from that clause and flip it. Otherwise rank clause variables by the global post-flip violation count, breaking score ties in favor of the least recently flipped variable. If the best is not the most recently flipped variable in the clause, select it; otherwise select second-best with probability p and best with probability 1−p, where p is in [0,1]. Update the flipped variable’s timestamp and continue under the declared stopping policy. The walk branch is available regardless of scores, recency or zero-break candidates. With w=1 this is the pure clause-first random walk; with w=0 it is the underlying Novelty selector. Any fixed w&gt;0 satisfies the source’s random-walk premise once all remaining move cases are well-defined.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">On the Run-time Behaviour of Stochastic Local Search Algorithms for SAT</a></span>
+        <span>· <strong>Locator:</strong> PDF5–6, Improving SLS Performance, per-step random-walk extension and naming; PDF2, WalkSAT/Novelty context; PDF3–4, asymptotic scope and Theorem 2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">Evidence for Invariants in Local Search</a></span>
+        <span>· <strong>Locator:</strong> PDF2 / printed322, Novelty and R-Novelty selector definitions; PDF3 / printed323, original periodic R-Novelty override</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#asymptotic-model-finding</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite satisfiable CNF and a well-defined remaining move policy, a fixed positive lower bound on the probability of a uniform random-clause/random-variable step at every search step gives success probability approaching one as the number of steps tends to infinity. Hoos1999 Theorem 2 establishes this via a positive probability of a sequence reducing Hamming distance to a model. The conclusion does not give a polynomial or practically small runtime, a finite-run guarantee, or an UNSAT certificate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">On the Run-time Behaviour of Stochastic Local Search Algorithms for SAT</a></span>
+        <span>· <strong>Locator:</strong> PDF3, Definition 2 and no-restart scope; PDF3–4, Lemma 1 and Theorem 2; PDF5–6, application to the plus extensions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The asymptotic guarantee requires a strictly positive walk probability at every step, bounded below independently of elapsed search history. A scheduled-only override or a probability that tends to zero does not automatically satisfy that premise. At w=0 the random-walk argument no longer applies.</li>
+      <li>The guarantee concerns finding a model on a finite satisfiable formula in the limit of continued search. A finite budget can miss an existing model and cannot certify UNSAT. The source’s lower bound can be extremely small; no polynomial or practical runtime follows.</li>
+      <li>The walk probability w is separate from the inner selector’s noise parameter p. The reported experimental w=0.01 is not a defining or universally optimal constant. Optional outer restarts and cutoffs must be specified separately.</li>
+      <li>Empty clauses, unit clauses lacking a second candidate, initial age ties, duplicate literals and timestamp/reset conventions require a well-defined implementation. The general random-walk proof does not certify undocumented choices in the short selector description. No author solver or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable AIO target was established in the pinned snapshot and inspected SAT/search/memory neighborhood. A positive random-walk probability and variable-age bookkeeping do not justify forced neural-memory, language-model or learning-task mappings.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms and 325 preceding maintained IDs/names/aliases; ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for search, satisfiability, heuristics, reasoning, novelty, memory and recurrence; nine exact AIO CLASS nodes and five complete native neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Selecting Boolean variable flips is not a language model performing reasoning in language tasks.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method searches a supplied formula rather than prescribing preprocessing or training a machine-learning model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Remembering a move timestamp does not itself turn fixed-formula search into development of a method that learns from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Age-based move selection and a noise parameter do not require a learned reward policy or action-value function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An augmented state could include timestamps and step phase, but that representation alone does not identify the named SAT heuristic with the pinned stochastic network/model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Boolean assignments, clause scores and flip timestamps are not a network of artificial neurons.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryAugmentedLLM.html"><code>AIO:MemoryAugmentedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            External memory in a language model is different from retaining SAT variable ages; the related external-memory synonym does not broaden the target to every algorithm using memory.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MemoryCellLayer.html"><code>AIO:MemoryCellLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A neural layer of cells with internal state or weights is not a variable-age table.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LongShortTermMemory.html"><code>AIO:LongShortTermMemory</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A recurrent neural architecture processing sequences is not a SAT move-history heuristic.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cdn.aaai.org/AAAI/1999/AAAI99-094.pdf" target="_blank" rel="noopener">On the Run-time Behaviour of Stochastic Local Search Algorithms for SAT</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Holger H. Hoos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6afd11724464…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cdn.aaai.org/AAAI/1997/AAAI97-050.pdf" target="_blank" rel="noopener">Evidence for Invariants in Local Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David McAllester, Bart Selman, Henry Kautz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:79821a112c8c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T15:57:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T15:57:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NoveltyPlus.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NoveltyPlus.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

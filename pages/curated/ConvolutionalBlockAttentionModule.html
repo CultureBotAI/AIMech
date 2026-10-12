@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Convolutional Block Attention Module · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Convolutional Block Attention Module</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Convolutional Block Attention Module</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:ConvolutionalBlockAttentionModule</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CBAM
+    </div>
+
+  <div class="detail-desc">
+    A convolutional feature refinement component that sequentially applies learned channel attention and then spatial attention to an intermediate feature tensor.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the canonical channel-first CBAM configuration from the 2018 paper. It is a reusable component rather than a complete CNN, detector or gradient-based explanation method. Spatial-first, parallel, channel-only and alternative pooling configurations are separately assessed variants, not silent replacements of this selected procedure. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 279 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 6 and 6 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and three native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compute global spatial average and maximum descriptors for every channel. Pass both through the same two-layer bottleneck MLP, with ReLU after its reduction layer, sum the resulting channel logits and apply sigmoid. Broadcast the channel weights over space and multiply them into the input tensor. From this channel-refined tensor, compute average and maximum maps over the channel axis, concatenate these two spatial maps, apply a convolution with a 7-by-7 kernel and sigmoid, then multiply the spatial weights across all channels. Thus the second attention stage depends on the output of the first, rather than being computed in parallel from the original tensor. The paper’s residual example applies the component before skip addition; the learned component also operates during inference.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">CBAM: Convolutional Block Attention Module</a></span>
+        <span>· <strong>Locator:</strong> Section3, Equations1–3 and Figure2, PDF pp.4–6; residual placement Figure3, PDFp.7; arrangement discussion PDFp.9; interpretability scope Sections4.3–4.4, PDF pp.10–13; conclusion PDFp.14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pinned-code">Official attention-module implementation: MODELS/cbam.py</a></span>
+        <span>· <strong>Locator:</strong> ChannelGate, ChannelPool, SpatialGate, BasicConv and CBAM classes, complete MODELS/cbam.py at the cited commit</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#implementation-convention</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned author implementation follows channel-then-spatial gating with average/max channel descriptors sharing one MLP. Its spatial path uses a bias-free 7-by-7 convolution followed by batch normalization and sigmoid, with no intervening ReLU. Optional pooling choices and no_spatial are exposed as code configurations. This static inspection does not establish runtime compatibility or reproduction of a trained checkpoint.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pinned-code">Official attention-module implementation: MODELS/cbam.py</a></span>
+        <span>· <strong>Locator:</strong> ChannelGate.forward, SpatialGate.__init__/forward, BasicConv and CBAM.forward in MODELS/cbam.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Average and maximum channel descriptors share the same MLP parameters. The sum occurs before sigmoid, not between independently sigmoid-normalized channel weights. Spatial pooling runs over channels, whereas the channel stage pools over spatial positions.</li>
+      <li>Reversing the stages or computing both from the original input generally changes the transformation. The spatial kernel and reduction ratio were selected empirically; the pinned implementation exposes alternative pooling and a channel-only switch, which are not the canonical configuration asserted here.</li>
+      <li>Independent sigmoid gates need not sum to one. Each multiplicative gate attenuates immediate feature magnitude; relative emphasis is not an absolute amplification guarantee. The learned weights add parameters and computation.</li>
+      <li>The source’s Grad-CAM visualizations and selected-image user study do not certify causal faithfulness, calibrated object probabilities or universal interpretability. CBAM itself is not Grad-CAM or a complete object detector, and no benchmark improvement or hardware-independent speed claim is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Layer.html" style="font-weight: 600;"><code>AIO:Layer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The native concept is a particular learned input-to-output feature-map component inside a neural network. The pinned generic Layer class is broader; the pinned AttentionLayer specifically denotes dot-product attention and is not used as a generic attention parent.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Sanghyun_Woo_Convolutional_Block_Attention_ECCV_2018_paper.pdf" target="_blank" rel="noopener">CBAM: Convolutional Block Attention Module</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sanghyun Woo, Jongchan Park, Joon-Young Lee, In So Kweon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:40bdff61acdd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pinned-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pinned-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/Jongchan/attention-module/blob/459efad0e05ee7dde50c41ca10a3d0800bc3792a/MODELS/cbam.py" target="_blank" rel="noopener">Official attention-module implementation: MODELS/cbam.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jongchan Park, Sanghyun Woo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6a2115f71541…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T12:43:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T12:43:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ConvolutionalBlockAttentionModule.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ConvolutionalBlockAttentionModule.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

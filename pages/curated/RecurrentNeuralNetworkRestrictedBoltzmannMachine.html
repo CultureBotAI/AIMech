@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RNN-RBM · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>RNN-RBM</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RNN-RBM</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:RecurrentNeuralNetworkRestrictedBoltzmannMachine</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Recurrent neural network restricted Boltzmann machine
+    </div>
+
+  <div class="detail-desc">
+    A neural sequence architecture in which a deterministic recurrent network with its own hidden state supplies parameters of a conditional RBM that models each next visible vector.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the RNN-RBM architecture introduced by Boulanger-Lewandowski, Bengio and Vincent, with recurrent hidden units distinct from the RBM’s stochastic hidden variables. Their displayed single-layer construction changes visible and hidden biases while sharing the RBM interaction weights across time. The broader parameter-emitting formulation and particular pretraining strategies are not all required features of that specialization. RTRBM ties recurrent state computation to RBM hidden probabilities; untying those parameters is a defining distinction here. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the displayed binary model, let r_t=sigmoid(F v_t+B r_(t-1)+c) be the deterministic recurrent state. Set visible bias a_t=a+A r_(t-1) and hidden bias d_t=d+D r_(t-1). With hidden-by-visible weights W, define p(v_t,h_t|r_(t-1)) proportional to exp(a_t^T v_t+d_t^T h_t+h_t^T W v_t), and marginalize binary h_t for the frame distribution. The visible-sequence probability is the product of these conditional frame distributions; the current frame updates r_t only after its probability has been evaluated from r_(t-1). Recurrent and RBM hidden widths may differ, and W is distinct from recurrent input weights F. Train using conditional RBM likelihood statistics, approximated in the paper by data-started finite contrastive divergence, and backpropagate bias-gradient signals through A, D and the recurrence. The reverse state signal includes A^T and D^T times next-frame bias gradients, plus B^T times the next recurrent preactivation gradient. Generation alternates conditional frame sampling with the deterministic state update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4.2, Figure 2, Equations (1)–(11) and (13)–(22), PDF pp.2–5; joint/bias signs and reverse-matrix conventions qualified against Equations (2)–(4) and (8)–(11)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Equation (1) prints negative terms in the joint exponent that conflict with the positive-bias sigmoid conditionals (2)–(3) and free energy (4). Equations (14)–(15) also print negative hidden-bias signs. This record follows the mutually consistent conditionals and free energy, disclosing the conflicts rather than asserting author-code behavior.</li>
+      <li>Under the column-vector convention of Equation (11), reverse state propagation requires transposed recurrent and bias-projection matrices. Printed Equation (19) omits those transposes; unequal recurrent and RBM hidden widths make the dimensional issue explicit. Original finite calculations check the stated convention and exact small-model gradients, not the authors’ implementation.</li>
+      <li>Fully observed frames determine the recurrent state, but conditional RBM normalization and equilibrium sampling remain generally expensive. Finite CD and finite Gibbs generation are approximate; exact state inference is not exact likelihood learning.</li>
+      <li>The worked model emits two bias vectors, not every RBM weight. A more general recurrent parameter-emission scheme is mentioned separately. Gaussian outputs, different recurrent cells and pretraining choices require their own stated conventions.</li>
+      <li>RNN-RBM reduces to the paper’s RTRBM parameterization under matching hidden widths and appropriate weight/bias tying; this does not make the independently parameterized family identical to RTRBM. No global optimization, long-range memory or empirical ranking guarantee is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned AIO target is broader than this explicit recurrent neural architecture with a specified conditional-density output. The deterministic state has directed temporal connections; the output estimator adds a narrower structural restriction. A temporal probability model over vector frames is not necessarily an autoregressive language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The construction uses a conditional RBM as its output distribution. This related mapping identifies that component or conditioned-family relationship without asserting that the whole input-conditioned or recurrent model is one unconditioned symmetric RBM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://icml.cc/2012/papers/590.pdf" target="_blank" rel="noopener">Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nicolas Boulanger-Lewandowski, Yoshua Bengio, Pascal Vincent
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1206.6392</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7660a28d9292…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:53:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:53:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RecurrentNeuralNetworkRestrictedBoltzmannMachine.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

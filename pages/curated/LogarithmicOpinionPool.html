@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logarithmic opinion pool · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Logarithmic opinion pool</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Logarithmic opinion pool</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:LogarithmicOpinionPool</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Log opinion pool, Logarithmic pooling
+    </div>
+
+  <div class="detail-desc">
+    A probability-aggregation method that forms a normalized weighted geometric mean of expert distributions over the same outcomes, using nonnegative exponent weights that sum to one.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record uses the normalized-weight convention inspected in Heskes and Hinton. It combines probability assessments, possibly conditional on an input, rather than spatially pooling neural activations. It is distinct from a linear opinion pool, a unit-exponent product learned cooperatively, and a particular algorithm for estimating the exponent weights. Broader log-linear combinations without the sum-to-one constraint require separate qualifications. All 442 pinned AIO labels/scoped synonyms and 373 preceding native IDs/names/aliases were compared. The sole normalized hit is Product of experts as a related synonym of FactorizedLLM; its language-specific definition and parent distinguish it from the generic candidate. Both full-checkout fixed-string searches included ignored and hidden files and returned 59 lines each. All 29 unique matched contents were read; other hits concern citations, training components, prior boundary discussions or pending leads. All 88 semantic label/synonym hits, 20 exact fully annotated AIO nodes with outgoing edges, their generated records and four complete native neighbors were inspected or verified unchanged after previous full reading. Absence is bounded to this pin and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each input x, aggregate expert probabilities as pbar(y|x)=product_m p_m(y|x)^w_m/Z(x), with w_m&gt;=0 and sum_m w_m=1. Omit zero-weight factors, and require 0&lt;Z(x)&lt;infinity. On a common support where the divergences are finite, pbar minimizes sum_m w_m KL(r||p_m) over normalized r, with the candidate r in the first KL argument. For a target distribution q, KL(q||pbar)=sum_m w_m KL(q||p_m)-sum_m w_m KL(pbar||p_m); the subtracted term is -log Z at a fixed input, or its expectation over inputs. Thus the pool is no worse in that KL direction than the weighted average of experts, not necessarily the best expert. A common likelihood update commutes with pooling when the same fixed normalized weights are retained and normalization exists. For binary logistic probabilities this rule averages logits; for equal-variance Gaussian experts it averages means while preserving that shared variance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Selecting weighting factors in logarithmic opinion pools</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations (1)–(5), printed pp.267–269 / PDF pp.2–4; exponential-family examples, Section 3, pp.269–271 / PDF pp.4–6; weight estimation and approximation, Section 4, pp.271–272 / PDF pp.6–7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pool-product-boundary">Training Products of Experts by Minimizing Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Section 12.1, Equation (12.1), printed p.1794 / PDF p.24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>An outcome assigned zero probability by any positively weighted expert receives zero pooled probability. Disjoint positively weighted supports can yield Z=0. Zero-weight experts are excluded from this veto; finite-divergence identities require compatible support.</li>
+      <li>The weighted-average KL bound is not a guarantee of improvement over every expert, calibrated uncertainty or empirical predictive superiority. It depends on nonnegative weights summing to one, and does not transfer unchanged to arbitrary unit-exponent products.</li>
+      <li>Pooling does not specify how expert models or their weights are trained. Heskes’s quadratic weight-selection objective is an approximation obtained by neglecting KL asymmetry terms for nearby distributions; it is not the exact general weight-optimization objective. Finite-data divergence estimates may be biased by fitting and overfitting.</li>
+      <li>The Heskes display following Equation (3) prints ambiguity A as positive log Z, conflicting with its nonnegative weighted-KL definition and the preceding prose. The consistent identity is A=-log Z. The normalization constraint there also integrates over x where conditional normalization requires y; these display slips are not adopted.</li>
+      <li>The variance example on printed p.270 reverses the precision ratio for the displayed KL argument order. The record relies on the probability-pool definition and the equal-variance example, not that reversed formula. No general weight-selection implementation or empirical result is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/EnsembleLearning.html" style="font-weight: 600;"><code>AIO:EnsembleLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Ensemble Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected method aggregates probabilistic expert predictions and is used in ensemble modeling. The AIO target denotes a learning task and phrases predictive improvement as its aim; it is not an equivalent probability-combination rule or a performance guarantee. PoolingLayer instead denotes spatial downsampling and is not an appropriate match.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/1997/file/59f51fd6937412b7e56ded1ea2470c25-Paper.pdf" target="_blank" rel="noopener">Selecting weighting factors in logarithmic opinion pools</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tom Heskes
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.neurips.cc/paper_files/paper/1997/hash/59f51fd6937412b7e56ded1ea2470c25-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:734a29f44dcd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pool-product-boundary">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pool-product-boundary</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/nccd.pdf" target="_blank" rel="noopener">Training Products of Experts by Minimizing Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/089976602760128018</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a1190ee66e69…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:31:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:31:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LogarithmicOpinionPool.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LogarithmicOpinionPool.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

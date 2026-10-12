@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SeLa · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SeLa</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SeLa</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SeLa</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Self-labelling via simultaneous clustering and representation learning, Self-labeling via simultaneous clustering and representation learning
+    </div>
+
+  <div class="detail-desc">
+    A self-supervised representation-learning procedure that alternates neural pseudo-label prediction and dataset-wide self-labelling through an entropy-regularized balanced optimal-transport assignment.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      SeLa denotes Asano et al.’s simultaneous clustering and representation-learning procedure. It differs from k-means-based DeepCluster and online cross-view SwAV. Its global transport formulation and the author implementation’s hardening of soft assignments are distinguished explicitly. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 195 prior native IDs/names/aliases. Ignored-inclusive, word-delimited searches of both full checkouts found nine prior discovery/review references in each plus six unrelated language-stemmer tokens in the main environment. An initial substring search also matched unrelated layer-name suffixes. Neighboring k-means, SwAV, Barlow Twins and VICReg mechanisms and exact AIO definitions/edges were inspected; shared components do not establish identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let p_ki be the network softmax probability for class k on image i, for N images and K classes. At a self-labelling step hold model parameters fixed and form P_ki=p_ki/N. Approximately minimize &lt;Q,−log P&gt;+(1/lambda) KL(Q||r c^T), lambda&gt;0, over nonnegative K-by-N Q with row masses r_k=1/K and column masses c_i=1/N. With A=P^lambda, obtain Q=diag(alpha) A diag(beta) by alternating alpha=r/(A beta) and beta=c/(A^T alpha), using elementwise division. A conditional soft code would be N Q_:i; the pinned author implementation instead takes y_i=argmax_k Q_ki, without gradients through assignment, and trains the encoder and head on these hard pseudo-labels using cross-entropy and image augmentation until the next global reassignment. This practical hardening need not preserve exact equal class counts. Multiple heads can supply separate self-labellings sharing one feature extractor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Self-labelling via simultaneous clustering and representation learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–3.5, Equations (1)–(8), PDF pp. 3–6, especially marginal constraints on p. 3 and alternating optimization on p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">yukimasano/self-label author implementation: sinkhornknopp.py</a></span>
+        <span>· <strong>Locator:</strong> sinkhornknopp.py lines 16–45, 112–138 and 150–191: full-dataset predictions, prescribed marginal factors and hard argmax labels</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">yukimasano/self-label author implementation: main.py</a></span>
+        <span>· <strong>Locator:</strong> main.py lines 79–102: no-gradient reassignment and cross-entropy training of one or several heads</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The paper’s displayed reciprocal Sinkhorn updates omit marginal factors; this record states the 1/K and 1/N factors required by its constraints and confirmed in the pinned CPU and GPU implementations. Probabilities, log probabilities and mass-normalized joint matrices must not be conflated.</li>
+      <li>The original hard equal-size partition assumes K divides N. For other N≥K it needs integer count capacities differing by at most one. With integer count capacities, the unregularized transport problem admits an extreme optimum for which NQ is an integral one-hot assignment matrix: the mass-normalized Q has entries 0 or 1/N. Arbitrary tied optimal mixtures and entropy-regularized plans need not be hard assignments.</li>
+      <li>Finite regularization and finite iteration approximate the original combinatorial assignment. Columnwise argmax can destroy balance; uniform soft plans are feasible. The paper’s ideal alternating-objective convergence claim is not a guarantee for this approximate hard-label/SGD implementation or against every collapsed state.</li>
+      <li>The mutual-information interpretation concerns labels and data indices under the stated marginal and fitted-model assumptions, not a measured mutual information between continuous embeddings.</li>
+      <li>Global prediction storage and reassignment scale with images and classes. Cluster count, augmentation, optimization and the balanced-class prior affect the learned grouping; semantic labels and universal benchmark improvements are not guaranteed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns from self-generated targets or relationships between unlabeled inputs. The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure uses or directly learns unlabeled image cluster assignments. The pinned target is an unlabeled clustering task; this is a related algorithm-to-task association, not equivalence, a semantic class-label guarantee or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1911.05371v3" target="_blank" rel="noopener">Self-labelling via simultaneous clustering and representation learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuki Markus Asano, Christian Rupprecht, Andrea Vedaldi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1911.05371v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:784ac85aaf16…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/yukimasano/self-label/3891e376a82d1e4ac6de6d39505b692b8885c971/sinkhornknopp.py" target="_blank" rel="noopener">yukimasano/self-label author implementation: sinkhornknopp.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            yukimasano/self-label contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/yukimasano/self-label/blob/3891e376a82d1e4ac6de6d39505b692b8885c971/sinkhornknopp.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cbf89a32a5c6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/yukimasano/self-label/3891e376a82d1e4ac6de6d39505b692b8885c971/main.py" target="_blank" rel="noopener">yukimasano/self-label author implementation: main.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            yukimasano/self-label contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/yukimasano/self-label/blob/3891e376a82d1e4ac6de6d39505b692b8885c971/main.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9fe71e682454…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:15:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:17:24Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SeLa.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SeLa.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

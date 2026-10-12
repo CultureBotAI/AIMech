@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}{{ c.name }} · AIO Ontology Class · AIMech{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+  <a href="{{ root }}index.html">Home</a>
+  <span>/</span>
+  <a href="{{ root }}browse.html?origin=aio">AIO Classes</a>
+  {% if c.branches %}
+    <span>/</span>
+    <a href="{{ root }}branches/{{ c.branches[0] }}.html">{{ c.branches[0] }}</a>
+  {% endif %}
+  <span>/</span>
+  <strong>{{ c.name }}</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">{{ c.name }}</h1>
+    {% for b in c.branches %}
+      <span class="badge badge-aio">{{ b }}</span>
+    {% endfor %}
+    <span class="detail-id">{{ c.id }}</span>
+    <span class="badge badge-aio">{{ c.review_status }}</span>
+  </div>
+
+  <div class="detail-desc">
+    {{ c.definition }}
+  </div>
+
+  <div style="margin-top: 1rem; font-size: 0.88rem;">
+    <strong>Ontology IRI:</strong>
+    <a href="{{ c.ontology_iri }}" target="_blank" rel="noopener"><code>{{ c.ontology_iri }}</code></a>
+  </div>
+</div>
+
+<!-- Ontology Taxonomy & Hierarchy -->
+<div class="section-header">
+  <h2>Ontology Structure & Relationships</h2>
+</div>
+<div class="callout" style="background: var(--card);">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+    <div>
+      <div class="callout-title">Parent Classes</div>
+      {% if c.parents %}
+        <ul style="margin: 0; padding-left: 1.25rem;">
+          {% for p in c.parent_links %}
+            <li style="margin-bottom: 0.25rem;">
+              {% if p.page %}
+                <a href="{{ root }}{{ p.page }}"><code>{{ p.id }}</code> ({{ p.name }})</a>
+              {% elif p.url %}
+                <a href="{{ p.url }}" target="_blank" rel="noopener"><code>{{ p.id }}</code></a>
+              {% else %}
+                <code>{{ p.id }}</code>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div style="color: var(--meta); font-size: 0.9rem;">None (root class)</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="callout-title">Branches</div>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        {% for b in c.branches %}
+          <a class="badge badge-aio" href="{{ root }}branches/{{ b }}.html">{{ b }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% if c.relationships %}
+  <div style="margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 0.75rem;">
+    <div class="callout-title">Axiomatic Relationships</div>
+    <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.9rem;">
+      {% for rel in c.rel_links %}
+        <li>
+          <strong>{{ rel.predicate }}</strong> →
+          {% if rel.page %}
+            <a href="{{ root }}{{ rel.page }}"><code>{{ rel.target }}</code> ({{ rel.name }})</a>
+          {% else %}
+            <code>{{ rel.target }}</code>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Synonyms and Sources -->
+{% if c.synonyms or c.definition_sources or c.subsets %}
+<div class="section-header">
+  <h2>Annotations & Sources</h2>
+</div>
+<div class="callout" style="font-size: 0.9rem; line-height: 1.6;">
+  {% if c.synonyms %}
+    <div style="margin-bottom: 0.75rem;">
+      <strong>Synonyms:</strong>
+      <ul style="margin: 0.25rem 0 0; padding-left: 1.25rem;">
+        {% for syn in c.synonyms %}
+          <li>{{ syn.value }} <span class="badge badge-aio" style="font-size: 0.7rem;">{{ syn.scope }}</span></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if c.definition_sources %}
+    <div style="margin-bottom: 0.75rem;">
+      <strong>Definition Sources:</strong>
+      <ul style="margin: 0.25rem 0 0; padding-left: 1.25rem;">
+        {% for src in c.definition_sources %}
+          <li><a href="{{ src }}" target="_blank" rel="noopener">{{ src }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if c.subsets %}
+    <div>
+      <strong>Subsets:</strong>
+      <ul style="margin: 0.25rem 0 0; padding-left: 1.25rem;">
+        {% for sub in c.subsets %}
+          <li><code>{{ sub }}</code></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- Mapped AIMech Curated Concepts -->
+{% if c.mapped_curated %}
+<div class="section-header">
+  <h2>Curated AIMech Concepts Grounded to this Class</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.mapped_curated | length }} Concept{% if c.mapped_curated | length != 1 %}s{% endif %}</span>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th style="min-width: 220px;">Curated Concept</th>
+        <th style="width: 140px;">Kind</th>
+        <th style="width: 140px;">Mapping Relation</th>
+        <th>Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in c.mapped_curated %}
+      <tr>
+        <td>
+          <a href="{{ root }}{{ m.page }}" style="font-weight: 600;">{{ m.name }}</a>
+          <div style="font-size: 0.8rem; color: var(--meta);"><code>{{ m.id }}</code></div>
+        </td>
+        <td>
+          <span class="badge badge-curated">{{ m.kind_label }}</span>
+        </td>
+        <td>
+          <span class="badge badge-aio">{{ m.relation }}</span>
+        </td>
+        <td style="font-size: 0.88rem; line-height: 1.45;">
+          {{ m.rationale }}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<!-- Import Provenance -->
+<div class="section-header">
+  <h2>Import Provenance & Upstream Synchronization</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem;">
+    <div><strong>Source Repo:</strong> <a href="{{ c.provenance.source }}" target="_blank" rel="noopener">AIO GitHub</a></div>
+    <div><strong>Release Version:</strong> <code>{{ c.provenance.source_file }}</code></div>
+    <div><strong>Commit:</strong> <code>{{ c.provenance.source_commit[:10] }}…</code></div>
+    <div><strong>License:</strong> {{ c.provenance.license }}</div>
+    <div><strong>Imported At:</strong> {{ c.provenance.imported_at }}</div>
+    <div><strong>SHA256:</strong> <code>{{ c.provenance.source_sha256[:12] }}…</code></div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/{{ source_path }}" target="_blank" rel="noopener">
+      <code>{{ source_path }}</code>
+    </a>
+  </div>
+</div>
+{% endblock %}

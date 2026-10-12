@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive rejection sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Adaptive rejection sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Adaptive rejection sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaptiveRejectionSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ARS
+    </div>
+
+  <div class="detail-desc">
+    The Gilks–Wild univariate rejection sampler that uses tangents to a concave log density as a piecewise-linear upper hull and chords as a lower hull, updating these bounds from evaluated proposals.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record scopes ARS to the derivative-based tangent construction in Gilks and Wild (1992), for a fixed log-concave scalar target on a connected domain. Derivative-free envelope constructions and adaptive rejection Metropolis sampling are distinct variants requiring their own evidence. Exact conditional draws do not make successive joint Gibbs states independent. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 167 prior native IDs/names/aliases. Full-checkout searches in both worktrees included ignored and hidden files; the 15 lines in each were shared Tierney source-title references or an adaptive-rejection discovery lead, not matching records. Existing Gibbs, Metropolis-within-Gibbs, random-walk and independence Metropolis mechanisms were inspected to resolve specialization boundaries.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Write h=log g for a differentiable concave log density. At ordered support points evaluate h and h prime; tangent intersections define an upper hull u, and chords define a lower hull l, with l=−infinity outside the extreme support points. Initialize points so exp(u) is integrable; on unbounded tails this requires a positive leftmost slope and a negative rightmost slope. Draw x from normalized exp(u) and w uniformly on (0,1). Accept immediately if w≤exp(l(x)−u(x)); otherwise evaluate h(x) and h prime(x), accept if w≤exp(h(x)−u(x)), and incorporate the evaluated point into the hulls whether that full test accepted or rejected it. Repeat rejected trials. The conditional-on-history rejection argument gives the fixed target law for each output despite adaptation of the valid bounds.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Adaptive Rejection Sampling for Gibbs Sampling</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2–2.3, Equations (1)–(4), initialization, sampling step and correctness argument, printed pp. 339–342 / PDF pp. 4–7; conclusion on numerical care, p. 347 / PDF p. 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Concavity of log g is essential for the tangent and chord bounds. Unimodality alone is insufficient, and non-log-concave targets are not covered by this construction.</li>
+      <li>The displayed baseline assumes usable derivatives and connected scalar support. It does not assert validity for every nonsmooth density or a direct multivariate joint draw.</li>
+      <li>Tail slopes and support endpoints must make the proposal integrable. Concentrated or skewed densities require numerical care.</li>
+      <li>When a Gibbs conditional changes, hull values must be computed for that conditional; reusing stale density bounds is not justified.</li>
+      <li>No universal evaluation savings or benchmark result is asserted. ARMS and its 1997 correction remain separate uninspected-method leads.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target for this independent random-variate generator was found in the inspected pin. Its possible use inside a Gibbs sampler or Bayesian model is insufficient to force a process/model mapping. This is a bounded assessment of this AIO snapshot.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 AIO CLASS labels/scoped synonyms and native identities; ignored-inclusive searches of both full checkouts. Semantic search covered sampling, Monte Carlo, Markov, Bayesian, probabilistic and mathematical-function descriptions; exact candidate targets and incident edges were inspected.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A stochastic sequence/model exported beneath Network, rather than an independent random-variate generation procedure. Embedding independent draws in a chain or an outer Gibbs algorithm does not establish the needed concept relation here.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Defines a graphical conditional-dependence task; no graphical factorization defines this generator.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A directed acyclic probabilistic model, not this sampling algorithm; use for a conditional distribution is incidental.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A generic rule assigning dependent-variable values is not a suitable identity or informative broader mapping for a randomized accept-reject procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelectionAndSamplingBias.html"><code>AIO:SelectionAndSamplingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Describes selection-induced representativeness error, not exact generation from a specified target; shared sampling terminology is insufficient.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://hedibert.org/wp-content/uploads/2013/12/1992GilksWild.pdf" target="_blank" rel="noopener">Adaptive Rejection Sampling for Gibbs Sampling</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            W. R. Gilks, P. Wild
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.2307/2347565</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c88f55b2e19e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T07:13:10Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T07:13:10Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaptiveRejectionSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaptiveRejectionSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

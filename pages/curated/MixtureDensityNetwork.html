@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixture density network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Mixture density network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mixture density network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:MixtureDensityNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MDN
+    </div>
+
+  <div class="detail-desc">
+    A neural conditional-density architecture whose input-dependent outputs parameterize the mixing weights and component distributions of a finite mixture over target variables.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is Bishop’s combined neural-network and mixture-density construction. It predicts a conditional distribution, not only a conditional mean, and does not require the output density to be unimodal. The report’s worked model uses a feed-forward network and isotropic Gaussian components; other component families or covariance parameterizations are choices within the broader construction. It is distinct from an unconditional fitted Gaussian mixture, a generic feed-forward classifier and a sparse mixture-of-experts large language model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 349 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. All 3 unique matched line contents were inspected in full: the prior NADE-variant lead, RNADE source URL and previous review exclusion, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For input x, a neural network outputs parameters defining p(t|x)=sum_i alpha_i(x) phi_i(t|x). In the report’s c-dimensional isotropic Gaussian construction, softmax outputs give nonnegative mixing weights summing to one, direct outputs give component means, and exponentiated outputs give positive standard deviations sigma_i, with covariance sigma_i squared times the identity. The mixture can have dependent target coordinates even though coordinates are independent within each isotropic component. Minimize the sum of negative log mixture densities over input/target pairs. With responsibilities r_i=alpha_i phi_i/p(t|x), the output-logit derivative of one negative log likelihood is alpha_i-r_i; the mean derivative is r_i(mu_i-t)/sigma_i squared and the log-scale derivative is r_i(c-||t-mu_i|| squared/sigma_i squared). Backpropagate these derivatives through the network. Mixture weights are conditional component priors before observing t; responsibilities condition on both x and t. The conditional mean is the weighted mean of component centers and need not be a mode or a plausible branch of a multivalued inverse mapping.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixture Density Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (22)–(39), PDF pp.7–11 / printed pp.6–10; predictive-statistic and mode discussion, PDF pp.12–13 / printed pp.11–12; Section 4, PDF pp.13–14 / printed pp.12–13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exponentiation makes the scale positive for finite real outputs but does not bound it away from zero or prevent likelihood concentration as a component scale approaches zero. The report’s wording about avoiding zero-variance pathologies is interpreted with this mathematical qualification.</li>
+      <li>The report sometimes calls sigma a variance, but Equation (23) uses sigma as a standard deviation. Its displayed population Equation (40) omits the negative sign required by the preceding negative-log-likelihood objective; Equations (43) and (47) omit dimension factors if read as general isotropic multivariate scale and total variance formulas. Those printed formulas are not adopted as general identities.</li>
+      <li>A mixture’s global mode generally requires optimization. Selecting a component center by peak height or weight is an approximation under separation assumptions, not an exact general mode calculation.</li>
+      <li>A finite architecture and local optimization do not establish an arbitrary-accuracy fit, calibrated uncertainty, successful generalization or global optimality. The network models p(t|x), not p(x), unless an additional input model is provided.</li>
+      <li>No author implementation, later experimental pages or general approximation theorem was audited; finite curator calculations check only the displayed cases.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local identity is a neural architecture with a conditional-mixture output parameterization, so the inspected AIO artificial-neural-network class is broader. DeepFeedForwardNetwork requires multiple hidden layers through its parent and is not a necessary superclass of the original one-hidden-layer construction. Perceptron is defined as a binary linear classifier, and MixtureofExpertsLLM has a distinct language-model and sparse-routing scope.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bishop-ncrg-94-004.pdf" target="_blank" rel="noopener">Mixture Density Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Christopher M. Bishop
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> NCRG/94/004</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:96f65885600b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:49:48Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:49:48Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MixtureDensityNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MixtureDensityNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

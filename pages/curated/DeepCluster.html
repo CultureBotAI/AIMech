@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepCluster · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DeepCluster</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DeepCluster</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeepCluster</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Deep clustering for unsupervised learning of visual features
+    </div>
+
+  <div class="detail-desc">
+    A visual representation-learning procedure that alternates clustering current neural features into pseudo-labels and training the feature extractor and a classifier to predict those labels.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the original k-means-based DeepCluster procedure of Caron et al. It is not generic deep clustering, standalone k-means, DeepCluster-v2, or a particular pretrained model. Cluster assignments provide training targets; the k-means centroid matrix is not used as the discriminative classifier. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 195 prior native IDs/names/aliases. Ignored-inclusive, word-delimited searches of both full checkouts found nine prior discovery/review references in each plus six unrelated language-stemmer tokens in the main environment. An initial substring search also matched unrelated layer-name suffixes. Neighboring k-means, SwAV, Barlow Twins and VICReg mechanisms and exact AIO definitions/edges were inspected; shared components do not establish identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Extract features of the unlabeled training images with the current encoder while holding its parameters fixed. In the original reported configuration, PCA-reduce and whiten these features, then L2-normalize them before k-means. Cluster them by alternating nearest-centroid assignment and centroid updates toward the squared-distance objective; use the resulting hard cluster indices as pseudo-labels. The paper handles empty clusters by perturbing a selected nonempty centroid and reassigning its members between the two centers. Then hold pseudo-labels fixed and optimize the encoder and a classification head with cross-entropy on augmented images. Sample approximately uniformly across nonempty pseudo-label groups so large clusters do not dominate training. Repeat full-dataset feature extraction, clustering and discriminative training. The pinned author implementation reinitializes the final linear classifier for each reclustering round, uses 20 k-means iterations, and uses sampled pseudo-labels rather than differentiating through k-means.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Deep Clustering for Unsupervised Learning of Visual Features</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.4, Equations (1)–(2), PDF pp. 4–7; hyperparameter-selection paragraph on PDF p. 7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">facebookresearch/deepcluster author implementation: main.py</a></span>
+        <span>· <strong>Locator:</strong> main.py lines 141–186: feature extraction, pseudo-label sampling, classifier reinitialization and training</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">facebookresearch/deepcluster author implementation: clustering.py</a></span>
+        <span>· <strong>Locator:</strong> clustering.py lines 76–97, 150–183 and 204–219: PCA whitening, L2 normalization and finite Faiss k-means</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-3">facebookresearch/deepcluster author implementation: util.py</a></span>
+        <span>· <strong>Locator:</strong> util.py lines 49–90: sampling across nonempty pseudo-label groups</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>K-means is nonconvex and the finite iteration implementation does not certify a global optimum. The alternating clustering and classification stages are not a proof of descent for one common objective or of general convergence.</li>
+      <li>Empty-cluster repair and pseudo-label sampling are practical safeguards, not a universal guarantee against collapsed representations. The inspected wrapper delegates clustering to Faiss; its library internals were not audited.</li>
+      <li>Uniform training exposure to pseudo-label groups does not force equal cluster sizes. Cluster IDs can be permuted or change between rounds and are not verified semantic class labels.</li>
+      <li>PCA dimension 256, Sobel filtering, architecture, augmentations and epoch schedule describe the original experimental configuration. Whitening and L2 normalization require suitable numerical handling; no performance equivalence for arbitrary variants is asserted.</li>
+      <li>Training discards ImageNet class labels, but the paper selects hyperparameters using labeled Pascal VOC validation. Full-dataset feature extraction has a cost; no training or benchmark reproduction was performed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns from self-generated targets or relationships between unlabeled inputs. The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure uses or directly learns unlabeled image cluster assignments. The pinned target is an unlabeled clustering task; this is a related algorithm-to-task association, not equivalence, a semantic class-label guarantee or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Mathilde_Caron_Deep_Clustering_for_ECCV_2018_paper.pdf" target="_blank" rel="noopener">Deep Clustering for Unsupervised Learning of Visual Features</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mathilde Caron, Piotr Bojanowski, Armand Joulin, Matthijs Douze
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openaccess.thecvf.com/content_ECCV_2018/html/Mathilde_Caron_Deep_Clustering_for_ECCV_2018_paper.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cc527dbc1ccb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/main.py" target="_blank" rel="noopener">facebookresearch/deepcluster author implementation: main.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            facebookresearch/deepcluster contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/main.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ca6ba2def53…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/clustering.py" target="_blank" rel="noopener">facebookresearch/deepcluster author implementation: clustering.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            facebookresearch/deepcluster contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/clustering.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a7d07cb901f5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookresearch/deepcluster/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/util.py" target="_blank" rel="noopener">facebookresearch/deepcluster author implementation: util.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            facebookresearch/deepcluster contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/facebookresearch/deepcluster/blob/2d1927e8e3dd272329e879e510fbbdf1b1d02d17/util.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f47aaf8fcb74…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:15:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:15:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepCluster.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepCluster.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

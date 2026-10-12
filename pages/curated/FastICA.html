@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FastICA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FastICA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FastICA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FastICA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fast Independent Component Analysis
+    </div>
+
+  <div class="detail-desc">
+    A family of independent-component estimation algorithms that repeatedly apply normalized approximate-Newton fixed-point updates to nonlinear projection contrasts, using deflation or symmetric decorrelation to obtain multiple components.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Hyvarinen-Oja 1997 kurtosis FastICA and Hyvarinen 1999 generalized contrasts. This is an estimation algorithm, not the general ICA model, a trained source separator, ordinary-gradient Infomax ICA, topographic ICA or every fixed-point optimizer. Deflation and symmetric variants share the core update but have distinct ordering and decorrelation behavior; optional stabilization is not a claim that every variant is step-size-free. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 454 preceding native IDs, names and aliases, with no normalized match. Searches of both complete checkouts included ignored and hidden files and returned the same 176 matched-line set across 81 paths. All matching excerpts were read and distinguished from existing concept records; historical ledgers were not reread in full solely because they contained a match. All 213 semantic-search rows were read, including 212 unchanged prior rows and the additional KernelLayer row. Twenty-one annotated AIO nodes with outgoing edges were inspected: 19 unchanged prior readings and two new readings. Thirty-one contextual YAMLs, including ten native neighbors, comprise 23 unchanged prior readings and eight complete readings in this round. This identity assessment is bounded to the pinned snapshot and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#normalized-fixed-point</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For centered whitened observations x with E[xx^T]=I and unit w, choose a differentiable nonlinearity g=Gprime and compute w_plus=E[x*g(w^T x)]-E[gprime(w^T x)]*w, then normalize its nonzero norm. The source derives this from an approximate Newton step for a constrained projection contrast; sample means replace expectations in practice. Cubic g(u)=u^3 gives the original kurtosis step E[x(w^T x)^3]-3w under the whitening and unit-norm conditions. Tanh and Gaussian-weighted-linear nonlinearities are other source choices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-generalized-method">Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Section III.B, Equations 14-16, printed p. 629 / PDF p. 4; Section IV.B, Equations 17-20, p. 630 / PDF p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#multiple-components</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Deflation subtracts projections on previously estimated orthonormal directions after each update and renormalizes. Symmetric FastICA updates rows together and applies W &lt;- (W W^T)^(-1/2)W for whitened data, requiring full row rank. For nonsphered data, the source uses covariance-metric normalization and decorrelation with nonsingular covariance. Orthogonality prevents exact duplicate directions but does not by itself prove statistical independence. Signs and component ordering are not identified by the ICA objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-generalized-method">Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Sections IV.B-IV.C, Equations 22-26, printed pp. 630-631 / PDF pp. 5-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-original-paper">A Fast Fixed-Point Algorithm for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1.2, Equation 10, internal/PDF p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#population-convergence-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The generalized proof assumes the linear independent-source model, exact expectations, suitable moments and E[s_i*g(s_i)-gprime(s_i)] nonzero. It establishes local convergence near a source direction, generally quadratic and cubic with the stated symmetry condition. For the original kurtosis rule, source-coordinate updates are proportional to kurt(s_i)*z_i^3. A unique dominant scaled initial coordinate yields the cubic ratio contraction; tied starts can remain mixed up to sign. A source can be non-Gaussian with zero kurtosis, so the kurtosis rule cannot resolve multiple such sources merely from their non-Gaussianity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-generalized-method">Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.A, Equations 27-34, printed p. 633 / PDF p. 8; curator finite zero-kurtosis and tied-start examples</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-original-paper">A Fast Fixed-Point Algorithm for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equations 11-15, internal/PDF pp. 6-7; Section 5, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#contrast-and-robustness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The squared contrast [E G(w^T x)-E G(v)]^2, with standard Gaussian v, approximates negentropy rather than giving exact entropy for arbitrary distributions. Contrast choice affects consistency conditions, estimation variance and sensitivity to outliers. The robustness theorem assumes robust whitening and explicitly does not give a globally bounded influence function. The reported outlier experiment estimates covariance from uncontaminated data to emulate robust whitening; it does not certify robustness of an arbitrary complete FastICA pipeline.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-generalized-method">Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</a></span>
+        <span>· <strong>Locator:</strong> Section II.B, Equations 6-8, printed p. 627 / PDF p. 2; Section III.A, Theorems 1-3, p. 628 / PDF p. 3; Section V, pp. 631-632 / PDF pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Standard source identification assumes an appropriate full-rank instantaneous linear mixture, independent sources and at most one Gaussian source; the usable contrasts additionally require their own moments and nondegeneracy. Whitening needs finite covariance and a retained full-rank subspace.</li>
+      <li>A zero fixed-point update cannot be normalized. Singular intermediate matrices cannot be repaired to full rank by the displayed symmetric inverse square root or iterative decorrelation formula. Finite-sample errors and model mismatch are outside the exact-expectation convergence proof.</li>
+      <li>The original sign-insensitive stopping criterion can declare a mixed tied-start direction unchanged. Finite counterexamples qualify blanket recovery claims; they do not establish typical failure rates for randomized practical implementations.</li>
+      <li>Optional stabilized, nonsphered, noisy and overcomplete variants need their stated assumptions. The core algorithm is not universally globally convergent, noise-consistent, step-size-free in all variants, or superior to other estimators.</li>
+      <li>Both primary PDFs were read completely, totaling 19 pages. Finite arithmetic verifies zero-kurtosis and tied-start boundaries; no source-separation training, author implementation or historical benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedLearning.html" style="font-weight: 600;"><code>AIO:UnsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FastICA estimates source directions from observations without labeled source targets. The task-scoped AIO class is related to this fitting algorithm, without asserting algorithm/task identity or a network architecture.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-original-paper">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">original-paper</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.helsinki.fi/u/ahyvarin/papers/NC97.pdf" target="_blank" rel="noopener">A Fast Fixed-Point Algorithm for Independent Component Analysis</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aapo Hyvärinen, Erkki Oja
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.cs.helsinki.fi/u/ahyvarin/papers/NC97.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7ab4ef35cb53…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-generalized-method">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">generalized-method</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.helsinki.fi/u/ahyvarin/papers/TNN99_reprint.pdf" target="_blank" rel="noopener">Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aapo Hyvärinen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.cs.helsinki.fi/u/ahyvarin/papers/TNN99_reprint.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a58d27223e2b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:05:59Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:05:59Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastICA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastICA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

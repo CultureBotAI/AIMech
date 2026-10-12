@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topical n-gram model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Topical n-gram model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Topical n-gram model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:TopicalNGramModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TNG
+    </div>
+
+  <div class="detail-desc">
+    A topic-conditioned sequence model that chooses whether each word uses a topic-specific unigram distribution or a topic-and-previous-word bigram distribution, with that choice depending on the preceding word and its topic.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Wang, McCallum and Wei&#39;s ICDM2007 TNG model in Figure 1(c). The Bernoulli gate uses the previous token&#39;s topic and word; the emission uses the current topic. Consecutive bigram choices form longer phrases, but the local generative law remains first order. This differs from the always-bigram topic model, the topic-independent LDA collocation components and generic tokenization. TNG is the source acronym. Topic assignments need not be identical within an extracted phrase. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 432 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; six matching lines per checkout came from three unique file contents containing prior frontier leads, bibliography context and a cached publication-list mention. All candidate-matching excerpts were read; the long cached browser transcript was not reread in full. All 205 semantic label/synonym hits were byte-verified unchanged from prior reading. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 17 verified prior inspections and one fresh reading. Twenty-seven contextual YAMLs comprise 25 unchanged prior readings, one fresh generated AIO reading and one final round102 native record verified against its fully read review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#topic-conditioned-gate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each document has a Dirichlet topic vector theta. Each topic has a categorical unigram vector phi, each topic/previous-word pair has a categorical bigram vector sigma, and each previous-topic/previous-word pair has a Bernoulli gate psi with a Beta prior. At position i, x_i is drawn from psi_(z_(i-1),w_(i-1)), z_i from theta, and w_i from phi_z_i if x_i=0 or sigma_(z_i,w_(i-1)) if x_i=1. Initial and other specified boundaries constrain gates to unigrams. Runs of bigram choices induce phrases; the paper labels a phrase by its last word&#39;s topic as an output convention. This does not impose a shared latent topic across the phrase.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topical N-grams: Phrase and Topic Discovery, with an Application to Information Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2-2.3, PDF pp.2-4, boundary handling, Figure 1(c) and topic-consistency discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#next-gate-inference-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The generative law makes z_i a parent of the next gate x_(i+1). Consequently a topic update conditioned on the other assignments must account for that outgoing gate as well as the current emission and document mixture. The full joint in Appendix A includes those factors, but the printed joint/topic conditional displays on pp.4 and10 omit the next-gate contribution. A collapsed implementation must remove all affected factors and preserve shared-parameter count corrections before evaluating candidates. A finite integrated example yields a topic conditional of (2/3,1/3), whereas dropping that contribution gives (4/7,3/7). This qualifies the printed inference expression, without asserting that uninspected author software used it.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topical N-grams: Phrase and Topic Discovery, with an Application to Information Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Figure 1(c), PDF p.3; Section 2.3 p.4; Appendix A joint p.9 and conditionals p.10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The model represents long phrases through successive first-order bigrams, not an unrestricted higher-order n-gram table. Fixed topic count, vocabulary, boundary rules and many topic/word parameter rows constrain the model and require smoothing.</li>
+      <li>The optional same-topic phrase modification on p.4 has an if/else inconsistent with its verbal intention. The record follows the main Figure 1(c) construction. Printed minus-one counts must be interpreted as removing the old assignment, not subtracting one from every candidate category.</li>
+      <li>The retrieval section uses a plug-in first-order query score that averages the previous-topic gate under document weights. It is not generally exact filtering or posterior prediction for the full latent sequence. Query-level mixture and term-level interpolation are different scoring rules; the reported study uses term-level interpolation.</li>
+      <li>The NIPS/TREC experiments use selected preparations, fixed hyperparameters and model-specific interpolation weights selected for best performance. Topic/phrase labels and retrieval comparisons do not establish linguistic ground truth or universal superiority. The finite counterexample audits a printed equation, not source implementation or benchmark execution.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/LanguageModel.html" style="font-weight: 600;"><code>AIO:LanguageModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Language Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined model assigns probabilities to word sequences and is narrower than the pinned LanguageModel class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/tng-icdm07.pdf" target="_blank" rel="noopener">Topical N-grams: Phrase and Topic Discovery, with an Application to Information Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuerui Wang, Andrew McCallum, Xing Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3ed0ce0b6b73…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:24:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:24:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TopicalNGramModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TopicalNGramModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

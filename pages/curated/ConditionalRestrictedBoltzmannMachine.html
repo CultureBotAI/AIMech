@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conditional restricted Boltzmann machine · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Conditional restricted Boltzmann machine</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Conditional restricted Boltzmann machine</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:ConditionalRestrictedBoltzmannMachine</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CRBM, Conditional RBM
+    </div>
+
+  <div class="detail-desc">
+    A conditional neural probability model that represents an output vector with an RBM whose biases or interactions are determined by a supplied conditioning vector.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the general input-conditioned RBM family described by Mnih, Larochelle and Hinton, with their affine-bias binary formulation as the explicitly curated mechanism. The conditioning vector need not be temporal history. Autoregressive CRBM fixes it to earlier frames and RNN-RBM derives it from a recurrent state; these are narrower constructions, not aliases for the entire family. HashCRBM and CD-PercLoss are separate training or prediction constructions and do not define every conditional RBM. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Hold conditioning vector u fixed. In the paper’s binary affine-bias specialization, set a(u)=b_v+(W_uv)^T u and c(u)=b_h+(W_uh)^T u, with visible-by-hidden interaction matrix W_vh. Define E(v,h;u)=-v^T W_vh h-a(u)^T v-c(u)^T h. Marginalizing binary h gives F(v,u)=-a(u)^T v-sum_j log(1+exp(c_j(u)+(W_vh^T v)_j)). Normalize exp(-F(v,u)) over output configurations v to obtain p(v|u), with a partition depending on u. Hidden units given v,u and visible units given h,u have factorial logistic conditionals, but outputs after hidden marginalization can be dependent. Conditional likelihood gradients contrast data-posterior and model expectations at the same u. The paper discusses finite CD as an approximation and separate alternatives for restricted output support or prediction-based training. Prediction may seek the joint conditional mode or coordinate-wise marginal modes according to the loss; those are different decisions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–5, Figure 1 and Equations (8)–(13), PDF pp.2–4; conditional family versus affine-bias specialization in Section 3, p.3; restricted-support and prediction-loss alternatives, Sections 6.1–6.2, pp.5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The model specifies p(v|u), not the input marginal p(u). Normalizing outputs for one conditioning vector does not supply a shared partition for every other input or a joint model over arbitrary inputs.</li>
+      <li>Factorial block conditionals do not make the output marginal factorial or its partition, joint mode and coordinate marginals generally tractable. Tiny output spaces or deliberately restricted support are special cases.</li>
+      <li>A small data-started CD update can reflect poor mixing near the observed output rather than accurate predictions from u alone. Finite CD is not generally the exact conditional likelihood gradient or the gradient of a single fixed objective.</li>
+      <li>Persistent samples from one conditioning input cannot simply be treated as equilibrium samples for another. The paper’s discussion of persistent-chain impracticality is scoped to its input-specific distributions and training setting; it is not a proof that every conditional persistent method is impossible.</li>
+      <li>The general family can condition biases or interactions, while the displayed mechanism holds W_vh fixed and changes biases affinely. Gaussian outputs, input-dependent interactions, retrieved-support HashCRBM and perceptron-style training need separate conventions. No historical-priority, universal prediction-quality or author-code claim is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local family is a specific stochastic neural conditional model with weighted visible–hidden interactions and input-controlled parameters. The pinned ArtificialNeuralNetwork is broader. Classification and regression are possible uses, while their task-scoped AIO classes do not identify this architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The construction uses a conditional RBM as its output distribution. This related mapping identifies that component or conditioned-family relationship without asserting that the whole input-conditioned or recurrent model is one unconditioned symmetric RBM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf" target="_blank" rel="noopener">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Volodymyr Mnih, Hugo Larochelle, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1202.3748</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e7811677aa0f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:53:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:53:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ConditionalRestrictedBoltzmannMachine.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ConditionalRestrictedBoltzmannMachine.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

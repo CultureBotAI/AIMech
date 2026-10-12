@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real-valued neural autoregressive density estimator · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Real-valued neural autoregressive density estimator</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Real-valued neural autoregressive density estimator</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:RealValuedNeuralAutoregressiveDensityEstimator</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RNADE, Real-valued autoregressive density estimator
+    </div>
+
+  <div class="detail-desc">
+    A fully visible neural autoregressive density architecture for real-valued vectors that shares input-to-hidden parameters across ordered scalar conditional mixture-density models.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes Uria, Murray and Larochelle’s original RNADE family. It extends binary NADE by replacing Bernoulli outputs with real-valued mixture conditionals. Deterministic prefix features and NADE-style input sharing distinguish it from separate untied conditional networks and from a stochastic latent RBM. Mixture-of-Gaussians and mixture-of-Laplace outputs are reported variants, not identity aliases for every Gaussian or Laplace mixture. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 349 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines respectively. All 3 unique matched line contents were inspected in full: the prior NADE-variant lead, RNADE source URL and previous review exclusion, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an ordered real-valued vector x, evaluate p(x)=product_d p(x_d|x_&lt;d). Start a_1=c and update a_(d+1)=a_d+x_d W[:,d] when another conditional remains. At each position, a learned scalar rho_d rescales the shared prefix preactivation; sigmoid or rectified-linear units produce deterministic hidden features h_d. Separate position-specific output matrices map those features to scalar-mixture parameters. In RNADE-MoG, softmax gives component weights, linear outputs give means, and exponentials give positive standard deviations. Summing the normalized scalar Gaussian components gives each conditional density; multiplying the conditionals yields a normalized joint without a global partition-function estimate. Complete-vector log densities and their derivatives are directly evaluable; prefix recurrence and fixed hidden/component sizes give cost linear in the number of dimensions, with output work O(DHK). Ancestral generation samples each scalar from the mixture conditioned on previously generated values. The experimental mean-output gradient rescaling by component standard deviation is a training heuristic, separate from the exact log-density derivative. The paper also substitutes Laplace mixture conditionals.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">RNADE: The real-valued neural autoregressive density-estimator</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, Equations (1)–(8), PDF/printed pp.2–3; training/model-selection context and untied baseline, p.4; limitations discussion, p.8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement-source">RNADE: The real-valued neural autoregressive density-estimator — Supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Density Algorithm 1, p.1; derivative notation, Equations (3)–(18), p.2; Algorithm 2, p.3. Full supplement read; printed inconsistencies are qualified.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The variable ordering, conditional family, hidden capacity, component count and optimization restrict the fitted density. Exact density evaluation does not make arbitrary missing-variable posterior inference a forward pass or establish data-model agreement.</li>
+      <li>Linear scaling in dimensionality holds with fixed hidden and mixture sizes; it does not omit their cost. The final prefix update is unnecessary, consistent with the declared H by (D-1) input-weight matrix.</li>
+      <li>The supplement labels several log-density derivative formulas as derivatives of p rather than log p. Its Algorithm 2 also uses a log-shaped expression with a positive squared-residual term as if it were a component density in responsibilities, and has prefix/index ambiguities. A literal finite example produces invalid responsibilities. The curated mechanism follows the main-paper normalized densities and prefix equations; this is not a claim about author-code behavior.</li>
+      <li>The experimental standard-deviation gradient rescaling is not the raw likelihood gradient or Newton’s variance scaling. Exponential scales remain susceptible to approaching zero; regularization and model selection matter.</li>
+      <li>No performance ranking, convergence guarantee, exact posterior claim or full executable implementation validation is included.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary paper explicitly gives the ordered real-valued factorization as a fully visible Bayesian network. The AIO target is broader than this shared-parameter neural mixture-conditional architecture. Hidden neural activations parameterize factors and are not unobserved random variables. A time-series autoregression or language-model label does not define the same identity.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2013/file/53adaf494dc89ef7196d73636eb2451b-Paper.pdf" target="_blank" rel="noopener">RNADE: The real-valued neural autoregressive density-estimator</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Benigno Uria, Iain Murray, Hugo Larochelle
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2013/hash/53adaf494dc89ef7196d73636eb2451b-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:37ae0b99e5c3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-supplement-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">supplement-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2013/file/53adaf494dc89ef7196d73636eb2451b-Supplemental.zip" target="_blank" rel="noopener">RNADE: The real-valued neural autoregressive density-estimator — Supplementary material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Benigno Uria, Iain Murray, Hugo Larochelle
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2013/hash/53adaf494dc89ef7196d73636eb2451b-Abstract.html#supplement</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:011b51237254…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:49:48Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:49:48Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RealValuedNeuralAutoregressiveDensityEstimator.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RealValuedNeuralAutoregressiveDensityEstimator.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

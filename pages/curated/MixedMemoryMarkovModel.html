@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixed memory Markov model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Mixed memory Markov model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mixed memory Markov model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:MixedMemoryMarkovModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A family of compact temporal probability models whose component transition distributions are convex mixtures of transition tables indexed by a single selected predecessor lag or component.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the mixed-memory construction of Saul and Jordan, including higher-order scalar, multicomponent first-order and hidden-state extensions. Mixed memory means a latent selector chooses one predecessor for a component distribution. It does not mean external neural memory, a mixture selecting an entire HMM, independent factorial chains, or an unrestricted full higher-order transition table. EM and coordinate Viterbi are estimation/inference procedures, not aliases for the model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 379 preceding native IDs/names/aliases for the four researched candidate names. Both full-checkout fixed-string searches included ignored and hidden files, with 7 and 7 matching lines. All 6 unique matched contents were read: pending leads and preceding source/review context, not existing records of these three new identities. Expanded source IDs, plurals, Gibbs-machine and mixture-transition terminology were included. All 63 semantic label/synonym hits, 17 exact fully annotated AIO CLASS nodes with outgoing edges, their generated YAMLs and six native neighbors were read or byte-verified after prior complete reading. Markov mixtures of experts substantially overlaps the existing IOHMM family, so no fourth ID or unconditional alias is created. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a scalar k-order sequence, write p(i_t|i_(t-1),...,i_(t-k))=sum_mu psi(mu) a_mu(i_t|i_(t-mu)), with nonnegative selector weights summing to one and each transition table normalized over the current state. Given observed predecessor and current values, a selector responsibility is proportional to psi(mu) a_mu(i_t|i_(t-mu)); parameter re-estimation can use these expected selector-weighted counts. For a vector state I_t with components nu, the first-order multicomponent form is p(I_t|I_(t-1))=product_nu sum_mu psi_nu(mu) a_nu,mu(i_t^nu|i_(t-1)^mu). Thus current components are conditionally independent given the complete previous vector, despite possible marginal dependence. The hidden extension uses this transition and an emission p(J_t|I_t)=product_nu sum_mu phi_nu(mu) b_nu,mu(j_t^nu|i_t^mu). Fully observed parameter counts scale quadratically rather than exponentially in the number of components for fixed alphabet size; exact hidden posterior inference can still be exponential. The paper instead illustrates a coordinate Viterbi approximation that fixes other hidden chains while optimizing one chain path.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixed memory Markov models</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, Equations (1)–(15), printed pp.438–440 / PDF pp.2–4; Section 4, Equations (16)–(22) and Figures 2–3, pp.440–443 / PDF pp.4–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A convex sum of single-predecessor effects cannot represent every higher-order interaction; for example an unrestricted XOR dependence on two binary predecessors is not additive in this way. Compact parameter counts do not establish universal expressiveness.</li>
+      <li>The displayed vector transition explicitly assumes conditional independence of current components given the previous vector. The source’s broad wording about avoiding strong conditional-independence assumptions must not override its product factorization.</li>
+      <li>Selector weights are properties of a fitted parameterization, not uniquely identified causal influence or a generally valid measure of correlation. Initial histories and observed-window boundaries must be specified when counting transitions.</li>
+      <li>In the hidden extension, exact EM needs joint posterior expectations of selectors and hidden-state indicator products. Equations (20) and (22) display hidden indicators outside the expectation, which is not a general full-posterior EM formula; clamping a path changes the calculation. Equation (17) also reverses emission arguments relative to Equation (16).</li>
+      <li>Coordinate Viterbi improves or preserves the joint path score under an exact single-chain update, but need not reach global MAP or optimize the marginal observed likelihood. Ties and stopping rules require care.</li>
+      <li>The Bach example illustrates the authors’ approximate procedure. Figure 2 uses joint path log probability, not exact marginal likelihood. No accuracy, causal discovery, training reproduction or general scaling guarantee for hidden inference is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For a finite time window and specified initial history, normalized conditional factors and latent predecessor selectors form a directed acyclic probabilistic model. This compact mixed-memory parameterization is narrower than the pinned BayesianNetwork class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The multicomponent case has a first-order joint vector state, while the scalar case can use multiple predecessor lags and the hidden extension marginalizes states. The pinned first-order MarkovChain definition is related temporal structure, not an exact identity or an unqualified parent for every observed process.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/r1/saul97a/saul97a.pdf" target="_blank" rel="noopener">Mixed memory Markov models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lawrence K. Saul, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/r1/saul97a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a38f538362ef…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T20:01:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T20:01:50Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MixedMemoryMarkovModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MixedMemoryMarkovModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

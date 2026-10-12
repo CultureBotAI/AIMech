@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topics over Time model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Topics over Time model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Topics over Time model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:TopicsOverTimeModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TOT
+    </div>
+
+  <div class="detail-desc">
+    A topic-model family combining fixed topic-word distributions with topic-specific continuous timestamp densities, so that words and their observed times jointly inform document topic assignments.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Wang and McCallum&#39;s KDD2006 Topics over Time model, especially its fitted token-level timestamp construction with Beta densities over normalized time. The paper also proposes a distinct single-document-timestamp view. Fixed topic-word distributions distinguish TOT from dynamic topic models with evolving word probabilities; continuous observed time does not imply a Markov process or point-process intensity. TOT is a source acronym within this scope. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 432 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; six matching lines per checkout came from three unique file contents containing prior frontier leads, bibliography context and a cached publication-list mention. All candidate-matching excerpts were read; the long cached browser transcript was not reread in full. All 205 semantic label/synonym hits were byte-verified unchanged from prior reading. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 17 verified prior inspections and one fresh reading. Twenty-seven contextual YAMLs comprise 25 unchanged prior readings, one fresh generated AIO reading and one final round102 native record verified against its fully read review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#token-time-generation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The fitted construction gives each document a Dirichlet topic mixture, each topic a corpus-shared categorical word vector, and each topic a Beta timestamp density on a normalized bounded interval. A token draws a topic, a word and a timestamp; fitting copies the document timestamp to every token. Word distributions remain fixed across time, while topic-specific time densities influence assignment. The alternative description generates one timestamp from a document-mixture-weighted combination of topic densities. These are different generative laws: repeating topic-time factors, even with inverse-length weighting, is not generally identical to one mixture density for a document timestamp.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topics over Time: A Non-Markov Continuous-Time Model of Topical Trends</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.2-4, Figure 1(b,c), generative steps and alternative description</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#time-weighted-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With topic timestamp parameters fixed, the collapsed token assignment weight combines leave-one-out document-topic and topic-word predictive factors with the assigned topic&#39;s timestamp density. The paper introduces an exponent to balance time and word contributions and updates Beta parameters from empirical moments. These adaptations change the fitting objective and require positive valid shapes and safeguards for empty topics or zero variance. The printed density uses (1-t)^(psi1-1)*t^(psi2-1), whereas its moment estimates assign psi1=mean*c and psi2=(1-mean)*c. A coherent calculation must use one consistent shape convention; for the conventional Beta(a,b), the density is proportional to t^(a-1)*(1-t)^(b-1). No behavior of uninspected historical software is inferred from this notation conflict.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topics over Time: A Non-Markov Continuous-Time Model of Topical Trends</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.3-4, conditional and Algorithm 1; Appendix A p.10, density and moment estimates</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A repeated timestamp provides one density factor per token unless explicitly reweighted. Its restriction to one common timestamp is not automatically a normalized single-time document density. The proposed balancing exponent does not prove equivalence between the two generative descriptions.</li>
+      <li>Bayes inversion can produce a token-topic probability given time using an assumed or estimated topic prior. This is not generally the same quantity as the posterior mean of a random document topic vector, despite notation on p.4. Continuous density values are not probabilities; endpoint handling, normalization range and balancing conventions matter.</li>
+      <li>One Beta per topic limits temporal shapes. Extending the bounded time range for prediction is a modeling choice rather than a guarantee of future extrapolation. Fixed word distributions do not directly model changing word meanings, and topic split/merge interpretations are descriptive.</li>
+      <li>Historical evaluations use selected address, email and NIPS collections with heuristic preprocessing and particular finite samples. Topic names, KL distinctness, thresholded co-occurrence and decade prediction do not establish causal trends, universal semantic accuracy or future forecasting. No author code or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined latent-variable model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TimeSeriesAnalysis.html" style="font-weight: 600;"><code>AIO:TimeSeriesAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Time Series Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model analyzes topical prevalence associated with observed times, but its joint timestamp/content law is not the same identity as the broad time-series task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/tot-kdd06.pdf" target="_blank" rel="noopener">Topics over Time: A Non-Markov Continuous-Time Model of Topical Trends</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuerui Wang, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:96102cc116a8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:24:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:24:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TopicsOverTimeModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TopicsOverTimeModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

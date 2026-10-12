@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ant-Q · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Ant-Q</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Ant-Q</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AntQ</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A family of cooperative ant-based optimization algorithms that learns shared edge desirabilities using Q-learning-inspired next-state estimates and delayed reinforcement from completed solutions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the Ant-Q family through its traveling-salesman formulations, especially pseudo-random-proportional construction and best-tour reinforcement. Its next-state estimate distinguishes the nondegenerate Ant-Q update from the selected ACS rule targeting a constant tau0. The authors relate Ant System to the broader family; that relationship does not make every Ant-Q configuration identical to Ant System. This is an algorithm-family concept, not a trained value function or a proof of Q-learning equivalence. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 291 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 61 and 71 lines respectively. Text hits were prior candidate leads, citations to a reused Ant System source, neighboring mechanism distinctions, saved review/report material, and unrelated PBIL strings in ignored HOGENOM prefix-map URLs. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain shared positive AQ(r,s) edge values, a heuristic HE(r,s) such as inverse positive distance, and each ant’s set J of unvisited cities. In the pseudo-random-proportional variant, draw q uniformly in [0,1]: for q&lt;=q0 choose an eligible edge maximizing AQ^delta*HE^beta, otherwise sample with probabilities proportional to those weights over eligible cities. While constructing tours, the displayed update is AQ(r,s)_new=(1−alpha)*AQ(r,s)+alpha*(DeltaAQ(r,s)+gamma*max_{z in J(s)} AQ(s,z)); immediate DeltaAQ is zero in the inspected variants. After completing tours, delayed reinforcement is W/L_best on edges of a selected best tour and zero elsewhere. The paper studies both iteration-best and best-so-far choices and selects iteration-best for most subsequent experiments. In the 1995 Figure1 delayed phase, the next-state term is explicitly declared zero, so the per-edge update where applied reduces to (1−alpha)*AQ+alpha*DeltaAQ. The 1996 presentation explicitly restricts that global phase to the iteration-best tour and resets per-tour ant state each iteration. These are source-scoped formulations; terminal handling and the exact edge-update schedule must be declared when implementing a concrete member.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Ant-Q: A Reinforcement Learning approach to the traveling salesman problem</a></span>
+        <span>· <strong>Locator:</strong> Sections2–3.3, PDF pp.1–5, Equations1–5 and Figure1; conclusion, PDFp.7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-later-formulation">A Study of Some Properties of Ant-Q</a></span>
+        <span>· <strong>Locator:</strong> Sections2–3 and Figure1, printed pp.2–5 in the public full-text transcript; best-tour global update and per-tour data reset on p.4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The eligible action set depends on an ant’s visited-city history, while AQ is shared per edge. City identity alone is therefore not a complete Markov state for tour feasibility. The 1995 conclusion treats transfer of Q-learning theory as future work; standard Q-learning convergence is not an established Ant-Q guarantee here.</li>
+      <li>The 1995 generic diagram loops over edges to compute delayed reinforcement and gives an incompletely specified final update domain; its repeat jump omits explicit state reset and its terminal local maximum needs a convention. The 1996 method makes best-tour-only global updates and per-tour reset explicit but references its update equation without restating the earlier zero-next-state convention. The record preserves these version details instead of claiming a fully executable common pseudocode.</li>
+      <li>The pseudo-random, pseudo-random-proportional and random-proportional construction rules are distinct members. Positive trails alone do not ensure exploration when q0=1, candidates are excluded or weights vanish. Empty eligible sets, zero distances, ties, repeated edge updates and numerical underflow require explicit handling.</li>
+      <li>The learned edge values guide stochastic search rather than certify globally optimal tours. Heuristic choice, parameters, number of ants, update ordering and stopping affect results. Neither the paper’s observed noncollapse nor its TSP/ATSP comparisons is asserted as a universal guarantee.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Ant-Q explicitly constructs shared action-like values using a Q-learning-inspired discounted next-state term and delayed reinforcement. This relates the concrete combinatorial optimizer to the pinned learning-task class; it asserts neither identity nor subclass membership. History-dependent feasibility and source-specific update schedules prevent importing standard Q-learning guarantees.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://staff.washington.edu/paymana/swarm/gambardella95-icml.pdf" target="_blank" rel="noopener">Ant-Q: A Reinforcement Learning approach to the traveling salesman problem</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Luca M. Gambardella, Marco Dorigo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://staff.washington.edu/paymana/swarm/gambardella95-icml.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:60ea0bfe6b4f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-later-formulation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">later-formulation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.researchgate.net/publication/2432719_A_study_of_some_properties_of_Ant-Q" target="_blank" rel="noopener">A Study of Some Properties of Ant-Q</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Dorigo, Luca Maria Gambardella
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1007/3-540-61723-X_1029</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:37:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:37:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AntQ.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AntQ.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

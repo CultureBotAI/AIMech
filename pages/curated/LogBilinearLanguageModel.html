@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log-bilinear language model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Log-bilinear language model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Log-bilinear language model</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:LogBilinearLanguageModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LBL
+    </div>
+
+  <div class="detail-desc">
+    A next-word language architecture that linearly combines position-specific transforms of context-word embeddings and normalizes their bilinear compatibility with candidate-word embeddings over the vocabulary.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the original Mnih–Hinton LBL construction. It uses the same word-embedding matrix for context and candidate words, has no stochastic hidden variables, and retains a flat vocabulary normalizer. HLBL replaces that output parameterization with tree-node decisions. The FRBM and temporal FRBM in the same 2007 paper are separate latent-variable architectures, not aliases for LBL. All 442 pinned AIO labels/scoped synonyms and 355 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 54 lines each. All 41 unique matched contents were read: source references, complete-model contrasts, frontier leads and prior review context for the hierarchical-softmax component. None is an existing record for these complete architectures. Twenty exact AIO nodes and their generated records plus four complete native neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the 2007 row-vector convention, let r_w be a word’s embedding written as a column, C_i the transform for context position i, b_r a feature bias and b_w a candidate-word bias. The candidate score is sum_i r_context_i^T C_i r_w+b_r^T r_w+b_w. Equivalently, form r_hat=b_r+sum_i C_i^T r_context_i once, then take score_w=r_hat^T r_w+b_w and apply the vocabulary softmax. The original energy is the negative of this score. Maximum-likelihood gradients are observed sufficient statistics minus their exact finite-vocabulary conditional expectations. Because the embedding matrix is shared, its gradient includes both input-context and candidate-output roles. The 2008 exposition writes r_hat=sum_i C_i r_context_i with the opposite matrix orientation and without an explicit feature bias; this is a notation/parameterization distinction to preserve when comparing formulas.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Three New Graphical Models for Statistical Language Modelling</a></span>
+        <span>· <strong>Locator:</strong> Section 4 and 4.1, Equations (13)–(15), printed pp.645–646 / PDF pp.5–6; feature and bias conventions, Equation (2), printed p.642 / PDF p.2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-later-exposition">A Scalable Hierarchical Distributed Language Model</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (1)–(2), PDF/printed pp.2–3; shared embedding and linear hidden-feature discussion, p.3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The context feature computation is linear, while normalization makes word probabilities nonlinear. Position-specific transforms preserve context order; the construction is not generally a bag-of-words model.</li>
+      <li>Without an additional exact computational method, the original flat normalizer requires summing candidate scores over the vocabulary. Absence of stochastic hidden variables makes this expectation explicit, not independent of vocabulary size.</li>
+      <li>Bilinear scores and shared learned embeddings do not make joint parameter fitting a convex optimization problem. Exact likelihood gradients do not guarantee a global optimum or calibrated predictions.</li>
+      <li>The energy scores one candidate conditional on its context; it is not the unnormalized energy of a whole sequence used by the pinned ImplicitLanguageModel or EnergyBasedLLM classes.</li>
+      <li>The record covers a fixed-context word model, without asserting long-context capability, benchmark superiority, author-code behavior or the mechanisms of the neighboring FRBM variants.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/AutoregressiveLanguageModel.html" style="font-weight: 600;"><code>AIO:AutoregressiveLanguageModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Autoregressive Language Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source specifies next-word conditionals given preceding words, defining a sequential language model with a finite context. The AIO target is broader than this position-specific bilinear context and flat vocabulary-output architecture. The mapping uses its sequential-probability scope, not its qualitative assertion about excelling at generation. HierarchicalLanguageModel denotes multilevel representations and is not an exact identity for a vocabulary-tree construction; OutputLayer, SoftmaxLayer and EmbeddingLayer are components rather than whole-model superclasses.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.utoronto.ca/~hinton/absps/threenew.pdf" target="_blank" rel="noopener">Three New Graphical Models for Statistical Language Modelling</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andriy Mnih, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> 10.1145/1273496.1273577</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d0709a403248…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-later-exposition">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">later-exposition</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2008/file/1e056d2b0ebd5c878c550da6ac5d3724-Paper.pdf" target="_blank" rel="noopener">A Scalable Hierarchical Distributed Language Model</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andriy Mnih, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2008/hash/1e056d2b0ebd5c878c550da6ac5d3724-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1532535af39d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:15:42Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:15:42Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LogBilinearLanguageModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LogBilinearLanguageModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

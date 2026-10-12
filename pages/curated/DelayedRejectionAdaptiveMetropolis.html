@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delayed-rejection adaptive Metropolis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Delayed-rejection adaptive Metropolis</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Delayed-rejection adaptive Metropolis</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DelayedRejectionAdaptiveMetropolis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DRAM
+    </div>
+
+  <div class="detail-desc">
+    An adaptive Metropolis procedure combining history-based Gaussian proposal covariance updates between transitions with corrected delayed-rejection proposal stages within a transition.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      DRAM combines two distinct mechanisms: retained-history covariance learning across iterations and reversed-path acceptance corrections for additional attempts after rejection. The inspected author implementation supplies the explicit Gaussian-stage realization; it is not merely repeated ordinary Metropolis tests. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 181 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found prior discovery leads, neighboring sampler discussions and unrelated author-name/environment substrings. Existing random-walk Metropolis, delayed-rejection, fixed symmetric delayed-rejection and RAM records were inspected; shared components do not make these procedures equivalent.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At fixed proposal settings for a transition, first propose y1 from N(x,C1) and use the Metropolis target ratio. After rejection propose y2 from N(x,C2), centered at the original x, with C2=C1/d1² for a positive stage scale d1 (d1&gt;1 narrows the proposal). Let q_i(a,b) denote the Gaussian proposal density at b from a and a1(a,b)=min(1,pi(b)/pi(a)). On a reachable rejection path, accept y2 with min(1, [pi(y2)q1(y2,y1)q2(y2,x)(1−a1(y2,y1))]/[pi(x)q1(x,y1)q2(x,y2)(1−a1(x,y1))]). Higher stages use the recursive forward/reverse rejection products and earlier-stage Gaussian proposal ratios. Retain x after all capped stages reject. At scheduled iterations, update the empirical covariance from stored retained states including repeats, scale its Cholesky factor, and recompute stage factors for later transitions. In the inspected implementation diagonal jitter is attempted only when factorization fails; if that attempt also fails, the previous proposal factor is retained.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">MCMCSTAT mcmcrun: author implementation of adaptive and delayed-rejection Metropolis</a></span>
+        <span>· <strong>Locator:</strong> mcmcrun.m lines 119–168 (method controls), 339–380 (factors), 497–603 (proposals and retained chain), 661–717 (covariance adaptation), 854–905 (alphafun, qfun, lfun)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">MCMCSTAT covupd: recursive weighted empirical covariance</a></span>
+        <span>· <strong>Locator:</strong> covupd.m complete function: weighted mean and unbiased empirical covariance updates, including old-state accumulation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The original 2006 article metadata was located but its complete method PDF was not obtained. This record is supported by the named author’s pinned implementation and its covariance helper, not a claim to have read that article.</li>
+      <li>The Gaussian factors remain fixed within a delayed-rejection transition. Recomputing adaptation from rejected internal candidates or ignoring reverse-path factors would require different justification.</li>
+      <li>The implementation defaults to two attempts and adaptation every 100 iterations; its usage comment about three stages is inconsistent with those executable defaults. These counts are options, not the concept identity.</li>
+      <li>Optional covariance pseudoweights, fixed nonadapted coordinates, early rejection-rate scaling, variance sampling and hierarchical updates are outside the simple fixed-target account here.</li>
+      <li>Jitter only on factorization failure differs from always adding a positive regularizer. Source-code inspection alone establishes neither correctness for arbitrary targets nor adaptive ergodicity; no MATLAB execution or performance comparison was performed.</li>
+      <li>Initialize within positive target support. Zero reverse-path probability gives zero acceptance; numerical evaluation must handle vanishing densities and log ratios without invalid divisions.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure adapts a family of Markov transition kernels that are target-invariant at frozen settings. Its sampled-state history is not assumed to be a homogeneous Markov chain, and adaptive validity requires separate assumptions. AIO MarkovChain is a process/model beneath Network; this is a related method-to-process mapping, not equivalence, an is-a assertion or a convergence guarantee.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/mjlaine/mcmcstat/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2/mcmcrun.m" target="_blank" rel="noopener">MCMCSTAT mcmcrun: author implementation of adaptive and delayed-rejection Metropolis</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marko Laine
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/mjlaine/mcmcstat/tree/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d665a2f3bd6d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/mjlaine/mcmcstat/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2/covupd.m" target="_blank" rel="noopener">MCMCSTAT covupd: recursive weighted empirical covariance</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marko Laine
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/mjlaine/mcmcstat/tree/ca0cbd288f03c7a29050b3d6698a96b45ccfa4b2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7663509eccba…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T07:40:20Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T07:41:38Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DelayedRejectionAdaptiveMetropolis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DelayedRejectionAdaptiveMetropolis.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

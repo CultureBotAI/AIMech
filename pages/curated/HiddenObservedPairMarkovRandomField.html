@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hidden–observed pair Markov random field · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Hidden–observed pair Markov random field</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hidden–observed pair Markov random field</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:HiddenObservedPairMarkovRandomField</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Pairwise hidden–observed Markov field
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable spatial-model family in which each site contains a hidden label and an observation, and their joint paired field has a normalized Gibbs factorization on a specified neighborhood graph, without requiring either marginal field to be Markov on that graph.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the hidden–observed process-pair construction called pairwise Markov random fields by Pieczynski and Tebbache. Pairwise denotes Z_s=(X_s,Y_s), not a restriction to two-site clique potentials or the generic pairwise Markov property. The descriptive local label avoids those homonyms. The existing generic MarkovRandomField record does not specify this hidden–observed partition or its conditional-field construction. Classical hidden Markov fields with a Markov label prior and independent site emissions are a constrained special case; pairwise Markov chains and trees impose different graph topologies. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 391 preceding native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, yielding 9 and 9 matched lines; all 7 unique contents were read. Hits are prior leads and references, not records of the proposed identities. All 89 semantic label/synonym hits and 21 fully annotated exact AIO CLASS nodes with outgoing edges were read. Twenty-two contextual YAMLs were byte-verified after prior full reading and five freshly read, totaling 21 generated and six native contextual records. Short acronym identities were compared across the complete normalized inventory. Absence is bounded to the pinned source, maintained collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite site set and specified undirected neighborhood graph, assign clique energies phi_c(x_c,y_c) and define p(x,y)=Z^(-1)*exp(-sum_c phi_c(x_c,y_c)), with a finite positive partition function. At fixed complete y, the posterior p(x|y) retains clique factors on the same graph; fixing x likewise gives a local conditional observation field. Summing over one field can introduce dependencies beyond that graph, so neither p(x) nor p(y) is required to retain its Markov structure. A classical hidden Markov field p(x)*product_s b_(x_s)(y_s) is recovered by selecting label-clique and site-emission energies. This construction permits spatially correlated observation models without separately specifying a conditional likelihood whose configuration-dependent normalization could destroy locality of the label posterior. Local conditional probabilities support Gibbs sampling of hidden labels and approximation of sitewise posterior marginals; preserving the exact model factorization does not make finite sampling exact.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pairwise Markov random fields and segmentation of textured images</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–3.2, printed pp.706–713 / PDF pp.2–9, especially Equations(13)–(22) and Remarks 3.2–3.3; Sections 4–5, pp.713–717 / PDF pp.9–13, Gaussian examples and future parameter estimation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The definition presupposes a proper joint distribution. For the continuous Gaussian examples, each hidden configuration needs a positive-definite observation precision matrix and a finite joint partition function; positive single-site conditional variances alone do not ensure this.</li>
+      <li>The source’s Gaussian displays contain normalization, completed-square and variance inconsistencies. For a local energy alpha+beta*y+delta*y^2 with delta&gt;0, integrating exp(-energy) gives sqrt(pi/delta)*exp(-alpha+beta^2/(4*delta)); its conditional mean is -beta/(2*delta) and variance is 1/(2*delta). Off-diagonal precision makes inverse diagonal precision differ from marginal variance. This record does not certify the printed Gaussian sampling implementation.</li>
+      <li>The first eight-neighbor example requires particular caution: under unit diagonal precision and -0.2 on each unordered neighbor edge, a 4-by-4 open grid has a negative constant-vector quadratic form. This is a curator calculation under explicit counting and boundary conventions, not a claim about uninspected author code.</li>
+      <li>Posterior Markov structure is not a guarantee of efficient exact inference on a loopy field, Gibbs mixing, parameter identifiability or a globally optimal segmentation. Per-site marginal modes and a joint maximum-probability configuration are different objectives.</li>
+      <li>Section 5 leaves observation-only parameter estimation through iterative conditional estimation as future work. The synthetic texture illustrations and inconsistent sampling-count caption do not support a universal performance claim.</li>
+      <li>The inspected PDF footer says Machine GRAPHICS &amp; VISION 9(4), 2000, pp.705–718 and its proof header is dated February 13, 2001; the author bibliography and later citations say issue 3. The exact inspected bytes and this discrepancy are retained.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The paired field is an undirected graphical probability model. In this AIO snapshot ProbabilisticGraphicalModel is defined and parented as a machine-learning task, so a related mapping records the graphical-model connection without making this model family a subtype of that task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www-public.imtbs-tsp.eu/~pieczyn/A22.pdf" target="_blank" rel="noopener">Pairwise Markov random fields and segmentation of textured images</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wojciech Pieczynski, Abdel-Nasser Tebbache
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6a1094681753…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:03:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:03:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HiddenObservedPairMarkovRandomField.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HiddenObservedPairMarkovRandomField.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

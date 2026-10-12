@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CTAugment · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CTAugment</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CTAugment</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CTAugment</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An online augmentation-policy adaptation procedure that samples image operations and adjusts their parameter-selection weights using classifier feedback on labeled probe images during training.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      CTAugment is the augmentation-policy component introduced with ReMixMatch, not the complete ReMixMatch classifier-training objective. It adapts parameter sampling from prediction feedback during training rather than performing AutoAugment’s separate child-model search or using RandAugment’s fixed uniform operation sampling with one shared magnitude. The record preserves a versioned implementation profile and does not silently identify its numerical update with the printed paper formula. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 238 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 34 lines in each from prior discovery, saved reviews and related native records. Ten exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus five neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain weights for parameter ranges of each operation, initially one, and sample a short sequence of operation types uniformly. Generate exploratory augmentations of labeled images and compare classifier probabilities with their known labels; use that feedback to update the chosen parameter weights by an exponential moving average. Use the adapted weights to select training-image augmentation parameters. This shared description is supported by the paper and released code, but their numerical conventions differ. In the pinned ReMixMatch implementation, training defaults use depth two, decay 0.99 and threshold 0.80. Probe parameters are sampled uniformly from [0,1); operation choices can repeat. The feedback score is 1−0.5*sum(abs(q−one_hot(y))), equal to the true-class probability for a valid probability vector. For training sampling, add 1−decay to the stored weights, divide by their maximum, then zero values below the threshold. Sample an adjacent parameter interval with weight equal to the sum of its two retained endpoint weights, then uniformly within that interval. Update the bin indexed by int(parameter*number_of_bins*0.999) with the observed feedback. In the ReMixMatch wrapper, the probe classifier is the returned EMA evaluation classifier. The worker generates separate probe and learned-policy training views for labeled examples, preserves the first weak view of unlabeled multiview inputs, and augments the other views with learned policies. Most parameter arrays have 17 entries, posterize has 8 and the rescale method has 6. The training wrapper overrides the bare policy class’s threshold default 0.85 with 0.80; these are implementation defaults, not universal constants.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">ReMixMatch: Semi-Supervised Learning with Distribution Alignment and Augmentation Anchoring</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, PDF pp. 5–6, and Appendix C, PDF p. 12; paper policy-learning description, compared with the separately pinned implementation</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-policy-code">CTAugment author implementation — parameter policies and feedback weights</a></span>
+        <span>· <strong>Locator:</strong> libml/ctaugment.py lines24–85: policy weights, thresholding, sampling and updates; lines93–220: registered operations and parameter counts</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-training-code">CTAugment author implementation — prediction feedback and training defaults</a></span>
+        <span>· <strong>Locator:</strong> cta/lib/train.py lines26–76: defaults, probes and feedback; lines106–118: supervised feedback</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-worker-code">CTAugment author implementation — probe and training-view generation</a></span>
+        <span>· <strong>Locator:</strong> libml/augment.py lines190–228: separate probe/training views and queued augmentation</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-classifier-code">ReMixMatch author implementation — target guessing and training objective</a></span>
+        <span>· <strong>Locator:</strong> remixmatch_no_cta.py lines125–171: EMA classifier returned as classify_op</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-entrypoint-code">ReMixMatch author implementation — CTA entrypoint</a></span>
+        <span>· <strong>Locator:</strong> cta/cta_remixmatch.py lines20–28: the entrypoint inherits CTAClassifySemi and ReMixMatch</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#feedback-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed class-divided feedback score and the released-code score are different. For a valid L-class probability vector, the former is 1−(1−q_y)/L while the latter is q_y. Thus the paper expression is at least 1−1/L; interpreting its 0.8 threshold as an absolute raw-weight cutoff has different behavior from the code’s relative threshold. These are algebraic consequences of the cited formulas, not an assertion of an author-issued correction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">ReMixMatch: Semi-Supervised Learning with Distribution Alignment and Augmentation Anchoring</a></span>
+        <span>· <strong>Locator:</strong> Section3.2.2, PDF p. 6: printed score and update</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-training-code">CTAugment author implementation — prediction feedback and training defaults</a></span>
+        <span>· <strong>Locator:</strong> cta/lib/train.py lines70–76: implemented score</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-policy-code">CTAugment author implementation — parameter policies and feedback weights</a></span>
+        <span>· <strong>Locator:</strong> libml/ctaugment.py lines49–54: relative threshold</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The paper’s printed feedback score is 1−sum(abs(q−one_hot(y)))/(2L), with L classes, whereas the inspected implementation omits the class-count divisor. The paper also describes direct weighted-bin sampling and a raw threshold, unlike the implementation’s relative threshold and interval sampling.</li>
+      <li>Parameter counts also differ: the paper describes 17 bins except six rescale methods, while the inspected code uses eight posterize entries. These source differences are documented, not declared author-issued errata.</li>
+      <li>Predictive feedback can reward easy transformations rather than prove preservation of useful class information. A learned policy remains data- and model-dependent.</li>
+      <li>The ReMixMatch wrapper’s probe classifier uses evaluation EMA parameters, and worker queues can delay application of updated rates; no immediate next-step or fixed operation-order guarantee is asserted.</li>
+      <li>The original paper’s exact revision is not stamped in the author-hosted PDF. Code provenance is an exact commit; no byte equivalence with an OpenReview release, author-code execution or performance reproduction is claimed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataAugmentation.html" style="font-weight: 600;"><code>AIO:DataAugmentation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Augmentation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm selects or learns transformations used for augmented training examples. The AIO target denotes data augmentation in the preprocessing branch, while the local identity includes a selection or training procedure; no equivalence or subclass membership is asserted.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://nicholas.carlini.com/papers/2020_iclr_remixmatch.pdf" target="_blank" rel="noopener">ReMixMatch: Semi-Supervised Learning with Distribution Alignment and Augmentation Anchoring</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Berthelot, Nicholas Carlini, Ekin D. Cubuk, Alex Kurakin, Han Zhang, Colin Raffel, Kihyuk Sohn
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b6326a1adfa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-policy-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">policy-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/libml/ctaugment.py" target="_blank" rel="noopener">CTAugment author implementation — parameter policies and feedback weights</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2b11d60ddc86…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-training-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">training-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/cta/lib/train.py" target="_blank" rel="noopener">CTAugment author implementation — prediction feedback and training defaults</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:56b35c81884e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-worker-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">worker-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/libml/augment.py" target="_blank" rel="noopener">CTAugment author implementation — probe and training-view generation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c169e09eb3a5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-classifier-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">classifier-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/remixmatch_no_cta.py" target="_blank" rel="noopener">ReMixMatch author implementation — target guessing and training objective</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ec4f04fa71ad…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-entrypoint-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">entrypoint-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/remixmatch/blob/f7061ebf055227cbeb5c6fced1ce054e0ceecfcd/cta/cta_remixmatch.py" target="_blank" rel="noopener">ReMixMatch author implementation — CTA entrypoint</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:98e8d8309e1f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T10:34:59Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T10:34:59Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CTAugment.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CTAugment.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

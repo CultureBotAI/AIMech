@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tempered expectation maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Tempered expectation maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Tempered expectation maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TemperedExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Tempered EM
+    </div>
+
+  <div class="detail-desc">
+    An entropy-tempered generalization of expectation maximization for finite latent-state models that alternates powered latent-joint responsibilities with weighted complete-log-likelihood parameter updates at a positive inverse temperature.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the deterministic free-energy fitting procedure described by Hofmann, with his held-out inverse-annealing schedule as an explicit realization. Ordinary EM is its beta=1 case. The procedure changes responsibilities and parameter fitting; it is neither replica-exchange MCMC nor a supervised confidence-mask schedule, and it does not introduce a new topic-model probability family. The short TEM acronym is not asserted as a globally unambiguous alias. Compared all 442 pinned AIO labels and scoped synonyms and 418 preceding native IDs, names and aliases. The initial normalized LDA hit denotes LinearDiscriminantAnalysis, whose full Gaussian-classifier record was read; the bare LDA alias is omitted from the new topic-model record. No normalized identity match remains for the final candidate names/aliases. Final full-checkout fixed-string searches, including ignored and hidden files in both worktree and main, return two lines each; both unique contents are existing frontier references. An additional broad LDA search returned 289 worktree and 237 main lines before the preceding batch merged; all 84 distinct contents were read, covering the existing classifier, topic-context references, unrelated programming mnemonics and namespace abbreviations. All 188 semantic label/synonym hits were read. Nineteen exact annotated AIO CLASS nodes and outgoing edges were inspected (18 verified unchanged from prior reading, Biclustering read here), along with their generated records and 16 native neighbors. The 35 contextual YAMLs were read or byte-verified after documented full reading. Absence is bounded to this snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For observations x with multiplicities n_x, finite latent states z, model parameters eta and a positive inverse temperature beta, minimize F_beta(q,eta)=sum_x n_x*sum_z q_xz*[log q_xz-beta*log p_eta(x,z)]. For fixed eta, on positive joint support use q_xz=p_eta(x,z)^beta/sum_j p_eta(x,j)^beta. For fixed q and beta&gt;0, minimizing F_beta over eta is equivalent to maximizing the expected complete log likelihood; in PLSA this gives the usual normalized expected-count M-step with the tempered responsibilities. At beta=1 the E-step is the ordinary posterior. With 0&lt;beta&lt;1 it is flatter on its positive support. Hofmann’s inverse-annealing schedule first runs early-stopped EM at beta=1, then reduces beta multiplicatively, continues iterations while held-out performance improves, and stops decreasing beta when further improvements cease. At fixed beta, exact block updates optimize that temperature’s free energy; changing beta changes the objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Probabilistic Latent Semantic Analysis</a></span>
+        <span>· <strong>Locator:</strong> Section 3.6, printed p.293 / PDF p.5, Equations (8)–(9) and four-step inverse-annealing schedule; Section 3.2, p.290 / PDF p.2, PLSA M-steps; Sections 4.1–4.2, pp.294–296 / PDF pp.6–8, held-out experiments</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Responsibilities require a positive finite normalizer for each observed x. At positive beta, zero latent-joint entries remain zero; the beta-to-zero limit is uniform only over the positive support. beta=0 makes the displayed parameter objective independent of eta and is not included as an ordinary M-step.</li>
+      <li>This record concerns finite latent-state sums. Raising a continuous latent density to a power below one need not preserve integrability; that extension requires its own conditions.</li>
+      <li>Exact block updates concern fixed-beta free energy. They do not guarantee monotonic ordinary likelihood for beta different from one, global optimality, posterior calibration or held-out improvement. Changing beta does not optimize one unchanged objective.</li>
+      <li>The inverse-annealing schedule decreases beta after an ordinary-EM start and uses held-out decisions. It is not the same schedule as conventional deterministic-annealing cooling, and it is not a stochastic sampling transition with an invariant target. Schedule thresholds and multiplicative factors require an implementation choice.</li>
+      <li>The source’s perplexity and retrieval comparisons concern selected historical corpora and settings. No automatic prevention of overfitting, speedup, universal benefit or author-code reproduction is claimed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Tempered EM is a specified latent-variable fitting procedure. The target broadly describes preprocessing/training strategies; related match avoids forcing this optimization algorithm under that wording as a subclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure estimates latent-model parameters rather than denoting a task or a probabilistic model. The relation records its learning role without equivalence or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1301.6705v1" target="_blank" rel="noopener">Probabilistic Latent Semantic Analysis</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Hofmann
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1301.6705v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:798ce8b95d01…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T23:19:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T23:19:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TemperedExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TemperedExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}{{ c.name }} · Curated AI Concept · AIMech{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+  <a href="{{ root }}index.html">Home</a>
+  <span>/</span>
+  <a href="{{ root }}browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="{{ root }}kinds/{{ c.kind_id }}.html">{{ kind_label }}</a>
+  <span>/</span>
+  <strong>{{ c.name }}</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">{{ c.name }}</h1>
+    <span class="badge badge-curated">{{ kind_label }}</span>
+    <span class="detail-id">{{ c.id }}</span>
+    <span class="badge badge-aio">{{ c.review_status }}</span>
+  </div>
+
+  {% if c.aliases %}
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> {{ c.aliases | join(', ') }}
+    </div>
+  {% endif %}
+
+  <div class="detail-desc">
+    {{ c.definition }}
+  </div>
+
+  {% if c.identity_notes %}
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      {{ c.identity_notes }}
+    </div>
+  {% endif %}
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.claims | length }} Claim{% if c.claims | length != 1 %}s{% endif %}</span>
+</div>
+
+{% for claim in c.claims %}
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      {% if claim.kind == 'mechanism' %}
+        <span class="badge badge-mechanism">Mechanism</span>
+      {% elif claim.kind == 'limitation' %}
+        <span class="badge badge-limitation">Limitation</span>
+      {% elif claim.kind == 'scope' %}
+        <span class="badge badge-scope">Scope</span>
+      {% else %}
+        <span class="badge badge-application">{{ claim.kind | title }}</span>
+      {% endif %}
+      <code style="font-size: 0.8rem;">#{{ claim.claim_id }}</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    {{ claim.statement }}
+  </div>
+
+  {% if claim.evaluation %}
+  <div style="background: var(--card-muted); border-radius: 6px; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 0.85rem;">
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">Evaluation Context:</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+      <div><strong>Task:</strong> {{ claim.evaluation.task }}</div>
+      <div><strong>Dataset:</strong> {{ claim.evaluation.dataset_and_split }}</div>
+      <div><strong>Model:</strong> {{ claim.evaluation.model_and_version }}</div>
+      <div><strong>Metric:</strong> {{ claim.evaluation.metric_and_units }}</div>
+      <div><strong>Result:</strong> {{ claim.evaluation.result }} (Baseline: {{ claim.evaluation.baseline }})</div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if claim.evidence %}
+  <ul class="evidence-list">
+    {% for ev in claim.evidence %}
+    <li class="evidence-item">
+      <div class="evidence-meta">
+        {% if ev.relation == 'supports' %}
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        {% elif ev.relation == 'contradicts' %}
+          <span class="badge badge-limitation" style="font-size: 0.7rem;">contradicts</span>
+        {% else %}
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        {% endif %}
+        <span><strong>Source:</strong> <a href="#source-{{ ev.source_id }}">{{ ev.source_title | default(ev.source_id) }}</a></span>
+        <span>· <strong>Locator:</strong> {{ ev.locator }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endfor %}
+
+<!-- Limitations -->
+{% if c.limitations %}
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+    {% for lim in c.limitations %}
+      <li>{{ lim }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+{% if c.aio_mappings %}
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in c.aio_mappings %}
+        <tr>
+          <td>
+            {% if m.aio_page %}
+              <a href="{{ root }}{{ m.aio_page }}" style="font-weight: 600;"><code>{{ m.target }}</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">{{ m.target_name }}</div>
+            {% else %}
+              <a href="https://w3id.org/aio/{{ m.target.split(':', 1)[1] }}" target="_blank" rel="noopener"><code>{{ m.target }}</code></a>
+            {% endif %}
+          </td>
+          <td>
+            <span class="badge badge-aio">{{ m.relation }}</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            {{ m.rationale }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% elif c.aio_no_match %}
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> {{ c.aio_no_match.rationale }}
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> {{ c.aio_no_match.search_scope }}
+  </div>
+
+  {% if c.aio_no_match.examined_targets %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ex in c.aio_no_match.examined_targets %}
+        <tr>
+          <td>
+            {% if ex.aio_page %}
+              <a href="{{ root }}{{ ex.aio_page }}"><code>{{ ex.target }}</code></a>
+            {% else %}
+              <a href="https://w3id.org/aio/{{ ex.target.split(':', 1)[1] }}" target="_blank" rel="noopener"><code>{{ ex.target }}</code></a>
+            {% endif %}
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            {{ ex.rejection_reason }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">{{ c.evidence_sources | length }} Source{% if c.evidence_sources | length != 1 %}s{% endif %}</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for src in c.evidence_sources %}
+      <tr id="source-{{ src.source_id }}">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">{{ src.source_id }}</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+            {% if src.url %}
+              <a href="{{ src.url }}" target="_blank" rel="noopener">{{ src.title }}</a>
+            {% else %}
+              {{ src.title }}
+            {% endif %}
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            {{ src.authors | join(', ') }}
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">{{ src.source_type | replace('_', ' ') }}</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">{{ src.access_level }}</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+          {% if src.persistent_id %}
+            <div><strong>ID:</strong> {{ src.persistent_id }}</div>
+          {% endif %}
+          {% if src.sha256 %}
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:{{ src.sha256[:12] }}…
+            </div>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> {{ c.curation.curator }}</div>
+    <div><strong>Method:</strong> {{ c.curation.method }}</div>
+    {% if c.curation.model %}<div><strong>Model:</strong> {{ c.curation.model }}</div>{% endif %}
+    <div><strong>Created:</strong> {{ c.curation.created_at }}</div>
+    <div><strong>Updated:</strong> {{ c.curation.updated_at }}</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/{{ source_path }}" target="_blank" rel="noopener">
+      <code>{{ source_path }}</code>
+    </a>
+  </div>
+</div>
+{% endblock %}

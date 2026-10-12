@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparse pachinko allocation inference · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sparse pachinko allocation inference</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sparse pachinko allocation inference</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SparsePachinkoAllocationInference</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> pruned PAM Gibbs sampling
+    </div>
+
+  <div class="detail-desc">
+    An approximate pachinko-allocation fitting procedure that restricts token path resampling to currently active document topics and word-associated subtopics, interleaving full sampling with pruning and optionally growing the training corpus incrementally.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the sparse PAM inference techniques in Li and McCallum&#39;s submitted 2008 manuscript, particularly Sections 3.2.2-3.2.3. This is an algorithm for the already represented PAM model, with an LDA specialization, rather than a new dense probability-model identity. Sparse count-block storage is an exact implementation choice; deleting candidate paths from a Gibbs conditional is an approximation. The source calls its settings sparse PAM/sPAM and sparse LDA/sLDA; these names are not asserted aliases of every later sparse-LDA algorithm. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 441 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; twelve matching lines per checkout came from five unique prior discovery-ledger contents and the existing GCA mapping rationale. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified against prior readings. Thirty contextual YAMLs comprise 27 unchanged prior readings, two fully read final native targets verified against saved review inputs, and a fully read Metropolis-Hastings record. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#restricted-path-updates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a document, collect its currently used supertopics C and subtopics C-prime. Remove a token&#39;s old assignment, form the union of document subtopics and subtopics with positive corpus counts for that token&#39;s word, and restrict new paths to C times that union. Renormalize the usual collapsed path weights on this candidate set, sample an assignment and update counts and active sets. The source initializes document sets before token removal; precise membership maintenance must preserve a defined candidate set. Zero count-block storage alone does not remove the positive prior mass of unoccupied paths.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pachinko Allocation: Scalable Mixture Models of Topic Correlations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1, printed/PDF p.10; Section 3.2.2, pp.10-11, pruning pseudocode</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#reachability-versus-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Pruned updates cannot introduce a supertopic absent from the document. Alternating with full sampling restores possible routes into omitted states, but does not by itself preserve the exact target distribution: the pruned kernel need not leave that target invariant. In a two-token, two-supertopic PAM special case, the target over assignments is (1/3,1/6,1/6,1/3); one full sweep followed by one pruned sweep changes it to (13/27,1/54,1/54,13/27). The reported average 98 percent retained conditional mass is a local empirical statistic, not a bound on the final posterior error. No acceptance correction is provided.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pachinko Allocation: Scalable Mixture Models of Topic Correlations</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, printed/PDF pp.10-11, retained mass, trapping discussion and alternating sampling</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#incremental-initialization-and-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Sparse initialization fits a small document subset before gradually adding documents. A new document permits all supertopics; an already seen word permits subtopics with positive corpus word counts, while a previously unseen word permits all subtopics. The sparse-LDA experiment starts with 10000 documents and doubles the corpus every five iterations. Multiple chains are also used. Separate empirical-moment hyperparameter updates change the sampling target during fitting; the displayed Dirichlet formula divides by an aggregated concentration expression rather than following the usual alpha_j=mean_j*concentration identity, so that display is not adopted as a verified implementation recipe.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pachinko Allocation: Scalable Mixture Models of Topic Correlations</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2.3-3.2.4, printed/PDF pp.11-12; Section 4.2.1, p.21; Section 2.4, p.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The complete schedule of full versus pruned updates and all active-set edge cases are not specified. Fixed valid hyperparameters permit analysis of the transition rule; corpus growth, empirical-moment adaptation and heuristic pruning do not jointly certify an exact stationary posterior sampler.</li>
+      <li>The displayed moment update also needs valid variance and logarithm domains. A uniform Beta example has moment-consistent alpha=(1,1), whereas the literal displayed aggregation gives (1/8,1/8). This is a qualification of the printed formula, not a claim about uninspected author code.</li>
+      <li>AP/SJMN retrieval and large Rexa experiments use particular topic counts, chain combinations, initialization and hardware. Non-significant tests between best retrieval results do not establish posterior equivalence. Dense-PAM human judgment, likelihood and classification experiments are separate from evidence about sparse inference.</li>
+      <li>The retrieval scorer averages plug-in word probabilities across chains before multiplying query terms and mixes them termwise with a smoothed document model. It is not automatically the average whole-query posterior predictive law. Finite transition checks do not reproduce the author implementation or benchmark.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure constructs full and pruned sampling transitions, with explicit limitations on target invariance. The pinned class denotes a process/model, not this fitting algorithm or a guarantee of exact posterior sampling.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The construction supports probabilistic topic modeling; the pinned target is task-scoped rather than this particular model or inference procedure.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/pam08jmlrs.pdf" target="_blank" rel="noopener">Pachinko Allocation: Scalable Mixture Models of Topic Correlations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Li, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:937b288acd24…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T01:01:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T01:01:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SparsePachinkoAllocationInference.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SparsePachinkoAllocationInference.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

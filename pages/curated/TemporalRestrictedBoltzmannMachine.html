@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temporal restricted Boltzmann machine · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Temporal restricted Boltzmann machine</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Temporal restricted Boltzmann machine</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:TemporalRestrictedBoltzmannMachine</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TRBM
+    </div>
+
+  <div class="detail-desc">
+    A neural sequence architecture that multiplies time-indexed conditional RBM distributions whose visible and hidden biases depend on preceding visible and hidden states through shared temporal weights.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the original single-layer temporal RBM construction of Sutskever and Hinton, with its finite lag window and omitted-edge special cases. The full architecture has visible-to-visible, visible-to-hidden and hidden-to-hidden history connections. It is distinct from temporal FRBM’s factored categorical-word construction, RTRBM’s deterministic recurrent state, and the observed-history-only autoregressive CRBM. Multilayer stacking is an extension rather than part of this single-layer identity; a filtering algorithm does not define the latent probabilistic model. All 442 pinned AIO labels/scoped synonyms and 361 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 24 lines each. All 18 unique matched contents were read: temporal FRBM source references, model contrasts, a discovery lead and saved review context, rather than existing candidate records. All 44 semantic label/synonym hits and 21 exact AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For binary vectors v_t and h_t, set the visible bias a_t=a+sum_k A_k^T v_(t-k) and hidden bias b_t=b+sum_k B_k^T h_(t-k)+sum_k C_k^T v_(t-k). Define p(v_t,h_t|history)=exp(v_t^T C_0 h_t+a_t^T v_t+b_t^T h_t)/Z_t(history), and multiply these normalized factors over time using shared parameters and the source’s learned initial contributions for unavailable earlier states. Conditional on observed current and previous visibles and known previous hidden states, the current hidden posterior factorizes with probabilities sigmoid(C_0^T v_t+b_t). Unknown previous hidden states generally require marginalization; the proposed online filter instead substitutes their inferred probability vectors in b_t. Learning treats these approximate filtered states as context and uses per-step contrastive-divergence updates. The original paper distinguishes this approximation from smoothing with future observations and from an exact likelihood gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Learning Multilevel Distributed Representations for High-Dimensional Sequences</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.4, Figure 2 and Equations (10)–(18), PDF pp.2–5; omitted-edge naming and exact no-HH special case, Section 3, p.5; multilayer qualifications, Sections 4.2–5, pp.7–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-posterior-context">The Recurrent Temporal Restricted Boltzmann Machine</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (4)–(5) and discussion of posterior Gibbs updates and conditional partition ratios, PDF p.3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The conditional partition depends on history, including previous hidden states. It is not one sequence-independent global constant, and exact posterior Gibbs updates can require ratios of such partitions.</li>
+      <li>A factorial posterior given known latent history does not imply factorial or exact filtering after uncertain history is marginalized. Mean substitution through nonlinear normalized factors is generally approximate, and future observations can revise earlier hidden-state posteriors.</li>
+      <li>The paper explicitly notes that changing its parameter-dependent approximate posterior can reduce the variational bound. Finite CD, mean visible reconstructions and ignoring future evidence provide no monotonic bound or likelihood guarantee.</li>
+      <li>TRBM-HH denotes the variant with hidden-to-hidden links omitted, not one retaining only those links. For fully observed visible sequences its hidden posterior is factorial; missing observations and multilayer compositions change that inference problem.</li>
+      <li>The displayed construction has no past-hidden-to-current-visible links; a footnote mentions those as a possible extension. Gaussian visible units, deeper compositions and different lag structures require their own stated assumptions. No empirical ranking, long-memory guarantee or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned AIO class is broader than this particular neural sequence architecture with nonlinear stochastic units and weighted connections. This mapping does not claim equivalence to a symmetric Boltzmann machine, a pure directed Bayesian network or an autoregressive language model. The latter is language-specific, while this model supports general vector sequences.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each time step uses a conditional RBM with undirected visible–hidden interactions. The entire sequence construction additionally has directed history connections and a separate conditional normalizer per step; a related mapping records the component relationship without equating the whole temporal architecture to one unconditioned symmetric RBM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v2/sutskever07a/sutskever07a.pdf" target="_blank" rel="noopener">Learning Multilevel Distributed Representations for High-Dimensional Sequences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilya Sutskever, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v2-sutskever07a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b8b19704c75…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-posterior-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">posterior-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2008/file/9ad6aaed513b73148b7d49f70afcfb32-Paper.pdf" target="_blank" rel="noopener">The Recurrent Temporal Restricted Boltzmann Machine</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilya Sutskever, Geoffrey Hinton, Graham Taylor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> neurips-2008-9ad6aaed513b73148b7d49f70afcfb32</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7ef2f7679831…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:40:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:40:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TemporalRestrictedBoltzmannMachine.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TemporalRestrictedBoltzmannMachine.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

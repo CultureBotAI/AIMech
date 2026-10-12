@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Author-recipient-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Author-recipient-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Author-recipient-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:AuthorRecipientTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ART
+    </div>
+
+  <div class="detail-desc">
+    A generative message model with a topic distribution for each ordered sender-recipient pair, in which each word selects a recipient uniformly from the message&#39;s observed recipient set, a topic from that pair, and a word from the selected topic.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to McCallum, Corrada-Emmanuel and Wang&#39;s ART model in the December 2004 technical report and IJCAI 2005 paper. Sender and recipient have distinct roles in selecting a pair-specific topic vector. The model differs from author-topic modeling over undifferentiated participants, document-specific LDA, network-edge generation and the later latent-role RART variants. ART is a source acronym within this scope, not a universal expansion of that acronym. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ordered-pair-mixture</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed topic count and vocabulary, each topic has a categorical word distribution phi_z with a Dirichlet prior, and each ordered sender-recipient pair (a,r) has a topic vector theta_ar with a Dirichlet prior. Given sender a_d and nonempty observed recipient set R_d, each token selects x uniformly from R_d, z from theta_(a_d,x), and w from phi_z. Conditional on these parameters, the message topic mixture averages the eligible pair vectors. The reversed pair can have a different vector. Sender identity, recipient sets and message lengths are conditioned on; this direction-sensitive content model does not itself generate network edges or establish causal influence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Author-Recipient-Topic Model for Topic and Role Discovery in Social Networks: Experiments with Enron and Academic Email</a></span>
+        <span>· <strong>Locator:</strong> Section 2, printed/PDF pp.3-4, Figure 1 and conditional joint</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-conference-source">Topic and Role Discovery in Social Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p.2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-pair-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Integrating the shared pair-topic and topic-word vectors gives a collapsed token update. For eligible recipient r, topic z and observed word v, its weight is proportional to (n_(a_d,r),z^(-i)+alpha_z)/(n_(a_d,r),.^(-i)+sum(alpha)) times (n_zv^(-i)+beta_v)/(n_z.^(-i)+sum(beta)). Counts exclude the token and pool the corpus; the uniform recipient factor cancels among eligible choices. Joint recipient/topic sampling or compatible separate conditional updates target the collapsed assignment posterior. Finite samples approximate posterior summaries and do not certify convergence. Sharing random parameters across messages requires joint corpus integration; a product of separately integrated message marginals is generally different.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Author-Recipient-Topic Model for Topic and Role Discovery in Social Networks: Experiments with Enron and Academic Email</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, printed/PDF pp.4-6; compare final corpus display p.4 with global count integration p.5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The corpus-probability display on report p.4 factors separately integrated document marginals despite shared random parameters. The subsequent corpus-count derivation on p.5 preserves sharing. The record uses the shared model and qualifies that display; no failure of unseen implementation is inferred.</li>
+      <li>Pair-specific parameters can be weakly informed for sparse or unobserved pairs. Fixed topic count, uniform recipient selection, stationary pair preferences, finite vocabulary and bag-of-words emissions constrain the model. Suggestions to smooth toward sender-only vectors are not part of the basic specification.</li>
+      <li>Reported role similarities use descriptive topic distributions, divergence matrices and selected email examples with manual entity resolution and heuristic text cleaning. They do not establish universal predictive superiority, actual job roles, expertise or causal social relationships. Topic and role labels remain interpretations.</li>
+      <li>RART introduces additional latent sender/recipient roles and has token-level and message-level variants. It is a distinct extension; preliminary staged fitting after fixing an ART sample is not full joint posterior inference. No author code, email corpus or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The maintained identity is a specified probability-model family, narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning task, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/art04tr.pdf" target="_blank" rel="noopener">The Author-Recipient-Topic Model for Topic and Role Discovery in Social Networks: Experiments with Enron and Academic Email</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew McCallum, Andrés Corrada-Emmanuel, Xuerui Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:41cdb356bb04…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-conference-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">conference-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/art-ijcai05.pdf" target="_blank" rel="noopener">Topic and Role Discovery in Social Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew McCallum, Andrés Corrada-Emmanuel, Xuerui Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8acf7bcf8dec…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:00:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:00:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AuthorRecipientTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AuthorRecipientTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

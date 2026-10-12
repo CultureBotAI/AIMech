@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Momentum contrast · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Momentum contrast</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Momentum contrast</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MomentumContrast</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MoCo
+    </div>
+
+  <div class="detail-desc">
+    A contrastive representation-learning mechanism that maintains a queue of encoded negative keys and produces new keys with an encoder updated by an exponential moving average of the query encoder.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is original MoCo from the 2020 paper, with its image instance-discrimination realization. The momentum acts on encoder parameters, not on per-example memory-bank embeddings. It is distinct from MoCo v2/v3 and from large-batch end-to-end contrastive training. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 187 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found no discovery-checkout hits and nine unrelated main-environment substrings (Pygments and Sphinx locale/bundle text). Exact neighboring AIO definitions, synonyms and incident edges were inspected; task/network vocabulary does not make these algorithms equivalent.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initialize key-encoder parameters from the query encoder and maintain a finite FIFO queue of K≥1 encoded keys. For each image draw two augmented views, form normalized query q and current positive key k+, and use loss −log[exp(q·k+/tau)/(exp(q·k+/tau)+sum_(k in queue)exp(q·k/tau))] with tau&gt;0. Stop gradients through the key outputs and queue; update the query encoder from the minibatch loss. In paper Algorithm 1, next update key parameters as theta_k←m theta_k+(1−m)theta_q, m in [0,1), enqueue the keys already computed for this batch, and remove the oldest batch to maintain the queue. The queue decouples dictionary size from current minibatch size; the momentum encoder reduces changes between key representations created at different iterations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Momentum Contrast for Unsupervised Visual Representation Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.3, Equations (1)–(2), Figure 2 and Algorithm 1, printed pp. 9730–9732 / PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Queued keys were encoded at different parameter states. A slow update aims to improve consistency; it does not make historical keys identical to recomputed current-encoder outputs.</li>
+      <li>The image realization treats different images as negatives. This is instance discrimination, not verification that all negative pairs belong to different semantic classes.</li>
+      <li>The paper’s distributed ResNet implementation shuffles the key minibatch across GPUs and restores correspondence after encoding to reduce batch-normalization leakage. Other normalization choices need their own reproduction checks.</li>
+      <li>The displayed algorithm abstracts queue initialization and requires a valid finite dictionary. Temperature, queue length, momentum and augmentation are tuning choices; no single setting is universally optimal.</li>
+      <li>This record specifies the original paper’s update order and scope. It does not import later MoCo variants, claim independent samples, or reproduce benchmark training.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is an algorithm for learning representations from relationships between unlabeled views. The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContrastiveLearning.html" style="font-weight: 600;"><code>AIO:ContrastiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Contrastive Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm implements positive/negative representation comparisons. The pinned AIO target is exported beneath DeepNeuralNetwork; this related mapping preserves the algorithm versus network/approach distinction rather than asserting equivalence or subclass membership.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_CVPR_2020/papers/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.pdf" target="_blank" rel="noopener">Momentum Contrast for Unsupervised Visual Representation Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kaiming He, Haoqi Fan, Yuxin Wu, Saining Xie, Ross Girshick
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openaccess.thecvf.com/content_CVPR_2020/html/He_Momentum_Contrast_for_Unsupervised_Visual_Representation_Learning_CVPR_2020_paper.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:69e11f076c82…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T07:53:16Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T07:54:13Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MomentumContrast.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MomentumContrast.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

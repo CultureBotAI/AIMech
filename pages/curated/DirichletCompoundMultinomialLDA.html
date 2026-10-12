@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirichlet compound multinomial latent Dirichlet allocation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Dirichlet compound multinomial latent Dirichlet allocation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Dirichlet compound multinomial latent Dirichlet allocation</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:DirichletCompoundMultinomialLDA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DCM-LDA
+    </div>
+
+  <div class="detail-desc">
+    A topic-model family for grouped documents in which each group draws its own topic-word distributions from corpus-shared topic-specific Dirichlet distributions, while individual documents mix those group-specific topics.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Mimno and McCallum&#39;s JCDL2007 DCM-LDA model for pages within books. Corpus topic identity is shared through fitted Dirichlet parameters beta_t, whereas topic-word vectors phi_bt are book-specific and document/page topic mixtures are local. This differs from standard LDA with corpus-shared word vectors and from merely replacing a symmetric LDA prior by an asymmetric one. The reported clustering and restricted-topic fitting procedure is distinguished from the fixed-parameter probability model. DCM-LDA is the source acronym. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 441 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; twelve matching lines per checkout came from five unique prior discovery-ledger contents and the existing GCA mapping rationale. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified against prior readings. Thirty contextual YAMLs comprise 27 unchanged prior readings, two fully read final native targets verified against saved review inputs, and a fully read Metropolis-Hastings record. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#group-local-emissions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each corpus topic has a shared Dirichlet parameter vector over words. Each book draws a separate word-probability vector for that topic, and each page draws its own topic mixture. Tokens select a topic from the page mixture and a word from the corresponding book/topic vector. Integrating those vectors yields Dirichlet-multinomial reinforcement within a book/topic group. With fixed shared Dirichlet parameters, different books can be processed independently; a fully Bayesian treatment of uncertain shared parameters would introduce additional dependence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Organizing the OCA: Learning Faceted Subjects from a Library of Digital Books</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3-3.4, printed pp.379-380 / PDF pp.4-5; Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-local-counts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Conditional on fixed topic subsets and valid hyperparameters, a collapsed token update multiplies a leave-token-out page-topic predictive factor by a book/topic-word predictive factor. Emission counts pool across pages of the same book, not directly across all books. Other books can affect predictions through refitted corpus Dirichlet parameters. With a uniform two-word prior and one topic, two identical words have integrated probability 1/3 when sharing one book emission vector versus 1/4 across independent book vectors. The construction is exchangeable within its groups rather than a word-order or phrase model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Organizing the OCA: Learning Faceted Subjects from a Library of Digital Books</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, printed p.379 / PDF p.4, Equation 1; Section 3.4 and Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#cluster-and-refit-procedure</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported stochastic-EM-style procedure first fits topic assignments independently within books, clusters the resulting local topic word distributions, estimates a corpus Dirichlet vector for each cluster using a cited fixed-point method, then retrains book models with selected cluster priors. The demonstrated clustering is hard greedy agglomeration using Jensen-Shannon divergence. A shared-support expression accelerates pairwise divergence calculation; its disjoint-support constant of one assumes base-two logs. After a Gibbs round, each book retains its most-used topics, with the topic-count heuristic ten plus page count divided by ten. These topic-selection and clustering choices are part of the reported approximation, not an exact-posterior or likelihood-monotonicity guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Organizing the OCA: Learning Faceted Subjects from a Library of Digital Books</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2-3.5, printed pp.379-380 / PDF pp.4-5, Equation 2 and retraining paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source does not fully specify agglomerative linkage updates, stopping, count-rule rounding or every empty-vector/Dirichlet-estimation edge case. A restricted book topic subset changes available assignments; it is not automatically an exact sampler over all corpus topics.</li>
+      <li>The model supplies faceted topics rather than an ontology subsumption hierarchy. Selected virtual shelves and topic/Library-of-Congress-heading mutual information do not establish complete semantic accuracy or a validated retrieval benchmark; new retrieval evaluation is identified as future work.</li>
+      <li>The large-corpus timing uses particular preprocessing, hardware and two major training stages. The much longer standard-LDA estimate is extrapolated, not a matched full-corpus run. An inconsistent smaller subcollection count in related work is not silently reconciled with the reported 42000-book experiment.</li>
+      <li>Finite checks cover 160 fixed-parameter collapsed conditionals, group sharing and the shared-support Jensen-Shannon identity. No author software, full clustering pipeline or empirical benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-defined probabilistic model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The construction supports probabilistic topic modeling; the pinned target is task-scoped rather than this particular model or inference procedure.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/oca-jcdl07.pdf" target="_blank" rel="noopener">Organizing the OCA: Learning Faceted Subjects from a Library of Digital Books</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Mimno, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:20cb383fd474…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T01:01:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T01:01:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DirichletCompoundMultinomialLDA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DirichletCompoundMultinomialLDA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

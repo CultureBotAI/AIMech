@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CD-PercLoss · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CD-PercLoss</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CD-PercLoss</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CDPercLoss</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A conditional RBM training algorithm that contrasts the observed output free energy with that of a prediction selected by input-initialized stochastic search, treating the selected prediction as fixed during differentiation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the CD-PercLoss algorithm defined by Mnih, Larochelle and Hinton as a practical approximation to generalized perceptron-loss training. Unlike standard data-started contrastive divergence, its search begins from the conditioning input and chooses the best free-energy state among its search steps. The training algorithm, the generalized perceptron objective and the conditional RBM architecture are distinct identities. The name does not identify the AIO single-layer linear Perceptron architecture. The paper also allows extension to other models with computable energy or free energy and Gibbs sampling; this record states its conditional-RBM procedure. All 442 pinned AIO labels/scoped synonyms and 367 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 37 lines each. All 27 unique matched contents were read: conditional-RBM source references, contrasting method descriptions, pending leads and saved review context, rather than existing candidate identities. All 45 semantic label/synonym hits and 23 exact annotated AIO nodes were inspected, alongside corresponding generated records and three complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For training pair (u,v), initialize each visible value from the logistic input-to-visible prediction sigmoid(b_v+W_uv^T u) when those connections exist; without them, draw independent Bernoulli(0.5) visible values. Holding u fixed, perform k Gibbs updates and retain the k resulting visible configurations. Choose a configuration v_hat with the lowest conditional free energy among those candidates. Update model parameters using the derivative of F(v,u)-F(v_hat,u) with v_hat held constant, contrasting the observed and searched free-energy derivatives. This replaces the generally intractable global minimum in the generalized perceptron loss by a finite stochastic search. The source uses k mean-field updates instead of sampled Gibbs updates for test-time predictions. No partition function enters the frozen-prediction free-energy-difference gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a></span>
+        <span>· <strong>Locator:</strong> Section 6.2, Equation (17), generalized perceptron loss and finite prediction search, PDF pp.6–7; test-time mean-field substitution, p.7; future margin discussion, Section 7, p.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite search does not certify the global conditional mode. Its approximate free-energy difference can be negative, and its update can be zero when the searched prediction equals the observed target even though another output has lower free energy.</li>
+      <li>Holding the prediction fixed is an explicit surrogate-update convention. It does not differentiate the sampling/selection process or produce the exact conditional log-likelihood gradient, and it does not guarantee calibrated conditional probabilities.</li>
+      <li>The selected candidate is the lowest-free-energy state among k generated configurations, not necessarily the last chain state. Search initialization uses the conditioning input rather than the observed target; substituting ordinary data-started CD changes the procedure.</li>
+      <li>Mean visible initialization and mean-field test updates are deterministic probability-valued computations, distinct from binary equilibrium samples or exact MAP inference. Tie-breaking and any final hard-decision convention need to be specified by an implementation; this record does not infer undocumented author-code behavior.</li>
+      <li>The displayed loss has no explicit margin. The paper proposes margin-based extensions as future work; those are not silently part of CD-PercLoss. Results for the inspected denoising settings do not establish universal suitability, global convergence or equivalence to the linear perceptron.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a learning and prediction procedure developed for conditional RBM free energies. The AIO target names the model component/family, not this procedure; the association is related rather than an algorithm-is-model subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf" target="_blank" rel="noopener">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Volodymyr Mnih, Hugo Larochelle, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1202.3748</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e7811677aa0f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:05:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:05:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CDPercLoss.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CDPercLoss.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrastive predictive coding · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Contrastive predictive coding</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Contrastive predictive coding</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ContrastivePredictiveCoding</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CPC
+    </div>
+
+  <div class="detail-desc">
+    A representation-learning procedure that encodes observations, summarizes preceding representations as context, and jointly trains these components to distinguish future representations from sampled alternatives using InfoNCE.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      CPC denotes the van den Oord et al. procedure, with configurable encoders and ordered context. It uses InfoNCE but is not identical to that loss. It differs from DIM local-to-global feature matching and from SimCLR augmentation-pair learning. An autoregressive context module is part of the original procedure; a GRU and raw-input reconstruction are not requirements. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout lines: existing component discussions and discovery/review references, plus unrelated ignored dependency text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms and eleven exact AIO candidate nodes with direct parent edges were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compute z_t=g_enc(x_t) and c_t=g_ar(z_&lt;=t). For each selected future offset k use the positive score f_k(x,c_t)=exp(z(x)^T W_k c_t). Form a candidate set containing one true future observation from the context-conditional distribution and N−1 negatives, ideally drawn independently from the observation marginal. Minimize the expected negative log of the positive score divided by the sum of all N scores, including the positive, over selected prediction horizons. Train the encoder, context module and prediction parameters jointly. With the ideal sampling scheme and a sufficiently expressive optimally fitted score, the optimal score is proportional to the conditional-to-marginal density ratio, with a context-dependent factor cancelling in the categorical probabilities. The expected loss yields the InfoNCE lower bound I(X_future;C)&gt;=log(N)−L_NCE under its sampling assumptions. This is an expectation-level statement, not a guarantee for one minibatch. Learned local representations or context summaries can be used downstream.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Representation Learning with Contrastive Predictive Coding</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.3, Equations (1)–(3), PDF pp. 2–4; Appendix A.1, p. 13, read with the independent bound derivation below</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">On Variational Bounds of Mutual Information</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, PDF p. 4, Equations (8)–(10) and footnote 2: rigorous expected InfoNCE bound and log-number-of-samples ceiling</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The bound is at most log(N) and depends on the negative proposal. Same-speaker, same-sequence or otherwise conditional negatives used in particular experiments do not automatically satisfy the ideal independent marginal sampling assumptions.</li>
+      <li>The original appendix uses an approximate substitution in its derivation. The population bound is supported here by Poole et al.’s separate proof, not by promoting that approximation to an exact equality.</li>
+      <li>Finite critics, finite samples and incomplete optimization do not guarantee density-ratio recovery or an accurate numerical mutual-information estimate. Future-predictive information can include nuisance factors.</li>
+      <li>Only declared primary passages were inspected. No CPC implementation, training run or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CPC constructs prediction targets from ordered observations without manual target labels. This relates an algorithm to a self-supervised task, not an is-a claim or equivalence.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContrastiveLearning.html" style="font-weight: 600;"><code>AIO:ContrastiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Contrastive Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CPC learns representations by positive-versus-negative discrimination. The AIO target is modeled under DeepNeuralNetwork; the relation links a procedure to that representation-learning approach without treating the algorithm as a network class.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1807.03748v2" target="_blank" rel="noopener">Representation Learning with Contrastive Predictive Coding</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron van den Oord, Yazhe Li, Oriol Vinyals
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1807.03748v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5ef5e1ab47d2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/poole19a/poole19a.pdf" target="_blank" rel="noopener">On Variational Bounds of Mutual Information</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ben Poole, Sherjil Ozair, Aaron van den Oord, Alex Alemi, George Tucker
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/poole19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38da74b0bae6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:44:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:50:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ContrastivePredictiveCoding.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ContrastivePredictiveCoding.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

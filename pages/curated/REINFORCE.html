@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REINFORCE · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>REINFORCE</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">REINFORCE</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:REINFORCE</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> REINFORCE algorithm
+    </div>
+
+  <div class="detail-desc">
+    A family of stochastic reinforcement-learning update rules that multiply a sampled reward relative to an admissible baseline by the derivative of the log probability of the sampled action or unit output, with a nonnegative learning-rate factor.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers Williams’s REINFORCE update family, including its basic immediate-reward rule and the stated fixed-episode extension. The characteristic eligibility is a score-function derivative. This is not the entire reinforcement-learning task, an action-value bootstrapping rule, PPO’s clipped surrogate, a generic optimizer, or every estimator that uses random perturbations. The acronym names the update structure; no trained policy instance is represented. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a stochastic unit with conditional mass or density g_i(y_i;w_i,x_i), sample its output y_i, receive scalar reinforcement r and update weight w_ij by alpha_ij*(r-b_ij)*d log(g_i)/d w_ij. The baseline b_ij is conditionally independent of the current unit output given the weights and unit inputs; it may depend on permitted input context or past experience. In the original immediate-reward formulation, the nonnegative rate factor may depend at most on the unit’s parameter vector and trial index; it is not chosen from the current sampled output. Under the stated differentiability and environmental assumptions, the baseline-centered score product estimates the corresponding expected-reward gradient component. A common scalar rate gives an expected update proportional to that gradient; differing nonnegative coordinate rates generally rescale its components and need not preserve collinearity. For a Bernoulli-logistic unit with probability p and input x_j, the eligibility is (y-p)*x_j. In the fixed-length episodic extension, hold parameters fixed during the episode, sum each parameter’s score eligibilities over time, and multiply that sum by terminal reward minus an admissible episode baseline when updating at the end.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, PDF pp.2–8 / journal pp.230–236, especially Theorem 1 and Equations (5)–(10); Section 5, PDF pp.8–9 / journal pp.236–237, Equation (11) and Theorem 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#baseline-timing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Williams’s reinforcement-comparison example computes the reward baseline from past experience and explicitly excludes the current output or current reward from its computation. The expected-update theorem distinguishes a common scalar step size from nonnegative coordinate-dependent rates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp.6 and 8 / journal pp.234 and 236, Theorem 1 and Equations (9)–(10)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#baseline-variance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the Bernoulli-logistic score h-p, Bengio and colleagues derive the variance-minimizing constant baseline as the score-squared-weighted mean of the loss, rather than its ordinary mean. This is a minimum within the specified constant-baseline family, not among all possible gradient estimators.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bernoulli-baseline-source">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Corollary 1, Equation (10) and proof, PDF/printed pp.6–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The score identity requires valid differentiable probabilities or densities and conditions permitting differentiation of the expectation. Parameter-dependent support or extra direct reward dependence requires additional analysis; a discrete black-box reward need not itself have a derivative with respect to the action.</li>
+      <li>A baseline that depends on the same sampled action or its current reward does not automatically preserve the unbiased score identity. An input-dependent baseline or a statistic based on past trials can satisfy the stated conditional-independence requirement.</li>
+      <li>Baseline choice changes variance and can increase it. The mean reward is not generally the minimum-variance baseline, and low variance is not guaranteed simply by naming a baseline.</li>
+      <li>Expected gradient alignment is not monotonic improvement of each sampled update, a global optimum guarantee, or a convergence theorem for arbitrary step sizes. Zero coordinate rates can prevent movement even at a nonzero gradient.</li>
+      <li>The original episodic construction assumes a declared finite episode and parameters fixed throughout it. It is not a blanket justification for arbitrary online bootstrapping, truncation, discounting, off-policy sample reuse or action-dependent baselines.</li>
+      <li>The primary journal paper was read through a public third-party copy and checked against publisher metadata. Only the declared method pages were inspected; its full proof appendix and empirical literature were not independently audited.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary source explicitly develops a stochastic reinforcement-learning algorithm family driven by reward feedback. The exact AIO target denotes the broader learning task. This is an algorithm-to-task related match, not equivalence or a claim that every reinforcement learner follows this gradient rule.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://gwern.net/doc/reinforcement-learning/model-free/1992-williams.pdf" target="_blank" rel="noopener">Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ronald J. Williams
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1007/BF00992696</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e1029df5459f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-bernoulli-baseline-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bernoulli-baseline-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1308.3432v1" target="_blank" rel="noopener">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yoshua Bengio, Nicholas Léonard, Aaron Courville
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1308.3432v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:509eb5e5294d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:43:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:43:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/REINFORCE.yaml" target="_blank" rel="noopener">
+      <code>data/curated/REINFORCE.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

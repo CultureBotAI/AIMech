@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Improved limited discrepancy search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Improved limited discrepancy search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Improved limited discrepancy search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ImprovedLimitedDiscrepancySearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ILDS
+    </div>
+
+  <div class="detail-desc">
+    Korf’s discrepancy-search variant that uses a supplied maximum search depth and remaining discrepancy count to generate each path to that depth in the pass corresponding to its exact number of nonpreferred choices, avoiding the original method’s repeated maximum-depth paths.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      ILDS is the 1996 improvement to LDS, not a generic label for any later discrepancy-search modification. Its exact-count guarantee concerns leaves at the specified maximum depth; shallower leaves and internal nodes can still be revisited. The supplied depth bound differs from a bound on the depths at which discrepancies are allowed. No normalized identity match was found across the 442 AIO and 141 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads and incidental substrings such as builds in records, source text and dependencies, not existing concept records.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#search-procedure</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each budget k from zero through the supplied maximum depth, recursively track remaining depth D and discrepancies k. In the binary Figure 3, visit the preferred child when D&gt;k, leaving k unchanged; visit the nonpreferred child when k&gt;0, reducing k by one. Both moves reduce D by one. When D=k, only nonpreferred choices remain possible along a path that reaches the depth bound. The printed procedure visits the preferred branch before the nonpreferred branch when both are allowed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Improved Limited Discrepancy Search</a></span>
+        <span>· <strong>Locator:</strong> Improved Limited Discrepancy Search and Figure 3, printed p. 287 / PDF p. 2; Interior Node Overhead of ILDS, printed p. 288 / PDF p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#repeated-prefixes</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maximum-depth paths are generated once across discrepancy passes, but shorter leaves and internal nodes can recur. The paper’s uniform-tree overhead analysis and its negative number-partitioning results are distinct from a universal performance guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-repeated-prefixes">Improved Limited Discrepancy Search</a></span>
+        <span>· <strong>Locator:</strong> Printed pp. 287–288 and 290–291 / PDF pp. 2–3 and 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A valid upper bound on maximum depth is an input. A loose bound or pruning that creates shallower leaves reduces the benefit because those leaves may be visited on several passes.</li>
+      <li>Visiting each maximum-depth leaf once does not mean visiting every internal node once; repeated prefixes remain.</li>
+      <li>The complete uniform-tree expansion analysis is conditional on that tree shape. It does not establish an unconditional wall-clock advantage on pruned trees or early-terminated searches.</li>
+      <li>The procedure’s discrepancy priority does not guarantee that the first goal is shortest or globally minimum-cost. No universal superiority over DFS is asserted.</li>
+      <li>The 1996 prose gives a depth-three original-LDS path count inconsistent with its own displayed counting formula and the original paper’s trace. No literal 19-path count is adopted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable AIO counterpart for this graph/state-space search procedure was identified in the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels and scoped synonyms and 141 preceding native identities were compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic, path, traversal, symbolic, reasoning and graph terminology.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language model operating on structured graph representations is not a graph traversal or shortest-path algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Language-task deductive inference does not denote general state-space search.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuroSymbolicLLM.html"><code>AIO:NeuroSymbolicLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language-model architecture combining neural and symbolic components is not the search procedure itself.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Building methods that learn from data is not the identity of an algorithm traversing a specified graph.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The search procedure is distinct from the mathematical functions it may evaluate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A learning task balancing exploration and exploitation is distinct from deterministic graph/state-space traversal.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf" target="_blank" rel="noopener">Improved Limited Discrepancy Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:55b3305027e7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-repeated-prefixes">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">repeated-prefixes</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cdn.aaai.org/AAAI/1996/AAAI96-043.pdf" target="_blank" rel="noopener">Improved Limited Discrepancy Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:55b3305027e7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T06:26:52Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T06:26:52Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ImprovedLimitedDiscrepancySearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ImprovedLimitedDiscrepancySearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fully visible sigmoid belief network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Fully visible sigmoid belief network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fully visible sigmoid belief network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:FullyVisibleSigmoidBeliefNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FVSBN, Logistic autoregressive Bayesian network
+    </div>
+
+  <div class="detail-desc">
+    A fully observed binary autoregressive probabilistic model whose conditional probability at each position is a logistic function of a bias and a weighted sum of preceding visible variables.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the fully visible sigmoid model discussed by Larochelle and Murray, with no stochastic hidden variables. Frey and colleagues call their binary logistic special case a fully visible belief network; that local usage does not make all fully visible Bayesian networks synonyms of the sigmoid family. The record specializes the broader sigmoid-belief-network family and is distinct from NADE’s nonlinear deterministic hidden features and DARN’s stochastic latent architecture. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 346 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 23 and 23 lines respectively. All 17 unique matched line contents were inspected in full: SBN source metadata, NADE and DARN scope distinctions, their saved review and the carried noisy-OR discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Seventeen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fix an ordering of D binary visible variables. Parameterize P(x_i=1|x_&lt;i)=sigmoid(b_i+sum_(j&lt;i) w_ij x_j). Multiply the corresponding Bernoulli probabilities over positions to evaluate the normalized observed joint. All variables in that product are visible, so complete-data likelihood evaluation has no hidden-state marginalization or recognition-model posterior approximation. Its negative log likelihood is the sum of the positionwise binary logistic losses. Generate a sample by drawing each bit from the conditional determined by already drawn predecessors. Full connectivity makes all earlier visible variables available as parents; zero coefficients can remove particular dependencies. A fixed-order conditional’s log odds are affine in its predecessors, unlike the more general nonlinear neural conditional used by NADE.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Neural Autoregressive Distribution Estimator</a></span>
+        <span>· <strong>Locator:</strong> Section3, Equations(3)–(4), PDFp.2 / printedp.30; Figure1, PDFp.3 / printedp.31; related-work description, PDFp.4 / printedp.32</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fvbn-source">Does the Wake-sleep Algorithm Produce Good Density Estimators?</a></span>
+        <span>· <strong>Locator:</strong> Binary logistic generative setup, PDFp.1 / printedp.661; Section2 competitor Fully Visible Belief Network, PDFp.3 / printedp.663</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sigmoid-source">Connectionist learning of belief networks</a></span>
+        <span>· <strong>Locator:</strong> Section4.1, Equations(11)–(16), PDFpp.9–10 / printedpp.79–80; Section6.1–6.2, PDFpp.15–16 / printedpp.85–86</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The chain-rule factorization is general, but restricting each conditional to a logistic-linear function limits the distribution family. A given fixed-order conditional table with a nonzero logit interaction cannot be represented by that affine logit; this is not a claim about every alternative ordering or latent extension.</li>
+      <li>Exact complete-observation likelihood and forward generation do not provide arbitrary missing-variable posteriors for free. Conditioning on a suffix while earlier variables are unknown still requires inference or summation.</li>
+      <li>Changing the variable order changes the restricted model family and can affect fitting. The absence of stochastic latent variables is part of this specialization, not a property of all sigmoid belief networks.</li>
+      <li>The source’s FVBN label is interpreted within its binary logistic model setting. No assertion that every fully visible Bayesian model uses logistic factors, no universal performance ranking and no trained-model result is included.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned AIO target is broader than this fully visible binary logistic family. Ordered visible variables and normalized forward conditional factors form a directed acyclic probabilistic network; the local identity adds logistic-linear parameterization and absence of latent random variables.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf" target="_blank" rel="noopener">The Neural Autoregressive Distribution Estimator</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hugo Larochelle, Iain Murray
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v15-larochelle11a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b1fe502ea1b3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fvbn-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fvbn-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf" target="_blank" rel="noopener">Does the Wake-sleep Algorithm Produce Good Density Estimators?</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Brendan J. Frey, Geoffrey E. Hinton, Peter Dayan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper_files/paper/1995/file/55b1927fdafef39c48e5b73b5d61ea60-Paper.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cb6d748c6816…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sigmoid-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sigmoid-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~bonner/courses/2016s/csc321/readings/Connectionist%20learning%20of%20belief%20networks.pdf" target="_blank" rel="noopener">Connectionist learning of belief networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1016/0004-3702(92)90065-6</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e4f40a92dce…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:36:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:36:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FullyVisibleSigmoidBeliefNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FullyVisibleSigmoidBeliefNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

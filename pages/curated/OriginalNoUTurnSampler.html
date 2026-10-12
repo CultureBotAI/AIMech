@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No-U-Turn sampler (original slice formulation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>No-U-Turn sampler (original slice formulation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">No-U-Turn sampler (original slice formulation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OriginalNoUTurnSampler</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The original 2014 slice-based NUTS algorithm, which adapts a Hamiltonian trajectory’s length through randomly directed binary-tree doubling and selects a valid next state while enforcing subtree U-turn and reversibility conditions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record is restricted to Hoffman and Gelman’s 2014 slice formulation, principally efficient Algorithm 3. Algorithm 2 is its simpler uniform-selection derivation. The paper’s acronym NUTS is context, not an asserted exact alias for every later algorithm with that name. Dual-averaging step-size warmup is separable from the fixed-step-size NUTS transition. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 153 prior native IDs/names/aliases. Both checkout text searches included ignored and hidden files and returned no matches for the selected exact IDs, full labels, aliases and source titles. Existing HMM and Markov random field records describe probability models, not these sampling or tuning procedures.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Refresh standard Gaussian momentum and draw a slice variable below the current joint density. Build a balanced trajectory tree by randomly extending forward or backward through 1, 2, 4 and further powers of two leapfrog steps. Check both endpoint dot products for the balanced subtrees; stop if either turns negative or the slice-relative joint log density falls below the allowed energy-error threshold. States outside the slice cannot be next samples. A stopping condition inside the newly added half-tree excludes that half-tree from candidate selection; a U-turn only at the completed whole-tree boundary permits its valid candidates. Efficient Algorithm 3 samples a representative within each new subtree in proportion to valid-state counts, then updates the retained candidate with probability min(1,n_new/n_old) when that new subtree is valid. Its transition preserves the uniform distribution over the valid candidate set; it is not simply uniform selection from the final whole tree.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1.1–3.1.2, conditions C.1–C.4, Equations (3)–(4), Algorithms 2–3 and transition kernel T, printed pp. 1597–1606 / PDF pp. 5–14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nuts-domain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper limits direct use to differentiable continuous coordinates, discusses transformations and separate treatment of discrete variables, and identifies mass-matrix changes as extensions rather than the unit-mass formulation itself.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nuts-domain">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a></span>
+        <span>· <strong>Locator:</strong> Section 5, printed pp. 1619–1620 / PDF pp. 27–28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Stopping one forward trajectory at its first U-turn without the paper’s balanced-tree construction and candidate exclusions is not the defined valid NUTS kernel.</li>
+      <li>The source mechanism uses identity mass and its corresponding Euclidean dot-product criterion. Nonidentity or position-dependent metrics require an appropriate formulation; no generalized metric rule is inferred here.</li>
+      <li>Eliminating a preset leapfrog-step count does not eliminate step size, numerical-divergence handling, model geometry, convergence assessment or implementation resource limits.</li>
+      <li>The efficient top-level candidate transition and uniform selection within a subtree are different operations. Zero valid-candidate counts require guarded implementation; no literal zero-over-zero probability is asserted.</li>
+      <li>This is not a specification of later multinomial NUTS or current Stan defaults. No author implementation was executed or performance result reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure constructs transitions of a Markov chain to sample a specified target distribution. The exact AIO CLASS describes a stochastic process/model with dependence on the preceding state and is exported beneath Network. The method-to-process relationship is related_match, not equivalence, subclass membership or a claim that the sampler is a trained network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf" target="_blank" rel="noopener">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew D. Hoffman, Andrew Gelman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v15/hoffman14a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf2a5592015b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nuts-domain">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nuts-domain</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf" target="_blank" rel="noopener">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew D. Hoffman, Andrew Gelman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v15/hoffman14a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf2a5592015b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T06:48:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T06:48:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OriginalNoUTurnSampler.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OriginalNoUTurnSampler.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

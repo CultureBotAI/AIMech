@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spatial Transformer · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Spatial Transformer</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Spatial Transformer</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:SpatialTransformer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Spatial Transformer module
+    </div>
+
+  <div class="detail-desc">
+    A learnable neural-network component that predicts an input-dependent spatial transformation and uses the resulting sampling grid to warp an image or feature tensor.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the 2015 spatial-transformer module, composed of localization, grid generation and sampling. A spatial transformer network contains one or more such components; it is not a single fixed classifier or checkpoint. This geometric sampler is distinct from the later token-attention Transformer architecture and from multiplying a feature map by a spatial gate. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 282 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 2 and 2 lines respectively. Every text hit was a prior candidate lead or a closely related variant lead. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A localization network reads the input tensor and predicts parameters of a configured spatial transformation. A grid generator applies that transformation to regular output-grid coordinates to obtain source sampling coordinates in the input. The paper illustrates a six-parameter 2D affine transform, while allowing other differentiable parameterizations. A sampler interpolates the input at the generated coordinates, using the same spatial warp for every channel; output height and width are configured separately from input size. With bilinear sampling, weighted neighboring pixels determine each output value and piecewise derivatives pass the task loss through the sampling coordinates and transformation parameters to the localization network. The module can therefore be trained jointly using the surrounding task objective, without requiring separate transformation labels in the source setup. Transformation type, localization network, sampler and placement are choices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section3, Equations1–7 and Figure2, PDF pp.3–5; architecture/aliasing limits Section3.4, PDFp.5; conclusion PDFp.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#feature-alignment-limit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A spatial transformer that acts identically on all feature channels cannot generally align feature maps of a transformed image with those of the original. The later analysis identifies changes in channel responses and receptive-field geometry as obstacles even under ideal pose prediction. It distinguishes translation-covariant features and special invariant-feature cases, and does not deny that a network can benefit or achieve some invariant classification by other means. The broader rigorous proof referenced by that paper was not inspected.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-invariance-analysis">Understanding when spatial transformer networks do not support invariance, and what to do about it</a></span>
+        <span>· <strong>Locator:</strong> SectionII including assumptions and exceptions, PDF pp.2–4; Figures1–2, PDF pp.1,3; SectionV, PDFp.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The transformation maps output-grid coordinates to source sample locations; reversing this direction changes the operation. Coordinate normalization, pixel-center convention and boundary treatment must be specified for executable reproduction. The paper’s compact formulas are not a guarantee that every framework uses identical sampling conventions.</li>
+      <li>The printed Equation6 retains sums over n,m in a derivative with respect to a particular input element U_nm. For a fixed element, the derivative is its own interpolation coefficient; the record follows the forward bilinear expression rather than copying that inconsistent displayed derivative. No author-issued erratum is asserted.</li>
+      <li>Bilinear sampling is piecewise differentiable; integer nearest-neighbor sampling has zero coordinate derivative almost everywhere and is not interchangeable as a useful localization-gradient mechanism. Cropping, out-of-bounds samples and small-support downsampling can lose information or cause aliasing. Learnability does not guarantee a correct canonical pose or invertibility.</li>
+      <li>A shared spatial warp cannot generally undo changes across feature channels or receptive fields caused by rotating or scaling the input. Translation-covariant or specially invariant features are qualified exceptions. Failure of feature-map alignment does not prove that every downstream classifier lacks invariance or that spatial transformers cannot help.</li>
+      <li>The source’s parallel-module construction has a configured number of attended outputs; it does not establish unlimited object discovery, universal accuracy improvement or negligible runtime on all systems. No author implementation or model was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Layer.html" style="font-weight: 600;"><code>AIO:Layer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The native concept is a defined representation-transforming component within a neural network, so the generic Layer class has broader scope.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/33ceb07bf4eeb3da587e268d663aba1a-Paper.pdf" target="_blank" rel="noopener">Spatial Transformer Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Max Jaderberg, Karen Simonyan, Andrew Zisserman, Koray Kavukcuoglu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fe27a3a0faff…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-invariance-analysis">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">invariance-analysis</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.11678v5" target="_blank" rel="noopener">Understanding when spatial transformer networks do not support invariance, and what to do about it</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lukas Finnveden, Ylva Jansson, Tony Lindeberg
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:2004.11678v5</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:770e65b007e7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T12:54:15Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T12:54:15Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SpatialTransformer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SpatialTransformer.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

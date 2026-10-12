@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep autoregressive network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Deep autoregressive network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Deep autoregressive network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:DeepAutoregressiveNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DARN
+    </div>
+
+  <div class="detail-desc">
+    A generative neural architecture that combines directed stochastic hidden layers with autoregressive within-layer conditional dependencies and a separately parameterized recognition network for approximate latent inference.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the DARN family introduced by Gregor and colleagues, not every deep autoregressive model or a time-series forecasting method with a similar name. Its defining latent architecture differs from the fully visible original NADE model and extends paired encoder/decoder modeling with within-layer autoregression. The paper also permits deterministic layers, different conditional parameterizations, non-autoregressive recognition conditionals and an autoregression-free visible layer. Its zero-stochastic-hidden-layer limiting example is the fully visible sigmoid belief network. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 343 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 7 and 7 lines respectively. All 6 unique matched line contents were inspected in full: RWS component-model distinctions, its saved review and the carried sigmoid/autoregressive discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Thirteen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the decoder, factor the top hidden prior along a fixed within-layer order. Each lower stochastic layer conditions each unit on the preceding units in that layer and the complete driving layer above, ending with the visible variables. The basic binary factors are logistic regressions; additional deterministic transformations or more expressive neural conditionals are optional. The recognition model proceeds bottom-up and can likewise be autoregressive within a layer, although the paper usually omits those recognition dependencies. Decoder ancestral sampling follows the top-down layer and within-layer orders and draws exact samples from the specified model; recognition sampling is exact for q but generally only approximate for the model posterior. Jointly train encoder and decoder toward the free-energy cost E_q[log q(h|x)-log p(x,h)], using the paper’s approximate gradient procedure through stochastic units. In Appendix A’s isolated Bernoulli calculation, with probability p depending on parameter theta and downstream f otherwise independent of theta, its final estimator is grad_theta(p) f-prime(h)/(2 q(h)), with h sampled from q. Its expectation equals grad_theta(p) times the average of the endpoint derivatives. This matches the finite-difference gradient for linear or quadratic f but need not for higher-order functions. The record distinguishes this approximation from the exact variational identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Deep AutoRegressive Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, Equations (1)–(15), PDF pp.2–5; marginal-likelihood scope, Section 5, p.5; Appendix A, Equations (17)–(24), pp.7–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Efficient ancestral sampling of the joint model does not imply tractable exact marginal likelihood or posterior inference. The source uses explicit latent enumeration for small models and importance estimates for larger ones.</li>
+      <li>The practical estimator can be biased for non-quadratic downstream functions; a curator cubic example checks that boundary. The isolated-unit calculation does not certify all gradient paths of the complete multilayer implementation, variance reduction or convergence.</li>
+      <li>A restricted recognition family may not contain the true posterior. Minimizing the variational objective within that family does not remove its approximation gap automatically.</li>
+      <li>Within-layer autoregression is directed and ordered, not an undirected recurrent connection. Exact model samples do not establish causal semantics or fidelity to observed data.</li>
+      <li>Equation (4) in the publisher PDF prints the visible dimension as the upper product index for recognition hidden variables; this record interprets the product over the declared hidden units, consistent with the surrounding definition and multilayer Equation (8). No author-code behavior is inferred.</li>
+      <li>The supplement contains generated sample images, not the gradient derivation; Appendix A of the main paper supplies that derivation. No benchmark ranking, universal runtime advantage or trained-model result is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The decoder is a directed acyclic probabilistic model with ordered within-layer factors, matching the AIO target at the generative-model component level. The curated DARN identity also includes a separate recognition network and their paired architecture. A related match expresses this component relationship without equating the whole encoder/decoder system with a single Bayesian network or asserting an algorithm-to-network subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/gregor14.pdf" target="_blank" rel="noopener">Deep AutoRegressive Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Karol Gregor, Ivo Danihelka, Andriy Mnih, Charles Blundell, Daan Wierstra
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v32-gregor14</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6b917b288dc4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:27:17Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:27:17Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepAutoregressiveNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepAutoregressiveNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

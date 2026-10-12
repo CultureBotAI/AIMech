@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hidden Markov tree · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Hidden Markov tree</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hidden Markov tree</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:HiddenMarkovTree</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HMT
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable model on a fixed rooted tree in which hidden states factor into a root distribution and conditionally independent parent-to-child transitions, with observations emitted independently by their corresponding hidden states.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record uses the classical independent-emission meaning of hidden Markov tree, exemplified by the inspected quadtree image model. The tree describes stochastic dependencies between sites or scales; it is not a decision tree, a hierarchical mixture-of-experts gate tree or the within-time hierarchy of a hidden Markov decision tree. It is a restricted pairwise Markov tree with kernels A(x_child|x_parent)*b(y_child|x_child). Some pairwise-tree literature uses hidden Markov tree more broadly for a Markov hidden marginal with correlated observations; that broader usage is not equated with this independent-emission definition. A path is an HMM special case; branching is permitted. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 394 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 64 and 64 matched lines; all 44 unique contents were read. Hits represent neighboring records, citations and discovery leads rather than records of these identities. All 97 semantic label/synonym hits were read. Twenty-one fully annotated exact CLASS nodes and outgoing edges were verified identical to the preceding inspection, and three additional nodes were read. Twenty-eight contextual YAMLs were byte-verified after prior full reading and four freshly read, totaling 24 generated and eight native contextual records. Short acronyms were included in the complete normalized identity comparison. The absence assessment is bounded to the pin, native collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Specify a normalized root law pi(x_r), normalized transitions A_s(x_s|x_parent(s)) and normalized local emissions b_s(y_s|x_s). Then p(x,y)=pi(x_r)*product_nonroot A_s*product_s b_s. At a site without an observation use emission factor1. For finite hidden states, an upward likelihood message is L_s(x_s)=b_s(y_s|x_s)*product_child_t sum_(x_t) A_t(x_t|x_s)*L_t(x_t). The root posterior is proportional to pi*L_r, and each child posterior conditional is proportional to A_t*L_t for fixed parent. Propagating the root posterior downward gives node and edge marginals. Replacing child sums with maxima and retaining maximizing states yields joint MAP by backtracking; independently maximizing node marginals gives MPM and can select a different configuration. Exact node and edge posterior expectations permit an EM parameter update for a specified, properly normalized tree model. The source instantiates the tree as a quadtree, with optional observation levels and optional parameter tying across scales.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Discrete Markov Image Modeling and Inference on the Quadtree</a></span>
+        <span>· <strong>Locator:</strong> SectionsII–III, printed pp.390–393 / PDF pp.1–4, Equations(1)–(4); SectionsIVA–C, pp.393–396 / PDF pp.4–7; SectionsV–VI, pp.398–403 / PDF pp.9–14, especially Equations(21)–(29)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record is scoped to independent child transitions and independent site emissions on a fixed finite rooted tree. Coupled siblings, loopy graphs, correlated emissions and learned topology require additional constructions. A causal tree factorization here expresses conditional probability, not intervention semantics.</li>
+      <li>Generic dense transitions with K hidden states require O(number_of_edges*K^2) arithmetic for the sum-product pass; linearity in sites assumes a fixed state count. Source complexity statements linear in K are not adopted for arbitrary dense kernels. Positive evidence and careful support handling are required; numerical scaling reduces but does not eliminate all numerical risks.</li>
+      <li>The source’s Equation(10) omits the complement needed for a minimized Hamming loss, and Figure4 prints argmin where Equation(11) correctly uses argmax of a posterior. Its preliminary prior pass requires root-to-leaf order. This record uses consistent sum-product/max-product semantics rather than those literal displays.</li>
+      <li>For Equation(17)’s shared same-state transition probability theta, the unconstrained EM update is expected same-state edge count divided by edge count. Equations(26)–(27) print an extra state-count divisor, conflicting with the earlier theta&gt;1/K restriction. Active parameter constraints, zero expected counts and emission degeneracy need separate treatment.</li>
+      <li>The exact posterior factorization in Equation(29) supports ancestral sampling after subtree messages. The experimental H-MCEM uses a local-observation conditioning shortcut and constructed coarse observations; those samples are not certified exact draws from the original posterior. SMAP is a different loss with an approximate procedure, not an alias for exact joint MAP or MPM.</li>
+      <li>Quadtree image priors can create location-dependent block artifacts. EM remains initialization-sensitive and need not find a global optimum. The selected synthetic, flood and microscopy examples establish application context, not universal segmentation superiority, a modern benchmark or a reproduced implementation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The hidden root, child transitions and site observation nodes have a normalized directed acyclic factorization. A rooted hidden tree with independent emission leaves is a restricted Bayesian-network family, so the AIO target is broader; this mapping adds no causal intervention interpretation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://web.engr.oregonstate.edu/~sinisa/courses/OSU/CS559/lectures/QuadTreeInference.pdf" target="_blank" rel="noopener">Discrete Markov Image Modeling and Inference on the Quadtree</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-Marc Laferté, Patrick Pérez, Fabrice Heitz
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/83.826777</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ec6f929d2ddf…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:20:23Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:20:23Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HiddenMarkovTree.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HiddenMarkovTree.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

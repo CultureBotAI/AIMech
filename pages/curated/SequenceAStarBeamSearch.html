@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A-star beam search for sequence decoding · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>A-star beam search for sequence decoding</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">A-star beam search for sequence decoding</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SequenceAStarBeamSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> A* beam search for sequence decoding
+    </div>
+
+  <div class="detail-desc">
+    A sequence-decoding beam framework that ranks active hypotheses by accumulated score plus an optimistic future-score heuristic, uses shorter length to break score ties, and limits accepted expansions to k hypotheses per sequence length.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This names the finite-beam A-star decoding framework in Meister, Vieira and Cotterell, not every algorithm informally called A-star beam search. The h=0 specialization has its own per-length best-first record. A finite per-length budget distinguishes the framework from unpruned A* and from a whole-frontier capacity cap. No normalized identity match was found across the 442 AIO and 135 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations, scope contrasts and DCBSS substring matches, plus seven public certificate-data substring matches, not existing concept records.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#search-procedure</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Use Algorithm 2 with the A-star beam settings in Table 1: prioritize the sum of current score and h, maintain a separate length counter, and suppress expansions beyond that length’s k budget. For maximization, an admissible h is optimistic about achievable future reward. The framework’s top-completed-hypothesis stopping rule operates over this already-pruned agenda; a finite beam can exclude globally superior paths.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Best-First Beam Search</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Algorithm 2 and Table 1; Definition 3.1; printed pp. 797–798 / PDF pp. 3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-beam-heuristic</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With finite pruning, even an admissible future-score heuristic can alter which hypotheses survive compared with ordinary width-k beam search. The paper distinguishes the zero-heuristic equivalence result from this more general framework.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-finite-beam-heuristic">Best-First Beam Search</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, A Note on Heuristics, printed p. 801 / PDF p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The finite beam is an approximation to exact sequence-model decoding; equality to a specified beam procedure is not global MAP optimality.</li>
+      <li>Sequence length limits, EOS handling and compatible deterministic tie conventions are part of the comparison. Arbitrary implementations with different stopping or tie rules need not return identical hypotheses.</li>
+      <li>Queue counts are counts of retained hypotheses, not total bytes including neural states, model parameters, backpointers and temporary successors. No numerical speedup or benchmark-quality claim is curated.</li>
+      <li>Admissibility of h does not preserve the zero-heuristic beam’s output after finite pruning. This is explicitly acknowledged in Section 4.1.</li>
+      <li>Unpruned A-star guarantees cannot be transferred to the finite-beam framework merely because its heuristic is admissible. No unrestricted nonmonotonic stopping theorem is asserted.</li>
+      <li>Application to a particular score requires checking the direction and validity of its future-reward bound, terminal behavior and stopping policy.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/NaturalLanguageProcessing.html" style="font-weight: 600;"><code>AIO:NaturalLanguageProcessing</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Natural Language Processing</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary paper defines these decoding procedures for sequential structured prediction and develops them around natural-language transduction. The exact AIO CLASS describes the language-processing task. This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the decoder is not a trained language model and can also be used outside NLP.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://aclanthology.org/2020.tacl-1.51.pdf" target="_blank" rel="noopener">Best-First Beam Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Clara Meister, Tim Vieira, Ryan Cotterell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/tacl_a_00346</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46728395bd4f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-finite-beam-heuristic">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">finite-beam-heuristic</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://aclanthology.org/2020.tacl-1.51.pdf" target="_blank" rel="noopener">Best-First Beam Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Clara Meister, Tim Vieira, Ryan Cotterell
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/tacl_a_00346</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46728395bd4f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T06:16:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T06:16:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SequenceAStarBeamSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SequenceAStarBeamSearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

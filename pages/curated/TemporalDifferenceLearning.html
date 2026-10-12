@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temporal-difference learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/learning_paradigm.html">Learning Paradigms</a>
+  <span>/</span>
+  <strong>Temporal-difference learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Temporal-difference learning</h1>
+    <span class="badge badge-curated">Learning Paradigms</span>
+    <span class="detail-id">AIMech:TemporalDifferenceLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TD learning
+    </div>
+
+  <div class="detail-desc">
+    A family of prediction-learning methods that assign temporal credit using discrepancies between successive, recursively related predictions of future outcomes, with intervening costs or rewards included when the target is cumulative.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This family-level record covers temporal-difference prediction and the original TD(lambda) construction, including TD(0) and TD(1) endpoints. It is not a policy optimizer, the GAE advantage estimator, backpropagation as a way to compute derivatives, a Markov-chain model, or every sequential prediction problem. TD(lambda) is treated here as a specified family member rather than a synonym for the whole paradigm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the original terminal-outcome problem, predictions P_t=P(x_t,w) estimate the same eventual scalar outcome z and P_(m+1)=z. With weights held fixed within a sequence, compute increments Delta w_t=alpha*(P_(t+1)−P_t)*e_t, where e_t=sum_(k=1..t) lambda^(t−k)*grad_w P_k and 0&lt;=lambda&lt;=1; apply their sum after the sequence. The trace can be maintained recursively as e_t=grad_w P_t+lambda*e_(t−1). TD(0) uses only the current prediction gradient, whereas TD(1) gives the same per-sequence changes as the corresponding supervised outcome-error update under the fixed-weight convention. In the cumulative-outcome extension, replace the difference with c_(t+1)+P_(t+1)−P_t and set the terminal remaining prediction to zero. This is the source’s undiscounted cumulative formulation, not an implicit insertion of a discount factor. Intra-sequence weight updates are a separate extension requiring consistent parameter timing; simple algebraic equivalence at fixed weights does not establish equality of online trajectories.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Learning to predict by the methods of temporal differences</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.3, PDF pp.5–8 / journal pp.13–16, Equations 1–4 and trace recursion; Theorem 2 statement, PDF pp.16–17; Sections 5.1–5.3, PDF pp.25–28 / journal pp.33–36; Section 6.2, PDF pp.29–30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#control-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    TD prediction can supply value estimates in a reinforcement-learning control procedure. The author exposition estimates the current behavior policy’s action values using TD updates while improving that policy toward greedy choices. Prediction alone does not specify the action-selection and policy-improvement components of a complete control algorithm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-book-draft">Reinforcement Learning: An Introduction</a></span>
+        <span>· <strong>Locator:</strong> Section 6.4, PDF pp.155–156 / printed pp.137–138, TD prediction applied to on-policy control and Sarsa pseudocode</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The prediction targets must obey the declared temporal recursion. Consecutive forecasts of different future events cannot simply be subtracted; Section 5.3 embeds fixed-horizon forecasts in a larger set of related predictions. Terminal-outcome and cumulative-outcome formulations use different terminal conventions.</li>
+      <li>The original linear TD(0) theorem is convergence in expected value for an absorbing Markov setting, linearly independent state observation vectors, and sufficiently small constant step size, with weight changes after each sequence. It is not an almost-sure convergence theorem for arbitrary online nonlinear networks or a finite-data guarantee; the proof appendix was not independently audited.</li>
+      <li>TD(1)’s fixed-weight per-sequence equivalence does not make all TD methods identical to Monte Carlo or supervised learning. Updating weights within a sequence changes predictions and traces; Section 5.2 warns against mixing predictions computed with inconsistent parameter versions.</li>
+      <li>Temporal credit assignment and structural backpropagation are compatible but distinct. The method family alone supplies neither a control policy nor an exploration strategy. No claim of universal accuracy, lower computation, or benchmark superiority is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TD prediction supplies value estimates for reinforcement-learning control, as directly illustrated by the author book’s Section 6.4. The local family also covers prediction without action selection. The pinned AIO target is a learning task; this connection asserts neither equivalence nor that every TD prediction problem is a control task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmvidal.cse.sc.edu/library/sutton88a.pdf" target="_blank" rel="noopener">Learning to predict by the methods of temporal differences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard S. Sutton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1007/BF00115009</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f1153204158b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-book-draft">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-book-draft</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="http://incompleteideas.net/book/bookdraft2016sep.pdf" target="_blank" rel="noopener">Reinforcement Learning: An Introduction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard S. Sutton, Andrew G. Barto
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> http://incompleteideas.net/book/bookdraft2016sep.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:94b195c3d5f7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T14:02:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T14:05:14Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TemporalDifferenceLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TemporalDifferenceLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

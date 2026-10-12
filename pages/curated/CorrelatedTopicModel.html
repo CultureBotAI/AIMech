@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Correlated topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Correlated topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Correlated topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:CorrelatedTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CTM
+    </div>
+
+  <div class="detail-desc">
+    A mixed-membership topic model that draws each document&#39;s topic proportions from a logistic-normal distribution and generates its words through latent topic assignments and shared categorical topic-word distributions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the Blei-Lafferty correlated topic model introduced at NIPS 2005 and developed in the 2007 journal article. The defining change is the logistic-normal document mixture, not a word-interaction MRF, dynamic topic evolution, sparse topic graph or the particular variational solver. Topic graphs are optional analyses of fitted latent coordinates. This is not the Dynamic Conditional Correlation econometric model. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 423 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main. Ten matched lines in each checkout reduce to nine unique line contents: prior frontier references, copied discovery context and cached web-result mentions. Every matching concept excerpt was inspected; these are not maintained or imported identities. All 200 semantic label/synonym hits were read. Eighteen exact annotated AIO CLASS nodes and outgoing edges were inspected, including 14 verified unchanged from prior reading and four newly read. Thirty contextual YAMLs comprise those 18 AIO records and 12 native neighbors: six fully read here, 23 byte-verified after prior reading and the updated APM verified against its fully reviewed round100 bytes. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#generative-law</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed K topics beta_k on a finite vocabulary, draw document logits eta_d from N(mu,Sigma), set theta_d=softmax(eta_d), then independently draw each topic assignment z_dn from theta_d and its word from beta_zdn, conditional on these variables. The logistic-normal prior allows associations that a single Dirichlet proportion prior cannot express, including positive pairwise proportion covariance when at least three components are available. Dirichlet proportions are not literally independent: their sum-to-one constraint gives negative off-diagonal covariance for positive concentration parameters. Common shifts of all logits leave proportions unchanged; unrestricted K-logit mean/covariance parameters are not uniquely identified by the induced composition. Logit covariance, proportion covariance and causal relationships are distinct.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Correlated Topic Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.2-3, Figure 1 and Equation (3)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-journal-extension">A Correlated Topic Model of Science</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF/reprint pp.4-6, Figure 1 and softmax nonminimality note</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#variational-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The original inference scheme approximates each document posterior by independent univariate Gaussian logits and categorical topic assignments. An auxiliary positive scalar bounds expected log-sum-exp from above, yielding a tractable lower bound no greater than the exact mean-field evidence lower bound. Coordinate updates alternate the auxiliary scalar, assignment probabilities, Gaussian means and positive variances; variational EM fits topics and Gaussian parameters from approximate sufficient statistics. Nonconjugacy and the additional bound make this approximate inference, not exact posterior computation or a guarantee of global marginal-likelihood maximization. The journal correction restores entropy in the originally printed corpus bound; the inspected v2 reprint already includes it, and the corpus objective sums expected log joint plus entropy for each document.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Correlated Topic Models</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF pp.4-5; Appendix A, p.8, Equations (4)-(17)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-journal-extension">A Correlated Topic Model of Science</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, PDF/reprint pp.7-9; Appendix, pp.16-18, Equations (9)-(20)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-journal-correction">Correction: A Correlated Topic Model of Science</a></span>
+        <span>· <strong>Locator:</strong> Entire one-page correction, printed p.634, referring to original journal p.24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Fixed topic count, finite vocabulary and conditional bag-of-words assumptions remain. Flexible logistic-normal associations do not remove compositional constraints, identify unique semantic topics or establish that all Dirichlet laws are exact special cases.</li>
+      <li>The source assertion that one observed document leaves no advantage for a nondiagonal variational covariance is not a general theorem. Posterior dependence can remain. Substituting the auxiliary bound into an expected log probability, as displayed with equality in the appendices, must be read as a bound rather than an exact expectation.</li>
+      <li>The journal topic graph regresses standardized fitted logit means using lasso and combines neighborhoods. Gaussian precision statements concern specified Gaussian coordinates; graph estimates do not automatically establish conditional independence of proportions, gauge-invariant structure, causal links or consistency from noisy variational means.</li>
+      <li>Reported Science-corpus comparisons use importance sampling or partially observed-document prediction under particular fits. No universal performance or semantic-interpretability advantage is asserted. No author code or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local identity is a specified probability-model family; the pinned Model class is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local generative model supports topic modeling. This pinned AIO target is task-scoped, so related match preserves the model-versus-task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2005/file/9e82757e9a1c12cb710ad680db11f6f1-Paper.pdf" target="_blank" rel="noopener">Correlated Topic Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. Blei, John D. Lafferty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0430674307aa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-journal-extension">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">journal-extension</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0708.3601v2" target="_blank" rel="noopener">A Correlated Topic Model of Science</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. Blei, John D. Lafferty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1214/07-AOAS114</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e6ec936eeb5c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-journal-correction">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">journal-correction</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0712.1486v1" target="_blank" rel="noopener">Correction: A Correlated Topic Model of Science</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. Blei, John D. Lafferty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:0712.1486</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:14231c485122…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T23:45:21Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T23:45:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CorrelatedTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CorrelatedTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

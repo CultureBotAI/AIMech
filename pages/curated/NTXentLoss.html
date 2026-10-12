@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Normalized temperature-scaled cross entropy loss · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Normalized temperature-scaled cross entropy loss</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Normalized temperature-scaled cross entropy loss</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:NTXentLoss</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> NT-Xent, NT-Xent loss
+    </div>
+
+  <div class="detail-desc">
+    A contrastive cross-entropy objective that uses cosine-normalized, temperature-scaled similarities to identify a paired positive representation among nonself candidates, including that positive in the denominator.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      NT-Xent is the named normalized temperature-scaled configuration of the contrastive categorical objective in the SimCLR paper. It specializes the generic InfoNCE score and candidate construction rather than defining a mathematically unrelated loss family. The loss is not the full SimCLR augmentation/encoder/projection/training procedure, and its symmetric two-view minibatch aggregation is stated explicitly. The paper credits prior uses; no claim of first invention by SimCLR is made. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 214 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 31 lines each: existing SimCLR/InfoNCE component discussion, shared primary-source references and discovery/review context. Five native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonzero representations z_i,z_k and temperature tau&gt;0, use s_ik=z_i^T z_k/(||z_i|| ||z_k||). In the SimCLR two-view configuration, N&gt;=2 source examples produce 2N views; j is the other view of the same source as anchor i. Define ell(i,j)=−log[exp(s_ij/tau)/sum_(k=1..2N,k≠i) exp(s_ik/tau)]. The denominator contains 2N−1 terms: the paired positive and 2N−2 other-source views; only the anchor itself is excluded. Average ell over both directions of every positive pair, giving 2N anchor losses. Temperature changes the softmax weighting of candidate similarities. The paper applies this objective to projected representations, but the mathematical loss does not itself prescribe an encoder, augmentation family or optimizer.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Simple Framework for Contrastive Learning of Visual Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p. 2, Equation (1); Algorithm 1, p. 3; Section 5.1 and Table 2, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#information-bound-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Curator qualification from comparing the two sampling constructions: SimCLR uses both augmented views of every other source as negative candidates, whereas Poole et al.’s Equation (10) states its InfoNCE expectation over independent joint pairs. The latter proof is not automatically a proof for the full SimCLR candidate construction. This comparison does not assert that no alternative dependent-candidate bound can hold.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Simple Framework for Contrastive Learning of Visual Representations</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p. 2, Equation (1); Algorithm 1, p. 3, two-view candidate construction</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-bound-context">On Variational Bounds of Mutual Information</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, PDF p. 4, Equations (8)–(10), independent-joint-pair expectation and footnote 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cosine similarity requires nonzero representations and the specified temperature is positive. The positive is included in the normalization; dropping it or retaining the self-comparison yields a different expression.</li>
+      <li>The two views of each other source are dependent candidates. The standard independent-negative InfoNCE mutual-information argument is not automatically established for this minibatch construction; this record asserts a loss, not an unconditional information certificate.</li>
+      <li>Other-source views are treated as negatives without guaranteeing semantic dissimilarity. Learned usefulness depends on positive construction, candidate sampling and representation choices; minimizing the objective alone does not certify downstream quality.</li>
+      <li>The named configuration shares the categorical form of InfoNCE. Its record preserves the explicit normalization, temperature and batching convention rather than claiming a new unrestricted variational bound. No model training or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ContrastiveLearning.html" style="font-weight: 600;"><code>AIO:ContrastiveLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Contrastive Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            NT-Xent supplies the positive-versus-negative objective used in contrastive representation learning. The AIO target is represented as a neural-network learning approach, so this mathematical-method-to-approach association does not assert equivalence or subclass membership.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v119/chen20j/chen20j.pdf" target="_blank" rel="noopener">A Simple Framework for Contrastive Learning of Visual Representations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ting Chen, Simon Kornblith, Mohammad Norouzi, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v119/chen20j.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cc620e511baf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-bound-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bound-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/poole19a/poole19a.pdf" target="_blank" rel="noopener">On Variational Bounds of Mutual Information</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ben Poole, Sherjil Ozair, Aäron van den Oord, Alexander A. Alemi, George Tucker
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/poole19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38da74b0bae6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T09:15:34Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T09:18:59Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NTXentLoss.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NTXentLoss.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

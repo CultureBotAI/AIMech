@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hamiltonian Monte Carlo · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Hamiltonian Monte Carlo</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hamiltonian Monte Carlo</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HamiltonianMonteCarlo</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HMC, Hybrid Monte Carlo
+    </div>
+
+  <div class="detail-desc">
+    A Markov chain Monte Carlo algorithm for differentiable continuous targets that augments positions with momenta, proposes a state through reversible volume-preserving numerical Hamiltonian dynamics, and applies a Metropolis correction for the Hamiltonian change.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The record describes conventional Euclidean HMC with Gaussian momenta, leapfrog integration and an end-of-trajectory Metropolis test. The source’s unit-mass baseline is explicit; fixed positive-definite mass matrices are documented in the author technical chapter. HMC is not deterministic optimization, an uncorrected molecular-dynamics simulation, or NUTS’s adaptive tree-selection kernel. The original 1987 publication’s metadata was verified, but its full text was inaccessible in this session. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 153 prior native IDs/names/aliases. Both checkout text searches included ignored and hidden files and returned no matches for the selected exact IDs, full labels, aliases and source titles. Existing HMM and Markov random field records describe probability models, not these sampling or tuning procedures.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For target pi(theta), use potential U=−log pi up to a constant and Gaussian momentum r with kinetic energy K=r·r/2 in the unit-mass baseline. Refresh r independently at each iteration. Apply L leapfrog steps: half a momentum update using the log-density gradient, a full position update, and the remaining half momentum update. Form the reversible proposal with momentum reversal and accept with min(1,exp(H_start−H_proposed)); on rejection retain the current position. The integrator preserves volume and reversibility mathematically, while the Metropolis correction accounts for numerical integration error in the invariant target. The final momentum sign can be omitted when only positions are retained and momenta are fully refreshed before reuse.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Algorithm 1, printed pp. 1594–1596 / PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#author-method-and-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Neal’s author-posted technical chapter defines fixed Gaussian mass matrices, the full-refresh leapfrog/Metropolis algorithm, its invariant-distribution argument, and periodicity failures of ergodicity. It is a methodological review and implementation description, not the original 1987 invention paper.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-method-and-limits">MCMC using Hamiltonian dynamics</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1, 2.3 and 3.1–3.2, Equations (2.5)–(2.8), (2.28)–(2.30), (3.6), Figure 2 and Ergodicity of HMC, PDF/printed pp. 3–4, 8, 10–15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The baseline needs evaluable log density and gradients on continuous coordinates. Discrete variables or constraints require additional handling; the stated algorithm does not directly solve those representation problems.</li>
+      <li>Step size, trajectory length and coordinate scaling materially affect behavior. Too-large steps can cause integration failure or rejection, and too-short or resonant trajectories can explore poorly.</li>
+      <li>Target invariance is not universal ergodicity or finite-sample convergence. Neal explicitly gives periodic trajectories that can cause nonergodicity.</li>
+      <li>The correction does not remove Monte Carlo error or make floating-point dynamics exactly reversible in every implementation. Rejected positions remain part of the chain.</li>
+      <li>No universal dimension-scaling law, tuned parameter value, benchmark superiority or current library default is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure constructs transitions of a Markov chain to sample a specified target distribution. The exact AIO CLASS describes a stochastic process/model with dependence on the preceding state and is exported beneath Network. The method-to-process relationship is related_match, not equivalence, subclass membership or a claim that the sampler is a trained network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf" target="_blank" rel="noopener">The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew D. Hoffman, Andrew Gelman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v15/hoffman14a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bf2a5592015b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-method-and-limits">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-method-and-limits</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1206.1901v1" target="_blank" rel="noopener">MCMC using Hamiltonian dynamics</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:1206.1901v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0582743db691…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T06:48:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T06:48:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HamiltonianMonteCarlo.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HamiltonianMonteCarlo.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

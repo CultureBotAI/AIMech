@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generalized component analysis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Generalized component analysis</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Generalized component analysis</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:GeneralizedComponentAnalysis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GCA
+    </div>
+
+  <div class="detail-desc">
+    An undirected latent-component model family coupling categorical text and heterogeneous document attributes to positive lognormal hidden variables, with variables conditionally independent within either layer given the other and shared attribute-specific interaction weights.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Wang, Pal and McCallum&#39;s KDD2007 GCA harmonium for words, author positions and discrete time bins. Its positive hidden coordinates couple through their logarithms, giving an equivalent Gaussian-hidden representation under a change of variables. This differs from the native Replicated Softmax model with binary hidden variables and its length-scaled bias. It is not ordinary PCA, a simplex topic mixture, or every method subsequently named generalized component analysis. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 438 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; eleven matching lines per checkout came from four unique prior discovery-ledger contents with pending leads and bibliography context. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified against prior readings. Twenty-nine contextual YAMLs comprise 28 unchanged prior readings and one fully read final round103 native target verified against its saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#log-hidden-harmonium</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed document length and author-position count, word tokens, author tokens and a discrete timestamp contribute shared matrix columns to a vector S. The positive-hidden joint contains exp(sum_i[-log(t_i)-log(t_i)^2/2+S_i*log(t_i)]). Changing variables to y=log(t), including the Jacobian, gives y conditional on all visible observations distributed as N(S,I), and visible mass proportional to exp(||S||^2/2). The positive-hidden mean is exp(S_i+1/2), not S_i; positive coordinates do not by themselves create a normalized simplex of topics. Missing visible modalities generally produce mixtures after marginalization rather than the same single Gaussian with their columns set to zero.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Generalized Component Analysis for Text with Heterogeneous Attributes</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, PDF p.3, Equations 3-5; Section 3, PDF pp.4-5, conditional inference and prediction</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#contrastive-training-statistics</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source fits approximate joint or conditional likelihood using contrastive divergence and Gaussian weight shrinkage. Conditional training clamps words and time while reconstructing authors. Replicated categorical author positions use occurrence counts as sufficient statistics, including when a reconstruction repeats an author. Equation 8 instead displays a presence indicator and prints A-1 as a word-sum limit; the general statistic requires author counts and the vocabulary dimension. The exact fixed-length likelihood gradient contrasts observed count-times-S statistics with their model expectation, with an additional prior gradient if regularized. Short-chain CD approximates that expectation and is not exact maximum likelihood.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Generalized Component Analysis for Text with Heterogeneous Attributes</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1-3.2, PDF pp.4-5, Equations 6-8 and Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#latent-rotation-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A common orthogonal transformation of the hidden rows of all interaction matrices preserves ||S||^2 and therefore every fixed-size visible probability. It also preserves an isotropic Gaussian weight penalty. Such shrinkage consequently does not remove all latent rotation ambiguity or guarantee a uniquely interpretable set or number of components. The source&#39;s suggestion that the prior addresses nonidentifiability or enables automatic component selection has this mathematical boundary.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Generalized Component Analysis for Text with Heterogeneous Attributes</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF p.4, Gaussian priors and identifiability discussion; Section 2.3, PDF p.3, model law</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite categorical sample spaces make the partition function finite for each fixed number of word and author positions and finite weights. The source does not specify a normalized distribution over unbounded document lengths. Independent author positions can repeat authors; this is not automatically a distribution over unique author sets.</li>
+      <li>The evaluated timestamps are discrete years or months. Proposed Gaussian or Beta visible attributes require their own compatible joint and normalization analysis. Broad PCA comparisons do not establish equivalence to probabilistic PCA with Gaussian observations.</li>
+      <li>The reported author/recipient evaluation retrieves training documents by cosine similarity in latent space and scores the first result sharing an author or recipient. This is not exact author-set conditional-probability ranking. Treatment of missing target-modality features in embeddings is underspecified; no data-leakage allegation or unprovided implementation is inferred.</li>
+      <li>Selected NIPS and single-user email data, random splits, twenty components and best reported iteration scores provide bounded empirical evidence. Finite checks verify fixed-size probabilities, a gradient, rotation invariance and missing-modality mixtures, not historical software, convergence or the reported benchmark.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined probabilistic model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The family supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GCA has the bipartite conditional-independence structure of an exponential-family harmonium, but its lognormal/Gaussian hidden law and heterogeneous categorical positions are not asserted identical to the underspecified pinned RBM class.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/ulda-kdd07.pdf" target="_blank" rel="noopener">Generalized Component Analysis for Text with Heterogeneous Attributes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuerui Wang, Chris Pal, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e0c6abaef231…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:49:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:49:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GeneralizedComponentAnalysis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GeneralizedComponentAnalysis.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

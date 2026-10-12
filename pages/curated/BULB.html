@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beam search using limited discrepancy backtracking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Beam search using limited discrepancy backtracking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Beam search using limited discrepancy backtracking</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BULB</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BULB, Limited discrepancy beam search
+    </div>
+
+  <div class="detail-desc">
+    A memory-bounded beam search that explores heuristic-ranked slices using increasing limited-discrepancy budgets and removes backtracked slices so that alternative beams can be examined.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      BULB denotes Furcy and Koenig’s Beam search Using Limited discrepancy Backtracking. A discrepancy selects a nonpreferred successor slice; it is not a numerical heuristic error or an action cost. The inspected algorithm is presented for unit-cost state-space search and seeks a path, not necessarily a shortest path. No normalized identity match was found across the 442 AIO and 130 prior native records; ignored-inclusive text hits in the main checkout were prior discovery leads, source citations and search-order contrasts, plus incidental lightbulb and wet-bulb dependency substrings, not existing concept records.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#search-procedure</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Keep one slice of up to the beam width at each active depth. Rank eligible successors by heuristic value and divide them into slices. A probe follows the preferred slice without spending discrepancy allowance and explores nonpreferred slices with a reduced allowance, removing slices from the active hash table on backtracking. Outer iterations increase the allowance; a full table causes the current probe to stop and backtrack.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Limited Discrepancy Beam Search</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3.3, PDF pp. 2–4; Figure 4 on PDF p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#memory-qualified-completeness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper qualifies completeness by the memory needed to retain a beam to a solution and describes the base method as approximate in solution length. Its conclusion discusses conversion to an anytime algorithm as an extension, not an automatic guarantee of the presented stopping rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-conditional-properties">Limited Discrepancy Beam Search</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, PDF p. 4; Conclusion, PDF p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#depth-label-inconsistency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Visual inspection identifies an apparent inconsistency between the recursive depth increment and the depth label assigned to generated successors. The next-level interpretation comes from the adjacent prose; no corrected reference implementation or author erratum was established by this review.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pseudocode-caveat">Limited Discrepancy Beam Search</a></span>
+        <span>· <strong>Locator:</strong> Figure 4, PDF p. 3: recursive depth increment and nextSlice depth assignment; Section 3.3 prose, PDF p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Completeness is conditional on enough memory to store a beam along a solution path. A fixed memory budget and arbitrary beam width do not guarantee solving every instance.</li>
+      <li>The method need not return a shortest path. An anytime extension is discussed separately from the base procedure.</li>
+      <li>The O(B*d) storage statement concerns retained slices along the active search; temporary successor generation, heuristic data and other implementation storage need separate accounting.</li>
+      <li>The active hash table prevents cycles involving retained states and some transpositions, but it is not a permanent global closed list of every state ever visited.</li>
+      <li>Figure 4 has an apparent depth-label inconsistency: nextSlice labels a successor with depth although the caller next probes depth+1. The prose describes a next-level slice. This record follows that described mechanism and does not certify the literal pseudocode as executable.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable AIO counterpart for this graph/state-space search procedure was identified in the inspected snapshot. Using graphs, evaluation functions or a search subroutine in an AI system does not equate the algorithm with a learned model, a learning task or a mathematical function.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels and scoped synonyms and 130 preceding native identities were compared. Both updated checkouts were searched including hidden and ignored files. Exact CLASS nodes and edges for GraphLanguageModel, ReasoningLLM, NeuroSymbolicLLM, MachineLearningTask, MathematicalFunction and ReinforcementLearning were inspected, alongside semantic search for search, planning, heuristic, path, traversal, symbolic, reasoning and graph terminology.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language model operating on structured graph representations is not a graph traversal or shortest-path algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Language-task deductive inference does not denote general state-space search.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuroSymbolicLLM.html"><code>AIO:NeuroSymbolicLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language-model architecture combining neural and symbolic components is not the search procedure itself.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Building methods that learn from data is not the identity of an algorithm traversing a specified graph.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The search procedure is distinct from the mathematical functions it may evaluate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A learning task balancing exploration and exploitation is distinct from deterministic graph/state-space traversal.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/Proceedings/05/Papers/0596.pdf" target="_blank" rel="noopener">Limited Discrepancy Beam Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Furcy, Sven Koenig
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:25fa7ecf4d94…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-conditional-properties">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">conditional-properties</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/Proceedings/05/Papers/0596.pdf" target="_blank" rel="noopener">Limited Discrepancy Beam Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Furcy, Sven Koenig
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:25fa7ecf4d94…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pseudocode-caveat">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pseudocode-caveat</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/Proceedings/05/Papers/0596.pdf" target="_blank" rel="noopener">Limited Discrepancy Beam Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Furcy, Sven Koenig
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:25fa7ecf4d94…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T06:01:43Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T06:01:43Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BULB.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BULB.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

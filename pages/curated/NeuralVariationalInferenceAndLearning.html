@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural variational inference and learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Neural variational inference and learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Neural variational inference and learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NeuralVariationalInferenceAndLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> NVIL
+    </div>
+
+  <div class="detail-desc">
+    A method for jointly training a directed latent-variable model and an amortized stochastic inference network by maximizing a variational log-likelihood bound, using score-function inference gradients with learned baselines and adaptive learning-signal normalization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is Mnih and Gregor’s NVIL method, not all variational inference, a particular trained belief network, the wake-sleep recognition update, or the reparameterization-gradient approach used in stochastic gradient variational Bayes. It uses a shared feedforward inference model across observations and does not require a separate optimized set of local variational parameters for every observation. Exact sampling refers to its chosen variational distribution, not automatically to the true posterior. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let P_theta(x,h) be the generative joint model and Q_phi(h|x) an inference-network distribution that can be sampled and evaluated efficiently. For each observed x, maximize the bound E_Q[log P_theta(x,h)-log Q_phi(h|x)]. Draw latent samples from Q. The raw model-gradient estimator averages d log P_theta(x,h)/d theta; the raw inference-gradient estimator averages the learning signal l=log P_theta(x,h)-log Q_phi(h|x) times d log Q_phi(h|x)/d phi. Its score expectation is zero, so baselines independent of the current latent sample conditional on x can be subtracted without changing the raw gradient expectation. The method fits an input-dependent neural baseline and maintains a scalar running center. It also divides the centered signal by max(1,sqrt(v)), where v is a running variance estimate, to adapt the update scale. In the supplement’s concrete minibatch ordering, subtract the input baseline, compute batch signal mean and variance, update the running center and variance using those batch statistics, then form centered/scaled inference updates and baseline updates; the model gradient remains unweighted by this signal. For layered factorizations, local learning signals omit terms that are independent of the relevant sampled descendants under the conditional score expectation, with separate baselines and variance estimates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Neural Variational Inference and Learning in Belief Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.3, Equations (1)–(12), PDF pp.2–4; Sections 3.3–3.4, pp.5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nvil-supplement">Neural Variational Inference and Learning in Belief Networks: Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Sections A–B, Algorithm 1 and inference-gradient derivation, PDF p.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#batch-ordering</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The supplementary algorithm first samples the minibatch and computes baseline-adjusted learning signals, then updates the running mean and variance from that same minibatch before using them to center and scale its inference gradients. This practical order is distinct from the main-text identity for a baseline independent of the sampled latent value.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nvil-supplement">Neural Variational Inference and Learning in Belief Networks: Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Section A, Algorithm 1, PDF p.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#objective-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inference network is trained from observations and its own latent samples toward the variational objective. The source contrasts this with wake-sleep’s recognition update from model-generated samples and with pathwise gradients for continuous-variable variational methods. These distinctions do not make NVIL synonymous with every use of REINFORCE.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Neural Variational Inference and Learning in Belief Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.4, PDF pp.4–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A sample from Q is exact for Q while posterior inference remains approximate unless Q matches the model posterior. The variational-family capacity and optimization outcome affect the gap to the marginal log likelihood.</li>
+      <li>Unbiasedness of the raw score estimator and subtraction of a conditionally sample-independent baseline do not automatically certify the final adaptive update. The supplement updates running statistics with the same minibatch before applying them, and normalization changes the update scale. Current-batch centering can introduce finite-sample bias; no blanket unbiasedness claim is made for that full practical procedure.</li>
+      <li>The input baseline is trained using a squared-signal objective, which the source explicitly distinguishes from maximum variance reduction that accounts for score magnitude. A learned baseline need not improve variance in every setting.</li>
+      <li>The method needs tractable sampling and evaluation of Q, evaluation of the joint P and differentiable log-probability parameters. It does not require differentiating the sampled discrete latent value, but support, zero probabilities and differentiation-under-expectation conditions still matter.</li>
+      <li>Local-signal simplifications require the stated conditional independences. Arbitrarily dropping latent-dependent log terms can change the expected gradient.</li>
+      <li>The variational bound and stochastic gradient formulation do not guarantee global optimization, exact posterior recovery or universally faster inference. Reported dataset comparisons and the complete author implementation are not certified here.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method is explicitly developed for directed latent-variable belief networks, using their joint probabilities in the learning objective. The pinned AIO node denotes a directed acyclic conditional-dependence model. This is a training-method-to-model related match, not equivalence or a claim that NVIL is itself a network architecture.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/mnih14.pdf" target="_blank" rel="noopener">Neural Variational Inference and Learning in Belief Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andriy Mnih, Karol Gregor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v32-mnih14</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ea6f1a19371d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nvil-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nvil-supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/mnih14-supp.pdf" target="_blank" rel="noopener">Neural Variational Inference and Learning in Belief Networks: Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andriy Mnih, Karol Gregor
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v32-mnih14-supp</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1b1f762f384f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:43:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:43:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NeuralVariationalInferenceAndLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NeuralVariationalInferenceAndLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

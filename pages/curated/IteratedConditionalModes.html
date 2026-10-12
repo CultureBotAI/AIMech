@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iterated conditional modes · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Iterated conditional modes</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Iterated conditional modes</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IteratedConditionalModes</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ICM
+    </div>
+
+  <div class="detail-desc">
+    A deterministic conditional-mode optimization algorithm that repeatedly updates one variable to a mode of its conditional distribution given the current values of the remaining variables, seeking a coordinatewise mode of a fixed joint distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      ICM is a label or state optimization procedure, not the hidden Markov random field it can optimize and not iterative conditional estimation of model parameters. It is a probability-based coordinate-ascent instance related to hill climbing; Gibbs sampling instead draws a conditional random value. The classical image implementation uses local Markov neighbors and site emissions, but the conditional-mode principle also applies when an observation affects several sites or when the posterior neighborhood is wider. Single-site ICM is the defining scope; joint block updates are a stated extension. The paper credits earlier work and does not establish a 1986 first-invention claim. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed observed y and model parameters theta, start at a configuration x with a defined positive posterior. In a sequential sweep, replace x_i by an element of argmax_u p(x_i=u | x_(-i),y,theta), using already updated values at earlier sites. Equivalently maximize the joint posterior with all other coordinates held fixed. For an MRF prior and independent local emissions the score is b_i(y_i|u)*p_i(u|x_neighbors); shared observation factors require every factor affected by the coordinate. Each exact update cannot decrease the fixed joint objective. On a finite configuration space, requiring strict improvement for a changed value, or retaining the current value on a tie, yields finite termination at a coordinatewise mode. This need not be a global joint MAP solution. Joint updates on conditionally independent coding sets can be parallelized; simultaneously updating interacting sites from stale neighbors has no such monotonicity guarantee. A block extension maximizes over a selected block given its complement.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">On the Statistical Analysis of Dirty Pictures</a></span>
+        <span>· <strong>Locator:</strong> Section 2.5, printed pp. 264–266 / PDF pp. 7–9, especially Equation (5); Section 2.6, pp. 266–267 / PDF pp. 9–10; Sections 4–5, pp. 273–279 / PDF pp. 16–22, conditional dependence and parameter estimation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#local-optimality-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ICM can remain at an initialization-dependent local mode and does not generally quantify uncertainty or guarantee the globally optimal segmentation; the source’s illustrative parameter settings are not universal prescriptions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-reply">Discussion of Professor Besag’s Paper: author’s reply</a></span>
+        <span>· <strong>Locator:</strong> Author’s reply, printed pp. 298–299 / PDF pp. 41–42</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Initialization and update order can change the resulting mode. A coordinatewise optimum can have lower posterior probability than another configuration. ICM does not provide posterior uncertainty or the sitewise marginal posterior mode merely by returning a joint labeling.</li>
+      <li>The monotonicity and finite-state termination statements require a fixed objective, valid exact conditionals and the stated tie policy. Arbitrary switching among tied states can cycle; continuous-valued coordinate ascent need not terminate in finitely many steps.</li>
+      <li>The source’s simultaneous image updates and its changing interaction parameter are practical variants, not a proof for fully synchronous updates or a changing posterior. Alternating estimated labels and fitted parameters, especially pseudolikelihood fitting, does not inherit exact EM monotonicity.</li>
+      <li>For independent site observations, the local emission factor is sufficient for a coordinate update. Correlated observations, blur, tomography and shared likelihood factors can enlarge the required conditional neighborhood. A product containing only the updated site’s emission would then generally be wrong.</li>
+      <li>Strong coupling and fine structures can produce initialization dependence and artifacts. The illustrative interaction strength 1.5 and a few reported sweeps are not universal defaults or convergence bounds. The author’s reply explicitly limits optimality and empirical claims.</li>
+      <li>The paper’s main image examples and discussion establish method context, not universal segmentation superiority. No author code, image benchmark or parameter fitting was reproduced. A separate finite probability witness tests update order, synchronous oscillation and tie behavior.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ICM performs conditional-mode inference in graphical probability models, including the inspected image MRF. The pinned ProbabilisticGraphicalModel class is a machine-learning task; a related mapping records this inference context without making the algorithm a model family or a subtype of the task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf" target="_blank" rel="noopener">On the Statistical Analysis of Dirty Pictures</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Julian Besag
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1111/j.2517-6161.1986.tb01412.x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d458396fd177…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-reply">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-reply</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www2.stat.duke.edu/homeweb/scs/Courses/Stat376/Papers/GibbsFieldEst/BesagDirtyPicsJRSSB1986.pdf" target="_blank" rel="noopener">Discussion of Professor Besag’s Paper: author’s reply</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Julian Besag
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1111/j.2517-6161.1986.tb01413.x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d458396fd177…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:41:53Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:43:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IteratedConditionalModes.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IteratedConditionalModes.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

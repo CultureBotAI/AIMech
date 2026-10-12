@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}AIMech · AI Ontology Grounding & Curated Claim Evidence{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>AIMech</h1>
+  <p class="lead">
+    A provenance-bearing computational grounding between the <strong>Artificial Intelligence Ontology (AIO)</strong> and inspected scientific literature. AIMech provides machine-readable definitions, explicit mathematical mechanisms, empirical scopes, and verified citations.
+  </p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">{{ total_concepts }}</div>
+      <div class="stat-label">Total AI Concepts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ curated_count }}</div>
+      <div class="stat-label">Curated Concepts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ aio_count }}</div>
+      <div class="stat-label">AIO Imported Classes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ total_claims }}</div>
+      <div class="stat-label">Curated Claims</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ total_sources }}</div>
+      <div class="stat-label">Evidence Citations</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-header">
+  <h2>Curated Concept Kinds</h2>
+  <a class="view-all" href="{{ root }}browse.html?origin=curated">View all {{ curated_count }} curated concepts →</a>
+</div>
+<div class="grid-3">
+  {% for k in kinds_meta %}
+  <a class="card" href="{{ root }}{{ k.page }}">
+    <div class="card-header">
+      <h3 class="card-title">{{ k.label }}</h3>
+      <span class="card-count">{{ k.count }}</span>
+    </div>
+    <div class="card-body">
+      {{ k.blurb }}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="section-header">
+  <h2>AIO Ontology Branches</h2>
+  <a class="view-all" href="{{ root }}browse.html?origin=aio">View all {{ aio_count }} ontology classes →</a>
+</div>
+<div class="grid-4">
+  {% for b in branches_meta %}
+  <a class="card" href="{{ root }}{{ b.page }}">
+    <div class="card-header">
+      <h3 class="card-title">{{ b.label }}</h3>
+      <span class="card-count">{{ b.count }}</span>
+    </div>
+    <div class="card-body">
+      {{ b.blurb }}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="section-header">
+  <h2>Featured Grounded Concepts</h2>
+  <a class="view-all" href="{{ root }}browse.html">Browse catalogue →</a>
+</div>
+<div class="grid-3">
+  {% for f in featured %}
+  <a class="card" href="{{ root }}{{ f.page }}">
+    <div class="card-header">
+      <h3 class="card-title" style="font-size: 1.1rem;">{{ f.name }}</h3>
+      <span class="badge badge-curated">{{ f.kind_label }}</span>
+    </div>
+    <div class="card-body">
+      <p style="margin: 0 0 0.75rem; line-height: 1.45;">{{ f.definition_preview }}</p>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <span class="badge badge-mechanism">{{ f.claims_count }} claim{% if f.claims_count != 1 %}s{% endif %}</span>
+        <span class="badge badge-aio">{{ f.sources_count }} source{% if f.sources_count != 1 %}s{% endif %}</span>
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="section-header">
+  <h2>Evidence Governance & Epistemic Boundaries</h2>
+</div>
+<div class="callout" style="background: var(--card); border-left: 4px solid var(--accent); padding: 1.5rem;">
+  <h3 style="margin-top: 0; font-size: 1.15rem; color: var(--ink);">Strict Curation Contract</h3>
+  <p style="margin-bottom: 0.75rem; color: var(--meta); line-height: 1.6;">
+    Ontology membership does not establish algorithmic superiority, universal convergence, benchmark victory, safety, or real-world efficacy without inspected experimental bounds:
+  </p>
+  <ul style="margin: 0; padding-left: 1.25rem; color: var(--meta); line-height: 1.6;">
+    <li><strong>Primary Sources:</strong> Every curated claim is anchored to peer-reviewed primary papers, author technical reports, or official implementation documentation with explicit page/section locators.</li>
+    <li><strong>Negative & Boundary Claims:</strong> Curation records document non-convergence proofs, counterexamples, computational complexities, and domain limitations alongside positive mechanisms.</li>
+    <li><strong>Pinned Provenance:</strong> AIO classes track exact upstream git commit hashes, source release snapshots, and cryptographic checksums for transparent reproducible alignment.</li>
+  </ul>
+</div>
+{% endblock %}

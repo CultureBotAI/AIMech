@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triplet Markov field · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Triplet Markov field</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Triplet Markov field</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:TripletMarkovField</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TMF
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable spatial-model family that introduces an auxiliary field so the complete hidden, auxiliary and observed triplet has a normalized Gibbs factorization on a specified neighborhood graph, while its hidden–observed projection need not remain Markov on that graph.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The inspected construction uses finite target labels X_s and auxiliary states U_s with observed Y_s, and imposes spatial Markov structure on T_s=(X_s,U_s,Y_s). Triplet refers to three processes at each site, not three-site clique size. A pair field embeds through a constant or redundant auxiliary coordinate; general triplet fields can have projections outside that pair-field family. This is distinct from a triplet Markov chain, a neural hidden layer or an emitted-symbol memory mechanism. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 391 preceding native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, yielding 9 and 9 matched lines; all 7 unique contents were read. Hits are prior leads and references, not records of the proposed identities. All 89 semantic label/synonym hits and 21 fully annotated exact AIO CLASS nodes with outgoing edges were read. Twenty-two contextual YAMLs were byte-verified after prior full reading and five freshly read, totaling 21 generated and six native contextual records. Short acronym identities were compared across the complete normalized inventory. Absence is bounded to the pinned source, maintained collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose clique energies over T=(X,U,Y) on a finite neighborhood graph and normalize p(x,u,y) proportional to exp(-sum_c phi_c(x_c,u_c,y_c)). At observed y, the augmented hidden field V_s=(X_s,U_s) has a Gibbs posterior on that graph, even when the marginalized target posterior p(x|y) does not. Sample or otherwise infer that augmented posterior, then sum p(X_s=x,U_s=u|y) over u at fixed x to obtain the target-site posterior; its maximizer is the sitewise marginal-posterior-mode estimate. The paper illustrates a Markov auxiliary field with local conditionally independent X and Y, and experiments with a more restricted Markov V field and independent Gaussian site observations. Neither p(x,u) nor p(x,y) is required to be Markov in the general joint-triplet definition. The proposed parameter-estimation use of ICE averages a chosen complete-data estimator under the current augmented posterior, exactly when that expectation is available or approximately from posterior samples.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Statistical image segmentation using Triplet Markov fields</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3.1, PDF pp.2–4, Equations(2.1)–(3.3), Example 3.1 and Remark 3.1; Sections 3.2 and 4.1–4.2, PDF pp.4–8, Equation(3.4), ICE steps and Remark 4.1; conclusion PDF p.9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The augmented joint law must be normalizable and the observed evidence positive. A finite-site Gibbs factorization does not itself make marginal likelihoods, posterior probabilities or sampling computationally easy.</li>
+      <li>Marginalizing U can induce additional interactions; an implementation cannot assume p(X|Y) retains the original local graph. Maximizing over U before choosing X can disagree with summing over U, and sitewise marginal decoding differs from global configuration MAP.</li>
+      <li>The experiments restrict the (X,U) prior to a Potts-style field and use sitewise Gaussian observations. Those restrictions are examples, not defining requirements of every triplet field. Non-Gaussian and broader graphical extensions in the conclusion are follow-up work.</li>
+      <li>ICE is conditional expectation of a complete-data estimator, whereas EM optimizes an expected complete log likelihood. The interchange needed to identify them is not automatic; likelihood monotonicity and global convergence are not guaranteed merely by the ICE name. Gibbs/Metropolis feasibility does not establish exact independent finite samples.</li>
+      <li>The least-squares spatial estimator used in the example is referenced rather than fully derived here. Empty empirical classes, constrained parameter values, initialization and sampling convergence need explicit handling in an implementation.</li>
+      <li>The synthetic examples and one radar-image grouping compare particular fitted or chosen baselines. They do not establish the paper’s broad suggestion of universal superiority, and no numerical performance claim or author-code reproduction is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The triplet construction represents conditional dependencies through an undirected graph over augmented states. AIO types ProbabilisticGraphicalModel as a machine-learning task; related_match preserves that abstraction-level distinction instead of asserting this model as a subtype of a task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www-public.imtbs-tsp.eu/~pieczyn/C50.pdf" target="_blank" rel="noopener">Statistical image segmentation using Triplet Markov fields</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wojciech Pieczynski, Dalila Benboudjema, Pierre Lanchantin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:144192c695d9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:03:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:03:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TripletMarkovField.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TripletMarkovField.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

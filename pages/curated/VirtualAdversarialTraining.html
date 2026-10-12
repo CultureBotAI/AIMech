@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual adversarial training · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Virtual adversarial training</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Virtual adversarial training</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:VirtualAdversarialTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> VAT
+    </div>
+
+  <div class="detail-desc">
+    A prediction-smoothing regularization procedure that trains a model to preserve its current output distribution under approximately worst-case small input perturbations, constructing those perturbations without using target labels.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      VAT denotes the Miyato et al. procedure described in the 2018 manuscript revision. The virtual target is the model’s current prediction. Label-free perturbation construction does not mean the complete supervised or semi-supervised training objective has no labels. VAT is a component of IMSAT but is not that information-maximization framework or a generative adversarial network. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout lines: existing component discussions and discovery/review references, plus unrelated ignored dependency text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms and eleven exact AIO candidate nodes with direct parent edges were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed parameter snapshot theta_hat, approximately maximize D(p_theta_hat(y|x)||p_theta_hat(y|x+r)) over ||r||_2&lt;=epsilon; the reported classifier implementation uses KL divergence. At r=0 the smooth KL objective has zero value and first derivative. Its local quadratic approximation gives a dominant-Hessian-eigenvector direction. Approximate that direction by initializing a random unit vector, taking the gradient with respect to r at a small displacement xi*d, normalizing it, and optionally repeating this power-iteration approximation. Scale the resulting direction by epsilon. For a model update, hold both the teacher prediction and the selected perturbation fixed while minimizing D(p_theta_hat(y|x)||p_theta(y|x+r_vadv)). Average this regularizer over available inputs to obtain R_VAT, and minimize supervised negative log likelihood plus alpha times R_VAT. The general formulation can use labeled and unlabeled inputs; the inspected semi-supervised driver applies its VAT branch to the unlabeled-input tensor. The pinned code defaults to one iteration, detaches the teacher and perturbation construction, and computes KL from softmax probabilities and stable log-softmax values. Its vatent branch separately adds conditional entropy minimization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2–3.4, PDF pp. 4–6, especially Equation (8) and Algorithm 1; Section 4, p. 7, Equation (17) and implementation setup</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">takerum/vat_tf author implementation: vat.py</a></span>
+        <span>· <strong>Locator:</strong> Lines 1–72: numerical normalization, finite-difference power iteration, detached teacher and VAT loss</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">takerum/vat_tf author implementation: train_semisup.py</a></span>
+        <span>· <strong>Locator:</strong> Lines 45–75: labeled NLL, unlabeled VAT branch, optional entropy term and optimizer setup</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-3">takerum/vat_tf author implementation: layers.py</a></span>
+        <span>· <strong>Locator:</strong> Lines 130–149: stable log-softmax, KL divergence and conditional entropy</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The Hessian direction relies on a local quadratic approximation and finite-difference power iteration. One iteration does not solve the exact finite-radius maximization and provides no certified adversarial robustness.</li>
+      <li>The perturbation radius, norm, input representation and regularization weight affect which prediction changes are penalized. Semantic label preservation is not guaranteed for arbitrary perturbations.</li>
+      <li>A constant classifier can have zero consistency loss; VAT alone does not identify meaningful classes. The task loss or other learning signals remain material.</li>
+      <li>The author code uses epsilon-stabilized vector normalization, so its returned vector need not have exactly the ideal radius. Batch-normalization handling and finite arithmetic also belong to implementation scope.</li>
+      <li>Three source files were inspected at the declared ranges without execution. The earlier 2015 precursor was identified but its full methods were not compared; no historical-version equivalence or benchmark reproduction is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> The inspected AIO candidates describe layers, LLM-specific tasks or generative adversarial architectures rather than label-free worst-case prediction smoothing. A shared regularization or adversarial word does not provide a sufficiently scoped mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 CLASS labels and scoped synonyms in pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a and all 203 preceding native IDs/names/aliases were compared. Ignored-inclusive searches covered both full checkouts. Exact candidate AIO nodes, definitions, scoped synonyms and direct parents were inspected; this no-match assessment is bounded to this snapshot and the stated semantic neighborhood.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RegularizationLayer.html"><code>AIO:RegularizationLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A layer applying parameter/activity penalties is not this whole-model input-perturbation training procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ActivityRegularizationLayer.html"><code>AIO:ActivityRegularizationLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Output activity penalties do not specify distributional consistency under a virtual adversarial input.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SemiSupervisedLLM.html"><code>AIO:SemiSupervisedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The class describes an LLM-specific learning arrangement; VAT is a general prediction regularizer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GenerativeAdversarialNetwork.html"><code>AIO:GenerativeAdversarialNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Competing generator/discriminator training is not VAT’s local input-perturbation procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GenerativeAdversarialNetworkAugmentedLLM.html"><code>AIO:GenerativeAdversarialNetworkAugmentedLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Its related adversarial-training synonym is attached to an LLM-specific generative-adversarial class and does not establish VAT identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html"><code>AIO:SelfsupervisedLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The class describes self-supervised prediction tasks. VAT by itself specifies a consistency penalty, not a missing-input prediction task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1704.03976v2" target="_blank" rel="noopener">Virtual Adversarial Training: A Regularization Method for Supervised and Semi-Supervised Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Takeru Miyato, Shin-ichi Maeda, Masanori Koyama, Shin Ishii
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1704.03976v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e1ccc4b18f17…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/vat.py" target="_blank" rel="noopener">takerum/vat_tf author implementation: vat.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            takerum/vat_tf contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/vat.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2d7e42b5afcf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/train_semisup.py" target="_blank" rel="noopener">takerum/vat_tf author implementation: train_semisup.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            takerum/vat_tf contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/train_semisup.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9936e7353823…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/takerum/vat_tf/c5125d267531ce0f10b2238cf95604d287de63c8/layers.py" target="_blank" rel="noopener">takerum/vat_tf author implementation: layers.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            takerum/vat_tf contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/takerum/vat_tf/blob/c5125d267531ce0f10b2238cf95604d287de63c8/layers.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a2fde9dadc19…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:44:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:45:56Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/VirtualAdversarialTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/VirtualAdversarialTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

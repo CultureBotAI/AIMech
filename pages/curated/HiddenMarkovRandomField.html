@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hidden Markov random field · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Hidden Markov random field</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hidden Markov random field</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:HiddenMarkovRandomField</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HMRF, Hidden Markov field
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable graphical-model family whose unobserved label field has the Markov property on a specified neighborhood graph, with observations conditionally independent across sites given the labels and each depending only on its corresponding hidden state.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The classical independent-emission construction specifies a hidden label field X and observed field Y, rather than only a generic MRF. It is a restricted hidden–observed pair Markov field: its hidden prior must retain the stated graph and its conditional observation law factors by site. A chain-shaped hidden graph recovers an ordinary HMM, but general spatial graphs are not subtypes of sequential Markov chains. A Gaussian observation distribution does not make the discrete hidden label field a continuous Gaussian random field. This model identity is separate from Gibbs sampling, ICM, EM and the paper’s HMRF-EM fitting framework. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 394 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 64 and 64 matched lines; all 44 unique contents were read. Hits represent neighboring records, citations and discovery leads rather than records of these identities. All 97 semantic label/synonym hits were read. Twenty-one fully annotated exact CLASS nodes and outgoing edges were verified identical to the preceding inspection, and three additional nodes were read. Twenty-eight contextual YAMLs were byte-verified after prior full reading and four freshly read, totaling 24 generated and eight native contextual records. Short acronyms were included in the complete normalized identity comparison. The absence assessment is bounded to the pin, native collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On a finite graph, choose a proper hidden prior p(x)=Z^(-1)*exp(-sum_c V_c(x_c)) and normalized site emission laws b_i(y_i|x_i). Their joint law is p(x,y)=p(x)*product_i b_i(y_i|x_i). At fixed observed y with positive evidence, p(x|y) is proportional to the same clique prior times the local emission factors. Its negative log density is the prior energy plus sum_i[-log b_i(y_i|x_i)] up to a constant, preserving the hidden neighborhood graph. A local conditional label update conditions on neighboring hidden labels and the local observation. A site posterior marginal instead sums over all other labels given the complete observation field. With independent hidden labels and common class weights the model reduces to independent finite-mixture observations. MAP estimates a joint labeling. In loopy graphs these inference objectives need not admit the exact noniterative recursions available for a tree.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Hidden Markov Random Field Model and Segmentation of Brain MR Images</a></span>
+        <span>· <strong>Locator:</strong> Sections2.2–2.3, PDF/printed pp.4–6, Equations(5)–(10); Sections4–5, pp.7–9, Equations(14)–(28); Sections7–9, pp.12–16, especially Figure5 and approximation/initialization discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The finite-state Gibbs prior needs a finite positive partition function, and emissions must be normalized with valid support. Gaussian emissions require positive variance. Conditional independence is a modeling restriction, not a demonstrated property of every image or downsampled observation.</li>
+      <li>The report’s Equation(2) gives independence across paired sites for its finite-mixture setup; applying that product to an interacting HMRF would discard the defining label dependencies. The later Equation(8) and Section2.3 joint factorization specify the supported HMRF model.</li>
+      <li>The expanded Gaussian likelihood on PDF p.8 contains a quadratic-sign inconsistency. Equation(18) gives the consistent negative log-emission energy. Figure5 step4 adds likelihood and prior although MAP requires their product, or a sum of log terms as in Equation(14). These printed algorithm displays are not certified implementations.</li>
+      <li>The report’s fitted HMRF-EM uses ICM-estimated neighboring labels in local responsibilities. Those plug-in responsibilities generally differ from exact full-field posterior marginals. Ideal EM monotonicity and exact global MAP are not guaranteed for this approximation. ICM can stop at a local optimum; initialization, empty classes and vanishing Gaussian variances require care.</li>
+      <li>The bias-field correction framework adds assumptions and alternating updates beyond the generic model. A positive multiplicative bias before logarithms and an additive log-bias must be distinguished. No clinical validity, universal segmentation advantage, runtime guarantee or author-code reproduction is asserted.</li>
+      <li>The inspected source is the 20-page FMRIB technical report TR00YZ1, not the later 2001 journal article. Its self-description as novel does not establish first invention; earlier hidden-field literature and the existing pair-field record supply historical context.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The hidden field and site emissions define a graphical probability model. The pinned ProbabilisticGraphicalModel class is defined and parented as a machine-learning task; a related mapping retains the graphical-model relationship without making a model family a subtype of that task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.fmrib.ox.ac.uk/datasets/techrep/tr00yz1/tr00yz1.pdf" target="_blank" rel="noopener">Hidden Markov Random Field Model and Segmentation of Brain MR Images</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yongyue Zhang, Stephen Smith, Michael Brady
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b88c2018ec00…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:20:23Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:21:07Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HiddenMarkovRandomField.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HiddenMarkovRandomField.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

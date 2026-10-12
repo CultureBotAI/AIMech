@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HashCRBM · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>HashCRBM</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HashCRBM</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HashCRBM</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A conditional RBM training and prediction method that uses spectral hashing of inputs to retrieve distinct training-output configurations and normalizes the conditional model only over that input-dependent support.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the HashCRBM method of Mnih, Larochelle and Hinton. It combines a fixed learned input hash with restricted-support conditional energy modeling; neither a generic conditional RBM nor spectral hashing alone defines the method. Retrieval supplies possible output configurations, while learned free energies determine their conditional weights. It is not ordinary k-nearest-neighbor voting or a categorical feature hashing layer. The source allows analogous restricted-support learning for other computable energy models; this record describes its named conditional-RBM construction. All 442 pinned AIO labels/scoped synonyms and 367 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 37 lines each. All 27 unique matched contents were read: conditional-RBM source references, contrasting method descriptions, pending leads and saved review context, rather than existing candidate identities. All 45 semantic label/synonym hits and 23 exact annotated AIO nodes were inspected, alongside corresponding generated records and three complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    From paired training examples (u,v), learn spectral binary codes for the inputs u and store their associated output vectors v under the code keys. For a query input, the paper retrieves its code bucket and every bucket at Hamming distance one: n+1 bucket accesses for an n-bit code. Union the returned output configurations and remove duplicates to obtain V(u). For nonempty V(u), define p(v|u)=1[v in V(u)] exp(-F(v,u))/sum_(z in V(u)) exp(-F(z,u)), where F is the conditional RBM free energy after summing its hidden units. Fit the conditional energy parameters by exact gradients of this restricted-model negative log likelihood; for a training target in V(u), the gradient is grad F(v,u) minus the restricted-model expectation of grad F(z,u). The hash map and support are fixed during this differentiation. Joint-mode prediction selects the lowest-free-energy retrieved configuration. Alternatively, compute each output-bit marginal by summing the restricted probabilities and choose its mode, which minimizes additive bit-error risk and can produce a vector outside V(u).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1, Equations (14)–(16), spectral-hash retrieval and Training and Inference, PDF p.5; marginal-mode example and loss discussion, p.6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hash-component">Spectral Hashing</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.2 and algorithm summary, printed/PDF pp.4–6; PCA/rectangle construction and zero-thresholded single-axis modes</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exact normalization and gradients refer to the deliberately restricted conditional model, not the original full-output-space CRBM. Outputs outside V(u) have zero joint probability, and a joint-mode predictor cannot return them.</li>
+      <li>Coordinate-wise marginal decisions can lie outside the joint support; this is a loss-dependent prediction decision, not positive model probability for the assembled vector or evidence of factorized output variables.</li>
+      <li>The retrieved set must be nonempty. The displayed formula supplies no distribution for an empty test-time set; any fallback needs an explicit additional convention. Finite training likelihood also requires the observed target in the support, as occurs when its own stored input is retrieved.</li>
+      <li>Repeated output configurations across buckets must be deduplicated. Counting occurrences instead changes the base weighting and therefore the distribution and gradients. The n+1 lookup count does not bound the number of retrieved outputs or make their scoring cost constant.</li>
+      <li>The input code uses a rectangular spectral-hashing approximation; retrieval can omit useful outputs, and coverage assumptions suit limited output variability. A larger Hamming ball is a separate cost/coverage choice. No universal prediction quality, convergence or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a learning and prediction procedure developed for conditional RBM free energies. The AIO target names the model component/family, not this procedure; the association is related rather than an algorithm-is-model subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/uai_crbms.pdf" target="_blank" rel="noopener">Conditional Restricted Boltzmann Machines for Structured Output Prediction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Volodymyr Mnih, Hugo Larochelle, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1202.3748</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e7811677aa0f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-hash-component">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hash-component</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2008/file/d58072be2820e8682c0a27c0518e805e-Paper.pdf" target="_blank" rel="noopener">Spectral Hashing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yair Weiss, Antonio Torralba, Rob Fergus
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2008/hash/d58072be2820e8682c0a27c0518e805e-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3ad2470d89ee…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:05:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:05:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HashCRBM.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HashCRBM.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

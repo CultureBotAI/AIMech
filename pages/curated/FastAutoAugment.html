@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast AutoAugment · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fast AutoAugment</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fast AutoAugment</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FastAutoAugment</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FAA
+    </div>
+
+  <div class="detail-desc">
+    An augmentation-policy search procedure that evaluates candidate transformations on held-out training examples using a fixed classifier trained on another split, combines high-scoring policies across splits and uses them for final classifier training.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Fast AutoAugment is a policy-search algorithm, distinct from AutoAugment’s controller rewards after child-model training, PBA’s evolving schedules, CTAugment’s online parameter feedback and the separately named Faster AutoAugment. It is not a single transform, density estimator or trained checkpoint. Paper and pinned implementation conventions are represented separately. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 247 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 6 lines in the worktree and 6 in main. These were prior candidate leads, not concept records. Twelve exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Form repeated stratified train/exploration splits. Train a classifier on each model-training split, then hold its weights fixed while exploring augmentation policies on that split’s held-out labeled examples. A subpolicy composes image operations with individual application probabilities and magnitudes; the published search uses continuous probability and normalized magnitude values in [0,1]. Use Bayesian hyperparameter optimization, implemented with a tree-structured Parzen estimator, to propose policies according to their predictive scores. The paper frames the goal as maximizing augmented-split accuracy and states that its practical objective minimizes categorical cross-entropy. Select top policies from each search stage and split, merge their subpolicies, and train the final classifier on the full training data with the selected augmentation. The published configuration uses two operations per subpolicy and five subpolicies per candidate policy, but these are protocol choices. The method uses classifier predictions as a proxy for matching distributions; it does not directly compute a distributional divergence. Its essential efficiency distinction is reuse of fixed model weights during candidate scoring, while initial and final classifier training are still required.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Fast AutoAugment</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (1)–(4), Figure 2 and Algorithm 1, PDF pp. 3–6; Section 4 setup on p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#implementation-profile</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned search.py evaluates a saved model in evaluation mode on multiple stochastic augmented views of held-out examples. For non-singleton validation batches, its default top1_valid reward is the mean indicator that any view of each example is classified correctly. Its logged minus_loss has a different reduction: each unreduced cross-entropy array has shape(batch,), concatenation flattens views and examples into one vector, and min(axis=0) yields one minimum for the whole batch. The Accumulator sums the negatives of those batch-wide scalar minima and divides by the total example count. This is neither ordinary mean cross-entropy nor a mean of per-example best-view losses. Search and selection use top1_valid by default, not this logged loss. data.py samples a subpolicy for each image and keeps baseline training transforms for these held-out views. The active augment_list(False) contains 15 operations, with SamplePairing commented out, while the paper lists 16. The inspected search loop performs one repetition per split rather than the paper’s reported two. These are version-specific conventions, not silently combined definitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-faa-search">Fast AutoAugment author code — policy evaluation and search</a></span>
+        <span>· <strong>Locator:</strong> FastAutoAugment/search.py lines70–134 and214–271: fixed-weight evaluation, repeated-view reductions, reward selection and final training</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-faa-data">Fast AutoAugment author code — data splits and stochastic policies</a></span>
+        <span>· <strong>Locator:</strong> FastAutoAugment/data.py lines37–120,192–225 and253–264: baseline transforms, stratified splits and stochastic subpolicy sampling</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-faa-augmentations">Fast AutoAugment author code — operation inventory</a></span>
+        <span>· <strong>Locator:</strong> FastAutoAugment/augmentations.py lines156–194: active operation list and magnitude scaling</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Fast AutoAugment</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (1)–(4), Figure 2 and Algorithm 1, PDF pp. 3–6; Section 4 setup on p. 6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-faa-metrics">Fast AutoAugment author code — metric accumulation and normalization</a></span>
+        <span>· <strong>Locator:</strong> FastAutoAugment/metrics.py lines49–85: additive accumulation and division by the named count metric</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>High predictive scores on augmented held-out examples do not prove label preservation, equality of data distributions, global optimality or improved final generalization.</li>
+      <li>Section3.2.1 describes split-model training without augmentation, whereas Section3.3 specifies default augmentation rules. The pinned data loader retains baseline crop/flip transformations; the record does not assert an absence of all augmentation.</li>
+      <li>The paper’s Equation4 prints expected min(loss−threshold,0), a nonpositive quantity. It should not be silently identified with the usual nonnegative improvement or assigned an unstated maximization direction. The method-level record identifies TPE search without asserting an author-issued correction.</li>
+      <li>Paper and code differ in scoring, active operation count and search repetitions. No claim that the inspected code exactly reproduces the paper experiment or that any-view correctness is deployable test accuracy is made.</li>
+      <li>Search settings, baseline transforms, proxy/full-data choices and policy transfer depend on the task. No speedup, benchmark outcome or author-code execution is claimed.</li>
+      <li>The inspected evaluator squeezes correctness arrays before taking their length; this code-profile description is scoped to non-singleton validation batches and does not assert successful execution for every batch size. The logged loss also depends on batch grouping, unlike an ordinary mean of per-example losses.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataAugmentation.html" style="font-weight: 600;"><code>AIO:DataAugmentation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Augmentation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns transformations or synthetic examples for training. The AIO target denotes augmentation in the preprocessing branch; the local procedure includes policy learning and model training, so the association is related rather than equivalent or an asserted subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.neurips.cc/paper_files/paper/2019/file/6add07cf50424b14fdf649da87843d01-Paper.pdf" target="_blank" rel="noopener">Fast AutoAugment</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sungbin Lim, Ildoo Kim, Taesup Kim, Chiheon Kim, Sungwoong Kim
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9c7e1cb35352…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-faa-search">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">faa-search</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/search.py" target="_blank" rel="noopener">Fast AutoAugment author code — policy evaluation and search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            kakaobrain/fast-autoaugment contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:adc734216013…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-faa-data">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">faa-data</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/data.py" target="_blank" rel="noopener">Fast AutoAugment author code — data splits and stochastic policies</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            kakaobrain/fast-autoaugment contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:beabc7d6665b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-faa-augmentations">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">faa-augmentations</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/augmentations.py" target="_blank" rel="noopener">Fast AutoAugment author code — operation inventory</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            kakaobrain/fast-autoaugment contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:835e2f3f641c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-faa-metrics">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">faa-metrics</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/kakaobrain/fast-autoaugment/blob/2424224291616a2158a2265069ee95a78a2d13d9/FastAutoAugment/metrics.py" target="_blank" rel="noopener">Fast AutoAugment author code — metric accumulation and normalization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            kakaobrain/fast-autoaugment contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e719b40f593b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T10:55:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T10:58:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastAutoAugment.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastAutoAugment.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

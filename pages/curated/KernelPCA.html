@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kernel Principal Component Analysis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Kernel Principal Component Analysis</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Kernel Principal Component Analysis</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KernelPCA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Kernel PCA, KPCA
+    </div>
+
+  <div class="detail-desc">
+    A spectral feature-extraction algorithm that performs principal component analysis on centered implicit feature vectors by eigendecomposing a positive-semidefinite kernel Gram matrix and evaluating new-point coordinates through kernel expansions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The Schölkopf-Smola-Müller kernel eigenvalue construction generalizes ordinary PCA to a kernel-defined feature space. It includes linear PCA as a special case but is not the identity of ordinary input-space PCA, an SVM classifier, a dot-product KernelLayer, Isomap, LLE or Diffusion Maps. A trained embedding, chosen kernel and preimage approximation are not separate aliases for the algorithm. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 454 preceding native IDs, names and aliases, with no normalized match. Searches of both complete checkouts included ignored and hidden files and returned the same 176 matched-line set across 81 paths. All matching excerpts were read and distinguished from existing concept records; historical ledgers were not reread in full solely because they contained a match. All 213 semantic-search rows were read, including 212 unchanged prior rows and the additional KernelLayer row. Twenty-one annotated AIO nodes with outgoing edges were inspected: 19 unchanged prior readings and two new readings. Thirty-one contextual YAMLs, including ten native neighbors, comprise 23 unchanged prior readings and eight complete readings in this round. This identity assessment is bounded to the pinned snapshot and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#centered-kernel-eigenproblem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For M training points and a positive-semidefinite kernel k, form K_ij=k(x_i,x_j) and Kc=H K H with H=I-11^T/M. If Kc v=kappa v, ||v||=1 and kappa&gt;0, coefficients alpha=v/sqrt(kappa) define a unit feature-space principal axis. The corresponding empirical covariance eigenvalue is kappa/M. Centered rank is at most M-1. Zero Gram eigenvalues do not define additional nonzero covariance directions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Nonlinear Component Analysis as a Kernel Eigenvalue Problem</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations 2.7-2.15, printed pp. 1301-1302 / PDF pp. 3-4; Appendices A-B, pp. 1315-1317 / PDF pp. 17-19; curator explicit distinction of Gram and covariance eigenvalues</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#new-point-projection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a new x, center its similarity to each training point using the same training feature mean: kc_i(x)=k(x_i,x)-M^(-1)sum_j k(x_j,x)-M^(-1)sum_j K_ij+M^(-2)sum_jl K_jl. Its component coordinate is sum_i alpha_i kc_i(x). Centering input coordinates before a nonlinear kernel does not generally center the feature vectors; centering each test batch independently changes the learned projection.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Nonlinear Component Analysis as a Kernel Eigenvalue Problem</a></span>
+        <span>· <strong>Locator:</strong> Equation 4.1, printed p. 1305 / PDF p. 7; Appendix B, Equations B.1-B.4 and test-kernel formula, pp. 1316-1317 / PDF pp. 18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#feature-space-optimality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With a fixed valid kernel, leading components maximize retained empirical variance and minimize rank-constrained squared reconstruction error in the centered feature space. Their sample coordinates are uncorrelated, not necessarily statistically independent. They can outnumber input dimensions. A linear kernel recovers ordinary PCA with consistent centering. Truncated feature reconstructions or principal directions need not have an exact input-space preimage, so reconstructing original inputs is a separate problem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Nonlinear Component Analysis as a Kernel Eigenvalue Problem</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2-4.5, Figures 1-2 and Equation 4.2, printed pp. 1305-1309 / PDF pp. 7-11; Section 6.3.5, pp. 1314-1315 / PDF pp. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kernel-validity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The feature-space covariance interpretation requires a positive-semidefinite kernel. The paper lists sigmoid similarities, but arbitrary tanh parameters do not meet that requirement: a curator two-point example k(x,y)=tanh(x*y), x in {1,2}, gives a negative Gram determinant and a negative eigenvalue even after centering. Keeping selected positive eigenpairs of an indefinite similarity does not establish that the original similarity is a Hilbert-space inner product.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Nonlinear Component Analysis as a Kernel Eigenvalue Problem</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equation 3.7, printed p. 1304 / PDF p. 6; Appendix C, Equations C.1-C.3, p. 1317 / PDF p. 19; curator finite PSD counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Kernel and hyperparameter selection remain modeling decisions. An eigensolution for a fixed kernel does not solve all kernel-selection or preimage optimization problems.</li>
+      <li>The exact Gram construction requires storage quadratic in training sample count; partial eigensolvers, subsets and reduced-set projections are additional approximation choices. Implicit features avoid explicit feature-dimension costs, not all sample-size costs.</li>
+      <li>Eigenvector signs and bases within degenerate eigenspaces are nonunique. Variance and reconstruction guarantees concern the chosen feature space, not causal factors, independence, universal input reconstruction or classification accuracy.</li>
+      <li>All 21 source pages were inspected. Finite calculations verify centering, eigenvalue scaling, projection and PSD boundaries; the historical USPS classifier experiments and author implementation were not reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Kernel PCA uses ordinary PCA in an implicit centered feature space and recovers it for a linear kernel. The pinned task-hierarchy PCA record is related to this particular kernel algorithm; the mapping asserts neither exact identity nor a forced algorithm/task subclass relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://alex.smola.org/papers/1998/SchSmoMul98.pdf" target="_blank" rel="noopener">Nonlinear Component Analysis as a Kernel Eigenvalue Problem</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernhard Schölkopf, Alexander Smola, Klaus-Robert Müller
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://alex.smola.org/papers/1998/SchSmoMul98.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac778f1c3740…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:05:59Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:05:59Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KernelPCA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KernelPCA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

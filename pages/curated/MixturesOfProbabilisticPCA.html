@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixtures of Probabilistic Principal Component Analyzers · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Mixtures of Probabilistic Principal Component Analyzers</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mixtures of Probabilistic Principal Component Analyzers</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:MixturesOfProbabilisticPCA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Mixtures of Probabilistic PCA, MPPCA, Mixtures of Probabilistic Principal Component Analysers
+    </div>
+
+  <div class="detail-desc">
+    A finite Gaussian mixture whose components each have a linear standard-normal latent factor and component-specific isotropic observation noise, giving covariance W_i W_i^T+sigma_i^2 I and probabilistic assignments to local principal-component models.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The normalized mixture distribution is distinct from a single PPCA model, reconstruction-error-only local PCA, a diagonal-noise mixture of factor analyzers, GTM, and predictive mixtures of experts. The model family and its EM or eigendecomposition fitting variants share this record. Mixture components need not share a meaningful latent coordinate system. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mixture-density-and-posterior</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonnegative weights summing to one, p(t)=sum_i pi_i Normal(t;mu_i,C_i), with C_i=W_i W_i^T+sigma_i^2 I and positive component noise variance. Sampling selects a component before drawing its latent factor and observation. Its posterior responsibility is pi_i p(t|i)/p(t); conditional on that component, the latent posterior is Gaussian with mean M_i^(-1)W_i^T(t-mu_i) and covariance sigma_i^2 M_i^(-1), where M_i=W_i^T W_i+sigma_i^2 I. Permuting component labels or rotating a component latent basis leaves the observation distribution unchanged.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixtures of Probabilistic Principal Component Analysers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equations 3-9, p. 5; Section 4, Equations 19-21, p. 9; Appendix A.6, p. 27; Appendix C, Equations 69-72, p. 28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#weighted-local-fitting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With component assignments as missing data, EM computes responsibilities from the old mixture, updates each weight by its responsibility mass divided by sample count, and updates the mean by the weighted data mean. It forms a responsibility-weighted covariance around that new mean. A PPCA eigensolution supplies each covariance update when its rank and residual-variance conditions hold. Alternatively, the paper gives a two-stage generalized EM update using one inner latent-variable EM step, with the new mean, old loading/noise parameters and fixed outer responsibilities. This differs from simultaneously substituting new parameters into every posterior calculation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixtures of Probabilistic Principal Component Analysers</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations 21-24, p. 9; Appendix C, coupled Equations 75-78 and two-stage Equations 79-84, pp. 29-30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#assignment-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Responsibilities depend on the mixing weight, covariance determinant, in-subspace Mahalanobis distance and noise-scaled orthogonal residual. They need not select the component with the smallest orthogonal reconstruction error. Thus likelihood fitting supplies a density and soft partition, not a guarantee of minimum reconstruction error or a unique global manifold parameterization. Posterior latent means retain PPCA shrinkage within each component.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixtures of Probabilistic Principal Component Analysers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, pp. 6-7; Section 5.2, Equations 25-33 and Figure 3 discussion, pp. 10-14; Section 7, pp. 19-20; curator assignment counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fitting-degeneracy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Well-defined exact EM or the specified generalized EM step makes likelihood nondecreasing, but this does not guarantee convergence to a finite local or global maximum from every initialization. Zero loadings remain zero under the displayed iterative loading update. Without constraints preventing covariance collapse, a component centered on an observation can shrink its isotropic variance toward zero and make mixture likelihood unbounded. Empty responsibility masses, rank-deficient covariances and tied eigenvalues also require treatment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixtures of Probabilistic Principal Component Analysers</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.4-A.5, pp. 25-26; Appendix C, Equations 82-84, p. 30; curator deductions and finite collapse calculation qualifying the source’s local-maximum wording</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#covariance-family</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Latent dimension controls the component covariance restriction. The zero-factor case is spherical Gaussian, while q=d-1 can represent any positive-definite d-dimensional Gaussian covariance by using its smallest eigenvalue for isotropic noise. Intermediate dimensions impose a repeated residual eigenvalue. Component count and latent dimension are model-selection choices; a low-rank loading contribution is compatible with full-rank positive-noise covariance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixtures of Probabilistic Principal Component Analysers</a></span>
+        <span>· <strong>Locator:</strong> Section 6, internal/PDF pp. 16-18; covariance Equation 7 and eigensolution Equations 14-15, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Components and latent axes are not uniquely labeled. Local density components need not correspond to semantic classes or physical factors; mixture fitting is nonconvex and sensitive to initialization.</li>
+      <li>The source’s unqualified local-maximum statements are bounded here by stationary starts and the unconstrained mixture-collapse counterexample. Positive variances at finite iterates do not impose a positive lower bound on them.</li>
+      <li>Image compression may use reconstruction-based assignments after density fitting, and digit posterior classification uses a different decision rule. Historical comparisons do not establish universally better compression, clustering or recognition.</li>
+      <li>All 30 primary reprint pages were read. Finite calculations check weighted eigensolution and two-stage EM likelihood increases, assignment disagreement and variance collapse. No historical benchmark or author software was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A finite normalized mixture of latent Gaussian components is a specific mathematical model within the pinned Model scope.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The component covariance fits use local weighted principal subspaces; the mixture probability model is not identical to task-scoped PCA.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Posterior responsibilities define soft component assignments. This relates the model to a clustering task without asserting that every component is a semantic cluster.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.miketipping.com/papers/met-mppca.pdf" target="_blank" rel="noopener">Mixtures of Probabilistic Principal Component Analysers</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael E. Tipping, Christopher M. Bishop
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.miketipping.com/papers/met-mppca.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:87ec7bac0a64…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:46:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:47:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MixturesOfProbabilisticPCA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MixturesOfProbabilisticPCA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

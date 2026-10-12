@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEHB · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DEHB</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DEHB</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DEHB</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Evolutionary Hyperband
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter optimization algorithm that combines Hyperband resource schedules with differential-evolution populations at different resource levels, using promising lower-resource configurations to guide proposals evaluated and selected at higher resource levels.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      DEHB is the combined resource-allocation and differential-evolution method, distinct from generic genetic algorithms, differential evolution alone, random-proposal Hyperband, KDE-guided BOHB and ASHA’s asynchronous within-stage promotions. Budget-specific populations contain configuration vectors, not a population of trained checkpoints whose weights are copied between configurations. The proceedings paper and the versioned appendix are distinguished explicitly. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 262 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 9 lines in each checkout. These were prior candidate leads, source references and neighboring-method mentions, not existing records for these identities. Ten exact AIO CLASS nodes with synonyms and outgoing edges and eight neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a differential-evolution subpopulation for each Hyperband resource level, sized according to the maximum number of evaluations assigned to that level. Iterate through the prescribed halving brackets. For a bracket’s starting level use evolution within its own population; for higher levels form a parent pool from promising lower-level configurations and use it for difference-vector mutation, followed by crossover with a target in the current level’s population. Evaluate the proposed configuration at the current level and retain it only according to a same-level fitness comparison with the target. Supplement an undersized mutation pool from a global pool of configurations. The initialization cycle includes direct lower-to-higher promotions before the general evolutionary transfer pattern. For mixed search spaces, the appendix keeps continuous population coordinates in a unit hypercube and maps copies to numerical or binned ordinal/categorical settings for evaluation. Its parallel design keeps each halving stage synchronized while allowing brackets to overlap and applying completed differential-evolution updates immediately.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">DEHB: Evolutionary Hyberband for Scalable, Robust and Efficient Hyperparameter Optimization</a></span>
+        <span>· <strong>Locator:</strong> Sections3–4.3, PDF pp.2–4 (printed2148–2150), especially Figures1–3 and the modified halving procedure</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-versioned-appendix">DEHB: Evolutionary Hyperband for Scalable, Robust and Efficient Hyperparameter Optimization</a></span>
+        <span>· <strong>Locator:</strong> AppendicesA–C, PDF pp.9–12, especially Algorithm2 on p.10, Algorithm3 and SectionsC.2–C.3 on pp.11–12; title/version on p.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source’s initialization prose and pseudocode use bracket and iteration terminology inconsistently. Algorithm3’s bracket_counter==0 condition spans an outer cycle and applies direct promotion only for i&gt;0. The record describes the common mechanism without treating every printed initialization statement as byte-equivalent executable steps.</li>
+      <li>Appendix Algorithm2 prints b0=(bmax/bmin)*eta^(-s), which gives normalized rather than absolute budgets when bmin differs from1. Its return order for counts and budgets is reversed at the Algorithm3 call site. These discrepancies are retained as source qualifications; no author-issued erratum or exact executable schedule is claimed.</li>
+      <li>The appendix updates its incumbent after evaluations without an explicit full-budget restriction. The record therefore does not promise that the returned best observed configuration has been verified at maximum resource. Greedy same-budget replacement limits harmful transfers but is not a proof of global optimality or universal robustness.</li>
+      <li>Continuous encodings impose numerical neighborhoods on categorical choices, and low-fidelity information can be misleading. Parallel completion order can affect shared populations. No benchmark speedup, constant total runtime or author-code execution is claimed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This hyperparameter procedure selects model configurations and allocates training resources. The relation links that scope to the pinned training-strategy concept without treating the optimizer as preprocessing, an identical concept or a subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/proceedings/2021/0296.pdf" target="_blank" rel="noopener">DEHB: Evolutionary Hyberband for Scalable, Robust and Efficient Hyperparameter Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noor Awad, Neeratyoy Mallik, Frank Hutter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.24963/ijcai.2021/296</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:48ff58a4bdc3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-versioned-appendix">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">versioned-appendix</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2105.09821v2" target="_blank" rel="noopener">DEHB: Evolutionary Hyperband for Scalable, Robust and Efficient Hyperparameter Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Noor Awad, Neeratyoy Mallik, Frank Hutter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:2105.09821v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:90b2d08b7234…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T11:53:28Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T11:53:28Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DEHB.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DEHB.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

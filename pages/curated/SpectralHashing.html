@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spectral hashing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Spectral hashing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Spectral hashing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SpectralHashing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An unsupervised binary-code learning algorithm that approximates a spectral similarity-preservation objective using a PCA-aligned rectangular data model and zero-thresholded single-coordinate analytic modes.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the original Weiss–Torralba–Fergus spectral hashing algorithm. Its graph-based relaxation motivates the method, while the efficient out-of-sample algorithm uses a fitted rectangular distribution instead of eigendecomposing the complete empirical graph for every query. It differs from neural semantic hashing, random-projection locality-sensitive hashing, Laplacian Eigenmaps and the later multidimensional spectral hashing formulation. The ambiguous abbreviation SH is not claimed as an exclusive alias. All 442 pinned AIO labels/scoped synonyms and 367 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 37 lines each. All 27 unique matched contents were read: conditional-RBM source references, contrasting method descriptions, pending leads and saved review context, rather than existing candidate identities. All 45 semantic label/synonym hits and 23 exact annotated AIO nodes were inspected, alongside corresponding generated records and three complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The motivation minimizes affinity-weighted squared distances between binary codes, subject to balanced bits and pairwise decorrelation; dropping the binary restriction yields low nonconstant graph-Laplacian modes. The practical algorithm first computes PCA coordinates and fits an interval [a_j,b_j] along each retained nondegenerate axis. Under its uniform-rectangle approximation, enumerate nonconstant single-axis modes with positive integer frequency m, represented in shifted coordinates by cos(m*pi*(x_j-a_j)/(b_j-a_j)). Rank these modes by their analytic eigenvalue order, equivalently increasing squared frequency (m/(b_j-a_j))^2 for a common positive bandwidth, and select the required number of bits. Exclude the constant mode and multidimensional outer-product modes. Threshold each selected function at zero to form binary codes. A new point is projected into the same PCA coordinates and evaluated by these selected functions; hash-table retrieval then compares codes within a chosen Hamming radius.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Spectral Hashing</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Equations (1)–(3), printed/PDF pp.3–4; Section 2.2, Equations (4)–(5) and algorithm summary, pp.5–6; limitations, p.6 and discussion, p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The uniform rectangular model is an approximation to the data distribution. The resulting code is not the exact optimum of the discrete balanced-partition problem or necessarily the thresholded eigenvectors of the finite empirical affinity graph.</li>
+      <li>Equation (2) prints Y^T Y=I while retaining unscaled plus/minus-one entries. Equation (1) instead implies Y^T Y=nI for n observations; an identity normalization requires rescaled real-valued relaxed coordinates. The record preserves this distinction rather than copying the incompatible constraints.</li>
+      <li>Equation (4) gives the interval width but omits the origin shift unless its x already denotes a shifted coordinate. The mechanism states that shift explicitly. Degenerate axes, zero-threshold ties and points outside fitted intervals require explicit numerical conventions.</li>
+      <li>Continuous orthogonality does not guarantee empirical balance, decorrelation or independence after thresholding. Excluding outer-product modes avoids one explicit source of deterministic redundancy but does not ensure independent bits; even first and third thresholded modes on one uniform axis are correlated.</li>
+      <li>The number of bits need not be smaller than the input dimension. Compact storage and approximate-neighbor retrieval are not a guarantee of dimension reduction, exact semantic similarity, universal retrieval accuracy or collision resistance for cryptography. No benchmark ranking, general spectral-convergence theorem or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PCA supplies the coordinate axes used by the original spectral-hashing algorithm. This is a component relationship, not equivalence or a claim that the final nonlinear binary code is a PCA projection. The pinned PCA entry is task-scoped, and binary-code length is not necessarily lower than input dimension.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2008/file/d58072be2820e8682c0a27c0518e805e-Paper.pdf" target="_blank" rel="noopener">Spectral Hashing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yair Weiss, Antonio Torralba, Rob Fergus
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper/2008/hash/d58072be2820e8682c0a27c0518e805e-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3ad2470d89ee…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:05:47Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:05:47Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SpectralHashing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SpectralHashing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

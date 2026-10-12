@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product of hidden Markov models · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Product of hidden Markov models</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Product of hidden Markov models</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:ProductOfHiddenMarkovModels</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PoHMM, Products of hidden Markov models
+    </div>
+
+  <div class="detail-desc">
+    A sequence-model family that multiplies the marginal probabilities assigned to a complete observation sequence by several hidden Markov models and normalizes the product over sequences of the same length.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      PoHMM is Brown and Hinton’s undirected product construction with one hidden chain per expert. It is not a mixture that selects one HMM, an ordinary single-chain HMM, or a directed factorial HMM whose multiple latent chains jointly generate locally normalized emissions. Taylor and Hinton’s later AIS study retains this model identity and supplies an evaluation procedure, not a new synonymous architecture. The model is not restricted to linguistic sequences. All 442 pinned AIO labels/scoped synonyms and 373 preceding native IDs/names/aliases were compared. The sole normalized hit is Product of experts as a related synonym of FactorizedLLM; its language-specific definition and parent distinguish it from the generic candidate. Both full-checkout fixed-string searches included ignored and hidden files and returned 59 lines each. All 29 unique matched contents were read; other hits concern citations, training components, prior boundary discussions or pending leads. All 88 semantic label/synonym hits, 20 exact fully annotated AIO nodes with outgoing edges, their generated records and four complete native neighbors were inspected or verified unchanged after previous full reading. Absence is bounded to this pin and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed length T, let p_m(v_1:T) sum each expert HMM’s joint probability over its hidden paths. Define p(v_1:T)=product_m p_m(v_1:T)/Z_T. Given the entire observed sequence, infer each expert’s hidden path posterior separately with forward–backward. A blocked Gibbs transition samples one path from each such posterior, then independently at each time samples an observation from the normalized product of the emissions selected by those paths. For CD-k learning, contrast each expert’s log-marginal score on the data and on the k-step reconstruction, treating reconstructed observations as fixed in the customary update. Each score is the posterior expectation of the derivative of the HMM log joint, with that posterior held fixed for this identity; it is not the total derivative through the posterior of an expected log joint. Global normalization over sequences distinguishes the model from independently normalizing a product emission at every time while retaining independent hidden-chain priors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Products of Hidden Markov Models</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–2, Equations (1)–(5), PDF pp.1–3; missing-data/prediction distinction, Section 3.1, p.4; shared-output extension, Section 4, pp.6–7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pohmm-followup">Products of Hidden Markov Models: It Takes N&gt;1 to Tango</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–2 and Figure 1, PDF pp.1–3; Section 3, Equations (3)–(9) and emission-tempered AIS construction, pp.3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The partition function depends on model parameters and sequence length. Separate forward–backward computations evaluate the unnormalized product and complete-data hidden posteriors; they do not by themselves give the product’s global normalizer or exact likelihood. Small finite models can be enumerated, but this does not establish scalable tractability.</li>
+      <li>When observations are missing or future observations are integrated out, the experts can become dependent. Exact separate posterior inference given a complete sequence is not a claim of equally simple causal prediction from a prefix.</li>
+      <li>CD learning is approximate, and the customary short-chain update is not generally an exact likelihood or contrastive-objective gradient. The Brown paper’s initial pseudocode writes probability derivatives where its final update uses log derivatives; this record follows the log-score update supported by the later explicit formulation.</li>
+      <li>Brown Equation (3) places a derivative outside a posterior expectation. The score identity used here means the expectation of the log-joint derivative at the current posterior, without differentiating through that posterior. The shared deterministic emission-feature extension is optional, not an extra required stochastic latent layer.</li>
+      <li>Taylor Section 3.3 estimates normalization with an AIS path that tempers emission potentials inside hidden-path sums. This is generally different from simply raising whole HMM marginal likelihoods to fractional powers. Approximate normalizer estimates, and their logarithms, are not exact log likelihoods or a universal reliability guarantee.</li>
+      <li>The papers’ language, rainfall and dance examples do not establish universal superiority. No author code, training experiment or AIS implementation was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each expert contains a latent Markov chain, while the normalized product model includes multiple chains and observation factors. This is a component association, not an assertion that the observed sequence is a first-order Markov chain.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model has an undirected graphical dependence structure. The pinned AIO target is defined and parented as a machine-learning task, so the cross-level relationship is recorded as related rather than a forced model-to-task subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/r3/brown01a/brown01a.pdf" target="_blank" rel="noopener">Products of Hidden Markov Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew D. Brown, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/r3/brown01a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fd81a41fd9ed…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pohmm-followup">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pohmm-followup</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.utoronto.ca/~hinton/absps/pohmm_uai.pdf" target="_blank" rel="noopener">Products of Hidden Markov Models: It Takes N&gt;1 to Tango</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Graham W. Taylor, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:1205.2614</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e62e3b6a1876…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:31:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:31:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProductOfHiddenMarkovModels.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProductOfHiddenMarkovModels.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restricted Boltzmann Machine Collaborative Filtering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Restricted Boltzmann Machine Collaborative Filtering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Restricted Boltzmann Machine Collaborative Filtering</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:RestrictedBoltzmannMachineCollaborativeFiltering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RBM collaborative filtering, RBM-CF
+    </div>
+
+  <div class="detail-desc">
+    A family of shared-parameter restricted Boltzmann models for categorical user-item ratings, with a user-specific visible set and optional conditioning on the item-observation mask and low-rank factorization of rating interactions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the specific mask-indexed rating construction and its conditional/factored variants in Salakhutdinov, Mnih and Hinton 2007. It is narrower than a generic RBM application or the maintained input-conditioned RBM architecture. Corresponding item/rating parameters are shared across users, but each observed-item set defines its own joint law. It is not a single trained Netflix model, a matrix-factorization predictor, the generic CRBM, or a standalone ensemble-performance record. Gaussian hidden units with unit variance are a source variant; the defining displayed mechanism below uses binary hidden units. Four candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 447 preceding native IDs, names and aliases. Sparse coding matches the exact synonym and definition of AIO:SparseLearning and is reused; none of the three selected additions has a normalized identity match. Ignored/hidden full-checkout searches returned 47 lines each in worktree and main, with identical matched-line sets after merge. All 47 matched lines were read; they contain the existing sparse-coding class, its source/export and prior discovery context. All 205 semantic label/synonym rows were read and verified unchanged. Twenty-four annotated AIO nodes and outgoing edges comprise 23 unchanged prior readings and one new symmetry-network inspection. Thirty-two contextual YAMLs comprise 31 unchanged prior readings and one fully read new record, including eight native neighbors. Absence and no-match assessments are bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rating-joint</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a user with included item set S, let v_ik be one-hot over K possible ratings and h_j be binary. Define E_S(v,h)=-sum_(i in S,k,j) v_ik W_ikj h_j-sum_(i in S,k) b_ik v_ik-sum_j c_j h_j, and normalize exp(-E_S) over those rating groups and hidden states. Finite support gives a finite partition for finite parameters. Rating groups given h have softmax probabilities and hidden units given v have independent sigmoid probabilities. Parameters W,b,c are shared across users; missing-item terms are omitted. Omitting an item is generally different from integrating it out of a larger fixed-item model, because that integration introduces a hidden-dependent factor. The discovery calculation verifies this distinction on a finite example. Rating-category coding does not itself encode an ordinal likelihood.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Restricted Boltzmann Machines for Collaborative Filtering</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 1-4 and Figure 1, PDF pp. 1-2; omitted-item statement following Equation 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#query-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For one added query item q, let a_j=c_j+sum_(i in S,k) v_ik W_ikj. Its exact unnormalized rating score under the augmented visible-set model is exp(b_qk) product_j[1+exp(a_j+W_qkj)]. Normalize the K scores, then choose a mode or expected numeric rating according to the decision loss. This sums binary hidden states analytically. Multiple query items generally become dependent, and the paper enumerates K^n assignments for a joint n-item query. The experimental predictor instead computes hidden means sigmoid(a_j) from observed ratings and plugs them into a query softmax. That faster approximation generally differs from the exact scores; finite calculations exhibit a probability gap.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Restricted Boltzmann Machines for Collaborative Filtering</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Equations 7-10, PDF p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conditioning-and-factorization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The conditional variant holds fixed a binary item-observation vector r and replaces c by c+D^T r. It represents p(v,h|r), not p(r). The source uses known test user-item pairs with withheld rating values as mask information. The factored variant writes W_ikj=sum_c A_ikc B_cj, restricting the flattened rating-interaction matrix to rank at most C and reducing parameter count. It does not impose that rank on the nonlinear predicted rating matrix; the conditioning matrix D remains separate. These variants preserve categorical rating support while changing conditional parameterization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Restricted Boltzmann Machines for Collaborative Filtering</a></span>
+        <span>· <strong>Locator:</strong> Sections 4-5, Equations 12-14 and Figure 2, PDF pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fitting-and-evaluation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Training averages user-specific sufficient-statistic updates for shared parameters and uses data-started contrastive divergence that reconstructs included rating groups. Finite CD is an approximate learning rule, not an exact likelihood-gradient guarantee. The reported Netflix comparisons distinguish ordinary, Gaussian-hidden, conditional and factored models, use different latent dimensions, and compare validation RMSE. The combined RBM/SVD result is a validation-tuned ensemble result; it does not establish a universal advantage for this model family.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Restricted Boltzmann Machines for Collaborative Filtering</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equations 5-6, PDF pp. 2-3; Sections 6-7 and Figures 3-4, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Mask-indexed partitions and omitted-item joints do not automatically form a projectively consistent full-item distribution. Exact single-query inference is defined using an augmented visible set; neither arbitrary missing-data marginalization nor independent multiple-query predictions follows.</li>
+      <li>Mask conditioning uses which user-item pairs are known to exist, including test pairs in the source protocol. This transductive availability information is distinct from the withheld rating values; performance cannot be transferred to settings lacking that information without evaluation.</li>
+      <li>The Gaussian-hidden variant fixes variance to one. Its general displayed energy includes reciprocal standard-deviation scaling absent from the visible-conditional display; no arbitrary-variance implementation is certified here.</li>
+      <li>Short-chain CD can be biased, and increasing chain length is not evidence that a particular run mixed. Weight decay, latent dimensions, batch sizes and approximate prediction affect comparisons.</li>
+      <li>The paper uses the historical Netflix split, validation tuning and an ensemble with separately fitted SVD models. Autoencoder fine-tuning and deeper extensions are prospective in this paper. No author implementation or benchmark was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The user-item probability family is a specific mathematical representation within the broader Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The construction uses shared RBM rating distributions, including mask-conditioned variants. A related mapping preserves that component/family relationship without equating the complete mask-indexed construction to one unconditional pinned RBM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~amnih/papers/rbmcf.pdf" target="_blank" rel="noopener">Restricted Boltzmann Machines for Collaborative Filtering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruslan Salakhutdinov, Andriy Mnih, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1273496.1273596</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:41a5933f9a40…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T01:29:49Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T01:30:43Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RestrictedBoltzmannMachineCollaborativeFiltering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RestrictedBoltzmannMachineCollaborativeFiltering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

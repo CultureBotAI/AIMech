@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mutual information neural estimation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Mutual information neural estimation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mutual information neural estimation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MutualInformationNeuralEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MINE, Mutual information neural estimator
+    </div>
+
+  <div class="detail-desc">
+    A mutual-information estimation procedure that trains a neural statistics function to maximize a Donsker–Varadhan objective contrasting joint samples with product-of-marginals samples, using stochastic optimization and an optional moving-average denominator for gradient estimation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      MINE denotes the original neural Donsker–Varadhan estimator and its moving-average training heuristic. The paper’s alternative MINE-f objective is a different variational bound and is not silently equated with this record. MINE estimates dependence; DIM is a representation-learning framework that can use dependence critics, and InfoNCE is a different finite-candidate objective. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 203 preceding native IDs/names/aliases. Ignored-inclusive word-delimited searches of both full checkouts returned 52 worktree and 75 main-checkout lines: existing component discussions and discovery/review references, plus unrelated ignored dependency text in main. Short acronyms were compared in normalized identities. Four nearest maintained mechanisms and eleven exact AIO candidate nodes with direct parent edges were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a neural statistics function T_theta(x,z), optimize J(theta)=E_joint[T_theta]−log(E_product[exp(T_theta)]). Under the variational representation’s integrability assumptions, each population J(theta) is a lower bound on I(X;Z); optimizing within a neural family yields its restricted supremum. Estimate expectations from observed joint pairs and samples approximating the product of marginals, such as mismatched or shuffled pairs. The minibatch gradient contains a ratio of product-sample means and is generally biased. The original training heuristic replaces its exponential-moment denominator by an exponential moving average to reduce this bias. Poole et al. show that, when a positive running denominator is held fixed for an update, the resulting update has an interpretation as the gradient of a different unnormalized variational bound. This interpretation does not make the moving-average update a generally unbiased gradient estimator of the population Donsker–Varadhan objective. After fitting a critic, evaluating sample means in the Donsker–Varadhan expression gives a finite estimate, not a certified mutual-information lower bound for that sample.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mutual Information Neural Estimation</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, PDF pp. 2–4, Equations (2)–(6), Algorithm 1 and estimator-consistency discussion</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">Mutual Information Neural Estimation — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Sections 8.2.1–8.2.3, supplementary PDF pp. 4–7: Donsker–Varadhan proof, approximation/estimation assumptions and bounded Lipschitz critic sample-complexity result</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">On Variational Bounds of Mutual Information</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF pp. 2–4, Equations (3)–(7): Monte Carlo bias of the log-partition term and moving-average-gradient interpretation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite-sample log-moment estimation is biased, can be unstable for large critic scores, and need not remain below true mutual information. Reusing samples for critic fitting adds selection effects.</li>
+      <li>The moving-average denominator is a bias-reduction heuristic. Its fixed-denominator alternative-bound interpretation does not prove that a same-batch updated running statistic is independent of the current samples or that the original Donsker–Varadhan gradient is unbiased.</li>
+      <li>Strong-consistency arguments separate neural approximation from empirical estimation under compactness, continuity and measure assumptions. The fixed-family uniform-convergence result is not a proof that stochastic gradient optimization reaches the required supremum. Bounded/Lipschitz critic sample-complexity assumptions do not hold automatically for arbitrary networks and distributions.</li>
+      <li>Shuffling one finite batch can include fixed points and dependent pairs; it is not literally independent sampling from the population product distribution. Sampling construction must be stated when interpreting estimates.</li>
+      <li>As a mathematical consequence of a loose lower bound, reducing a poorly optimized estimated lower bound does not certify a reduction in true mutual information. No author implementation or numerical estimator experiment was audited.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> The inspected snapshot has no suitable class for this neural statistical estimator. A critic architecture or downstream representation-learning/GAN use is not sufficient to map the estimator itself.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 CLASS labels and scoped synonyms in pinned AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a and all 203 preceding native IDs/names/aliases were compared. Ignored-inclusive searches covered both full checkouts. Exact candidate AIO nodes, definitions, scoped synonyms and direct parents were inspected; this no-match assessment is bounded to this snapshot and the stated semantic neighborhood.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DeepNeuralNetwork.html"><code>AIO:DeepNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A neural network is the parameterized critic component, not the joint-versus-product estimation algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RepresentationLearning.html"><code>AIO:RepresentationLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Learning reusable features is a possible application; it is not the definition of mutual-information estimation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContrastiveLearning.html"><code>AIO:ContrastiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This network/representation-learning class does not specify the Donsker–Varadhan estimator or its stochastic-gradient correction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GenerativeAdversarialNetwork.html"><code>AIO:GenerativeAdversarialNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An optional downstream use in generative training does not make MINE a generator/discriminator architecture.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/belghazi18a/belghazi18a.pdf" target="_blank" rel="noopener">Mutual Information Neural Estimation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mohamed Ishmael Belghazi, Aristide Baratin, Sai Rajeswar, Sherjil Ozair, Yoshua Bengio, Aaron Courville, R Devon Hjelm
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/belghazi18a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8fd7e622220a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/belghazi18a/belghazi18a-supp.zip" target="_blank" rel="noopener">Mutual Information Neural Estimation — Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mohamed Ishmael Belghazi, Aristide Baratin, Sai Rajeswar, Sherjil Ozair, Yoshua Bengio, Aaron Courville, R Devon Hjelm
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v80/belghazi18a/belghazi18a-supp.zip</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:327266969da0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/poole19a/poole19a.pdf" target="_blank" rel="noopener">On Variational Bounds of Mutual Information</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ben Poole, Sherjil Ozair, Aaron van den Oord, Alex Alemi, George Tucker
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/poole19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38da74b0bae6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:44:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:45:56Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MutualInformationNeuralEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MutualInformationNeuralEstimation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guided Genetic Algorithm · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Guided Genetic Algorithm</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Guided Genetic Algorithm</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GuidedGeneticAlgorithm</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GGA
+    </div>
+
+  <div class="detail-desc">
+    The Lau–Tsang genetic-search framework that uses shared adaptive solution-feature penalties both to modify fitness and to construct per-chromosome gene weights that bias crossover and mutation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record identifies the named Lau–Tsang GLS/genetic hybrid, not every algorithm described informally as guided genetic search. Later template-guided, fuzzy-guided or distributed algorithms are not asserted equivalent from their names. Generic GA supplies population evolution and GLS supplies feature penalties; GGA adds penalty-derived per-gene templates and specialized variation. It does not replace the population by the probability vector used in PBIL. LPGA is a problem-specific precursor, not an exact alias. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 307 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 4 and 4 lines respectively. All eight text hits were prior discovery leads in the two checkouts, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a population and a shared set of nonnegative feature-penalty counters, initially zero. Define each feature by an exhibited variable assignment or group of assignments and an application-specific undesirability cost. When the best current population member’s fitness remains unchanged for a configured number of generations, increment all maximal-utility present-feature counters, with utility cost/(1+counter). Use the augmented objective f+lambda*sum(counter*indicator) for the minimizing formulation and recompute each chromosome’s template: a gene weight sums counters for its exhibited features that involve that gene. Thus weights depend on the chromosome under shared penalties; offspring templates are recalculated, not inherited. At a crossover position with positive total parental weight, choose parent1’s value with probability weight2/(weight1+weight2), favoring the lighter gene. For mutation with positive total template weight, sample a gene in proportion to its weight and choose an objective-best domain value, with random tie handling in the displayed operator. The manuscript decrements a changed gene’s weight only if positive and allows repeated gene selection. Population replacement, mutation/crossover rates, stagnation threshold and stopping are configurable; the application uses elitist parent-plus-offspring replacement. These statements describe the documented framework and positive-weight operators, not a complete executable specification for all boundaries.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Guided Genetic Algorithm and its Application to Radio Link Frequency Assignment Problems</a></span>
+        <span>· <strong>Locator:</strong> Section3.3.2–3.3.6, PDF pp.10–19, Equations9–10, Figures3/5/7, footnotes4–5; TablesII–III pp.20–21. The manuscript uses PDF/printed1–30, not final journal pages.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">Guided Genetic Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Chapter2, PDF pp.34–49 / printed26–41, especially templates and operators pp.41–48; Section7.4 PDF139 / printed131, non-certifying stagnation detector</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source initializes counters and template weights to zero but its displayed crossover and roulette rules divide by total weight or draw from an empty integer range when that total is zero. Neither inspected method supplies the fallback. A uniform fallback or pseudocount is an implementation decision requiring separate evidence; none is asserted here.</li>
+      <li>The displayed mutation comparisons maximize g, whereas the article identifies the illustrated application as minimizing augmented cost and explicitly notes descent in footnote4. The record preserves this inconsistency and states objective-best selection with an explicit minimizing convention, rather than claiming the printed pseudocode is directly executable unchanged.</li>
+      <li>The stagnation trigger is a heuristic, not a certificate that every possible improving gene change or population transition has been exhausted. The thesis’s future-work discussion states this limitation. Penalty updates need not escape all local traps or reach a global optimum.</li>
+      <li>The application’s elitist replacement, finite mutation count, tie multiplicity and zero-weight handling do not define a unique universal implementation. Feature encoding, scaling and penalty semantics affect results; the reported benchmark superiority is not curated as a general guarantee.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target was found for this particular general optimization procedure in the inspected snapshot and semantic neighborhood. Shared learning, feedback or evolutionary vocabulary does not establish a model or task mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms and 307 preceding maintained IDs/names/aliases; ignored/hidden text in both full checkouts; eight exact AIO CLASS nodes with scoped synonyms, comments and outgoing edges; five complete native neighboring records.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The general GLS/genetic optimization procedure is not a network of artificial neurons. The neural history of GLS does not make every later optimizer a neural architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Network.html"><code>AIO:Network</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A population, feature collection or move graph is not by itself a defining network architecture; this very broad node does not identify the search procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HopfieldNetwork.html"><code>AIO:HopfieldNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method is not the recurrent content-addressable memory architecture specified by this target.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/FeedbackNetwork.html"><code>AIO:FeedbackNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Adaptive search feedback is not this neural architecture with input, hidden and output layer relationships.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SymmetricallyConnectedNetwork.html"><code>AIO:SymmetricallyConnectedNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No symmetric neural connectivity with equal bidirectional weights defines this optimizer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method solves general constrained optimization and is not restricted to preprocessing or training a machine-learning model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target concerns building methods that learn from data. Searching assignments under a supplied objective does not necessarily instantiate that learning task.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a large language model. Its related evolutionary-algorithms synonym does not identify all genetic optimizers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.bracil.net/CSP/papers/LauTsang-Rlfap-Constraints2001.pdf" target="_blank" rel="noopener">Guided Genetic Algorithm and its Application to Radio Link Frequency Assignment Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            T. L. Lau, E. P. K. Tsang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1023/A:1011406425471</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cd75523145ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.bracil.net/CSP/papers/Lau-Gga-PhD99.pdf" target="_blank" rel="noopener">Guided Genetic Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lau Tung Leng
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:13949c8ec915…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T14:42:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T14:42:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GuidedGeneticAlgorithm.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GuidedGeneticAlgorithm.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

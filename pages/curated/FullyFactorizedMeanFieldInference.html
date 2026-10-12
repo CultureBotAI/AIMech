@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fully factorized mean-field inference · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Fully factorized mean-field inference</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fully factorized mean-field inference</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:FullyFactorizedMeanFieldInference</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Naive mean-field inference, Fully factorized variational inference
+    </div>
+
+  <div class="detail-desc">
+    A variational inference method that restricts its approximating distribution to a product of single-variable factors and adjusts those factors to reduce the approximation-to-target Kullback–Leibler divergence.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the complete-factorizability mean-field construction, not a claim that the target variables are actually independent. It is the singleton-factor limit of structured mean field and differs from block or chain factors that retain dependencies. The approximation family and variational objective do not prescribe BBVI’s score-function estimator, amortized recognition, a training algorithm or any particular probabilistic model. Factorization depends on the declared variable units; treating a whole chain as one variable would be a different, structured partition at the state-variable level. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed target p(s)=exp(F(s))/Z, choose q(s)=product_i q_i(s_i) and maximize E_q[F]+H(q), equivalently minimizing KL(q||p). For the source’s binary s_i in {-1,+1} and F(s)=sum_(i&lt;j) J_ij*s_i*s_j+sum_i h_i*s_i, write q_i(s_i)=(1+m_i*s_i)/2. Distinct-variable moments factor as E_q[s_i*s_j]=m_i*m_j, and entropy is the sum of the binary factor entropies. Interior stationarity gives atanh(m_i)=h_i+sum_(j!=i) J_ij*m_j, with symmetric interaction indexing. Updating one mean to tanh of that effective field while holding the others fixed solves its coordinate subproblem. These equations characterize the chosen approximate inference problem; they do not compute the exact target marginals in general.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Exploiting Tractable Substructures in Intractable Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Section 2.1 Complete Factorizability, Equations (1)–(9), printed pp.487–488 / PDF pp.2–3; comparison with Section 2.2, pp.488–489 / PDF pp.3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The product family discards all dependence among the declared individual variables. Matching or optimizing its means does not certify correct covariance, calibrated uncertainty or exact posterior recovery.</li>
+      <li>KL(q||p) is directional and differs from KL(p||q). A lower bound equals log Z only when the approximating distribution equals the target almost everywhere under appropriate support conditions.</li>
+      <li>Stationarity equations do not ensure global optimality. Exact sequential singleton updates can increase the bound, while synchronous fixed-point iteration can decrease it or fail to converge.</li>
+      <li>The tanh equations apply to the stated binary pairwise energy and parameter convention. Other state spaces, higher-order factors or restricted factor families need their own expectations and updates.</li>
+      <li>Using approximate hidden statistics in learning is a further choice; the approximation alone does not establish monotonic observed likelihood. No model fitting, author implementation or empirical accuracy claim is included.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method approximates distributions whose dependence structure is represented by a graph. The pinned target denotes a graphical-model task, while this local concept denotes a variational inference method; the relation is method-to-modeling context, not an is-a assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BoltzmannMachineNetwork.html" style="font-weight: 600;"><code>AIO:BoltzmannMachineNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Boltzmann Machine Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary derivation approximates the binary pairwise Boltzmann distribution and its hidden-variable statistics. The AIO target is the probabilistic network family, not the approximation procedure. This direct method-to-model relation does not restrict the method to one trained network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf" target="_blank" rel="noopener">Exploiting Tractable Substructures in Intractable Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lawrence K. Saul, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/1995/hash/285f89b802bcb2651801455c86d78f2a-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d0a9f10a9d70…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T20:15:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T20:15:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FullyFactorizedMeanFieldInference.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FullyFactorizedMeanFieldInference.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

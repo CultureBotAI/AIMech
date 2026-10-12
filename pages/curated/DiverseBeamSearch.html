@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diverse beam search · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Diverse beam search</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Diverse beam search</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DiverseBeamSearch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DBS
+    </div>
+
+  <div class="detail-desc">
+    The inference procedure of Vijayakumar and colleagues that partitions a sequence beam budget into groups and updates each group using model log-probability scores augmented by a weighted dissimilarity to the already-updated earlier groups at the same decoding step.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the group-based diversity-augmented method published at AAAI 2018, first submitted under a different title in 2016. It is distinct from Gumbel-based stochastic beam sampling, inter-sibling rank penalties, repeated complete beam runs with final-output diversity, and earlier algorithms using the phrase diversity beam search. The diversity objective is integrated into group beam updates; the procedure requires no retraining of the scoring model. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation scatter search, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Divide a total beam budget B into G ordered groups, conventionally each of width B′=B/G when divisible; the paper also allows unequal allocations. At each decoding step, update the first group by ordinary beam search. For every later group in order, extend its retained prefixes by one token and score each candidate by its cumulative model log probability plus lambda times its dissimilarity to the current-step beams already selected in all earlier groups, with lambda nonnegative. For the additive family, dissimilarity to a group is the sum of pairwise sequence dissimilarities. Select the group’s top B′ distinct candidate extensions under that augmented score and proceed to the next group. Repeat through the chosen maximum length or termination condition, then combine group outputs and sort by model log probability as described in the source prose. The method is greedy across both time and group order; it encourages diversity between groups rather than imposing a joint exact sequence-set optimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Diverse Beam Search for Improved Description of Complex Scenes</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equations (4)–(5), Figure 2, Algorithm 1 and Section 4.1, printed pp.7374–7375 / PDF pp.4–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#diversity-choice</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source’s simple Hamming-style option penalizes a candidate token according to how often earlier groups used that token at the same position. Other discussed choices include cumulative positional mismatch, n-gram overlap and embedding-based dissimilarity. These are configurable scoring choices, not interchangeable definitions or guaranteed measures of semantic diversity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Diverse Beam Search for Improved Description of Complex Scenes</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Choice of Diversity Function, printed p.7375 / PDF p.5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#inference-context</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method operates during inference on sequence-model scores without requiring retraining, and is developed for image captioning, visual question generation and machine translation. Its empirical comparisons do not establish universal improvements.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Diverse Beam Search for Improved Description of Complex Scenes</a></span>
+        <span>· <strong>Locator:</strong> Abstract, printed p.7371 / PDF p.1; Section 2, Sequence Optimization, printed p.7373 / PDF p.3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The first group is an ordinary beam of width B′. Its baseline inclusion is not a guarantee of matching or beating an ordinary beam of total width B, nor a guarantee of global MAP or globally optimal diversity.</li>
+      <li>Setting G=1 recovers an ordinary width-B beam. With G&gt;1, setting lambda=0 leaves separate smaller beams; it does not generally reconstruct one width-B beam and can reproduce outputs across groups.</li>
+      <li>Distinctness is enforced within each selected group. The soft inter-group diversity term does not impose hard global output uniqueness, semantic correctness or a minimum pairwise distance. Large diversity weight can overwhelm model scores.</li>
+      <li>The diversity measure and strength, group allocation/order, score ties, EOS handling and maximum length are part of the configuration. Prefix-based diversity cannot automatically use an arbitrary sentence-level metric that requires completed outputs.</li>
+      <li>The paper reports empirical quality/diversity gains in specified generation experiments. No universal superiority, runtime speedup, numerical benchmark result or current library behavior is asserted here.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/NaturalLanguageProcessing.html" style="font-weight: 600;"><code>AIO:NaturalLanguageProcessing</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Natural Language Processing</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected primary paper develops this decoder for natural-language sequence generation, including machine translation. The exact AIO CLASS denotes the language-processing task. This is an algorithm-to-application-domain relationship, not equivalence or an is-a assertion; the decoder is separate from the model supplying probabilities and is not restricted to natural-language sequences.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ojs.aaai.org/index.php/AAAI/article/view/12340/12199" target="_blank" rel="noopener">Diverse Beam Search for Improved Description of Complex Scenes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ashwin K. Vijayakumar, Michael Cogswell, Ramprasaath R. Selvaraju, Qing Sun, Stefan Lee, David Crandall, Dhruv Batra
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1609/aaai.v32i1.12340</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c002058498ea…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:13:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:13:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DiverseBeamSearch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DiverseBeamSearch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
