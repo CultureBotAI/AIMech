@@ -1,0 +1,708 @@
+schema_version: 1.0.0
+review_id: 20261012T130620Z-narx-narmax-open
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of NARX and NARMAX models
+started_at: '2026-10-12T13:02:30Z'
+finished_at: '2026-10-12T13:06:20Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read both full primary papers, tested exact
+    boundary examples and inspected the complete maintained records. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: needs_curation
+scientific_review: true
+summary: Retain distinct NARX/NARMAX identities; two bounded evidence/wording findings
+  require correction and gates are not yet clean.
+source:
+  git_revision: fe345891f58558c5d7daee5924812c7f375c105f
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveDistributedLag.yaml
+    sha256: ec96eff60d187277db7e53193e2a91671c047127c75a493ff764bb362521458e
+    role: context
+  - path: data/aio/AutoregressiveMovingAverage.yaml
+    sha256: eb69aaedb34d8c9e620ef4f0d20111feaf9c3dd09236f57536561e9a6cccdf53
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/curated/LinearStateSpaceLayer.yaml
+    sha256: 05d7d834a8c0db4c33613384cde4a250838290cce6960fda10e7209da318c151
+    role: context
+  - path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    sha256: bfe0c2535b9e249833cab778d2f90d19522724b487412f9d1e25349d73656d79
+    role: target
+  - path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    sha256: d3638dc732083706aae92c746f9314363cb7edcf66fbbdf5887a19d5cfade159
+    role: target
+  - path: data/curated/OrthogonalLeastSquaresForwardSelection.yaml
+    sha256: 909a5791745c4970ecf2897f8000df528a5d20275e64765b61165d2e73a63931
+    role: context
+  - path: research/discovery/20261012T130217Z-narx-narmax-models.json
+    sha256: d23fdee68007fc34a052c18fc7d13b551b45e9c65473093e98293d17faf27221
+    role: context
+  - path: research/discovery/narx-narmax-boundaries.py
+    sha256: fe8c59bf681ccbfceef80db5ce02cb809ab75d46172e99397db9db7ceb5a50a0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NonlinearAutoregressiveExogenousModel
+  path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+  label: Nonlinear autoregressive model with exogenous inputs
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    role: maintained
+- target_id: AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+  label: Nonlinear autoregressive moving average model with exogenous inputs
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    role: maintained
+scope:
+  description: Complete exact two-record NARX/NARMAX cohort.
+  selection: 'Exact IDs: AIMech:NonlinearAutoregressiveExogenousModel, AIMech:NonlinearAutoregressiveMovingAverageExogenousModel'
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exclusions:
+  - target: Contextual records and broader ontology
+    reason: Identity/mapping context only.
+  - target: Original realization proofs and other model families
+    reason: Not fully inspected; follow-up frontier retained.
+  - target: Empirical or implementation execution
+    reason: Only exact curator examples, no training or replication.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: failed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 1
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n......................................................................F.\
+    \ [ 86%]\nF..............................sss                                 \
+    \      [100%]\n=================================== FAILURES ===================================\n\
+    ________________________ test_render_pages_check_passes ________________________\n\
+    \n    def test_render_pages_check_passes():\n        result = subprocess.run(\n\
+    \            [sys.executable, \"scripts/render_pages.py\", \"--check\"],\n   \
+    \         cwd=REPO_ROOT,\n            capture_output=True,\n            text=True,\n\
+    \            check=False,\n        )\n>       assert result.returncode == 0, f\"\
+    render_pages --check failed:\\n{result.stderr}\\n{result.stdout}\"\nE       AssertionError:\
+    \ render_pages --check failed:\nE         pages/ is stale (9 file(s) differ),\
+    \ e.g. ['browse.html', 'index.html', 'index.json', 'aio/AutoregressiveDistributedLag.html',\
+    \ 'aio/AutoregressiveMovingAverage.html']; run `just render`\nE         \nE  \
+    \       \nE       assert 1 == 0\nE        +  where 1 = CompletedProcess(args=['/private/tmp/aimech-recovery-venv/bin/python3',\
+    \ 'scripts/render_pages.py', '--check'], returnc..., 'index.json', 'aio/AutoregressiveDistributedLag.html',\
+    \ 'aio/AutoregressiveMovingAverage.html']; run `just render`\\n\").returncode\n\
+    \ntests/test_render_pages.py:26: AssertionError\n______________________ test_index_json_covers_all_records\
+    \ ______________________\n\n    def test_index_json_covers_all_records():\n  \
+    \      data = json.loads((PAGES_DIR / \"index.json\").read_text(encoding=\"utf-8\"\
+    ))\n        aio_files = list(AIO_DIR.glob(\"*.yaml\"))\n        curated_files\
+    \ = list(CURATED_DIR.glob(\"*.yaml\"))\n        expected_total = len(aio_files)\
+    \ + len(curated_files)\n    \n>       assert len(data) == expected_total\nE  \
+    \     AssertionError: assert 970 == 972\nE        +  where 970 = len([{'id': 'AIMech:SequenceAStarBeamSearch',\
+    \ 'slug': 'SequenceAStarBeamSearch', 'name': 'A-star beam search for sequence\
+    \ ... ...}, {'id': 'AIO:ActivationLayer', 'slug': 'ActivationLayer', 'name': 'Activation\
+    \ Layer', 'origin': 'aio', ...}, ...])\n\ntests/test_render_pages.py:51: AssertionError\n\
+    =========================== short test summary info ============================\n\
+    FAILED tests/test_render_pages.py::test_render_pages_check_passes - Assertion...\n\
+    FAILED tests/test_render_pages.py::test_index_json_covers_all_records - Asser...\n\
+    2 failed, 245 passed, 3 skipped in 104.47s (0:01:44)\nuv run --locked --extra\
+    \ dev python scripts/check.py\nerror: recipe `check` failed on line 10 with exit\
+    \ code 1\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0withoutoutput.
+- check_id: native
+  name: Full maintained collection
+  command: /private/tmp/aimech-recovery-venv/bin/python -m aimech.cli validate-curated
+  status: failed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 1
+  expected_exit_code: 0
+  summary: 'ERROR data/curated/NonlinearAutoregressiveExogenousModel.yaml: claims/published-approximation-bound:
+    an asserted claim needs supporting evidence
+
+    ERROR data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml: claims/published-approximation-bound:
+    an asserted claim needs supporting evidence
+
+    Checked 530 curated concept record(s); 2 error(s).
+
+    '
+- check_id: calculations
+  name: Exact NARX/NARMAX boundary examples
+  command: python3 research/discovery/narx-narmax-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"hidden_branch": {"same_current_output": "0", "same_input": "1/4", "next_outputs":
+    ["5/16", "-3/16"]}, "published_numerical_bound_counterexamples": [{"y": "-1/4",
+    "u": "1", "exact": "3/4", "polynomial": "17/16", "error": "5/16"}, {"y": "-6/25",
+    "u": "1", "exact": "24/25", "polynomial": "17336/15625", "error": "2336/15625"}],
+    "polynomial_basis": {"terms": 6, "value": "197/180", "coefficient_linear": true,
+    "input_output_linear": false}, "residual_initialization": [{"coefficient": "1/2",
+    "initial_difference": "1", "difference_after_eight_steps": "1/256"}, {"coefficient":
+    "2", "initial_difference": "1", "difference_after_eight_steps": "256"}], "error_propagation":
+    {"one_step_function_error": "1/100", "eight_step_trajectory_error": "51/20"}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T130217Z-narx-narmax-models.json
+  accessed_at: '2026-10-12T13:02:30Z'
+  support: supports
+  summary: Compared all 442 pinned AIO IDs, labels and all scoped synonyms and 528
+    native IDs, names and aliases with the proposed names, IDs, NARX/NARMAX and expanded
+    variants; no normalized identity match. Ignored- and hidden-inclusive full-text
+    searches covered the recovery worktree and readable previous worktree, returning
+    22 and zero lines respectively; all hits were inspected and concern the previous
+    OLS record, its saved review, pages and pending source cohort. The original Documents
+    checkout remains inaccessible, so its untracked files are not claimed searched.
+    Read all 76 AIO semantic rows and 98 native name/definition neighbors, 12 complete
+    annotated AIO CLASS nodes with incident edges, four closest generated records
+    and the native linear state-space layer record. The OLS selector is an estimator
+    rather than either model family. A neural autoregressive density estimator models
+    ordered conditional distributions; it does not by its name denote these lagged
+    input-output recurrences. State-space neural layers and architectures maintain
+    different state/parameterization scopes. This assessment is bounded to the inspected
+    pin and accessible corpus. NARMAX is the encompassing notation in the representation
+    paper; the companion OLS paper explicitly distinguishes its NARX subclass. Linear
+    regression, least-squares analysis and forward selection describe estimators or
+    fitting scope. RecurrentNeuralNetwork and EchoStateNetwork require neural structures;
+    VAR requires linear multivariate structure; TAR uses regime changes; autoregressive
+    language models target token distributions. None is an exact identity for this
+    family.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. The original Documents checkout cannot be read because
+    of OS permissions, so its untracked files are not claimed re-audited in this round.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T13:02:30Z'
+  support: supports
+  summary: Read76semantic AIOrows,12completeCLASSnodes/edges,98native name/definition
+    rows and the contextual records. Related mappings preserve model/task and lag-structure
+    distinctions.
+- evidence_id: calculations
+  kind: record_content
+  reference: research/discovery/narx-narmax-boundaries.py
+  accessed_at: '2026-10-12T13:02:30Z'
+  snapshot_sha256: fe8c59bf681ccbfceef80db5ce02cb809ab75d46172e99397db9db7ceb5a50a0
+  support: supports
+  summary: Exact examples expose hidden-output branch ambiguity, contradict the printed
+    degree-four bound both at the boundary and an interior point, distinguish coefficient/input
+    linearity, show contractive and expanding residual-initialization differences,
+    and separate one-step function approximation from recursive trajectory error.
+    These are curator calculations, not experimental replication.
+- evidence_id: chen-luo1989
+  kind: primary_source
+  reference: https://eprints.soton.ac.uk/251147/2/778742007_content.pdf
+  locator: International Journal of Control 50(5):1873–1896, 1989. University-hosted
+    publisher PDF with 2007 download cover; 25 PDF pages including cover, all visually
+    read. Article printed page equals PDF page plus 1871. Includes Sections 1–7, Equations
+    1–94, Figures 1–3, Tables 1–3 and all references.
+  accessed_at: '2026-10-12T12:30:51Z'
+  snapshot_sha256: 62199a403df8853661f7b802d4dd0797b800a84eaf99e846ed6fb82631a02224
+  support: supports
+  summary: All20pages of the representation paper and all25pages of the OLS paper
+    visually read. Definition, polynomial approximation, noise recursion and application
+    passages checked against rendered equations. The exact error-bound contradiction
+    is curator analysis of the printed formulas, not an author-reported correction.
+- evidence_id: chen-billings1989
+  kind: primary_source
+  reference: https://eprints.soton.ac.uk/251145/1/IJC-1989-03.pdf
+  locator: International Journal of Control 49(3):1013–1032, 1989; university-hosted
+    scanned article. All 20 PDF pages visually read, including abstract, Sections
+    1–7, Equations 1–83, six examples and complete references. Printed page equals
+    PDF page plus 1012. A few leading characters on PDF page 8 are clipped in the
+    original scan; they are not relied on for exact claims.
+  accessed_at: '2026-10-12T12:48:16Z'
+  snapshot_sha256: 68f4dc694ad146759f04b13d86f611cd293d65260a2ee3afe209f04097dac99b
+  support: supports
+  summary: All20pages of the representation paper and all25pages of the OLS paper
+    visually read. Definition, polynomial approximation, noise recursion and application
+    passages checked against rendered equations. The exact error-bound contradiction
+    is curator analysis of the printed formulas, not an author-reported correction.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: NARX subclass versus NARMAX family
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - identity
+  - chen-luo1989
+  - chen-billings1989
+  summary: Retain two related model-family concepts.
+  details: The explicitly named NARX subclass omits lagged-error dependence but retains
+    current additive error. NARMAX permits lagged errors. Neither requires neural
+    implementation or denotes the OLS estimator.
+- assessment_id: mappings
+  area: grounding
+  topic: AIO model/task boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - mapping
+  - identity
+  summary: Related mappings are bounded curator assessments.
+  details: This finite-lag input-output model family provides a representation used
+    in time-series analysis and system identification. The pinned target is an analysis
+    task, so this is a model/task relationship rather than equivalence or an is-a
+    assertion. Both represent dependence on lagged outputs and other inputs. The pinned
+    ARDL definition does not resolve nonlinear function classes or the exclusion of
+    lagged errors. A shared lag structure warrants a related mapping, not identity
+    or an inferred subclass from an underspecified definition. This finite-lag input-output
+    model family provides a representation used in time-series analysis and system
+    identification. The pinned target is an analysis task, so this is a model/task
+    relationship rather than equivalence or an is-a assertion. Both use autoregressive
+    and lagged-error structure. The pinned ARMA class describes stationary-series
+    modeling; this record allows nonlinear functions and exogenous inputs and does
+    not imply stationarity. The shared structure supports a related mapping, not an
+    exact or broader-class claim.
+- assessment_id: r0-finite-lag-predictor
+  area: evidence
+  topic: finite-lag-predictor
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'In the strictly causal scalar formulation, y_t=f(y_{t−1},…,y_{t−ny},u_{t−1},…,u_{t−nu})+e_t.
+    The lag orders and function parameterization are model choices. The 1989 OLS paper
+    defines NARX by omitting lagged noise from its general NARMAX form; the current
+    additive noise term remains. Setting that term to zero gives a deterministic recurrence.
+    A neural network is not required by this definition. Locators: Section 2, Equations
+    1–6, PDF p. 3 / printed p. 1874'
+- assessment_id: r0-parameter-estimation-boundary
+  area: evidence
+  topic: parameter-estimation-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'For a fixed polynomial NARX structure, measured lagged input/output values
+    form a fixed design matrix and coefficient fitting can be posed as linear least
+    squares. Structure selection and coefficient estimation are distinct from the
+    model family. Being linear in coefficients does not make the observed dynamics
+    linear, and a least-squares fit alone establishes neither physical causation nor
+    valid generalization. Locators: Section 2, Equations 6–13 and structure-selection
+    discussion, PDF pp. 3–5 / printed pp. 1874–1876; curator exact examples in research/discovery/narx-narmax-boundaries.py'
+- assessment_id: r0-local-representation-boundary
+  area: evidence
+  topic: local-representation-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  evidence_ids:
+  - chen-billings1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'A chosen output-history recurrence must be well-defined on its stated
+    domain. In the source example x_next=x+u, y=x+x², solving for x gives two possible
+    branches unless the state is restricted. States x=0 and x=−1 have the same current
+    output 0; with the same input u=1/4 their next outputs are 5/16 and −3/16. Thus
+    those one-step observed arguments alone do not define a global single-valued update
+    across both branches. This example does not rule out other history lengths or
+    restricted-domain representations. Locators: Section 2.2, Example 1, PDF p. 3
+    / printed p. 1015; curator exact examples in research/discovery/narx-narmax-boundaries.py'
+- assessment_id: r0-polynomial-scope
+  area: evidence
+  topic: polynomial-scope
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - chen-billings1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'A polynomial parameterization expands finite lag variables into monomials
+    and is linear in the monomial coefficients, while it can be nonlinear in the input
+    and output values. The continuous scalar recurrence function on a specified compact
+    finite-dimensional lag domain can be uniformly approximated by some polynomial;
+    this does not prescribe a fixed degree, identify coefficients from finite observations,
+    justify extrapolation, or guarantee stable recursive trajectories. The general
+    model family is not restricted to polynomial parameterizations. Locators: Section
+    2, Equations 6–13, PDF pp. 3–5 / printed pp. 1874–1876; Section 4, Equations 34–43,
+    PDF pp. 9–11 / printed pp. 1021–1023; curator exact examples in research/discovery/narx-narmax-boundaries.py'
+- assessment_id: r0-identification-use
+  area: evidence
+  topic: identification-use
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'The OLS study uses polynomial NARX structure selection to model measured
+    pilot liquid-level input-output data. This is a documented system-identification
+    use, not evidence that all NARX fits recover a physical mechanism or outperform
+    alternative models. The generic family also permits formulations other than the
+    particular polynomial fit. Locators: Section 6, Example 1, Figure 2 and Table
+    1, PDF p. 21 / printed p. 1892'
+- assessment_id: r1-lagged-error-recurrence
+  area: evidence
+  topic: lagged-error-recurrence
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - chen-billings1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'In the strictly causal scalar form, y_t=F(y_{t−1},…,y_{t−ny},u_{t−1},…,u_{t−nu},e_{t−1},…,e_{t−ne})+e_t.
+    Removing explicit lagged-error dependence gives NARX; removing exogenous inputs
+    gives a NARMA form. The moving-average terminology here concerns lagged errors
+    inside a possibly nonlinear function, not a running arithmetic average of observations.
+    Finite-lag recurrence structure does not require a neural network. Locators: Section
+    2, Equations 1–6, PDF p. 3 / printed p. 1874; Section 6, Equations 69–72, PDF
+    p. 16 / printed p. 1028'
+- assessment_id: r1-innovation-versus-fitted-residual
+  area: evidence
+  topic: innovation-versus-fitted-residual
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - chen-billings1989
+  - chen-luo1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'In the conditional-mean innovation construction, the prediction is the
+    conditional expectation of the current output given available past information,
+    and the innovation is output minus that expectation. This interpretation requires
+    the relevant moments and information set; it does not imply independent Gaussian
+    errors. The companion OLS formulation separately assumes zero-mean independent
+    noise. For an estimated model with chosen parameters, recursively computed prediction
+    residuals are parameter-dependent and are not automatically the true innovations
+    of the data-generating system. Locators: Section 6, Equations 58–69 and 77–81,
+    PDF pp. 15–16,18 / printed pp. 1027–1028,1030; Section 2, Equations 1–5 and noise
+    definition, PDF p. 3 / printed p. 1874'
+- assessment_id: r1-latent-error-estimation
+  area: evidence
+  topic: latent-error-estimation
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'Polynomial expansion is formally linear in coefficients, but lagged noise
+    variables are not directly observed. Consequently the regressor matrix is not
+    fixed directly from input-output measurements. The OLS paper describes an iterative
+    extension that substitutes prediction residuals, rebuilds noise-containing regressors
+    and refits. This is one estimator for the family; its reported few-iteration behavior
+    is not a universal convergence guarantee or a definition of NARMAX itself. Locators:
+    Sections 2 and 5, Equations 83–91, PDF pp. 5,18–20 / printed pp. 1876,1889–1891'
+- assessment_id: r1-residual-initialization-and-stability
+  area: evidence
+  topic: residual-initialization-and-stability
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - chen-billings1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'Prediction with lagged errors requires residual initialization. Model
+    invertibility asks whether residual sequences from different initializations forget
+    that difference for the specified model and input process. Linearity in lagged
+    errors alone is insufficient: in y_t=u_{t−1}²+a*e_{t−1}+e_t, two residual recursions
+    driven by identical observations differ by (−a)^t times their initial difference.
+    With initial difference 1, the difference after eight steps is 1/256 for a=1/2
+    and 256 for a=2. The source’s particular stochastic sufficient condition and example
+    must not be generalized to arbitrary coefficients or input distributions. Locators:
+    Section 6, Equations 74–83 and Example 6, PDF pp. 17–19 / printed pp. 1029–1031;
+    curator exact examples in research/discovery/narx-narmax-boundaries.py'
+- assessment_id: r1-polynomial-scope
+  area: evidence
+  topic: polynomial-scope
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - chen-luo1989
+  - chen-billings1989
+  - calculations
+  summary: Supported within explicit source and mathematical conditions.
+  details: 'A polynomial parameterization expands finite lag variables into monomials
+    and is linear in the monomial coefficients, while it can be nonlinear in the input
+    and output values. The continuous scalar recurrence function on a specified compact
+    finite-dimensional lag domain can be uniformly approximated by some polynomial;
+    this does not prescribe a fixed degree, identify coefficients from finite observations,
+    justify extrapolation, or guarantee stable recursive trajectories. The general
+    model family is not restricted to polynomial parameterizations. Locators: Section
+    2, Equations 6–13, PDF pp. 3–5 / printed pp. 1874–1876; Section 4, Equations 34–43,
+    PDF pp. 9–11 / printed pp. 1021–1023; curator exact examples in research/discovery/narx-narmax-boundaries.py'
+- assessment_id: source-challenge
+  area: consistency
+  topic: Numerical bound and conditional realizability
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - calculations
+  - chen-billings1989
+  summary: The source’s particular bound fails exact substitution.
+  details: At y=−1/4,u=1 the displayed error is5/16; at y=−6/25,u=1 it is2336/15625.
+    The second y coordinate is interior but u=1 is on the domain boundary. This does
+    not refute polynomial density. The hidden-state branch example concerns one-step
+    arguments only. Linear lagged errors may contract or expand initialization differences.
+    Broad realization, stationarity and global inference guarantees are not curated.
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete selected native records
+  outcome: supported
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - identity
+  - mapping
+  - chen-luo1989
+  - chen-billings1989
+  summary: Both selected targets were read field by field.
+  details: Read both identifiers, names, aliases, definitions, kind, identity scope,
+    twelve claims, each locator/relation, source metadata/hashes, four mappings, snapshot,
+    limitations and curation. Individual captures and category capture cover the same
+    unchanged target bytes. No generated record was edited.
+findings:
+- finding_id: support-relation
+  issue_key: aimech-narx-narmax-counterexample-support
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Declare support for the source-formula counterexample
+  description: Both asserted published-approximation-bound claims have only a context
+    citation. The native validator requires supporting full-text evidence and rejects
+    both records. The paper supports the printed formula and claimed bound; curator
+    arithmetic supports the counterexample. State that evidence distinction explicitly
+    and supply the appropriate supporting locator without implying the author reported
+    the correction.
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  field_paths:
+  - claims[claim_id=published-approximation-bound].evidence
+  - claims[claim_id=published-approximation-bound].statement
+  evidence_ids:
+  - chen-billings1989
+  - calculations
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T130217Z-narx-narmax-models.json
+    role: discovery_report
+- finding_id: interior-coordinate
+  issue_key: aimech-narx-narmax-interior-coordinate
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Specify that the output coordinate is interior
+  description: The counterexample y=−6/25,u=1 is called an interior point, but u=1
+    lies on the boundary of the two-dimensional stated domain. Qualify the interior
+    y coordinate, while retaining the exact counterexample.
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  field_paths:
+  - claims[claim_id=published-approximation-bound].statement
+  - source_analysis.paper_readings
+  evidence_ids:
+  - chen-billings1989
+  - calculations
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T130217Z-narx-narmax-models.json
+    role: discovery_report
+actions:
+- action_id: fix-support-relation
+  description: Correct both maintained claims and their report mirrors, append edit
+    history, regenerate pages and save a successor disposition.
+  finding_ids:
+  - support-relation
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T130217Z-narx-narmax-models.json
+    role: discovery_report
+  acceptance_checks:
+  - Every asserted claim has precise supporting evidence with source versus curator
+    inference distinguished.
+  - The domain wording is mathematically accurate.
+  - Exact examples reproduce; all required checks pass; successor retains both targets
+    and the stable issue key.
+- action_id: fix-interior-coordinate
+  description: Correct both maintained claims and their report mirrors, append edit
+    history, regenerate pages and save a successor disposition.
+  finding_ids:
+  - interior-coordinate
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T130217Z-narx-narmax-models.json
+    role: discovery_report
+  acceptance_checks:
+  - Every asserted claim has precise supporting evidence with source versus curator
+    inference distinguished.
+  - The domain wording is mathematically accurate.
+  - Exact examples reproduce; all required checks pass; successor retains both targets
+    and the stable issue key.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:NonlinearAutoregressiveExogenousModel
+  - AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+  evidence_ids:
+  - identity
+  - mapping
+  - chen-luo1989
+  - chen-billings1989
+  rationale: The named NARX subclass excludes explicit lagged errors; the encompassing
+    NARMAX family permits them. Overlap does not make the two scopes identical. Estimation
+    algorithms and neural implementations remain separate.
+limitations:
+- Author self-review only; both records remain DRAFT.
+- Two native DRAFT model families added:530curated and442unchanged generated records.468pending
+  and47partly addressed cohorts plus other unresolved scopes remain; discovery is
+  active.
+- All20pages of the1989representation article were visually read. The complete25page
+  OLS companion was read in the preceding round, and definition/application pages
+  were re-read here. Original1984/1985proofs remain pending.
+- The specific published degree-four numerical error bound fails exact substitution;
+  no author erratum is claimed. This defect does not negate the definitions or compact-domain
+  polynomial density statement. Unrestricted inverse and exponential-forgetting implications
+  are not adopted.
+- No empirical benchmark, author implementation, training or paid provider was run.
+  Original Documents checkout remains OS-inaccessible; synchronization and old original
+  branch cleanup await restored access.
+- Initial just check failed on stale rendered pages after an attempted nonexistent
+  CLI render subcommand. The correct just render recipe is being used; no gate pass
+  is claimed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- narx
+- narmax
+- self-review
+- discovery-ongoing
