@@ -1,0 +1,215 @@
+id: AIMech:LocalOutlierFactor
+name: Local outlier factor
+aliases:
+- LOF
+concept_kind: algorithm
+definition: An unsupervised local outlier-scoring procedure that compares each observation's inverse mean
+  reachability distance with those of its tie-inclusive nearest neighbors and returns their mean density
+  ratio.
+identity_notes: 'This record denotes the original fixed-neighborhood LOF procedure, with optional scale
+  aggregation and versioned implementation conventions explicitly separated. It is distinct from neighbor-label
+  voting, raw kth-distance ranking, thresholded NNDD or PDD, DBSCAN noise labels and OPTICS reachability
+  ordering. The earlier OPTICS-OF source remains a related unresolved identity comparison, not an alias.
+  Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 511 preceding native IDs, names
+  and aliases. No normalized identity collision was found. Fixed-string whole-word searches of both checkouts
+  included ignored and hidden files, LOF, expanded names and both publication DOIs: 16 worktree and 17
+  main matches, comprising 13 distinct context windows at 33 locations, were read. They are pending discovery
+  context and an unrelated BASIC-language LOF token in an ignored Pygments lexer. Semantic searches inspected
+  99 AIO name/synonym/definition rows and 70 native name/definition matches, reusing 85 and 67 unchanged
+  previously read rows respectively. Thirteen annotated AIO CLASS nodes with outgoing edges and twenty
+  contextual YAMLs were inspected or reused after unchanged-byte checks. This is a bounded corpus assessment,
+  not absence from all ontologies.'
+definition_evidence:
+- source_id: breunig2000
+  locator: Section 4, Definitions 3-7, printed/PDF pp3-4
+  relation: supports
+claims:
+- claim_id: tie-inclusive-locality
+  kind: mechanism
+  statement: For n reference observations and 1<=k<=n-1, k-distance(p) is the kth ordered distance to
+    other observations, excluding p itself. N_k(p) contains every other observation whose distance is
+    at most that boundary, including all ties, so its size can exceed k. The reference dataset and dissimilarity
+    define locality; the procedure does not require labeled normal/outlier examples or an explicit clustering.
+  evidence:
+  - source_id: breunig2000
+    locator: Section 4, Definitions 3-4, printed/PDF p3; Section 1, p1
+    relation: supports
+- claim_id: reachability-density-ratio
+  kind: mechanism
+  statement: Define reach_k(p,o)=max(k-distance(o),d(p,o)), using the neighbor o's radius, not p's. Reachability
+    is generally asymmetric. Local reachability density lrd_k(p) is the reciprocal of the mean reachability
+    over o in N_k(p), and LOF_k(p) is the mean of lrd_k(o)/lrd_k(p) over that same neighborhood. These
+    formulas require nonempty neighborhoods and positive finite mean reaches for the densities used. Reachability
+    density has inverse-distance units; it is not a normalized probability density. LOF is a dimensionless
+    relative score.
+  evidence:
+  - source_id: breunig2000
+    locator: Definitions 5-7, printed/PDF pp3-4
+    relation: supports
+- claim_id: relative-score-not-probability
+  kind: limitation
+  statement: 'A large score indicates lower reachability density relative to neighbors; it is neither
+    an outlier probability nor a universal decision threshold. The paper''s near-one bound assumes a closed
+    two-hop neighborhood and bounded positive reachability variation. Scores can be below one: for D={0,1,3}
+    under absolute distance and k=2, the scores are {11/12,6/5,11/12}. At k=1 they are {1,1,2}, reversing
+    the center-versus-endpoint ordering. Two arbitrarily separated observations both score one at k=1;
+    absolute isolation alone is not enough. These examples are exact curator calculations.'
+  evidence:
+  - source_id: breunig2000
+    locator: Definition 7 and Lemma 1, printed/PDF p4; Sections 5-6, pp4-8; research/discovery/local-outlier-factor-boundaries.py
+    relation: supports
+- claim_id: ties-zeros-and-scale
+  kind: limitation
+  statement: 'Boundary ties are part of the original definition: D={0,2,4,5}, k=1 gives point 2 score
+    3/2 when both equidistant neighbors are retained, but score 1 if an exact-k implementation chooses
+    only neighbor 0. Coincident observations can give zero mean reachability and undefined density ratios;
+    the paper assumes no duplicates and mentions a distinct-coordinate alternative without making an additive
+    regularizer part of core LOF. Multiplying every distance by a positive constant leaves the unregularized
+    core score unchanged when defined; feature-specific rescaling can change neighborhoods and scores.
+    For D={0,1,3}, k=2, reach(0,1)=2 exceeds d(0,1)=1, so the paper''s informal k=2 raw-distance reduction
+    is not generally implied by its self-excluded definitions.'
+  evidence:
+  - source_id: breunig2000
+    locator: Definitions 3-7 and duplicate discussion, printed/PDF pp3-4; Section 6, p7; exact curator
+      calculations in research/discovery/local-outlier-factor-boundaries.py
+    relation: supports
+- claim_id: neighborhood-scale-selection
+  kind: scope
+  statement: Scores can vary nonmonotonically with k. The paper suggests choosing a lower and upper neighborhood
+    size and ranking each point by its maximum LOF over that range; this is an optional multiscale ranking
+    heuristic, distinct from a fixed-k score. Suggested lower bounds near 10 and common choices around
+    10-20 are empirical guidance, not mathematical validity constraints or universally optimal defaults.
+    Small groups can appear ordinary relative to one another at some scales, so the chosen range affects
+    which deviations are exposed.
+  evidence:
+  - source_id: breunig2000
+    locator: Section 6 and Figures 7-8, printed/PDF pp7-9
+    relation: supports
+- claim_id: versioned-implementation-conventions
+  kind: scope
+  statement: The inspected scikit-learn 1.7.2-linked implementation uses a fixed neighbor count, excludes
+    the indexed query for fitted training scores, and adds 1e-10 to mean reachability before inversion.
+    It exposes negative LOF as negative_outlier_factor_; auto contamination chooses offset -1.5, while
+    supplied contamination chooses a training-score percentile and labels scores strictly below it. These
+    are implementation choices, not the paper's all-ties and unregularized definition or a universally
+    validated 1.5 cutoff. Ties can prevent an exact requested outlier fraction. A fixed additive epsilon
+    also prevents automatically transferring exact uniform-scale invariance.
+  evidence:
+  - source_id: breunig2000
+    locator: Definitions 3-7, printed/PDF pp3-4; soccer illustration and Table 3, p10; exact fixed-epsilon
+      curator calculation
+    relation: supports
+  - source_id: sklearn-lof
+    locator: LocalOutlierFactor.fit, _predict and _local_reachability_density
+    relation: supports
+  - source_id: sklearn-neighbors
+    locator: KNeighborsMixin._kneighbors_reduce_func and kneighbors, including query_is_train and final
+      fixed-shape self-removal
+    relation: supports
+- claim_id: novelty-query-distinction
+  kind: scope
+  statement: With novelty=True, the inspected implementation scores new queries against stored training-neighbor
+    radii and training densities; it does not insert the new query batch into reference neighborhoods.
+    Supplying training points through score_samples can include each query itself as a neighbor, unlike
+    the fitted training-score calculation. Novelty-query scores therefore need not equal negative_outlier_factor_
+    on the training set. This source-scoped extension does not redefine the original dataset-level score,
+    and no library runtime or historical-code equivalence was tested.
+  evidence:
+  - source_id: breunig2000
+    locator: Definitions 3-7, printed/PDF pp3-4
+    relation: supports
+  - source_id: sklearn-lof
+    locator: LocalOutlierFactor.score_samples, decision_function and their novelty docstrings
+    relation: supports
+  - source_id: sklearn-neighbors
+    locator: 'KNeighborsMixin.kneighbors: X is None training branch versus explicit-query branch'
+    relation: supports
+- claim_id: computation-and-evaluation-scope
+  kind: limitation
+  statement: After neighborhoods are available, computing densities and scores visits the retained neighbor
+    incidences for each chosen k. Original all-boundary-ties neighborhoods can contain n-1 observations
+    even for small k, so O(n*k) storage or linear score work requires a bounded-neighborhood assumption.
+    All-pairs search can require quadratic distance evaluations; index performance depends on data and
+    dimension. The paper's synthetic, sports and color-histogram examples and historical wall-clock timings
+    are conditional demonstrations, not universal accuracy or speed guarantees. The sports results use
+    selected features and neighborhood ranges with domain interpretation, not held-out probability calibration.
+    No numerical performance advantage is curated.
+  evidence:
+  - source_id: breunig2000
+    locator: Sections 7.1-7.3, Figures 9-11 and Table 3, printed/PDF pp9-11; Definition 4, p3
+    relation: supports
+evidence_sources:
+- source_id: breunig2000
+  title: 'LOF: Identifying Density-Based Local Outliers'
+  authors:
+  - Markus M. Breunig
+  - Hans-Peter Kriegel
+  - Raymond T. Ng
+  - Jörg Sander
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~raywong/comp5331/References/LOFIdentifyingDensityBasedLocalOutliers.pdf
+  persistent_id: https://doi.org/10.1145/342009.335388
+  version: SIGMOD 2000 method; exact university-hosted 12-page author-layout PDF, all pages visually read.
+    Printed pages 1-12 coincide with PDF pages; no offset to proceedings pages 93-104 is inferred.
+  access_level: full_text
+  accessed_at: '2026-10-12T08:37:29Z'
+  sha256: d6e378582bf7a0f6f9e34e2b11b0b4e7bc9016b4f20e5bc041760f6bb57cb566
+- source_id: sklearn-lof
+  title: scikit-learn LocalOutlierFactor implementation
+  authors:
+  - scikit-learn developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/scikit-learn/scikit-learn/1eb422d6c5f46a98a318f341de3e4709f9521bfe/sklearn/neighbors/_lof.py
+  version: Immutable source commit 1eb422d6c5f46a98a318f341de3e4709f9521bfe linked by scikit-learn 1.7.2
+    API documentation. Entire _lof.py read; no execution.
+  access_level: documentation
+  accessed_at: '2026-10-12T08:42:45Z'
+  sha256: a05774d4db7d6ded41374f68b1b678c5f672d1e8454cddea9ebe7841aa4b4e63
+- source_id: sklearn-neighbors
+  title: scikit-learn KNeighborsMixin implementation
+  authors:
+  - scikit-learn developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/scikit-learn/scikit-learn/1eb422d6c5f46a98a318f341de3e4709f9521bfe/sklearn/neighbors/_base.py
+  version: Immutable source commit 1eb422d6c5f46a98a318f341de3e4709f9521bfe linked by scikit-learn 1.7.2
+    API documentation. KNeighborsMixin._kneighbors_reduce_func and kneighbors fully read; remaining module
+    and backend implementations not fully audited.
+  access_level: documentation
+  accessed_at: '2026-10-12T08:47:20Z'
+  sha256: 6686ee9f3f36ae7ab9b572a90931e689345e8d5ab6b1879361fb2ea15990d9e5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedLearning
+  relation: related_match
+  rationale: LOF infers neighborhood-relative outlier scores from unlabeled observations, giving a related
+    algorithm-to-task association with AIO:UnsupervisedLearning. The target is a MachineLearningTask;
+    this link is neither exact equivalence nor a subclass assertion. The core score does not itself assign
+    two classes, so BinaryClassification and its supervised ancestry are not selected. Clustering and
+    OPTICS/DBSCAN organize clusters or reachability orderings, whereas LOF does not require a partition.
+    All three AIO KnearestNeighbor classes specify label voting or response averaging, not local reachability
+    ratios; RegressionAnalysis requires dependent/independent-variable relationships. DimensionalityReduction,
+    DataPreparation and SelectionAndSamplingBias do not identify this scoring procedure. Native neighbor-ratio
+    and distance-norm domain descriptions, PDD, supervised metric learning and density clustering have
+    different outputs or neighborhood rules.
+limitations:
+- Reference population, feature scaling, dissimilarity and neighborhood size determine the meaning of
+  local abnormality. A high score alone does not establish error, fraud, disease or any other domain conclusion.
+- Definitions 3-7 explicitly exclude self. Printed theorem endpoints allowing k=n and Theorem 2's inclusion
+  of p in a neighborhood partition do not override those core definitions; this record uses 1<=k<=n-1.
+  The informal k=2 simplification is qualified by a counterexample.
+- The mathematical core has no universal cutoff, duplicate regularizer or required novelty-query policy.
+  The inspected library conventions are tied to exact source bytes and are not claimed for every version
+  or backend.
+- All twelve primary PDF pages were visually read, including equations, figures, the sports table and
+  references. The complete pinned _lof.py and relevant neighbor-search methods were read; exact rational
+  boundary calculations were executed. No trained model, library runtime or historical benchmark was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:52:07Z'
+  updated_at: '2026-10-12T08:52:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
