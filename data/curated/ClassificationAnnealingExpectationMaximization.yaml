@@ -1,0 +1,106 @@
+name: Classification Annealing Expectation Maximization
+aliases:
+- Classification Annealing EM
+- CAEM
+concept_kind: algorithm
+definition: A stochastic hard-clustering algorithm that samples component assignments from current mixture
+  posterior probabilities raised to an inverse positive temperature, maximizes the completed-data classification
+  likelihood, and lowers the temperature according to a chosen schedule.
+identity_notes: 'The Celeux-Govaert CAEM construction changes the random label distribution within classification
+  EM. It differs from deterministic tempered EM, decreasing-step sufficient-statistic SAEM, and Metropolis
+  simulated annealing with an accept/reject transition. Temperature one recovers the SEM assignment law;
+  the low-temperature limit concentrates on maximal posterior components but retains random choice among
+  ties. No normalized identity matches among 442 pinned and 473 maintained records, including the bare
+  acronym probes. Existing supplemented EM and cross-entropy optimization are distinct methods; qualified
+  aliases avoid claiming SEM or CEM as unique names. ICE, MCEM, SAEM, deterministic tempered EM, simulated
+  annealing and k-means provide neighboring but different scopes. Existing stochastic-EM frontier and
+  incidental references are not records of the new identities. The absence assessment is bounded to this
+  snapshot and corpus. Identity-search counts: 227 matched lines in the worktree and 245 in main; all
+  137 distinct matching-text windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: cem-source
+  locator: Section 4.2 Eq4.6 and algorithm discussion, pp.11-12 / PDF13-14
+  relation: supports
+evidence_sources:
+- source_id: cem-source
+  title: A classification EM algorithm for clustering and two stochastic versions
+  authors:
+  - Gilles Celeux
+  - Gérard Govaert
+  source_type: author_technical_report
+  url: https://inria.hal.science/inria-00075196v1/document
+  persistent_id: inria-00075196v1
+  version: 'INRIA RR-1364, January 1991 according to the actual report cover; HAL v1 deposited May 24,
+    2006. All 19 PDF pages visually read: HAL cover, report cover, printed pp.1-16 and blank ISSN back
+    cover. Printed page equals PDF page minus 2. The 1992 journal version DOI 10.1016/0167-9473(92)90042-E
+    was identified but its full PDF was not obtained; version equivalence is not claimed.'
+  access_level: full_text
+  accessed_at: '2026-10-12T04:13:22Z'
+  sha256: 30bd7f969d0f06c00a71773f5470fcd86a44b36a948479258910287405f637cc
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The defining procedure estimates a hard grouping of unlabeled observations alongside fitted
+    component parameters. The pinned target is a clustering task, so the algorithm is related without
+    an is-a assertion. The word classification in the historical name does not identify the explicitly
+    supervised AIO:Classification class.
+claims:
+- claim_id: powered-posterior
+  kind: mechanism
+  statement: At temperature tau_m>0, set s_ik proportional to [p_k f_k(x_i)]^(1/tau_m), equivalently t_ik^(1/tau_m),
+    and normalize across components. Draw a hard label independently for each observation from s_i and
+    maximize the corresponding completed-data likelihood. The power applies to the entire weight-times-density
+    product. The next iteration uses the updated parameters and scheduled temperature; it is not a fractional-responsibility
+    M-step or a Metropolis acceptance test.
+  evidence:
+  - source_id: cem-source
+    locator: Section 4.2 Eq4.6, p.11 / PDF13; Section 3 M-step, p.5 / PDF7
+    relation: supports
+- claim_id: endpoint-and-ties
+  kind: scope
+  statement: At tau=1, the assignment law equals SEM. Holding positive component scores fixed while tau
+    approaches zero concentrates mass on maximal scores; with multiple tied maxima, their limiting probabilities
+    are equal rather than the smallest-index tie choice specified for deterministic CEM. Literal division
+    by tau=0 is undefined. This fixed-score limit does not establish that a changing-parameter cooling
+    run converges to a global solution.
+  evidence:
+  - source_id: cem-source
+    locator: Section 4.2 Eq4.6 and SEM/CEM interpolation discussion, p.11 / PDF13; Section 3 tie rule,
+      p.5 / PDF7; curator temperature and tie calculations
+    relation: supports
+- claim_id: schedule-and-stopping
+  kind: limitation
+  statement: The report gives geometric cooling tau_(m+1)=a*tau_m as a practical choice and explicitly
+    says its analogous CAEM convergence result has not yet been proved. The printed range includes a=1,
+    which does not cool. Its experiments use a=0.97 and stop when a partition is unchanged; an unchanged
+    stochastic partition over a finite comparison is not proof of future absorption. Neither a geometric
+    schedule nor the simulated-annealing analogy supplies a global-convergence guarantee.
+  evidence:
+  - source_id: cem-source
+    locator: Section 4.2 cooling and convergence discussion, p.12 / PDF14; Section 5 experimental settings,
+      pp.12-13 / PDF14-15
+    relation: supports
+limitations:
+- Positive temperature does not repair zero component scores, empty sampled classes or inadmissible completed-data
+  fits. These require the selected model and explicit restart, constraint or deletion rules; such changes
+  alter the procedure.
+- The source’s informal SAEM blend on p.12 repeats EM in both terms despite referring to a stochastic
+  contribution. The unseen original annealed-SAEM method is not inferred from that printed expression
+  or merged with CAEM.
+- The 1991 report’s empirical settings and tables do not establish an optimal schedule, a universal ranking,
+  statistical uncertainty calibration or semantic correctness of clusters. The final 1992 journal full
+  text and author code were not obtained.
+- No author implementation or historical numerical experiment was reproduced. Finite curator calculations
+  check formula boundaries, not empirical performance or a repaired convergence proof.
+id: AIMech:ClassificationAnnealingExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:22:35Z'
+  updated_at: '2026-10-12T04:22:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
