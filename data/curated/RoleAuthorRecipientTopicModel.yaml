@@ -1,0 +1,103 @@
+name: Role-author-recipient-topic model
+definition: A family of message-content models in which actors have latent-role distributions and ordered
+  sender-role/recipient-role pairs determine topic mixtures, with token-level or message-level role assignments.
+concept_kind: model_family
+identity_notes: Scoped to the RART family introduced by McCallum and colleagues, with the 2007 preprint
+  specifying RART1 in detail and sketching RART2 and RART3. RART1 draws both roles per token; RART2 fixes
+  a sender role and individual recipient roles per message; RART3 uses one common recipient role per message.
+  The latter sketches are not asserted to provide complete independent inference algorithms. Explicit
+  actor roles distinguish this family from ART pair-specific topic vectors and author-topic models. RART
+  is a source acronym within this scope. No normalized candidate identity matched all 442 pinned AIO IDs,
+  labels and scoped synonyms or 429 preceding native IDs, names and aliases. Full-checkout searches included
+  ignored and hidden files in both checkouts; 23 matching lines per checkout came from four unique file
+  contents containing prior frontier leads and contextual distinctions. All matching excerpts were inspected.
+  The semantic search returned 205 label/synonym hits, with 204 unchanged from prior reading and one newly
+  read. Eighteen annotated AIO CLASS nodes and outgoing edges were byte-verified against prior inspected
+  versions. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two final round102 records
+  verified against their fully read scientific-review inputs. No candidate record is present within this
+  bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- Only RART1 has a detailed generative specification in this source. The RART2/3 diagrams and prose leave
+  further implementation and inference choices for exploration; family coverage does not certify fully
+  specified variants.
+- The demonstrated 15-role, 50-topic fit is illustrated by selected email users and manually named roles
+  in Tables 6-7. Some apparently unrelated assignments remain unexplained, and entity-resolution errors
+  are present. These examples do not establish verified occupations, expertise, causal influence or universal
+  predictive superiority. Earlier ART perplexity results are not RART benchmark results.
+- Fixed role/topic counts, bag-of-words observations, uniform recipient selection and corpus-specific
+  participation affect identifiability and interpretation. Latent role labels are exchangeable; semantic
+  names are human interpretations. A single ART sample judged plausible does not establish adequate uncertainty
+  propagation or convergence.
+- Finite synthetic collapsed-probability checks cover the specified RART1 factorization, including a shared
+  actor in sender and recipient positions. They are not a reproduction of historical software, email preprocessing
+  or the reported benchmark.
+aliases:
+- RART
+definition_evidence:
+- source_id: method-source
+  locator: Section 5, preprint printed/PDF pp.17-19 and Figure 6 p.18
+  relation: supports
+claims:
+- claim_id: token-role-topic-generation
+  kind: mechanism
+  statement: In RART1, each actor has a Dirichlet-distributed role vector psi, each ordered sender-role/recipient-role
+    pair has a Dirichlet topic vector theta, and each topic has a Dirichlet word vector phi. Given observed
+    sender a and a nonempty recipient set R, a token chooses r uniformly from R, sender role g from psi_a,
+    recipient role h from psi_r, topic z from theta_gh, then word w from phi_z. An actor uses the same
+    role vector for sending and receiving, while theta distinguishes the order of the roles. The model
+    conditions on participants and message lengths rather than generating network edges. Shared random
+    vectors must be integrated jointly across their uses; two roles drawn for the same actor need not
+    be independent after psi is integrated out.
+  evidence:
+  - source_id: method-source
+    locator: Section 5, preprint pp.18-19, RART1 generative description and joint distribution
+    relation: supports
+- claim_id: staged-conditional-fitting
+  kind: mechanism
+  statement: The reported RART1 experiment first fits ART, fixes topic and recipient assignments from
+    one sample, and then infers the role structure conditionally on those assignments. This staged procedure
+    does not sample the full joint RART posterior or propagate all uncertainty in the frozen assignments.
+    The source states that general Gibbs updates can be derived, but its Appendix A derives ART updates,
+    not a complete RART sampler. Conditional on fixed parameters, token role choices can vary within a
+    message; RART2 and RART3 impose different message-level sharing and cannot be substituted without
+    changing the model.
+  evidence:
+  - source_id: method-source
+    locator: Section 5, preprint pp.18-19; Section 6, pp.19-20; Appendix A, pp.21-22
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Topic and Role Discovery in Social Networks with Experiments on Enron and Academic Email
+  authors:
+  - Andrew McCallum
+  - Xuerui Wang
+  - Andrés Corrada-Emmanuel
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/art-jair07.pdf
+  version: Author-hosted 24-page 2007 preprint; all pages visually read. Its header has volume 29 and
+    placeholder pages, whereas final JAIR metadata gives volume 30, pages 249-272, October 13, 2007. Locators
+    refer to the inspected preprint printed/PDF pages, not final journal pagination.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:01:18Z'
+  sha256: 40e7acc75fcad244773926272f97c835f0eb3ad56dfd5d15a64413c6765acbfc
+  persistent_id: doi:10.1613/jair.2229
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined generative model family is narrower than the pinned Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is classified as a task,
+    so related match preserves the model/task distinction.
+id: AIMech:RoleAuthorRecipientTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:12:37Z'
+  updated_at: '2026-10-12T00:12:37Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

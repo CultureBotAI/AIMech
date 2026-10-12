@@ -1,0 +1,102 @@
+name: Multi-label text mixture model
+definition: A generative multi-label document model that selects a label subset and a mixture supported
+  on that subset, then generates each word through one of the selected labels and its class-specific word
+  distribution.
+concept_kind: model_family
+identity_notes: Scoped to McCallum's 1999 mixture model for multi-label text classification, whose training
+  observes document label sets while token labels are latent. The maintained name describes this source
+  construction; no source acronym is invented. It differs from independent binary classifiers, mutually
+  exclusive multiclass classification and unsupervised topic discovery. The uniform author-word comparator
+  cited by later author-topic papers is a simplified case, not an alias for the full learned label-mixture
+  construction. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms
+  or 429 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files
+  in both checkouts; 23 matching lines per checkout came from four unique file contents containing prior
+  frontier leads and contextual distinctions. All matching excerpts were inspected. The semantic search
+  returned 205 label/synonym hits, with 204 unchanged from prior reading and one newly read. Eighteen
+  annotated AIO CLASS nodes and outgoing edges were byte-verified against prior inspected versions. Twenty-six
+  contextual YAMLs comprise 24 unchanged prior readings and two final round102 records verified against
+  their fully read scientific-review inputs. No candidate record is present within this bounded pinned-snapshot
+  and maintained-corpus search.
+limitations:
+- The prior-mode substitution is not generally the integrated likelihood or the posterior mode of lambda
+  given the document. Per-subset parameters and label-subset search become difficult with many labels;
+  the source uses backoff and heuristic search.
+- The reported additive estimate (count+m)/(D+m*number_of_subsets) is a posterior mean under symmetric
+  Dirichlet(m), or an interior MAP estimate under Dirichlet(m+1). With positive m it is not generally
+  MAP under a flat Dirichlet(1), despite the source wording. The m=1 Laplace estimator can be retained
+  without adopting that prior interpretation.
+- Experiments use Reuters-21578 ModApte and particular preprocessing; the ten-class binary naive-Bayes
+  baseline vocabulary was selected on test data, explicitly noted by the author. Preliminary 90-label
+  results report improved macro F1 with unchanged micro F1 and precision/recall tradeoffs. No universal
+  advantage or modern comparative claim follows.
+- Background and uniform components are smoothing/modeling devices, not evidence that every document belongs
+  to a real semantic background class. The original PostScript and converted PDF are separately hashed.
+  No author code or benchmark was executed.
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, converted PDF pp.2-3, generative process and Equation (1)
+  relation: supports
+claims:
+- claim_id: label-subset-word-mixture
+  kind: mechanism
+  statement: A document first chooses a label subset c with prior P(c), then a mixing vector lambda from
+    P(lambda|c) with zero mass outside that subset. For each word, a label is sampled from lambda and
+    the word from that label's categorical distribution. Training supplies document label subsets and
+    leaves token-label assignments unobserved. Classifying a new document compares subset scores containing
+    P(c) and the word likelihood integrated over lambda. The presented implementation approximates that
+    integral by evaluating one prior-mode mixture for each subset, rather than fitting or integrating
+    an arbitrary full mixing distribution. The source's first displayed document probability omits P(c);
+    Equation (1) includes it consistently with the generative description.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, converted PDF pp.2-3, first document-probability display and Equation (1)
+    relation: supports
+- claim_id: estimation-and-subset-search
+  kind: mechanism
+  statement: The fitting procedure assigns posterior label responsibilities to words, pools class-word
+    counts across documents, and pools mixture weights over documents with the same observed label subset.
+    Unseen subsets use an overlap-weighted backoff from observed subset mixtures. The reported modifications
+    include leave-one-document-out responsibility estimation, a shared learned background component and
+    a uniform word component. Prediction combines two greedy searches over label subsets; annealing is
+    suggested as another search approach. These approximations and modifications do not establish exact
+    marginalization, globally optimal subset selection, or ordinary full-data EM monotonicity.
+  evidence:
+  - source_id: method-source
+    locator: Section 2 Parameter Estimation and Additional Features, converted PDF pp.3-4
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Multi-Label Text Classification with a Mixture Model Trained by EM
+  authors:
+  - Andrew Kachites McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/multilabel-nips99s.ps
+  version: 'Author-hosted revised AAAI 1999 Workshop on Text Learning paper, identified by the primary
+    author index. The nips99s filename does not establish NIPS publication. Original PostScript SHA256
+    is recorded here; seven converted PDF pages were visually read. Conversion used installed gs-noX11
+    9.07 after gs-X11 failed to load an X11 library. Derived PDF SHA256: d9dde9f407912c56f6cf70c60209ced4eded0efb4e531cbd3327f02c329dc864.
+    Locators use converted PDF pages; no numeric printed labels are visible.'
+  access_level: full_text
+  accessed_at: '2026-10-12T00:01:49Z'
+  sha256: 165bb4792e919794f752e30c50747e60aa7411542aeaa79e31d2ff97fa5ec6ba
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined generative model family is narrower than the pinned Model class.
+- target: AIO:Classification
+  relation: related_match
+  rationale: This generative model supports prediction of label subsets. The pinned Classification class
+    describes a supervised task, not this specified model family.
+id: AIMech:MultiLabelTextMixtureModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:12:37Z'
+  updated_at: '2026-10-12T00:12:37Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
