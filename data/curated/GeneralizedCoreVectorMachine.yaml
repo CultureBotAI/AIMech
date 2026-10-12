@@ -1,0 +1,163 @@
+id: AIMech:GeneralizedCoreVectorMachine
+name: Generalized core vector machine
+aliases:
+- Generalized CVM
+- Generalized core vector machines
+concept_kind: algorithm
+definition: A kernel optimization algorithm that converts a quadratic program with a positive-semidefinite
+  Gram matrix and simplex constraints into a center-constrained minimum enclosing ball, then approximates
+  its solution by repeatedly enlarging and reoptimizing a core subset.
+identity_notes: This record denotes the Tsang-Kwok-Zurada generalized CVM solver, including its linear-term
+  and nonconstant-diagonal reduction. The CVR formulation is a specific application; original CVM and
+  BVM remain separate algorithms. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all
+  515 preceding native IDs, names and aliases. No normalized identity collision was found for either candidate.
+  Fixed-string whole-word searches of both checkouts included ignored and hidden files, expanded names,
+  CVR/GCVM/CVM acronyms and source identifiers. All 147 distinct matched-text windows were read; the post-merge
+  repeat has the same distinct windows in both checkouts. Hits describe original CVM/BVM, their reviews
+  and unresolved extensions, not an existing generalized-CVM or CVR record. All 93 semantic AIO rows were
+  reused after exact equality checks, and all 44 native name/definition matches were read. Fifteen annotated
+  AIO CLASS nodes and outgoing edges plus 22 contextual YAMLs were inspected or reused after unchanged-byte
+  checks. This assessment is bounded to the pinned and maintained corpus.
+definition_evidence:
+- source_id: tsang2006
+  locator: Sections III-B and III-C, printed pp1129-1131 / PDF pp4-6, Equations16-22; Algorithm1 on printed
+    p1129 / PDF p4
+  relation: supports
+- source_id: tsang2005
+  locator: Sections3.2-3.3, PDF pp3-5, center-constrained MEB reduction and CVR core algorithm
+  relation: supports
+claims:
+- claim_id: center-constrained-simplex-reduction
+  kind: mechanism
+  statement: For a finite positive-semidefinite Gram matrix K and objective max b^T*alpha-alpha^T*K*alpha
+    over alpha>=0 with sum(alpha)=1, choose eta so Delta=b-diag(K)+eta*1 is nonnegative. Augment each
+    feature by sqrt(Delta_i) and constrain the added center coordinate to zero. The minimum-enclosing-ball
+    dual becomes max alpha^T*(diag(K)+Delta)-alpha^T*K*alpha, which is the original objective plus eta.
+    This removes the constant-diagonal restriction and permits a linear objective term; it does not solve
+    arbitrary quadratic programs with different feasible constraints or indefinite kernels.
+  evidence:
+  - source_id: tsang2006
+    locator: Sections III-B and III-C, printed pp1129-1131 / PDF pp4-6, Equations16-22; Algorithm1 on
+      printed p1129 / PDF p4
+    relation: supports
+- claim_id: constrained-core-growth-and-distance
+  kind: mechanism
+  statement: Maintain a core subset and its exact center-constrained minimum enclosing ball. Check whether
+    every transformed point lies within the current radius multiplied by 1+epsilon; otherwise add a farthest
+    outside point and recompute the constrained core ball. The center is c=sum_i alpha_i*phi_i in the
+    unaugmented feature coordinates, and squared distance to augmented point j is alpha^T*K*alpha-2*(K*alpha)_j+K_jj+Delta_j.
+    Kernel evaluation avoids explicit feature coordinates. The procedure differs from BVM fixed-radius
+    center movement and extends the original CVM reduction.
+  evidence:
+  - source_id: tsang2006
+    locator: Sections III-B and III-C, printed pp1129-1131 / PDF pp4-6, Equations16-22; Algorithm1 on
+      printed p1129 / PDF p4
+    relation: supports
+- claim_id: shift-dependent-approximation
+  kind: limitation
+  statement: Under exact core optimization and exhaustive outside-point checks, the final core radius
+    R satisfies R<=R_star<=(1+epsilon)*R. Therefore the multiplicative objective certificate concerns
+    the objective after addition of eta. Changing eta preserves the exact maximizing alpha but can alter
+    when an approximate run stops. As an exact curator illustration, use base points0 and2, b=diag(K),
+    eta=10000 and epsilon=1/1000. The one-point core at0 has radius squared10000 and the other squared
+    distance10004, below the expanded squared radius10020.01; it can pass enclosure although its unshifted
+    objective is0 and the exact optimum is1 at center1. With eta0 the same core fails. This is a stopping-test
+    example, not a claim about the historical implementation or predictive error.
+  evidence:
+  - source_id: tsang2006
+    locator: Sections III-B and III-C, printed pp1129-1131 / PDF pp4-6, Equations16-22; Algorithm1 on
+      printed p1129 / PDF p4
+    relation: supports
+  - source_id: tsang2006
+    locator: Section III-C Property3, printed p1131 / PDF p6; Appendix proof, printed p1139 / PDF p14;
+      exact curator derivation in research/discovery/generalized-core-vector-boundaries.py
+    relation: supports
+- claim_id: core-size-and-implementation-limits
+  kind: limitation
+  statement: For positive approximation tolerance in the stated small-tolerance regime, the exact farthest-point/core-optimization
+    analysis gives O(1/epsilon) core size and updates, with linear dependence on dataset size at fixed
+    epsilon under the paper’s kernel-cost and inner-QP model. Dense-core auxiliary space is O(1/epsilon²),
+    excluding input storage. Selecting eta and finding or certifying violations still require data access.
+    The experiments instead use numerical SMO, caches, all data in memory and59-point probabilistic searches.
+    Sampled termination is not an exhaustive enclosure certificate, and the paper’s bounds do not imply
+    size-independent total memory, dimension-independent kernel cost or universal practical speed.
+  evidence:
+  - source_id: tsang2006
+    locator: Section III-C, printed p1131 / PDF p6; Section V introduction, printed p1132 / PDF p7; Appendix,
+      printed p1138 / PDF p13
+    relation: supports
+- claim_id: formulation-and-empirical-scope
+  kind: scope
+  statement: The source derives generalized reductions for its paired squared-slack regression formulation,
+    binary L2 SVM with observation-specific penalties, and a pair-difference ranking formulation with
+    squared slack and a learned margin. These are specific reformulations, not every SVR or ranking-SVM
+    variant. The reported experiments concern regression and imbalanced face classification; ranking experiments
+    are explicitly future work. Shared optimization machinery does not imply universal accuracy, generalization,
+    fairness or performance superiority.
+  evidence:
+  - source_id: tsang2006
+    locator: Sections III-A, IV and V-VI, printed pp1129-1137 / PDF pp4-12; ranking future-work statement
+      on printed p1137 / PDF p12
+    relation: supports
+evidence_sources:
+- source_id: tsang2005
+  title: Core Vector Regression for Very Large Regression Problems
+  authors:
+  - Ivor W. Tsang
+  - James T. Kwok
+  - Kimo T. Lai
+  source_type: primary_paper
+  url: https://icml.cc/Conferences/2005/proceedings/papers/115_CoreVector_TsangEtAl.pdf
+  version: ICML2005 proceedings PDF; all eight pages visually read. This PDF has no visible printed-page
+    labels; locators use PDF page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:37:34Z'
+  sha256: efd81da2420549a86d811ba09d7613d61938e7fc61ffb45ce2b3b3545fd89f9d
+- source_id: tsang2006
+  title: Generalized Core Vector Machines
+  authors:
+  - Ivor Wai-Hung Tsang
+  - James Tin-Yau Kwok
+  - Jacek M. Zurada
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~jamesk/papers/tnn06b.pdf
+  version: IEEE Transactions on Neural Networks17(5):1126-1140, September2006; all15 author-hosted final-article
+    PDF pages visually read. Printed page equals PDF page plus1125. The 2005 CVR paper is identified as
+    an abridged precursor.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:37:35Z'
+  sha256: 72725b613ce4c9895e2611fafc54a973392166f407cff7e4efcc0785eb157dbf
+  persistent_id: doi:10.1109/TNN.2006.878123
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: This training algorithm has a direct relationship to support-vector formulations. AIO:SupportVectorMachine
+    is a related model/network target whose definition covers supervised classification and regression,
+    with Network ancestry and layer relations. It is not equivalent to this solver or an is-a assertion
+    about the algorithm. RegressionAnalysis, Classification, BinaryClassification, SupervisedLearning
+    and UnsupervisedLearning describe task scope; they do not identify the optimization procedure. LinearRegression,
+    Least-squares Analysis and RidgeRegression do not encode the source-specific paired-slack CVR objective.
+    KernelLayer is a component and TrainingStrategy is defined as preprocessing. Original CVM requires
+    a constant-diagonal reduction, BVM uses different center updates, SVDD estimates a sphere and SVC
+    adds cluster labeling; shared kernels, spheres or output tasks do not establish identity.
+limitations:
+- The source assumes valid positive-semidefinite kernels and particular simplex-compatible formulations.
+  Approximation guarantees depend on the additive objective shift, exact inner optimization and exhaustive
+  violation checking.
+- All23 pages of the two primary PDFs were visually read. Source-specific claims are retained with their
+  versions; historical software access failed, and no optimizer, training or benchmark was executed.
+- Exact rational calculations test negative learned width, primal-dual scaling and shift-sensitive termination.
+  They are curator derivations from the displayed mathematics, not reproduced implementation behavior.
+- The record remains a native DRAFT with a related AIO model mapping. Later core-vector, soft-margin,
+  multiview, ranking and data-description extensions remain unresolved.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T09:55:07Z'
+  updated_at: '2026-10-12T10:02:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

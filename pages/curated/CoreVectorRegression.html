@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core vector regression · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Core vector regression</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Core vector regression</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CoreVectorRegression</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CVR
+    </div>
+
+  <div class="detail-desc">
+    A support-vector regression training algorithm that approximates a penalized-bias, paired squared-slack formulation with a learned unconstrained margin using a center-constrained minimum enclosing ball over two transformed points per observation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the CVR formulation and training method introduced by Tsang-Kwok-Lai2005 and developed by Tsang-Kwok-Zurada2006. It is distinct from the general solver, generic SVR, standard nonnegative-width variants, least-squares regression and a fitted model instance. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 515 preceding native IDs, names and aliases. No normalized identity collision was found for either candidate. Fixed-string whole-word searches of both checkouts included ignored and hidden files, expanded names, CVR/GCVM/CVM acronyms and source identifiers. All 147 distinct matched-text windows were read; the post-merge repeat has the same distinct windows in both checkouts. Hits describe original CVM/BVM, their reviews and unresolved extensions, not an existing generalized-CVM or CVR record. All 93 semantic AIO rows were reused after exact equality checks, and all 44 native name/definition matches were read. Fifteen annotated AIO CLASS nodes and outgoing edges plus 22 contextual YAMLs were inspected or reused after unchanged-byte checks. This assessment is bounded to the pinned and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#paired-squared-slack-regression</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For m observations and C,mu&gt;0, the displayed formulation minimizes ||w||²+b²+C/(mu*m)*sum_i(xi_i²+xi_i_star²)+2*C*epsilon_bar, subject to y_i-f_i&lt;=epsilon_bar+xi_i and f_i-y_i&lt;=epsilon_bar+xi_i_star, where f_i=w^T*phi(x_i)+b. The bias is penalized and the paired slack errors are squared. The source displays no nonnegativity constraint on the learned epsilon_bar. This formulation is distinct from L1-slack SVR and from a learned-width formulation explicitly requiring epsilon_bar&gt;=0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section III-A, printed p1129 / PDF p4, Equations9-15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-copy-simplex-dual-and-recovery</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let alpha=(lambda,lambda_star)&gt;=0 sum to1 and v=(y,-y). The scaled dual maximizes (2/C)*v^T*alpha-alpha^T*Ktilde*alpha, where Ktilde has diagonal blocks K+11^T+(mu*m/C)*I and off-diagonal blocks -(K+11^T). Thus m original observations yield2m transformed points. Recover w=C*sum_i(lambda_i-lambda_i_star)*phi(x_i), b=C*sum_i(lambda_i-lambda_i_star), xi_i=mu*m*lambda_i, xi_i_star=mu*m*lambda_i_star and epsilon_bar=v^T*alpha-C*alpha^T*Ktilde*alpha. The original primal optimum equals C² times this unshifted scaled-dual optimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section III-A, printed p1129 / PDF p4, Equations9-15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, printed p1130 / PDF p5; Appendix Property3 proof, printed p1139 / PDF p14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#core-vector-regression-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose Delta=(2/C)*v-diag(Ktilde)+eta*1&gt;=0 and apply center-constrained MEB core growth to the2m transformed points. Add an outside point, solve the enlarged core problem and recover the regression coefficients from its simplex weights. This is the regression-specific application of the generalized CVM solver. A selected transformed point, an original observation and a nonzero final regression coefficient are different notions; the two copies of an observation can contribute with opposite signs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Sections III-A and III-B, printed pp1129-1130 / PDF pp4-5, Equations11-22</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#learned-width-and-loss-interpretation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The missing nonnegative-width constraint is material to interpreting the displayed formulation. An exact curator calculation with one zero-feature observation y=0, C=mu=1 gives optimal lambda=lambda_star=1/2, w=b=0, xi=xi_star=1/2 and epsilon_bar=-1/2, with primal and scaled-dual value-1/2. The mean paired-slack sum equals mu=1, whereas max(|y-f|-epsilon_bar,0)=1/2. Thus the paper’s interpretation of mu as the ordinary epsilon-insensitive error needs a nonnegative-width qualification; it is not asserted unconditionally here. This result follows from the displayed primal/dual, not from executing historical CVR code.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section III-A, printed p1129 / PDF p4, Equations9-15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, PDF p3; exact curator derivation in research/discovery/generalized-core-vector-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#shifted-scaled-objective-guarantee</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With exact core optimization and exhaustive all-point termination, a core radius R gives R²&lt;=p_star/C²+eta&lt;=(1+epsilon)²*R² for the original primal optimum p_star. This is a bound on the shifted and scaled objective, not a multiplicative bound on p_star alone; p_star can be negative, as the exact zero-output example shows. Tolerance is not a test-error bound. Finite inner numerical tolerance, sampled searches, kernel costs and total input storage require separate treatment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section III-C Property3, printed p1131 / PDF p6; Appendix proof, printed p1139 / PDF p14</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Section3.3.1, PDF p5, Property3 and its proof</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#version-and-application-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The 2005 ICML CVR paper is an abridged precursor to the 2006 generalized-CVM paper, not a separate CVR identity. The earlier paper applies regression fits to implicit surface reconstruction using nonzero level sets and multiscale residual fitting. Historical regression comparisons use specified datasets, hyperparameter choices, hardware, LIBSVM/SVMlight versions and different loss formulations; the 2006 paper notes a change in LIBSVM version. These experiments do not establish universal speed, sparsity or prediction superiority. No historical software or benchmark was reproduced.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2006">Generalized Core Vector Machines</a></span>
+        <span>· <strong>Locator:</strong> Section I ending, printed p1127 / PDF p2; Section V, printed pp1132-1137 / PDF pp7-12, including footnote7 on p1132</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tsang2005">Core Vector Regression for Very Large Regression Problems</a></span>
+        <span>· <strong>Locator:</strong> Sections4.1-4.2 and5, PDF pp5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source assumes valid positive-semidefinite kernels and particular simplex-compatible formulations. Approximation guarantees depend on the additive objective shift, exact inner optimization and exhaustive violation checking.</li>
+      <li>All23 pages of the two primary PDFs were visually read. Source-specific claims are retained with their versions; historical software access failed, and no optimizer, training or benchmark was executed.</li>
+      <li>Exact rational calculations test negative learned width, primal-dual scaling and shift-sensitive termination. They are curator derivations from the displayed mathematics, not reproduced implementation behavior.</li>
+      <li>The record remains a native DRAFT with a related AIO model mapping. Later core-vector, soft-margin, multiview, ranking and data-description extensions remain unresolved.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SupportVectorMachine.html" style="font-weight: 600;"><code>AIO:SupportVectorMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Support Vector Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This training algorithm has a direct relationship to support-vector formulations. AIO:SupportVectorMachine is a related model/network target whose definition covers supervised classification and regression, with Network ancestry and layer relations. It is not equivalent to this solver or an is-a assertion about the algorithm. RegressionAnalysis, Classification, BinaryClassification, SupervisedLearning and UnsupervisedLearning describe task scope; they do not identify the optimization procedure. LinearRegression, Least-squares Analysis and RidgeRegression do not encode the source-specific paired-slack CVR objective. KernelLayer is a component and TrainingStrategy is defined as preprocessing. Original CVM requires a constant-diagonal reduction, BVM uses different center updates, SVDD estimates a sphere and SVC adds cluster labeling; shared kernels, spheres or output tasks do not establish identity.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-tsang2005">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tsang2005</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://icml.cc/Conferences/2005/proceedings/papers/115_CoreVector_TsangEtAl.pdf" target="_blank" rel="noopener">Core Vector Regression for Very Large Regression Problems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ivor W. Tsang, James T. Kwok, Kimo T. Lai
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:efd81da24205…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-tsang2006">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tsang2006</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cse.hkust.edu.hk/~jamesk/papers/tnn06b.pdf" target="_blank" rel="noopener">Generalized Core Vector Machines</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ivor Wai-Hung Tsang, James Tin-Yau Kwok, Jacek M. Zurada
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/TNN.2006.878123</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:72725b613ce4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T09:55:07Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T09:55:07Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CoreVectorRegression.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CoreVectorRegression.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
