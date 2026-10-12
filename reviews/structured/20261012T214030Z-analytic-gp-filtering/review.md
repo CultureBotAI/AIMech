@@ -1,0 +1,657 @@
+# Scientific author self-review of analytic Gaussian-process filtering
+
+- Review: 20261012T214030Z-analytic-gp-filtering
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T21:36:14Z
+- Finished UTC: 2026-10-12T21:40:30Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the analytic GP assumed-density filtering algorithm with explicit Gaussian projection and model-training limits. No actionable record defect was found. The record remains DRAFT.
+
+## Scope And Provenance
+
+All fields of AnalyticMomentBasedGaussianProcessFiltering and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:AnalyticMomentBasedGaussianProcessFiltering
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 1b5c46edd98e403758d2c6045e354a29f3e00a91.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AnalyticMomentBasedGaussianProcessFiltering | data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml | maintained | Analytic moment-based Gaussian-process filtering |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AnalyticMomentBasedGaussianProcessFiltering | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 122.48s (0:02:02)<br>Checked 442 record(s); 0 failed.<br>Checked 543 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 191 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 189,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AnalyticMomentBasedGaussianProcessFiltering | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AnalyticMomentBasedGaussianProcessFiltering | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AnalyticMomentBasedGaussianProcessFiltering | Exited 0 without output. |
+| Analytic GP filtering boundary calculations | passed | True | AIMech:AnalyticMomentBasedGaussianProcessFiltering | {"scope": "Finite analytic moment and conditioning illustrations; no GP fitting, trajectory simulation or source benchmark execution.", "linear_gaussian": {"prior_mean": [1.0, -1.0], "prior_covariance": [[2.0, 0.0], [0.0, 3.0]], "H": [1.0, 2.0], "observation": 2.0, "measurement_noise_variance": 0.5, "input_output_covariance": [2.0, 6.0], "predicted_observation_variance": 14.5, "posterior_mean": [1.4137931034482758, 0.24137931034482762], "posterior_covariance": [[1.7241379310344827, -0.8275862068965517], [-0.8275862068965517, 0.5172413793103448]], "determinant": 0.2068965517241378}, "nonlinear_conditioning": {"model": "X~N(0,1), Y=X^2; E[Y]=1, Var[Y]=2, Cov[X,Y]=0.", "conditional_law": "For y&gt;0, X given Y=y has equal mass at plus/minus sqrt(y).", "examples": [{"observation": 0.25, "exact_conditional_mean": 0.0, "exact_conditional_variance": 0.25, "gaussian_projected_mean": 0.0, "gaussian_projected_variance": 1.0}, {"observation": 1.0, "exact_conditional_mean": 0.0, "exact_conditional_variance": 1.0, "gaussian_projected_mean": 0.0, "gaussian_projected_variance": 1.0}, {"observation": 4.0, "exact_conditional_mean": 0.0, "exact_conditional_variance": 4.0, "gaussian_projected_mean": 0.0, "gaussian_projected_variance": 1.0}]}, "shared_input": {"model": "Y1=X+eps1,Y2=2X+eps2; VarX=1 and independent residual variances .3,.7.", "conditional_cross_covariance": 0.0, "marginal_covariance": [[1.3, 2.0], [2.0, 4.7]]}, "interpretation": ["Correct joint-Gaussian conditioning uses the transposed cross-covariance and includes independent observation noise once.", "Exact joint first two moments do not give exact nonlinear posterior moments after Gaussian joint projection.", "Conditionally independent output models can have correlated outputs after integrating a shared uncertain input."]} |
+
+## Scientific And Domain Assessments
+
+### Retain the complete GP assumed-density filter
+
+identity: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+The prediction-plus-conditioning procedure has a distinct supported identity.
+
+The full method adds joint measurement projection and conditioning to uncertain-input GP moment evaluation. It is not generic GP regression, a Taylor prediction transform or a fixed-image MAP algorithm. GP-ADF and the expanded assumed-density filtering alias identify the method in Section 5. Generic ADF, sigma-point GP filters and later sparse-spectrum filters remain separate identity questions.
+
+### Regression components and sequential time-series inference
+
+grounding: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Both related mappings preserve the algorithm/task distinction.
+
+Transition and observation regressors are necessary method components. The complete procedure estimates hidden states from ordered measurements, supporting TimeSeriesAnalysis. TimeSeriesForecasting captures only its prediction stage; ETS is a different model family. The underlying graphical model does not identify the inference procedure, and both bias targets have different scopes. No source mutation or upstream class acceptance is asserted.
+
+### trained-state-space-model
+
+evidence: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Supported within the stated model and approximation assumptions.
+
+The source models discrete-time dynamics x_k=f(x_{k-1})+w and measurements y_k=g(x_k)+v with trained squared-exponential GP models for the unknown transition and measurement functions. Its additive white Gaussian process and measurement noises have uncorrelated dimensions. Scalar GP output models are trained independently, with fixed fitted hyperparameters for prediction. The training setup assumes access to ground-truth hidden-state observations; the filtering stage subsequently estimates hidden states from noisy measurements. This is not an algorithm for learning the whole latent dynamics model from observation-only sequences.
+
+### prediction-moments
+
+evidence: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Supported within the stated model and approximation assumptions.
+
+Starting from a Gaussian approximation to the current state distribution, GP-ADF analytically evaluates the first two moments of the next-state prediction under its fixed GP transition model, then replaces that predictive distribution by a Gaussian with those moments. Gaussian-input squared-exponential kernel integrals supply the required mean and covariance terms. Independent scalar GP outputs can acquire nonzero marginal cross-covariances through their shared uncertain input; their conditional independence does not justify discarding those cross terms. Exact integrated moments under the assumed Gaussian input do not imply that the predictive mixture itself is Gaussian.
+
+### gaussian-filter-update
+
+evidence: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Supported within the stated model and approximation assumptions.
+
+For a Gaussian predicted state with mean m_p and covariance C_p, the measurement GP gives an observation mean m_y, covariance C_y and state-observation cross-covariance C_xy. GP-ADF approximates the joint state/measurement distribution by a Gaussian and applies m_e=m_p+C_xy*C_y^{-1}*(y-m_y) and C_e=C_p-C_xy*C_y^{-1}*C_xy^T, assuming the innovation covariance C_y is invertible. With column-vector states and measurements, C_xy has state-by-observation dimensions. Here C_p and C_y refer to the noisy transition/measurement quantities in the state-space model: if starting from latent GP moment covariances, include the corresponding independent process or measurement noise once. The joint-Gaussian conditioning step is exact for that approximate joint distribution, not generally for the original nonlinear filtering posterior.
+
+### nonlinear-conditioning-boundary
+
+evidence: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Supported within the stated model and approximation assumptions.
+
+The source explicitly uses both a Gaussian prediction approximation and a Gaussian approximation to the joint state/measurement law. Preserving the first two joint moments cannot generally preserve nonlinear conditional moments. A curator illustration takes X~N(0,1) and the noiseless observation Y=X^2: E[Y]=1, Var[Y]=2 and Cov(X,Y)=0. Conditioning the moment-matched joint Gaussian leaves the state mean 0 and variance 1 for every observed y, whereas for y&gt;0 the true conditional distribution has equal masses at plus and minus sqrt(y), with variance y. This is a mathematical boundary example for the Gaussian conditioning step, not an SE-GP benchmark or source experiment.
+
+### temporal-dependence-limit
+
+evidence: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Supported within the stated model and approximation assumptions.
+
+A sequence driven by one uncertain GP dynamics function generally creates dependence between that function and later states. Applying a fixed GP predictive model repeatedly to independently prescribed Gaussian state inputs does not retain all of this dependence. Hewing and colleagues analyze this distinction for GP trajectory prediction and contrast it with persistent-function sampling and correlation-aware approximations. Thus analytic single-step moments and a full covariance within each state approximation do not establish exact inference for the entire shared-function trajectory; this is separate from the Gaussian joint-measurement approximation.
+
+### Dimensions, noise and non-Gaussian conditioning
+
+consistency: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+The formula includes the necessary transpose and an explicit covariance convention.
+
+C_xy is D by E, C_y is E by E and C_p is D by D. The covariance subtraction therefore ends in C_xy^T. The two-state linear Gaussian calculation includes measurement noise once and returns a symmetric positive covariance with determinant 6R/(14+R). The X squared example follows from Gaussian even moments and symmetry, and shows that exact joint moments do not determine nonlinear conditional moments. It is explicitly a generic boundary illustration, not a reproduction of the paper’s SE-GP experiment.
+
+### Known training states versus later hidden-state inference
+
+scope: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+The training-data requirement is accurately bounded.
+
+Section 5 and the concluding discussion require ground-truth state observations for training the GP models. The paper proposes later forward-backward inference and EM as future work. The record does not transfer those future learning capabilities into the 2009 filter or claim that all GP filtering methods have the same training requirements.
+
+### Trajectory dependence differs from within-state covariance
+
+scope: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+Retaining a state covariance does not imply exact shared-function inference.
+
+The fixed GP/input integration assumption in Sections 4–5 is distinct from conditioning on a function-dependent trajectory. Hewing analyzes this class of successive-evaluation independence approximation. The record uses that source for the general mechanism limitation, not as evidence that its authors specifically benchmarked GP-ADF. No universal direction or magnitude of prediction error is asserted.
+
+### Corrected paper, access limits and complete field audit
+
+provenance: supported. Targets: AIMech:AnalyticMomentBasedGaussianProcessFiltering.
+
+All maintained fields and claim locators were assessed.
+
+Reviewed the stable ID, name, two aliases, algorithm kind, definition, identity notes, five claims, two sources and their access/version/hash metadata, pinned AIO snapshot, two mappings, six limitations, DRAFT status and actual curation timestamps. The report entry equals the YAML. The Cambridge catalog marks the source With corrections but supplies no correction date; both distinct PDF hashes are retained. Source covariance-noise shorthand is made explicit without claiming author-code equivalence. Numerical source performance and universal consistency claims are not curated. All cited source locations were checked visually. No model fitting or empirical replication was performed.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T213601Z-analytic-gp-filtering.json | supports | Compared all 442 pinned AIO IDs, labels and scoped synonyms and 542 maintained IDs, names and aliases against the proposed ID, name, two aliases and filtering terms: no normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery, older discovery and original Documents checkouts returned 20, 0 and 0 lines. All 15 distinct matched strings were read and refer to pending filtering leads, primary-paper metadata or reading notes. Read all 44 semantic AIO rows, 104 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges/generated records and four complete native context records. GP-ADF here is the 2009 analytic moment-based Gaussian assumed-density filter, not generic GP regression, an uncertain-input moment transform alone, the earlier local Taylor prediction method, or a fixed-image MAP Wiener filter. It includes both prediction and measurement conditioning. Generic assumed-density filtering, sigma-point GP filters and later sparse-spectrum filters require their own scope assessments. Absence is bounded to this pin and inspected corpus. |
+| mapping | sources/aio/aio.json | supports | Read 44 semantic AIO rows and 104 native neighbor definitions during preparation; seven complete annotated AIO CLASS nodes, incident edges and generated records were read and reread. Four native context records distinguish regression, moment prediction, Taylor prediction and image Wiener optimization. The two positive mappings are related task relationships. |
+| calculation | research/discovery/gp-filter-boundaries.py | supports | Finite analytic checks verify Gaussian conditioning dimensions/noise, distinguish exact nonlinear conditional variance from joint-Gaussian projection, and demonstrate shared-input-induced output covariance. They are not trained GP or benchmark reproductions. |
+| deisenroth2009 | https://mlg.eng.cam.ac.uk/pub/pdf/DeiHubHan09.pdf; Section 2, Equations 1–4, PDF p. 2; Sections 4.1–4.2, Equations 8–12, PDF pp. 3–4; Sections 5.1–5.3 and Equation 14, PDF pp. 4–5; training and future work, PDF p. 8. | supports | ICML 2009, pp. 225–232; eight-page Cambridge author-hosted PDF linked as With corrections by the MLG time-series bibliography. Correction date unspecified. All eight unnumbered PDF pages visually read; locators use PDF indices. The separately inspected KIT copy has different bytes and a predictive-mixture notation difference. Full sources were inspected during preparation. During this frozen-input review, corrected GP-ADF PDF pages 2–5 and 8 and Hewing PDF page 2 were visually reread against the actual record. |
+| hewing2020 | https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf; Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory methods, PDF pp. 5–7. | supports | L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices are 1–11, which are used for locators. Full sources were inspected during preparation. During this frozen-input review, corrected GP-ADF PDF pages 2–5 and 8 and Hewing PDF page 2 were visually reread against the actual record. |
+| code-access | https://mlg.eng.cam.ac.uk/marc/downloads/gpadf.zip | context_only | The author catalog code link returned HTTP 404 via the web tool. No author implementation was inspected or run; availability elsewhere remains unresolved. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- A source code-link failure is not an AIMech record defect. No GitHub issue is manufactured for this clean record.
+- Added one native DRAFT algorithm, bringing the total to 543 with 442 unchanged generated records. Discovery remains active with 482 pending and 55 partly addressed cohorts, plus other unresolved scopes.
+- Both 8-page GP-ADF2009versions and all 11 Hewing 2020 pages were read. The9-page sparse-spectrum main paper and 15-page supplement are also fully read as frontier evidence; VCDT 2019 and the 36-page local-linear report remain incompletely inspected.
+- Analytic Gaussian-conditioning and nonlinear-boundary illustrations were executed; no fitted model, author code, benchmark, paid provider or stochastic simulation was run.
+- Original-checkout synchronization and old round141 cleanup still await explicit approval after automatic review rejected that combined action; original files are preserved.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T214030Z-analytic-gp-filtering
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of analytic Gaussian-process filtering
+started_at: '2026-10-12T21:36:14Z'
+finished_at: '2026-10-12T21:40:30Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent challenged identity, mapping direction,
+    covariance algebra, Gaussian conditioning, training assumptions, source versions
+    and temporal dependence. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the analytic GP assumed-density filtering algorithm with explicit
+  Gaussian projection and model-training limits. No actionable record defect was found.
+  The record remains DRAFT.
+source:
+  git_revision: 1b5c46edd98e403758d2c6045e354a29f3e00a91
+  state: working_tree
+  inputs:
+  - path: data/aio/ErrorPropagationBias.yaml
+    sha256: 98a57881fa8f2a8f47efdf37f12f8dbcc66df495112e46c454d26cf4d934c5e4
+    role: context
+  - path: data/aio/ExponentialSmoothingStateSpaceModel.yaml
+    sha256: e54f9504ddd176b6fc08542cdacb2ab5cdb5a25cec8501ccf071de34881ec79d
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/aio/UncertaintyBias.yaml
+    sha256: b013064a48a14beef5040486a8d1cbd11d9c503739d6fc89f73460b08f38e8f3
+    role: context
+  - path: data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml
+    sha256: c5c76be578b7061f08766238de1f6c68046c7664a258e1c5b6f517f1eb1de98e
+    role: target
+  - path: data/curated/GaussianProcessGaussianInputMomentMatching.yaml
+    sha256: 1ee8ce71dc9dd12e404033168e575cb0628cc2f377e9c3efe4189962ae9378d3
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml
+    sha256: a0d144c86ae74968886abf7bd7e3c58ca0384af5d648dae0d51b7b9177afadc4
+    role: context
+  - path: data/curated/IteratedWienerFilter.yaml
+    sha256: 803905a00467ecfc963cbd5a24f5616013484c0d0ce57d205c386868346addac
+    role: context
+  - path: research/discovery/20261012T213601Z-analytic-gp-filtering.json
+    sha256: a6e6850c1683a0724c929b88910f0935a1e834b60246805cc21f62c3f2b23c24
+    role: context
+  - path: research/discovery/gp-filter-boundaries.py
+    sha256: 87fd3f5f0e07c864c7c3e259d83c548bb8d6130597127cc20140c3d90cb42846
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  path: data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml
+  label: Analytic moment-based Gaussian-process filtering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml
+    role: maintained
+scope:
+  description: All fields of AnalyticMomentBasedGaussianProcessFiltering and its primary
+    evidence.
+  selection: 'Exact maintained ID: AIMech:AnalyticMomentBasedGaussianProcessFiltering'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exclusions:
+  - target: Sparse-spectrum, recurrent and other GP filter additions
+    reason: Discovery leads require their own identity, mapping and evidence assessments.
+  - target: Author implementation or empirical reproduction
+    reason: Code link returned 404; analytic curator checks only.
+  - target: Generated and native context records
+    reason: Identity and mapping context, not complete scientific rereview.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 122.48s (0:02:02)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 543 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 191 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 189,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculations
+  name: Analytic GP filtering boundary calculations
+  command: python3 research/discovery/gp-filter-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Finite analytic moment and conditioning illustrations; no GP
+    fitting, trajectory simulation or source benchmark execution.", "linear_gaussian":
+    {"prior_mean": [1.0, -1.0], "prior_covariance": [[2.0, 0.0], [0.0, 3.0]], "H":
+    [1.0, 2.0], "observation": 2.0, "measurement_noise_variance": 0.5, "input_output_covariance":
+    [2.0, 6.0], "predicted_observation_variance": 14.5, "posterior_mean": [1.4137931034482758,
+    0.24137931034482762], "posterior_covariance": [[1.7241379310344827, -0.8275862068965517],
+    [-0.8275862068965517, 0.5172413793103448]], "determinant": 0.2068965517241378},
+    "nonlinear_conditioning": {"model": "X~N(0,1), Y=X^2; E[Y]=1, Var[Y]=2, Cov[X,Y]=0.",
+    "conditional_law": "For y>0, X given Y=y has equal mass at plus/minus sqrt(y).",
+    "examples": [{"observation": 0.25, "exact_conditional_mean": 0.0, "exact_conditional_variance":
+    0.25, "gaussian_projected_mean": 0.0, "gaussian_projected_variance": 1.0}, {"observation":
+    1.0, "exact_conditional_mean": 0.0, "exact_conditional_variance": 1.0, "gaussian_projected_mean":
+    0.0, "gaussian_projected_variance": 1.0}, {"observation": 4.0, "exact_conditional_mean":
+    0.0, "exact_conditional_variance": 4.0, "gaussian_projected_mean": 0.0, "gaussian_projected_variance":
+    1.0}]}, "shared_input": {"model": "Y1=X+eps1,Y2=2X+eps2; VarX=1 and independent
+    residual variances .3,.7.", "conditional_cross_covariance": 0.0, "marginal_covariance":
+    [[1.3, 2.0], [2.0, 4.7]]}, "interpretation": ["Correct joint-Gaussian conditioning
+    uses the transposed cross-covariance and includes independent observation noise
+    once.", "Exact joint first two moments do not give exact nonlinear posterior moments
+    after Gaussian joint projection.", "Conditionally independent output models can
+    have correlated outputs after integrating a shared uncertain input."]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T213601Z-analytic-gp-filtering.json
+  accessed_at: '2026-10-12T21:36:14Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 542 maintained
+    IDs, names and aliases against the proposed ID, name, two aliases and filtering
+    terms: no normalized identity match. Ignored- and hidden-inclusive full-text searches
+    in the recovery, older discovery and original Documents checkouts returned 20,
+    0 and 0 lines. All 15 distinct matched strings were read and refer to pending
+    filtering leads, primary-paper metadata or reading notes. Read all 44 semantic
+    AIO rows, 104 native name/definition neighbors, seven complete annotated AIO CLASS
+    nodes with incident edges/generated records and four complete native context records.
+    GP-ADF here is the 2009 analytic moment-based Gaussian assumed-density filter,
+    not generic GP regression, an uncertain-input moment transform alone, the earlier
+    local Taylor prediction method, or a fixed-image MAP Wiener filter. It includes
+    both prediction and measurement conditioning. Generic assumed-density filtering,
+    sigma-point GP filters and later sparse-spectrum filters require their own scope
+    assessments. Absence is bounded to this pin and inspected corpus.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T21:36:14Z'
+  support: supports
+  summary: Read 44 semantic AIO rows and 104 native neighbor definitions during preparation;
+    seven complete annotated AIO CLASS nodes, incident edges and generated records
+    were read and reread. Four native context records distinguish regression, moment
+    prediction, Taylor prediction and image Wiener optimization. The two positive
+    mappings are related task relationships.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/gp-filter-boundaries.py
+  accessed_at: '2026-10-12T21:36:14Z'
+  snapshot_sha256: 87fd3f5f0e07c864c7c3e259d83c548bb8d6130597127cc20140c3d90cb42846
+  support: supports
+  summary: Finite analytic checks verify Gaussian conditioning dimensions/noise, distinguish
+    exact nonlinear conditional variance from joint-Gaussian projection, and demonstrate
+    shared-input-induced output covariance. They are not trained GP or benchmark reproductions.
+- evidence_id: deisenroth2009
+  kind: primary_source
+  reference: https://mlg.eng.cam.ac.uk/pub/pdf/DeiHubHan09.pdf
+  locator: Section 2, Equations 1–4, PDF p. 2; Sections 4.1–4.2, Equations 8–12, PDF
+    pp. 3–4; Sections 5.1–5.3 and Equation 14, PDF pp. 4–5; training and future work,
+    PDF p. 8.
+  accessed_at: '2026-10-12T21:14:25Z'
+  snapshot_sha256: 14aa8c3914e7088c04e9ccda1076cb8735fd16dbf0f3340a394952e968dcac26
+  support: supports
+  summary: ICML 2009, pp. 225–232; eight-page Cambridge author-hosted PDF linked as
+    With corrections by the MLG time-series bibliography. Correction date unspecified.
+    All eight unnumbered PDF pages visually read; locators use PDF indices. The separately
+    inspected KIT copy has different bytes and a predictive-mixture notation difference.
+    Full sources were inspected during preparation. During this frozen-input review,
+    corrected GP-ADF PDF pages 2–5 and 8 and Hewing PDF page 2 were visually reread
+    against the actual record.
+- evidence_id: hewing2020
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  locator: Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory methods,
+    PDF pp. 5–7.
+  accessed_at: '2026-10-12T20:55:19Z'
+  snapshot_sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+  support: supports
+  summary: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF
+    and printed indices are 1–11, which are used for locators. Full sources were inspected
+    during preparation. During this frozen-input review, corrected GP-ADF PDF pages
+    2–5 and 8 and Hewing PDF page 2 were visually reread against the actual record.
+- evidence_id: code-access
+  kind: search
+  reference: https://mlg.eng.cam.ac.uk/marc/downloads/gpadf.zip
+  accessed_at: '2026-10-12T21:36:01Z'
+  support: context_only
+  summary: The author catalog code link returned HTTP 404 via the web tool. No author
+    implementation was inspected or run; availability elsewhere remains unresolved.
+  search_scope: The specific code link exposed by the Cambridge time-series bibliography,
+    not an exhaustive repository search.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Retain the complete GP assumed-density filter
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - identity
+  - deisenroth2009
+  summary: The prediction-plus-conditioning procedure has a distinct supported identity.
+  details: The full method adds joint measurement projection and conditioning to uncertain-input
+    GP moment evaluation. It is not generic GP regression, a Taylor prediction transform
+    or a fixed-image MAP algorithm. GP-ADF and the expanded assumed-density filtering
+    alias identify the method in Section 5. Generic ADF, sigma-point GP filters and
+    later sparse-spectrum filters remain separate identity questions.
+- assessment_id: mappings
+  area: grounding
+  topic: Regression components and sequential time-series inference
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - mapping
+  - deisenroth2009
+  summary: Both related mappings preserve the algorithm/task distinction.
+  details: Transition and observation regressors are necessary method components.
+    The complete procedure estimates hidden states from ordered measurements, supporting
+    TimeSeriesAnalysis. TimeSeriesForecasting captures only its prediction stage;
+    ETS is a different model family. The underlying graphical model does not identify
+    the inference procedure, and both bias targets have different scopes. No source
+    mutation or upstream class acceptance is asserted.
+- assessment_id: trained-state-space-model
+  area: evidence
+  topic: trained-state-space-model
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  summary: Supported within the stated model and approximation assumptions.
+  details: The source models discrete-time dynamics x_k=f(x_{k-1})+w and measurements
+    y_k=g(x_k)+v with trained squared-exponential GP models for the unknown transition
+    and measurement functions. Its additive white Gaussian process and measurement
+    noises have uncorrelated dimensions. Scalar GP output models are trained independently,
+    with fixed fitted hyperparameters for prediction. The training setup assumes access
+    to ground-truth hidden-state observations; the filtering stage subsequently estimates
+    hidden states from noisy measurements. This is not an algorithm for learning the
+    whole latent dynamics model from observation-only sequences.
+- assessment_id: prediction-moments
+  area: evidence
+  topic: prediction-moments
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  - calculation
+  summary: Supported within the stated model and approximation assumptions.
+  details: Starting from a Gaussian approximation to the current state distribution,
+    GP-ADF analytically evaluates the first two moments of the next-state prediction
+    under its fixed GP transition model, then replaces that predictive distribution
+    by a Gaussian with those moments. Gaussian-input squared-exponential kernel integrals
+    supply the required mean and covariance terms. Independent scalar GP outputs can
+    acquire nonzero marginal cross-covariances through their shared uncertain input;
+    their conditional independence does not justify discarding those cross terms.
+    Exact integrated moments under the assumed Gaussian input do not imply that the
+    predictive mixture itself is Gaussian.
+- assessment_id: gaussian-filter-update
+  area: evidence
+  topic: gaussian-filter-update
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  - calculation
+  summary: Supported within the stated model and approximation assumptions.
+  details: 'For a Gaussian predicted state with mean m_p and covariance C_p, the measurement
+    GP gives an observation mean m_y, covariance C_y and state-observation cross-covariance
+    C_xy. GP-ADF approximates the joint state/measurement distribution by a Gaussian
+    and applies m_e=m_p+C_xy*C_y^{-1}*(y-m_y) and C_e=C_p-C_xy*C_y^{-1}*C_xy^T, assuming
+    the innovation covariance C_y is invertible. With column-vector states and measurements,
+    C_xy has state-by-observation dimensions. Here C_p and C_y refer to the noisy
+    transition/measurement quantities in the state-space model: if starting from latent
+    GP moment covariances, include the corresponding independent process or measurement
+    noise once. The joint-Gaussian conditioning step is exact for that approximate
+    joint distribution, not generally for the original nonlinear filtering posterior.'
+- assessment_id: nonlinear-conditioning-boundary
+  area: evidence
+  topic: nonlinear-conditioning-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  - calculation
+  summary: Supported within the stated model and approximation assumptions.
+  details: 'The source explicitly uses both a Gaussian prediction approximation and
+    a Gaussian approximation to the joint state/measurement law. Preserving the first
+    two joint moments cannot generally preserve nonlinear conditional moments. A curator
+    illustration takes X~N(0,1) and the noiseless observation Y=X^2: E[Y]=1, Var[Y]=2
+    and Cov(X,Y)=0. Conditioning the moment-matched joint Gaussian leaves the state
+    mean 0 and variance 1 for every observed y, whereas for y>0 the true conditional
+    distribution has equal masses at plus and minus sqrt(y), with variance y. This
+    is a mathematical boundary example for the Gaussian conditioning step, not an
+    SE-GP benchmark or source experiment.'
+- assessment_id: temporal-dependence-limit
+  area: evidence
+  topic: temporal-dependence-limit
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  - hewing2020
+  summary: Supported within the stated model and approximation assumptions.
+  details: A sequence driven by one uncertain GP dynamics function generally creates
+    dependence between that function and later states. Applying a fixed GP predictive
+    model repeatedly to independently prescribed Gaussian state inputs does not retain
+    all of this dependence. Hewing and colleagues analyze this distinction for GP
+    trajectory prediction and contrast it with persistent-function sampling and correlation-aware
+    approximations. Thus analytic single-step moments and a full covariance within
+    each state approximation do not establish exact inference for the entire shared-function
+    trajectory; this is separate from the Gaussian joint-measurement approximation.
+- assessment_id: conditioning
+  area: consistency
+  topic: Dimensions, noise and non-Gaussian conditioning
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  - calculation
+  summary: The formula includes the necessary transpose and an explicit covariance
+    convention.
+  details: C_xy is D by E, C_y is E by E and C_p is D by D. The covariance subtraction
+    therefore ends in C_xy^T. The two-state linear Gaussian calculation includes measurement
+    noise once and returns a symmetric positive covariance with determinant 6R/(14+R).
+    The X squared example follows from Gaussian even moments and symmetry, and shows
+    that exact joint moments do not determine nonlinear conditional moments. It is
+    explicitly a generic boundary illustration, not a reproduction of the paper’s
+    SE-GP experiment.
+- assessment_id: training
+  area: scope
+  topic: Known training states versus later hidden-state inference
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - deisenroth2009
+  summary: The training-data requirement is accurately bounded.
+  details: Section 5 and the concluding discussion require ground-truth state observations
+    for training the GP models. The paper proposes later forward-backward inference
+    and EM as future work. The record does not transfer those future learning capabilities
+    into the 2009 filter or claim that all GP filtering methods have the same training
+    requirements.
+- assessment_id: dependence
+  area: scope
+  topic: Trajectory dependence differs from within-state covariance
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - hewing2020
+  - deisenroth2009
+  summary: Retaining a state covariance does not imply exact shared-function inference.
+  details: The fixed GP/input integration assumption in Sections 4–5 is distinct from
+    conditioning on a function-dependent trajectory. Hewing analyzes this class of
+    successive-evaluation independence approximation. The record uses that source
+    for the general mechanism limitation, not as evidence that its authors specifically
+    benchmarked GP-ADF. No universal direction or magnitude of prediction error is
+    asserted.
+- assessment_id: versions
+  area: provenance
+  topic: Corrected paper, access limits and complete field audit
+  outcome: supported
+  target_ids:
+  - AIMech:AnalyticMomentBasedGaussianProcessFiltering
+  evidence_ids:
+  - identity
+  - mapping
+  - deisenroth2009
+  - hewing2020
+  - calculation
+  - code-access
+  summary: All maintained fields and claim locators were assessed.
+  details: Reviewed the stable ID, name, two aliases, algorithm kind, definition,
+    identity notes, five claims, two sources and their access/version/hash metadata,
+    pinned AIO snapshot, two mappings, six limitations, DRAFT status and actual curation
+    timestamps. The report entry equals the YAML. The Cambridge catalog marks the
+    source With corrections but supplies no correction date; both distinct PDF hashes
+    are retained. Source covariance-noise shorthand is made explicit without claiming
+    author-code equivalence. Numerical source performance and universal consistency
+    claims are not curated. All cited source locations were checked visually. No model
+    fitting or empirical replication was performed.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- A source code-link failure is not an AIMech record defect. No GitHub issue is manufactured
+  for this clean record.
+- Added one native DRAFT algorithm, bringing the total to 543 with 442 unchanged generated
+  records. Discovery remains active with 482 pending and 55 partly addressed cohorts,
+  plus other unresolved scopes.
+- Both 8-page GP-ADF2009versions and all 11 Hewing 2020 pages were read. The9-page
+  sparse-spectrum main paper and 15-page supplement are also fully read as frontier
+  evidence; VCDT 2019 and the 36-page local-linear report remain incompletely inspected.
+- Analytic Gaussian-conditioning and nonlinear-boundary illustrations were executed;
+  no fitted model, author code, benchmark, paid provider or stochastic simulation
+  was run.
+- Original-checkout synchronization and old round141 cleanup still await explicit
+  approval after automatic review rejected that combined action; original files are
+  preserved.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- gaussian-processes
+- filtering
+- self-review
+- discovery-ongoing
+```

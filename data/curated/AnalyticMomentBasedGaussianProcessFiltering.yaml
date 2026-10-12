@@ -1,0 +1,172 @@
+id: AIMech:AnalyticMomentBasedGaussianProcessFiltering
+name: Analytic moment-based Gaussian-process filtering
+aliases:
+- Gaussian-process assumed-density filtering
+- GP-ADF
+concept_kind: algorithm
+definition: A Gaussian assumed-density filtering algorithm that uses trained squared-exponential Gaussian-process
+  transition and measurement models, analytically matches predictive moments under Gaussian state inputs,
+  and conditions a moment-matched Gaussian approximation to the joint state/measurement distribution to
+  update the hidden-state estimate.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 542 maintained IDs, names
+  and aliases against the proposed ID, name, two aliases and filtering terms: no normalized identity match.
+  Ignored- and hidden-inclusive full-text searches in the recovery, older discovery and original Documents
+  checkouts returned 20, 0 and 0 lines. All 15 distinct matched strings were read and refer to pending
+  filtering leads, primary-paper metadata or reading notes. Read all 44 semantic AIO rows, 104 native
+  name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges/generated records
+  and four complete native context records. GP-ADF here is the 2009 analytic moment-based Gaussian assumed-density
+  filter, not generic GP regression, an uncertain-input moment transform alone, the earlier local Taylor
+  prediction method, or a fixed-image MAP Wiener filter. It includes both prediction and measurement conditioning.
+  Generic assumed-density filtering, sigma-point GP filters and later sparse-spectrum filters require
+  their own scope assessments. Absence is bounded to this pin and inspected corpus.'
+definition_evidence:
+- source_id: deisenroth2009
+  locator: Sections 4.1–4.2 and 5.1–5.3, Equations 8–14, PDF pp. 3–5
+  relation: supports
+claims:
+- claim_id: trained-state-space-model
+  kind: mechanism
+  statement: The source models discrete-time dynamics x_k=f(x_{k-1})+w and measurements y_k=g(x_k)+v with
+    trained squared-exponential GP models for the unknown transition and measurement functions. Its additive
+    white Gaussian process and measurement noises have uncorrelated dimensions. Scalar GP output models
+    are trained independently, with fixed fitted hyperparameters for prediction. The training setup assumes
+    access to ground-truth hidden-state observations; the filtering stage subsequently estimates hidden
+    states from noisy measurements. This is not an algorithm for learning the whole latent dynamics model
+    from observation-only sequences.
+  evidence:
+  - source_id: deisenroth2009
+    locator: Section 2, Equations 1–4, PDF p. 2; Section 4.2 and Section 5, PDF p. 4; discussion of training
+      and future work, PDF p. 8
+    relation: supports
+- claim_id: prediction-moments
+  kind: mechanism
+  statement: Starting from a Gaussian approximation to the current state distribution, GP-ADF analytically
+    evaluates the first two moments of the next-state prediction under its fixed GP transition model,
+    then replaces that predictive distribution by a Gaussian with those moments. Gaussian-input squared-exponential
+    kernel integrals supply the required mean and covariance terms. Independent scalar GP outputs can
+    acquire nonzero marginal cross-covariances through their shared uncertain input; their conditional
+    independence does not justify discarding those cross terms. Exact integrated moments under the assumed
+    Gaussian input do not imply that the predictive mixture itself is Gaussian.
+  evidence:
+  - source_id: deisenroth2009
+    locator: Sections 4.1–4.2, Equations 8–12, PDF pp. 3–4; Section 5.1, PDF p. 4
+    relation: supports
+- claim_id: gaussian-filter-update
+  kind: mechanism
+  statement: 'For a Gaussian predicted state with mean m_p and covariance C_p, the measurement GP gives
+    an observation mean m_y, covariance C_y and state-observation cross-covariance C_xy. GP-ADF approximates
+    the joint state/measurement distribution by a Gaussian and applies m_e=m_p+C_xy*C_y^{-1}*(y-m_y) and
+    C_e=C_p-C_xy*C_y^{-1}*C_xy^T, assuming the innovation covariance C_y is invertible. With column-vector
+    states and measurements, C_xy has state-by-observation dimensions. Here C_p and C_y refer to the noisy
+    transition/measurement quantities in the state-space model: if starting from latent GP moment covariances,
+    include the corresponding independent process or measurement noise once. The joint-Gaussian conditioning
+    step is exact for that approximate joint distribution, not generally for the original nonlinear filtering
+    posterior.'
+  evidence:
+  - source_id: deisenroth2009
+    locator: Section 2, Equations 1–2, PDF p. 2; Section 5.2, joint covariance, state-observation moment
+      derivation and Equation 14, PDF p. 5
+    relation: supports
+- claim_id: nonlinear-conditioning-boundary
+  kind: limitation
+  statement: 'The source explicitly uses both a Gaussian prediction approximation and a Gaussian approximation
+    to the joint state/measurement law. Preserving the first two joint moments cannot generally preserve
+    nonlinear conditional moments. A curator illustration takes X~N(0,1) and the noiseless observation
+    Y=X^2: E[Y]=1, Var[Y]=2 and Cov(X,Y)=0. Conditioning the moment-matched joint Gaussian leaves the
+    state mean 0 and variance 1 for every observed y, whereas for y>0 the true conditional distribution
+    has equal masses at plus and minus sqrt(y), with variance y. This is a mathematical boundary example
+    for the Gaussian conditioning step, not an SE-GP benchmark or source experiment.'
+  evidence:
+  - source_id: deisenroth2009
+    locator: Sections 5.2–5.3, Equation 14 and the two Gaussian approximation assumptions, PDF p. 5
+    relation: supports
+- claim_id: temporal-dependence-limit
+  kind: limitation
+  statement: A sequence driven by one uncertain GP dynamics function generally creates dependence between
+    that function and later states. Applying a fixed GP predictive model repeatedly to independently prescribed
+    Gaussian state inputs does not retain all of this dependence. Hewing and colleagues analyze this distinction
+    for GP trajectory prediction and contrast it with persistent-function sampling and correlation-aware
+    approximations. Thus analytic single-step moments and a full covariance within each state approximation
+    do not establish exact inference for the entire shared-function trajectory; this is separate from
+    the Gaussian joint-measurement approximation.
+  evidence:
+  - source_id: deisenroth2009
+    locator: Prediction and update assumptions, Sections 5.1–5.3, PDF pp. 4–5
+    relation: supports
+  - source_id: hewing2020
+    locator: Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: deisenroth2009
+  title: Analytic Moment-based Gaussian Process Filtering
+  authors:
+  - Marc Peter Deisenroth
+  - Marco F. Huber
+  - Uwe D. Hanebeck
+  source_type: primary_paper
+  url: https://mlg.eng.cam.ac.uk/pub/pdf/DeiHubHan09.pdf
+  persistent_id: https://doi.org/10.1145/1553374.1553403
+  version: ICML 2009, pp. 225–232; eight-page Cambridge author-hosted PDF linked as With corrections by
+    the MLG time-series bibliography. Correction date unspecified. All eight unnumbered PDF pages visually
+    read; locators use PDF indices. The separately inspected KIT copy has different bytes and a predictive-mixture
+    notation difference.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:14:25Z'
+  sha256: 14aa8c3914e7088c04e9ccda1076cb8735fd16dbf0f3340a394952e968dcac26
+- source_id: hewing2020
+  title: On Simulation and Trajectory Prediction with Gaussian Process Dynamics
+  authors:
+  - Lukas Hewing
+  - Elena Arcari
+  - Lukas P. Fröhlich
+  - Melanie N. Zeilinger
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  persistent_id: https://proceedings.mlr.press/v120/hewing20a.html
+  version: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices
+    are 1–11, which are used for locators.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:55:19Z'
+  sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: GP regression models learned for transition and measurement responses are essential components
+    of this filter. RegressionAnalysis supplies that modeling-task relationship, not an equivalent filtering
+    identity or asserted subclass.
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: The algorithm infers hidden states recursively from time-indexed noisy measurements. This
+    is a concrete time-series analysis relationship; the complete filter includes measurement conditioning,
+    rather than only prediction of future values.
+limitations:
+- Exact moment claims condition on the chosen squared-exponential posterior models, fixed training data/hyperparameters
+  and the Gaussian input approximation. Gaussian prediction and joint-state/measurement projection discard
+  higher-order structure; the method is not an exact general nonlinear Bayes filter.
+- The source uses independent scalar GP outputs and diagonal white process/measurement noises. Correlated
+  conditional outputs, correlated noises, non-Gaussian inputs and hyperparameter uncertainty require additional
+  treatment. Shared uncertain input alone still induces cross-output covariance.
+- Training requires hidden-state observations in the described setup. Smoothing and learning without direct
+  state observations are discussed as future work, not delivered by this filter.
+- The corrected source introduces process and measurement noise in its state-space model while later covariance
+  additions are implicit. This record defines noisy versus latent covariances explicitly and adds independent
+  noise once; no claim of reproducing an uninspected author implementation is made. Singular innovation
+  covariance requires a separate supported treatment rather than an unconditional inverse.
+- The inspected sources do not justify universally calibrated intervals, always-consistent state estimates
+  or superiority over other filters. Their one-dimensional and pendulum illustrations are task-specific;
+  no numerical performance claim is curated. A linear-Gaussian curator check validates only the displayed
+  conditioning arithmetic.
+- The Gaussian joint-conditioning counterexample and shared-input covariance check are curator analytic
+  illustrations, not trained SE-GP experiments. No author code, fitting, stochastic trajectory simulation
+  or benchmark was run. The record remains DRAFT after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T21:36:01Z'
+  updated_at: '2026-10-12T21:36:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
