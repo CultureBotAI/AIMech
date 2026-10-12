@@ -1,0 +1,163 @@
+id: AIMech:SupportVectorClustering
+name: Support Vector Clustering
+aliases:
+- SVC
+concept_kind: algorithm
+definition: An unsupervised clustering procedure that fits a soft enclosing sphere to observations in
+  Gaussian-kernel feature space, then labels retained observations by connected components of a graph
+  whose input-space segments remain within the sphere preimage.
+identity_notes: 'This record covers the Ben-Hur-Horn-Siegelmann-Vapnik sphere-and-connectivity procedure
+  in the exact inspected JMLR PDF. The support description alone does not assign component labels. This
+  is distinct from supervised support-vector classification, label-margin clustering, kernel k-means,
+  density-connected neighborhoods and iterative mode seeking. Low- and high-outlier regimes are parameter
+  settings within the method. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 501 prior
+  native IDs, names and aliases; no normalized identity collision for Support Vector Clustering or SVC.
+  Full fixed-string searches of both checkouts included ignored and hidden files, expanded terminology,
+  source identifiers and adjacent support-description names. They returned 13 lines per checkout: nine
+  distinct texts at 26 locations, all inspected as query, bibliography or provisional frontier references
+  in the preceding discovery ledger, not maintained concepts. Eight annotated AIO nodes and outgoing edges,
+  eight generated records and five native neighbors distinguish the selected procedure. Absence is bounded
+  to the inspected pin and corpus; inaccessible source revisions do not establish absence upstream.'
+definition_evidence:
+- source_id: svc-source
+  locator: Sections2.1-2.2, printed pp.126-128 / PDF pp.2-4, Equations1-16
+  relation: supports
+claims:
+- claim_id: sphere-fit
+  kind: mechanism
+  statement: For N input observations, Gaussian kernel K(x,y)=exp(-q*||x-y||²), q>0, and slack penalty
+    C>0, fit a center a and radius R by minimizing R²+C*sum_i xi_i subject to ||Phi(x_i)-a||²<=R²+xi_i
+    and xi_i>=0. The displayed dual maximizes sum_i beta_i*K_ii-beta^T*K*beta with sum_i beta_i=1 and
+    0<=beta_i<=C. Its feasibility requires N*C>=1. The center is sum_i beta_i*Phi(x_i); kernel evaluation
+    avoids explicitly constructing those features. The convex quadratic dual concerns sphere fitting,
+    not globally optimal clustering or parameter selection.
+  evidence:
+  - source_id: svc-source
+    locator: Section2.1, printed pp.126-127 / PDF pp.2-3, Equations1-11; feasibility follows by summing
+      the box bounds
+    relation: supports
+- claim_id: radius-and-bound-vectors
+  kind: limitation
+  statement: The squared distance of a new input is K(x,x)-2*sum_i beta_i*K(x_i,x)+beta^T*K*beta. A free
+    support vector with 0<beta_i<C lies on the sphere and supplies R. If no free support vector exists,
+    the stated radius rule needs an additional convention. A coefficient beta_i=C permits distance equal
+    to R as well as greater than R; bounded coefficients alone do not prove strict exclusion. With N=2,
+    C=1/2 and Gaussian off-diagonal kernel value 1/2, beta=(1/2,1/2), and every squared radius from 0 to 1/4
+    with equal slacks 1/4-R² attains primal and dual value 1/4. At R²=1/4 both bounded vectors are on the
+    boundary and no free vector exists.
+  evidence:
+  - source_id: svc-source
+    locator: Section2.1, printed pp.127-128 / PDF pp.3-4, Equations3-14; curator exact two-observation
+      KKT and primal-dual calculation
+    relation: supports
+- claim_id: component-assignment
+  kind: mechanism
+  statement: For observations retained inside or on the sphere, form an edge when every point on their
+    straight line segment in input space also maps inside or onto the sphere. Assign clusters as connected
+    components of this observation graph. The reported implementation approximates each continuous segment
+    test with 20 sampled points. Points treated as outliers are initially unassigned; leaving them unassigned
+    or assigning them to a nearest cluster is an additional policy, and the paper uses the latter in its
+    examples.
+  evidence:
+  - source_id: svc-source
+    locator: Section2.2, printed p.128 / PDF p.4, Equation16 and following paragraphs
+    relation: supports
+- claim_id: finite-connectivity
+  kind: limitation
+  statement: An exact accepted segment gives a path inside the sphere preimage, but a graph on finitely
+    many observations need not capture every path-connected component of that continuous set. Finite segment
+    sampling can miss an excursion outside and introduce a false connection. The 20-sample implementation
+    therefore has no stated exact topological recovery guarantee. Restricting adjacency tests to support
+    vectors is a heuristic described in Section 5 reported to agree on the tried datasets, not a general equivalence proof.
+  evidence:
+  - source_id: svc-source
+    locator: Section2.2, printed p.128 / PDF p.4; Section5, printed p.135 / PDF p.11; curator distinction
+      between continuous paths and finite sampled edges
+    relation: supports
+- claim_id: scale-and-outlier-control
+  kind: mechanism
+  statement: The parameters q and p=1/(N*C) explore spatial scale and allowable slack. Larger q means
+    a narrower Gaussian; larger p means a smaller penalty C. The box and sum constraints imply that the
+    fraction of coefficients at their upper bound is at most p; the paper’s stricter inequality requires
+    remaining positive coefficient mass. High-p fits can describe cluster cores rather than the envelope
+    of all data. The weighted kernel score sum_i beta_i*K(x_i,x) approaches the equal-weight Parzen score
+    as p approaches 1, up to density normalization; this resemblance does not make the component procedure
+    identical to mode seeking.
+  evidence:
+  - source_id: svc-source
+    locator: Sections3.2-4, printed pp.130-133 / PDF pp.6-9, Equations17-22; bound qualification follows
+      from Equations3,9
+    relation: supports
+- claim_id: selection-and-hierarchy
+  kind: limitation
+  statement: The source proposes increasing q and adjusting p while monitoring support-vector fractions
+    and stability. It explicitly reports counterexamples to a strict hierarchy when bounded support vectors
+    are used. These choices do not provide a universal cluster-count selector or nested partition guarantee.
+    Strong overlap may leave small cluster cores; the finite experiments also show sensitivity to retained
+    PCA dimensions.
+  evidence:
+  - source_id: svc-source
+    locator: Sections4.1-4.2 and 6, printed pp.134-136 / PDF pp.10-12
+    relation: supports
+- claim_id: computational-scope
+  kind: limitation
+  statement: The source uses an adapted sequential minimal optimization fit and sampled pairwise connectivity
+    checks. With a fixed number of segment samples, straightforward labeling scales with retained-point
+    pairs, nonzero-coefficient kernel evaluations and input dimension. The stated overall quadratic scaling
+    assumes a bounded support-vector count and empirical solver behavior; it is not an unconditional complexity
+    guarantee for all kernels or datasets.
+  evidence:
+  - source_id: svc-source
+    locator: Section5, printed p.135 / PDF p.11
+    relation: supports
+evidence_sources:
+- source_id: svc-source
+  title: Support Vector Clustering
+  authors:
+  - Asa Ben-Hur
+  - David Horn
+  - Hava T. Siegelmann
+  - Vladimir Vapnik
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume2/horn01a/horn01a.pdf
+  version: JMLR 2 (2001):125-137, exact currently served 13-page PDF at horn01a.pdf; all pages visually read.
+    The index separately lists a January 2002 revision, but its main and MIT-mirror PDF links returned 404.
+    No claim that this download equals that unavailable revision.
+  access_level: full_text
+  accessed_at: '2026-10-12T07:04:07Z'
+  sha256: 001d2385ad19bc0d71c6bde187ccc8b54acd38bfca615c69e04ae4734fd0ddff
+limitations:
+- The record describes the exact inspected source and qualifies its KKT, connectivity, hierarchy and cost
+  statements; the separately listed revision remains unavailable for comparison.
+- Gaussian scale, penalty, numerical tolerances, radius conventions, segment sampling and outlier reassignment
+  affect results. The original comparison does not establish universal performance, unbiased parameter
+  choice or recovery of arbitrary population clusters.
+- All 13 source pages, seven figures and references were visually read. Iris results depend on PCA dimension
+  and, for the two-dimensional example, combining two returned clusters. No historical optimizer, benchmark
+  or model training was executed.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: 'The procedure performs the inspected unlabeled clustering task, so AIO:UnsupervisedClustering
+    is a related task mapping, not algorithm-task identity or an upstream subclass assertion. Inspected
+    eight annotated AIO nodes and their generated records: UnsupervisedClustering, Clustering, UnsupervisedLearning,
+    MachineLearningTask, SupportVectorMachine, Network, KernelLayer and Model. The supervised classification/regression
+    network definition of SupportVectorMachine does not cover this unsupervised sphere-and-connectivity
+    algorithm; a shared support-vector name is insufficient. Generic networks, kernel layers and model
+    abstractions do not specify it. All442 AIO class labels and 153 semantic matches reuse byte-verified
+    prior readings; expanded support/sphere/density/novelty/anomaly searches add no rows. KernelPCA, KernelKMeans
+    and SemidefiniteMaximumMarginClustering were checked against their unchanged complete readings; DBSCAN
+    and MeanShift were fully read as additional context. Their projections, variance objectives, label
+    matrices, neighborhoods and mode updates differ from the selected sphere preimage and segment graph.
+    Context is not renewed scientific approval.'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T07:15:37Z'
+  updated_at: '2026-10-12T07:16:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
