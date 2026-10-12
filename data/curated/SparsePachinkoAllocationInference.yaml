@@ -1,0 +1,114 @@
+name: Sparse pachinko allocation inference
+definition: An approximate pachinko-allocation fitting procedure that restricts token path resampling
+  to currently active document topics and word-associated subtopics, interleaving full sampling with pruning
+  and optionally growing the training corpus incrementally.
+concept_kind: algorithm
+identity_notes: Scoped to the sparse PAM inference techniques in Li and McCallum's submitted 2008 manuscript,
+  particularly Sections 3.2.2-3.2.3. This is an algorithm for the already represented PAM model, with
+  an LDA specialization, rather than a new dense probability-model identity. Sparse count-block storage
+  is an exact implementation choice; deleting candidate paths from a Gibbs conditional is an approximation.
+  The source calls its settings sparse PAM/sPAM and sparse LDA/sLDA; these names are not asserted aliases
+  of every later sparse-LDA algorithm. No normalized candidate identity matched all 442 pinned AIO IDs,
+  labels and scoped synonyms or 441 preceding native IDs, names and aliases. Full-checkout searches included
+  ignored and hidden files in both checkouts; twelve matching lines per checkout came from five unique
+  prior discovery-ledger contents and the existing GCA mapping rationale. All matching excerpts were read.
+  All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified
+  against prior readings. Thirty contextual YAMLs comprise 27 unchanged prior readings, two fully read
+  final native targets verified against saved review inputs, and a fully read Metropolis-Hastings record.
+  No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- The complete schedule of full versus pruned updates and all active-set edge cases are not specified.
+  Fixed valid hyperparameters permit analysis of the transition rule; corpus growth, empirical-moment
+  adaptation and heuristic pruning do not jointly certify an exact stationary posterior sampler.
+- The displayed moment update also needs valid variance and logarithm domains. A uniform Beta example
+  has moment-consistent alpha=(1,1), whereas the literal displayed aggregation gives (1/8,1/8). This is
+  a qualification of the printed formula, not a claim about uninspected author code.
+- AP/SJMN retrieval and large Rexa experiments use particular topic counts, chain combinations, initialization
+  and hardware. Non-significant tests between best retrieval results do not establish posterior equivalence.
+  Dense-PAM human judgment, likelihood and classification experiments are separate from evidence about
+  sparse inference.
+- The retrieval scorer averages plug-in word probabilities across chains before multiplying query terms
+  and mixes them termwise with a smoothed document model. It is not automatically the average whole-query
+  posterior predictive law. Finite transition checks do not reproduce the author implementation or benchmark.
+aliases:
+- pruned PAM Gibbs sampling
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.2.1-3.2.4, printed/PDF pp.10-12
+  relation: supports
+claims:
+- claim_id: restricted-path-updates
+  kind: mechanism
+  statement: For a document, collect its currently used supertopics C and subtopics C-prime. Remove a
+    token's old assignment, form the union of document subtopics and subtopics with positive corpus counts
+    for that token's word, and restrict new paths to C times that union. Renormalize the usual collapsed
+    path weights on this candidate set, sample an assignment and update counts and active sets. The source
+    initializes document sets before token removal; precise membership maintenance must preserve a defined
+    candidate set. Zero count-block storage alone does not remove the positive prior mass of unoccupied
+    paths.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2.1, printed/PDF p.10; Section 3.2.2, pp.10-11, pruning pseudocode
+    relation: supports
+- claim_id: reachability-versus-invariance
+  kind: limitation
+  statement: 'Pruned updates cannot introduce a supertopic absent from the document. Alternating with
+    full sampling restores possible routes into omitted states, but does not by itself preserve the exact
+    target distribution: the pruned kernel need not leave that target invariant. In a two-token, two-supertopic
+    PAM special case, the target over assignments is (1/3,1/6,1/6,1/3); one full sweep followed by one
+    pruned sweep changes it to (13/27,1/54,1/54,13/27). The reported average 98 percent retained conditional
+    mass is a local empirical statistic, not a bound on the final posterior error. No acceptance correction
+    is provided.'
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2.2, printed/PDF pp.10-11, retained mass, trapping discussion and alternating sampling
+    relation: supports
+- claim_id: incremental-initialization-and-adaptation
+  kind: mechanism
+  statement: Sparse initialization fits a small document subset before gradually adding documents. A new
+    document permits all supertopics; an already seen word permits subtopics with positive corpus word
+    counts, while a previously unseen word permits all subtopics. The sparse-LDA experiment starts with
+    10000 documents and doubles the corpus every five iterations. Multiple chains are also used. Separate
+    empirical-moment hyperparameter updates change the sampling target during fitting; the displayed Dirichlet
+    formula divides by an aggregated concentration expression rather than following the usual alpha_j=mean_j*concentration
+    identity, so that display is not adopted as a verified implementation recipe.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2.3-3.2.4, printed/PDF pp.11-12; Section 4.2.1, p.21; Section 2.4, p.8
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Pachinko Allocation: Scalable Mixture Models of Topic Correlations'
+  authors:
+  - Wei Li
+  - Andrew McCallum
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/pam08jmlrs.pdf
+  version: Author-hosted 32-page manuscript marked Submitted 04/08. Its JMLR volume, publication date
+    and editor are placeholders, and the author index calls it submitted in 2008; no final journal publication
+    is asserted. All pages visually read. Printed pp.2-32 match PDF pages; the title page is unnumbered.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:48:39Z'
+  sha256: 937b288acd243b28b7682312b4756e2104b42f62ecb1fde0b448c7c8713f2d0a
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs full and pruned sampling transitions, with explicit limitations
+    on target invariance. The pinned class denotes a process/model, not this fitting algorithm or a guarantee
+    of exact posterior sampling.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The construction supports probabilistic topic modeling; the pinned target is task-scoped
+    rather than this particular model or inference procedure.
+id: AIMech:SparsePachinkoAllocationInference
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:01:32Z'
+  updated_at: '2026-10-12T01:01:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
