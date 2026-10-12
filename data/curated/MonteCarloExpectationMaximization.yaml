@@ -1,0 +1,114 @@
+name: Monte Carlo Expectation Maximization
+aliases:
+- MCEM
+- Monte Carlo EM
+concept_kind: algorithm
+definition: An expectation-maximization method that approximates the current conditional expected complete-data
+  log objective by Monte Carlo integration and maximizes that sampled objective to update the parameters.
+identity_notes: MCEM approximates the E-step of a latent-data fitting procedure. It differs from recursive
+  objective averaging in SAEM, conditional expectation of a completed-data estimator in ICE, and Bayesian
+  data-augmentation sampling of the parameter itself. Specialized synthetic-data or image-model applications
+  do not exhaust this general algorithm. All 442 pinned AIO labels/scoped synonyms and 470 preceding native
+  IDs, names and aliases were compared with no normalized identity match. Ignored-inclusive whole-checkout
+  fixed-string searches found 218 matched lines in each checkout; context windows for all 41 distinct
+  matched texts were read. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation
+  mention applications or adjacent estimators, not these identities. All 225 semantic label/synonym rows
+  were recomputed and verified identical to the preceding fully read inventory. Sixteen annotated AIO
+  nodes and outgoing edges comprise fourteen verified prior readings and two new readings. Thirty-four
+  contextual YAMLs comprise twenty-seven byte-verified prior readings and seven full new readings. Absence
+  is bounded to this pin, maintained corpus and inspected neighborhood. No normalized name/alias matches
+  among 442 pinned and 470 maintained records. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation
+  matches are applications or adjacent estimators, not duplicate generic MCEM, SAEM or MCMC-SAEM records.
+  The inspected sufficient-statistic maximization and fixed-data scope distinguish SAEM from averaged
+  parameter gradients, ICE and sequential-task continual learning. Persistent Markovian simulation distinguishes
+  the MCMC extension from the exact-conditional-draw base theorem.
+evidence_sources:
+- source_id: saem-source
+  title: Convergence of a stochastic approximation version of the EM algorithm
+  authors:
+  - Bernard Delyon
+  - Marc Lavielle
+  - Eric Moulines
+  source_type: primary_paper
+  url: https://oa.ee.tsinghua.edu.cn/ouzhijian/pgm/pgm-pdf/Delyon99_Convergence%20of%20a%20Stochastic%20Approximation%20Version%20of%20the%20EM%20Algorithm.pdf
+  persistent_id: 10.1214/aos/1018031103
+  version: Annals of Statistics 27(1):94-128 (1999), university-hosted annotated JSTOR scan. All 35 PDF
+    pages visually read, including appendices and references. Printed page equals PDF page plus 93. Existing
+    highlights and handwritten marks are not author errata; the 2015 download stamp is not the publication
+    date. Section 2 explicitly defines MCEM as the comparison method.
+  access_level: full_text
+  accessed_at: '2026-10-12T03:50:09Z'
+  sha256: f2c7a8005a1dee0a14bb243cb0bb2cb135227b1e9bff459eb07b3d0e6cc0b9bf
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This algorithm fits statistical-model parameters from observed data. The inspected AIO target
+    denotes a learning task/process, so this is related algorithm-to-task context, not equivalence or
+    a subclass assertion. The pinned TrainingStrategy and transformation-based DataAugmentation nodes
+    do not identify statistical latent-data integration, and fixed-data iteration is not the pinned sequential-task
+    ContinualLearning network.
+definition_evidence:
+- source_id: saem-source
+  locator: Section 2, pp.95-97 / PDF2-4, especially Eq5 and its simulation/maximization steps
+  relation: supports
+claims:
+- claim_id: current-conditional-objective
+  kind: mechanism
+  statement: At current theta_k, obtain m_k latent completions from the conditional law p(z|y;theta_k).
+    For candidate theta form Q_hat_k(theta)=m_k^(-1) sum_j log f(y,z_kj;theta), and maximize over theta
+    to obtain the next fit. The simulated completions remain fixed while this sampled objective is optimized.
+    The baseline MCEM calculation replaces the preceding sampled objective at each iteration; it does
+    not recursively average objectives from earlier parameter values.
+  evidence:
+  - source_id: saem-source
+    locator: Section 2 Eq5 and Section 3 MCEM/SAEM comparison, pp.96-98 / PDF3-5
+    relation: supports
+- claim_id: integration-not-averaged-estimator
+  kind: scope
+  statement: The Monte Carlo average is taken over complete log objectives or their sufficient statistics
+    before maximization. In general this is different from averaging the complete-data maximizer over
+    imputations. A MAP objective can be represented by an appropriate complete log posterior, but simulating
+    latent completions at a current parameter does not by itself sample a posterior distribution over
+    that parameter.
+  evidence:
+  - source_id: saem-source
+    locator: Sections 1-2, pp.94-97 / PDF1-4; Eq4-5 and fixed-parameter conditional-law definition
+    relation: supports
+- claim_id: finite-sample-boundaries
+  kind: limitation
+  statement: Maximizing a finite sampled Q does not certify improvement of the exact Q or observed likelihood.
+    The saved valid Gaussian example gives an MCEM update with lower observed likelihood than its starting
+    value. Monte Carlo count, dependence and integration error require their own analysis; apparently
+    stable parameters or the exact-EM ascent argument alone do not establish convergence of this stochastic
+    procedure.
+  evidence:
+  - source_id: saem-source
+    locator: Section 2 Eq4-5, pp.96-97 / PDF3-4; Section 3 sampling discussion, p.98 / PDF5; finite Gaussian
+      curator calculation in discovery ledger
+    relation: supports
+limitations:
+- The full mechanism source inspected here is the 1999 primary SAEM paper, which explicitly presents MCEM
+  for comparison. The original Wei-Tanner 1990 paper was identified through publisher metadata/abstract
+  but its university PDF returned 403; no unseen original proofs or poor-man data-augmentation details
+  are claimed.
+- The simple unweighted sample mean requires draws from the intended conditional law. MCMC samples are
+  generally dependent and need appropriate exploration/ergodicity conditions; importance sampling requires
+  its own weighting. A local-observation heuristic is not certified full-posterior sampling.
+- Finite Monte Carlo noise can persist near a stationary point. No generic fixed-sample-size convergence
+  theorem, universal rate, adaptive sample-size rule or global optimum is asserted.
+- The complete objective must be well defined and its maximization admissible. Boundary or unbounded likelihoods,
+  nonidentifiability, poor initialization and numerical errors remain model-specific limitations.
+- All 35 pages of the comparison source were read. Finite algebraic checks are curator examples, not historical
+  software, a reproduced fit or empirical performance evidence.
+id: AIMech:MonteCarloExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:03:36Z'
+  updated_at: '2026-10-12T04:03:36Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
