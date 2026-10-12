@@ -1,0 +1,122 @@
+name: Author-recipient-topic model
+definition: A generative message model with a topic distribution for each ordered sender-recipient pair,
+  in which each word selects a recipient uniformly from the message's observed recipient set, a topic
+  from that pair, and a word from the selected topic.
+concept_kind: model_family
+identity_notes: 'Scoped to McCallum, Corrada-Emmanuel and Wang''s ART model in the December 2004 technical
+  report and IJCAI 2005 paper. Sender and recipient have distinct roles in selecting a pair-specific topic
+  vector. The model differs from author-topic modeling over undifferentiated participants, document-specific
+  LDA, network-edge generation and the later latent-role RART variants. ART is a source acronym within
+  this scope, not a universal expansion of that acronym. No normalized candidate identity matched all
+  442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both
+  full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from
+  four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography
+  mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in
+  full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and
+  four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged
+  and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records
+  and three final records verified against the round101 scientific-review inputs. No candidate identity
+  is present within this bounded pinned-snapshot and maintained-corpus search.'
+limitations:
+- The corpus-probability display on report p.4 factors separately integrated document marginals despite
+  shared random parameters. The subsequent corpus-count derivation on p.5 preserves sharing. The record
+  uses the shared model and qualifies that display; no failure of unseen implementation is inferred.
+- Pair-specific parameters can be weakly informed for sparse or unobserved pairs. Fixed topic count, uniform
+  recipient selection, stationary pair preferences, finite vocabulary and bag-of-words emissions constrain
+  the model. Suggestions to smooth toward sender-only vectors are not part of the basic specification.
+- Reported role similarities use descriptive topic distributions, divergence matrices and selected email
+  examples with manual entity resolution and heuristic text cleaning. They do not establish universal
+  predictive superiority, actual job roles, expertise or causal social relationships. Topic and role labels
+  remain interpretations.
+- RART introduces additional latent sender/recipient roles and has token-level and message-level variants.
+  It is a distinct extension; preliminary staged fitting after fixing an ART sample is not full joint
+  posterior inference. No author code, email corpus or benchmark was executed.
+aliases:
+- ART
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, printed/PDF pp.2-4, Figure 1 p.3 and generative description p.4
+  relation: supports
+- source_id: conference-source
+  locator: Section 2, PDF pp.1-2, Figure 1 and generative description
+  relation: supports
+claims:
+- claim_id: ordered-pair-mixture
+  kind: mechanism
+  statement: For a fixed topic count and vocabulary, each topic has a categorical word distribution phi_z
+    with a Dirichlet prior, and each ordered sender-recipient pair (a,r) has a topic vector theta_ar with
+    a Dirichlet prior. Given sender a_d and nonempty observed recipient set R_d, each token selects x
+    uniformly from R_d, z from theta_(a_d,x), and w from phi_z. Conditional on these parameters, the message
+    topic mixture averages the eligible pair vectors. The reversed pair can have a different vector. Sender
+    identity, recipient sets and message lengths are conditioned on; this direction-sensitive content
+    model does not itself generate network edges or establish causal influence.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, printed/PDF pp.3-4, Figure 1 and conditional joint
+    relation: supports
+  - source_id: conference-source
+    locator: Section 2, PDF p.2
+    relation: supports
+- claim_id: collapsed-pair-inference
+  kind: mechanism
+  statement: Integrating the shared pair-topic and topic-word vectors gives a collapsed token update.
+    For eligible recipient r, topic z and observed word v, its weight is proportional to (n_(a_d,r),z^(-i)+alpha_z)/(n_(a_d,r),.^(-i)+sum(alpha))
+    times (n_zv^(-i)+beta_v)/(n_z.^(-i)+sum(beta)). Counts exclude the token and pool the corpus; the
+    uniform recipient factor cancels among eligible choices. Joint recipient/topic sampling or compatible
+    separate conditional updates target the collapsed assignment posterior. Finite samples approximate
+    posterior summaries and do not certify convergence. Sharing random parameters across messages requires
+    joint corpus integration; a product of separately integrated message marginals is generally different.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, printed/PDF pp.4-6; compare final corpus display p.4 with global count integration
+      p.5
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'The Author-Recipient-Topic Model for Topic and Role Discovery in Social Networks: Experiments
+    with Enron and Academic Email'
+  authors:
+  - Andrew McCallum
+  - Andrés Corrada-Emmanuel
+  - Xuerui Wang
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/art04tr.pdf
+  version: Author-hosted Technical Report UM-CS-2004-096, December 11, 2004 as printed on title page.
+    All 16 pages visually read; printed and PDF page numbers agree.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:49:41Z'
+  sha256: 41cdb356bb04767c48edcaf18023cc556424a3c5f9106bd74cd6a79057aee966
+- source_id: conference-source
+  title: Topic and Role Discovery in Social Networks
+  authors:
+  - Andrew McCallum
+  - Andrés Corrada-Emmanuel
+  - Xuerui Wang
+  source_type: primary_paper
+  url: https://people.cs.umass.edu/~mccallum/papers/art-ijcai05.pdf
+  version: Author-hosted IJCAI 2005 six-page conference paper. All pages visually read; use PDF page numbers,
+    as no numeric printed page labels are visible.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:48:16Z'
+  sha256: 8acf7bcf8dece67066d29ac7c83e333b38127060e78a1719d32f588915370f36
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The maintained identity is a specified probability-model family, narrower than the pinned
+    Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning
+    task, so related match preserves the model/task distinction.
+id: AIMech:AuthorRecipientTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:00:04Z'
+  updated_at: '2026-10-12T00:00:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

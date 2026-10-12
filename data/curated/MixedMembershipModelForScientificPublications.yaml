@@ -1,0 +1,102 @@
+name: Mixed-membership model for scientific publications
+definition: A generative document model in which one Dirichlet-distributed membership vector mixes aspect-specific
+  word distributions for an abstract and aspect-specific reference distributions for its bibliography.
+concept_kind: model_family
+identity_notes: 'Scoped to the word/reference multinomial model fitted by Erosheva, Fienberg and Lafferty
+  in their 2004 scientific-publication study. The broader mixed-membership framework and proposed Bernoulli
+  citation alternatives are not exact aliases for this selected model. Shared document memberships couple
+  two observation channels; no word-to-reference alignment, author identity or latent network-block membership
+  is assumed. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms
+  or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden
+  files; 13 matching lines in each checkout came from four unique file contents containing prior frontier
+  leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected;
+  the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits:
+  200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and
+  outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged
+  prior readings, two newly read AIO records and three final records verified against the round101 scientific-review
+  inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.'
+limitations:
+- The main model treats references as multinomial draws with replacement although observed bibliographies
+  are represented by presence indicators. Bernoulli inclusion models that use absent references and publication-time
+  restrictions are discussed on pp.4-5 as alternatives; they are not the fitted multinomial model.
+- The p.4 display labels its integrated document likelihood p(theta|d), but it is not a posterior over
+  parameters. Conditional independence given memberships is stronger than exchangeability alone. Shared
+  latent proportions explain modeled dependence, not causal citation relationships or objectively true
+  scientific disciplines.
+- Reported results concern a selected PNAS Biological Sciences 1997-2001 corpus and a chosen eight-aspect
+  fit. Topic counts were compared informally, and aspect interpretations used high-probability words/references.
+  Neither universal model-selection optimality nor recovery of a unique semantic partition follows.
+- 'An unweighted average of document loadings does not generally equal a pooled token-level percentage
+  when document lengths differ. Source figure cross-references are inconsistent: use the actual Figure
+  1 on preprint p.9 and Table 4 on p.13. No source implementation or benchmark was executed.'
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Mixed Membership Models for Documents, preprint printed/PDF pp.3-4, Equations (4)-(11)
+  relation: supports
+claims:
+- claim_id: shared-membership-channels
+  kind: mechanism
+  statement: For fixed K aspects, each aspect has a categorical word distribution and a separate categorical
+    reference-ID distribution. Each document draws lambda from Dirichlet(alpha). Conditional on lambda,
+    its word tokens are sampled from the lambda-weighted word mixture and its reference entries from the
+    lambda-weighted reference mixture, with channel lengths conditioned on. Equivalently, each word or
+    reference draws its own aspect label from the same lambda. The document likelihood integrates the
+    product of both channel likelihoods over lambda; their conditional independence does not imply marginal
+    independence. Removing the reference observations yields a word-only LDA-type model, whereas fixed
+    rather than random membership vectors give a PLSA-style alternative.
+  evidence:
+  - source_id: method-source
+    locator: Mixed Membership Models, preprint pp.2-3; Mixed Membership Models for Documents, pp.3-4,
+      Equations (7)-(11)
+    relation: supports
+- claim_id: approximation-and-loadings
+  kind: mechanism
+  statement: The reported analysis estimates parameters through a variational approximation to the shared-membership
+    likelihood; expectation propagation is discussed as another approximate approach. Approximate document
+    membership posteriors supply loadings, summarized by Dirichlet means and compared descriptively with
+    official publication categories. This is unsupervised aspect discovery with external category comparison,
+    not supervised recovery of those labels. General corpus fitting is computationally demanding even
+    though small finite cases can be integrated by explicit expansion; approximate EM and posterior summaries
+    do not guarantee exact likelihoods or global optima.
+  evidence:
+  - source_id: method-source
+    locator: Estimating the Model, preprint p.5; Results, pp.7-10, Figure 1 p.9 and Table 4 p.13
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Mixed Membership Models of Scientific Publications
+  authors:
+  - Elena Erosheva
+  - Stephen Fienberg
+  - John Lafferty
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/afs/cs/usr/lafferty/www/pub/efl.pdf
+  version: Author-hosted 13-page preprint of the PNAS 2004 article, DOI 10.1073/pnas.0307760101. All pages
+    visually read. Locators refer to this preprint, whose printed and PDF pages agree, not final journal
+    pages 5220-5227.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:48:21Z'
+  sha256: 5e9d0e08925d086b3c53ff3e04796e4f3f684e4efc3ab3403279c45e08de6297
+  persistent_id: doi:10.1073/pnas.0307760101
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The maintained identity is a specified probability-model family, narrower than the pinned
+    Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning
+    task, so related match preserves the model/task distinction.
+id: AIMech:MixedMembershipModelForScientificPublications
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:00:04Z'
+  updated_at: '2026-10-12T00:00:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

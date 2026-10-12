@@ -1,0 +1,105 @@
+name: Composite HMM-topic model
+definition: A generative sequence model combining an HMM class sequence with a document topic mixture,
+  where one designated class emits words through latent topics and each other class emits words from its
+  own categorical distribution.
+concept_kind: model_family
+identity_notes: 'Scoped to the composite model of Griffiths, Steyvers, Blei and Tenenbaum''s Integrating
+  Topics and Syntax. The maintained name describes that source-defined construction; no additional acronym
+  is asserted as a source synonym. All tokens follow class transitions, while only the semantic class
+  uses the document-topic mixture. This differs from independent topic models, generic HMMs, a product
+  of HMM experts, or modern mixture-of-experts language models. No normalized candidate identity matched
+  all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both
+  full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from
+  four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography
+  mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in
+  full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and
+  four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged
+  and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records
+  and three final records verified against the round101 scientific-review inputs. No candidate identity
+  is present within this bounded pinned-snapshot and maintained-corpus search.'
+limitations:
+- The distinction between syntactic classes and semantic topics is induced by this model and corpus. It
+  need not coincide with linguistic ground truth, supervised part-of-speech tags or full grammar. Fixed
+  class/topic counts and finite-state local transitions restrict its scope.
+- The source LDA comparison uses a semantic class plus a dedicated sentence-marker class with the stated
+  boundary handling; arbitrary two-state HMMs are not equivalent to LDA. With one topic, the semantic
+  emission has its own prior, so the resulting HMM comparison must preserve those hyperparameters.
+- A finite auxiliary-update invariance calculation supports a compatible semantic-only interpretation;
+  it is not a proof that historical software followed that convention or that finite chains mixed. The
+  displayed first-order transition formula requires additional factors for higher-order contexts.
+- Historical results use particular Brown, TASA and NIPS preparations. Adjusted Rand agreement is not
+  supervised tag accuracy, and the reported harmonic-mean evidence estimate is not exact marginal likelihood
+  or guaranteed stable. The document-classification experiment reports LDA somewhat better. No universal
+  advantage or empirical reproduction is asserted.
+aliases: []
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2-2.1, PDF pp.2-3, Figure 1 and generative process
+  relation: supports
+claims:
+- claim_id: class-dependent-emission
+  kind: mechanism
+  statement: A document draws a Dirichlet topic vector. An HMM generates the token-class sequence. If
+    a token occupies the designated semantic class, a topic selected from the document vector determines
+    its word distribution; otherwise its class-specific word distribution generates the token. The Bayesian
+    formulation puts symmetric Dirichlet priors on topic emissions, nonsemantic class emissions and transition
+    rows. The source draws a topic at every position, but topics unused by nonsemantic emissions can be
+    marginalized. The displayed model is first order; experiments also use higher-order transitions and
+    a dedicated sentence-marker state. Initial and boundary conventions, class count, topic count and
+    vocabulary are part of a complete specification.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1-2.2, PDF pp.3-4, Figure 1, generative steps and prior definitions
+    relation: supports
+- claim_id: collapsed-auxiliary-inference
+  kind: mechanism
+  statement: The source alternates topic and class updates with parameters integrated out. Its document-topic
+    counts include semantic tokens only, and the first-order class update accounts for both neighboring
+    transitions, including corrections when they share a transition row or cell. A coherent interpretation
+    first marginalizes unused topics, then introduces a temporary topic for the currently updated nonsemantic
+    token from the leave-one-out document predictive law. Updating that topic and then the class allows
+    the common document-topic factor to cancel in the class conditional; discard the temporary topic if
+    the resulting class is nonsemantic. This is an explicit curator interpretation of the printed count
+    convention, checked in a small enumerated model, not a claim about unseen author code. Retaining all
+    inactive topic draws in a fully augmented sampler would instead require document counts over all those
+    draws.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, PDF pp.3-4, topic and class conditionals and semantic-only count statement
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Integrating Topics and Syntax
+  authors:
+  - Thomas L. Griffiths
+  - Mark Steyvers
+  - David M. Blei
+  - Joshua B. Tenenbaum
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2004/file/ef0917ea498b1665ad6c701057155abe-Paper.pdf
+  version: Official NIPS 2004 volume 17 eight-page PDF; proceedings are also cited with 2005 publication
+    year. All pages visually read. Locators use PDF page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-11T23:48:19Z'
+  sha256: 8878657c94e1f1c6db019f1e646dc830f6d1d524abf5077437993b35197196d7
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The maintained identity is a specified probability-model family, narrower than the pinned
+    Model class.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning
+    task, so related match preserves the model/task distinction.
+id: AIMech:CompositeHMMTopicModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T00:00:04Z'
+  updated_at: '2026-10-12T00:00:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

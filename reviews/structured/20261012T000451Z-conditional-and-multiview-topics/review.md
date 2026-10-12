@@ -1,0 +1,972 @@
+# Scientific self-review of participant-conditioned, HMM-topic and word-reference models
+
+- Review: 20261012T000451Z-conditional-and-multiview-topics
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T00:00:45Z
+- Finished UTC: 2026-10-12T00:04:51Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain three DRAFT model families with distinct participant-pair, sequential-class and shared word/reference structures. Explicit source qualifications separate generative laws, inference interpretations and empirical evidence. No actionable curation finding remains in this selected cohort.
+
+## Scope And Provenance
+
+All fields of three maintained probability-model records.
+
+Selection: Exact maintained IDs AuthorRecipientTopicModel, CompositeHMMTopicModel and MixedMembershipModelForScientificPublications; complete selected cohort without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base f7b7d3993174071d898e2fb7f1f4cbc5bf1e2f54.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AuthorRecipientTopicModel | data/curated/AuthorRecipientTopicModel.yaml | maintained | Author-recipient-topic model |
+| AIMech:CompositeHMMTopicModel | data/curated/CompositeHMMTopicModel.yaml | maintained | Composite HMM-topic model |
+| AIMech:MixedMembershipModelForScientificPublications | data/curated/MixedMembershipModelForScientificPublications.yaml | maintained | Mixed-membership model for scientific publications |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 132.26s (0:02:12)<br>Checked 442 record(s); 0 failed.<br>Checked 429 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 124 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 121,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications | Command exited 0 with no output. |
+| Conditional and shared-topic probability boundaries | passed | True | AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications | {"art_joint_conditional_max_error": 2.220446049250313e-16, "art_conditional_probabilities": [0.5384615384615382, 0.03550295857988169, 0.34615384615384615, 0.07988165680473382], "composite_state_count": 27, "composite_auxiliary_update_invariance_errors": [5.551115123125783e-17, 1.1102230246251565e-16, 5.551115123125783e-17], "collapsed_transition_factor_max_error": 4.440892098500626e-16, "shared_parameter_joint_probability": 0.3333333333333331, "product_of_separate_marginals": 0.2500000000000002, "shared_channel_covariance": 0.08333333333333287, "two_draw_multinomial_reference_duplicate_probability": 0.5, "equal_document_average": 0.5, "length_weighted_token_average": 0.18, "scope": "Small positive-prior synthetic cases; no author implementation, convergence proof or benchmark reproduction."} |
+
+## Scientific And Domain Assessments
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:AuthorRecipientTopicModel.
+
+Scoped to McCallum, Corrada-Emmanuel and Wang's ART model in the December 2004 technical report and IJCAI 2005 paper. Sender and recipient have distinct roles in selecting a pair-specific topic vector. The model differs from author-topic modeling over undifferentiated participants, document-specific LDA, network-edge generation and the later latent-role RART variants. ART is a source acronym within this scope, not a universal expansion of that acronym. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+
+For a fixed topic count and vocabulary, each topic has a categorical word distribution phi_z with a Dirichlet prior, and each ordered sender-recipient pair (a,r) has a topic vector theta_ar with a Dirichlet prior. Given sender a_d and nonempty observed recipient set R_d, each token selects x uniformly from R_d, z from theta_(a_d,x), and w from phi_z. Conditional on these parameters, the message topic mixture averages the eligible pair vectors. The reversed pair can have a different vector. Sender identity, recipient sets and message lengths are conditioned on; this direction-sensitive content model does not itself generate network edges or establish causal influence. Integrating the shared pair-topic and topic-word vectors gives a collapsed token update. For eligible recipient r, topic z and observed word v, its weight is proportional to (n_(a_d,r),z^(-i)+alpha_z)/(n_(a_d,r),.^(-i)+sum(alpha)) times (n_zv^(-i)+beta_v)/(n_z.^(-i)+sum(beta)). Counts exclude the token and pool the corpus; the uniform recipient factor cancels among eligible choices. Joint recipient/topic sampling or compatible separate conditional updates target the collapsed assignment posterior. Finite samples approximate posterior summaries and do not certify convergence. Sharing random parameters across messages requires joint corpus integration; a product of separately integrated message marginals is generally different. Limitations: The corpus-probability display on report p.4 factors separately integrated document marginals despite shared random parameters. The subsequent corpus-count derivation on p.5 preserves sharing. The record uses the shared model and qualifies that display; no failure of unseen implementation is inferred. Pair-specific parameters can be weakly informed for sparse or unobserved pairs. Fixed topic count, uniform recipient selection, stationary pair preferences, finite vocabulary and bag-of-words emissions constrain the model. Suggestions to smooth toward sender-only vectors are not part of the basic specification. Reported role similarities use descriptive topic distributions, divergence matrices and selected email examples with manual entity resolution and heuristic text cleaning. They do not establish universal predictive superiority, actual job roles, expertise or causal social relationships. Topic and role labels remain interpretations. RART introduces additional latent sender/recipient roles and has token-level and message-level variants. It is a distinct extension; preliminary staged fitting after fixing an ART sample is not full joint posterior inference. No author code, email corpus or benchmark was executed.
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:CompositeHMMTopicModel.
+
+Scoped to the composite model of Griffiths, Steyvers, Blei and Tenenbaum's Integrating Topics and Syntax. The maintained name describes that source-defined construction; no additional acronym is asserted as a source synonym. All tokens follow class transitions, while only the semantic class uses the document-topic mixture. This differs from independent topic models, generic HMMs, a product of HMM experts, or modern mixture-of-experts language models. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+
+A document draws a Dirichlet topic vector. An HMM generates the token-class sequence. If a token occupies the designated semantic class, a topic selected from the document vector determines its word distribution; otherwise its class-specific word distribution generates the token. The Bayesian formulation puts symmetric Dirichlet priors on topic emissions, nonsemantic class emissions and transition rows. The source draws a topic at every position, but topics unused by nonsemantic emissions can be marginalized. The displayed model is first order; experiments also use higher-order transitions and a dedicated sentence-marker state. Initial and boundary conventions, class count, topic count and vocabulary are part of a complete specification. The source alternates topic and class updates with parameters integrated out. Its document-topic counts include semantic tokens only, and the first-order class update accounts for both neighboring transitions, including corrections when they share a transition row or cell. A coherent interpretation first marginalizes unused topics, then introduces a temporary topic for the currently updated nonsemantic token from the leave-one-out document predictive law. Updating that topic and then the class allows the common document-topic factor to cancel in the class conditional; discard the temporary topic if the resulting class is nonsemantic. This is an explicit curator interpretation of the printed count convention, checked in a small enumerated model, not a claim about unseen author code. Retaining all inactive topic draws in a fully augmented sampler would instead require document counts over all those draws. Limitations: The distinction between syntactic classes and semantic topics is induced by this model and corpus. It need not coincide with linguistic ground truth, supervised part-of-speech tags or full grammar. Fixed class/topic counts and finite-state local transitions restrict its scope. The source LDA comparison uses a semantic class plus a dedicated sentence-marker class with the stated boundary handling; arbitrary two-state HMMs are not equivalent to LDA. With one topic, the semantic emission has its own prior, so the resulting HMM comparison must preserve those hyperparameters. A finite auxiliary-update invariance calculation supports a compatible semantic-only interpretation; it is not a proof that historical software followed that convention or that finite chains mixed. The displayed first-order transition formula requires additional factors for higher-order contexts. Historical results use particular Brown, TASA and NIPS preparations. Adjusted Rand agreement is not supervised tag accuracy, and the reported harmonic-mean evidence estimate is not exact marginal likelihood or guaranteed stable. The document-classification experiment reports LDA somewhat better. No universal advantage or empirical reproduction is asserted.
+
+### Identity, model definition, inference interpretation, limitations and mappings
+
+evidence: supported. Targets: AIMech:MixedMembershipModelForScientificPublications.
+
+Scoped to the word/reference multinomial model fitted by Erosheva, Fienberg and Lafferty in their 2004 scientific-publication study. The broader mixed-membership framework and proposed Bernoulli citation alternatives are not exact aliases for this selected model. Shared document memberships couple two observation channels; no word-to-reference alignment, author identity or latent network-block membership is assumed. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+
+For fixed K aspects, each aspect has a categorical word distribution and a separate categorical reference-ID distribution. Each document draws lambda from Dirichlet(alpha). Conditional on lambda, its word tokens are sampled from the lambda-weighted word mixture and its reference entries from the lambda-weighted reference mixture, with channel lengths conditioned on. Equivalently, each word or reference draws its own aspect label from the same lambda. The document likelihood integrates the product of both channel likelihoods over lambda; their conditional independence does not imply marginal independence. Removing the reference observations yields a word-only LDA-type model, whereas fixed rather than random membership vectors give a PLSA-style alternative. The reported analysis estimates parameters through a variational approximation to the shared-membership likelihood; expectation propagation is discussed as another approximate approach. Approximate document membership posteriors supply loadings, summarized by Dirichlet means and compared descriptively with official publication categories. This is unsupervised aspect discovery with external category comparison, not supervised recovery of those labels. General corpus fitting is computationally demanding even though small finite cases can be integrated by explicit expansion; approximate EM and posterior summaries do not guarantee exact likelihoods or global optima. Limitations: The main model treats references as multinomial draws with replacement although observed bibliographies are represented by presence indicators. Bernoulli inclusion models that use absent references and publication-time restrictions are discussed on pp.4-5 as alternatives; they are not the fitted multinomial model. The p.4 display labels its integrated document likelihood p(theta&#124;d), but it is not a posterior over parameters. Conditional independence given memberships is stronger than exchangeability alone. Shared latent proportions explain modeled dependence, not causal citation relationships or objectively true scientific disciplines. Reported results concern a selected PNAS Biological Sciences 1997-2001 corpus and a chosen eight-aspect fit. Topic counts were compared informally, and aspect interpretations used high-probability words/references. Neither universal model-selection optimality nor recovery of a unique semantic partition follows. An unweighted average of document loadings does not generally equal a pooled token-level percentage when document lengths differ. Source figure cross-references are inconsistent: use the actual Figure 1 on preprint p.9 and Table 4 on p.13. No source implementation or benchmark was executed.
+
+### Observed participants and shared corpus parameters
+
+consistency: supported. Targets: AIMech:AuthorRecipientTopicModel.
+
+Retain ART as an ordered-pair topic-mixture model.
+
+The model conditions on sender/recipient metadata and does not generate edges or causal influence. Collapsed pair/topic probabilities match integrated finite joint ratios to 2.3e-16. Sharing corpus parameters prevents the general factorization into separately integrated message marginals displayed on report p.4; p.5 uses global counts. RART role variables define a separate extension. No unseen implementation failure or universal role-prediction superiority is asserted.
+
+### Sequential classes, semantic-only counts and auxiliary topics
+
+consistency: supported. Targets: AIMech:CompositeHMMTopicModel.
+
+Retain the source-defined composite model with an explicit coherent inference interpretation.
+
+The semantic class emits through the document topic vector; other classes have their own word laws. Marginalizing unused topics and introducing a temporary topic for one current inactive token makes semantic-only counts compatible with the displayed alternation. The common document-topic predictive factor cancels from class alternatives under this auxiliary construction. All three local kernels preserve the 27-state synthetic posterior within 1.2e-16, and transition corrections match integrated transition rows within 4.5e-16. This resolves an interpretive concern without claiming historical software was inspected or finite chains mixed.
+
+### Shared document membership versus independent channels and citation alternatives
+
+consistency: supported. Targets: AIMech:MixedMembershipModelForScientificPublications.
+
+Retain the fitted two-channel multinomial construction.
+
+A shared Dirichlet document vector couples word and reference channels after marginalization. The finite Beta witness gives 1/3 for joint integration versus 1/4 for separate means. Multinomial references permit duplicates, unlike a Bernoulli inclusion construction. Average paper loadings weight papers, not all pooled tokens; the synthetic unequal-length example gives 0.5 versus 0.18. Proposed alternatives and the broader mixed-membership framework are not silently substituted for the selected fitted model.
+
+### Exact versions, pagination and empirical boundaries
+
+consistency: supported. Targets: AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications.
+
+Preserve four complete primary versions and their limited empirical scopes.
+
+The December 11 2004 ART report differs from IJCAI 2005 and the as-yet unread 2007 journal version. The syntax source is official NIPS 2004, also cited as 2005 proceedings. Scientific-publication locators use the 13-page author preprint rather than final PNAS pagination. Its actual histogram and mean-loading display are Figure 1 p.9 and Table 4 p.13. Selected email role examples, adjusted Rand syntax agreement, harmonic-mean estimates and PNAS aspect interpretations do not establish universal superiority, exact evidence or objective labels.
+
+### Model/task mapping direction and neighboring concepts
+
+grounding: supported. Targets: AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications.
+
+Retain three distinct native model families.
+
+All three native model families map broadly to AIO Model and related to the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient topic mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM. The HMM/topic composite routes emissions through a semantic class and differs from generic HMM, context-sensitive or input-output HMM, and product-of-HMM constructions. FactoredLanguageModel and MixtureofExpertsLLM do not identify this historical generative model. Shared word/reference membership is not itself an end-to-end MultimodalLanguageModel; MultimodalLearning, FeatureExtraction and Clustering are broader tasks, not exact identities. BayesianNetwork and ProbabilisticGraphicalModel describe broader graphical roles, while the pinned latter is task-scoped; CausalGraphicalModel does not follow from observational dependence. Static/dynamic/logistic-normal topic models, Gibbs sampling, EM and hierarchical mixtures of experts provide contrasts without renewed scientific approval.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:AuthorRecipientTopicModel, AIMech:CompositeHMMTopicModel, AIMech:MixedMembershipModelForScientificPublications. Ordered sender-recipient proportions, class-conditioned sequential emissions and shared word/reference membership are different generative structures. Shared topic terminology does not imply identity. Broad Model and related topic-task mappings preserve AIO abstraction without forcing exact matches.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T000006Z-conditional-and-multiview-topics.json | supports | No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search. |
+| mapping | sources/aio/aio.json; 18 exact annotated CLASS nodes and outgoing edges; 204 label/synonym hits with 200 unchanged prior readings and four fresh hits | supports | All three native model families map broadly to AIO Model and related to the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient topic mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM. The HMM/topic composite routes emissions through a semantic class and differs from generic HMM, context-sensitive or input-output HMM, and product-of-HMM constructions. FactoredLanguageModel and MixtureofExpertsLLM do not identify this historical generative model. Shared word/reference membership is not itself an end-to-end MultimodalLanguageModel; MultimodalLearning, FeatureExtraction and Clustering are broader tasks, not exact identities. BayesianNetwork and ProbabilisticGraphicalModel describe broader graphical roles, while the pinned latter is task-scoped; CausalGraphicalModel does not follow from observational dependence. Static/dynamic/logistic-normal topic models, Gibbs sampling, EM and hierarchical mixtures of experts provide contrasts without renewed scientific approval. |
+| neighbors | research/discovery/20261012T000006Z-conditional-and-multiview-topics.json; Twelve native neighbors and 18 generated contextual YAMLs in source_analysis.context_reading | supports | Native LDA, PLSA, CTM, DTM, author-topic, HMM variants, Gibbs sampling, EM and hierarchical mixture-of-experts records inform identity distinctions. Twenty-five contextual bytes are unchanged from prior readings, two AIO records were read here, and three round101 records match their fully reviewed final inputs. No contextual record receives renewed scientific approval. |
+| finite-boundaries | research/discovery/conditional-topic-boundaries.py; Collapsed pair weights, enumerated auxiliary updates, transition corrections, shared integration and aggregation | supports | Finite synthetic calculations reproduce ART collapsed pair/topic weights from integrated assignment probabilities. A 27-state, three-token HMM/topic example checks each local semantic-only auxiliary update for posterior invariance and verifies shared-transition corrections. The interpretation introduces and discards an inactive token topic compatibly; it is not an author-code audit or mixing guarantee. Beta integrals distinguish shared parameter integration (1/3) from a product of separate marginals (1/4), applicable both to shared channels and shared-document parameters. A two-reference multinomial permits duplicates, and unequal document lengths distinguish average loadings (0.5) from pooled token proportions (0.18). |
+| authorrecipienttopicmodel-source-0 | https://people.cs.umass.edu/~mccallum/papers/art04tr.pdf; Section 2, printed/PDF pp.2-4, Figure 1 p.3 and generative description p.4; Section 2, printed/PDF pp.3-4, Figure 1 and conditional joint; Section 2.1, printed/PDF pp.4-6; compare final corpus display p.4 with global count integration p.5 | supports | The Author-Recipient-Topic Model for Topic and Role Discovery in Social Networks: Experiments with Enron and Academic Email. Author-hosted Technical Report UM-CS-2004-096, December 11, 2004 as printed on title page. All 16 pages visually read; printed and PDF page numbers agree. The full primary PDF was visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+| authorrecipienttopicmodel-source-1 | https://people.cs.umass.edu/~mccallum/papers/art-ijcai05.pdf; Section 2, PDF p.2; Section 2, PDF pp.1-2, Figure 1 and generative description | supports | Topic and Role Discovery in Social Networks. Author-hosted IJCAI 2005 six-page conference paper. All pages visually read; use PDF page numbers, as no numeric printed page labels are visible. The full primary PDF was visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+| compositehmmtopicmodel-source-0 | https://papers.nips.cc/paper_files/paper/2004/file/ef0917ea498b1665ad6c701057155abe-Paper.pdf; Section 2.2, PDF pp.3-4, topic and class conditionals and semantic-only count statement; Sections 2-2.1, PDF pp.2-3, Figure 1 and generative process; Sections 2.1-2.2, PDF pp.3-4, Figure 1, generative steps and prior definitions | supports | Integrating Topics and Syntax. Official NIPS 2004 volume 17 eight-page PDF; proceedings are also cited with 2005 publication year. All pages visually read. Locators use PDF page numbers. The full primary PDF was visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+| mixedmembershipmodelforscientificpublications-source-0 | https://www.cs.cmu.edu/afs/cs/usr/lafferty/www/pub/efl.pdf; Estimating the Model, preprint p.5; Results, pp.7-10, Figure 1 p.9 and Table 4 p.13; Mixed Membership Models for Documents, preprint printed/PDF pp.3-4, Equations (4)-(11); Mixed Membership Models, preprint pp.2-3; Mixed Membership Models for Documents, pp.3-4, Equations (7)-(11) | supports | Mixed Membership Models of Scientific Publications. Author-hosted 13-page preprint of the PNAS 2004 article, DOI 10.1073/pnas.0307760101. All pages visually read. Locators refer to this preprint, whose printed and PDF pages agree, not final journal pages 5220-5227. The full primary PDF was visually read. Curator qualifications and synthetic calculations are distinguished from historical empirical claims and uninspected implementations. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 43 PDF pages across four downloaded primary documents were visually read, including equations, tables and bibliography. Extraction was a reading aid; no extracted-text reading or author-code execution is asserted.
+- The inspected ART technical report is dated December 11, 2004; its six-page IJCAI 2005 successor is separately identified. The 24-page 2007 journal version was located but not read and is not current mechanism evidence.
+- The official syntax paper is NIPS 2004, also cited with 2005 proceedings year. The scientific-publication source is a 13-page author preprint, not the final eight-page journal layout; locators use the inspected bytes.
+- PMC presented a recaptcha. PubMed metadata and the complete author-hosted preprint were accessible; the uninspected PMC full text is not claimed as read.
+- Printed source expressions are qualified where shared corpus parameters or likelihood notation matter. The composite sampler convention was resolved by an explicit auxiliary interpretation and finite calculation; historical implementation and benchmarks remain unexecuted.
+- Ten new provisional reference cohorts were deduplicated against 438 previous labels and ignored-inclusive full-checkout searches. All three records remain DRAFT; 271 pending leads and other unresolved dispositions preclude saturation.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T000451Z-conditional-and-multiview-topics
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of participant-conditioned, HMM-topic and word-reference
+  models
+started_at: '2026-10-12T00:00:45Z'
+finished_at: '2026-10-12T00:04:51Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read all fields of three final
+    records against 43 complete primary PDF pages, 18 annotated AIO nodes and 12 native
+    contextual records. Finite calculations tested collapsed conditional probabilities,
+    auxiliary posterior invariance and shared integration. This is author self-review,
+    not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain three DRAFT model families with distinct participant-pair, sequential-class
+  and shared word/reference structures. Explicit source qualifications separate generative
+  laws, inference interpretations and empirical evidence. No actionable curation finding
+  remains in this selected cohort.
+source:
+  git_revision: f7b7d3993174071d898e2fb7f1f4cbc5bf1e2f54
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/FactoredLanguageModel.yaml
+    sha256: d5e425f3c7cc5b57fdab859cdc777b62398077a6ac9312aef6a89af42c6eb421
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/LanguageModel.yaml
+    sha256: 67c8faa6d8ac8fb5194931f662d513d1527cefb92ab1d7c283b2c8d1ddc20c4a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MixtureofExpertsLLM.yaml
+    sha256: d9c3edb18f624102f141d1daf27aa0cc055eaf9199faf30abf88d2b87fbc1520
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/MultimodalLanguageModel.yaml
+    sha256: da9972da8d9ca9552bfe9fd98b11d2e5dc9a43c52c7acdd169d1f548096cfb7a
+    role: context
+  - path: data/aio/MultimodalLearning.yaml
+    sha256: 9e8bd52f242bf2d17bb0d9f5f795327a2067c17a855d47eb1e45630917ead603
+    role: context
+  - path: data/aio/PersonalizedLLM.yaml
+    sha256: c31d8e53b6ef629c9524297350a27e766b6c1e29efbeea9abb0390f311d3f6bd
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AuthorRecipientTopicModel.yaml
+    sha256: e906455576ea983190e281e60361efd6a1dd11d1c5f37531b467bcdf926f7fdd
+    role: target
+  - path: data/curated/AuthorTopicModel.yaml
+    sha256: 732dd9bc7f7bfbfb461f4cca668f72b128449e27f4008a0e9a3cd90c15e8a28f
+    role: context
+  - path: data/curated/CompositeHMMTopicModel.yaml
+    sha256: d2275fcb6595370e2999156c0d48055a854a627c4cf9443a48f0a892240281da
+    role: target
+  - path: data/curated/ContextSensitiveEmissionHiddenMarkovModel.yaml
+    sha256: 72120bd1d1f81a4da38b90007a997b4b8746f71f79196bcc4b90bfd624f2eb13
+    role: context
+  - path: data/curated/CorrelatedTopicModel.yaml
+    sha256: 22654d8ad69cbe6a464faf19d4c0bbd9a8a74b966197cd05443f9d01f851b893
+    role: context
+  - path: data/curated/DynamicTopicModel.yaml
+    sha256: 3ea748baf3dcedb99616573346822cb7d7bd3cb75ed496fcbb0cb152bee76f0e
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HiddenMarkovModel.yaml
+    sha256: 062a31bd525cb90e8077d4889c177f55cb7b29dea4e71c33be95bae9e72a5240
+    role: context
+  - path: data/curated/HierarchicalMixtureOfExperts.yaml
+    sha256: 726b98de332b75f77dc51f3028687650e2077216f26100a16c6fc4e8328c4e18
+    role: context
+  - path: data/curated/InputOutputHiddenMarkovModel.yaml
+    sha256: 0b0273f47026fed64472356d1610aa2384e8bf89eecfafa109d07f5e8bcd3acf
+    role: context
+  - path: data/curated/LatentDirichletAllocation.yaml
+    sha256: d8147371973fa1a5d5e9d3487d092e64ab70271ab42c18d199cd868bb8eb5aef
+    role: context
+  - path: data/curated/MixedMembershipModelForScientificPublications.yaml
+    sha256: 8bbada318bcfe72091e5502a71f915865cf52aea741a6d969994c7ed82c05c38
+    role: target
+  - path: data/curated/ProbabilisticLatentSemanticAnalysis.yaml
+    sha256: e9cb970e4795b65a17c073a109b4716fc42f2aa0661bf3f7be128568b19ecc71
+    role: context
+  - path: data/curated/ProductOfHiddenMarkovModels.yaml
+    sha256: 51fdf99954e91afb1d0ddda78bd60dc98991847715c2f1fe9ef2be4a7f46436e
+    role: context
+  - path: research/discovery/20261012T000006Z-conditional-and-multiview-topics.json
+    sha256: da4e788edab637698b1a3f04d8dc347e8fa9255601f3ab322a7a5ed3eae22725
+    role: context
+  - path: research/discovery/conditional-topic-boundaries.py
+    sha256: 95f78751e12ce25d5e6b08eaf616e4b0f9fc9406c106858c339de214df05058b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AuthorRecipientTopicModel
+  path: data/curated/AuthorRecipientTopicModel.yaml
+  label: Author-recipient-topic model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AuthorRecipientTopicModel.yaml
+    role: maintained
+- target_id: AIMech:CompositeHMMTopicModel
+  path: data/curated/CompositeHMMTopicModel.yaml
+  label: Composite HMM-topic model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CompositeHMMTopicModel.yaml
+    role: maintained
+- target_id: AIMech:MixedMembershipModelForScientificPublications
+  path: data/curated/MixedMembershipModelForScientificPublications.yaml
+  label: Mixed-membership model for scientific publications
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MixedMembershipModelForScientificPublications.yaml
+    role: maintained
+scope:
+  description: All fields of three maintained probability-model records.
+  selection: Exact maintained IDs AuthorRecipientTopicModel, CompositeHMMTopicModel
+    and MixedMembershipModelForScientificPublications; complete selected cohort without
+    sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exclusions:
+  - target: Author software, trained instances and empirical reproduction
+    reason: No author implementation or benchmark was executed. Finite curator calculations
+      do not certify historical software, chain mixing or empirical findings.
+  - target: Contextual records, later journal version and remaining frontier
+    reason: Context informs identity without renewed scientific approval. Ten new
+      reference cohorts, 271 pending leads and other unresolved dispositions remain.
+      The located 2007 ART journal version was not read for this review.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 132.26s (0:02:12)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 429 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 124 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 121,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Conditional and shared-topic probability boundaries
+  command: python3 research/discovery/conditional-topic-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"art_joint_conditional_max_error": 2.220446049250313e-16, "art_conditional_probabilities":
+    [0.5384615384615382, 0.03550295857988169, 0.34615384615384615, 0.07988165680473382],
+    "composite_state_count": 27, "composite_auxiliary_update_invariance_errors": [5.551115123125783e-17,
+    1.1102230246251565e-16, 5.551115123125783e-17], "collapsed_transition_factor_max_error":
+    4.440892098500626e-16, "shared_parameter_joint_probability": 0.3333333333333331,
+    "product_of_separate_marginals": 0.2500000000000002, "shared_channel_covariance":
+    0.08333333333333287, "two_draw_multinomial_reference_duplicate_probability": 0.5,
+    "equal_document_average": 0.5, "length_weighted_token_average": 0.18, "scope":
+    "Small positive-prior synthetic cases; no author implementation, convergence proof
+    or benchmark reproduction."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T000006Z-conditional-and-multiview-topics.json
+  accessed_at: '2026-10-12T00:00:45Z'
+  support: supports
+  summary: 'No normalized candidate identity matched all 442 pinned AIO IDs, labels
+    and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout
+    searches included ignored and hidden files; 13 matching lines in each checkout
+    came from four unique file contents containing prior frontier leads, contextual
+    distinctions and a cached bibliography mention. Matching concept excerpts were
+    inspected; the long cached web transcript was not reread in full. Semantic search
+    returned 204 label/synonym hits: 200 verified unchanged from prior reading and
+    four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise
+    16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged
+    prior readings, two newly read AIO records and three final records verified against
+    the round101 scientific-review inputs. No candidate identity is present within
+    this bounded pinned-snapshot and maintained-corpus search.'
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison; short acronyms were omitted
+    from broad substring searches to avoid irrelevant matches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 18 exact annotated CLASS nodes and outgoing edges; 204 label/synonym hits
+    with 200 unchanged prior readings and four fresh hits
+  accessed_at: '2026-10-12T00:00:45Z'
+  support: supports
+  summary: All three native model families map broadly to AIO Model and related to
+    the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient topic
+    mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM.
+    The HMM/topic composite routes emissions through a semantic class and differs
+    from generic HMM, context-sensitive or input-output HMM, and product-of-HMM constructions.
+    FactoredLanguageModel and MixtureofExpertsLLM do not identify this historical
+    generative model. Shared word/reference membership is not itself an end-to-end
+    MultimodalLanguageModel; MultimodalLearning, FeatureExtraction and Clustering
+    are broader tasks, not exact identities. BayesianNetwork and ProbabilisticGraphicalModel
+    describe broader graphical roles, while the pinned latter is task-scoped; CausalGraphicalModel
+    does not follow from observational dependence. Static/dynamic/logistic-normal
+    topic models, Gibbs sampling, EM and hierarchical mixtures of experts provide
+    contrasts without renewed scientific approval.
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T000006Z-conditional-and-multiview-topics.json
+  locator: Twelve native neighbors and 18 generated contextual YAMLs in source_analysis.context_reading
+  accessed_at: '2026-10-12T00:00:45Z'
+  support: supports
+  summary: Native LDA, PLSA, CTM, DTM, author-topic, HMM variants, Gibbs sampling,
+    EM and hierarchical mixture-of-experts records inform identity distinctions. Twenty-five
+    contextual bytes are unchanged from prior readings, two AIO records were read
+    here, and three round101 records match their fully reviewed final inputs. No contextual
+    record receives renewed scientific approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/conditional-topic-boundaries.py
+  locator: Collapsed pair weights, enumerated auxiliary updates, transition corrections,
+    shared integration and aggregation
+  accessed_at: '2026-10-12T00:00:45Z'
+  snapshot_sha256: 95f78751e12ce25d5e6b08eaf616e4b0f9fc9406c106858c339de214df05058b
+  support: supports
+  summary: Finite synthetic calculations reproduce ART collapsed pair/topic weights
+    from integrated assignment probabilities. A 27-state, three-token HMM/topic example
+    checks each local semantic-only auxiliary update for posterior invariance and
+    verifies shared-transition corrections. The interpretation introduces and discards
+    an inactive token topic compatibly; it is not an author-code audit or mixing guarantee.
+    Beta integrals distinguish shared parameter integration (1/3) from a product of
+    separate marginals (1/4), applicable both to shared channels and shared-document
+    parameters. A two-reference multinomial permits duplicates, and unequal document
+    lengths distinguish average loadings (0.5) from pooled token proportions (0.18).
+- evidence_id: authorrecipienttopicmodel-source-0
+  kind: primary_source
+  reference: https://people.cs.umass.edu/~mccallum/papers/art04tr.pdf
+  locator: Section 2, printed/PDF pp.2-4, Figure 1 p.3 and generative description
+    p.4; Section 2, printed/PDF pp.3-4, Figure 1 and conditional joint; Section 2.1,
+    printed/PDF pp.4-6; compare final corpus display p.4 with global count integration
+    p.5
+  accessed_at: '2026-10-11T23:49:41Z'
+  snapshot_sha256: 41cdb356bb04767c48edcaf18023cc556424a3c5f9106bd74cd6a79057aee966
+  support: supports
+  summary: 'The Author-Recipient-Topic Model for Topic and Role Discovery in Social
+    Networks: Experiments with Enron and Academic Email. Author-hosted Technical Report
+    UM-CS-2004-096, December 11, 2004 as printed on title page. All 16 pages visually
+    read; printed and PDF page numbers agree. The full primary PDF was visually read.
+    Curator qualifications and synthetic calculations are distinguished from historical
+    empirical claims and uninspected implementations.'
+- evidence_id: authorrecipienttopicmodel-source-1
+  kind: primary_source
+  reference: https://people.cs.umass.edu/~mccallum/papers/art-ijcai05.pdf
+  locator: Section 2, PDF p.2; Section 2, PDF pp.1-2, Figure 1 and generative description
+  accessed_at: '2026-10-11T23:48:16Z'
+  snapshot_sha256: 8acf7bcf8dece67066d29ac7c83e333b38127060e78a1719d32f588915370f36
+  support: supports
+  summary: Topic and Role Discovery in Social Networks. Author-hosted IJCAI 2005 six-page
+    conference paper. All pages visually read; use PDF page numbers, as no numeric
+    printed page labels are visible. The full primary PDF was visually read. Curator
+    qualifications and synthetic calculations are distinguished from historical empirical
+    claims and uninspected implementations.
+- evidence_id: compositehmmtopicmodel-source-0
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2004/file/ef0917ea498b1665ad6c701057155abe-Paper.pdf
+  locator: Section 2.2, PDF pp.3-4, topic and class conditionals and semantic-only
+    count statement; Sections 2-2.1, PDF pp.2-3, Figure 1 and generative process;
+    Sections 2.1-2.2, PDF pp.3-4, Figure 1, generative steps and prior definitions
+  accessed_at: '2026-10-11T23:48:19Z'
+  snapshot_sha256: 8878657c94e1f1c6db019f1e646dc830f6d1d524abf5077437993b35197196d7
+  support: supports
+  summary: Integrating Topics and Syntax. Official NIPS 2004 volume 17 eight-page
+    PDF; proceedings are also cited with 2005 publication year. All pages visually
+    read. Locators use PDF page numbers. The full primary PDF was visually read. Curator
+    qualifications and synthetic calculations are distinguished from historical empirical
+    claims and uninspected implementations.
+- evidence_id: mixedmembershipmodelforscientificpublications-source-0
+  kind: primary_source
+  reference: https://www.cs.cmu.edu/afs/cs/usr/lafferty/www/pub/efl.pdf
+  locator: Estimating the Model, preprint p.5; Results, pp.7-10, Figure 1 p.9 and
+    Table 4 p.13; Mixed Membership Models for Documents, preprint printed/PDF pp.3-4,
+    Equations (4)-(11); Mixed Membership Models, preprint pp.2-3; Mixed Membership
+    Models for Documents, pp.3-4, Equations (7)-(11)
+  accessed_at: '2026-10-11T23:48:21Z'
+  snapshot_sha256: 5e9d0e08925d086b3c53ff3e04796e4f3f684e4efc3ab3403279c45e08de6297
+  support: supports
+  summary: Mixed Membership Models of Scientific Publications. Author-hosted 13-page
+    preprint of the PNAS 2004 article, DOI 10.1073/pnas.0307760101. All pages visually
+    read. Locators refer to this preprint, whose printed and PDF pages agree, not
+    final journal pages 5220-5227. The full primary PDF was visually read. Curator
+    qualifications and synthetic calculations are distinguished from historical empirical
+    claims and uninspected implementations.
+assessments:
+- assessment_id: authorrecipienttopicmodel
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - authorrecipienttopicmodel-source-0
+  - authorrecipienttopicmodel-source-1
+  summary: 'Scoped to McCallum, Corrada-Emmanuel and Wang''s ART model in the December
+    2004 technical report and IJCAI 2005 paper. Sender and recipient have distinct
+    roles in selecting a pair-specific topic vector. The model differs from author-topic
+    modeling over undifferentiated participants, document-specific LDA, network-edge
+    generation and the later latent-role RART variants. ART is a source acronym within
+    this scope, not a universal expansion of that acronym. No normalized candidate
+    identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding
+    native IDs, names and aliases. Both full-checkout searches included ignored and
+    hidden files; 13 matching lines in each checkout came from four unique file contents
+    containing prior frontier leads, contextual distinctions and a cached bibliography
+    mention. Matching concept excerpts were inspected; the long cached web transcript
+    was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified
+    unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS
+    nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30
+    contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records
+    and three final records verified against the round101 scientific-review inputs.
+    No candidate identity is present within this bounded pinned-snapshot and maintained-corpus
+    search.'
+  details: 'For a fixed topic count and vocabulary, each topic has a categorical word
+    distribution phi_z with a Dirichlet prior, and each ordered sender-recipient pair
+    (a,r) has a topic vector theta_ar with a Dirichlet prior. Given sender a_d and
+    nonempty observed recipient set R_d, each token selects x uniformly from R_d,
+    z from theta_(a_d,x), and w from phi_z. Conditional on these parameters, the message
+    topic mixture averages the eligible pair vectors. The reversed pair can have a
+    different vector. Sender identity, recipient sets and message lengths are conditioned
+    on; this direction-sensitive content model does not itself generate network edges
+    or establish causal influence. Integrating the shared pair-topic and topic-word
+    vectors gives a collapsed token update. For eligible recipient r, topic z and
+    observed word v, its weight is proportional to (n_(a_d,r),z^(-i)+alpha_z)/(n_(a_d,r),.^(-i)+sum(alpha))
+    times (n_zv^(-i)+beta_v)/(n_z.^(-i)+sum(beta)). Counts exclude the token and pool
+    the corpus; the uniform recipient factor cancels among eligible choices. Joint
+    recipient/topic sampling or compatible separate conditional updates target the
+    collapsed assignment posterior. Finite samples approximate posterior summaries
+    and do not certify convergence. Sharing random parameters across messages requires
+    joint corpus integration; a product of separately integrated message marginals
+    is generally different. Limitations: The corpus-probability display on report
+    p.4 factors separately integrated document marginals despite shared random parameters.
+    The subsequent corpus-count derivation on p.5 preserves sharing. The record uses
+    the shared model and qualifies that display; no failure of unseen implementation
+    is inferred. Pair-specific parameters can be weakly informed for sparse or unobserved
+    pairs. Fixed topic count, uniform recipient selection, stationary pair preferences,
+    finite vocabulary and bag-of-words emissions constrain the model. Suggestions
+    to smooth toward sender-only vectors are not part of the basic specification.
+    Reported role similarities use descriptive topic distributions, divergence matrices
+    and selected email examples with manual entity resolution and heuristic text cleaning.
+    They do not establish universal predictive superiority, actual job roles, expertise
+    or causal social relationships. Topic and role labels remain interpretations.
+    RART introduces additional latent sender/recipient roles and has token-level and
+    message-level variants. It is a distinct extension; preliminary staged fitting
+    after fixing an ART sample is not full joint posterior inference. No author code,
+    email corpus or benchmark was executed.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - authorrecipienttopicmodel-source-0
+    - authorrecipienttopicmodel-source-1
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three native model families map broadly to AIO Model and related
+      to the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient
+      topic mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM.
+      The HMM/topic composite routes emissions through a semantic class and differs
+      from generic HMM, context-sensitive or input-output HMM, and product-of-HMM
+      constructions. FactoredLanguageModel and MixtureofExpertsLLM do not identify
+      this historical generative model. Shared word/reference membership is not itself
+      an end-to-end MultimodalLanguageModel; MultimodalLearning, FeatureExtraction
+      and Clustering are broader tasks, not exact identities. BayesianNetwork and
+      ProbabilisticGraphicalModel describe broader graphical roles, while the pinned
+      latter is task-scoped; CausalGraphicalModel does not follow from observational
+      dependence. Static/dynamic/logistic-normal topic models, Gibbs sampling, EM
+      and hierarchical mixtures of experts provide contrasts without renewed scientific
+      approval.
+    evidence_ids:
+    - mapping
+- assessment_id: compositehmmtopicmodel
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:CompositeHMMTopicModel
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - compositehmmtopicmodel-source-0
+  summary: 'Scoped to the composite model of Griffiths, Steyvers, Blei and Tenenbaum''s
+    Integrating Topics and Syntax. The maintained name describes that source-defined
+    construction; no additional acronym is asserted as a source synonym. All tokens
+    follow class transitions, while only the semantic class uses the document-topic
+    mixture. This differs from independent topic models, generic HMMs, a product of
+    HMM experts, or modern mixture-of-experts language models. No normalized candidate
+    identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding
+    native IDs, names and aliases. Both full-checkout searches included ignored and
+    hidden files; 13 matching lines in each checkout came from four unique file contents
+    containing prior frontier leads, contextual distinctions and a cached bibliography
+    mention. Matching concept excerpts were inspected; the long cached web transcript
+    was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified
+    unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS
+    nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30
+    contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records
+    and three final records verified against the round101 scientific-review inputs.
+    No candidate identity is present within this bounded pinned-snapshot and maintained-corpus
+    search.'
+  details: 'A document draws a Dirichlet topic vector. An HMM generates the token-class
+    sequence. If a token occupies the designated semantic class, a topic selected
+    from the document vector determines its word distribution; otherwise its class-specific
+    word distribution generates the token. The Bayesian formulation puts symmetric
+    Dirichlet priors on topic emissions, nonsemantic class emissions and transition
+    rows. The source draws a topic at every position, but topics unused by nonsemantic
+    emissions can be marginalized. The displayed model is first order; experiments
+    also use higher-order transitions and a dedicated sentence-marker state. Initial
+    and boundary conventions, class count, topic count and vocabulary are part of
+    a complete specification. The source alternates topic and class updates with parameters
+    integrated out. Its document-topic counts include semantic tokens only, and the
+    first-order class update accounts for both neighboring transitions, including
+    corrections when they share a transition row or cell. A coherent interpretation
+    first marginalizes unused topics, then introduces a temporary topic for the currently
+    updated nonsemantic token from the leave-one-out document predictive law. Updating
+    that topic and then the class allows the common document-topic factor to cancel
+    in the class conditional; discard the temporary topic if the resulting class is
+    nonsemantic. This is an explicit curator interpretation of the printed count convention,
+    checked in a small enumerated model, not a claim about unseen author code. Retaining
+    all inactive topic draws in a fully augmented sampler would instead require document
+    counts over all those draws. Limitations: The distinction between syntactic classes
+    and semantic topics is induced by this model and corpus. It need not coincide
+    with linguistic ground truth, supervised part-of-speech tags or full grammar.
+    Fixed class/topic counts and finite-state local transitions restrict its scope.
+    The source LDA comparison uses a semantic class plus a dedicated sentence-marker
+    class with the stated boundary handling; arbitrary two-state HMMs are not equivalent
+    to LDA. With one topic, the semantic emission has its own prior, so the resulting
+    HMM comparison must preserve those hyperparameters. A finite auxiliary-update
+    invariance calculation supports a compatible semantic-only interpretation; it
+    is not a proof that historical software followed that convention or that finite
+    chains mixed. The displayed first-order transition formula requires additional
+    factors for higher-order contexts. Historical results use particular Brown, TASA
+    and NIPS preparations. Adjusted Rand agreement is not supervised tag accuracy,
+    and the reported harmonic-mean evidence estimate is not exact marginal likelihood
+    or guaranteed stable. The document-classification experiment reports LDA somewhat
+    better. No universal advantage or empirical reproduction is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - compositehmmtopicmodel-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three native model families map broadly to AIO Model and related
+      to the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient
+      topic mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM.
+      The HMM/topic composite routes emissions through a semantic class and differs
+      from generic HMM, context-sensitive or input-output HMM, and product-of-HMM
+      constructions. FactoredLanguageModel and MixtureofExpertsLLM do not identify
+      this historical generative model. Shared word/reference membership is not itself
+      an end-to-end MultimodalLanguageModel; MultimodalLearning, FeatureExtraction
+      and Clustering are broader tasks, not exact identities. BayesianNetwork and
+      ProbabilisticGraphicalModel describe broader graphical roles, while the pinned
+      latter is task-scoped; CausalGraphicalModel does not follow from observational
+      dependence. Static/dynamic/logistic-normal topic models, Gibbs sampling, EM
+      and hierarchical mixtures of experts provide contrasts without renewed scientific
+      approval.
+    evidence_ids:
+    - mapping
+- assessment_id: mixedmembershipmodelforscientificpublications
+  area: evidence
+  topic: Identity, model definition, inference interpretation, limitations and mappings
+  outcome: supported
+  target_ids:
+  - AIMech:MixedMembershipModelForScientificPublications
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - mixedmembershipmodelforscientificpublications-source-0
+  summary: 'Scoped to the word/reference multinomial model fitted by Erosheva, Fienberg
+    and Lafferty in their 2004 scientific-publication study. The broader mixed-membership
+    framework and proposed Bernoulli citation alternatives are not exact aliases for
+    this selected model. Shared document memberships couple two observation channels;
+    no word-to-reference alignment, author identity or latent network-block membership
+    is assumed. No normalized candidate identity matched all 442 pinned AIO IDs, labels
+    and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout
+    searches included ignored and hidden files; 13 matching lines in each checkout
+    came from four unique file contents containing prior frontier leads, contextual
+    distinctions and a cached bibliography mention. Matching concept excerpts were
+    inspected; the long cached web transcript was not reread in full. Semantic search
+    returned 204 label/synonym hits: 200 verified unchanged from prior reading and
+    four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise
+    16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged
+    prior readings, two newly read AIO records and three final records verified against
+    the round101 scientific-review inputs. No candidate identity is present within
+    this bounded pinned-snapshot and maintained-corpus search.'
+  details: 'For fixed K aspects, each aspect has a categorical word distribution and
+    a separate categorical reference-ID distribution. Each document draws lambda from
+    Dirichlet(alpha). Conditional on lambda, its word tokens are sampled from the
+    lambda-weighted word mixture and its reference entries from the lambda-weighted
+    reference mixture, with channel lengths conditioned on. Equivalently, each word
+    or reference draws its own aspect label from the same lambda. The document likelihood
+    integrates the product of both channel likelihoods over lambda; their conditional
+    independence does not imply marginal independence. Removing the reference observations
+    yields a word-only LDA-type model, whereas fixed rather than random membership
+    vectors give a PLSA-style alternative. The reported analysis estimates parameters
+    through a variational approximation to the shared-membership likelihood; expectation
+    propagation is discussed as another approximate approach. Approximate document
+    membership posteriors supply loadings, summarized by Dirichlet means and compared
+    descriptively with official publication categories. This is unsupervised aspect
+    discovery with external category comparison, not supervised recovery of those
+    labels. General corpus fitting is computationally demanding even though small
+    finite cases can be integrated by explicit expansion; approximate EM and posterior
+    summaries do not guarantee exact likelihoods or global optima. Limitations: The
+    main model treats references as multinomial draws with replacement although observed
+    bibliographies are represented by presence indicators. Bernoulli inclusion models
+    that use absent references and publication-time restrictions are discussed on
+    pp.4-5 as alternatives; they are not the fitted multinomial model. The p.4 display
+    labels its integrated document likelihood p(theta|d), but it is not a posterior
+    over parameters. Conditional independence given memberships is stronger than exchangeability
+    alone. Shared latent proportions explain modeled dependence, not causal citation
+    relationships or objectively true scientific disciplines. Reported results concern
+    a selected PNAS Biological Sciences 1997-2001 corpus and a chosen eight-aspect
+    fit. Topic counts were compared informally, and aspect interpretations used high-probability
+    words/references. Neither universal model-selection optimality nor recovery of
+    a unique semantic partition follows. An unweighted average of document loadings
+    does not generally equal a pooled token-level percentage when document lengths
+    differ. Source figure cross-references are inconsistent: use the actual Figure
+    1 on preprint p.9 and Table 4 on p.13. No source implementation or benchmark was
+    executed.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A specified latent-variable probability-model family, not a trained
+      instance or merely its fitting algorithm.
+    evidence_ids:
+    - mixedmembershipmodelforscientificpublications-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: All three native model families map broadly to AIO Model and related
+      to the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient
+      topic mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM.
+      The HMM/topic composite routes emissions through a semantic class and differs
+      from generic HMM, context-sensitive or input-output HMM, and product-of-HMM
+      constructions. FactoredLanguageModel and MixtureofExpertsLLM do not identify
+      this historical generative model. Shared word/reference membership is not itself
+      an end-to-end MultimodalLanguageModel; MultimodalLearning, FeatureExtraction
+      and Clustering are broader tasks, not exact identities. BayesianNetwork and
+      ProbabilisticGraphicalModel describe broader graphical roles, while the pinned
+      latter is task-scoped; CausalGraphicalModel does not follow from observational
+      dependence. Static/dynamic/logistic-normal topic models, Gibbs sampling, EM
+      and hierarchical mixtures of experts provide contrasts without renewed scientific
+      approval.
+    evidence_ids:
+    - mapping
+- assessment_id: art-conditioning
+  area: consistency
+  topic: Observed participants and shared corpus parameters
+  outcome: supported
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  evidence_ids:
+  - authorrecipienttopicmodel-source-0
+  - authorrecipienttopicmodel-source-1
+  - finite-boundaries
+  - neighbors
+  summary: Retain ART as an ordered-pair topic-mixture model.
+  details: The model conditions on sender/recipient metadata and does not generate
+    edges or causal influence. Collapsed pair/topic probabilities match integrated
+    finite joint ratios to 2.3e-16. Sharing corpus parameters prevents the general
+    factorization into separately integrated message marginals displayed on report
+    p.4; p.5 uses global counts. RART role variables define a separate extension.
+    No unseen implementation failure or universal role-prediction superiority is asserted.
+- assessment_id: composite-auxiliary
+  area: consistency
+  topic: Sequential classes, semantic-only counts and auxiliary topics
+  outcome: supported
+  target_ids:
+  - AIMech:CompositeHMMTopicModel
+  evidence_ids:
+  - compositehmmtopicmodel-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the source-defined composite model with an explicit coherent inference
+    interpretation.
+  details: The semantic class emits through the document topic vector; other classes
+    have their own word laws. Marginalizing unused topics and introducing a temporary
+    topic for one current inactive token makes semantic-only counts compatible with
+    the displayed alternation. The common document-topic predictive factor cancels
+    from class alternatives under this auxiliary construction. All three local kernels
+    preserve the 27-state synthetic posterior within 1.2e-16, and transition corrections
+    match integrated transition rows within 4.5e-16. This resolves an interpretive
+    concern without claiming historical software was inspected or finite chains mixed.
+- assessment_id: shared-word-reference
+  area: consistency
+  topic: Shared document membership versus independent channels and citation alternatives
+  outcome: supported
+  target_ids:
+  - AIMech:MixedMembershipModelForScientificPublications
+  evidence_ids:
+  - mixedmembershipmodelforscientificpublications-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the fitted two-channel multinomial construction.
+  details: A shared Dirichlet document vector couples word and reference channels
+    after marginalization. The finite Beta witness gives 1/3 for joint integration
+    versus 1/4 for separate means. Multinomial references permit duplicates, unlike
+    a Bernoulli inclusion construction. Average paper loadings weight papers, not
+    all pooled tokens; the synthetic unequal-length example gives 0.5 versus 0.18.
+    Proposed alternatives and the broader mixed-membership framework are not silently
+    substituted for the selected fitted model.
+- assessment_id: versions-and-empirics
+  area: consistency
+  topic: Exact versions, pagination and empirical boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  evidence_ids:
+  - authorrecipienttopicmodel-source-0
+  - authorrecipienttopicmodel-source-1
+  - compositehmmtopicmodel-source-0
+  - mixedmembershipmodelforscientificpublications-source-0
+  summary: Preserve four complete primary versions and their limited empirical scopes.
+  details: The December 11 2004 ART report differs from IJCAI 2005 and the as-yet
+    unread 2007 journal version. The syntax source is official NIPS 2004, also cited
+    as 2005 proceedings. Scientific-publication locators use the 13-page author preprint
+    rather than final PNAS pagination. Its actual histogram and mean-loading display
+    are Figure 1 p.9 and Table 4 p.13. Selected email role examples, adjusted Rand
+    syntax agreement, harmonic-mean estimates and PNAS aspect interpretations do not
+    establish universal superiority, exact evidence or objective labels.
+- assessment_id: mapping-boundary
+  area: grounding
+  topic: Model/task mapping direction and neighboring concepts
+  outcome: supported
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  summary: Retain three distinct native model families.
+  details: All three native model families map broadly to AIO Model and related to
+    the task-scoped ProbabilisticTopicModel. ART has ordered sender-recipient topic
+    mixtures rather than the author-only sharing of AuthorTopicModel or PersonalizedLLM.
+    The HMM/topic composite routes emissions through a semantic class and differs
+    from generic HMM, context-sensitive or input-output HMM, and product-of-HMM constructions.
+    FactoredLanguageModel and MixtureofExpertsLLM do not identify this historical
+    generative model. Shared word/reference membership is not itself an end-to-end
+    MultimodalLanguageModel; MultimodalLearning, FeatureExtraction and Clustering
+    are broader tasks, not exact identities. BayesianNetwork and ProbabilisticGraphicalModel
+    describe broader graphical roles, while the pinned latter is task-scoped; CausalGraphicalModel
+    does not follow from observational dependence. Static/dynamic/logistic-normal
+    topic models, Gibbs sampling, EM and hierarchical mixtures of experts provide
+    contrasts without renewed scientific approval.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:AuthorRecipientTopicModel
+  - AIMech:CompositeHMMTopicModel
+  - AIMech:MixedMembershipModelForScientificPublications
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - authorrecipienttopicmodel-source-0
+  - authorrecipienttopicmodel-source-1
+  - compositehmmtopicmodel-source-0
+  - mixedmembershipmodelforscientificpublications-source-0
+  rationale: Ordered sender-recipient proportions, class-conditioned sequential emissions
+    and shared word/reference membership are different generative structures. Shared
+    topic terminology does not imply identity. Broad Model and related topic-task
+    mappings preserve AIO abstraction without forcing exact matches.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 43 PDF pages across four downloaded primary documents were visually read, including
+  equations, tables and bibliography. Extraction was a reading aid; no extracted-text
+  reading or author-code execution is asserted.
+- The inspected ART technical report is dated December 11, 2004; its six-page IJCAI
+  2005 successor is separately identified. The 24-page 2007 journal version was located
+  but not read and is not current mechanism evidence.
+- The official syntax paper is NIPS 2004, also cited with 2005 proceedings year. The
+  scientific-publication source is a 13-page author preprint, not the final eight-page
+  journal layout; locators use the inspected bytes.
+- PMC presented a recaptcha. PubMed metadata and the complete author-hosted preprint
+  were accessible; the uninspected PMC full text is not claimed as read.
+- Printed source expressions are qualified where shared corpus parameters or likelihood
+  notation matter. The composite sampler convention was resolved by an explicit auxiliary
+  interpretation and finite calculation; historical implementation and benchmarks
+  remain unexecuted.
+- Ten new provisional reference cohorts were deduplicated against 438 previous labels
+  and ignored-inclusive full-checkout searches. All three records remain DRAFT; 271
+  pending leads and other unresolved dispositions preclude saturation.
+links: []
+tags:
+- native-concepts
+- conditional-topics
+- self-review
+- discovery-ongoing
+```
