@@ -1,0 +1,995 @@
+# Successor author review of corrected sparse-spectrum prediction notation
+
+- Review: 20261012T220102Z-sparse-spectrum-prediction-resolved
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T21:56:22Z
+- Finished UTC: 2026-10-12T22:01:02Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The minor notation finding is resolved for both maintained records. Feature scale, design-matrix columns/dimensions and scalar training responses are now explicit; formulas, identities, mappings and limitations are retained. Both records remain DRAFT.
+
+## Scope And Provenance
+
+The complete two-record cohort of newly added Pan2017 finite-feature uncertain-input prediction methods.
+
+Selection: Exact maintained IDs: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base f6a06cf6867a907645f8a2d2524ef68dacc44bb9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SparseSpectrumGaussianProcessExactMomentMatching | data/curated/SparseSpectrumGaussianProcessExactMomentMatching.yaml | maintained | Sparse-spectrum Gaussian-process exact moment matching |
+| AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml | maintained | Sparse-spectrum Gaussian-process linearized uncertain-input prediction |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 118.46s (0:01:58)<br>Checked 442 record(s); 0 failed.<br>Checked 545 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 193 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 191,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | Exited 0 without output. |
+| Unchanged finite-feature moment calculations | passed | True | AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction | {"scope": "Fixed one-frequency two-feature posterior, analytic formulas versus deterministic quadrature; no model training or empirical benchmark.", "parameters": {"input_mean": 0.4, "input_variance": 0.7, "omega": 1.3, "weight_mean": [0.8, -0.6], "weight_covariance": [[0.4, 0.1], [0.1, 0.2]], "observation_noise_variance": 0.05}, "exact": {"feature_mean": [0.48033480665431033, 0.27502137603157323], "feature_second_moment": [[0.5237557518659833, 0.0404706460040914], [0.0404706460040914, 0.47624424813401667]], "input_feature_covariance": [-0.2502694521887316, 0.43710467405542236], "output_mean": 0.21925501970450434, "output_variance": 0.78257230626694, "input_output_covariance": -0.46247836618423865}, "numerical_check": {"interval_standard_deviations": 10, "simpson_subintervals": 20000, "maximum_absolute_error": 7.216449660063518e-15}, "linearized": {"output_mean": 0.3961272610358779, "output_variance": 1.4842298658425763, "input_output_covariance": -0.8355580124542372}, "conditional_variance_order": {"model": "Y=W*cos(X), W~N(0,1) independent of X~N(0,2).", "exact_variance": 0.5091578194443671, "frozen_conditional_variance": 1.0, "second_order_conditional_variance": -1.0}, "non_gaussian": {"model": "Y=cos(X), X~N(0,1), fixed coefficient and no observation noise.", "mean": 0.6065306597126334, "variance": 0.19978820044686407, "support": [-1, 1]}, "interpretation": ["Exact moments are for fixed finite features and a specified independent input/weight posterior, not the original kernel or a Gaussian predictive law.", "Sine/cosine cross moments and input-feature covariance signs agree with independent quadrature.", "SSGP-Lin freezes the conditional variance and differs from the Girard second-order variance expansion.", "A nondegenerate bounded cosine output cannot have the full law of its moment-matched Gaussian."]} |
+
+## Scientific And Domain Assessments
+
+### Retain two named prediction transforms
+
+identity: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+The identities differ in their moment calculation and approximation scope.
+
+SSGP-EMM integrates trigonometric feature moments under a Gaussian input. SSGP-Lin linearizes the posterior mean and freezes conditional variance. They act on a fixed finite-feature posterior; they do not identify training its spectral frequencies, constructing generic random Fourier features, or the full filtering/controller applications. Full-kernel SE integration is a different model domain. The Girard Taylor procedure has an additional conditional-variance Hessian term.
+
+### Task relationships, not algorithm equivalence
+
+grounding: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+The related AIO regression and forecasting mappings are justified.
+
+Both algorithms predict continuous learned responses. The source explicitly propagates them to future dynamical states in filtering and predictive control. This supports related forecasting application links without making the generic algorithms time-series-only subclasses. LinearRegression is a component-model fitting context; KernelLayer is an artificial-network component. The processing and demographic uncertainty bias classes differ in scope.
+
+### fixed-feature-posterior
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+For fixed frequencies omega_i, the source uses a 2m-dimensional feature vector with cosine and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training input/response pairs, Phi=[phi(x_1),...,phi(x_n)] is the 2m by n feature-design matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses. With Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y, S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient posterior, conditional on the training data, frequencies and hyperparameters. These prediction methods do not require one particular training solver once the posterior coefficient moments are supplied.
+
+### exact-feature-moments
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+Let q=E[phi(X)] and Psi=E[phi(X)*phi(X)^T]. SSGP-EMM computes E[Y]=alpha^T*q and Var[Y]=sigma_n^2+tr(S*Psi)+alpha^T*(Psi-q*q^T)*alpha, then represents the output by a Gaussian with these moments. Gaussian characteristic-function identities give E[cos(omega^T*X)]=exp(-omega^T*Sigma*omega/2)*cos(omega^T*mu), with sine in place of cosine for E[sin]. Product-to-sum identities at frequency sums and differences give Psi. These are exact first two moments of the fixed finite-feature posterior under the stated independent Gaussian input, not exact moments of the original infinite-rank kernel model or integration over frequencies and hyperparameters.
+
+### cross-covariances
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+For a column-vector input, Cov(X,Y)=Cov(X,phi(X))*alpha. The cosine feature column is -sigma_k*Sigma*omega_i*E[sin(omega_i^T*X)] and the sine feature column is sigma_k*Sigma*omega_i*E[cos(omega_i^T*X)], with sigma_k the feature scale. For distinct conditionally independent scalar output models a and b with independent residual noises, Cov(Y_a,Y_b)=alpha_a^T*(Psi_ab-q_a*q_b^T)*alpha_b, where Psi_ab=E[phi_a(X)*phi_b(X)^T]. Shared input uncertainty can therefore correlate outputs even when their conditional distributions factorize. Conditional cross-output covariance or correlated noise would require an additional term.
+
+### gaussian-shape-boundary
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+Matching exact first two moments does not make the nonlinear predictive mixture Gaussian. As a curator boundary illustration, fixed coefficient Y=cos(X) with X~N(0,1) has mean exp(-1/2), variance (1+exp(-2))/2-exp(-1)&gt;0 and support [-1,1]. Its moment-matched Gaussian has unbounded support. This uses deterministic coefficients and no observation noise as a limiting finite-feature example, not a fitted SSGP experiment. Direct deterministic quadrature of a separate nondegenerate two-feature Gaussian coefficient example checks moment and covariance formulas without establishing general empirical accuracy.
+
+### sequential-use
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+The source uses these prediction transforms inside Bayesian filtering and future-state prediction for control. Gaussian moment propagation alone does not retain the full predictive shape or all dependence between a repeatedly used uncertain dynamics function and subsequent states. Hewing and colleagues explicitly analyze the successive-evaluation independence approximation in Pan-style trajectory prediction. This prediction transform is therefore not an exact shared-function trajectory inference algorithm or, by itself, a complete filter or controller.
+
+### fixed-feature-posterior
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+For fixed frequencies omega_i, the source uses a 2m-dimensional feature vector with cosine and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training input/response pairs, Phi=[phi(x_1),...,phi(x_n)] is the 2m by n feature-design matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses. With Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y, S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient posterior, conditional on the training data, frequencies and hyperparameters. These prediction methods do not require one particular training solver once the posterior coefficient moments are supplied.
+
+### local-mean-frozen-variance
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+SSGP-Lin linearizes m(x)=alpha^T*phi(x) at the input mean mu and evaluates the conditional response variance at mu. With J=Dphi(mu) of size 2m by d and column gradient g=J^T*alpha, the approximate mean is m(mu) and variance is sigma_n^2+phi(mu)^T*S*phi(mu)+g^T*Sigma*g. The cosine feature derivative is -sigma_k*sin(omega_i^T*mu)*omega_i^T and the sine derivative is sigma_k*cos(omega_i^T*mu)*omega_i^T. This formula omits posterior-mean curvature and input-dependent conditional-variance curvature. Nonnegative component variances give a nonnegative scalar variance, which does not establish approximation accuracy.
+
+### local-cross-covariance
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+With column input X, the local input-response cross-covariance is Sigma*g, a d by 1 column. For two conditionally independent scalar output models with independent residual noise, the off-diagonal response covariance is g_a^T*Sigma*g_b. This retains covariance induced by the shared uncertain input while freezing each conditional variance. It does not model conditional cross-output covariance. The main paper’s M underbrace and final input-response covariance orientation are inconsistent; the supplemental definition M=Dphi and explicit matrix dimensions determine the formulas used here.
+
+### distinct-variance-truncation
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+Freezing the conditional variance differs from the earlier Girard local GP approximation, which adds one half of the trace of its conditional-variance Hessian times Sigma. In a curator finite-feature illustration Y=W*cos(X), with independent W~N(0,1) and X~N(0,2), SSGP-Lin gives variance 1, exact integration gives (1+exp(-4))/2, and retaining the second-order conditional-variance term gives -1. This limiting rank-one coefficient example distinguishes the truncations; it is not a trained-model benchmark or a claim that the earlier method always fails. Both local approximations can differ substantially from exact moments away from a sufficiently local input regime.
+
+### sequential-use
+
+evidence: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Supported within the stated fixed-posterior and Gaussian-input assumptions.
+
+The source uses these prediction transforms inside Bayesian filtering and future-state prediction for control. Gaussian moment propagation alone does not retain the full predictive shape or all dependence between a repeatedly used uncertain dynamics function and subsequent states. Hewing and colleagues explicitly analyze the successive-evaluation independence approximation in Pan-style trajectory prediction. This prediction transform is therefore not an exact shared-function trajectory inference algorithm or, by itself, a complete filter or controller.
+
+### Finite features, Gaussian moments and predictive shape
+
+consistency: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching.
+
+The record places exactness at the appropriate mathematical level.
+
+Conditioning on fixed frequencies and coefficient moments, total variance yields noise + trace(S Psi) + alpha^T(Psi-qq^T)alpha. The one-frequency example compares first moments, second moments and input-feature covariance with direct Simpson integration, with maximum absolute discrepancy below 1e-11. It tests a finite case, not every input dimension or model. The deterministic cosine example is explicitly a limiting coefficient posterior and proves only that matching nonzero variance of a bounded variable does not make its law Gaussian.
+
+### Posterior-mean linearization is not full random-feature linearization
+
+consistency: supported. Targets: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+The frozen conditional variance and omitted Hessian terms are explicit.
+
+J is 2m by d, g=J^T alpha is d by 1 and Cov(X,Y)=Sigma g has the correct column shape. This is not a first-order expansion of the entire random function with every coefficient/input uncertainty cross term retained. Its variance uses v(mu), not E[v(X)] or a Hessian correction. For Y=W cos(X) at zero-mean Gaussian X of variance 2, v(mu)=1, exact variance=(1+exp(-4))/2 and the second-order v expansion gives -1. The rank-one boundary is labeled as an analytic illustration, not a trained model.
+
+### Supplement and algebra resolve notation used in the records
+
+provenance: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Curated formulas do not copy the source’s dimensional inconsistencies.
+
+The main paper repeats cosine in its sine input-feature column, whereas Proposition 2 gives the correct sine expression. Its Equation 12 underbrace labels alpha^T Dphi as M, but later equations multiply alpha again; the supplement explicitly defines M=Dphi. Equation 16 displays a row for a column-labeled covariance; the record consistently uses Sigma g. The total-covariance cross-output expression assumes zero conditional cross covariance; it is not a product of marginal conditional variances. These source issues are bounded and do not imply that an uninspected author implementation is incorrect. Spectral-density normalization tables and controller derivatives are excluded from claims.
+
+### Independent scalar outputs and shared-function trajectories
+
+scope: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+Both distinct dependence limitations are preserved.
+
+Conditional output independence requires independent coefficient/noise models and still permits marginal covariance through the shared input. Separately, repeated use of a common uncertain dynamics function couples later states with that function. Single-step exact or local moments and a full within-state covariance do not recover all such trajectory dependence. Hewing specifically cites the Pan trajectory approximation; no new trajectory benchmark was run.
+
+### Complete maintained field, source and report audit
+
+provenance: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+All fields of both corrected records were reassessed; both remain DRAFT.
+
+Read each stable ID, name, acronym alias, algorithm kind, definition and citations, identity notes, five claims, source metadata/access/hash/version entries, pinned AIO snapshot, two related mappings, six limitations and actual curation provenance. Main and appendix are distinguished; the appendix source hash is the ZIP archive and its version field gives the PDF member hash. Records match their discovery-report entries. The original 2010 regression paper is follow-up context only, not an unreviewed addition or empirical endorsement. No numerical runtime/performance comparison is curated.
+
+### Define symbols in standalone mechanism formulas
+
+consistency: supported. Targets: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction.
+
+The requested local symbol definitions are now present in both records.
+
+The scale agrees with Equation 4 and following definition on main PDF page 2, while Phi and the response column agree with Equation 6 and its following definitions on main PDF page 3. Their dimensions make every fixed-feature matrix product explicit. Both targets and their complete limitations were reassessed; no further actionable defect was found.
+
+## Findings
+
+### F1: Define feature-design and scale symbols in sparse-spectrum prediction records
+
+minor / resolved / confirmed; issue key: aimech-ssgp-prediction-feature-notation.
+
+Both fixed-feature-posterior claims use Phi and the training response vector y without defining their array contents or dimensions. SSGP-Lin also introduces sigma_k in its derivative without identifying its scale. The source defines these quantities, but the maintained standalone formulas leave them implicit. Add the missing local definitions without changing the algorithms.
+
+Disposition: Both fixed-feature-posterior claims now define sigma_k=sigma_f/sqrt(m), Phi as the 2m by n matrix of training feature columns and y as the n-vector of scalar responses. Actual source definitions, current record/report mirrors and generated pages were inspected and all required checks passed. The formulas and concept boundaries are unchanged.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:SparseSpectrumGaussianProcessExactMomentMatching, AIMech:SparseSpectrumGaussianProcessLinearizedPrediction. Exact finite-feature moment integration and posterior-mean linearization with frozen conditional variance have different defining computations and yield different moments for the same specified model/input. Shared source and applications do not make them one algorithm.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T214825Z-sparse-spectrum-prediction.json | supports | Compared all 442 pinned AIO IDs, labels and scoped synonyms and 543 maintained IDs, names and aliases: neither proposed identity nor its acronym matched. Full-text searches in the recovery, older discovery and original Documents checkouts included ignored and hidden files and returned 98, 0 and 0 lines; all 62 distinct matched strings were read. Hits concern pending sparse-spectrum leads, source reading notes and scope distinctions in existing GP records. Read all 39 semantic AIO rows and 107 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges and generated records, and four native context records. The fixed finite-feature posterior differs from the full squared-exponential kernel model; SSGP-EMM integrates its moments, whereas SSGP-Lin linearizes its mean and freezes its conditional variance. Neither identity denotes learning the underlying sparse-spectrum regression model, general Fourier feature construction, a complete Bayesian filter, or a model predictive controller. The earlier Girard Taylor record retains a conditional-variance Hessian term that SSGP-Lin omits. Absence is bounded to this inspected pin and corpus. |
+| mapping | sources/aio/aio.json | supports | Read all 39 semantic AIO rows, 107 native definitions, seven complete annotated AIO CLASS nodes and incident edges/generated records, and four full native context records. Positive related mappings express regression prediction and a demonstrated future-state forecasting application; inspected alternatives differ in scope. |
+| calculation | research/discovery/ssgp-moment-boundaries.py | supports | Analytic fixed-feature Gaussian moments agree with independent scalar quadrature; local and exact moments are distinguished and the conditional-variance truncation example shows a genuine algorithm difference. These checks are not fitted-model or benchmark reproductions. |
+| pan2017 | https://proceedings.mlr.press/v70/pan17a/pan17a.pdf; Sections 2–3.1, Equations 4 and 6–11, Propositions 1–2, PDF pp. 2–4; Section 3.2, Equations 12–16, PDF p. 5; applications, Section 4, PDF pp. 5–7. | supports | ICML 2017, PMLR 70:2760–2768; official nine-page proceedings PDF, all pages visually read. Locators use PDF indices; method pages have no printed page numbers. These primary sources were fully read in preparation. The frozen records were compared with the actual displayed equations and documented source inconsistencies; no author implementation or fitted-model reproduction was inspected. |
+| pan2017-supp | https://proceedings.mlr.press/v70/pan17a/pan17a-supp.zip; Sections 2–3.1, PDF pp. 1–3; proofs and exact moments, Sections 3.2–3.4, PDF pp. 3–5; linearization, Section 3.5, PDF pp. 5–6; conditional output assumptions, Section 6.1, PDF p. 12. | supports | Official ICML 2017 supplementary ZIP. The source hash identifies the archive. All 15 pages of member Supplementary/supplementary.pdf were visually read; its extracted SHA-256 is bfcedf97bfa95140092a5b540e4d771d74c9273acb56ee7cf2e22f1821d8086b. Printed and PDF page indices coincide. README and archive member list inspected; driving video not viewed. These primary sources were fully read in preparation. The frozen records were compared with the actual displayed equations and documented source inconsistencies; no author implementation or fitted-model reproduction was inspected. |
+| hewing2020 | https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf; Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7. | supports | L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices are 1–11, which are used for locators. These primary sources were fully read in preparation. The frozen records were compared with the actual displayed equations and documented source inconsistencies; no author implementation or fitted-model reproduction was inspected. |
+| girard-tr2002 | https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf; Sections 3.3–3.4, Equations 14–22, PDF pp. 8–9. | supports | University of Glasgow Technical Report TR-2002-119, October 2002; all 18 PDF pages visually read, with matching printed page indices. Earlier Taylor method, distinct authorship and experiments from the four-author proceedings paper. These primary sources were fully read in preparation. The frozen records were compared with the actual displayed equations and documented source inconsistencies; no author implementation or fitted-model reproduction was inspected. |
+| notation-gap | research/discovery/20261012T214825Z-sparse-spectrum-prediction.json | supports | Both complete corrected records now explicitly define the feature scale, feature-design matrix contents/dimensions and training response vector. The correction is limited to the shared mechanism statement and actual updated-at provenance; report mirrors and pages agree. |
+| predecessor | reviews/structured/20261012T215318Z-sparse-spectrum-prediction-open/review.yaml | context_only | Immutable predecessor review identifies the exact minor notation finding F1 and both maintained owners. Its bytes remain unchanged. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent scientific approval or status promotion.
+- One minor notation finding is resolved through the cited predecessor; source-level formula caveats and all original scientific limitations remain.
+- Two native DRAFT algorithms added; 545 native and 442 unchanged generated records. The main frontier contains 481 pending and 56 partly addressed cohorts; nested source leads are also retained. Discovery is incomplete.
+- All nine main-paper pages and all 15 appendix pages were visually read. The archive video and author implementation were not inspected. No model fitting or empirical reproduction was performed.
+- Original-checkout synchronization and old round141 cleanup still await explicit approval after automatic review rejected that combined action. Original files remain untouched.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T220102Z-sparse-spectrum-prediction-resolved
+kind: category
+repository: CultureBotAI/AIMech
+title: Successor author review of corrected sparse-spectrum prediction notation
+started_at: '2026-10-12T21:56:22Z'
+finished_at: '2026-10-12T22:01:02Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent reread both corrected records, checked the
+    added symbols against the primary paper, verified unchanged formulas and mappings,
+    and reran the required gates. This is author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The minor notation finding is resolved for both maintained records. Feature
+  scale, design-matrix columns/dimensions and scalar training responses are now explicit;
+  formulas, identities, mappings and limitations are retained. Both records remain
+  DRAFT.
+source:
+  git_revision: f6a06cf6867a907645f8a2d2524ef68dacc44bb9
+  state: working_tree
+  inputs:
+  - path: data/aio/ErrorPropagationBias.yaml
+    sha256: 98a57881fa8f2a8f47efdf37f12f8dbcc66df495112e46c454d26cf4d934c5e4
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/aio/UncertaintyBias.yaml
+    sha256: b013064a48a14beef5040486a8d1cbd11d9c503739d6fc89f73460b08f38e8f3
+    role: context
+  - path: data/curated/AnalyticMomentBasedGaussianProcessFiltering.yaml
+    sha256: c5c76be578b7061f08766238de1f6c68046c7664a258e1c5b6f517f1eb1de98e
+    role: context
+  - path: data/curated/GaussianProcessGaussianInputMomentMatching.yaml
+    sha256: 1ee8ce71dc9dd12e404033168e575cb0628cc2f377e9c3efe4189962ae9378d3
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml
+    sha256: a0d144c86ae74968886abf7bd7e3c58ca0384af5d648dae0d51b7b9177afadc4
+    role: context
+  - path: data/curated/SparseSpectrumGaussianProcessExactMomentMatching.yaml
+    sha256: d71be77766936d8f555ef5b48bfb3a7622eb442afbf219fb9598ca8380e0de67
+    role: target
+  - path: data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml
+    sha256: 35ce2976c6c0cf1130f97b0d5ac72d13f1755d3fec19cc9dd9db358fff73ea06
+    role: target
+  - path: research/discovery/20261012T214825Z-sparse-spectrum-prediction.json
+    sha256: 4f98c413ea2a087b673a73ba579784136f635bf6b75653da10fc31f5e704a072
+    role: context
+  - path: research/discovery/ssgp-moment-boundaries.py
+    sha256: da973a3f2e53f7dd106d157e029d5ebac4cb5bcb890babaf83d9aa8475dd9b4b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  path: data/curated/SparseSpectrumGaussianProcessExactMomentMatching.yaml
+  label: Sparse-spectrum Gaussian-process exact moment matching
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SparseSpectrumGaussianProcessExactMomentMatching.yaml
+    role: maintained
+- target_id: AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  path: data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml
+  label: Sparse-spectrum Gaussian-process linearized uncertain-input prediction
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml
+    role: maintained
+scope:
+  description: The complete two-record cohort of newly added Pan2017 finite-feature
+    uncertain-input prediction methods.
+  selection: 'Exact maintained IDs: AIMech:SparseSpectrumGaussianProcessExactMomentMatching,
+    AIMech:SparseSpectrumGaussianProcessLinearizedPrediction'
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exclusions:
+  - target: Underlying sparse-spectrum regression model and frequency-learning algorithm
+    reason: The original source was read for follow-up; its identity/mapping and algebra
+      audits remain pending.
+  - target: Complete filters, controllers and source implementations
+    reason: Applications/context only; implementation-specific and controller formula
+      claims are excluded.
+  - target: Generated and native neighboring records
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 118.46s (0:01:58)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 545 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 193 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 191,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculations
+  name: Unchanged finite-feature moment calculations
+  command: python3 research/discovery/ssgp-moment-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Fixed one-frequency two-feature posterior, analytic formulas
+    versus deterministic quadrature; no model training or empirical benchmark.", "parameters":
+    {"input_mean": 0.4, "input_variance": 0.7, "omega": 1.3, "weight_mean": [0.8,
+    -0.6], "weight_covariance": [[0.4, 0.1], [0.1, 0.2]], "observation_noise_variance":
+    0.05}, "exact": {"feature_mean": [0.48033480665431033, 0.27502137603157323], "feature_second_moment":
+    [[0.5237557518659833, 0.0404706460040914], [0.0404706460040914, 0.47624424813401667]],
+    "input_feature_covariance": [-0.2502694521887316, 0.43710467405542236], "output_mean":
+    0.21925501970450434, "output_variance": 0.78257230626694, "input_output_covariance":
+    -0.46247836618423865}, "numerical_check": {"interval_standard_deviations": 10,
+    "simpson_subintervals": 20000, "maximum_absolute_error": 7.216449660063518e-15},
+    "linearized": {"output_mean": 0.3961272610358779, "output_variance": 1.4842298658425763,
+    "input_output_covariance": -0.8355580124542372}, "conditional_variance_order":
+    {"model": "Y=W*cos(X), W~N(0,1) independent of X~N(0,2).", "exact_variance": 0.5091578194443671,
+    "frozen_conditional_variance": 1.0, "second_order_conditional_variance": -1.0},
+    "non_gaussian": {"model": "Y=cos(X), X~N(0,1), fixed coefficient and no observation
+    noise.", "mean": 0.6065306597126334, "variance": 0.19978820044686407, "support":
+    [-1, 1]}, "interpretation": ["Exact moments are for fixed finite features and
+    a specified independent input/weight posterior, not the original kernel or a Gaussian
+    predictive law.", "Sine/cosine cross moments and input-feature covariance signs
+    agree with independent quadrature.", "SSGP-Lin freezes the conditional variance
+    and differs from the Girard second-order variance expansion.", "A nondegenerate
+    bounded cosine output cannot have the full law of its moment-matched Gaussian."]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T214825Z-sparse-spectrum-prediction.json
+  accessed_at: '2026-10-12T21:56:22Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 543 maintained
+    IDs, names and aliases: neither proposed identity nor its acronym matched. Full-text
+    searches in the recovery, older discovery and original Documents checkouts included
+    ignored and hidden files and returned 98, 0 and 0 lines; all 62 distinct matched
+    strings were read. Hits concern pending sparse-spectrum leads, source reading
+    notes and scope distinctions in existing GP records. Read all 39 semantic AIO
+    rows and 107 native name/definition neighbors, seven complete annotated AIO CLASS
+    nodes with incident edges and generated records, and four native context records.
+    The fixed finite-feature posterior differs from the full squared-exponential kernel
+    model; SSGP-EMM integrates its moments, whereas SSGP-Lin linearizes its mean and
+    freezes its conditional variance. Neither identity denotes learning the underlying
+    sparse-spectrum regression model, general Fourier feature construction, a complete
+    Bayesian filter, or a model predictive controller. The earlier Girard Taylor record
+    retains a conditional-variance Hessian term that SSGP-Lin omits. Absence is bounded
+    to this inspected pin and corpus.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T21:56:22Z'
+  support: supports
+  summary: Read all 39 semantic AIO rows, 107 native definitions, seven complete annotated
+    AIO CLASS nodes and incident edges/generated records, and four full native context
+    records. Positive related mappings express regression prediction and a demonstrated
+    future-state forecasting application; inspected alternatives differ in scope.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/ssgp-moment-boundaries.py
+  accessed_at: '2026-10-12T21:56:22Z'
+  snapshot_sha256: da973a3f2e53f7dd106d157e029d5ebac4cb5bcb890babaf83d9aa8475dd9b4b
+  support: supports
+  summary: Analytic fixed-feature Gaussian moments agree with independent scalar quadrature;
+    local and exact moments are distinguished and the conditional-variance truncation
+    example shows a genuine algorithm difference. These checks are not fitted-model
+    or benchmark reproductions.
+- evidence_id: pan2017
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v70/pan17a/pan17a.pdf
+  locator: Sections 2–3.1, Equations 4 and 6–11, Propositions 1–2, PDF pp. 2–4; Section
+    3.2, Equations 12–16, PDF p. 5; applications, Section 4, PDF pp. 5–7.
+  accessed_at: '2026-10-12T21:10:55Z'
+  snapshot_sha256: f6419aa3e01484a8a221de3080dff9496b2ffc87d7f2ba4cef601824ac88797d
+  support: supports
+  summary: ICML 2017, PMLR 70:2760–2768; official nine-page proceedings PDF, all pages
+    visually read. Locators use PDF indices; method pages have no printed page numbers.
+    These primary sources were fully read in preparation. The frozen records were
+    compared with the actual displayed equations and documented source inconsistencies;
+    no author implementation or fitted-model reproduction was inspected.
+- evidence_id: pan2017-supp
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v70/pan17a/pan17a-supp.zip
+  locator: Sections 2–3.1, PDF pp. 1–3; proofs and exact moments, Sections 3.2–3.4,
+    PDF pp. 3–5; linearization, Section 3.5, PDF pp. 5–6; conditional output assumptions,
+    Section 6.1, PDF p. 12.
+  accessed_at: '2026-10-12T21:23:41Z'
+  snapshot_sha256: 4cdea13525c08fb71b20c8b6cf5cf0560989ec5063b6dfa9a02b25ff6f43527c
+  support: supports
+  summary: Official ICML 2017 supplementary ZIP. The source hash identifies the archive.
+    All 15 pages of member Supplementary/supplementary.pdf were visually read; its
+    extracted SHA-256 is bfcedf97bfa95140092a5b540e4d771d74c9273acb56ee7cf2e22f1821d8086b.
+    Printed and PDF page indices coincide. README and archive member list inspected;
+    driving video not viewed. These primary sources were fully read in preparation.
+    The frozen records were compared with the actual displayed equations and documented
+    source inconsistencies; no author implementation or fitted-model reproduction
+    was inspected.
+- evidence_id: hewing2020
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  locator: Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions,
+    PDF pp. 5–7.
+  accessed_at: '2026-10-12T20:55:19Z'
+  snapshot_sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+  support: supports
+  summary: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF
+    and printed indices are 1–11, which are used for locators. These primary sources
+    were fully read in preparation. The frozen records were compared with the actual
+    displayed equations and documented source inconsistencies; no author implementation
+    or fitted-model reproduction was inspected.
+- evidence_id: girard-tr2002
+  kind: primary_source
+  reference: https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf
+  locator: Sections 3.3–3.4, Equations 14–22, PDF pp. 8–9.
+  accessed_at: '2026-10-12T20:50:34Z'
+  snapshot_sha256: f2e78afd674d4a4224933b3b4c0e4656a93553491a65ffcd4f118b7d740d006b
+  support: supports
+  summary: University of Glasgow Technical Report TR-2002-119, October 2002; all 18
+    PDF pages visually read, with matching printed page indices. Earlier Taylor method,
+    distinct authorship and experiments from the four-author proceedings paper. These
+    primary sources were fully read in preparation. The frozen records were compared
+    with the actual displayed equations and documented source inconsistencies; no
+    author implementation or fitted-model reproduction was inspected.
+- evidence_id: notation-gap
+  kind: record_content
+  reference: research/discovery/20261012T214825Z-sparse-spectrum-prediction.json
+  accessed_at: '2026-10-12T21:56:22Z'
+  support: supports
+  summary: Both complete corrected records now explicitly define the feature scale,
+    feature-design matrix contents/dimensions and training response vector. The correction
+    is limited to the shared mechanism statement and actual updated-at provenance;
+    report mirrors and pages agree.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261012T215318Z-sparse-spectrum-prediction-open/review.yaml
+  accessed_at: '2026-10-12T21:56:22Z'
+  snapshot_sha256: b63a525a914829c927ead1a9fd4503fb4534cd5618e596a39e89451b22767e59
+  support: context_only
+  summary: Immutable predecessor review identifies the exact minor notation finding
+    F1 and both maintained owners. Its bytes remain unchanged.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Retain two named prediction transforms
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - identity
+  - pan2017
+  - pan2017-supp
+  summary: The identities differ in their moment calculation and approximation scope.
+  details: SSGP-EMM integrates trigonometric feature moments under a Gaussian input.
+    SSGP-Lin linearizes the posterior mean and freezes conditional variance. They
+    act on a fixed finite-feature posterior; they do not identify training its spectral
+    frequencies, constructing generic random Fourier features, or the full filtering/controller
+    applications. Full-kernel SE integration is a different model domain. The Girard
+    Taylor procedure has an additional conditional-variance Hessian term.
+- assessment_id: grounding
+  area: grounding
+  topic: Task relationships, not algorithm equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - mapping
+  - pan2017
+  summary: The related AIO regression and forecasting mappings are justified.
+  details: Both algorithms predict continuous learned responses. The source explicitly
+    propagates them to future dynamical states in filtering and predictive control.
+    This supports related forecasting application links without making the generic
+    algorithms time-series-only subclasses. LinearRegression is a component-model
+    fitting context; KernelLayer is an artificial-network component. The processing
+    and demographic uncertainty bias classes differ in scope.
+- assessment_id: 0-fixed-feature-posterior
+  area: evidence
+  topic: fixed-feature-posterior
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: For fixed frequencies omega_i, the source uses a 2m-dimensional feature
+    vector with cosine and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training
+    input/response pairs, Phi=[phi(x_1),...,phi(x_n)] is the 2m by n feature-design
+    matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses. With
+    Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance
+    sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y,
+    S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean
+    alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction
+    integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient
+    posterior, conditional on the training data, frequencies and hyperparameters.
+    These prediction methods do not require one particular training solver once the
+    posterior coefficient moments are supplied.
+- assessment_id: 0-exact-feature-moments
+  area: evidence
+  topic: exact-feature-moments
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: Let q=E[phi(X)] and Psi=E[phi(X)*phi(X)^T]. SSGP-EMM computes E[Y]=alpha^T*q
+    and Var[Y]=sigma_n^2+tr(S*Psi)+alpha^T*(Psi-q*q^T)*alpha, then represents the
+    output by a Gaussian with these moments. Gaussian characteristic-function identities
+    give E[cos(omega^T*X)]=exp(-omega^T*Sigma*omega/2)*cos(omega^T*mu), with sine
+    in place of cosine for E[sin]. Product-to-sum identities at frequency sums and
+    differences give Psi. These are exact first two moments of the fixed finite-feature
+    posterior under the stated independent Gaussian input, not exact moments of the
+    original infinite-rank kernel model or integration over frequencies and hyperparameters.
+- assessment_id: 0-cross-covariances
+  area: evidence
+  topic: cross-covariances
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: For a column-vector input, Cov(X,Y)=Cov(X,phi(X))*alpha. The cosine feature
+    column is -sigma_k*Sigma*omega_i*E[sin(omega_i^T*X)] and the sine feature column
+    is sigma_k*Sigma*omega_i*E[cos(omega_i^T*X)], with sigma_k the feature scale.
+    For distinct conditionally independent scalar output models a and b with independent
+    residual noises, Cov(Y_a,Y_b)=alpha_a^T*(Psi_ab-q_a*q_b^T)*alpha_b, where Psi_ab=E[phi_a(X)*phi_b(X)^T].
+    Shared input uncertainty can therefore correlate outputs even when their conditional
+    distributions factorize. Conditional cross-output covariance or correlated noise
+    would require an additional term.
+- assessment_id: 0-gaussian-shape-boundary
+  area: evidence
+  topic: gaussian-shape-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: Matching exact first two moments does not make the nonlinear predictive
+    mixture Gaussian. As a curator boundary illustration, fixed coefficient Y=cos(X)
+    with X~N(0,1) has mean exp(-1/2), variance (1+exp(-2))/2-exp(-1)>0 and support
+    [-1,1]. Its moment-matched Gaussian has unbounded support. This uses deterministic
+    coefficients and no observation noise as a limiting finite-feature example, not
+    a fitted SSGP experiment. Direct deterministic quadrature of a separate nondegenerate
+    two-feature Gaussian coefficient example checks moment and covariance formulas
+    without establishing general empirical accuracy.
+- assessment_id: 0-sequential-use
+  area: evidence
+  topic: sequential-use
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - hewing2020
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: The source uses these prediction transforms inside Bayesian filtering and
+    future-state prediction for control. Gaussian moment propagation alone does not
+    retain the full predictive shape or all dependence between a repeatedly used uncertain
+    dynamics function and subsequent states. Hewing and colleagues explicitly analyze
+    the successive-evaluation independence approximation in Pan-style trajectory prediction.
+    This prediction transform is therefore not an exact shared-function trajectory
+    inference algorithm or, by itself, a complete filter or controller.
+- assessment_id: 1-fixed-feature-posterior
+  area: evidence
+  topic: fixed-feature-posterior
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: For fixed frequencies omega_i, the source uses a 2m-dimensional feature
+    vector with cosine and sine entries scaled by sigma_k=sigma_f/sqrt(m). For n training
+    input/response pairs, Phi=[phi(x_1),...,phi(x_n)] is the 2m by n feature-design
+    matrix and y=[y_1,...,y_n]^T is the n-vector of scalar training responses. With
+    Gaussian coefficient prior N(0,I) and scalar Gaussian observation noise of variance
+    sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y,
+    S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean
+    alpha^T*phi(x) and variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction
+    integrates a prescribed X~N(mu,Sigma) independently of this fixed coefficient
+    posterior, conditional on the training data, frequencies and hyperparameters.
+    These prediction methods do not require one particular training solver once the
+    posterior coefficient moments are supplied.
+- assessment_id: 1-local-mean-frozen-variance
+  area: evidence
+  topic: local-mean-frozen-variance
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: SSGP-Lin linearizes m(x)=alpha^T*phi(x) at the input mean mu and evaluates
+    the conditional response variance at mu. With J=Dphi(mu) of size 2m by d and column
+    gradient g=J^T*alpha, the approximate mean is m(mu) and variance is sigma_n^2+phi(mu)^T*S*phi(mu)+g^T*Sigma*g.
+    The cosine feature derivative is -sigma_k*sin(omega_i^T*mu)*omega_i^T and the
+    sine derivative is sigma_k*cos(omega_i^T*mu)*omega_i^T. This formula omits posterior-mean
+    curvature and input-dependent conditional-variance curvature. Nonnegative component
+    variances give a nonnegative scalar variance, which does not establish approximation
+    accuracy.
+- assessment_id: 1-local-cross-covariance
+  area: evidence
+  topic: local-cross-covariance
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: With column input X, the local input-response cross-covariance is Sigma*g,
+    a d by 1 column. For two conditionally independent scalar output models with independent
+    residual noise, the off-diagonal response covariance is g_a^T*Sigma*g_b. This
+    retains covariance induced by the shared uncertain input while freezing each conditional
+    variance. It does not model conditional cross-output covariance. The main paper’s
+    M underbrace and final input-response covariance orientation are inconsistent;
+    the supplemental definition M=Dphi and explicit matrix dimensions determine the
+    formulas used here.
+- assessment_id: 1-distinct-variance-truncation
+  area: evidence
+  topic: distinct-variance-truncation
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - girard-tr2002
+  - calculation
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: Freezing the conditional variance differs from the earlier Girard local
+    GP approximation, which adds one half of the trace of its conditional-variance
+    Hessian times Sigma. In a curator finite-feature illustration Y=W*cos(X), with
+    independent W~N(0,1) and X~N(0,2), SSGP-Lin gives variance 1, exact integration
+    gives (1+exp(-4))/2, and retaining the second-order conditional-variance term
+    gives -1. This limiting rank-one coefficient example distinguishes the truncations;
+    it is not a trained-model benchmark or a claim that the earlier method always
+    fails. Both local approximations can differ substantially from exact moments away
+    from a sufficiently local input regime.
+- assessment_id: 1-sequential-use
+  area: evidence
+  topic: sequential-use
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - hewing2020
+  summary: Supported within the stated fixed-posterior and Gaussian-input assumptions.
+  details: The source uses these prediction transforms inside Bayesian filtering and
+    future-state prediction for control. Gaussian moment propagation alone does not
+    retain the full predictive shape or all dependence between a repeatedly used uncertain
+    dynamics function and subsequent states. Hewing and colleagues explicitly analyze
+    the successive-evaluation independence approximation in Pan-style trajectory prediction.
+    This prediction transform is therefore not an exact shared-function trajectory
+    inference algorithm or, by itself, a complete filter or controller.
+- assessment_id: exactness
+  area: consistency
+  topic: Finite features, Gaussian moments and predictive shape
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: The record places exactness at the appropriate mathematical level.
+  details: Conditioning on fixed frequencies and coefficient moments, total variance
+    yields noise + trace(S Psi) + alpha^T(Psi-qq^T)alpha. The one-frequency example
+    compares first moments, second moments and input-feature covariance with direct
+    Simpson integration, with maximum absolute discrepancy below 1e-11. It tests a
+    finite case, not every input dimension or model. The deterministic cosine example
+    is explicitly a limiting coefficient posterior and proves only that matching nonzero
+    variance of a bounded variable does not make its law Gaussian.
+- assessment_id: linearization
+  area: consistency
+  topic: Posterior-mean linearization is not full random-feature linearization
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - girard-tr2002
+  - calculation
+  summary: The frozen conditional variance and omitted Hessian terms are explicit.
+  details: J is 2m by d, g=J^T alpha is d by 1 and Cov(X,Y)=Sigma g has the correct
+    column shape. This is not a first-order expansion of the entire random function
+    with every coefficient/input uncertainty cross term retained. Its variance uses
+    v(mu), not E[v(X)] or a Hessian correction. For Y=W cos(X) at zero-mean Gaussian
+    X of variance 2, v(mu)=1, exact variance=(1+exp(-4))/2 and the second-order v
+    expansion gives -1. The rank-one boundary is labeled as an analytic illustration,
+    not a trained model.
+- assessment_id: source-notation
+  area: provenance
+  topic: Supplement and algebra resolve notation used in the records
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - calculation
+  summary: Curated formulas do not copy the source’s dimensional inconsistencies.
+  details: The main paper repeats cosine in its sine input-feature column, whereas
+    Proposition 2 gives the correct sine expression. Its Equation 12 underbrace labels
+    alpha^T Dphi as M, but later equations multiply alpha again; the supplement explicitly
+    defines M=Dphi. Equation 16 displays a row for a column-labeled covariance; the
+    record consistently uses Sigma g. The total-covariance cross-output expression
+    assumes zero conditional cross covariance; it is not a product of marginal conditional
+    variances. These source issues are bounded and do not imply that an uninspected
+    author implementation is incorrect. Spectral-density normalization tables and
+    controller derivatives are excluded from claims.
+- assessment_id: dependence
+  area: scope
+  topic: Independent scalar outputs and shared-function trajectories
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - pan2017
+  - pan2017-supp
+  - hewing2020
+  summary: Both distinct dependence limitations are preserved.
+  details: Conditional output independence requires independent coefficient/noise
+    models and still permits marginal covariance through the shared input. Separately,
+    repeated use of a common uncertain dynamics function couples later states with
+    that function. Single-step exact or local moments and a full within-state covariance
+    do not recover all such trajectory dependence. Hewing specifically cites the Pan
+    trajectory approximation; no new trajectory benchmark was run.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained field, source and report audit
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - identity
+  - mapping
+  - pan2017
+  - pan2017-supp
+  - girard-tr2002
+  - hewing2020
+  - calculation
+  summary: All fields of both corrected records were reassessed; both remain DRAFT.
+  details: Read each stable ID, name, acronym alias, algorithm kind, definition and
+    citations, identity notes, five claims, source metadata/access/hash/version entries,
+    pinned AIO snapshot, two related mappings, six limitations and actual curation
+    provenance. Main and appendix are distinguished; the appendix source hash is the
+    ZIP archive and its version field gives the PDF member hash. Records match their
+    discovery-report entries. The original 2010 regression paper is follow-up context
+    only, not an unreviewed addition or empirical endorsement. No numerical runtime/performance
+    comparison is curated.
+- assessment_id: notation-gap
+  area: consistency
+  topic: Define symbols in standalone mechanism formulas
+  outcome: supported
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - notation-gap
+  - pan2017
+  - pan2017-supp
+  summary: The requested local symbol definitions are now present in both records.
+  details: The scale agrees with Equation 4 and following definition on main PDF page
+    2, while Phi and the response column agree with Equation 6 and its following definitions
+    on main PDF page 3. Their dimensions make every fixed-feature matrix product explicit.
+    Both targets and their complete limitations were reassessed; no further actionable
+    defect was found.
+findings:
+- finding_id: F1
+  issue_key: aimech-ssgp-prediction-feature-notation
+  category: consistency
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Define feature-design and scale symbols in sparse-spectrum prediction records
+  description: Both fixed-feature-posterior claims use Phi and the training response
+    vector y without defining their array contents or dimensions. SSGP-Lin also introduces
+    sigma_k in its derivative without identifying its scale. The source defines these
+    quantities, but the maintained standalone formulas leave them implicit. Add the
+    missing local definitions without changing the algorithms.
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  field_paths:
+  - claims[0].statement
+  - claims[1].statement
+  evidence_ids:
+  - notation-gap
+  - pan2017
+  - pan2017-supp
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SparseSpectrumGaussianProcessExactMomentMatching.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SparseSpectrumGaussianProcessLinearizedPrediction.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261012T215318Z-sparse-spectrum-prediction-open
+    finding_id: F1
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/203
+  disposition_reason: Both fixed-feature-posterior claims now define sigma_k=sigma_f/sqrt(m),
+    Phi as the 2m by n matrix of training feature columns and y as the n-vector of
+    scalar responses. Actual source definitions, current record/report mirrors and
+    generated pages were inspected and all required checks passed. The formulas and
+    concept boundaries are unchanged.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+  evidence_ids:
+  - identity
+  - pan2017
+  - pan2017-supp
+  - calculation
+  rationale: Exact finite-feature moment integration and posterior-mean linearization
+    with frozen conditional variance have different defining computations and yield
+    different moments for the same specified model/input. Shared source and applications
+    do not make them one algorithm.
+  proposed_groups:
+  - label: Sparse-spectrum Gaussian-process exact moment matching
+    target_ids:
+    - AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+  - label: Sparse-spectrum Gaussian-process linearized uncertain-input prediction
+    target_ids:
+    - AIMech:SparseSpectrumGaussianProcessLinearizedPrediction
+limitations:
+- Author self-review only; no independent scientific approval or status promotion.
+- One minor notation finding is resolved through the cited predecessor; source-level
+  formula caveats and all original scientific limitations remain.
+- Two native DRAFT algorithms added; 545 native and 442 unchanged generated records.
+  The main frontier contains 481 pending and 56 partly addressed cohorts; nested source
+  leads are also retained. Discovery is incomplete.
+- All nine main-paper pages and all 15 appendix pages were visually read. The archive
+  video and author implementation were not inspected. No model fitting or empirical
+  reproduction was performed.
+- Original-checkout synchronization and old round141 cleanup still await explicit
+  approval after automatic review rejected that combined action. Original files remain
+  untouched.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261012T215318Z-sparse-spectrum-prediction-open
+  relationship: Resolves F1 for both affected targets after inspecting their maintained
+    corrections.
+links: []
+tags:
+- native-concepts
+- gaussian-processes
+- category-boundaries
+- self-review
+- discovery-ongoing
+```
