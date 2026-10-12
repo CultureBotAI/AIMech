@@ -1,0 +1,694 @@
+# Scientific author self-review of Taylor uncertain-input GP prediction
+
+- Review: 20261012T212624Z-taylor-uncertain-input-gp
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T21:22:32Z
+- Finished UTC: 2026-10-12T21:26:24Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the scoped local Taylor prediction algorithm. The evidence supports its formulas and limitations; no actionable record defect was found. The record remains DRAFT.
+
+## Scope And Provenance
+
+All fields of GaussianProcessTaylorUncertainInputPrediction and its primary evidence.
+
+Selection: Exact maintainedID: AIMech:GaussianProcessTaylorUncertainInputPrediction
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d1fc1903e48f52be5b9a39f237284beceb2fd4be.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GaussianProcessTaylorUncertainInputPrediction | data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml | maintained | Taylor approximation for uncertain-input Gaussian-process prediction |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GaussianProcessTaylorUncertainInputPrediction | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 107.08s (0:01:47)<br>Checked 442 record(s); 0 failed.<br>Checked 542 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 190 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 188,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GaussianProcessTaylorUncertainInputPrediction | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GaussianProcessTaylorUncertainInputPrediction | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GaussianProcessTaylorUncertainInputPrediction | Exited0 without output. |
+| Taylor-GP analytic boundary calculations | passed | True | AIMech:GaussianProcessTaylorUncertainInputPrediction | {"scope": "Fixed-parameter one-observation unit-kernel analytic checks, not source benchmark reproduction.", "zero_input_variance": {"input_mean": 0.7, "input_variance": 0.0, "exact_observation": 1.0, "taylor_mean": 0.7827045382418681, "exact_mean": 0.7827045382418681, "taylor_variance": 0.387373605815584, "exact_variance": 0.387373605815584, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance": -0.0}, "local_curvature_examples": [{"input_mean": 0.0, "input_variance": 0.1, "exact_observation": 1.0, "taylor_mean": 1.0, "exact_mean": 0.9534625892455922, "taylor_variance": 0.1, "exact_variance": 0.09090909090909105, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance": 0.4653741075440776}, {"input_mean": 0.0, "input_variance": 0.01, "exact_observation": 1.0, "taylor_mean": 1.0, "exact_mean": 0.9950371902099893, "taylor_variance": 0.01, "exact_variance": 0.009900990099009688, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance": 0.4962809790010736}, {"input_mean": 0.0, "input_variance": 0.001, "exact_observation": 1.0, "taylor_mean": 1.0, "exact_mean": 0.9995003746877732, "taylor_variance": 0.001, "exact_variance": 0.0009990009990009652, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance": 0.4996253122268035}], "negative_variance_example": {"input_mean": 1.0, "input_variance": 2.0, "exact_observation": 0.0, "taylor_mean": 0.0, "exact_mean": 0.0, "taylor_variance": -0.103638323514327, "exact_variance": 0.6338524761696075, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance": -0.0}, "cross_covariance_example": {"input_mean": 1.0, "input_variance": 0.5, "exact_observation": 1.0, "taylor_mean": 0.6065306597126334, "exact_mean": 0.5850453652111616, "taylor_variance": 0.6321205588285577, "exact_variance": 0.6577219206449385, "taylor_input_output_covariance": -0.3032653298563167, "exact_input_output_covariance": -0.19501512173705385}, "interpretation": ["The first-order mean approximation omits an input-variance-order curvature correction, even when the input mean is at a stationary posterior mean.", "Second-order expansion of conditional variance is not a claim of second-order accuracy for every predictive moment.", "The variance can be negative for a deliberately nonlocal input law; do not silently treat an invalid covariance as a probability distribution.", "Approximate input-output covariance is a local derivative formula, not an exact squared-exponential integral.", "Zero input variance reproduces fixed-input moments."]} |
+
+## Scientific And Domain Assessments
+
+### Retain local Taylor approximation as a distinct algorithm
+
+identity: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+Retain the narrow local approximation identity.
+
+Generic GP regression, derivative training observations, exact Gaussian-input moment matching and later correlation-aware trajectory methods do not denote this procedure. The technical report expands the posterior mean to first order and conditional variance to second order; the proceedings explicitly contrasts that method with exact kernel integrals. A descriptive alias does not assert universal equivalence of uncertainty-propagation methods.
+
+### Regression and forecasting relationships
+
+grounding: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+Related mappings reflect task context rather than subclass assertions.
+
+RegressionAnalysis supplies response-prediction context; the primary report develops iterative multiple-step forecasting, supporting TimeSeriesForecasting. The inspected processing-bias and demographic-uncertainty classes concern different concepts; GLM and the more general time-series task do not supply a better identity mapping. The pinned AIO source is unchanged.
+
+### local-moments
+
+evidence: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The statement is supported within its stated assumptions.
+
+For a fixed trained GP posterior with differentiable scalar mean m(x) and twice-differentiable latent variance v(x), take a prescribed Gaussian test input X~N(mu,Sigma) independent of the posterior function conditional on the training data and fixed hyperparameters. The source expands m to first order and v to second order about mu. Integrating these truncated expressions gives the predictive mean approximation m(mu) and latent variance approximation v(mu)+0.5*tr(H_v(mu)*Sigma)+grad(m)(mu)^T*Sigma*grad(m)(mu). This combines the expected conditional variance and the variance of the linearized conditional mean. A Gaussian with these moments is an additional approximation to the predictive law, provided the resulting variance is valid.
+
+### lag-covariance
+
+evidence: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The statement is supported within its stated assumptions.
+
+For iterative autoregressive prediction the report carries a full Gaussian covariance of the lagged outputs. The local expansion gives Cov(X,f(X)) approximately Sigma*grad(m)(mu), with the transpose used for Cov(f(X),X). This cross-covariance forms the new row and column while the retained lag block shifts forward. If predicting a future noisy output rather than the latent function value, add its independent observation-noise variance once to the new output diagonal. Training noise already used in the GP posterior and this future output noise play different roles. Using only independent lag variances is a different approximation.
+
+### mean-curvature
+
+evidence: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The statement is supported within its stated assumptions.
+
+A second-order Taylor expansion of the conditional variance is not a general assertion of second-order accuracy for the predictive moments: the source retains only a first-order expansion of the conditional mean. A curator unit-kernel example conditioned on the exact observation f(0)=1 and X~N(0,s) gives Taylor mean 1 and Taylor variance s, whereas exact integration gives mean 1/sqrt(1+s) and variance s/(1+s). The mean error is of order s as s approaches zero, even though the posterior-mean gradient vanishes at the expansion point. At Sigma=0 the formulas reduce to ordinary fixed-input GP prediction.
+
+### variance-validity
+
+evidence: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The statement is supported within its stated assumptions.
+
+The local Taylor variance is not guaranteed nonnegative for arbitrary input uncertainty. A curator calculation for a unit-amplitude, unit-lengthscale squared-exponential GP conditioned on an exact f(0)=0, with input mean 1 and variance 2, gives Taylor variance 1-3/e&lt;0 while the exact integrated variance is 1-exp(-1/5)/sqrt(5)&gt;0. This deliberately nonlocal case limits an unrestricted covariance claim; it is not an empirical reproduction or a refutation of a justified small-uncertainty approximation. An invalid computed covariance cannot be interpreted as a Gaussian predictive distribution without a separately justified correction.
+
+### distinct-exact-and-correlated-methods
+
+evidence: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The statement is supported within its stated assumptions.
+
+The local Taylor procedure is distinct from analytic squared-exponential Gaussian-input moment integration, which the technical report lists as future work and the proceedings paper presents separately. Moreover, propagating a Gaussian lag covariance while repeatedly treating the current input as independent of the uncertain function does not preserve all dependence created by one shared dynamics function across a trajectory. The later correlation-aware trajectory approaches address that different approximation; this record does not identify them with the earlier local Taylor method.
+
+### Distinguish polynomial truncation order from moment accuracy
+
+consistency: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+The curvature and negative-variance qualifications are justified.
+
+For the one-observation zero-mean unit-amplitude/unit-lengthscale SE prior, conditioning on f0=1 gives mean exp(-x²/2) and latent variance1-exp(-x²). At X~N0,s the retained mean is1 while its exact mean is1/sqrt(1+s); exact variance is s/(1+s), while the local formula gives s. The mean error is s/2+O(s²). For f0=0,mu1,s2 the negative Taylor variance and positive exact variance follow directly. These are analytic curator counterexamples, not estimates from source experiments.
+
+### Covariance orientation and observation noise
+
+consistency: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+Column/row covariance conventions and noise roles are explicit.
+
+For column X, Cov(X,f(X)) is Sigma grad(m); the report displays its transposed orientation. Retaining the lag block and adding a new independent observation-noise variance once follows the report’s displayed prediction matrix. Its prose omits that noise in one diagonal shorthand; the record consistently separates latent prediction, training noise and the future output. The calculator’s nonsymmetric mean example distinguishes local from exact input-output covariance.
+
+### Local uncertainty versus shared-function dynamics
+
+scope: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+Full lag covariance is not a claim of exact trajectory dependence.
+
+The later paper explicitly identifies the independence assumption in Girard-style iteration and proposes different methods. Its linearization freezes a joint covariance and therefore differs from the local second-order variance expansion here. The record does not infer universal underestimation, stability, Gaussianity or calibration from these source discussions.
+
+### Evidence limits and examples
+
+scope: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+No unqualified comparative result is asserted.
+
+All source pages were read, but no model fitting, author code, stochastic simulation or empirical replication was performed. Benchmark details differ between the18-page report and8-page proceedings source, so no numerical result is transferred across versions. The mean-only rollout observation is a direct consequence of the retained m(mu) formula, not a general identity between uncertain-input methods.
+
+### Complete maintained content and actual source versions
+
+provenance: supported. Targets: AIMech:GaussianProcessTaylorUncertainInputPrediction.
+
+All record fields, evidence locations and report mirror were assessed.
+
+Read stableID,name,one descriptive alias,algorithm kind,definition,identity notes,five claims,three distinct source metadata/version/access/hash entries,two related mappings,pinned snapshot,six limitations,DRAFT status and actual curation timestamps. The report entry exactly matches the YAML. All claimed source locators match rendered pages; the technical report’s width convention change is explicitly preserved. The source-level sparse-spectrum notation issues are pending discovery context, not defects in this Taylor record.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T212208Z-taylor-uncertain-input-gp.json | supports | Compared all 442 pinned AIO IDs, labels and scoped synonyms and 541 native IDs, names and aliases against the proposed ID, name, descriptive alias and Taylor uncertain-input GP terms: no normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery, older discovery and original Documents checkouts returned 98, 0 and 0 lines. All 56 distinct matched strings were read, including the full generated search-index match; they describe the pending Taylor lead or the already represented exact Gaussian-input integration procedure. Read 37 semantic AIO rows, 77 native name/definition neighbors, six full annotated CLASS nodes with incident edges/generated records and five complete contextual native records. The scoped method approximates posterior mean and variance functions by local Taylor expansions before integrating over a Gaussian test input. It differs from exact squared-exponential input integration, generic GP regression, derivative observations used as training data and correlation-aware trajectory linearization. Absence is bounded to the inspected pin and maintained corpus; the alias does not claim all GP uncertainty propagation methods are identical. |
+| mapping | sources/aio/aio.json | supports | Read37semantic AIO rows,77native neighbor definitions,six full annotated AIO CLASS nodes and incident edges/generated records, and five contextual native records. Both mappings are related task/application links. Bias and GLM nodes do not denote this procedure. |
+| calculation | research/discovery/taylor-gp-boundaries.py | supports | Analytic one-observation SE-GP examples verify fixed-input limits, an omitted mean-curvature term, a nonlocal negative-variance case and approximate-versus-exact input/output covariance. These calculations are not empirical source replication. |
+| girard-tr2002 | https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf; Sections3.2–3.4,Equations12–22,PDF8–9; width convention andEquation25,PDF10; Sections4.1–4.2,PDF11–13,especiallyEquations32–35; conclusionPDF17. | supports | University of Glasgow Technical Report TR-2002-119, October 2002; all 18 PDF pages visually read, with matching printed page indices. Earlier Taylor method, distinct authorship and experiments from the four-author proceedings paper. During this review the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7 were visually reread against the frozen record. |
+| girard2002 | https://papers.nips.cc/paper_files/paper/2002/file/f3ac63c91272f19ce97c7397825cc15f-Paper.pdf; Section3.1,TaylorEquations6–9,PDF3; exact squared-exponential integrals,Equations10–13,PDF4. | supports | NIPS 2002, Advances in Neural Information Processing Systems 15; official eight-page unpaginated PDF, also cited as the 2003 volume. All eight pages, figures, table and references visually read; locators use PDF indices. During this review the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7 were visually reread against the frozen record. |
+| hewing2020 | https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf; Introduction and Sections2–3,PDF1–4; distinct trajectory methods,PDF5–7. | supports | L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices are 1–11, which are used for locators. During this review the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7 were visually reread against the frozen record. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- The source-level sparse-spectrum formula inconsistencies are preserved as follow-up research; no AIMech defect or GitHub issue is manufactured for this clean Taylor record.
+- Added one native DRAFT algorithm, bringing the total to542 with442 unchanged generated records. Discovery remains active with483 pending and54 partly addressed cohorts, plus other unresolved scopes.
+- Three sources used for the record are fully read:18-page Taylor report,8-page exact-moment proceedings paper and11-page temporal-dependence paper. Both8-page filtering versions were also read for the frontier. The9-page sparse-spectrum main paper is fully read, but its supplement is unread. VCDT10pages and the36-page local-linear report are not full-text-reviewed here.
+- Curator analytic calculations were executed; no fitted model, author implementation, stochastic simulation, paid provider or benchmark was run.
+- Original-checkout synchronization and old round141 cleanup still await explicit approval after automatic review rejected that combined action. Original files are preserved.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T212624Z-taylor-uncertain-input-gp
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Taylor uncertain-input GP prediction
+started_at: '2026-10-12T21:22:32Z'
+finished_at: '2026-10-12T21:26:24Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent challenged identity,mapping direction,derivative
+    order,source locators,noise,covariance orientation and temporal dependence. This
+    is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the scoped local Taylor prediction algorithm. The evidence supports
+  its formulas and limitations; no actionable record defect was found. The record
+  remains DRAFT.
+source:
+  git_revision: d1fc1903e48f52be5b9a39f237284beceb2fd4be
+  state: working_tree
+  inputs:
+  - path: data/aio/ErrorPropagationBias.yaml
+    sha256: 98a57881fa8f2a8f47efdf37f12f8dbcc66df495112e46c454d26cf4d934c5e4
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/aio/UncertaintyBias.yaml
+    sha256: b013064a48a14beef5040486a8d1cbd11d9c503739d6fc89f73460b08f38e8f3
+    role: context
+  - path: data/curated/DerivativeObservationGaussianProcessRegression.yaml
+    sha256: 888850faa100e14b96057c516e7d65d01ed2932a142577d101660c73dbf90905
+    role: context
+  - path: data/curated/DropConnect.yaml
+    sha256: 4785777508a6f24792c7533279a08eb66977144b62a260eb26f1d0fbdad1b356
+    role: context
+  - path: data/curated/GaussianProcessGaussianInputMomentMatching.yaml
+    sha256: 1ee8ce71dc9dd12e404033168e575cb0628cc2f377e9c3efe4189962ae9378d3
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml
+    sha256: a0d144c86ae74968886abf7bd7e3c58ca0384af5d648dae0d51b7b9177afadc4
+    role: target
+  - path: data/curated/MonotonicGaussianProcessWithVirtualDerivatives.yaml
+    sha256: 9b72af4401c813c1fb3d51aa894a080ca96b86b37a051d8e7bb86a73b54e9cfd
+    role: context
+  - path: research/discovery/20261012T212208Z-taylor-uncertain-input-gp.json
+    sha256: 1004fbe57a76635bbb3d017cabde47392fa53162a88a92591d9bd1cea9df4142
+    role: context
+  - path: research/discovery/taylor-gp-boundaries.py
+    sha256: fddab080571414d5bb85509e0302dfb06e43dbd3777f344070bb544f6df35dcf
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GaussianProcessTaylorUncertainInputPrediction
+  path: data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml
+  label: Taylor approximation for uncertain-input Gaussian-process prediction
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GaussianProcessTaylorUncertainInputPrediction.yaml
+    role: maintained
+scope:
+  description: All fields of GaussianProcessTaylorUncertainInputPrediction and its
+    primary evidence.
+  selection: 'Exact maintainedID: AIMech:GaussianProcessTaylorUncertainInputPrediction'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exclusions:
+  - target: Filtering,sparse-spectrum and recurrent-GP concept additions
+    reason: Discovery evidence only; candidate-specific identity,mapping and remaining
+      method audits are pending.
+  - target: Implementation and empirical replication
+    reason: Full primary reading and analytic curator calculations only.
+  - target: Contextual generated/native neighbors
+    reason: Identity and mapping context,not full scientific rereview.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 107.08s (0:01:47)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 542 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 190 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 188,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculations
+  name: Taylor-GP analytic boundary calculations
+  command: python3 research/discovery/taylor-gp-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Fixed-parameter one-observation unit-kernel analytic checks,
+    not source benchmark reproduction.", "zero_input_variance": {"input_mean": 0.7,
+    "input_variance": 0.0, "exact_observation": 1.0, "taylor_mean": 0.7827045382418681,
+    "exact_mean": 0.7827045382418681, "taylor_variance": 0.387373605815584, "exact_variance":
+    0.387373605815584, "taylor_input_output_covariance": -0.0, "exact_input_output_covariance":
+    -0.0}, "local_curvature_examples": [{"input_mean": 0.0, "input_variance": 0.1,
+    "exact_observation": 1.0, "taylor_mean": 1.0, "exact_mean": 0.9534625892455922,
+    "taylor_variance": 0.1, "exact_variance": 0.09090909090909105, "taylor_input_output_covariance":
+    -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance":
+    0.4653741075440776}, {"input_mean": 0.0, "input_variance": 0.01, "exact_observation":
+    1.0, "taylor_mean": 1.0, "exact_mean": 0.9950371902099893, "taylor_variance":
+    0.01, "exact_variance": 0.009900990099009688, "taylor_input_output_covariance":
+    -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance":
+    0.4962809790010736}, {"input_mean": 0.0, "input_variance": 0.001, "exact_observation":
+    1.0, "taylor_mean": 1.0, "exact_mean": 0.9995003746877732, "taylor_variance":
+    0.001, "exact_variance": 0.0009990009990009652, "taylor_input_output_covariance":
+    -0.0, "exact_input_output_covariance": -0.0, "mean_error_over_input_variance":
+    0.4996253122268035}], "negative_variance_example": {"input_mean": 1.0, "input_variance":
+    2.0, "exact_observation": 0.0, "taylor_mean": 0.0, "exact_mean": 0.0, "taylor_variance":
+    -0.103638323514327, "exact_variance": 0.6338524761696075, "taylor_input_output_covariance":
+    -0.0, "exact_input_output_covariance": -0.0}, "cross_covariance_example": {"input_mean":
+    1.0, "input_variance": 0.5, "exact_observation": 1.0, "taylor_mean": 0.6065306597126334,
+    "exact_mean": 0.5850453652111616, "taylor_variance": 0.6321205588285577, "exact_variance":
+    0.6577219206449385, "taylor_input_output_covariance": -0.3032653298563167, "exact_input_output_covariance":
+    -0.19501512173705385}, "interpretation": ["The first-order mean approximation
+    omits an input-variance-order curvature correction, even when the input mean is
+    at a stationary posterior mean.", "Second-order expansion of conditional variance
+    is not a claim of second-order accuracy for every predictive moment.", "The variance
+    can be negative for a deliberately nonlocal input law; do not silently treat an
+    invalid covariance as a probability distribution.", "Approximate input-output
+    covariance is a local derivative formula, not an exact squared-exponential integral.",
+    "Zero input variance reproduces fixed-input moments."]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T212208Z-taylor-uncertain-input-gp.json
+  accessed_at: '2026-10-12T21:22:32Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 541 native
+    IDs, names and aliases against the proposed ID, name, descriptive alias and Taylor
+    uncertain-input GP terms: no normalized identity match. Ignored- and hidden-inclusive
+    full-text searches in the recovery, older discovery and original Documents checkouts
+    returned 98, 0 and 0 lines. All 56 distinct matched strings were read, including
+    the full generated search-index match; they describe the pending Taylor lead or
+    the already represented exact Gaussian-input integration procedure. Read 37 semantic
+    AIO rows, 77 native name/definition neighbors, six full annotated CLASS nodes
+    with incident edges/generated records and five complete contextual native records.
+    The scoped method approximates posterior mean and variance functions by local
+    Taylor expansions before integrating over a Gaussian test input. It differs from
+    exact squared-exponential input integration, generic GP regression, derivative
+    observations used as training data and correlation-aware trajectory linearization.
+    Absence is bounded to the inspected pin and maintained corpus; the alias does
+    not claim all GP uncertainty propagation methods are identical.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T21:22:32Z'
+  support: supports
+  summary: Read37semantic AIO rows,77native neighbor definitions,six full annotated
+    AIO CLASS nodes and incident edges/generated records, and five contextual native
+    records. Both mappings are related task/application links. Bias and GLM nodes
+    do not denote this procedure.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/taylor-gp-boundaries.py
+  accessed_at: '2026-10-12T21:22:32Z'
+  snapshot_sha256: fddab080571414d5bb85509e0302dfb06e43dbd3777f344070bb544f6df35dcf
+  support: supports
+  summary: Analytic one-observation SE-GP examples verify fixed-input limits, an omitted
+    mean-curvature term, a nonlocal negative-variance case and approximate-versus-exact
+    input/output covariance. These calculations are not empirical source replication.
+- evidence_id: girard-tr2002
+  kind: primary_source
+  reference: https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf
+  locator: Sections3.2–3.4,Equations12–22,PDF8–9; width convention andEquation25,PDF10;
+    Sections4.1–4.2,PDF11–13,especiallyEquations32–35; conclusionPDF17.
+  accessed_at: '2026-10-12T20:50:34Z'
+  snapshot_sha256: f2e78afd674d4a4224933b3b4c0e4656a93553491a65ffcd4f118b7d740d006b
+  support: supports
+  summary: University of Glasgow Technical Report TR-2002-119, October 2002; all 18
+    PDF pages visually read, with matching printed page indices. Earlier Taylor method,
+    distinct authorship and experiments from the four-author proceedings paper. During
+    this review the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7
+    were visually reread against the frozen record.
+- evidence_id: girard2002
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2002/file/f3ac63c91272f19ce97c7397825cc15f-Paper.pdf
+  locator: Section3.1,TaylorEquations6–9,PDF3; exact squared-exponential integrals,Equations10–13,PDF4.
+  accessed_at: '2026-10-12T20:50:31Z'
+  snapshot_sha256: b8b19f828d8d796566549d0ddbda746b04868af65c5af9d9a2a8fc978c9da7aa
+  support: supports
+  summary: NIPS 2002, Advances in Neural Information Processing Systems 15; official
+    eight-page unpaginated PDF, also cited as the 2003 volume. All eight pages, figures,
+    table and references visually read; locators use PDF indices. During this review
+    the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7
+    were visually reread against the frozen record.
+- evidence_id: hewing2020
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  locator: Introduction and Sections2–3,PDF1–4; distinct trajectory methods,PDF5–7.
+  accessed_at: '2026-10-12T20:55:19Z'
+  snapshot_sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+  support: supports
+  summary: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF
+    and printed indices are 1–11, which are used for locators. During this review
+    the Taylor reportPDF8–10,13,17, proceedingsPDF3–4 and temporal-dependencePDF2,7
+    were visually reread against the frozen record.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Retain local Taylor approximation as a distinct algorithm
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - identity
+  - girard-tr2002
+  - girard2002
+  summary: Retain the narrow local approximation identity.
+  details: Generic GP regression, derivative training observations, exact Gaussian-input
+    moment matching and later correlation-aware trajectory methods do not denote this
+    procedure. The technical report expands the posterior mean to first order and
+    conditional variance to second order; the proceedings explicitly contrasts that
+    method with exact kernel integrals. A descriptive alias does not assert universal
+    equivalence of uncertainty-propagation methods.
+- assessment_id: grounding
+  area: grounding
+  topic: Regression and forecasting relationships
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - mapping
+  - girard-tr2002
+  summary: Related mappings reflect task context rather than subclass assertions.
+  details: RegressionAnalysis supplies response-prediction context; the primary report
+    develops iterative multiple-step forecasting, supporting TimeSeriesForecasting.
+    The inspected processing-bias and demographic-uncertainty classes concern different
+    concepts; GLM and the more general time-series task do not supply a better identity
+    mapping. The pinned AIO source is unchanged.
+- assessment_id: local-moments
+  area: evidence
+  topic: local-moments
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - calculation
+  summary: The statement is supported within its stated assumptions.
+  details: For a fixed trained GP posterior with differentiable scalar mean m(x) and
+    twice-differentiable latent variance v(x), take a prescribed Gaussian test input
+    X~N(mu,Sigma) independent of the posterior function conditional on the training
+    data and fixed hyperparameters. The source expands m to first order and v to second
+    order about mu. Integrating these truncated expressions gives the predictive mean
+    approximation m(mu) and latent variance approximation v(mu)+0.5*tr(H_v(mu)*Sigma)+grad(m)(mu)^T*Sigma*grad(m)(mu).
+    This combines the expected conditional variance and the variance of the linearized
+    conditional mean. A Gaussian with these moments is an additional approximation
+    to the predictive law, provided the resulting variance is valid.
+- assessment_id: lag-covariance
+  area: evidence
+  topic: lag-covariance
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - calculation
+  summary: The statement is supported within its stated assumptions.
+  details: For iterative autoregressive prediction the report carries a full Gaussian
+    covariance of the lagged outputs. The local expansion gives Cov(X,f(X)) approximately
+    Sigma*grad(m)(mu), with the transpose used for Cov(f(X),X). This cross-covariance
+    forms the new row and column while the retained lag block shifts forward. If predicting
+    a future noisy output rather than the latent function value, add its independent
+    observation-noise variance once to the new output diagonal. Training noise already
+    used in the GP posterior and this future output noise play different roles. Using
+    only independent lag variances is a different approximation.
+- assessment_id: mean-curvature
+  area: evidence
+  topic: mean-curvature
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - calculation
+  summary: The statement is supported within its stated assumptions.
+  details: 'A second-order Taylor expansion of the conditional variance is not a general
+    assertion of second-order accuracy for the predictive moments: the source retains
+    only a first-order expansion of the conditional mean. A curator unit-kernel example
+    conditioned on the exact observation f(0)=1 and X~N(0,s) gives Taylor mean 1 and
+    Taylor variance s, whereas exact integration gives mean 1/sqrt(1+s) and variance
+    s/(1+s). The mean error is of order s as s approaches zero, even though the posterior-mean
+    gradient vanishes at the expansion point. At Sigma=0 the formulas reduce to ordinary
+    fixed-input GP prediction.'
+- assessment_id: variance-validity
+  area: evidence
+  topic: variance-validity
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - calculation
+  summary: The statement is supported within its stated assumptions.
+  details: The local Taylor variance is not guaranteed nonnegative for arbitrary input
+    uncertainty. A curator calculation for a unit-amplitude, unit-lengthscale squared-exponential
+    GP conditioned on an exact f(0)=0, with input mean 1 and variance 2, gives Taylor
+    variance 1-3/e<0 while the exact integrated variance is 1-exp(-1/5)/sqrt(5)>0.
+    This deliberately nonlocal case limits an unrestricted covariance claim; it is
+    not an empirical reproduction or a refutation of a justified small-uncertainty
+    approximation. An invalid computed covariance cannot be interpreted as a Gaussian
+    predictive distribution without a separately justified correction.
+- assessment_id: distinct-exact-and-correlated-methods
+  area: evidence
+  topic: distinct-exact-and-correlated-methods
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - hewing2020
+  summary: The statement is supported within its stated assumptions.
+  details: The local Taylor procedure is distinct from analytic squared-exponential
+    Gaussian-input moment integration, which the technical report lists as future
+    work and the proceedings paper presents separately. Moreover, propagating a Gaussian
+    lag covariance while repeatedly treating the current input as independent of the
+    uncertain function does not preserve all dependence created by one shared dynamics
+    function across a trajectory. The later correlation-aware trajectory approaches
+    address that different approximation; this record does not identify them with
+    the earlier local Taylor method.
+- assessment_id: taylor-order
+  area: consistency
+  topic: Distinguish polynomial truncation order from moment accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - calculation
+  summary: The curvature and negative-variance qualifications are justified.
+  details: For the one-observation zero-mean unit-amplitude/unit-lengthscale SE prior,
+    conditioning on f0=1 gives mean exp(-x²/2) and latent variance1-exp(-x²). At X~N0,s
+    the retained mean is1 while its exact mean is1/sqrt(1+s); exact variance is s/(1+s),
+    while the local formula gives s. The mean error is s/2+O(s²). For f0=0,mu1,s2
+    the negative Taylor variance and positive exact variance follow directly. These
+    are analytic curator counterexamples, not estimates from source experiments.
+- assessment_id: cross-covariance
+  area: consistency
+  topic: Covariance orientation and observation noise
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - calculation
+  summary: Column/row covariance conventions and noise roles are explicit.
+  details: For column X, Cov(X,f(X)) is Sigma grad(m); the report displays its transposed
+    orientation. Retaining the lag block and adding a new independent observation-noise
+    variance once follows the report’s displayed prediction matrix. Its prose omits
+    that noise in one diagonal shorthand; the record consistently separates latent
+    prediction, training noise and the future output. The calculator’s nonsymmetric
+    mean example distinguishes local from exact input-output covariance.
+- assessment_id: dependence
+  area: scope
+  topic: Local uncertainty versus shared-function dynamics
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - hewing2020
+  - girard-tr2002
+  summary: Full lag covariance is not a claim of exact trajectory dependence.
+  details: The later paper explicitly identifies the independence assumption in Girard-style
+    iteration and proposes different methods. Its linearization freezes a joint covariance
+    and therefore differs from the local second-order variance expansion here. The
+    record does not infer universal underestimation, stability, Gaussianity or calibration
+    from these source discussions.
+- assessment_id: empirical
+  area: scope
+  topic: Evidence limits and examples
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - girard-tr2002
+  - girard2002
+  - hewing2020
+  - calculation
+  summary: No unqualified comparative result is asserted.
+  details: All source pages were read, but no model fitting, author code, stochastic
+    simulation or empirical replication was performed. Benchmark details differ between
+    the18-page report and8-page proceedings source, so no numerical result is transferred
+    across versions. The mean-only rollout observation is a direct consequence of
+    the retained m(mu) formula, not a general identity between uncertain-input methods.
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete maintained content and actual source versions
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianProcessTaylorUncertainInputPrediction
+  evidence_ids:
+  - identity
+  - mapping
+  - girard-tr2002
+  - girard2002
+  - hewing2020
+  - calculation
+  summary: All record fields, evidence locations and report mirror were assessed.
+  details: Read stableID,name,one descriptive alias,algorithm kind,definition,identity
+    notes,five claims,three distinct source metadata/version/access/hash entries,two
+    related mappings,pinned snapshot,six limitations,DRAFT status and actual curation
+    timestamps. The report entry exactly matches the YAML. All claimed source locators
+    match rendered pages; the technical report’s width convention change is explicitly
+    preserved. The source-level sparse-spectrum notation issues are pending discovery
+    context, not defects in this Taylor record.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- The source-level sparse-spectrum formula inconsistencies are preserved as follow-up
+  research; no AIMech defect or GitHub issue is manufactured for this clean Taylor
+  record.
+- Added one native DRAFT algorithm, bringing the total to542 with442 unchanged generated
+  records. Discovery remains active with483 pending and54 partly addressed cohorts,
+  plus other unresolved scopes.
+- Three sources used for the record are fully read:18-page Taylor report,8-page exact-moment
+  proceedings paper and11-page temporal-dependence paper. Both8-page filtering versions
+  were also read for the frontier. The9-page sparse-spectrum main paper is fully read,
+  but its supplement is unread. VCDT10pages and the36-page local-linear report are
+  not full-text-reviewed here.
+- Curator analytic calculations were executed; no fitted model, author implementation,
+  stochastic simulation, paid provider or benchmark was run.
+- Original-checkout synchronization and old round141 cleanup still await explicit
+  approval after automatic review rejected that combined action. Original files are
+  preserved.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- gaussian-processes
+- self-review
+- discovery-ongoing
+```
