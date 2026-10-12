@@ -1,0 +1,114 @@
+name: Exponential-family harmonium
+definition: A bipartite undirected model family coupling visible and hidden exponential-family sufficient
+  statistics through bilinear interactions, with variables conditionally independent within either layer
+  given the other and a finite global joint normalizer.
+concept_kind: model_family
+identity_notes: Scoped to Welling, Rosen-Zvi and Hinton's exponential-family extension of the harmonium.
+  The family generalizes binary restricted Boltzmann machines to supported exponential-family variables
+  and sufficient statistics. It is broader than a particular categorical/Gaussian document model, the
+  native GCA heterogeneous construction or binary-hidden Replicated Softmax, and is distinct from the
+  contrastive-divergence fitting algorithm. EFH is the source acronym; proper joint parameter domains
+  are part of the model definition. No normalized candidate identity matched all 442 pinned AIO IDs, labels
+  and scoped synonyms or 441 preceding native IDs, names and aliases. Full-checkout searches included
+  ignored and hidden files in both checkouts; twelve matching lines per checkout came from five unique
+  prior discovery-ledger contents and the existing GCA mapping rationale. All matching excerpts were read.
+  All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified
+  against prior readings. Thirty contextual YAMLs comprise 27 unchanged prior readings, two fully read
+  final native targets verified against saved review inputs, and a fully read Metropolis-Hastings record.
+  No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+limitations:
+- Normalizability and shifted natural-parameter domains depend on the chosen exponential families and
+  interactions. Finite categorical/Gaussian examples do not validate arbitrary unbounded or mixed-family
+  constructions. The source's broad causal or marginal-independence rhetoric about directed models is
+  not adopted as a universal DAG property.
+- Conditional hidden inference is simple when all modeled visible variables are observed. Missing modalities
+  can induce mixtures or require approximate inference. Decorrelation is not full independence, and empirical
+  covariance of posterior means is distinct from marginal hidden covariance including conditional noise.
+- Selected reduced-newsgroup experiments use cosine retrieval and approximate mean-field completion. The
+  NIPS experiment bins counts into twelve categories and compares overlap with TF-IDF retrieval because
+  ground-truth relevance labels are absent; that overlap is not a relevance-accuracy guarantee.
+- Finite checks verify visible-law rotation and compensated-shift invariance and illustrate joint-normalization
+  failures. No author code, complete theorem for every exponential family, training convergence or empirical
+  benchmark is certified.
+aliases:
+- EFH
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, PDF pp.2-3, Equations 1-7
+  relation: supports
+claims:
+- claim_id: sufficient-statistic-coupling
+  kind: mechanism
+  statement: Choose visible and hidden exponential-family base measures and unary natural parameters,
+    then add bilinear interactions between sufficient statistics from opposite layers. Retain base measures,
+    whether written explicitly or absorbed as fixed-coefficient features, and normalize the complete joint.
+    Given the opposite layer, each variable keeps its exponential-family form with shifted natural parameters.
+    Integrating hidden variables contributes their log-partition functions to the visible log mass. Conditional
+    factorization does not imply marginal independence or make the global partition function easy to compute.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF p.3, Equations 1-7 and normalization discussion
+    relation: supports
+- claim_id: normalization-and-learning
+  kind: mechanism
+  statement: 'Admissible interaction parameters must produce a finite joint normalizer. Proper-looking
+    local conditionals are insufficient: a scalar Gaussian/Gaussian example with unit conditional variances
+    and coupling 1.2 has an indefinite joint precision, while a positive Poisson/Poisson interaction can
+    make diagonal joint terms diverge. When the model is proper, exact likelihood gradients contrast data
+    and model expected sufficient statistics; derivatives of hidden log-partitions provide conditional
+    hidden expectations. Short-chain contrastive divergence approximates the equilibrium expectation and
+    does not certify exact likelihood optimization.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, PDF p.3, restrictions on interactions; Section 2.1, pp.3-4, Equations 8-9
+    relation: supports
+- claim_id: categorical-count-bin-specialization
+  kind: mechanism
+  statement: The demonstrated latent-semantic model uses one categorical count-bin variable per vocabulary
+    word and unit-Gaussian hidden variables. If S is the sum of selected category weight columns, h given
+    all visible observations has distribution N(S,I), and visible mass is proportional to exp(alpha dot
+    x+||S||^2/2). This finite-category construction differs from replicated token positions and from binary
+    hidden units. Common orthogonal rotations preserve visible probabilities; category-constant shifts
+    can also be compensated by visible biases. Centering can change cosine retrieval geometry, while a
+    common orthogonal rotation alone preserves cosine similarity. Missing words require inference rather
+    than claiming the all-visible conditional remains exact.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, PDF pp.4-5, Equations 10-14; Section 4, pp.6-7, missing-word mean-field inference
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Exponential Family Harmoniums with an Application to Information Retrieval
+  authors:
+  - Max Welling
+  - Michal Rosen-Zvi
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2004/file/0e900ad84f63618452210ab8baae0218-Paper.pdf
+  version: Official eight-page NeurIPS proceedings PDF, NIPS2004/Advances17; all pages visually read.
+    No numeric printed page labels visible, so locators use PDF pages. Later 2005 bibliographic references
+    are not substituted for the official conference identity.
+  access_level: full_text
+  accessed_at: '2026-10-12T00:48:43Z'
+  sha256: 8c12c7858775735d2ae85b9e35d7bf545775396a85c27378b3f6c79a1e6d9250
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The source generalizes binary RBM/harmonium structure to exponential-family variables. The
+    pinned RBM definition does not resolve the full general sufficient-statistic and normalization domain,
+    so neither exact identity nor an unsupported subclass direction is asserted.
+id: AIMech:ExponentialFamilyHarmonium
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:01:32Z'
+  updated_at: '2026-10-12T01:01:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
