@@ -1,0 +1,142 @@
+id: AIMech:FastCondensedPrototypeBasedDomainDescription
+name: Fast condensed prototype-based domain description
+aliases:
+- FastCPDD
+- FCPDD
+concept_kind: algorithm
+definition: A heuristic for selecting PDD prototypes that samples remaining reference observations, computes
+  their radius offsets against the full dataset, accumulates eligible candidates, and greedily selects
+  them by uncovered-reference gain with an adaptive sampling schedule.
+identity_notes: 'FastCPDD, also called FCPDD, is the sampled candidate-selection variant introduced in
+  Section 5 of Angiulli''s PDD paper. It is distinct from full-candidate CPDD and the PDD prediction rule.
+  The conceptual sampling and selection policy is supported; the printed pseudocode has unresolved boundary
+  conventions, and its stated exhaustion modification does not by itself establish the claimed consistency
+  guarantee. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 508 preceding native
+  IDs, names and aliases. No normalized candidate identity collision was found. Fixed-string whole-word
+  searches included ignored and hidden files in both checkouts, candidate aliases, acronyms and source
+  identifiers. All 103 matched lines per checkout, 61 distinct texts at 206 locations, were inspected:
+  these are the preceding NNDD record and its generated pages, provenance, discovery and review context,
+  including explicit pending CPDD/FastCPDD leads. The 85 semantic AIO rows and 65 preceding native identity
+  matches were unchanged from their fully read prior search; the two new native neighbors were fully read.
+  Twelve annotated AIO nodes and outgoing edges were read; twenty-three contextual YAMLs were reused after
+  unchanged-byte checks. Absence is bounded to this pin and corpus, and wider identity-field matches are
+  not full scientific reviews.'
+definition_evidence:
+- source_id: angiulli2012
+  locator: Section 5 and Figure 3, author pp6-7 / PDF pp7-8
+  relation: supports
+claims:
+- claim_id: sampled-candidate-selection
+  kind: mechanism
+  statement: Maintain selected prototype pairs S, covered reference points C, eligible candidate pool
+    E and remaining sampling pool Dprime. Draw T from Dprime, compute each sampled point's kth self-included
+    neighbor distance against full D, retain sampled candidates P with r_i<=theta, and form their neighborhoods
+    using d(x_i,y)+r_i<=rho*theta. Add P to E. Greedily select from E by largest residual neighborhood
+    gain, breaking ties by smaller radius, and insert while gain>(1-eta)*k. The inner loop ends when the
+    chosen candidate belongs to the current P or fails the gain test; older candidates can be inserted
+    first. Remove T union C from Dprime after the iteration. Stored radii are unchanged at prediction.
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 3 steps 1-2g and accompanying Section 5 prose, author p6 / PDF p7
+    relation: supports
+- claim_id: adaptive-sampling-and-stopping
+  kind: mechanism
+  statement: Initialize sigma=1, count=k+1 and countstar=0. The nominal sample size is ((1-a)*sigma+a)*s,
+    with a=0.1 in the source. After selecting candidates, count is the last residual gain, countstar is
+    the maximum gain seen, and sigma is updated to log(count)/log(countstar). The default outer loop continues
+    while count>(1-eta)*k. Here eta controls marginal gain, not CPDD's total covered fraction. A low-gain
+    sample does not prove that no useful unsampled candidate remains; the source acknowledges that default
+    stopping is heuristic.
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 3, author p6 / PDF p7; Section 5 stopping discussion, author p7 / PDF p8
+    relation: supports
+- claim_id: exhaustion-theorem-counterexample
+  kind: limitation
+  statement: 'Theorem 5.1 proposes eta=1 and changing the outer guard to Dprime nonempty as a consistency
+    condition. A curator trace of the printed flow disproves sufficiency of that change alone: let D={0,1/10,10,101/10},
+    k=1, theta=1/5, rho=eta=1 and s=4. The first sample T=D has zero radii and two disconnected two-point
+    neighborhoods. Selecting any current-sample candidate covers only one pair; the inner loop then ends.
+    Removing T union C empties Dprime, so the modified guard exits while two originally accepted points
+    remain uncovered. Gain=count=countstar=2 makes the log update defined, so this failure is independent
+    of log singularities. The trace does not certify how any historical implementation behaved.'
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 3, author p6 / PDF p7; Theorem 5.1 and proposed guard change, author p7 / PDF p8;
+      executable curator trace in research/discovery/prototype-domain-boundaries.py
+    relation: supports
+- claim_id: implementation-and-complexity-limits
+  kind: limitation
+  statement: The printed description leaves sample-size rounding or clipping, empty candidate maxima,
+    exhausted sampling pools and log-zero or log-one updates unresolved. Isolated k=1 neighborhoods can
+    give count=countstar=1, making the stated update 0/0. If M distinct observations are sampled without
+    replacement from the remaining pool, computing their distances to full D requires M*|D|<=|D|^2 distance
+    evaluations; this permits quadratic worst-case work and does not establish subquadratic total runtime.
+    The baseline CPDD set-cover approximation is not transferred to this heuristic.
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 3 and Section 5 computational analysis, author pp6-7 / PDF pp7-8; exact unit-gain
+      boundary calculation
+    relation: supports
+- claim_id: probability-and-experiment-scope
+  kind: limitation
+  statement: The sample-hit analysis assumes a very large dataset with kth-neighbor radii approximated
+    near zero and a specified population density. Its region-hit probability does not establish distribution-free
+    selection of an optimal prototype. Reported synthetic and UCI comparisons are conditional on sample
+    size, k, thresholds, metrics, hardware and chosen classes; they do not establish exact agreement with
+    CPDD or universal compression, speed or accuracy gains. No numerical performance advantage is curated.
+  evidence:
+  - source_id: angiulli2012
+    locator: Section 5.1 and Figure 4, author pp7-8 / PDF pp8-9; Section 6.5, Figures 11-12 and tables,
+      author pp12-13 / PDF pp13-14
+    relation: supports
+evidence_sources:
+- source_id: angiulli2012
+  title: Prototype-based Domain Description for One-Class Classification
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf
+  version: 'Exact author-hosted 15-page PDF: copyright cover plus author pages 1-14, all visually read.
+    Cover identifies the 2011 DOI version; author catalogue and indexed PubMed identify final TPAMI 34(6):1131-1144,
+    June 2012. Locators use author pagination, not an inferred journal offset. The preliminary ECAI 2008
+    full text and historical software were not compared.'
+  persistent_id: https://doi.org/10.1109/TPAMI.2011.204
+  access_level: full_text
+  accessed_at: '2026-10-12T08:07:52Z'
+  sha256: a75e67435eb69f60814619ce7cfe82f54ad6042c00e56b77f92d637fbf111021
+limitations:
+- This is a supported heuristic concept with explicitly unresolved pseudocode boundaries. Neither default
+  gain stopping nor the printed Dprime-exhaustion modification is represented as a general consistency
+  guarantee.
+- A full implementation would need documented boundary choices; no unpublished repair is attributed to
+  the author. Exact-name, code and erratum searches and the public 15-repository lab inventory did not
+  identify a correcting implementation, a bounded search result rather than proof of absence.
+- All 15 primary PDF pages were visually read. The consistency counterexample and logarithm boundary were
+  checked by exact finite calculations; no historical software, statistical training or benchmark execution
+  was performed.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The PDD accept-versus-reject task, including detectors constructed by CPDD or FastCPDD, is
+    related to AIO:BinaryClassification. This is an algorithm-to-task association, not equivalence or
+    subclass membership. The target has Classification and SupervisedLearning ancestry, but the link does
+    not assert representative abnormal-class training data. Inspected Classification, BinaryClassification,
+    SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction,
+    Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor
+    voting or value averaging is distinct from radius-offset decisions; condensation does not reduce feature
+    dimensions or assert a bias condition. Generic preparation and teacher-student distillation do not
+    identify these covering procedures. Eleven native contexts distinguish NNDD distance norms, CNNDD
+    reference selection, local distance ratios, bootstrap variability, density clustering, supervised
+    metric learning, sphere support estimation and medoid optimization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:31:31Z'
+  updated_at: '2026-10-12T08:31:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

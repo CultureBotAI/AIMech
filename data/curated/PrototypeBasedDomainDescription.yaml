@@ -1,0 +1,125 @@
+id: AIMech:PrototypeBasedDomainDescription
+name: Prototype-based domain description
+aliases:
+- PDD radius-offset rule
+concept_kind: algorithm
+definition: A one-class decision rule that accepts a query when its metric distance to at least one prototype,
+  plus that prototype's stored radius offset, is no greater than a common threshold.
+identity_notes: 'PDD is the radius-offset prediction rule, distinct from CPDD and FastCPDD algorithms
+  for choosing its prototypes. Its dataset-derived construction stores each eligible reference point with
+  its kth-neighbor distance measured against the original dataset. Agreement with infinity-norm NNDD on
+  original reference observations does not make the rules identical on new queries. A qualified PDD alias
+  avoids assigning every use of the acronym to this concept. Compared all 442 pinned AIO IDs, labels and
+  scoped synonyms with all 508 preceding native IDs, names and aliases. No normalized candidate identity
+  collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts,
+  candidate aliases, acronyms and source identifiers. All 103 matched lines per checkout, 61 distinct
+  texts at 206 locations, were inspected: these are the preceding NNDD record and its generated pages,
+  provenance, discovery and review context, including explicit pending CPDD/FastCPDD leads. The 85 semantic
+  AIO rows and 65 preceding native identity matches were unchanged from their fully read prior search;
+  the two new native neighbors were fully read. Twelve annotated AIO nodes and outgoing edges were read;
+  twenty-three contextual YAMLs were reused after unchanged-byte checks. Absence is bounded to this pin
+  and corpus, and wider identity-field matches are not full scientific reviews.'
+definition_evidence:
+- source_id: angiulli2012
+  locator: Definition 2.1, author p2 / PDF p3; Definition 2.3, author p3 / PDF p4
+  relation: supports
+claims:
+- claim_id: radius-offset-decision
+  kind: mechanism
+  statement: Given metric d, positive threshold theta and prototype pairs (x_i,r_i), accept query y iff
+    some i satisfies d(x_i,y)+r_i<=theta; reject otherwise. The score can be written as the minimum of
+    these offset distances. Each eligible nonnegative radius contributes a metric ball with query radius
+    theta-r_i. The general definition calls r_i real; interpreting r_i itself as a geometric radius requires
+    nonnegativity, as provided by the dataset-derived construction. The rule is not a neighbor-label vote,
+    local density ratio or calibrated probability.
+  evidence:
+  - source_id: angiulli2012
+    locator: Section 2 and Definition 2.1, author p2 / PDF p3
+    relation: supports
+- claim_id: dataset-derived-prototypes
+  kind: mechanism
+  statement: For a finite dataset D and 1<=k<=|D|, compute each reference point's kth ordered neighbor
+    distance in the full D, including itself at distance zero. Retain (x,r_x) only when r_x<=theta. These
+    radii remain attached to selected prototypes; they are not recomputed after condensation. At k=1 all
+    radii are zero and the full rule is a union of radius-theta balls. Equal-distance neighbor identities
+    do not alter kth distance values, although selection ties can alter a subsequent condensed set.
+  evidence:
+  - source_id: angiulli2012
+    locator: Definitions 2.2-2.3, author pp2-3 / PDF pp3-4; Section 4 prototype construction, author p5
+      / PDF p6
+    relation: supports
+- claim_id: reference-correspondence-not-global-identity
+  kind: limitation
+  statement: 'Theorem 2.4 gives agreement between the full derived PDD and infinity-norm NNDD on observations
+    in D. Triangle inequality makes the derived PDD acceptance region a subset of the full NNDD region,
+    but equality need not hold on new queries. For D={0,2}, k=2 and theta=2, both radii are 2: PDD accepts
+    just its two prototype locations, whereas NNDD also accepts midpoint 1. This curator example rules
+    out a global reading of the abstract''s equivalence wording.'
+  evidence:
+  - source_id: angiulli2012
+    locator: Definition 2.3 and Theorem 2.4, author p3 / PDF p4; exact curator calculation in research/discovery/prototype-domain-boundaries.py
+    relation: supports
+- claim_id: consistent-subset-scope
+  kind: limitation
+  statement: A PDD-consistent subset preserves the full prototype rule's decisions at every original prototype
+    location. For the eligible dataset-derived prototype set, all such locations are accepted, and preserving
+    them also preserves all full-set NNDD decisions on D, including rejected observations omitted from
+    the prototype set. Subsetting fixed prototypes can only shrink acceptance. Reference agreement therefore
+    does not establish identical new-query decisions or universally improved generalization, nor does
+    it require a minimum-cardinality subset.
+  evidence:
+  - source_id: angiulli2012
+    locator: Definitions 2.5 and Theorem 2.6, author p3 / PDF p4; the rejection branch's printed +1 sign
+      conflicts with Definition 2.1 and is not adopted
+    relation: supports
+evidence_sources:
+- source_id: angiulli2012
+  title: Prototype-based Domain Description for One-Class Classification
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf
+  version: 'Exact author-hosted 15-page PDF: copyright cover plus author pages 1-14, all visually read.
+    Cover identifies the 2011 DOI version; author catalogue and indexed PubMed identify final TPAMI 34(6):1131-1144,
+    June 2012. Locators use author pagination, not an inferred journal offset. The preliminary ECAI 2008
+    full text and historical software were not compared.'
+  persistent_id: https://doi.org/10.1109/TPAMI.2011.204
+  access_level: full_text
+  accessed_at: '2026-10-12T08:07:52Z'
+  sha256: a75e67435eb69f60814619ce7cfe82f54ad6042c00e56b77f92d637fbf111021
+limitations:
+- The general decision rule and the nonnegative kth-distance construction have different scopes. Claims
+  about reference equivalence here require the latter, a valid metric and self-included reference distances.
+- Printed kth-neighbor rank wording does not fully specify distance ties; this record uses the ordered-distance
+  interpretation. Theorem 2.6 prints an acceptance sign in its rejection case; the defining rule determines
+  the rejection.
+- Population examples relating parameters to statistical outlier tests do not supply distribution-free
+  finite-sample error calibration. No universal threshold, density interpretation or numerical performance
+  advantage is curated.
+- All 15 author-PDF pages were visually read. Exact finite calculations were executed; no historical implementation,
+  trained model or benchmark was reproduced.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The PDD accept-versus-reject task, including detectors constructed by CPDD or FastCPDD, is
+    related to AIO:BinaryClassification. This is an algorithm-to-task association, not equivalence or
+    subclass membership. The target has Classification and SupervisedLearning ancestry, but the link does
+    not assert representative abnormal-class training data. Inspected Classification, BinaryClassification,
+    SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction,
+    Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor
+    voting or value averaging is distinct from radius-offset decisions; condensation does not reduce feature
+    dimensions or assert a bias condition. Generic preparation and teacher-student distillation do not
+    identify these covering procedures. Eleven native contexts distinguish NNDD distance norms, CNNDD
+    reference selection, local distance ratios, bootstrap variability, density clustering, supervised
+    metric learning, sphere support estimation and medoid optimization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:31:31Z'
+  updated_at: '2026-10-12T08:31:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

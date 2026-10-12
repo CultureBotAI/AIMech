@@ -1,0 +1,132 @@
+id: AIMech:CondensedPrototypeBasedDomainDescription
+name: Condensed prototype-based domain description
+aliases:
+- CPDD
+- Greedy prototype domain condensation
+concept_kind: algorithm
+definition: A greedy prototype-selection procedure that constructs kth-neighbor radius offsets from the
+  full reference dataset and repeatedly chooses the prototype covering the most still-uncovered eligible
+  reference locations under the PDD distance rule.
+identity_notes: 'CPDD chooses radius-bearing prototypes for PDD. It is distinct from the PDD prediction
+  rule, CNNDD subset selection with neighbor distances recomputed by an NNDD classifier, and the sampled
+  FastCPDD heuristic. The baseline here follows the prose-defined full-cover stopping condition at rho=eta=1;
+  the source''s printed loop guard is explicitly inconsistent with that stopping description. Compared
+  all 442 pinned AIO IDs, labels and scoped synonyms with all 508 preceding native IDs, names and aliases.
+  No normalized candidate identity collision was found. Fixed-string whole-word searches included ignored
+  and hidden files in both checkouts, candidate aliases, acronyms and source identifiers. All 103 matched
+  lines per checkout, 61 distinct texts at 206 locations, were inspected: these are the preceding NNDD
+  record and its generated pages, provenance, discovery and review context, including explicit pending
+  CPDD/FastCPDD leads. The 85 semantic AIO rows and 65 preceding native identity matches were unchanged
+  from their fully read prior search; the two new native neighbors were fully read. Twelve annotated AIO
+  nodes and outgoing edges were read; twenty-three contextual YAMLs were reused after unchanged-byte checks.
+  Absence is bounded to this pin and corpus, and wider identity-field matches are not full scientific
+  reviews.'
+definition_evidence:
+- source_id: angiulli2012
+  locator: Section 4 and Figure 1, author pp4-5 / PDF pp5-6
+  relation: supports
+claims:
+- claim_id: greedy-cover-construction
+  kind: mechanism
+  statement: Compute r_i as each x_i's kth self-included neighbor distance in full D, and retain candidate
+    prototypes with r_i<=theta. Form N_i={y in D:d(x_i,y)+r_i<=rho*theta}. Starting from empty S and covered
+    set C, select a candidate maximizing |N_i minus C|, break gain ties in favor of smaller r_i, and add
+    its pair (x_i,r_i) and neighborhood to S and C. The baseline rho=eta=1 stops once every eligible prototype
+    location is covered, following the surrounding prose. Further equal-gain, equal-radius ties are unspecified.
+    Prediction uses the stored radii and original theta.
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 1, author p4 / PDF p5; Section 4 algorithm and parameter descriptions, author p5 /
+      PDF p6
+    relation: supports
+- claim_id: baseline-approximation-scope
+  kind: scope
+  statement: For nonempty derived prototype set P at rho=eta=1, each prototype covers itself and its neighborhood
+    contains only eligible reference locations. The intended full-cover loop is greedy set cover, so its
+    selected count is at most (1+ln|P|) times a minimum cover count. This is a cardinality approximation
+    for the finite reference-consistency objective, not exact minimum size, equality of all new-query
+    decisions or a classification-risk guarantee. It is not automatically a guarantee for partial-cover
+    settings or FastCPDD.
+  evidence:
+  - source_id: angiulli2012
+    locator: Section 4 and Theorem 4.1, author p5 / PDF p6; Definition 2.5, author p3 / PDF p4
+    relation: supports
+- claim_id: printed-guard-and-parameter-boundaries
+  kind: limitation
+  statement: 'Figure 1 prints while |C|<=eta|P|. At eta=1 and complete coverage, that guard remains true
+    while every residual gain is zero, so the literal loop need not terminate. The narrative instead stops
+    after at least the requested fraction is covered. Shrinking rho below 1 can make that requested coverage
+    infeasible: D={0,2}, k=2, theta=2 gives two eligible radius-2 prototypes, but rho=3/4 makes both N_i
+    empty. Reducing eta permits partial coverage; with the same D and rho=1, eta=1/2 can stop after one
+    prototype and lose the other original accepted decision. These source-boundary calculations are not
+    an attributed implementation repair.'
+  evidence:
+  - source_id: angiulli2012
+    locator: Figure 1 and Section 4, author pp4-5 / PDF pp5-6; exact curator calculations in research/discovery/prototype-domain-boundaries.py
+    relation: supports
+- claim_id: computation-and-evaluation-boundaries
+  kind: limitation
+  statement: The described construction computes all reference pairwise distances, giving quadratic distance-evaluation
+    work in |D|; stored neighborhood incidence can also be quadratic. That fact alone does not bound every
+    implementation's greedy-update cost by quadratic time. Reported size, timing and accuracy comparisons
+    are conditional on datasets, metrics, thresholds, k, rho, eta and implementations, and both CPDD and
+    CNNDD can have favorable comparison outcomes. The shuttle contamination experiment draws added training
+    contaminants from the abnormal test population; the forest example reports the two best-separated
+    abnormal classes. No universal speed or accuracy advantage is inferred.
+  evidence:
+  - source_id: angiulli2012
+    locator: Section 5 introduction, author p6 / PDF p7; Sections 6.1-6.5 and Figures 5-12, author pp8-13
+      / PDF pp9-14
+    relation: supports
+evidence_sources:
+- source_id: angiulli2012
+  title: Prototype-based Domain Description for One-Class Classification
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf
+  version: 'Exact author-hosted 15-page PDF: copyright cover plus author pages 1-14, all visually read.
+    Cover identifies the 2011 DOI version; author catalogue and indexed PubMed identify final TPAMI 34(6):1131-1144,
+    June 2012. Locators use author pagination, not an inferred journal offset. The preliminary ECAI 2008
+    full text and historical software were not compared.'
+  persistent_id: https://doi.org/10.1109/TPAMI.2011.204
+  access_level: full_text
+  accessed_at: '2026-10-12T08:07:52Z'
+  sha256: a75e67435eb69f60814619ce7cfe82f54ad6042c00e56b77f92d637fbf111021
+limitations:
+- This record identifies the intended greedy full-cover method, not a certified execution of the literal
+  pseudocode. Empty candidate sets, unattainable shrunken coverage and no-progress termination require
+  explicit implementation handling.
+- At rho<1 the selection neighborhoods are smaller than the final PDD acceptance neighborhoods; the parameter
+  does not simply replace theta at prediction. Eta denotes a covered fraction in baseline CPDD, unlike
+  its marginal-gain role in FastCPDD.
+- The general-metric hardness discussion does not establish a fixed-dimensional Euclidean claim. Full-cover
+  set-cover approximation does not imply calibrated probability or universally lower true error.
+- All 15 primary pages, algorithm figures and evaluation panels were visually read. Exact finite boundary
+  checks were executed; original software, historical timings and the preliminary 2008 full text remain
+  unverified.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The PDD accept-versus-reject task, including detectors constructed by CPDD or FastCPDD, is
+    related to AIO:BinaryClassification. This is an algorithm-to-task association, not equivalence or
+    subclass membership. The target has Classification and SupervisedLearning ancestry, but the link does
+    not assert representative abnormal-class training data. Inspected Classification, BinaryClassification,
+    SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction,
+    Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor
+    voting or value averaging is distinct from radius-offset decisions; condensation does not reduce feature
+    dimensions or assert a bias condition. Generic preparation and teacher-student distillation do not
+    identify these covering procedures. Eleven native contexts distinguish NNDD distance norms, CNNDD
+    reference selection, local distance ratios, bootstrap variability, density clustering, supervised
+    metric learning, sphere support estimation and medoid optimization.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:31:31Z'
+  updated_at: '2026-10-12T08:31:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

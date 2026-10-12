@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototype-based domain description · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Prototype-based domain description</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Prototype-based domain description</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PrototypeBasedDomainDescription</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PDD radius-offset rule
+    </div>
+
+  <div class="detail-desc">
+    A one-class decision rule that accepts a query when its metric distance to at least one prototype, plus that prototype&#39;s stored radius offset, is no greater than a common threshold.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      PDD is the radius-offset prediction rule, distinct from CPDD and FastCPDD algorithms for choosing its prototypes. Its dataset-derived construction stores each eligible reference point with its kth-neighbor distance measured against the original dataset. Agreement with infinity-norm NNDD on original reference observations does not make the rules identical on new queries. A qualified PDD alias avoids assigning every use of the acronym to this concept. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 508 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts, candidate aliases, acronyms and source identifiers. All 103 matched lines per checkout, 61 distinct texts at 206 locations, were inspected: these are the preceding NNDD record and its generated pages, provenance, discovery and review context, including explicit pending CPDD/FastCPDD leads. The 85 semantic AIO rows and 65 preceding native identity matches were unchanged from their fully read prior search; the two new native neighbors were fully read. Twelve annotated AIO nodes and outgoing edges were read; twenty-three contextual YAMLs were reused after unchanged-byte checks. Absence is bounded to this pin and corpus, and wider identity-field matches are not full scientific reviews.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#radius-offset-decision</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given metric d, positive threshold theta and prototype pairs (x_i,r_i), accept query y iff some i satisfies d(x_i,y)+r_i&lt;=theta; reject otherwise. The score can be written as the minimum of these offset distances. Each eligible nonnegative radius contributes a metric ball with query radius theta-r_i. The general definition calls r_i real; interpreting r_i itself as a geometric radius requires nonnegativity, as provided by the dataset-derived construction. The rule is not a neighbor-label vote, local density ratio or calibrated probability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Definition 2.1, author p2 / PDF p3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dataset-derived-prototypes</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite dataset D and 1&lt;=k&lt;=|D|, compute each reference point&#39;s kth ordered neighbor distance in the full D, including itself at distance zero. Retain (x,r_x) only when r_x&lt;=theta. These radii remain attached to selected prototypes; they are not recomputed after condensation. At k=1 all radii are zero and the full rule is a union of radius-theta balls. Equal-distance neighbor identities do not alter kth distance values, although selection ties can alter a subsequent condensed set.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Definitions 2.2-2.3, author pp2-3 / PDF pp3-4; Section 4 prototype construction, author p5 / PDF p6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#reference-correspondence-not-global-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 2.4 gives agreement between the full derived PDD and infinity-norm NNDD on observations in D. Triangle inequality makes the derived PDD acceptance region a subset of the full NNDD region, but equality need not hold on new queries. For D={0,2}, k=2 and theta=2, both radii are 2: PDD accepts just its two prototype locations, whereas NNDD also accepts midpoint 1. This curator example rules out a global reading of the abstract&#39;s equivalence wording.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Definition 2.3 and Theorem 2.4, author p3 / PDF p4; exact curator calculation in research/discovery/prototype-domain-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#consistent-subset-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A PDD-consistent subset preserves the full prototype rule&#39;s decisions at every original prototype location. For the eligible dataset-derived prototype set, all such locations are accepted, and preserving them also preserves all full-set NNDD decisions on D, including rejected observations omitted from the prototype set. Subsetting fixed prototypes can only shrink acceptance. Reference agreement therefore does not establish identical new-query decisions or universally improved generalization, nor does it require a minimum-cardinality subset.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Definitions 2.5 and Theorem 2.6, author p3 / PDF p4; the rejection branch&#39;s printed +1 sign conflicts with Definition 2.1 and is not adopted</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The general decision rule and the nonnegative kth-distance construction have different scopes. Claims about reference equivalence here require the latter, a valid metric and self-included reference distances.</li>
+      <li>Printed kth-neighbor rank wording does not fully specify distance ties; this record uses the ordered-distance interpretation. Theorem 2.6 prints an acceptance sign in its rejection case; the defining rule determines the rejection.</li>
+      <li>Population examples relating parameters to statistical outlier tests do not supply distribution-free finite-sample error calibration. No universal threshold, density interpretation or numerical performance advantage is curated.</li>
+      <li>All 15 author-PDF pages were visually read. Exact finite calculations were executed; no historical implementation, trained model or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The PDD accept-versus-reject task, including detectors constructed by CPDD or FastCPDD, is related to AIO:BinaryClassification. This is an algorithm-to-task association, not equivalence or subclass membership. The target has Classification and SupervisedLearning ancestry, but the link does not assert representative abnormal-class training data. Inspected Classification, BinaryClassification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction, Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor voting or value averaging is distinct from radius-offset decisions; condensation does not reduce feature dimensions or assert a bias condition. Generic preparation and teacher-student distillation do not identify these covering procedures. Eleven native contexts distinguish NNDD distance norms, CNNDD reference selection, local distance ratios, bootstrap variability, density clustering, supervised metric learning, sphere support estimation and medoid optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-angiulli2012">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">angiulli2012</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf" target="_blank" rel="noopener">Prototype-based Domain Description for One-Class Classification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fabrizio Angiulli
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TPAMI.2011.204</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a75e67435eb6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T08:31:31Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T08:31:31Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PrototypeBasedDomainDescription.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PrototypeBasedDomainDescription.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
