@@ -1,0 +1,736 @@
+# Scientific author self-review of shared inverse-lengthscale variational sparse-spectrum inference
+
+- Review: 20261012T233521Z-shared-spectrum-inference
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T23:31:44Z
+- Finished UTC: 2026-10-12T23:35:21Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the distinct Tan base spectral inference procedure with shared Gaussian inverse-lengthscales, full Gaussian coefficients and exact scale coordinates. No actionable record defect was found; source ambiguities and domain limitations remain explicit and DRAFT is retained.
+
+## Scope And Provenance
+
+All fields and primary support of the exact maintained spectral inference record.
+
+Selection: Exact maintained ID: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 65dcf85b52c3dfd4dceab05cb729ee7ee077c977.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | data/curated/SharedInverseLengthscaleVariationalSparseSpectrumInference.yaml | maintained | Shared inverse-lengthscale variational sparse-spectrum inference |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 102.27s (0:01:42)<br>Checked 442 record(s); 0 failed.<br>Checked 553 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 202 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 200,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | Exited 0 without output. |
+| Independent finite spectral inference arithmetic | passed | True | AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference | {"feature_mean": [0.8563459798740857, 0.48033480665431033, 0.20956216457757385, 0.27502137603157323], "feature_second_moment": [[0.7679209776982394, 0.5072388301883102, 0.13948256637602763, 0.21376732804711154], [0.5072388301883102, 0.5237557518659833, -0.0190347443721455, 0.04047064600409142], [0.13948256637602763, -0.0190347443721455, 0.23207902230176064, 0.302354528626785], [0.21376732804711154, 0.04047064600409142, 0.302354528626785, 0.47624424813401667]], "shared_cosine_cross_covariance": 0.09590604951629533, "max_feature_quadrature_error": 1.1102230246251565e-16, "paired_feature_squared_norm": 2, "scale_checks": [{"label": "coefficient-scale", "k": 4, "C": 1.2, "A": 0.8, "normalizer": 0.20227437599924755, "expected_inverse_square": 1.6923594882693938, "expected_square": 1.0264880579939295, "max_dual_integration_error": 2.220446049250313e-16}, {"label": "noise-scale", "k": 4, "C": 2.1, "A": 1.1, "normalizer": 0.04812156643832438, "expected_inverse_square": 0.9597650540351463, "expected_square": 1.8158420015355379, "max_dual_integration_error": 4.440892098500626e-16}], "source_derivative_check": {"precision": 0.9859342794072601, "mean_gradient": -0.4820618734182065, "proposed_mean": -0.08893915495870602, "proposed_variance": 1.0142663876147975, "max_finite_difference_error": 4.609257420185031e-12, "scope": "Scalar one-pair source F1\u2013F4 checked against independent derivatives at old mu/variance. This is not a multidimensional proof or fitted algorithm run."}, "coefficient_check": {"mean": [-0.006075951877189335, -0.055450997326554015], "covariance": [[0.404722740200298, -0.06027456311096424], [-0.06027456311096424, 0.6001145002204784]], "precision_determinant": 4.179781392498199, "expected_log_joint_mean_gradient_residual": 0.0, "scope": "One analytic Gaussian coordinate for supplied fixed neighboring moments; no iterative posterior fit."}, "predictive_check": {"mean": 0.29180159950175033, "variance": 2.3499130282191305, "second_moment_integration_error": 4.440892098500626e-16, "scope": "Two-pair fixed coefficient moments with a positive-definite supplied covariance; integrates the conditional second moment over shared lambda."}, "noise_second_moment_boundary": "For C&gt;0 and A&gt;0: finite iff n&gt;1; n=1 has logarithmically divergent second moment.", "scope": "Supplied fixed variational parameters, analytic Gaussian moments and two numerical integration coordinate systems; no fitting or author implementation."} |
+
+## Scientific And Domain Assessments
+
+### Shared uncertain inverse-lengthscale inference
+
+identity: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Retain a distinct, descriptively named algorithm record.
+
+Tan Algorithm 1 has fixed spectral draws transformed by a single full Gaussian lambda factor, full coefficient covariance and inferred half-Cauchy scales. This differs from Gal–Turner independent spectral factors, fixed-parameter SSGP, uncertain-input prediction and the two-stage neighborhood wrapper. Generic NCVMP describes the underlying update rule but not this model-specific factorization, analytic moments and coordinate schedule. No unsupported standard acronym or upstream acceptance is asserted.
+
+### Algorithm-to-task mapping
+
+grounding: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Related RegressionAnalysis mapping is direct and correctly typed.
+
+The algorithm estimates a scalar-response relation. RegressionAnalysis is a task-level relation, not equivalence or is-a. LinearRegression does not specify the nonlinear original-input spectral model; BayesianNetwork/PGM and RandomEffectsModel provide general context; KernelLayer and VariationalAutoEncoder do not identify this inference algorithm. The pinned source revision/hash remain unchanged.
+
+### hierarchical-spectral-model
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+For n scalar responses y_i at fixed inputs x_i in R^d and m fixed draws s_r from N(0,I_d), define t_ir=s_r elementwise x_i and the 2m-column z_i(lambda) containing all cos(t_ir^T*lambda) followed by all sin(t_ir^T*lambda). The n by 2m matrix Z has rows z_i^T. Use y&#124;alpha,lambda,gamma~N(Z*alpha,gamma^2*I_n), alpha&#124;sigma~N(0,(sigma^2/m)*I_2m), lambda~N(mu0,Sigma0) with positive-definite Sigma0, and independent positive half-Cauchy scales sigma,gamma with known positive scale parameters A_sigma,A_gamma. Each half-Cauchy density is 2*A/(pi*(A^2+s^2)) for s&gt;0. The signed vector lambda is shared by every spectral feature; its magnitude is an inverse-lengthscale under the displayed kernel convention. The spectral draws are held fixed during this inference.
+
+### variational-family-objective
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+Use q(alpha)q(lambda)q(sigma)q(gamma), with full Gaussian factors q(alpha)=N(mu_alpha,Sigma_alpha) and q(lambda)=N(mu_lambda,Sigma_lambda). The scale factors have their unrestricted coordinate-optimal forms stated below. Target L=E_q[log p(y,alpha,lambda,sigma,gamma)]-E_q[log q], a lower bound on log p(y) when the posterior is proper, the evidence positive and finite, and the expectations well-defined. Within-block covariances are retained, while dependence between coefficients, shared inverse-lengthscales and scales is omitted. This approximation does not separately factorize each transformed spectral frequency.
+
+### shared-feature-moments
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+At current q(lambda)=N(mu,Sigma), define c(t)=exp(-t^T*Sigma*t/2)*cos(t^T*mu) and s(t)=exp(-t^T*Sigma*t/2)*sin(t^T*mu). These give the feature first moments. For any two feature arguments a,b, E[cos(a^T*lambda)cos(b^T*lambda)]=(c(a-b)+c(a+b))/2, E[sin(a^T*lambda)sin(b^T*lambda)]=(c(a-b)-c(a+b))/2 and E[cos(a^T*lambda)sin(b^T*lambda)]=(s(a+b)+s(b-a))/2. Consequently F=E[Z] and K=E[Z^T*Z]=sum_i E[z_i*z_i^T] are analytic. Different spectral features generally have nonzero covariance because they depend on the same uncertain vector; K cannot generally be replaced by F^T*F.
+
+### coefficient-coordinate
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+With current F=E[Z], K=E[Z^T*Z], u=E[gamma^-2] and v=E[sigma^-2], the exact Gaussian coefficient coordinate is Sigma_alpha=(u*K+m*v*I_2m)^-1 and mu_alpha=u*Sigma_alpha*F^T*y, provided these moments are finite and positive. K is positive semidefinite, so m*v&gt;0 makes the displayed precision positive definite. The full covariance retains correlations between the finite coefficients. This is optimal holding the other variational factors fixed, not exact integration of the true coupled coefficient and inverse-lengthscale posterior.
+
+### scale-coordinates
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+Set M=mu_alpha*mu_alpha^T+Sigma_alpha, C_sigma=(m/2)*tr(M) and C_gamma=(y^T*y-2*y^T*F*mu_alpha+tr(M*K))/2. The coordinate densities are q(sigma) proportional to sigma^(-2m)*exp(-C_sigma/sigma^2)/(A_sigma^2+sigma^2) and q(gamma) proportional to gamma^(-n)*exp(-C_gamma/gamma^2)/(A_gamma^2+gamma^2), on positive scales. For C,A&gt;0, define J_k(C,A)=integral_0^infinity r^(-k)*exp(-C/r^2)/(A^2+r^2) dr, finite for k&gt;-1. Their inverse-square expectations are J_(2m+2)(C_sigma,A_sigma)/J_(2m)(C_sigma,A_sigma) and J_(n+2)(C_gamma,A_gamma)/J_n(C_gamma,A_gamma). Substitution x=1/r relates J_k to the paper’s H(k-2,C,A^2); normalizer evaluation uses one-dimensional integration. Gaussian feature moments being analytic does not make every scale normalization an elementary closed-form computation.
+
+### lambda-natural-proposal
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+Holding the other factors fixed, let S=E_q[log p(y,alpha,lambda,sigma,gamma)] as a function of the current lambda-factor mean mu and covariance Sigma. Define g=grad_mu S and the symmetric covariance derivative G by dS=g^T*dmu+tr(G^T*dSigma). Evaluate both derivatives at the same old mu,Sigma. The unit NCVMP proposal is Sigma_new=(-2*G)^-1 and mu_new=mu+Sigma_new*g, valid as a Gaussian factor only if -2*G is positive definite. In the source Algorithm 1 cycle, this lambda proposal precedes recomputing feature moments, the Gaussian coefficient coordinate, and the two scale coordinates. Reevaluate the moments after accepted changes. The lambda proposal is generally a fixed-point/natural-gradient step, not an exact Gaussian-family coordinate maximizer; no bound-ascent or convergence guarantee follows.
+
+### predictive-moments
+
+evidence: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Supported under the stated factor-domain and source qualifications.
+
+For a fixed query x_star, form the same 2m-column z_star(lambda), f_star=E[z_star] and R_star=E[z_star*z_star^T]. Under the independent variational factors, the future noisy-response mean is mu_alpha^T*f_star and its variance, when finite, is E[gamma^2]+tr(Sigma_alpha*R_star)+mu_alpha^T*(R_star-f_star*f_star^T)*mu_alpha. The latent-function variance omits E[gamma^2]. These are moments of the variational predictive mixture, which is generally not Gaussian, and do not establish calibrated intervals or an exact full-kernel GP posterior. For the proper C_gamma,A_gamma&gt;0 scale density, E[gamma^2]=J_(n-2)/J_n is finite only for n&gt;1; its n=1 tail yields a logarithmically divergent second moment.
+
+### Shared feature dependence and matrix orientation
+
+consistency: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Shared uncertainty and outer-product predictive moments are preserved.
+
+The Gaussian characteristic function and product-to-sum identities give the mixed cosine-sine block with s(a+b)+s(b-a). Its orientation agrees with the source Appendix A after transposition. K is a sum of individual outer second moments, not a product of first moments. A finite supplied example has nonzero shared cosine covariance. The query vector is a column, so R_star=E[z_star z_star^T]; the source printed inner product in the variance display is explicitly qualified. Prediction follows total variance, retaining both coefficient and lambda uncertainty; no Gaussian predictive density or calibration is asserted.
+
+### Scale Jacobian and finite predictive variance
+
+consistency: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+Scale-coordinate powers, Jacobian and tail limits are correct.
+
+The 2m-dimensional coefficient Gaussian produces sigma^(-2m), and n responses produce gamma^(-n). The inverse-scale substitution gives J_k=H(k-2,C,A²), and inverse-square moments use k+2. At infinity the scale density has power -(k+2); with C,A&gt;0 its normalizer is finite iff k&gt;-1. Thus gamma squared is finite iff n&gt;1. The n=1 factor can remain proper while its second moment diverges. Independent direct-scale and inverse-scale quadratures agree for finite supplied cases; tail analysis, rather than a truncated numerical integral, establishes divergence. Valid current scale moments make the coefficient precision positive definite.
+
+### Frozen derivatives and sequential schedule
+
+consistency: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+The lambda proposal is a qualified Gaussian natural step.
+
+Both derivatives use the same old mean/covariance. Wand Theorem 1 and the explicit old/new Equation 7 derivation resolve the ambiguous covariance evaluation in Tan Appendix C. The new covariance multiplies the old mean derivative. Source Algorithm 1 updates lambda, then coefficient moments/coordinate, then scales. Positive-definite proposed precision is a domain requirement; the procedure is neither exact Gaussian-coordinate optimization nor guaranteed ascent. The scalar F1–F4 finite-difference check supports one supplied case only. Equation 12 applies after scale coordinates; a stale-scale trial objective is not certified. Adaptive Algorithm 2 remains separate unresolved work.
+
+### Complete maintained record and historical source access
+
+provenance: supported. Targets: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference.
+
+All maintained fields and the exact report mirror are assessed; DRAFT remains.
+
+Read ID/name/empty aliases, algorithm kind, definition and locators, identity context, seven claims, both source identities/versions/access/SHA256, AIO snapshot and mapping, six limitations and actual timestamps. No general performance claim is included. Complete preprints do not imply full journal-PDF or implementation inspection. The author publication-page search found no code link in its bounded inspected entries, without an exhaustive absence claim. The scalar calculator runs no fitting loop or source code. Separately read Castiglione material does not support this record.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T233132Z-shared-spectrum-inference.json | supports | No normalized identity match across all 442 pinned AIO IDs, labels and scoped synonyms and 552 maintained IDs, names and aliases. Ignored- and hidden-inclusive fixed-string searches of the recovery, old discovery and original Documents checkouts returned 2990, 5 and 105 lines. Of 507 distinct matching contents, all 416 project-content strings, including nine full generated search strings, were read; 91 dependency-only token matches were triaged by paths and surrounding snippets as unrelated language, mathematical-function and color names. Assessed all 29 semantic AIO rows and 115 native names/definitions, seven complete annotated AIO nodes with incident edges/generated YAML and six complete native context records. This descriptive local name denotes Tan et al. Algorithm 1 for a shared Gaussian inverse-lengthscale vector, full Gaussian coefficients and half-Cauchy-derived scale factors. It is a specified spectral inference procedure beyond generic NCVMP, not Gal–Turner independent spectral factors, the fixed-hyperparameter SSGP model, uncertain-test-input prediction, or the separately curated query-local neighborhood wrapper. No new standard acronym is asserted. The adaptive step controller remains separate pending work. Absence is bounded to this pin and inspected corpus. |
+| mapping | sources/aio/aio.json | supports | All 29 semantic AIO rows, 115 native definitions, seven complete AIO nodes/incident edges/generated YAML and six complete native context records were assessed in preparation. Their captured bytes still agree. Related regression mapping and six explicit rejected mappings preserve abstraction levels. |
+| calculation | research/discovery/shared-spectrum-boundaries.py | supports | Independent fixed-parameter quadratures check shared feature first/second moments and two scale-normalizer coordinate systems. One Gaussian coefficient coordinate, scalar source F1–F4 derivatives and predictive total-variance arithmetic pass. Tail analysis supplies the n&gt;1 noise-second-moment boundary. No fitting loop, author implementation or source benchmark. |
+| tan2015 | https://arxiv.org/pdf/1306.1999v3; Sections 2–5, Algorithm 1 and Appendices A–C, PDF pp. 3–8 and 18–20 | supports | arXiv:1306.1999v3, revised 26 January 2015. All 21 rendered PDF pages visually read: 20 numbered content pages plus a final graphic-only page, including eleven figures, Table 1, references and Appendices A–C. The related journal article appeared online 12 September 2015 and in Statistics and Computing 26:1243–1261 (2016), DOI 10.1007/s11222-015-9600-7. Mechanism locators refer to this inspected preprint, not an uninspected journal PDF. All 21 pages read during preparation. After input capture, visually reread PDF pp. 4–8 and 18–20 against the complete record. |
+| wand2014 | https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf; Section 4, Theorem 1 and Equation 7, PDF pp. 5–7 / printed pp. 1355–1357 | supports | JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including Theorems 1–2, Algorithm 1, both figures, Appendices A–C and twenty references. Printed page = PDF page + 1350. All 19 pages read during preparation; visually reread PDF pp. 5–7 after current input capture, especially the explicit old-moment evaluation in the display preceding Equation 7. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for this clean record.
+- The first vendored-check attempt failed because sandbox DNS access was unavailable. Its log is retained locally; rerunning the same required check with authorized network access passed.
+- Added one DRAFT algorithm, yielding 553 native and 442 unchanged generated records. The 738-entry main frontier retains 484 pending and 57 partly addressed cohorts; discovery is incomplete.
+- All 21 preprint pages and all 19 pages of the supporting Wand paper were read. Journal metadata does not establish inspection of the complete Tan journal PDF. Direct access to the author’s publication page later succeeded, but the inspected sparse-spectrum entry and home-page links yielded no code link; this is not an exhaustive code-absence conclusion. No author code, model fitting loop, training or benchmark was run. Supplied-parameter arithmetic checks feature moments, scale normalization, a Gaussian coordinate, one scalar derivative example and predictive moments; DRAFT remains.
+- Adaptive source controller ambiguities remain pending; the base proposal uses an explicitly justified old-moment evaluation convention, not a claim of matching an unseen implementation.
+- Castiglione–Bernardi2025 v5 has now been read separately across all 41 pages, with unresolved formula and implementation discrepancies retained in the next research round. It does not support this spectral record. Other source leads remain incompletely inspected or deduplicated.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection; isolated recovery work only.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T233521Z-shared-spectrum-inference
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of shared inverse-lengthscale variational sparse-spectrum
+  inference
+started_at: '2026-10-12T23:31:44Z'
+finished_at: '2026-10-12T23:35:21Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity, feature dependence, scale Jacobians
+    and tails, predictive orientation, derivative evaluation and natural-step domain.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the distinct Tan base spectral inference procedure with shared Gaussian
+  inverse-lengthscales, full Gaussian coefficients and exact scale coordinates. No
+  actionable record defect was found; source ambiguities and domain limitations remain
+  explicit and DRAFT is retained.
+source:
+  git_revision: 65dcf85b52c3dfd4dceab05cb729ee7ee077c977
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/FactorizedVariationalSparseSpectrumGaussianProcessInference.yaml
+    sha256: 8b8ff1fc769a4df4b039bd65c36d484b3829afb9eae18f91e659a93dc78f9ef3
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    sha256: 0d303d220e92ad009eb802ddee59c6ab74cfd1d7872f3a50ad939deed002ad23
+    role: context
+  - path: data/curated/SharedInverseLengthscaleVariationalSparseSpectrumInference.yaml
+    sha256: e770d9f4bc09fd642cda3e77c07223b517e97285d8ebf655a55a0cddd0711427
+    role: target
+  - path: data/curated/SparseSpectrumGaussianProcessRegression.yaml
+    sha256: d1680103fd8df79740d12629429a4009709f0b2e136140fc95c565852f63db44
+    role: context
+  - path: data/curated/TwoStageAdaptiveNeighborhoodSparseSpectrumRegression.yaml
+    sha256: a8ed8c144a7b82979d72594f54450e229b605de5a8712938ef03680019878da7
+    role: context
+  - path: data/curated/VariationalSparseSpectrumGaussianProcessInference.yaml
+    sha256: e508cdaea10654cf24a1b219887c88e4d3236cd440a2db4c2f9a8eee7742bba2
+    role: context
+  - path: research/discovery/20261012T233132Z-shared-spectrum-inference.json
+    sha256: 64ffeca1c37d506159a9661d347383910a3ef8095d442e8ce715fce2c2b0ece7
+    role: context
+  - path: research/discovery/shared-spectrum-boundaries.py
+    sha256: 8f914154959c71f31a5aad7a45fcb75293713379876dc001cf9d7aeac589111c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  path: data/curated/SharedInverseLengthscaleVariationalSparseSpectrumInference.yaml
+  label: Shared inverse-lengthscale variational sparse-spectrum inference
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SharedInverseLengthscaleVariationalSparseSpectrumInference.yaml
+    role: maintained
+scope:
+  description: All fields and primary support of the exact maintained spectral inference
+    record.
+  selection: 'Exact maintained ID: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exclusions:
+  - target: Adaptive Algorithm 2 controller and executable author implementation
+    reason: Separate unresolved controller/implementation questions; not claimed by
+      this base record.
+  - target: Existing native and AIO neighbors
+    reason: Identity/mapping context, not complete scientific rereview.
+  - target: Empirical fitting, benchmarks and complete Tan journal PDF
+    reason: No fitting or experiments; primary preprint and bibliographic metadata
+      were inspected.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 102.27s (0:01:42)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 553 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 202 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 200,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Independent finite spectral inference arithmetic
+  command: python3 research/discovery/shared-spectrum-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"feature_mean": [0.8563459798740857, 0.48033480665431033, 0.20956216457757385,
+    0.27502137603157323], "feature_second_moment": [[0.7679209776982394, 0.5072388301883102,
+    0.13948256637602763, 0.21376732804711154], [0.5072388301883102, 0.5237557518659833,
+    -0.0190347443721455, 0.04047064600409142], [0.13948256637602763, -0.0190347443721455,
+    0.23207902230176064, 0.302354528626785], [0.21376732804711154, 0.04047064600409142,
+    0.302354528626785, 0.47624424813401667]], "shared_cosine_cross_covariance": 0.09590604951629533,
+    "max_feature_quadrature_error": 1.1102230246251565e-16, "paired_feature_squared_norm":
+    2, "scale_checks": [{"label": "coefficient-scale", "k": 4, "C": 1.2, "A": 0.8,
+    "normalizer": 0.20227437599924755, "expected_inverse_square": 1.6923594882693938,
+    "expected_square": 1.0264880579939295, "max_dual_integration_error": 2.220446049250313e-16},
+    {"label": "noise-scale", "k": 4, "C": 2.1, "A": 1.1, "normalizer": 0.04812156643832438,
+    "expected_inverse_square": 0.9597650540351463, "expected_square": 1.8158420015355379,
+    "max_dual_integration_error": 4.440892098500626e-16}], "source_derivative_check":
+    {"precision": 0.9859342794072601, "mean_gradient": -0.4820618734182065, "proposed_mean":
+    -0.08893915495870602, "proposed_variance": 1.0142663876147975, "max_finite_difference_error":
+    4.609257420185031e-12, "scope": "Scalar one-pair source F1\u2013F4 checked against
+    independent derivatives at old mu/variance. This is not a multidimensional proof
+    or fitted algorithm run."}, "coefficient_check": {"mean": [-0.006075951877189335,
+    -0.055450997326554015], "covariance": [[0.404722740200298, -0.06027456311096424],
+    [-0.06027456311096424, 0.6001145002204784]], "precision_determinant": 4.179781392498199,
+    "expected_log_joint_mean_gradient_residual": 0.0, "scope": "One analytic Gaussian
+    coordinate for supplied fixed neighboring moments; no iterative posterior fit."},
+    "predictive_check": {"mean": 0.29180159950175033, "variance": 2.3499130282191305,
+    "second_moment_integration_error": 4.440892098500626e-16, "scope": "Two-pair fixed
+    coefficient moments with a positive-definite supplied covariance; integrates the
+    conditional second moment over shared lambda."}, "noise_second_moment_boundary":
+    "For C>0 and A>0: finite iff n>1; n=1 has logarithmically divergent second moment.",
+    "scope": "Supplied fixed variational parameters, analytic Gaussian moments and
+    two numerical integration coordinate systems; no fitting or author implementation."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T233132Z-shared-spectrum-inference.json
+  accessed_at: '2026-10-12T23:31:44Z'
+  support: supports
+  summary: No normalized identity match across all 442 pinned AIO IDs, labels and
+    scoped synonyms and 552 maintained IDs, names and aliases. Ignored- and hidden-inclusive
+    fixed-string searches of the recovery, old discovery and original Documents checkouts
+    returned 2990, 5 and 105 lines. Of 507 distinct matching contents, all 416 project-content
+    strings, including nine full generated search strings, were read; 91 dependency-only
+    token matches were triaged by paths and surrounding snippets as unrelated language,
+    mathematical-function and color names. Assessed all 29 semantic AIO rows and 115
+    native names/definitions, seven complete annotated AIO nodes with incident edges/generated
+    YAML and six complete native context records. This descriptive local name denotes
+    Tan et al. Algorithm 1 for a shared Gaussian inverse-lengthscale vector, full
+    Gaussian coefficients and half-Cauchy-derived scale factors. It is a specified
+    spectral inference procedure beyond generic NCVMP, not Gal–Turner independent
+    spectral factors, the fixed-hyperparameter SSGP model, uncertain-test-input prediction,
+    or the separately curated query-local neighborhood wrapper. No new standard acronym
+    is asserted. The adaptive step controller remains separate pending work. Absence
+    is bounded to this pin and inspected corpus.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T23:31:44Z'
+  support: supports
+  summary: All 29 semantic AIO rows, 115 native definitions, seven complete AIO nodes/incident
+    edges/generated YAML and six complete native context records were assessed in
+    preparation. Their captured bytes still agree. Related regression mapping and
+    six explicit rejected mappings preserve abstraction levels.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/shared-spectrum-boundaries.py
+  accessed_at: '2026-10-12T23:31:44Z'
+  snapshot_sha256: 8f914154959c71f31a5aad7a45fcb75293713379876dc001cf9d7aeac589111c
+  support: supports
+  summary: Independent fixed-parameter quadratures check shared feature first/second
+    moments and two scale-normalizer coordinate systems. One Gaussian coefficient
+    coordinate, scalar source F1–F4 derivatives and predictive total-variance arithmetic
+    pass. Tail analysis supplies the n>1 noise-second-moment boundary. No fitting
+    loop, author implementation or source benchmark.
+- evidence_id: tan2015
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1306.1999v3
+  locator: Sections 2–5, Algorithm 1 and Appendices A–C, PDF pp. 3–8 and 18–20
+  accessed_at: '2026-10-12T22:01:48Z'
+  snapshot_sha256: 72feb4c72b26680c07c76b3f7632ef926b55384131cfa12456d29542ba03aad4
+  support: supports
+  summary: 'arXiv:1306.1999v3, revised 26 January 2015. All 21 rendered PDF pages
+    visually read: 20 numbered content pages plus a final graphic-only page, including
+    eleven figures, Table 1, references and Appendices A–C. The related journal article
+    appeared online 12 September 2015 and in Statistics and Computing 26:1243–1261
+    (2016), DOI 10.1007/s11222-015-9600-7. Mechanism locators refer to this inspected
+    preprint, not an uninspected journal PDF. All 21 pages read during preparation.
+    After input capture, visually reread PDF pp. 4–8 and 18–20 against the complete
+    record.'
+- evidence_id: wand2014
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf
+  locator: Section 4, Theorem 1 and Equation 7, PDF pp. 5–7 / printed pp. 1355–1357
+  accessed_at: '2026-10-12T22:35:40Z'
+  snapshot_sha256: e2938b069d803ecae4f41a409e29c53e7532b8b6f1e76498e0675735087b5ba1
+  support: supports
+  summary: JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including
+    Theorems 1–2, Algorithm 1, both figures, Appendices A–C and twenty references.
+    Printed page = PDF page + 1350. All 19 pages read during preparation; visually
+    reread PDF pp. 5–7 after current input capture, especially the explicit old-moment
+    evaluation in the display preceding Equation 7.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Shared uncertain inverse-lengthscale inference
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - identity
+  - tan2015
+  summary: Retain a distinct, descriptively named algorithm record.
+  details: Tan Algorithm 1 has fixed spectral draws transformed by a single full Gaussian
+    lambda factor, full coefficient covariance and inferred half-Cauchy scales. This
+    differs from Gal–Turner independent spectral factors, fixed-parameter SSGP, uncertain-input
+    prediction and the two-stage neighborhood wrapper. Generic NCVMP describes the
+    underlying update rule but not this model-specific factorization, analytic moments
+    and coordinate schedule. No unsupported standard acronym or upstream acceptance
+    is asserted.
+- assessment_id: mapping
+  area: grounding
+  topic: Algorithm-to-task mapping
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - mapping
+  - tan2015
+  summary: Related RegressionAnalysis mapping is direct and correctly typed.
+  details: The algorithm estimates a scalar-response relation. RegressionAnalysis
+    is a task-level relation, not equivalence or is-a. LinearRegression does not specify
+    the nonlinear original-input spectral model; BayesianNetwork/PGM and RandomEffectsModel
+    provide general context; KernelLayer and VariationalAutoEncoder do not identify
+    this inference algorithm. The pinned source revision/hash remain unchanged.
+- assessment_id: hierarchical-spectral-model
+  area: evidence
+  topic: hierarchical-spectral-model
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: For n scalar responses y_i at fixed inputs x_i in R^d and m fixed draws
+    s_r from N(0,I_d), define t_ir=s_r elementwise x_i and the 2m-column z_i(lambda)
+    containing all cos(t_ir^T*lambda) followed by all sin(t_ir^T*lambda). The n by
+    2m matrix Z has rows z_i^T. Use y|alpha,lambda,gamma~N(Z*alpha,gamma^2*I_n), alpha|sigma~N(0,(sigma^2/m)*I_2m),
+    lambda~N(mu0,Sigma0) with positive-definite Sigma0, and independent positive half-Cauchy
+    scales sigma,gamma with known positive scale parameters A_sigma,A_gamma. Each
+    half-Cauchy density is 2*A/(pi*(A^2+s^2)) for s>0. The signed vector lambda is
+    shared by every spectral feature; its magnitude is an inverse-lengthscale under
+    the displayed kernel convention. The spectral draws are held fixed during this
+    inference.
+- assessment_id: variational-family-objective
+  area: evidence
+  topic: variational-family-objective
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: Use q(alpha)q(lambda)q(sigma)q(gamma), with full Gaussian factors q(alpha)=N(mu_alpha,Sigma_alpha)
+    and q(lambda)=N(mu_lambda,Sigma_lambda). The scale factors have their unrestricted
+    coordinate-optimal forms stated below. Target L=E_q[log p(y,alpha,lambda,sigma,gamma)]-E_q[log
+    q], a lower bound on log p(y) when the posterior is proper, the evidence positive
+    and finite, and the expectations well-defined. Within-block covariances are retained,
+    while dependence between coefficients, shared inverse-lengthscales and scales
+    is omitted. This approximation does not separately factorize each transformed
+    spectral frequency.
+- assessment_id: shared-feature-moments
+  area: evidence
+  topic: shared-feature-moments
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: At current q(lambda)=N(mu,Sigma), define c(t)=exp(-t^T*Sigma*t/2)*cos(t^T*mu)
+    and s(t)=exp(-t^T*Sigma*t/2)*sin(t^T*mu). These give the feature first moments.
+    For any two feature arguments a,b, E[cos(a^T*lambda)cos(b^T*lambda)]=(c(a-b)+c(a+b))/2,
+    E[sin(a^T*lambda)sin(b^T*lambda)]=(c(a-b)-c(a+b))/2 and E[cos(a^T*lambda)sin(b^T*lambda)]=(s(a+b)+s(b-a))/2.
+    Consequently F=E[Z] and K=E[Z^T*Z]=sum_i E[z_i*z_i^T] are analytic. Different
+    spectral features generally have nonzero covariance because they depend on the
+    same uncertain vector; K cannot generally be replaced by F^T*F.
+- assessment_id: coefficient-coordinate
+  area: evidence
+  topic: coefficient-coordinate
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: With current F=E[Z], K=E[Z^T*Z], u=E[gamma^-2] and v=E[sigma^-2], the exact
+    Gaussian coefficient coordinate is Sigma_alpha=(u*K+m*v*I_2m)^-1 and mu_alpha=u*Sigma_alpha*F^T*y,
+    provided these moments are finite and positive. K is positive semidefinite, so
+    m*v>0 makes the displayed precision positive definite. The full covariance retains
+    correlations between the finite coefficients. This is optimal holding the other
+    variational factors fixed, not exact integration of the true coupled coefficient
+    and inverse-lengthscale posterior.
+- assessment_id: scale-coordinates
+  area: evidence
+  topic: scale-coordinates
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: Set M=mu_alpha*mu_alpha^T+Sigma_alpha, C_sigma=(m/2)*tr(M) and C_gamma=(y^T*y-2*y^T*F*mu_alpha+tr(M*K))/2.
+    The coordinate densities are q(sigma) proportional to sigma^(-2m)*exp(-C_sigma/sigma^2)/(A_sigma^2+sigma^2)
+    and q(gamma) proportional to gamma^(-n)*exp(-C_gamma/gamma^2)/(A_gamma^2+gamma^2),
+    on positive scales. For C,A>0, define J_k(C,A)=integral_0^infinity r^(-k)*exp(-C/r^2)/(A^2+r^2)
+    dr, finite for k>-1. Their inverse-square expectations are J_(2m+2)(C_sigma,A_sigma)/J_(2m)(C_sigma,A_sigma)
+    and J_(n+2)(C_gamma,A_gamma)/J_n(C_gamma,A_gamma). Substitution x=1/r relates
+    J_k to the paper’s H(k-2,C,A^2); normalizer evaluation uses one-dimensional integration.
+    Gaussian feature moments being analytic does not make every scale normalization
+    an elementary closed-form computation.
+- assessment_id: lambda-natural-proposal
+  area: evidence
+  topic: lambda-natural-proposal
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  - wand2014
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: Holding the other factors fixed, let S=E_q[log p(y,alpha,lambda,sigma,gamma)]
+    as a function of the current lambda-factor mean mu and covariance Sigma. Define
+    g=grad_mu S and the symmetric covariance derivative G by dS=g^T*dmu+tr(G^T*dSigma).
+    Evaluate both derivatives at the same old mu,Sigma. The unit NCVMP proposal is
+    Sigma_new=(-2*G)^-1 and mu_new=mu+Sigma_new*g, valid as a Gaussian factor only
+    if -2*G is positive definite. In the source Algorithm 1 cycle, this lambda proposal
+    precedes recomputing feature moments, the Gaussian coefficient coordinate, and
+    the two scale coordinates. Reevaluate the moments after accepted changes. The
+    lambda proposal is generally a fixed-point/natural-gradient step, not an exact
+    Gaussian-family coordinate maximizer; no bound-ascent or convergence guarantee
+    follows.
+- assessment_id: predictive-moments
+  area: evidence
+  topic: predictive-moments
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Supported under the stated factor-domain and source qualifications.
+  details: For a fixed query x_star, form the same 2m-column z_star(lambda), f_star=E[z_star]
+    and R_star=E[z_star*z_star^T]. Under the independent variational factors, the
+    future noisy-response mean is mu_alpha^T*f_star and its variance, when finite,
+    is E[gamma^2]+tr(Sigma_alpha*R_star)+mu_alpha^T*(R_star-f_star*f_star^T)*mu_alpha.
+    The latent-function variance omits E[gamma^2]. These are moments of the variational
+    predictive mixture, which is generally not Gaussian, and do not establish calibrated
+    intervals or an exact full-kernel GP posterior. For the proper C_gamma,A_gamma>0
+    scale density, E[gamma^2]=J_(n-2)/J_n is finite only for n>1; its n=1 tail yields
+    a logarithmically divergent second moment.
+- assessment_id: feature-dependence
+  area: consistency
+  topic: Shared feature dependence and matrix orientation
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Shared uncertainty and outer-product predictive moments are preserved.
+  details: The Gaussian characteristic function and product-to-sum identities give
+    the mixed cosine-sine block with s(a+b)+s(b-a). Its orientation agrees with the
+    source Appendix A after transposition. K is a sum of individual outer second moments,
+    not a product of first moments. A finite supplied example has nonzero shared cosine
+    covariance. The query vector is a column, so R_star=E[z_star z_star^T]; the source
+    printed inner product in the variance display is explicitly qualified. Prediction
+    follows total variance, retaining both coefficient and lambda uncertainty; no
+    Gaussian predictive density or calibration is asserted.
+- assessment_id: scale-boundaries
+  area: consistency
+  topic: Scale Jacobian and finite predictive variance
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - calculation
+  summary: Scale-coordinate powers, Jacobian and tail limits are correct.
+  details: The 2m-dimensional coefficient Gaussian produces sigma^(-2m), and n responses
+    produce gamma^(-n). The inverse-scale substitution gives J_k=H(k-2,C,A²), and
+    inverse-square moments use k+2. At infinity the scale density has power -(k+2);
+    with C,A>0 its normalizer is finite iff k>-1. Thus gamma squared is finite iff
+    n>1. The n=1 factor can remain proper while its second moment diverges. Independent
+    direct-scale and inverse-scale quadratures agree for finite supplied cases; tail
+    analysis, rather than a truncated numerical integral, establishes divergence.
+    Valid current scale moments make the coefficient precision positive definite.
+- assessment_id: proposal-domain
+  area: consistency
+  topic: Frozen derivatives and sequential schedule
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - tan2015
+  - wand2014
+  - calculation
+  summary: The lambda proposal is a qualified Gaussian natural step.
+  details: Both derivatives use the same old mean/covariance. Wand Theorem 1 and the
+    explicit old/new Equation 7 derivation resolve the ambiguous covariance evaluation
+    in Tan Appendix C. The new covariance multiplies the old mean derivative. Source
+    Algorithm 1 updates lambda, then coefficient moments/coordinate, then scales.
+    Positive-definite proposed precision is a domain requirement; the procedure is
+    neither exact Gaussian-coordinate optimization nor guaranteed ascent. The scalar
+    F1–F4 finite-difference check supports one supplied case only. Equation 12 applies
+    after scale coordinates; a stale-scale trial objective is not certified. Adaptive
+    Algorithm 2 remains separate unresolved work.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and historical source access
+  outcome: supported
+  target_ids:
+  - AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+  evidence_ids:
+  - identity
+  - mapping
+  - tan2015
+  - wand2014
+  - calculation
+  summary: All maintained fields and the exact report mirror are assessed; DRAFT remains.
+  details: Read ID/name/empty aliases, algorithm kind, definition and locators, identity
+    context, seven claims, both source identities/versions/access/SHA256, AIO snapshot
+    and mapping, six limitations and actual timestamps. No general performance claim
+    is included. Complete preprints do not imply full journal-PDF or implementation
+    inspection. The author publication-page search found no code link in its bounded
+    inspected entries, without an exhaustive absence claim. The scalar calculator
+    runs no fitting loop or source code. Separately read Castiglione material does
+    not support this record.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for this clean record.
+- The first vendored-check attempt failed because sandbox DNS access was unavailable.
+  Its log is retained locally; rerunning the same required check with authorized network
+  access passed.
+- Added one DRAFT algorithm, yielding 553 native and 442 unchanged generated records.
+  The 738-entry main frontier retains 484 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- All 21 preprint pages and all 19 pages of the supporting Wand paper were read. Journal
+  metadata does not establish inspection of the complete Tan journal PDF. Direct access
+  to the author’s publication page later succeeded, but the inspected sparse-spectrum
+  entry and home-page links yielded no code link; this is not an exhaustive code-absence
+  conclusion. No author code, model fitting loop, training or benchmark was run. Supplied-parameter
+  arithmetic checks feature moments, scale normalization, a Gaussian coordinate, one
+  scalar derivative example and predictive moments; DRAFT remains.
+- Adaptive source controller ambiguities remain pending; the base proposal uses an
+  explicitly justified old-moment evaluation convention, not a claim of matching an
+  unseen implementation.
+- Castiglione–Bernardi2025 v5 has now been read separately across all 41 pages, with
+  unresolved formula and implementation discrepancies retained in the next research
+  round. It does not support this spectral record. Other source leads remain incompletely
+  inspected or deduplicated.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit
+  approval after automatic review rejection; isolated recovery work only.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- gaussian-processes
+- variational-inference
+- self-review
+- discovery-ongoing
+```

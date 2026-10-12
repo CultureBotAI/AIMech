@@ -1,0 +1,205 @@
+id: AIMech:SharedInverseLengthscaleVariationalSparseSpectrumInference
+name: Shared inverse-lengthscale variational sparse-spectrum inference
+aliases: []
+concept_kind: algorithm
+definition: The Tan–Ong–Nott–Jasra sparse-spectrum regression inference procedure that alternates a Gaussian
+  nonconjugate variational proposal for a shared inverse-lengthscale vector with full Gaussian coefficient
+  and half-Cauchy-derived scale-coordinate updates.
+identity_notes: No normalized identity match across all 442 pinned AIO IDs, labels and scoped synonyms
+  and 552 maintained IDs, names and aliases. Ignored- and hidden-inclusive fixed-string searches of the
+  recovery, old discovery and original Documents checkouts returned 2990, 5 and 105 lines. Of 507 distinct
+  matching contents, all 416 project-content strings, including nine full generated search strings, were
+  read; 91 dependency-only token matches were triaged by paths and surrounding snippets as unrelated language,
+  mathematical-function and color names. Assessed all 29 semantic AIO rows and 115 native names/definitions,
+  seven complete annotated AIO nodes with incident edges/generated YAML and six complete native context
+  records. This descriptive local name denotes Tan et al. Algorithm 1 for a shared Gaussian inverse-lengthscale
+  vector, full Gaussian coefficients and half-Cauchy-derived scale factors. It is a specified spectral
+  inference procedure beyond generic NCVMP, not Gal–Turner independent spectral factors, the fixed-hyperparameter
+  SSGP model, uncertain-test-input prediction, or the separately curated query-local neighborhood wrapper.
+  No new standard acronym is asserted. The adaptive step controller remains separate pending work. Absence
+  is bounded to this pin and inspected corpus.
+definition_evidence:
+- source_id: tan2015
+  locator: Sections 2–3.1, Equations 4–11 and Algorithm 1, PDF pp. 3–6
+  relation: supports
+claims:
+- claim_id: hierarchical-spectral-model
+  kind: scope
+  statement: For n scalar responses y_i at fixed inputs x_i in R^d and m fixed draws s_r from N(0,I_d),
+    define t_ir=s_r elementwise x_i and the 2m-column z_i(lambda) containing all cos(t_ir^T*lambda) followed
+    by all sin(t_ir^T*lambda). The n by 2m matrix Z has rows z_i^T. Use y|alpha,lambda,gamma~N(Z*alpha,gamma^2*I_n),
+    alpha|sigma~N(0,(sigma^2/m)*I_2m), lambda~N(mu0,Sigma0) with positive-definite Sigma0, and independent
+    positive half-Cauchy scales sigma,gamma with known positive scale parameters A_sigma,A_gamma. Each
+    half-Cauchy density is 2*A/(pi*(A^2+s^2)) for s>0. The signed vector lambda is shared by every spectral
+    feature; its magnitude is an inverse-lengthscale under the displayed kernel convention. The spectral
+    draws are held fixed during this inference.
+  evidence:
+  - source_id: tan2015
+    locator: Section 2, Equations 1 and 4–5, PDF pp. 3–4; Section 5 spectral-draw conditioning, PDF p.
+      7
+    relation: supports
+- claim_id: variational-family-objective
+  kind: mechanism
+  statement: Use q(alpha)q(lambda)q(sigma)q(gamma), with full Gaussian factors q(alpha)=N(mu_alpha,Sigma_alpha)
+    and q(lambda)=N(mu_lambda,Sigma_lambda). The scale factors have their unrestricted coordinate-optimal
+    forms stated below. Target L=E_q[log p(y,alpha,lambda,sigma,gamma)]-E_q[log q], a lower bound on log
+    p(y) when the posterior is proper, the evidence positive and finite, and the expectations well-defined.
+    Within-block covariances are retained, while dependence between coefficients, shared inverse-lengthscales
+    and scales is omitted. This approximation does not separately factorize each transformed spectral
+    frequency.
+  evidence:
+  - source_id: tan2015
+    locator: Section 3, Equations 6–11, PDF pp. 4–5; Appendix B, PDF pp. 19–20
+    relation: supports
+- claim_id: shared-feature-moments
+  kind: mechanism
+  statement: At current q(lambda)=N(mu,Sigma), define c(t)=exp(-t^T*Sigma*t/2)*cos(t^T*mu) and s(t)=exp(-t^T*Sigma*t/2)*sin(t^T*mu).
+    These give the feature first moments. For any two feature arguments a,b, E[cos(a^T*lambda)cos(b^T*lambda)]=(c(a-b)+c(a+b))/2,
+    E[sin(a^T*lambda)sin(b^T*lambda)]=(c(a-b)-c(a+b))/2 and E[cos(a^T*lambda)sin(b^T*lambda)]=(s(a+b)+s(b-a))/2.
+    Consequently F=E[Z] and K=E[Z^T*Z]=sum_i E[z_i*z_i^T] are analytic. Different spectral features generally
+    have nonzero covariance because they depend on the same uncertain vector; K cannot generally be replaced
+    by F^T*F.
+  evidence:
+  - source_id: tan2015
+    locator: Appendix A, Lemma 1, Equations 17–20 and matrix moment blocks, PDF pp. 18–19
+    relation: supports
+- claim_id: coefficient-coordinate
+  kind: mechanism
+  statement: With current F=E[Z], K=E[Z^T*Z], u=E[gamma^-2] and v=E[sigma^-2], the exact Gaussian coefficient
+    coordinate is Sigma_alpha=(u*K+m*v*I_2m)^-1 and mu_alpha=u*Sigma_alpha*F^T*y, provided these moments
+    are finite and positive. K is positive semidefinite, so m*v>0 makes the displayed precision positive
+    definite. The full covariance retains correlations between the finite coefficients. This is optimal
+    holding the other variational factors fixed, not exact integration of the true coupled coefficient
+    and inverse-lengthscale posterior.
+  evidence:
+  - source_id: tan2015
+    locator: Section 3.1 and Algorithm 1 steps 3–4, PDF pp. 5–6; Appendix B, PDF p. 19
+    relation: supports
+- claim_id: scale-coordinates
+  kind: mechanism
+  statement: Set M=mu_alpha*mu_alpha^T+Sigma_alpha, C_sigma=(m/2)*tr(M) and C_gamma=(y^T*y-2*y^T*F*mu_alpha+tr(M*K))/2.
+    The coordinate densities are q(sigma) proportional to sigma^(-2m)*exp(-C_sigma/sigma^2)/(A_sigma^2+sigma^2)
+    and q(gamma) proportional to gamma^(-n)*exp(-C_gamma/gamma^2)/(A_gamma^2+gamma^2), on positive scales.
+    For C,A>0, define J_k(C,A)=integral_0^infinity r^(-k)*exp(-C/r^2)/(A^2+r^2) dr, finite for k>-1. Their
+    inverse-square expectations are J_(2m+2)(C_sigma,A_sigma)/J_(2m)(C_sigma,A_sigma) and J_(n+2)(C_gamma,A_gamma)/J_n(C_gamma,A_gamma).
+    Substitution x=1/r relates J_k to the paper’s H(k-2,C,A^2); normalizer evaluation uses one-dimensional
+    integration. Gaussian feature moments being analytic does not make every scale normalization an elementary
+    closed-form computation.
+  evidence:
+  - source_id: tan2015
+    locator: Section 3.1 scale densities and H integral, PDF p. 5; Algorithm 1 steps 5–6, PDF p. 6; Appendix
+      B, PDF pp. 19–20
+    relation: supports
+- claim_id: lambda-natural-proposal
+  kind: mechanism
+  statement: Holding the other factors fixed, let S=E_q[log p(y,alpha,lambda,sigma,gamma)] as a function
+    of the current lambda-factor mean mu and covariance Sigma. Define g=grad_mu S and the symmetric covariance
+    derivative G by dS=g^T*dmu+tr(G^T*dSigma). Evaluate both derivatives at the same old mu,Sigma. The
+    unit NCVMP proposal is Sigma_new=(-2*G)^-1 and mu_new=mu+Sigma_new*g, valid as a Gaussian factor only
+    if -2*G is positive definite. In the source Algorithm 1 cycle, this lambda proposal precedes recomputing
+    feature moments, the Gaussian coefficient coordinate, and the two scale coordinates. Reevaluate the
+    moments after accepted changes. The lambda proposal is generally a fixed-point/natural-gradient step,
+    not an exact Gaussian-family coordinate maximizer; no bound-ascent or convergence guarantee follows.
+  evidence:
+  - source_id: tan2015
+    locator: Section 3, Equations 8–10 and Algorithm 1, PDF pp. 5–6; Section 4 convergence discussion,
+      PDF p. 7; Appendix C, PDF p. 20
+    relation: supports
+  - source_id: wand2014
+    locator: Section 4, Theorem 1 and Equation 7, PDF pp. 5–7 / printed pp. 1355–1357; Appendix A, PDF
+      pp. 13–15 / printed pp. 1363–1365
+    relation: supports
+- claim_id: predictive-moments
+  kind: mechanism
+  statement: For a fixed query x_star, form the same 2m-column z_star(lambda), f_star=E[z_star] and R_star=E[z_star*z_star^T].
+    Under the independent variational factors, the future noisy-response mean is mu_alpha^T*f_star and
+    its variance, when finite, is E[gamma^2]+tr(Sigma_alpha*R_star)+mu_alpha^T*(R_star-f_star*f_star^T)*mu_alpha.
+    The latent-function variance omits E[gamma^2]. These are moments of the variational predictive mixture,
+    which is generally not Gaussian, and do not establish calibrated intervals or an exact full-kernel
+    GP posterior. For the proper C_gamma,A_gamma>0 scale density, E[gamma^2]=J_(n-2)/J_n is finite only
+    for n>1; its n=1 tail yields a logarithmically divergent second moment.
+  evidence:
+  - source_id: tan2015
+    locator: Section 5, Equation 15 and predictive-moment derivation, PDF pp. 7–8; scale density in Section
+      3.1, PDF p. 5
+    relation: supports
+evidence_sources:
+- source_id: tan2015
+  title: Variational inference for sparse spectrum Gaussian process regression
+  authors:
+  - Linda S. L. Tan
+  - Victor M. H. Ong
+  - David J. Nott
+  - Ajay Jasra
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1306.1999v3
+  persistent_id: https://arxiv.org/abs/1306.1999v3
+  version: 'arXiv:1306.1999v3, revised 26 January 2015. All 21 rendered PDF pages visually read: 20 numbered
+    content pages plus a final graphic-only page, including eleven figures, Table 1, references and Appendices
+    A–C. The related journal article appeared online 12 September 2015 and in Statistics and Computing
+    26:1243–1261 (2016), DOI 10.1007/s11222-015-9600-7. Mechanism locators refer to this inspected preprint,
+    not an uninspected journal PDF.'
+  access_level: full_text
+  accessed_at: '2026-10-12T22:01:48Z'
+  sha256: 72feb4c72b26680c07c76b3f7632ef926b55384131cfa12456d29542ba03aad4
+- source_id: wand2014
+  title: Fully Simplified Multivariate Normal Updates in Non-Conjugate Variational Message Passing
+  authors:
+  - Matt P. Wand
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf
+  persistent_id: https://www.jmlr.org/papers/v15/wand14a.html
+  version: JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including Theorems 1–2,
+    Algorithm 1, both figures, Appendices A–C and twenty references. Printed page = PDF page + 1350.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:35:40Z'
+  sha256: e2938b069d803ecae4f41a409e29c53e7532b8b6f1e76498e0675735087b5ba1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The procedure estimates a probabilistic input-to-scalar-response relation through a specified
+    finite spectral model and variational posterior. RegressionAnalysis denotes its task, not this shared-parameter
+    model, factorization or fitting algorithm; this is an algorithm-to-task relation without equivalence
+    or an is-a assertion.
+limitations:
+- This is the base shared-inverse-lengthscale spectral inference procedure. Mean-field restrictions can
+  underrepresent coefficient/spectral dependence, and initialization and local stationary structure can
+  affect the result. A finite mixture over uncertain inverse-lengthscales and scales is not automatically
+  one Gaussian process with the original squared-exponential kernel. No general posterior-accuracy, runtime
+  or model-selection superiority is asserted.
+- Proper Gaussian factors, finite current expectations and normalizable scale factors are required. The
+  n=1 scale density can be proper while its second moment diverges. The paper’s particular scale initialization
+  has positive C_gamma only for n>2 with positive response variance and positive C_sigma only for m>1
+  with positive response variance; it is not a universal initializer for all positive n,m.
+- The source’s Algorithm 1 covariance/mean lines are interpreted as one Gaussian natural-parameter proposal
+  with both derivatives evaluated at the old mean and covariance, as derived by the general NCVMP formula.
+  Appendix C has an inconsistent printed covariance evaluation point. Recomputing the mean derivative
+  after changing only the covariance would be a different update. The saved scalar F1–F4 check supports
+  this convention; no executable author implementation is certified.
+- Adaptive Algorithm 2 permits natural steps above one and introduces positive-definiteness and objective
+  checks. Its printed step-size initialization/index/reset control flow remains ambiguous, so it is not
+  asserted as a separately verified controller here. The simplified Equation 12 objective applies after
+  the scale-coordinate updates; it is not automatically valid for arbitrary trial lambda changes with
+  stale scale factors. A stopping tolerance is not a convergence proof.
+- The source calls lambda a lengthscale although its displayed squared-exponential exponent uses inverse-lengthscale
+  magnitudes. Its spectral-density covariance prose conflicts with the subsequent feature reparameterization.
+  Componentwise sign changes at fixed finite spectral draws do not generally leave the finite model unchanged.
+  The predictive display’s inner/outer feature transpose is resolved by the preceding squared-response
+  expectation and the declared column-vector dimensions; this record uses the outer moment R_star.
+- All 21 preprint pages and all 19 pages of the supporting Wand paper were read. Journal metadata does
+  not establish inspection of the complete Tan journal PDF. Direct access to the author’s publication
+  page later succeeded, but the inspected sparse-spectrum entry and home-page links yielded no code link;
+  this is not an exhaustive code-absence conclusion. No author code, model fitting loop, training or benchmark
+  was run. Supplied-parameter arithmetic checks feature moments, scale normalization, a Gaussian coordinate,
+  one scalar derivative example and predictive moments; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T23:31:32Z'
+  updated_at: '2026-10-12T23:31:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
