@@ -1,0 +1,134 @@
+name: Iterated Wiener Filter
+aliases:
+- IWF
+concept_kind: algorithm
+definition: An iterative MAP image-denoising algorithm that majorizes a fixed Product of Student-t log-potential
+  and alternates response-dependent precision updates with a Gaussian Wiener linear solve.
+identity_notes: This is the explicitly named inference procedure in Welling, Osindero and Hinton 2002,
+  not the PoT probability family, a one-pass Wiener filter, a learned denoising autoencoder or a training
+  algorithm for the filters. Its iterates estimate the latent clean observation under fixed model parameters.
+  It is separately represented from generic sparse coding already covered by AIO:SparseLearning. Four
+  candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 447
+  preceding native IDs, names and aliases. Sparse coding matches the exact synonym and definition of AIO:SparseLearning
+  and is reused; none of the three selected additions has a normalized identity match. Ignored/hidden
+  full-checkout searches returned 47 lines each in worktree and main, with identical matched-line sets
+  after merge. All 47 matched lines were read; they contain the existing sparse-coding class, its source/export
+  and prior discovery context. All 205 semantic label/synonym rows were read and verified unchanged. Twenty-four
+  annotated AIO nodes and outgoing edges comprise 23 unchanged prior readings and one new symmetry-network
+  inspection. Thirty-two contextual YAMLs comprise 31 unchanged prior readings and one fully read new
+  record, including eight native neighbors. Absence and no-match assessments are bounded to this snapshot
+  and inspected neighborhood.
+definition_evidence:
+- source_id: method-source
+  locator: Section 6, Equations 10-13, PDF pp. 6-7; Section 6.1, pp. 7-8
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning Sparse Topographic Representations with Products of Student-t Distributions
+  authors:
+  - Max Welling
+  - Simon Osindero
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2002/file/bb1662b7c5f22a0f905fd59e718ca05e-Paper.pdf
+  version: Official eight-page NIPS 2002 paper in Advances in Neural Information Processing Systems 15.
+    All pages visually read; no numeric printed page labels. Official metadata lists Welling, Osindero
+    and Hinton; the PDF groups Welling and Hinton under Toronto and Osindero under Gatsby.
+  persistent_id: https://papers.nips.cc/paper_files/paper/2002/hash/bb1662b7c5f22a0f905fd59e718ca05e-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-12T01:18:25Z'
+  sha256: a50d870450dc2632eab67e1989209b0819210e9e82b7307a8573e738185fed30
+claims:
+- claim_id: majorization-update
+  kind: mechanism
+  statement: For noisy y, positive-definite noise covariance Sigma, fixed filters J, positive exponents
+    alpha and nonnegative grouping weights W, minimize F(x)=0.5(y-x)^T Sigma^(-1)(y-x)+sum_i alpha_i log[1+0.5
+    sum_j W_ij(J_j^T x)^2]. Ungrouped factors use identity W. At the current x set gamma_i=[1+0.5 sum_j
+    W_ij(J_j^T x)^2]^(-1), form D=diag(W^T(alpha*gamma)), and solve [Sigma^(-1)+J D J^T]x_new=Sigma^(-1)y.
+    The bound log(t)<=gamma*t-log(gamma)-1 is tight at gamma=1/t; exact bound minimization therefore does
+    not increase the fixed objective. Sigma positive definite ensures the linear solve is unique even
+    if J is rank deficient. Interpreting F as a proper-prior MAP objective additionally requires the PoT
+    prior to normalize.
+  evidence:
+  - source_id: method-source
+    locator: Section 6, Equations 10-12, PDF pp. 6-7; curator majorization and positive-definiteness consequences
+    relation: supports
+- claim_id: optimization-boundaries
+  kind: limitation
+  statement: The log-potential makes the full objective generally nonconvex. Monotone exact updates do
+    not guarantee its global minimum, and MAP is not generally the squared-error-optimal posterior mean.
+    A scalar proper-prior calculation with alpha=10, noise variance 1 and y=8.5 reaches distinct strict
+    local minima from starting values 0 and 8.5, with objectives approximately 32.03555 and 32.08788.
+    The higher solution cannot be globally optimal. This is a curator counterexample to a universal optimization
+    guarantee, not a reported author experiment.
+  evidence:
+  - source_id: method-source
+    locator: Section 6, Equations 10-13, PDF pp. 6-7; curator finite calculation from the stated objective
+    relation: supports
+- claim_id: special-case-and-use
+  kind: scope
+  statement: In the source special case of square orthonormal filters, isotropic noise and identity grouping,
+    the stationary condition separates into scalar cubic equations. Other structured cases require their
+    own derivation. Multiple stationary roots require objective comparison; a root alone is not a global-optimum
+    certificate. The source applies the procedure to overlapping transformed image patches and averages
+    restored patches, using a complete set of filters learned on natural images. This patch-processing
+    and preprocessing context is part of the reported denoising experiment, not a definition of all Wiener
+    filters or evidence of general benchmark superiority.
+  evidence:
+  - source_id: method-source
+    locator: Equation 13 and Section 6.1, PDF pp. 7-8
+    relation: supports
+limitations:
+- The algorithm fixes filters, exponents and grouping weights while optimizing the clean observation.
+  It does not fit the prior, estimate a noise model automatically or sample posterior uncertainty.
+- Descent follows exact auxiliary updates and exact linear solves for the same fixed objective. Approximate
+  solves, changing parameters or a different noise model need separate analysis.
+- Nonconvexity allows initialization-dependent local minima. MAP and posterior-mean estimates optimize
+  different decision criteria; the source description of MAP as optimal is not an unconditional minimum-MSE
+  theorem.
+- The source reports a single displayed noisy-image comparison with known Gaussian noise, overlapping
+  patches and matched whitening/DC handling. It does not establish universal denoising gains or the proposed
+  future benefits of overcomplete/grouped priors.
+- No author software or empirical denoising experiment was run. Finite arithmetic checks verify mathematical
+  boundaries, not historical implementation correctness.
+aio_no_match:
+  search_scope: All 442 pinned AIO IDs, labels and scoped synonyms, 447 preceding maintained identities,
+    ignored/hidden full-checkout searches, 205 semantic label/synonym hits and 24 annotated AIO nodes
+    with outgoing edges; compare 32 contextual YAMLs including eight native neighbors.
+  rationale: The inspected pin supplies no suitable counterpart for this fixed-prior MAP optimization
+    algorithm. A broad model, task, preprocessing stage or architecture would conflate its inference scope;
+    incidental denoising overlap is insufficient for a mapping. This is bounded to the pinned snapshot
+    and inspected neighborhood.
+  examined_targets:
+  - target: AIO:Model
+    rejection_reason: The algorithm computes an estimate under a fixed probability model; it is not the
+      abstract model itself.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The procedure does not train filters or other prior parameters; it optimizes a clean
+      observation.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The target is a process intended to build methods that learn from data; this record
+      specifies a particular fixed-model inference algorithm.
+  - target: AIO:Preprocessing
+    rejection_reason: The algorithm can produce a restored image as its final output; it is not defined
+      as raw-data preparation before machine learning.
+  - target: AIO:ImagePreprocessingLayer
+    rejection_reason: The source does not specify a neural preprocessing layer.
+  - target: AIO:DenoisingAutoEncoder
+    rejection_reason: The method uses a fixed energy prior and iterative linear solves, not a trained
+      encoder-decoder reconstruction network.
+  - target: AIO:SparseLearning
+    rejection_reason: The target concerns learning sparse linear representations and their elements; IWF
+      instead infers clean observations under fixed filters.
+id: AIMech:IteratedWienerFilter
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:29:49Z'
+  updated_at: '2026-10-12T01:30:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
