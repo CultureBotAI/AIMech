@@ -1,0 +1,973 @@
+# Scientific self-review of probabilistic PCA, principal curves and Oja learning
+
+- Review: 20261012T023010Z-principal-component-methods
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T02:26:41Z
+- Finished UTC: 2026-10-12T02:30:10Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the PPCA Gaussian latent model, self-consistent principal-curve method and original Oja update. Preserve posterior shrinkage and rank limits, population versus sample-estimation guarantees, and finite-step versus mean-dynamics conditions. No actionable curation finding remains in the final three additions.
+
+## Scope And Provenance
+
+All fields of three source-defined principal-component methods.
+
+Selection: Exact maintained IDs ProbabilisticPCA, PrincipalCurves and OjaLearningRule; full selected cohort without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base 02e4e1fa038b99d89949f4d5b06bc48bb2e64ed1.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ProbabilisticPCA | data/curated/ProbabilisticPCA.yaml | maintained | Probabilistic Principal Component Analysis |
+| AIMech:PrincipalCurves | data/curated/PrincipalCurves.yaml | maintained | Principal Curves |
+| AIMech:OjaLearningRule | data/curated/OjaLearningRule.yaml | maintained | Oja Learning Rule |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 95.82s (0:01:35)<br>Checked 442 record(s); 0 failed.<br>Checked 460 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 134 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 131,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule | Command exited 0 with no output. |
+| Principal-component method boundaries | passed | True | AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule | {"ppca": {"noise_variance": 2.5, "posterior_variance": 0.2777777777777778, "posterior_mean_reconstruction_first_coordinate": 2.166666666666666, "orthogonal_reconstruction_first_coordinate": 3.0, "old_score": 7.984906649788001, "new_score": 7.133666072909762, "optimal_score": 7.02980604108453, "zero_loading_score": 7.621335122841447, "em_loading": 1.8000000000000003, "em_noise": 2.866666666666667, "tied_squared_loadings": [1.0, 0.0]}, "principal_curves": {"self_consistent_line_risks": {"first_axis": 1.0, "second_axis": 4.0}, "pca_line_counterexample_variances": [0.3333333333333333, 0.0988888888888889], "conditional_y_at_x_zero": -0.3333333333333333, "closed_curve_radius": 1.2533141373155001, "closed_curve_risk": 0.42920367320510344, "arc_smoothing_factor": 0.9003163161571061}, "oja": {"truncated_norm_squared": 1.04, "exact_normalized_norm_squared": 1.0000000000000002, "large_gain_scalar_update": -4.0, "centered_covariance": [1.0, 3.0], "uncentered_second_moment": [5.0, 3.0], "ode_ratio_at_half": 0.16734762011132237}, "scope": "Finite arithmetic and analytic moments only; no training, source code or empirical reproduction."} |
+
+## Scientific And Domain Assessments
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:ProbabilisticPCA.
+
+The single Gaussian observation model is distinct from ordinary PCA as a deterministic projection, diagonal-noise factor analysis, kernel PCA, discrete-latent GTM, generalized component analysis with categorical observations, and supervised PCA. Its eigensolution and EM procedure are fitting alternatives for the same model. Mixtures, missing-data fitting and hierarchical variants require their own scope. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths. All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records. Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs, including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings. The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+
+For latent dimension q&lt;d, let x~Normal(0,I_q) and t=Wx+mu+epsilon with independent epsilon~Normal(0,sigma^2 I_d), sigma^2&gt;0. Then t~Normal(mu,C), C=WW^T+sigma^2 I_d. The observed-data model is a normalized full-rank Gaussian; the low-rank loading contribution does not make the positive-noise density singular. Isotropic noise is a stronger restriction than the arbitrary diagonal noise of factor analysis. For sample covariance S=N^(-1)sum_n(t_n-mu)(t_n-mu)^T at the sample-mean mu, take its q leading eigenpairs U_q,Lambda_q. The likelihood solution has sigma^2 equal to the mean of the d-q discarded eigenvalues and W=U_q(Lambda_q-sigma^2 I)^(1/2)R for any orthogonal R. Rank(S)&gt;q ensures positive residual variance. Tied eigenvalues can make loading columns vanish: for spectrum (2,1,1) and q=2, sigma^2=1 and the effective loading rank is one. Neither the columns nor latent coordinates are uniquely identified. With M=W^T W+sigma^2 I, the latent posterior is Normal(M^(-1)W^T(t-mu),sigma^2 M^(-1)). Mapping its mean back through W generally shrinks the observation within the loading subspace; it is not the ordinary orthogonal PCA reconstruction. When W has full column rank, W(W^T W)^(-1)M times the posterior mean, plus mu, recovers the orthogonal projection. The zero-noise limit loses a nonsingular ambient density for q&lt;d. The E-step computes posterior first and second latent moments using the old W and noise variance. The M-step fits W by observation-latent cross-moments times the inverse summed latent second moment, then updates noise from the expected squared residual using the new W and old posterior moments. Exact well-defined EM makes likelihood nondecreasing, but a zero-loading initialization can remain stationary at an inferior isotropic solution. The existence of a principal-eigenspace maximum does not guarantee successful convergence from every initialization. Limitations: Latent dimension is a model choice. When residual eigenvalues all vanish, the formal noise estimate reaches the zero-variance boundary, outside the nonsingular positive-noise model. Latent rotations and covariance eigenvalue ties prevent unique axes without additional conventions. The conditional mean is a probabilistic latent summary, not automatic recovery of physical factors or minimum input-space reconstruction error. Isotropic Gaussian noise can be misspecified. Missing-at-random integration and mixtures of PPCA are extensions described in the paper; they are not properties of an arbitrary imputation scheme or aliases for this single Gaussian model. This record does not cover supervised PCA. All 12 primary pages were read. Finite arithmetic checks one exact EM step, posterior shrinkage, rotation/rank ambiguity and a stationary initialization. The Tobamovirus illustrations and author software were not reproduced.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:PrincipalCurves.
+
+Scoped to the Hastie-Stuetzle population self-consistency construction and its original finite-data projection/smoothing estimator. A principal curve is not merely any smooth regression fit, a principal-component eigenvector, a normalized generative density, a probabilistic principal curve, or a higher-dimensional principal surface. The population object and its smoothed sample estimate have different guarantees. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths. All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records. Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs, including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings. The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+
+For a distribution with density and finite second moments, the original definition uses a smooth unit-speed non-self-intersecting curve f over a closed interval, possibly unbounded, with finite length inside each finite ball. The projection index lambda_f(x) selects the largest parameter among nearest points. Self-consistency requires E[X&#124;lambda_f(X)=lambda]=f(lambda) almost everywhere. Closed curves such as circles require the extension discussed by the authors; they do not literally satisfy the original interval/injectivity definition. The original sample estimator alternates closest-point projection onto a polygonal curve with coordinatewise smoothing against the resulting arc-length indices. It usually starts from the first principal-component line. Locally weighted running-line smoothing with a neighborhood span approximates the population conditional mean; smoothing splines are an alternative. The paper does not prove convergence or per-step decrease of the sample distance criterion, and population conditional-mean updates can have endpoint discontinuities. Under the paper’s regularity and bounded smooth perturbation class, self-consistency is equivalent to stationarity of expected squared nearest-curve distance, not global optimality. A self-consistent straight line is a covariance principal-component line; the converse need not hold for arbitrary distributions. Ellipsoidal distributions can have multiple self-consistent eigenvector lines with different reconstruction risks. Thus the definition alone does not select a unique leading curve or guarantee minimum reconstruction error. A noisy generating curve need not be self-consistent for the distribution it generates. In the paper’s circular Gaussian-noise example, the population principal-circle radius is displaced outward, while averaging over a finite arc contracts the local mean. These model and smoothing biases are distinct and need not cancel. Repeated coordinatewise cross-validation inside the fitting loop can select progressively smaller spans and nearly interpolate the data. Limitations: The paper does not establish existence or uniqueness of principal curves for every density. Its thin-tube construction supplies distributions for a specified compact curve, not a general existence theorem. Smoothing strength, initialization, curve endpoints and periodic versus nonperiodic treatment affect estimates. Regularized spline objectives and higher-dimensional principal surfaces require additional assumptions; their existence or global convergence is not established here. A curve summary need not identify a causal latent path or generate a normalized probability density. Nearest-point projection is not the latent posterior of PPCA or GTM. All 16 PDF pages, including the cover, appendix and references, were read. Analytic moment calculations check scope boundaries; collider alignment, gold-assay bootstrap results and author implementations were not reproduced.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:OjaLearningRule.
+
+The original Oja rule updates one linear unit and targets a leading second-moment direction under its stated assumptions. It is distinct from exact normalized Hebbian learning, generic Hebbian learning, supervised perceptron fitting, multi-output Sanger learning, nonlinear Hebbian ICA and FastICA fixed-point updates. Biological motivation does not establish experimental biological implementation. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths. All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records. Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs, including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings. The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+
+For current input x, weights w, scalar output y=w^T x and positive gain eta, the truncated rule is w_new=w+eta*y*(x-y*w). Each synaptic increment uses its input, its weight and the common scalar output. The negative eta*y^2*w term regulates Hebbian growth. This drops second- and higher-order gain terms from explicit normalization of w+eta*y*x, and therefore does not preserve unit norm exactly at a finite step. When the current input is independent of current weights, averaging the truncated increment per unit gain gives Cw-(w^T Cw)w, where C=E[xx^T]. The associated mean differential equation has signed top unit eigenvectors as attracting equilibria when C has a positive simple largest eigenvalue and initialization has a nonzero component along its eigenvector. In eigenvector coordinates, ratios to the leading coordinate decay according to the eigenvalue gap. This is a mean-ODE result with explicit conditions. For zero-mean inputs, C is the covariance, and the leading learned response corresponds to the largest-variance principal component. Without centering, C includes the outer product of the mean and the rule targets maximum quadratic mean instead. Mean subtraction is not part of the displayed update. The paper analyzes a single neuron and does not derive a full multi-component PCA network or independent-component separator. The source invokes stochastic-approximation results with suitable input regularity and a decreasing gain, such as a gain proportional to inverse time; it does not spell out a complete general stochastic convergence theorem. A small fixed gain is discussed as an approximation to mean dynamics, not a guarantee of exact almost-sure convergence. Zero or mean-ODE orthogonal starts and repeated leading eigenvalues require separate treatment. Large discrete gains can increase weight magnitude instead of controlling it. Limitations: The PCA interpretation requires centered finite-second-moment inputs and the relevant stationary/input assumptions. Correlation across time, changing distributions and dependence between current input and weights need a justified analysis. The first-order discrete rule is not exact normalization. Step size and initialization matter; the mean-ODE theorem does not establish global stability of every finite-gain implementation. With a repeated largest eigenvalue there is no unique principal direction, and sign is intrinsically ambiguous. A single unit yields one direction rather than an ordered orthogonal basis. All seven source pages were read. Finite arithmetic and analytic mean-flow checks were performed; no neuron training, historical simulation or biological experiment was reproduced.
+
+### Latent model, posterior reconstruction and loading degeneracy
+
+consistency: supported. Targets: AIMech:ProbabilisticPCA.
+
+Retain the Gaussian model with its isotropic noise and rank conditions.
+
+The source and finite covariance example distinguish a full-rank positive-noise density from its low-rank loading contribution. Posterior-mean reconstruction shrinks and is not ordinary orthogonal PCA projection. The correction requires full column rank. The source spectrum (2,1,1) yields a zero second loading, and rotations do not uniquely identify latent axes. A zero-noise limit is a singular ambient density, not a claim that degenerate distributions cannot exist.
+
+### Old and new parameters in exact EM
+
+consistency: supported. Targets: AIMech:ProbabilisticPCA.
+
+Retain a conditional likelihood-ascent statement.
+
+The finite update uses old posterior moments, new loading coefficients and the correct old/new product in the compact variance update; the two variance formulas agree and likelihood increases. An inferior zero-loading solution stays fixed, so the eigensolution does not imply success from every EM initialization. This calculation is not empirical reproduction or a full optimizer convergence proof.
+
+### Population self-consistency versus a sample smoothing algorithm
+
+consistency: supported. Targets: AIMech:PrincipalCurves.
+
+Retain mathematical-method scope and distinct estimation guarantees.
+
+The smooth nonintersecting interval curve and tie-broken projection define the original object. Closed circles require the stated extension. Stationarity does not select a unique optimum; Gaussian eigenvector lines can have risks 1 and 4. Conversely a leading PCA line in a continuous nonlinear-conditional-mean example fails self-consistency on a positive-probability interval. The sample smoothing iteration has neither proved global convergence nor guaranteed per-step sample-distance reduction in this source.
+
+### Generating-path and smoothing bias
+
+consistency: supported. Targets: AIMech:PrincipalCurves.
+
+Preserve distinct bias mechanisms and tuning limitations.
+
+A noisy generating curve need not be the distribution principal curve. Circle-radius inflation and finite-arc averaging contraction are different effects; their possible cancellation is not general unbiasedness. Repeated coordinatewise cross-validation can undersmooth. Principal surfaces, regularized splines, probabilistic curves and ordinary dependent-variable regression are distinct scopes.
+
+### Discrete updates, per-unit-gain drift and leading-direction conditions
+
+consistency: supported. Targets: AIMech:OjaLearningRule.
+
+Retain the original single-output learning rule with explicit assumptions.
+
+The final claim gives the mean increment per unit gain, preserving eta in the actual update. The truncated rule has squared norm 1.04 in the finite example, while exact normalized Hebbian learning has unit norm. Large gain can grow weight magnitude. The mean ODE result requires a positive simple largest eigenvalue and nonzero leading projection; zero and orthogonal starts illustrate its boundary. A nonzero input mean can reverse the leading second-moment direction relative to covariance PCA. Stochastic convergence needs the separate input and gain assumptions invoked by the source.
+
+### Primary source versions and abstraction levels
+
+grounding: supported. Targets: AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule.
+
+Retain distinct identities and scoped historical evidence.
+
+All 35 PDF pages were visually read, including scans, appendix proofs and the principal-curves cover. PPCA model/task, principal-curves method/task and Oja algorithm/task relations avoid forced identities with PCA, networks, preprocessing and regression. Historical Tobamovirus, collider, assay and biological motivations are not new benchmark results. Supervised PCA remains unresolved in its existing cohort.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:ProbabilisticPCA, AIMech:PrincipalCurves, AIMech:OjaLearningRule. An isotropic Gaussian latent density, a self-consistent geometric summary and a single-neuron learning update have distinct defining objects and operations. Model/task, mathematical-method/task and algorithm/task mappings preserve abstraction.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T022547Z-principal-component-methods.json | supports | Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths. All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records. Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs, including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings. The identity and mapping assessment is bounded to this snapshot and maintained corpus. |
+| mapping | sources/aio/aio.json; 19 annotated CLASS nodes and outgoing edges; all 219 semantic label/synonym rows | supports | PPCA maps broadly to Model and related to PrincipalComponentAnalysis: a normalized isotropic Gaussian latent law is distinct from a task-scoped deterministic projection. Principal curves map related to ManifoldLearning while retaining the mathematical-method/task distinction and observation noise. Oja learning maps related to PCA and UnsupervisedLearning; its single scalar neuron update is not supervised Perceptron fitting, a network architecture, data Normalization or preprocessing-defined TrainingStrategy. RepresentationLearning and AutoEncoderNetwork have network scope; PPCA, principal curves and the Oja rule do not require those architectures. RegressionAnalysis and LinearRegression designate response/predictor tasks, unlike the symmetric curve summary. PGM and GLM do not give an exact candidate identity; Model is a sufficient justified broader target for PPCA. KernelPCA, GTM, FastICA, GCA, EM, GPR, NMF, LLE and Isomap provide neighboring mechanisms without renewed scientific approval. |
+| neighbors | research/discovery/20261012T022547Z-principal-component-methods.json; Nine native neighbors and 19 generated contextual YAMLs in source_analysis.context_reading | supports | Twenty-eight contextual YAMLs comprise 25 unchanged prior readings and three current complete rereadings. Kernel PCA, GTM, FastICA, GCA, EM, GPR, NMF, LLE and Isomap distinguish probability laws, summaries, estimators and geometric objectives. Contextual records receive no renewed scientific approval. |
+| finite-boundaries | research/discovery/principal-component-boundaries.py; PPCA posterior, EM and loading rank; curve self-consistency and distance risks; Oja norm, centering and mean-flow boundaries | supports | PPCA finite covariance arithmetic checks posterior shrinkage (3 to 13/6), a valid exact EM improvement, an inferior stationary zero-loading fit, sign invariance and a tied-eigenvalue rank reduction. Analytic Gaussian moments give self-consistent lines with risks 1 and 4. A continuous two-dimensional example has a leading PCA line whose conditional mean leaves that line on a positive-probability interval. Closed-curve Gaussian radius and arc-smoothing moments are explicitly scoped to the closed-curve extension. One Oja update has squared norm 1.04 while exact normalized Hebbian learning has unit norm; a large scalar gain grows magnitude. Uncentered moments reverse the leading axis in a finite example, and analytic mean flow checks the eigengap ratio and stationary starts. These are curator arithmetic, not empirical training, author software or a general convergence proof. |
+| probabilisticpca-source-0 | https://www.cs.columbia.edu/~blei/seminar/2020-representation/readings/TippingBishop1999.pdf; Appendix B, Equations 25-31, printed pp. 621-622 / PDF pp. 11-12; Appendix A stationary-point analysis, pp. 619-620 / PDF pp. 9-10; curator zero-loading example; Equations 6 and 9 and Section 3.4, printed pp. 614-615 / PDF pp. 4-5; curator finite shrinkage and rank qualification; Sections 2.1 and 3.1, Equations 1-5, printed pp. 612 and 614 / PDF pp. 2 and 4; Sections 3.1-3.2, Equations 2-8, printed pp. 614-615 / PDF pp. 4-5; Sections 3.2-3.3, Equations 7-8, printed pp. 614-615 / PDF pp. 4-5; Appendix A, Equations 10-21 and equal-eigenvalue example, pp. 618-621 / PDF pp. 8-11 | supports | Probabilistic principal component analysis. Columbia-hosted copy of the final Journal of the Royal Statistical Society B 61(3):611-622 (1999) article. All 12 PDF pages visually read; printed page equals PDF page plus 610. Later online-publication metadata are not the article year. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| principalcurves-source-0 | https://web.stanford.edu/~hastie/Papers/principalcurves.pdf; Section 2, Equation 3 and Definition 1, printed pp. 504-505 / PDF pp. 4-5; Appendix opening, p. 514 / PDF p. 14; Section 2.2, Definition 1 and Equation 3, printed p. 504 / PDF p. 4; Section 3, Propositions 1-4, printed pp. 505-506 / PDF pp. 5-6; Appendix proof, pp. 514-516 / PDF pp. 14-16; curator analytic Gaussian-line and nonlinear conditional-mean examples; Sections 4-5.3, printed pp. 506-507 / PDF pp. 6-7; Section 5.5, p. 509 / PDF p. 9; Sections 5.4-6, Figure 7 and Equation 8, printed pp. 508-510 / PDF pp. 8-10 | supports | Principal Curves. Author-hosted JSTOR scan of Journal of the American Statistical Association 84(406):502-516 (June 1989), reached through the Stanford URL redirecting to hastie.su.domains. All 16 PDF pages visually read. Page 1 is a download cover; pages 2-16 correspond to printed pages 502-516. The cover access date is not the publication date. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| ojalearningrule-source-0 | https://users.ics.aalto.fi/oja/Oja1982.pdf; Equations 1-6, printed pp. 267-269 / PDF pp. 1-3; Section 4, Equations 11-15, pp. 271-272 / PDF pp. 5-6; curator finite-norm example; Section 3, Equations 7-8 and theorem, printed pp. 269-270 / PDF pp. 3-4; curator positive-eigenvalue qualification; Section 3, printed p. 270 / PDF p. 4; Section 5, p. 272 / PDF p. 6; Section 3, printed pp. 269-270 / PDF pp. 3-4; curator stationary-direction, finite-norm and large-gain examples; Sections 1-2, Equations 1-3, printed pp. 267-268 / PDF pp. 1-2 | supports | A Simplified Neuron Model as a Principal Component Analyzer. Author-hosted scan of Journal of Mathematical Biology 15:267-273 (1982). All seven PDF pages visually read; printed page equals PDF page plus 266. The title and journal metadata are visible on the first page. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- All 35 PDF pages were visually read: PPCA12, principal curves16 including the JSTOR cover, and Oja7. The two scans were inspected from page renders; empty extracted text was not treated as absent evidence.
+- URLs, redirects, actual UTC access times, versions and byte hashes are retained. Search capture does not imply inspection of every returned link. Full papers are not redistributed by this change.
+- PPCA posterior reconstruction, latent rotation, rank and zero-noise limits are explicit. Its eigenvalue solution does not guarantee every EM initialization reaches the optimum.
+- Principal-curve self-consistency and stationary-distance results are distinguished from sample smoothing, general existence, uniqueness and convergence. Closed curves require the source extension.
+- Oja learning distinguishes exact normalization, truncated finite steps and mean differential equations. Centering, gain schedules, initialization, input assumptions and eigenvalue multiplicity qualify PCA and convergence statements.
+- No empirical training, historical benchmark, source implementation or biological experiment was run. Finite arithmetic checks bounded claims only.
+- Three DRAFT additions and eleven new provisional cohorts leave 371 pending leads and other unresolved dispositions, including supervised PCA. No saturation is claimed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T023010Z-principal-component-methods
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of probabilistic PCA, principal curves and Oja learning
+started_at: '2026-10-12T02:26:41Z'
+finished_at: '2026-10-12T02:30:10Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read all fields of three final
+    maintained records against 35 complete primary PDF pages, 19 annotated AIO nodes
+    and nine native neighbors. Finite arithmetic checks posterior reconstruction,
+    fitting, curve stationarity and learning dynamics. This is author self-review;
+    no independent approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the PPCA Gaussian latent model, self-consistent principal-curve method
+  and original Oja update. Preserve posterior shrinkage and rank limits, population
+  versus sample-estimation guarantees, and finite-step versus mean-dynamics conditions.
+  No actionable curation finding remains in the final three additions.
+source:
+  git_revision: 02e4e1fa038b99d89949f4d5b06bc48bb2e64ed1
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AutoEncoderNetwork.yaml
+    sha256: 7a5eb5c54dab03959ca7a19c03a4c4ece161b05618255294e61df174bcaa4521
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/KohonenNetwork.yaml
+    sha256: 88932d6b90c0faf268d66f33a580130ec1bcc637650bd05b03c0e24e6714067b
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/ManifoldLearning.yaml
+    sha256: eb8e1a854af3e8f920c76d1ea4618406edd1693b4e5d99511ab057a2bf56ddea
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Normalization.yaml
+    sha256: ecdbd41476b6125c670855f1f00090047acd61f5ee16d71384f6b9ed86bea2bb
+    role: context
+  - path: data/aio/Perceptron.yaml
+    sha256: 6b1cc7cb96bfe03ed8720cca04490657976eea656fab6674d7ef685c34216915
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/FastICA.yaml
+    sha256: 33f9d6ae1f77a527f66cee5fc6d02ec733660ef7066a186fcdde6f6838f32806
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/GeneralizedComponentAnalysis.yaml
+    sha256: 79ab7923284423c0f542c77deff5f0ce3de898c795d16e930340380b9046a8ff
+    role: context
+  - path: data/curated/GenerativeTopographicMapping.yaml
+    sha256: e91185614eb30867e91a235bbfb97cec1caf03aead662ecee161d2e2780207be
+    role: context
+  - path: data/curated/Isomap.yaml
+    sha256: 34e60f41e9f1c8d94cc1b8c869e216e35b409e791291552a4477061c16de46b7
+    role: context
+  - path: data/curated/KernelPCA.yaml
+    sha256: a93227a6b2d6b2b89b679b8f7f9ddd5054741d1c11f9510490d82a3e691a1cab
+    role: context
+  - path: data/curated/LocallyLinearEmbedding.yaml
+    sha256: 621f5e3eb78c5d7ae59dbdc639ed778e52e1845e63e9dbff1922d02220e8e55d
+    role: context
+  - path: data/curated/NonnegativeMatrixFactorization.yaml
+    sha256: 3b79c0f7568f3cdc86f5779be7e9c3e2341c547682223e214a6b94031016df7b
+    role: context
+  - path: data/curated/OjaLearningRule.yaml
+    sha256: 696cfbf57755c3e552e5b96cc6bc4a0a818b06ae4bea2649f5ceefb5100e7e07
+    role: target
+  - path: data/curated/PrincipalCurves.yaml
+    sha256: a7f353c3f7ce56162190145a0a5e28f9f3ec4de6b4e4c912410d1fba63b5740b
+    role: target
+  - path: data/curated/ProbabilisticPCA.yaml
+    sha256: 393a9dafbc77ca21442c597c8fcd67957698d2dd32d9175ef0ac7f006f1248b5
+    role: target
+  - path: research/discovery/20261012T022547Z-principal-component-methods.json
+    sha256: 93fc26a4de9e99805fdbcb2199b7b6e1974ee1adda409d3f0a53f3bb5d752363
+    role: context
+  - path: research/discovery/principal-component-boundaries.py
+    sha256: 5eb2a77ef13b8cb56ca52c06a4ca3209d9ebe5ccfdf225155db129d6360066eb
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ProbabilisticPCA
+  path: data/curated/ProbabilisticPCA.yaml
+  label: Probabilistic Principal Component Analysis
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ProbabilisticPCA.yaml
+    role: maintained
+- target_id: AIMech:PrincipalCurves
+  path: data/curated/PrincipalCurves.yaml
+  label: Principal Curves
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PrincipalCurves.yaml
+    role: maintained
+- target_id: AIMech:OjaLearningRule
+  path: data/curated/OjaLearningRule.yaml
+  label: Oja Learning Rule
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OjaLearningRule.yaml
+    role: maintained
+scope:
+  description: All fields of three source-defined principal-component methods.
+  selection: Exact maintained IDs ProbabilisticPCA, PrincipalCurves and OjaLearningRule;
+    full selected cohort without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exclusions:
+  - target: Contextual AIO and maintained records
+    reason: Context informs identity and abstraction boundaries without renewed scientific
+      approval or mutation.
+  - target: Historical implementations and empirical reproduction
+    reason: No source software, empirical training, biological experiment or benchmark
+      ran. Curator arithmetic checks bounded mathematical claims only.
+  - target: Remaining discovery frontier
+    reason: Eleven new provisional cohorts and 371 pending leads remain, alongside
+      other unresolved dispositions including supervised PCA. The three named core
+      identities are represented, not the whole literature.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 95.82s (0:01:35)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 460 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 134 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 131,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Principal-component method boundaries
+  command: python3 research/discovery/principal-component-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"ppca": {"noise_variance": 2.5, "posterior_variance": 0.2777777777777778,
+    "posterior_mean_reconstruction_first_coordinate": 2.166666666666666, "orthogonal_reconstruction_first_coordinate":
+    3.0, "old_score": 7.984906649788001, "new_score": 7.133666072909762, "optimal_score":
+    7.02980604108453, "zero_loading_score": 7.621335122841447, "em_loading": 1.8000000000000003,
+    "em_noise": 2.866666666666667, "tied_squared_loadings": [1.0, 0.0]}, "principal_curves":
+    {"self_consistent_line_risks": {"first_axis": 1.0, "second_axis": 4.0}, "pca_line_counterexample_variances":
+    [0.3333333333333333, 0.0988888888888889], "conditional_y_at_x_zero": -0.3333333333333333,
+    "closed_curve_radius": 1.2533141373155001, "closed_curve_risk": 0.42920367320510344,
+    "arc_smoothing_factor": 0.9003163161571061}, "oja": {"truncated_norm_squared":
+    1.04, "exact_normalized_norm_squared": 1.0000000000000002, "large_gain_scalar_update":
+    -4.0, "centered_covariance": [1.0, 3.0], "uncentered_second_moment": [5.0, 3.0],
+    "ode_ratio_at_half": 0.16734762011132237}, "scope": "Finite arithmetic and analytic
+    moments only; no training, source code or empirical reproduction."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T022547Z-principal-component-methods.json
+  accessed_at: '2026-10-12T02:26:41Z'
+  support: supports
+  summary: Three candidate identities were compared against all 442 pinned AIO IDs,
+    labels and scoped synonyms and 457 preceding native IDs, names and aliases, with
+    no normalized collision. Full searches of both checkouts included ignored and
+    hidden files and returned the same 32 matching excerpts across nine paths. All
+    excerpts were read; frontier leads and neighboring-model comparisons are not duplicate
+    records. Historical ledgers were not reread in full solely because an excerpt
+    matched. All 219 semantic-search rows were read, including six additional adaptive-pooling
+    rows. Nineteen annotated AIO nodes and their outgoing edges were byte-verified
+    against previous complete readings. Twenty-eight contextual YAMLs, including nine
+    native neighbors, comprise 25 unchanged prior readings and three complete current
+    readings. The identity and mapping assessment is bounded to this snapshot and
+    maintained corpus.
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison; short acronyms were omitted
+    from broad substring searches to avoid irrelevant matches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 19 annotated CLASS nodes and outgoing edges; all 219 semantic label/synonym
+    rows
+  accessed_at: '2026-10-12T02:26:41Z'
+  support: supports
+  summary: 'PPCA maps broadly to Model and related to PrincipalComponentAnalysis:
+    a normalized isotropic Gaussian latent law is distinct from a task-scoped deterministic
+    projection. Principal curves map related to ManifoldLearning while retaining the
+    mathematical-method/task distinction and observation noise. Oja learning maps
+    related to PCA and UnsupervisedLearning; its single scalar neuron update is not
+    supervised Perceptron fitting, a network architecture, data Normalization or preprocessing-defined
+    TrainingStrategy. RepresentationLearning and AutoEncoderNetwork have network scope;
+    PPCA, principal curves and the Oja rule do not require those architectures. RegressionAnalysis
+    and LinearRegression designate response/predictor tasks, unlike the symmetric
+    curve summary. PGM and GLM do not give an exact candidate identity; Model is a
+    sufficient justified broader target for PPCA. KernelPCA, GTM, FastICA, GCA, EM,
+    GPR, NMF, LLE and Isomap provide neighboring mechanisms without renewed scientific
+    approval.'
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T022547Z-principal-component-methods.json
+  locator: Nine native neighbors and 19 generated contextual YAMLs in source_analysis.context_reading
+  accessed_at: '2026-10-12T02:26:41Z'
+  support: supports
+  summary: Twenty-eight contextual YAMLs comprise 25 unchanged prior readings and
+    three current complete rereadings. Kernel PCA, GTM, FastICA, GCA, EM, GPR, NMF,
+    LLE and Isomap distinguish probability laws, summaries, estimators and geometric
+    objectives. Contextual records receive no renewed scientific approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/principal-component-boundaries.py
+  locator: PPCA posterior, EM and loading rank; curve self-consistency and distance
+    risks; Oja norm, centering and mean-flow boundaries
+  accessed_at: '2026-10-12T02:26:41Z'
+  snapshot_sha256: 5eb2a77ef13b8cb56ca52c06a4ca3209d9ebe5ccfdf225155db129d6360066eb
+  support: supports
+  summary: PPCA finite covariance arithmetic checks posterior shrinkage (3 to 13/6),
+    a valid exact EM improvement, an inferior stationary zero-loading fit, sign invariance
+    and a tied-eigenvalue rank reduction. Analytic Gaussian moments give self-consistent
+    lines with risks 1 and 4. A continuous two-dimensional example has a leading PCA
+    line whose conditional mean leaves that line on a positive-probability interval.
+    Closed-curve Gaussian radius and arc-smoothing moments are explicitly scoped to
+    the closed-curve extension. One Oja update has squared norm 1.04 while exact normalized
+    Hebbian learning has unit norm; a large scalar gain grows magnitude. Uncentered
+    moments reverse the leading axis in a finite example, and analytic mean flow checks
+    the eigengap ratio and stationary starts. These are curator arithmetic, not empirical
+    training, author software or a general convergence proof.
+- evidence_id: probabilisticpca-source-0
+  kind: primary_source
+  reference: https://www.cs.columbia.edu/~blei/seminar/2020-representation/readings/TippingBishop1999.pdf
+  locator: Appendix B, Equations 25-31, printed pp. 621-622 / PDF pp. 11-12; Appendix
+    A stationary-point analysis, pp. 619-620 / PDF pp. 9-10; curator zero-loading
+    example; Equations 6 and 9 and Section 3.4, printed pp. 614-615 / PDF pp. 4-5;
+    curator finite shrinkage and rank qualification; Sections 2.1 and 3.1, Equations
+    1-5, printed pp. 612 and 614 / PDF pp. 2 and 4; Sections 3.1-3.2, Equations 2-8,
+    printed pp. 614-615 / PDF pp. 4-5; Sections 3.2-3.3, Equations 7-8, printed pp.
+    614-615 / PDF pp. 4-5; Appendix A, Equations 10-21 and equal-eigenvalue example,
+    pp. 618-621 / PDF pp. 8-11
+  accessed_at: '2026-10-12T02:10:25Z'
+  snapshot_sha256: aad631f0287404072c11a89934c38e2b5a643047a59c337e4e8c767127c5f5a8
+  support: supports
+  summary: Probabilistic principal component analysis. Columbia-hosted copy of the
+    final Journal of the Royal Statistical Society B 61(3):611-622 (1999) article.
+    All 12 PDF pages visually read; printed page equals PDF page plus 610. Later online-publication
+    metadata are not the article year. Curator algebraic deductions are distinguished
+    from historical empirical results or uninspected software.
+- evidence_id: principalcurves-source-0
+  kind: primary_source
+  reference: https://web.stanford.edu/~hastie/Papers/principalcurves.pdf
+  locator: Section 2, Equation 3 and Definition 1, printed pp. 504-505 / PDF pp. 4-5;
+    Appendix opening, p. 514 / PDF p. 14; Section 2.2, Definition 1 and Equation 3,
+    printed p. 504 / PDF p. 4; Section 3, Propositions 1-4, printed pp. 505-506 /
+    PDF pp. 5-6; Appendix proof, pp. 514-516 / PDF pp. 14-16; curator analytic Gaussian-line
+    and nonlinear conditional-mean examples; Sections 4-5.3, printed pp. 506-507 /
+    PDF pp. 6-7; Section 5.5, p. 509 / PDF p. 9; Sections 5.4-6, Figure 7 and Equation
+    8, printed pp. 508-510 / PDF pp. 8-10
+  accessed_at: '2026-10-12T02:10:27Z'
+  snapshot_sha256: 595b594949a27c24c5b570ad6fbd0d9b9f3f7c92de077d14d04315deba17f9aa
+  support: supports
+  summary: Principal Curves. Author-hosted JSTOR scan of Journal of the American Statistical
+    Association 84(406):502-516 (June 1989), reached through the Stanford URL redirecting
+    to hastie.su.domains. All 16 PDF pages visually read. Page 1 is a download cover;
+    pages 2-16 correspond to printed pages 502-516. The cover access date is not the
+    publication date. Curator algebraic deductions are distinguished from historical
+    empirical results or uninspected software.
+- evidence_id: ojalearningrule-source-0
+  kind: primary_source
+  reference: https://users.ics.aalto.fi/oja/Oja1982.pdf
+  locator: Equations 1-6, printed pp. 267-269 / PDF pp. 1-3; Section 4, Equations
+    11-15, pp. 271-272 / PDF pp. 5-6; curator finite-norm example; Section 3, Equations
+    7-8 and theorem, printed pp. 269-270 / PDF pp. 3-4; curator positive-eigenvalue
+    qualification; Section 3, printed p. 270 / PDF p. 4; Section 5, p. 272 / PDF p.
+    6; Section 3, printed pp. 269-270 / PDF pp. 3-4; curator stationary-direction,
+    finite-norm and large-gain examples; Sections 1-2, Equations 1-3, printed pp.
+    267-268 / PDF pp. 1-2
+  accessed_at: '2026-10-12T02:10:36Z'
+  snapshot_sha256: 62d65254c01ab62f9b32441a8d2d93655c07042d3516f839bc718262f280eb4d
+  support: supports
+  summary: A Simplified Neuron Model as a Principal Component Analyzer. Author-hosted
+    scan of Journal of Mathematical Biology 15:267-273 (1982). All seven PDF pages
+    visually read; printed page equals PDF page plus 266. The title and journal metadata
+    are visible on the first page. Curator algebraic deductions are distinguished
+    from historical empirical results or uninspected software.
+assessments:
+- assessment_id: probabilisticpca
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - probabilisticpca-source-0
+  summary: The single Gaussian observation model is distinct from ordinary PCA as
+    a deterministic projection, diagonal-noise factor analysis, kernel PCA, discrete-latent
+    GTM, generalized component analysis with categorical observations, and supervised
+    PCA. Its eigensolution and EM procedure are fitting alternatives for the same
+    model. Mixtures, missing-data fitting and hierarchical variants require their
+    own scope. Three candidate identities were compared against all 442 pinned AIO
+    IDs, labels and scoped synonyms and 457 preceding native IDs, names and aliases,
+    with no normalized collision. Full searches of both checkouts included ignored
+    and hidden files and returned the same 32 matching excerpts across nine paths.
+    All excerpts were read; frontier leads and neighboring-model comparisons are not
+    duplicate records. Historical ledgers were not reread in full solely because an
+    excerpt matched. All 219 semantic-search rows were read, including six additional
+    adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were
+    byte-verified against previous complete readings. Twenty-eight contextual YAMLs,
+    including nine native neighbors, comprise 25 unchanged prior readings and three
+    complete current readings. The identity and mapping assessment is bounded to this
+    snapshot and maintained corpus.
+  details: 'For latent dimension q<d, let x~Normal(0,I_q) and t=Wx+mu+epsilon with
+    independent epsilon~Normal(0,sigma^2 I_d), sigma^2>0. Then t~Normal(mu,C), C=WW^T+sigma^2
+    I_d. The observed-data model is a normalized full-rank Gaussian; the low-rank
+    loading contribution does not make the positive-noise density singular. Isotropic
+    noise is a stronger restriction than the arbitrary diagonal noise of factor analysis.
+    For sample covariance S=N^(-1)sum_n(t_n-mu)(t_n-mu)^T at the sample-mean mu, take
+    its q leading eigenpairs U_q,Lambda_q. The likelihood solution has sigma^2 equal
+    to the mean of the d-q discarded eigenvalues and W=U_q(Lambda_q-sigma^2 I)^(1/2)R
+    for any orthogonal R. Rank(S)>q ensures positive residual variance. Tied eigenvalues
+    can make loading columns vanish: for spectrum (2,1,1) and q=2, sigma^2=1 and the
+    effective loading rank is one. Neither the columns nor latent coordinates are
+    uniquely identified. With M=W^T W+sigma^2 I, the latent posterior is Normal(M^(-1)W^T(t-mu),sigma^2
+    M^(-1)). Mapping its mean back through W generally shrinks the observation within
+    the loading subspace; it is not the ordinary orthogonal PCA reconstruction. When
+    W has full column rank, W(W^T W)^(-1)M times the posterior mean, plus mu, recovers
+    the orthogonal projection. The zero-noise limit loses a nonsingular ambient density
+    for q<d. The E-step computes posterior first and second latent moments using the
+    old W and noise variance. The M-step fits W by observation-latent cross-moments
+    times the inverse summed latent second moment, then updates noise from the expected
+    squared residual using the new W and old posterior moments. Exact well-defined
+    EM makes likelihood nondecreasing, but a zero-loading initialization can remain
+    stationary at an inferior isotropic solution. The existence of a principal-eigenspace
+    maximum does not guarantee successful convergence from every initialization. Limitations:
+    Latent dimension is a model choice. When residual eigenvalues all vanish, the
+    formal noise estimate reaches the zero-variance boundary, outside the nonsingular
+    positive-noise model. Latent rotations and covariance eigenvalue ties prevent
+    unique axes without additional conventions. The conditional mean is a probabilistic
+    latent summary, not automatic recovery of physical factors or minimum input-space
+    reconstruction error. Isotropic Gaussian noise can be misspecified. Missing-at-random
+    integration and mixtures of PPCA are extensions described in the paper; they are
+    not properties of an arbitrary imputation scheme or aliases for this single Gaussian
+    model. This record does not cover supervised PCA. All 12 primary pages were read.
+    Finite arithmetic checks one exact EM step, posterior shrinkage, rotation/rank
+    ambiguity and a stationary initialization. The Tobamovirus illustrations and author
+    software were not reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: model_family
+    definition: A source-defined latent model, geometric summary method or learning
+      update; not a trained instance.
+    evidence_ids:
+    - probabilisticpca-source-0
+  - name: aio-assessment
+    value: broad_match,related_match
+    definition: 'PPCA maps broadly to Model and related to PrincipalComponentAnalysis:
+      a normalized isotropic Gaussian latent law is distinct from a task-scoped deterministic
+      projection. Principal curves map related to ManifoldLearning while retaining
+      the mathematical-method/task distinction and observation noise. Oja learning
+      maps related to PCA and UnsupervisedLearning; its single scalar neuron update
+      is not supervised Perceptron fitting, a network architecture, data Normalization
+      or preprocessing-defined TrainingStrategy. RepresentationLearning and AutoEncoderNetwork
+      have network scope; PPCA, principal curves and the Oja rule do not require those
+      architectures. RegressionAnalysis and LinearRegression designate response/predictor
+      tasks, unlike the symmetric curve summary. PGM and GLM do not give an exact
+      candidate identity; Model is a sufficient justified broader target for PPCA.
+      KernelPCA, GTM, FastICA, GCA, EM, GPR, NMF, LLE and Isomap provide neighboring
+      mechanisms without renewed scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: principalcurves
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:PrincipalCurves
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - principalcurves-source-0
+  summary: Scoped to the Hastie-Stuetzle population self-consistency construction
+    and its original finite-data projection/smoothing estimator. A principal curve
+    is not merely any smooth regression fit, a principal-component eigenvector, a
+    normalized generative density, a probabilistic principal curve, or a higher-dimensional
+    principal surface. The population object and its smoothed sample estimate have
+    different guarantees. Three candidate identities were compared against all 442
+    pinned AIO IDs, labels and scoped synonyms and 457 preceding native IDs, names
+    and aliases, with no normalized collision. Full searches of both checkouts included
+    ignored and hidden files and returned the same 32 matching excerpts across nine
+    paths. All excerpts were read; frontier leads and neighboring-model comparisons
+    are not duplicate records. Historical ledgers were not reread in full solely because
+    an excerpt matched. All 219 semantic-search rows were read, including six additional
+    adaptive-pooling rows. Nineteen annotated AIO nodes and their outgoing edges were
+    byte-verified against previous complete readings. Twenty-eight contextual YAMLs,
+    including nine native neighbors, comprise 25 unchanged prior readings and three
+    complete current readings. The identity and mapping assessment is bounded to this
+    snapshot and maintained corpus.
+  details: 'For a distribution with density and finite second moments, the original
+    definition uses a smooth unit-speed non-self-intersecting curve f over a closed
+    interval, possibly unbounded, with finite length inside each finite ball. The
+    projection index lambda_f(x) selects the largest parameter among nearest points.
+    Self-consistency requires E[X|lambda_f(X)=lambda]=f(lambda) almost everywhere.
+    Closed curves such as circles require the extension discussed by the authors;
+    they do not literally satisfy the original interval/injectivity definition. The
+    original sample estimator alternates closest-point projection onto a polygonal
+    curve with coordinatewise smoothing against the resulting arc-length indices.
+    It usually starts from the first principal-component line. Locally weighted running-line
+    smoothing with a neighborhood span approximates the population conditional mean;
+    smoothing splines are an alternative. The paper does not prove convergence or
+    per-step decrease of the sample distance criterion, and population conditional-mean
+    updates can have endpoint discontinuities. Under the paper’s regularity and bounded
+    smooth perturbation class, self-consistency is equivalent to stationarity of expected
+    squared nearest-curve distance, not global optimality. A self-consistent straight
+    line is a covariance principal-component line; the converse need not hold for
+    arbitrary distributions. Ellipsoidal distributions can have multiple self-consistent
+    eigenvector lines with different reconstruction risks. Thus the definition alone
+    does not select a unique leading curve or guarantee minimum reconstruction error.
+    A noisy generating curve need not be self-consistent for the distribution it generates.
+    In the paper’s circular Gaussian-noise example, the population principal-circle
+    radius is displaced outward, while averaging over a finite arc contracts the local
+    mean. These model and smoothing biases are distinct and need not cancel. Repeated
+    coordinatewise cross-validation inside the fitting loop can select progressively
+    smaller spans and nearly interpolate the data. Limitations: The paper does not
+    establish existence or uniqueness of principal curves for every density. Its thin-tube
+    construction supplies distributions for a specified compact curve, not a general
+    existence theorem. Smoothing strength, initialization, curve endpoints and periodic
+    versus nonperiodic treatment affect estimates. Regularized spline objectives and
+    higher-dimensional principal surfaces require additional assumptions; their existence
+    or global convergence is not established here. A curve summary need not identify
+    a causal latent path or generate a normalized probability density. Nearest-point
+    projection is not the latent posterior of PPCA or GTM. All 16 PDF pages, including
+    the cover, appendix and references, were read. Analytic moment calculations check
+    scope boundaries; collider alignment, gold-assay bootstrap results and author
+    implementations were not reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: mathematical_method
+    definition: A source-defined latent model, geometric summary method or learning
+      update; not a trained instance.
+    evidence_ids:
+    - principalcurves-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'PPCA maps broadly to Model and related to PrincipalComponentAnalysis:
+      a normalized isotropic Gaussian latent law is distinct from a task-scoped deterministic
+      projection. Principal curves map related to ManifoldLearning while retaining
+      the mathematical-method/task distinction and observation noise. Oja learning
+      maps related to PCA and UnsupervisedLearning; its single scalar neuron update
+      is not supervised Perceptron fitting, a network architecture, data Normalization
+      or preprocessing-defined TrainingStrategy. RepresentationLearning and AutoEncoderNetwork
+      have network scope; PPCA, principal curves and the Oja rule do not require those
+      architectures. RegressionAnalysis and LinearRegression designate response/predictor
+      tasks, unlike the symmetric curve summary. PGM and GLM do not give an exact
+      candidate identity; Model is a sufficient justified broader target for PPCA.
+      KernelPCA, GTM, FastICA, GCA, EM, GPR, NMF, LLE and Isomap provide neighboring
+      mechanisms without renewed scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: ojalearningrule
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:OjaLearningRule
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - ojalearningrule-source-0
+  summary: The original Oja rule updates one linear unit and targets a leading second-moment
+    direction under its stated assumptions. It is distinct from exact normalized Hebbian
+    learning, generic Hebbian learning, supervised perceptron fitting, multi-output
+    Sanger learning, nonlinear Hebbian ICA and FastICA fixed-point updates. Biological
+    motivation does not establish experimental biological implementation. Three candidate
+    identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms
+    and 457 preceding native IDs, names and aliases, with no normalized collision.
+    Full searches of both checkouts included ignored and hidden files and returned
+    the same 32 matching excerpts across nine paths. All excerpts were read; frontier
+    leads and neighboring-model comparisons are not duplicate records. Historical
+    ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search
+    rows were read, including six additional adaptive-pooling rows. Nineteen annotated
+    AIO nodes and their outgoing edges were byte-verified against previous complete
+    readings. Twenty-eight contextual YAMLs, including nine native neighbors, comprise
+    25 unchanged prior readings and three complete current readings. The identity
+    and mapping assessment is bounded to this snapshot and maintained corpus.
+  details: 'For current input x, weights w, scalar output y=w^T x and positive gain
+    eta, the truncated rule is w_new=w+eta*y*(x-y*w). Each synaptic increment uses
+    its input, its weight and the common scalar output. The negative eta*y^2*w term
+    regulates Hebbian growth. This drops second- and higher-order gain terms from
+    explicit normalization of w+eta*y*x, and therefore does not preserve unit norm
+    exactly at a finite step. When the current input is independent of current weights,
+    averaging the truncated increment per unit gain gives Cw-(w^T Cw)w, where C=E[xx^T].
+    The associated mean differential equation has signed top unit eigenvectors as
+    attracting equilibria when C has a positive simple largest eigenvalue and initialization
+    has a nonzero component along its eigenvector. In eigenvector coordinates, ratios
+    to the leading coordinate decay according to the eigenvalue gap. This is a mean-ODE
+    result with explicit conditions. For zero-mean inputs, C is the covariance, and
+    the leading learned response corresponds to the largest-variance principal component.
+    Without centering, C includes the outer product of the mean and the rule targets
+    maximum quadratic mean instead. Mean subtraction is not part of the displayed
+    update. The paper analyzes a single neuron and does not derive a full multi-component
+    PCA network or independent-component separator. The source invokes stochastic-approximation
+    results with suitable input regularity and a decreasing gain, such as a gain proportional
+    to inverse time; it does not spell out a complete general stochastic convergence
+    theorem. A small fixed gain is discussed as an approximation to mean dynamics,
+    not a guarantee of exact almost-sure convergence. Zero or mean-ODE orthogonal
+    starts and repeated leading eigenvalues require separate treatment. Large discrete
+    gains can increase weight magnitude instead of controlling it. Limitations: The
+    PCA interpretation requires centered finite-second-moment inputs and the relevant
+    stationary/input assumptions. Correlation across time, changing distributions
+    and dependence between current input and weights need a justified analysis. The
+    first-order discrete rule is not exact normalization. Step size and initialization
+    matter; the mean-ODE theorem does not establish global stability of every finite-gain
+    implementation. With a repeated largest eigenvalue there is no unique principal
+    direction, and sign is intrinsically ambiguous. A single unit yields one direction
+    rather than an ordered orthogonal basis. All seven source pages were read. Finite
+    arithmetic and analytic mean-flow checks were performed; no neuron training, historical
+    simulation or biological experiment was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A source-defined latent model, geometric summary method or learning
+      update; not a trained instance.
+    evidence_ids:
+    - ojalearningrule-source-0
+  - name: aio-assessment
+    value: related_match,related_match
+    definition: 'PPCA maps broadly to Model and related to PrincipalComponentAnalysis:
+      a normalized isotropic Gaussian latent law is distinct from a task-scoped deterministic
+      projection. Principal curves map related to ManifoldLearning while retaining
+      the mathematical-method/task distinction and observation noise. Oja learning
+      maps related to PCA and UnsupervisedLearning; its single scalar neuron update
+      is not supervised Perceptron fitting, a network architecture, data Normalization
+      or preprocessing-defined TrainingStrategy. RepresentationLearning and AutoEncoderNetwork
+      have network scope; PPCA, principal curves and the Oja rule do not require those
+      architectures. RegressionAnalysis and LinearRegression designate response/predictor
+      tasks, unlike the symmetric curve summary. PGM and GLM do not give an exact
+      candidate identity; Model is a sufficient justified broader target for PPCA.
+      KernelPCA, GTM, FastICA, GCA, EM, GPR, NMF, LLE and Isomap provide neighboring
+      mechanisms without renewed scientific approval.'
+    evidence_ids:
+    - mapping
+- assessment_id: ppca-posterior-and-rank
+  area: consistency
+  topic: Latent model, posterior reconstruction and loading degeneracy
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  evidence_ids:
+  - probabilisticpca-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the Gaussian model with its isotropic noise and rank conditions.
+  details: The source and finite covariance example distinguish a full-rank positive-noise
+    density from its low-rank loading contribution. Posterior-mean reconstruction
+    shrinks and is not ordinary orthogonal PCA projection. The correction requires
+    full column rank. The source spectrum (2,1,1) yields a zero second loading, and
+    rotations do not uniquely identify latent axes. A zero-noise limit is a singular
+    ambient density, not a claim that degenerate distributions cannot exist.
+- assessment_id: ppca-em
+  area: consistency
+  topic: Old and new parameters in exact EM
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  evidence_ids:
+  - probabilisticpca-source-0
+  - finite-boundaries
+  summary: Retain a conditional likelihood-ascent statement.
+  details: The finite update uses old posterior moments, new loading coefficients
+    and the correct old/new product in the compact variance update; the two variance
+    formulas agree and likelihood increases. An inferior zero-loading solution stays
+    fixed, so the eigensolution does not imply success from every EM initialization.
+    This calculation is not empirical reproduction or a full optimizer convergence
+    proof.
+- assessment_id: curves-definition-and-estimator
+  area: consistency
+  topic: Population self-consistency versus a sample smoothing algorithm
+  outcome: supported
+  target_ids:
+  - AIMech:PrincipalCurves
+  evidence_ids:
+  - principalcurves-source-0
+  - finite-boundaries
+  - mapping
+  summary: Retain mathematical-method scope and distinct estimation guarantees.
+  details: The smooth nonintersecting interval curve and tie-broken projection define
+    the original object. Closed circles require the stated extension. Stationarity
+    does not select a unique optimum; Gaussian eigenvector lines can have risks 1
+    and 4. Conversely a leading PCA line in a continuous nonlinear-conditional-mean
+    example fails self-consistency on a positive-probability interval. The sample
+    smoothing iteration has neither proved global convergence nor guaranteed per-step
+    sample-distance reduction in this source.
+- assessment_id: curves-bias
+  area: consistency
+  topic: Generating-path and smoothing bias
+  outcome: supported
+  target_ids:
+  - AIMech:PrincipalCurves
+  evidence_ids:
+  - principalcurves-source-0
+  - finite-boundaries
+  summary: Preserve distinct bias mechanisms and tuning limitations.
+  details: A noisy generating curve need not be the distribution principal curve.
+    Circle-radius inflation and finite-arc averaging contraction are different effects;
+    their possible cancellation is not general unbiasedness. Repeated coordinatewise
+    cross-validation can undersmooth. Principal surfaces, regularized splines, probabilistic
+    curves and ordinary dependent-variable regression are distinct scopes.
+- assessment_id: oja-dynamics
+  area: consistency
+  topic: Discrete updates, per-unit-gain drift and leading-direction conditions
+  outcome: supported
+  target_ids:
+  - AIMech:OjaLearningRule
+  evidence_ids:
+  - ojalearningrule-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain the original single-output learning rule with explicit assumptions.
+  details: The final claim gives the mean increment per unit gain, preserving eta
+    in the actual update. The truncated rule has squared norm 1.04 in the finite example,
+    while exact normalized Hebbian learning has unit norm. Large gain can grow weight
+    magnitude. The mean ODE result requires a positive simple largest eigenvalue and
+    nonzero leading projection; zero and orthogonal starts illustrate its boundary.
+    A nonzero input mean can reverse the leading second-moment direction relative
+    to covariance PCA. Stochastic convergence needs the separate input and gain assumptions
+    invoked by the source.
+- assessment_id: source-and-mapping-scope
+  area: grounding
+  topic: Primary source versions and abstraction levels
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - probabilisticpca-source-0
+  - principalcurves-source-0
+  - ojalearningrule-source-0
+  summary: Retain distinct identities and scoped historical evidence.
+  details: All 35 PDF pages were visually read, including scans, appendix proofs and
+    the principal-curves cover. PPCA model/task, principal-curves method/task and
+    Oja algorithm/task relations avoid forced identities with PCA, networks, preprocessing
+    and regression. Historical Tobamovirus, collider, assay and biological motivations
+    are not new benchmark results. Supervised PCA remains unresolved in its existing
+    cohort.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:ProbabilisticPCA
+  - AIMech:PrincipalCurves
+  - AIMech:OjaLearningRule
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - probabilisticpca-source-0
+  - principalcurves-source-0
+  - ojalearningrule-source-0
+  rationale: An isotropic Gaussian latent density, a self-consistent geometric summary
+    and a single-neuron learning update have distinct defining objects and operations.
+    Model/task, mathematical-method/task and algorithm/task mappings preserve abstraction.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- 'All 35 PDF pages were visually read: PPCA12, principal curves16 including the JSTOR
+  cover, and Oja7. The two scans were inspected from page renders; empty extracted
+  text was not treated as absent evidence.'
+- URLs, redirects, actual UTC access times, versions and byte hashes are retained.
+  Search capture does not imply inspection of every returned link. Full papers are
+  not redistributed by this change.
+- PPCA posterior reconstruction, latent rotation, rank and zero-noise limits are explicit.
+  Its eigenvalue solution does not guarantee every EM initialization reaches the optimum.
+- Principal-curve self-consistency and stationary-distance results are distinguished
+  from sample smoothing, general existence, uniqueness and convergence. Closed curves
+  require the source extension.
+- Oja learning distinguishes exact normalization, truncated finite steps and mean
+  differential equations. Centering, gain schedules, initialization, input assumptions
+  and eigenvalue multiplicity qualify PCA and convergence statements.
+- No empirical training, historical benchmark, source implementation or biological
+  experiment was run. Finite arithmetic checks bounded claims only.
+- Three DRAFT additions and eleven new provisional cohorts leave 371 pending leads
+  and other unresolved dispositions, including supervised PCA. No saturation is claimed.
+links: []
+tags:
+- native-concepts
+- principal-component-methods
+- self-review
+- discovery-ongoing
+```

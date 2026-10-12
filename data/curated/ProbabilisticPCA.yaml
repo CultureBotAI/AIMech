@@ -1,0 +1,121 @@
+name: Probabilistic Principal Component Analysis
+aliases:
+- PPCA
+concept_kind: model_family
+definition: A linear Gaussian latent-variable model with a standard-normal latent prior and isotropic
+  observation noise, whose maximum-likelihood loading subspace corresponds to leading principal components
+  under the stated covariance-rank conditions.
+identity_notes: The single Gaussian observation model is distinct from ordinary PCA as a deterministic
+  projection, diagonal-noise factor analysis, kernel PCA, discrete-latent GTM, generalized component analysis
+  with categorical observations, and supervised PCA. Its eigensolution and EM procedure are fitting alternatives
+  for the same model. Mixtures, missing-data fitting and hierarchical variants require their own scope.
+  Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms
+  and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both
+  checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths.
+  All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records.
+  Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search
+  rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their
+  outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs,
+  including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings.
+  The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1-3.2, Equations 2-8, printed pp. 614-615 / PDF pp. 4-5
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Probabilistic principal component analysis
+  authors:
+  - Michael E. Tipping
+  - Christopher M. Bishop
+  source_type: primary_paper
+  url: https://www.cs.columbia.edu/~blei/seminar/2020-representation/readings/TippingBishop1999.pdf
+  version: Columbia-hosted copy of the final Journal of the Royal Statistical Society B 61(3):611-622
+    (1999) article. All 12 PDF pages visually read; printed page equals PDF page plus 610. Later online-publication
+    metadata are not the article year.
+  persistent_id: https://www.cs.columbia.edu/~blei/seminar/2020-representation/readings/TippingBishop1999.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T02:10:25Z'
+  sha256: aad631f0287404072c11a89934c38e2b5a643047a59c337e4e8c767127c5f5a8
+claims:
+- claim_id: latent-density
+  kind: mechanism
+  statement: For latent dimension q<d, let x~Normal(0,I_q) and t=Wx+mu+epsilon with independent epsilon~Normal(0,sigma^2
+    I_d), sigma^2>0. Then t~Normal(mu,C), C=WW^T+sigma^2 I_d. The observed-data model is a normalized
+    full-rank Gaussian; the low-rank loading contribution does not make the positive-noise density singular.
+    Isotropic noise is a stronger restriction than the arbitrary diagonal noise of factor analysis.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1 and 3.1, Equations 1-5, printed pp. 612 and 614 / PDF pp. 2 and 4
+    relation: supports
+- claim_id: likelihood-eigensolution
+  kind: mechanism
+  statement: 'For sample covariance S=N^(-1)sum_n(t_n-mu)(t_n-mu)^T at the sample-mean mu, take its q
+    leading eigenpairs U_q,Lambda_q. The likelihood solution has sigma^2 equal to the mean of the d-q
+    discarded eigenvalues and W=U_q(Lambda_q-sigma^2 I)^(1/2)R for any orthogonal R. Rank(S)>q ensures
+    positive residual variance. Tied eigenvalues can make loading columns vanish: for spectrum (2,1,1)
+    and q=2, sigma^2=1 and the effective loading rank is one. Neither the columns nor latent coordinates
+    are uniquely identified.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2-3.3, Equations 7-8, printed pp. 614-615 / PDF pp. 4-5; Appendix A, Equations
+      10-21 and equal-eigenvalue example, pp. 618-621 / PDF pp. 8-11
+    relation: supports
+- claim_id: posterior-reconstruction
+  kind: mechanism
+  statement: With M=W^T W+sigma^2 I, the latent posterior is Normal(M^(-1)W^T(t-mu),sigma^2 M^(-1)). Mapping
+    its mean back through W generally shrinks the observation within the loading subspace; it is not the
+    ordinary orthogonal PCA reconstruction. When W has full column rank, W(W^T W)^(-1)M times the posterior
+    mean, plus mu, recovers the orthogonal projection. The zero-noise limit loses a nonsingular ambient
+    density for q<d.
+  evidence:
+  - source_id: method-source
+    locator: Equations 6 and 9 and Section 3.4, printed pp. 614-615 / PDF pp. 4-5; curator finite shrinkage
+      and rank qualification
+    relation: supports
+- claim_id: em-fitting
+  kind: mechanism
+  statement: The E-step computes posterior first and second latent moments using the old W and noise variance.
+    The M-step fits W by observation-latent cross-moments times the inverse summed latent second moment,
+    then updates noise from the expected squared residual using the new W and old posterior moments. Exact
+    well-defined EM makes likelihood nondecreasing, but a zero-loading initialization can remain stationary
+    at an inferior isotropic solution. The existence of a principal-eigenspace maximum does not guarantee
+    successful convergence from every initialization.
+  evidence:
+  - source_id: method-source
+    locator: Appendix B, Equations 25-31, printed pp. 621-622 / PDF pp. 11-12; Appendix A stationary-point
+      analysis, pp. 619-620 / PDF pp. 9-10; curator zero-loading example
+    relation: supports
+limitations:
+- Latent dimension is a model choice. When residual eigenvalues all vanish, the formal noise estimate
+  reaches the zero-variance boundary, outside the nonsingular positive-noise model. Latent rotations and
+  covariance eigenvalue ties prevent unique axes without additional conventions.
+- The conditional mean is a probabilistic latent summary, not automatic recovery of physical factors or
+  minimum input-space reconstruction error. Isotropic Gaussian noise can be misspecified.
+- Missing-at-random integration and mixtures of PPCA are extensions described in the paper; they are not
+  properties of an arbitrary imputation scheme or aliases for this single Gaussian model. This record
+  does not cover supervised PCA.
+- All 12 primary pages were read. Finite arithmetic checks one exact EM step, posterior shrinkage, rotation/rank
+  ambiguity and a stationary initialization. The Tobamovirus illustrations and author software were not
+  reproduced.
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: PPCA is a specific mathematical probability model within the pinned Model class.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: Its likelihood eigensolution spans a principal subspace, but the normalized latent model,
+    posterior uncertainty and shrinkage differ from the task-scoped PCA record. This relation preserves
+    the model/task distinction.
+id: AIMech:ProbabilisticPCA
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:24:31Z'
+  updated_at: '2026-10-12T02:24:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

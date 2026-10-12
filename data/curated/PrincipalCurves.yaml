@@ -1,0 +1,119 @@
+name: Principal Curves
+aliases:
+- Hastie–Stuetzle Principal Curves
+concept_kind: mathematical_method
+definition: 'A nonlinear statistical summary defined by a smooth curve that is self-consistent for a data
+  distribution: almost every point on the curve equals the conditional mean of observations whose nearest-point
+  projection lands there.'
+identity_notes: Scoped to the Hastie-Stuetzle population self-consistency construction and its original
+  finite-data projection/smoothing estimator. A principal curve is not merely any smooth regression fit,
+  a principal-component eigenvector, a normalized generative density, a probabilistic principal curve,
+  or a higher-dimensional principal surface. The population object and its smoothed sample estimate have
+  different guarantees. Three candidate identities were compared against all 442 pinned AIO IDs, labels
+  and scoped synonyms and 457 preceding native IDs, names and aliases, with no normalized collision. Full
+  searches of both checkouts included ignored and hidden files and returned the same 32 matching excerpts
+  across nine paths. All excerpts were read; frontier leads and neighboring-model comparisons are not
+  duplicate records. Historical ledgers were not reread in full solely because an excerpt matched. All
+  219 semantic-search rows were read, including six additional adaptive-pooling rows. Nineteen annotated
+  AIO nodes and their outgoing edges were byte-verified against previous complete readings. Twenty-eight
+  contextual YAMLs, including nine native neighbors, comprise 25 unchanged prior readings and three complete
+  current readings. The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.2, Definition 1 and Equation 3, printed p. 504 / PDF p. 4
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Principal Curves
+  authors:
+  - Trevor Hastie
+  - Werner Stuetzle
+  source_type: primary_paper
+  url: https://web.stanford.edu/~hastie/Papers/principalcurves.pdf
+  version: Author-hosted JSTOR scan of Journal of the American Statistical Association 84(406):502-516
+    (June 1989), reached through the Stanford URL redirecting to hastie.su.domains. All 16 PDF pages visually
+    read. Page 1 is a download cover; pages 2-16 correspond to printed pages 502-516. The cover access
+    date is not the publication date.
+  persistent_id: https://web.stanford.edu/~hastie/Papers/principalcurves.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T02:10:27Z'
+  sha256: 595b594949a27c24c5b570ad6fbd0d9b9f3f7c92de077d14d04315deba17f9aa
+claims:
+- claim_id: self-consistency
+  kind: mechanism
+  statement: For a distribution with density and finite second moments, the original definition uses a
+    smooth unit-speed non-self-intersecting curve f over a closed interval, possibly unbounded, with finite
+    length inside each finite ball. The projection index lambda_f(x) selects the largest parameter among
+    nearest points. Self-consistency requires E[X|lambda_f(X)=lambda]=f(lambda) almost everywhere. Closed
+    curves such as circles require the extension discussed by the authors; they do not literally satisfy
+    the original interval/injectivity definition.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equation 3 and Definition 1, printed pp. 504-505 / PDF pp. 4-5; Appendix opening,
+      p. 514 / PDF p. 14
+    relation: supports
+- claim_id: sample-estimation
+  kind: mechanism
+  statement: The original sample estimator alternates closest-point projection onto a polygonal curve
+    with coordinatewise smoothing against the resulting arc-length indices. It usually starts from the
+    first principal-component line. Locally weighted running-line smoothing with a neighborhood span approximates
+    the population conditional mean; smoothing splines are an alternative. The paper does not prove convergence
+    or per-step decrease of the sample distance criterion, and population conditional-mean updates can
+    have endpoint discontinuities.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4-5.3, printed pp. 506-507 / PDF pp. 6-7; Section 5.5, p. 509 / PDF p. 9
+    relation: supports
+- claim_id: stationarity-and-nonuniqueness
+  kind: scope
+  statement: Under the paper’s regularity and bounded smooth perturbation class, self-consistency is equivalent
+    to stationarity of expected squared nearest-curve distance, not global optimality. A self-consistent
+    straight line is a covariance principal-component line; the converse need not hold for arbitrary distributions.
+    Ellipsoidal distributions can have multiple self-consistent eigenvector lines with different reconstruction
+    risks. Thus the definition alone does not select a unique leading curve or guarantee minimum reconstruction
+    error.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Propositions 1-4, printed pp. 505-506 / PDF pp. 5-6; Appendix proof, pp. 514-516
+      / PDF pp. 14-16; curator analytic Gaussian-line and nonlinear conditional-mean examples
+    relation: supports
+- claim_id: bias-and-smoothing
+  kind: limitation
+  statement: A noisy generating curve need not be self-consistent for the distribution it generates. In
+    the paper’s circular Gaussian-noise example, the population principal-circle radius is displaced outward,
+    while averaging over a finite arc contracts the local mean. These model and smoothing biases are distinct
+    and need not cancel. Repeated coordinatewise cross-validation inside the fitting loop can select progressively
+    smaller spans and nearly interpolate the data.
+  evidence:
+  - source_id: method-source
+    locator: Sections 5.4-6, Figure 7 and Equation 8, printed pp. 508-510 / PDF pp. 8-10
+    relation: supports
+limitations:
+- The paper does not establish existence or uniqueness of principal curves for every density. Its thin-tube
+  construction supplies distributions for a specified compact curve, not a general existence theorem.
+- Smoothing strength, initialization, curve endpoints and periodic versus nonperiodic treatment affect
+  estimates. Regularized spline objectives and higher-dimensional principal surfaces require additional
+  assumptions; their existence or global convergence is not established here.
+- A curve summary need not identify a causal latent path or generate a normalized probability density.
+  Nearest-point projection is not the latent posterior of PPCA or GTM.
+- All 16 PDF pages, including the cover, appendix and references, were read. Analytic moment calculations
+  check scope boundaries; collider alignment, gold-assay bootstrap results and author implementations
+  were not reproduced.
+aio_mappings:
+- target: AIO:ManifoldLearning
+  relation: related_match
+  rationale: Principal curves provide a one-dimensional geometric summary of multivariate observations,
+    including noisy observations away from the curve. The pinned target is a dimensionality-reduction
+    task; this mapping does not assert task/mathematical-method equivalence or exact manifold recovery.
+id: AIMech:PrincipalCurves
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:24:31Z'
+  updated_at: '2026-10-12T02:24:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

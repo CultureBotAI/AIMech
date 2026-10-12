@@ -1,0 +1,120 @@
+name: Oja Learning Rule
+aliases:
+- Oja’s Rule
+concept_kind: algorithm
+definition: A single-output linear-neuron learning rule that combines a Hebbian input-output weight increment
+  with an output-squared weight decay, obtained as a first-order approximation to Euclidean-normalized
+  Hebbian learning.
+identity_notes: The original Oja rule updates one linear unit and targets a leading second-moment direction
+  under its stated assumptions. It is distinct from exact normalized Hebbian learning, generic Hebbian
+  learning, supervised perceptron fitting, multi-output Sanger learning, nonlinear Hebbian ICA and FastICA
+  fixed-point updates. Biological motivation does not establish experimental biological implementation.
+  Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms
+  and 457 preceding native IDs, names and aliases, with no normalized collision. Full searches of both
+  checkouts included ignored and hidden files and returned the same 32 matching excerpts across nine paths.
+  All excerpts were read; frontier leads and neighboring-model comparisons are not duplicate records.
+  Historical ledgers were not reread in full solely because an excerpt matched. All 219 semantic-search
+  rows were read, including six additional adaptive-pooling rows. Nineteen annotated AIO nodes and their
+  outgoing edges were byte-verified against previous complete readings. Twenty-eight contextual YAMLs,
+  including nine native neighbors, comprise 25 unchanged prior readings and three complete current readings.
+  The identity and mapping assessment is bounded to this snapshot and maintained corpus.
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1-2, Equations 1-3, printed pp. 267-268 / PDF pp. 1-2
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: A Simplified Neuron Model as a Principal Component Analyzer
+  authors:
+  - Erkki Oja
+  source_type: primary_paper
+  url: https://users.ics.aalto.fi/oja/Oja1982.pdf
+  version: Author-hosted scan of Journal of Mathematical Biology 15:267-273 (1982). All seven PDF pages
+    visually read; printed page equals PDF page plus 266. The title and journal metadata are visible on
+    the first page.
+  persistent_id: https://users.ics.aalto.fi/oja/Oja1982.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T02:10:36Z'
+  sha256: 62d65254c01ab62f9b32441a8d2d93655c07042d3516f839bc718262f280eb4d
+claims:
+- claim_id: local-update
+  kind: mechanism
+  statement: For current input x, weights w, scalar output y=w^T x and positive gain eta, the truncated
+    rule is w_new=w+eta*y*(x-y*w). Each synaptic increment uses its input, its weight and the common scalar
+    output. The negative eta*y^2*w term regulates Hebbian growth. This drops second- and higher-order
+    gain terms from explicit normalization of w+eta*y*x, and therefore does not preserve unit norm exactly
+    at a finite step.
+  evidence:
+  - source_id: method-source
+    locator: Equations 1-6, printed pp. 267-269 / PDF pp. 1-3; Section 4, Equations 11-15, pp. 271-272
+      / PDF pp. 5-6; curator finite-norm example
+    relation: supports
+- claim_id: mean-dynamics
+  kind: mechanism
+  statement: When the current input is independent of current weights, averaging the truncated increment
+    per unit gain gives Cw-(w^T Cw)w, where C=E[xx^T]. The associated mean differential equation has signed
+    top unit eigenvectors as attracting equilibria when C has a positive simple largest eigenvalue and
+    initialization has a nonzero component along its eigenvector. In eigenvector coordinates, ratios to
+    the leading coordinate decay according to the eigenvalue gap. This is a mean-ODE result with explicit
+    conditions.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations 7-8 and theorem, printed pp. 269-270 / PDF pp. 3-4; curator positive-eigenvalue
+      qualification
+    relation: supports
+- claim_id: centering-and-scope
+  kind: scope
+  statement: For zero-mean inputs, C is the covariance, and the leading learned response corresponds to
+    the largest-variance principal component. Without centering, C includes the outer product of the mean
+    and the rule targets maximum quadratic mean instead. Mean subtraction is not part of the displayed
+    update. The paper analyzes a single neuron and does not derive a full multi-component PCA network
+    or independent-component separator.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, printed p. 270 / PDF p. 4; Section 5, p. 272 / PDF p. 6
+    relation: supports
+- claim_id: stochastic-convergence-scope
+  kind: limitation
+  statement: The source invokes stochastic-approximation results with suitable input regularity and a
+    decreasing gain, such as a gain proportional to inverse time; it does not spell out a complete general
+    stochastic convergence theorem. A small fixed gain is discussed as an approximation to mean dynamics,
+    not a guarantee of exact almost-sure convergence. Zero or mean-ODE orthogonal starts and repeated
+    leading eigenvalues require separate treatment. Large discrete gains can increase weight magnitude
+    instead of controlling it.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, printed pp. 269-270 / PDF pp. 3-4; curator stationary-direction, finite-norm and
+      large-gain examples
+    relation: supports
+limitations:
+- The PCA interpretation requires centered finite-second-moment inputs and the relevant stationary/input
+  assumptions. Correlation across time, changing distributions and dependence between current input and
+  weights need a justified analysis.
+- The first-order discrete rule is not exact normalization. Step size and initialization matter; the mean-ODE
+  theorem does not establish global stability of every finite-gain implementation.
+- With a repeated largest eigenvalue there is no unique principal direction, and sign is intrinsically
+  ambiguous. A single unit yields one direction rather than an ordered orthogonal basis.
+- All seven source pages were read. Finite arithmetic and analytic mean-flow checks were performed; no
+  neuron training, historical simulation or biological experiment was reproduced.
+aio_mappings:
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: For centered inputs and the stated conditions, this learning rule estimates one leading PCA
+    direction. The pinned target is task-scoped PCA, not this synaptic update or a complete multi-component
+    algorithm.
+- target: AIO:UnsupervisedLearning
+  relation: related_match
+  rationale: The update uses observations without supervised targets. This is an algorithm related to
+    the pinned learning task, not a forced subclass of its preprocessing-defined TrainingStrategy parent.
+id: AIMech:OjaLearningRule
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T02:24:31Z'
+  updated_at: '2026-10-12T02:24:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
