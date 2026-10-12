@@ -1,0 +1,138 @@
+name: Product of Student-t
+aliases:
+- Product of Student-t Model
+- PoT
+concept_kind: model_family
+definition: A normalized energy-based density on continuous observations formed from products of Student-t-shaped
+  factors of linear filter responses, with a positive finite joint normalizer and optional grouping of
+  filter energies.
+identity_notes: This is a specified analysis-product model within the maintained Product of Experts family.
+  Sparse filter responses need not be independent, and the model differs from a directed sparse synthesis
+  dictionary with independent source coefficients. The square invertible case connects to noiseless Student-t
+  ICA; an overcomplete analysis product is a different generalization. Grouped quadratic responses retain
+  the stated family extension. The paper also proposes nonquadratic powers, which are broader generalized
+  factors and are not all literally Student-t distributions. Iterated Wiener Filter is a separately represented
+  inference algorithm, not another name for this density. Four candidate identities were compared against
+  all 442 pinned AIO IDs, labels and scoped synonyms and 447 preceding native IDs, names and aliases.
+  Sparse coding matches the exact synonym and definition of AIO:SparseLearning and is reused; none of
+  the three selected additions has a normalized identity match. Ignored/hidden full-checkout searches
+  returned 47 lines each in worktree and main, with identical matched-line sets after merge. All 47 matched
+  lines were read; they contain the existing sparse-coding class, its source/export and prior discovery
+  context. All 205 semantic label/synonym rows were read and verified unchanged. Twenty-four annotated
+  AIO nodes and outgoing edges comprise 23 unchanged prior readings and one new symmetry-network inspection.
+  Thirty-two contextual YAMLs comprise 31 unchanged prior readings and one fully read new record, including
+  eight native neighbors. Absence and no-match assessments are bounded to this snapshot and inspected
+  neighborhood.
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2-5, Equations 1-9 and Figure 1, PDF pp. 2-6
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Learning Sparse Topographic Representations with Products of Student-t Distributions
+  authors:
+  - Max Welling
+  - Simon Osindero
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2002/file/bb1662b7c5f22a0f905fd59e718ca05e-Paper.pdf
+  version: Official eight-page NIPS 2002 paper in Advances in Neural Information Processing Systems 15.
+    All pages visually read; no numeric printed page labels. Official metadata lists Welling, Osindero
+    and Hinton; the PDF groups Welling and Hinton under Toronto and Osindero under Gatsby.
+  persistent_id: https://papers.nips.cc/paper_files/paper/2002/hash/bb1662b7c5f22a0f905fd59e718ca05e-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-12T01:18:25Z'
+  sha256: a50d870450dc2632eab67e1989209b0819210e9e82b7307a8573e738185fed30
+claims:
+- claim_id: energy-and-domain
+  kind: mechanism
+  statement: 'For filter columns J_i and positive exponents alpha_i, define p(x)=Z^(-1) product_i[1+(J_i^T
+    x)^2/2]^(-alpha_i), requiring 0<Z<infinity. Its energy is sum_i alpha_i log[1+(J_i^T x)^2/2]. Experts
+    are factors in a joint product, not the marginal distributions of independent filter outputs. In the
+    square invertible case, a change of variables reduces normalization to scalar factors and a determinant.
+    The source only states positive exponents; curator analysis adds the necessary domain qualification:
+    rank deficiency leaves an unpenalized direction, and even full rank with positive exponents is insufficient.
+    In one dimension with identical nonzero filters, the exponent sum must exceed one half. An independent
+    spanning subset whose individual exponents exceed one half is a sufficient condition, since remaining
+    factors are bounded by one.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2, Equations 1-3, PDF p. 2; curator integrability deductions from those equations
+    relation: supports
+- claim_id: gamma-augmentation
+  kind: mechanism
+  statement: Introduce positive u_i with joint density proportional to product_i u_i^(alpha_i-1) exp[-u_i(1+(J_i^T
+    x)^2/2)]. Integrating each u_i yields the displayed factor up to an x-independent Gamma constant.
+    Conditional u_i given x are independent Gamma variables with shape alpha_i and rate 1+(J_i^T x)^2/2.
+    Conditional x given u is zero-mean Gaussian with precision J diag(u) J^T when positive definite. Integrating
+    x instead couples u through the precision determinant; this is not simply a directed model with independent
+    Gamma priors and Gaussian observations. Proper full conditionals do not by themselves prove that the
+    joint normalizer is finite.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations 6-8, PDF p. 3; curator determinant/domain consequences of the augmented
+      joint
+    relation: supports
+- claim_id: learning-and-sampling
+  kind: mechanism
+  statement: The paper fits filters and exponents with approximate contrastive divergence, drawing latent
+    scales at observed data and then reconstructed observations. In a square invertible system, inverse-filter
+    transformation of independent scaled Gaussian variables gives the required conditional covariance.
+    In an overcomplete system, exact sampling can use a factorization of J diag(u) J^T. The paper reports
+    a faster pseudoinverse replacement as an approximation; it is not generally the exact Gaussian conditional.
+    A curator example J=[1,1], u=(1,4) has exact variance 1/5 while the pseudoinverse shortcut gives 5/16.
+    No historical code behavior is asserted.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3-4, Equations 4-8 and reconstruction procedure, PDF pp. 3-4
+    relation: supports
+- claim_id: grouped-features
+  kind: scope
+  statement: Quadratic grouping replaces each squared response by sum_j W_ij (J_j^T x)^2 with nonnegative
+    weights. This couples neighboring or learned groups of filter energies, while latent scales remain
+    conditionally independent given x. Fixed local neighborhoods can induce topographic organization;
+    learned groups need not follow a fixed spatial map. The paper separately considers powers beta other
+    than two, whose conditional transform-coordinate distributions are generalized Laplace rather than
+    Gaussian. Independent transform-coordinate sampling uses the square invertible case; a pseudoinverse
+    does not make the overcomplete case exact.
+  evidence:
+  - source_id: method-source
+    locator: Section 5, Equation 9 and experiments, PDF pp. 5-6
+    relation: supports
+limitations:
+- Positive exponents, unit filter norms and a valid Gaussian conditional are insufficient universal normalization
+  guarantees. Individual factors need not themselves be normalized densities. Probability-model claims
+  are conditional on the stated joint being proper; the record does not certify all source-trained parameters.
+- Analysis filters in an overcomplete product are not the independent latent coefficients of an overcomplete
+  synthesis model. Conditional independence of scales given x does not imply independent scale marginals
+  or independent observed features.
+- The pseudoinverse reconstruction used in the reported highly overcomplete experiment generally changes
+  the conditional covariance. CD and this additional approximation do not establish exact maximum likelihood
+  or unbiased sampling.
+- The visual experiments use whitened natural-image patches, selected dimensions, norm constraints and
+  particular fixed or learned group structures. Displayed filter organization does not prove a biological
+  causal mechanism or general predictive superiority.
+- The denoising demonstration uses a complete filter set and a separate iterative MAP algorithm. Proposed
+  overcomplete/grouped denoising gains remain prospective. No author code, empirical training or denoising
+  benchmark was executed.
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The specific normalized continuous density is a mathematical model within the broader AIO
+    Model class.
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The augmented undirected density supports graphical conditional-independence reasoning. The
+    pinned target is task-scoped, so this relationship is not asserted as model-family subclass membership.
+id: AIMech:ProductOfStudentT
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:29:49Z'
+  updated_at: '2026-10-12T01:30:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

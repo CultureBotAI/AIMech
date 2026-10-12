@@ -1,0 +1,134 @@
+name: Restricted Boltzmann Machine Collaborative Filtering
+aliases:
+- RBM collaborative filtering
+- RBM-CF
+concept_kind: model_family
+definition: A family of shared-parameter restricted Boltzmann models for categorical user-item ratings,
+  with a user-specific visible set and optional conditioning on the item-observation mask and low-rank
+  factorization of rating interactions.
+identity_notes: This record denotes the specific mask-indexed rating construction and its conditional/factored
+  variants in Salakhutdinov, Mnih and Hinton 2007. It is narrower than a generic RBM application or the
+  maintained input-conditioned RBM architecture. Corresponding item/rating parameters are shared across
+  users, but each observed-item set defines its own joint law. It is not a single trained Netflix model,
+  a matrix-factorization predictor, the generic CRBM, or a standalone ensemble-performance record. Gaussian
+  hidden units with unit variance are a source variant; the defining displayed mechanism below uses binary
+  hidden units. Four candidate identities were compared against all 442 pinned AIO IDs, labels and scoped
+  synonyms and 447 preceding native IDs, names and aliases. Sparse coding matches the exact synonym and
+  definition of AIO:SparseLearning and is reused; none of the three selected additions has a normalized
+  identity match. Ignored/hidden full-checkout searches returned 47 lines each in worktree and main, with
+  identical matched-line sets after merge. All 47 matched lines were read; they contain the existing sparse-coding
+  class, its source/export and prior discovery context. All 205 semantic label/synonym rows were read
+  and verified unchanged. Twenty-four annotated AIO nodes and outgoing edges comprise 23 unchanged prior
+  readings and one new symmetry-network inspection. Thirty-two contextual YAMLs comprise 31 unchanged
+  prior readings and one fully read new record, including eight native neighbors. Absence and no-match
+  assessments are bounded to this snapshot and inspected neighborhood.
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2-5, Equations 1-14 and Figures 1-2, PDF pp. 1-5
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Restricted Boltzmann Machines for Collaborative Filtering
+  authors:
+  - Ruslan Salakhutdinov
+  - Andriy Mnih
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~amnih/papers/rbmcf.pdf
+  version: Eight-page author-hosted ICML 2007 paper, proceedings pp. 791-798. All eight PDF pages visually
+    read; no numeric printed page labels. Andriy Mnih is the author named on the title page, distinct
+    from Volodymyr Mnih of the later generic CRBM paper.
+  persistent_id: doi:10.1145/1273496.1273596
+  access_level: full_text
+  accessed_at: '2026-10-12T01:18:22Z'
+  sha256: 41a5933f9a40c892a7e4d268426f8205f72fdbb9131a7711fdcf48345bcfdea0
+claims:
+- claim_id: rating-joint
+  kind: mechanism
+  statement: For a user with included item set S, let v_ik be one-hot over K possible ratings and h_j
+    be binary. Define E_S(v,h)=-sum_(i in S,k,j) v_ik W_ikj h_j-sum_(i in S,k) b_ik v_ik-sum_j c_j h_j,
+    and normalize exp(-E_S) over those rating groups and hidden states. Finite support gives a finite
+    partition for finite parameters. Rating groups given h have softmax probabilities and hidden units
+    given v have independent sigmoid probabilities. Parameters W,b,c are shared across users; missing-item
+    terms are omitted. Omitting an item is generally different from integrating it out of a larger fixed-item
+    model, because that integration introduces a hidden-dependent factor. The discovery calculation verifies
+    this distinction on a finite example. Rating-category coding does not itself encode an ordinal likelihood.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, Equations 1-4 and Figure 1, PDF pp. 1-2; omitted-item statement following Equation
+      4
+    relation: supports
+- claim_id: query-inference
+  kind: mechanism
+  statement: For one added query item q, let a_j=c_j+sum_(i in S,k) v_ik W_ikj. Its exact unnormalized
+    rating score under the augmented visible-set model is exp(b_qk) product_j[1+exp(a_j+W_qkj)]. Normalize
+    the K scores, then choose a mode or expected numeric rating according to the decision loss. This sums
+    binary hidden states analytically. Multiple query items generally become dependent, and the paper
+    enumerates K^n assignments for a joint n-item query. The experimental predictor instead computes hidden
+    means sigmoid(a_j) from observed ratings and plugs them into a query softmax. That faster approximation
+    generally differs from the exact scores; finite calculations exhibit a probability gap.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3, Equations 7-10, PDF p. 3
+    relation: supports
+- claim_id: conditioning-and-factorization
+  kind: mechanism
+  statement: The conditional variant holds fixed a binary item-observation vector r and replaces c by
+    c+D^T r. It represents p(v,h|r), not p(r). The source uses known test user-item pairs with withheld
+    rating values as mask information. The factored variant writes W_ikj=sum_c A_ikc B_cj, restricting
+    the flattened rating-interaction matrix to rank at most C and reducing parameter count. It does not
+    impose that rank on the nonlinear predicted rating matrix; the conditioning matrix D remains separate.
+    These variants preserve categorical rating support while changing conditional parameterization.
+  evidence:
+  - source_id: method-source
+    locator: Sections 4-5, Equations 12-14 and Figure 2, PDF pp. 3-5
+    relation: supports
+- claim_id: fitting-and-evaluation
+  kind: scope
+  statement: Training averages user-specific sufficient-statistic updates for shared parameters and uses
+    data-started contrastive divergence that reconstructs included rating groups. Finite CD is an approximate
+    learning rule, not an exact likelihood-gradient guarantee. The reported Netflix comparisons distinguish
+    ordinary, Gaussian-hidden, conditional and factored models, use different latent dimensions, and compare
+    validation RMSE. The combined RBM/SVD result is a validation-tuned ensemble result; it does not establish
+    a universal advantage for this model family.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.2, Equations 5-6, PDF pp. 2-3; Sections 6-7 and Figures 3-4, pp. 5-6
+    relation: supports
+limitations:
+- Mask-indexed partitions and omitted-item joints do not automatically form a projectively consistent
+  full-item distribution. Exact single-query inference is defined using an augmented visible set; neither
+  arbitrary missing-data marginalization nor independent multiple-query predictions follows.
+- Mask conditioning uses which user-item pairs are known to exist, including test pairs in the source
+  protocol. This transductive availability information is distinct from the withheld rating values; performance
+  cannot be transferred to settings lacking that information without evaluation.
+- The Gaussian-hidden variant fixes variance to one. Its general displayed energy includes reciprocal
+  standard-deviation scaling absent from the visible-conditional display; no arbitrary-variance implementation
+  is certified here.
+- Short-chain CD can be biased, and increasing chain length is not evidence that a particular run mixed.
+  Weight decay, latent dimensions, batch sizes and approximate prediction affect comparisons.
+- The paper uses the historical Netflix split, validation tuning and an ensemble with separately fitted
+  SVD models. Autoencoder fine-tuning and deeper extensions are prospective in this paper. No author implementation
+  or benchmark was run.
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The user-item probability family is a specific mathematical representation within the broader
+    Model class.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: The construction uses shared RBM rating distributions, including mask-conditioned variants.
+    A related mapping preserves that component/family relationship without equating the complete mask-indexed
+    construction to one unconditional pinned RBM.
+id: AIMech:RestrictedBoltzmannMachineCollaborativeFiltering
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:29:49Z'
+  updated_at: '2026-10-12T01:30:43Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
