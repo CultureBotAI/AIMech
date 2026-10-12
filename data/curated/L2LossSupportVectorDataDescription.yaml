@@ -1,0 +1,131 @@
+id: AIMech:L2LossSupportVectorDataDescription
+name: L2-loss support vector data description
+aliases:
+- L2-loss SVDD
+- Squared-hinge-loss support vector data description
+concept_kind: algorithm
+definition: A support-vector data-description algorithm that learns a feature-space sphere using squared-hinge
+  penalties on squared-distance violations, yielding a unique optimal center, squared radius and slack
+  vector for a fixed positive penalty and feature map.
+identity_notes: 'This is the target-only L2-loss extension in Chang, Lee and Lin Section 4.1. L2 denotes
+  squared slack loss, not merely the Euclidean geometry already used by standard SVDD. It changes the
+  dual penalty and zero-radius threshold and is distinct from linear-slack SVDD, negative-example SVDD,
+  origin-separating one-class SVM and support-vector clustering. Compared all 442 pinned AIO IDs, labels
+  and scoped synonyms with all 502 preceding native IDs, names and aliases. No normalized candidate identity
+  collision was found. Full fixed-string whole-word searches included ignored and hidden files in both
+  checkouts, expanded names, acronyms and source identifiers. All 15 matches per checkout, eight distinct
+  texts at 30 locations, were inspected as source queries, search terms and pending leads in the preceding
+  discovery ledger, not existing concepts. Ten annotated AIO nodes and outgoing edges, their generated
+  records, and three native neighbors were inspected or checked against unchanged complete readings. Four
+  SAT Novelty-family records were inspected only for names, definitions and identity notes: those flip
+  heuristics are unrelated. Absence is bounded to this pin and inspected corpus.'
+definition_evidence:
+- source_id: chang-revisit
+  locator: Section 4.1, PDF pp.11-14, Equations 27-37 and Theorems 7-8; Appendices E-F, pp.17-20
+  relation: supports
+claims:
+- claim_id: squared-slack-objective
+  kind: mechanism
+  statement: 'For C>0, minimize t+C*sum_i xi_i² subject to t>=0 and ||Phi(x_i)-a||²<=t+xi_i. Explicit
+    nonnegativity constraints on xi are redundant at an optimum: a negative slack can be replaced by zero
+    to improve the objective. This convex formulation has strong duality and a unique optimal center,
+    squared radius and slack vector. Its squared violation penalty changes the method, even though both
+    SVDD variants use squared Euclidean distances.'
+  evidence:
+  - source_id: chang-revisit
+    locator: Section 4.1, PDF p.12, Equation 27 and Theorem 7; Appendix E, pp.17-18
+    relation: supports
+- claim_id: zero-radius-threshold
+  kind: mechanism
+  statement: First consider the zero-radius auxiliary problem minimizing sum_i ||Phi(x_i)-a||^4, with
+    optimal squared distances xi_i*. When their sum is positive, define C*=1/(2*sum_i xi_i*). For 0<C<=C*,
+    the optimal squared radius is zero and the auxiliary center is optimal; for C>C* the radius is positive.
+    This threshold depends on the data and feature map and is not the standard SVDD threshold 1/N. The
+    auxiliary center need not be the sample mean. If all training features coincide, the optimal radius
+    and slacks are zero at their common feature and the denominator formula is inapplicable.
+  evidence:
+  - source_id: chang-revisit
+    locator: Section 4.1, PDF pp.12-14, Theorem 8 and Equations 28-29, 37; Appendix F, pp.18-20
+    relation: supports
+- claim_id: positive-radius-dual
+  kind: mechanism
+  statement: For C>C*, maximize sum_i alpha_i*K_ii-alpha^T*K*alpha-sum_i alpha_i²/(4*C) subject to alpha_i>=0
+    and sum_i alpha_i=1. The additional quadratic term makes the maximization objective strictly concave;
+    there is no standard SVDD upper bound alpha_i<=C, though the simplex implies alpha_i<=1. Recover a=sum_i
+    alpha_i*Phi(x_i), xi_i=alpha_i/(2*C), and t=||Phi(x_i)-a||²-alpha_i/(2*C) using any positive coefficient.
+    This equality-simplex recovery is scoped to the positive-radius regime and must not be applied indiscriminately
+    below C*.
+  evidence:
+  - source_id: chang-revisit
+    locator: Section 4.1, PDF pp.13-14, Equations 30-36 and radius recovery
+    relation: supports
+- claim_id: prediction-and-evidence-limits
+  kind: limitation
+  statement: Prediction compares feature-space squared distance to the learned squared radius, using the
+    kernel expansion when appropriate. A zero-radius fit accepts only queries mapped exactly to the center.
+    The reassessment supplies mathematical derivations rather than a benchmark comparison establishing
+    superiority of squared-hinge SVDD over linear-slack SVDD. Standard SVDD support-count and box-constraint
+    error arguments do not transfer unchanged to this loss. For the symmetric linear-kernel sample {-2,-1,1,2},
+    C*=1/20; at C=1/10 the solution has center 0, t=3/2 and objective 11/4, as verified by exact KKT and
+    primal-dual calculations.
+  evidence:
+  - source_id: chang-revisit
+    locator: Sections 3.3 and 4.1, PDF pp.11-14; Appendices E-F, pp.17-20; curator exact symmetric four-observation
+      calculation
+    relation: supports
+evidence_sources:
+- source_id: chang-revisit
+  title: A Revisit to Support Vector Data Description
+  authors:
+  - Wei-Cheng Chang
+  - Ching-Pei Lee
+  - Chih-Jen Lin
+  source_type: primary_paper
+  url: https://www.csie.ntu.edu.tw/~cjlin/papers/svdd.pdf
+  version: Exact 21-page author-hosted manuscript at the recorded URL, all pages and appendices visually
+    read. Lin author index identifies a Technical report, 2013; Lee author index labels the work 2015
+    and links a differently formatted PDF. This record identifies the inspected bytes without assigning
+    an unverified revision date or journal publication. The two author-hosted PDF versions were not compared
+    in full.
+  access_level: full_text
+  accessed_at: '2026-10-12T07:21:32Z'
+  sha256: 7618a0ff3b9260977e3a9d94231258a7271be76cc4d226fd8b7c21f3fb9f8a44
+limitations:
+- Kernel, preprocessing, regularization and decision-threshold conventions affect the acceptance region.
+  The method does not guarantee a calibrated future outlier probability, discovery of all abnormal cases,
+  or optimal cluster labels.
+- The later mathematical reassessment is an author-hosted technical manuscript with conflicting author-index
+  year labels. Exact URL and hash preserve inspected evidence; journal publication and version equivalence
+  are not asserted.
+- Exact finite calculations check mathematical edge cases. No historical implementation, training run
+  or benchmark was executed.
+- All 21 manuscript pages, including proofs, were visually read. The differently formatted author copy
+  and implementation archive were not inspected in full. The software index alone does not verify an implementation
+  of this specific L2-loss SVDD extension.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: AIO:BinaryClassification is related through the accept-versus-reject prediction task. Its
+    Classification parent is under SupervisedLearning, whereas this particular algorithm learns a target-class
+    description without requiring representative negative training examples. This is a related task mapping,
+    not algorithm-task equivalence, an is-a assertion or a claim of two-class supervision. Inspected BinaryClassification,
+    Classification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, SupportVectorMachine,
+    Model, Network, KernelLayer and UnsupervisedClustering, including definitions and outgoing edges.
+    The supervised category-separating network definition of SupportVectorMachine does not identify a
+    sphere support estimator. The clustering task assigns groups, while this method supplies an acceptance
+    region; generic models, networks and kernel layers do not identify the algorithm. All 442 class labels
+    and 153 semantic matches retain byte-verified prior readings; expanded description/hinge/enclosing/classification
+    searches added no rows. SupportVectorClustering adds graph labeling; DBSCAN uses neighborhood density
+    connectivity; KernelPCA extracts variance directions. These contexts do not receive renewed scientific
+    approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T07:36:18Z'
+  updated_at: '2026-10-12T07:36:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
