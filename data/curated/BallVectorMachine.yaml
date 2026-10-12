@@ -1,0 +1,179 @@
+id: AIMech:BallVectorMachine
+name: Ball vector machine
+aliases:
+- BVM
+concept_kind: algorithm
+definition: An approximate SVM training procedure that uses fixed-radius enclosing-ball center updates
+  in a transformed kernel feature space, with multiscale tolerance and radius-refinement variants that
+  avoid CVM’s repeated core quadratic programs.
+identity_notes: 'This record denotes the Tsang-Kocsor-Kwok BVM procedure. Its fixed-radius core and optional
+  refinement are distinguished explicitly; a feasible enclosing radius is not assumed to be the minimum
+  radius. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 513 preceding native IDs,
+  names and aliases. No normalized identity collision was found for either candidate. Whole-word fixed-string
+  searches of both checkouts included ignored and hidden files, expanded names, CVM/BVM acronyms and primary-source
+  identifiers. All 22 matches per checkout were inspected in 14 distinct text windows at 44 locations:
+  prior queries and unresolved discovery notes, not existing records. All 93 semantic AIO rows and 35
+  native name/definition matches were read. Twelve annotated AIO CLASS nodes and outgoing edges and 17
+  contextual YAMLs were inspected or reused after unchanged-byte checks. This is a bounded local corpus
+  assessment.'
+definition_evidence:
+- source_id: tsang2007
+  locator: Sections 3.1-3.2, printed pp912-914 / PDF pp2-4, Algorithms 2-3 and Equations 5-6
+  relation: supports
+- source_id: tsang2007
+  locator: Section 3.4, printed pp914-915 / PDF pp4-5
+  relation: supports
+claims:
+- claim_id: fixed-radius-center-update
+  kind: mechanism
+  statement: For a finite feature set, 0<epsilon<=1 and a supplied positive radius r>=R_star, initialize
+    the center at a feature point. If a point z lies beyond (1+epsilon)*r, set beta=r/||c-phi(z)|| and
+    c_new=phi(z)+beta*(c-phi(z)); otherwise terminate after checking all points. The update is the smallest
+    center movement that places z on the radius-r boundary and is a convex combination. Any violating
+    point suffices. Kernel coefficients can represent the center, and no inner quadratic program is required.
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 3.1-3.2, printed pp912-914 / PDF pp2-4, Algorithms 2-3 and Equations 5-6
+    relation: supports
+- claim_id: iteration-guarantees-and-search-cost
+  kind: limitation
+  statement: 'The fixed-radius procedure requires at most O(1/epsilon²) violating-point updates under
+    r>=R_star and the stated initialization. A multiscale version halves tolerance successively and warm-starts
+    centers; its O(1/epsilon) iteration result is proved for r=R_star. That stronger rate is not established
+    for every larger feasible radius. These are update bounds: finding a violator or certifying all-point
+    coverage, kernel-evaluation costs and input storage must also be accounted for. A sampled stopping
+    check is not an exhaustive certificate.'
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 3.1-3.2, printed pp913-914 / PDF pp3-4, Propositions 1 and 3; curator separation
+      of search work
+    relation: supports
+- claim_id: l2-transformed-kernel-and-feasible-radius
+  kind: mechanism
+  statement: For binary L2 SVM training, use Ktilde_ij=y_i*y_j*(k_ij+1)+delta_ij/C. If k has constant
+    diagonal kappa, the transformed diagonal is kappa_tilde=kappa+1+1/C, as follows from Equation 3, including
+    its bias coordinate. The radius sqrt(kappa_tilde) is a feasible upper bound on the optimal MEB radius,
+    since all transformed points have that norm. It need not be the minimum radius. For finite n and C>0,
+    alpha^T*Ktilde*alpha>=1/(n*C)>0 on the simplex, hence R_star²<kappa_tilde. The nearby prose diagonal
+    that omits +1 is not substituted for the displayed kernel.
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 2 and 3.4, printed pp912,914-915 / PDF pp2,4-5, Equations 3 and 12; curator diagonal
+      and finite-slack-term derivation
+    relation: supports
+  - source_id: tsang2005
+    locator: Section 3.2.2, printed pp369-370 / PDF pp7-8, Equations 12-17 and following transformed-feature
+      display
+    relation: supports
+- claim_id: fixed-radius-not-minimum-center
+  kind: limitation
+  statement: Reducing epsilon at a radius strictly larger than R_star does not in general recover the
+    MEB center. For unit-norm points (1,0) and (-7/25,24/25), the fixed-r=1 update from the first point
+    stops at (13/25,9/25), with distances 3/5 and 1. The true MEB center is (9/25,12/25), radius 4/5,
+    and the center error remains 1/5 as tolerance tends to zero. This exact geometric illustration concerns
+    Algorithm 2, not a historical SVM benchmark or the full radius-refinement procedure.
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 3.1-3.2, printed pp912-914 / PDF pp2-4, Algorithms 2-3 and Equations 5-6
+    relation: supports
+  - source_id: tsang2007
+    locator: Section 3.2, printed pp913-914 / PDF pp3-4, Proposition 2; exact curator example in research/discovery/core-ball-vector-boundaries.py
+    relation: supports
+- claim_id: optional-radius-refinement
+  kind: mechanism
+  statement: The source’s Algorithm 4 augments every feature by a zero coordinate and starts the center
+    with an extra coordinate r. After an approximate radius-r enclosure, let u be the final extra center
+    coordinate. If u²>(2*epsilon+epsilon²)*r², replace r by sqrt((1+epsilon)²*r²-u²) and repeat; otherwise
+    stop. The paper’s experiments explicitly use only one iteration of Algorithm 4. This refinement is
+    distinct from assuming the initial feasible radius is already optimal.
+  evidence:
+  - source_id: tsang2007
+    locator: Section 3.3, printed p914 / PDF p4, Algorithm 4; Section 4 footnote 4, printed p915 / PDF
+      p5
+    relation: supports
+- claim_id: asymptotic-and-prediction-scope
+  kind: limitation
+  statement: The paper motivates near equality of the feasible and optimal radii using high-dimensional
+    Gaussian data and a Gaussian kernel. Its limiting argument additionally needs the class-count imbalance
+    divided by n to vanish; merely having two reasonably populated classes does not ensure that. The center-distance
+    bounds retain their dependence on r/R_star, and coefficient or score proximity does not by itself
+    guarantee identical predicted labels or test accuracy. No finite-sample equality R_star=sqrt(kappa_tilde)
+    is asserted.
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 3.2 and 3.4, printed pp913-915 / PDF pp3-5, Propositions 2-3 and Equations 9-12;
+      curator finite-radius qualification
+    relation: supports
+- claim_id: procedure-identity-and-evaluation
+  kind: scope
+  statement: BVM denotes the enclosing-ball approach to the stated SVM formulation, with multiscale and
+    radius-refinement variants described in the same paper. It is separate from CVM’s repeated core MEB
+    fits, generic SVM, support-vector domain estimation and sphere-based cluster labeling. The ten-dataset
+    experiments use particular kernels, C values, tolerances, versions, hardware, time cutoffs and multiclass
+    availability; they do not establish a universal speed or accuracy ranking.
+  evidence:
+  - source_id: tsang2007
+    locator: Sections 2-5, printed pp912-918 / PDF pp2-8; Tables 1-4 and Figures 2-4
+    relation: supports
+evidence_sources:
+- source_id: tsang2007
+  title: Simpler Core Vector Machines with Enclosing Balls
+  authors:
+  - Ivor W. Tsang
+  - Andras Kocsor
+  - James T. Kwok
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~jamesk/papers/icml07b.pdf
+  version: ICML 2007:911-918; all eight author-hosted proceedings PDF pages visually read. Printed page
+    equals PDF page plus 910.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:14:58Z'
+  sha256: 3bb017075a6122bf9090d3ea92001967eff3af9f45e23dedef61f528ea9ad273
+- source_id: tsang2005
+  title: 'Core Vector Machines: Fast SVM Training on Very Large Data Sets'
+  authors:
+  - Ivor W. Tsang
+  - James T. Kwok
+  - Pak-Ming Cheung
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/tsang05a/tsang05a.pdf
+  version: JMLR 6(13):363-392 (2005); all 30 official PDF pages visually read. Printed page equals PDF
+    page plus 362.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:14:57Z'
+  sha256: 8ba1804ac23354545055b8490072284dd3baa971106fe86fc74ce69e44103685
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: The algorithm trains a particular support-vector formulation, making AIO:SupportVectorMachine
+    a related model-family target. The pinned target is a Network with layer relations and supervised
+    classification/regression scope; it is not identical to this training algorithm. Related matching
+    asserts neither equivalence nor subclassing. BinaryClassification, Classification, SupervisedLearning
+    and UnsupervisedLearning are tasks, not the specific solver; encoding labels in a feature map does
+    not make binary training unsupervised. KernelLayer is a component, TrainingStrategy is described as
+    preprocessing, and DataPreparation or SelectionAndSamplingBias do not identify the procedure. Native
+    SVDD fits a support boundary, SVC adds component labeling, kernel PCA extracts variance directions,
+    and margin clustering infers labels. Shared kernels or enclosing spheres do not establish identity.
+limitations:
+- Kernel validity and normalization, regularization, numerical tolerances, violation-search policy and
+  data geometry affect guarantees and costs. A geometric approximation is not a calibrated uncertainty
+  estimate or a generalization guarantee.
+- All 30 CVM and eight BVM primary PDF pages were visually read; the CVM critique’s 11 pages were also
+  read for that record. The reply remains abstract-only context and its software diagnosis was not independently
+  verified.
+- Exact rational formula and boundary checks were executed. No historical binary, full optimizer, trained
+  model or benchmark was executed. Original software access links failed; current implementation behavior
+  is not asserted.
+- This maintained native record remains DRAFT, with a local related AIO mapping. Generalized solvers,
+  data-description variants and other discovered source leads remain unresolved.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T09:31:37Z'
+  updated_at: '2026-10-12T09:40:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
