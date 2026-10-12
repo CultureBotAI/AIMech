@@ -1,0 +1,160 @@
+id: AIMech:CorrelationBasedHammersteinIdentification
+name: Correlation-based Hammerstein identification
+concept_kind: algorithm
+definition: A two-stage identification algorithm for a real-valued single-input single-output polynomial
+  Hammerstein cascade that estimates a scaled linear response from Gaussian-excited input/output cross-correlation,
+  then fits the input polynomial by least squares on filtered input powers.
+identity_notes: 'Compared all 442 pinned AIO IDs, names and scoped synonyms and 534 native IDs, names
+  and aliases with both proposed estimator names, expanded two-stage/correlation names and related Bussgang/linear-approximation
+  terms: no normalized identity match. Ignored- and hidden-inclusive full-text searches of the accessible
+  recovery worktree and readable earlier worktree returned 81 and 68 lines. All distinct matched text
+  was read; it concerns pending Bussgang blind-deconvolution leads and prior cascade-model source context.
+  Blind deconvolution with unknown input is not these observed-input estimators. Original Documents untracked
+  files remain inaccessible and are not claimed re-audited. Read all 36 semantic AIO rows, 58 native name/definition
+  neighbors, eight complete annotated AIO CLASS nodes with incident edges, eight contextual generated
+  YAMLs and six complete native neighbors. Wiener/Hammerstein records denote models, RPE/PLR denote recursive
+  updates, forward OLS selects candidate structure, and the iterated Wiener filter estimates an image
+  under a fixed prior. These are distinct mechanisms. AIO linear/least-squares regression supplies component
+  fitting context, not the ordered two-stage estimator identity. DCC models changing covariances, GLM
+  specifies a statistical link, ARDL specifies lagged model structure, and a convolutional layer is a
+  neural component. No exact mapping is justified. These local descriptive method names do not claim original
+  nomenclature or priority.'
+definition_evidence:
+- source_id: billings-fakhouri1978-hammerstein
+  locator: Section 2, Equations 6–17, PDF pp. 6–9 / printed pp. 4–7; Figure 2, PDF p. 22
+  relation: supports
+claims:
+- claim_id: correlation-separation
+  kind: mechanism
+  statement: The first stage correlates centered output with the centered Gaussian input fluctuation of
+    excitation u=b+x. Under the source’s independent-output-noise and sufficiently white practical-excitation
+    assumptions, the result approximates alpha*h, with alpha=mu*[gamma1+2*b*gamma2+3*gamma3*(variance(x)+b²)+...]
+    and mu the input autocorrelation area. The report explicitly distinguishes finite practical variance
+    from ideal continuous-white variance. For discrete iid unit-variance Gaussian inputs the corresponding
+    factorization is exact at the population level. A nonzero alpha and appropriate moment/linear-response
+    conditions are needed for recovery.
+  evidence:
+  - source_id: billings-fakhouri1978-hammerstein
+    locator: Section 2, Equations 3–14, PDF pp. 5–8 / printed pp. 3–6; the discrete iid statement is a
+      direct curator Gaussian-moment consequence of these equations
+    relation: supports
+- claim_id: filtered-input-powers
+  kind: mechanism
+  statement: After estimating the scaled linear response, build a design column for each degree j by filtering
+    u^j through that response. Least-squares fit measured output on these columns. The input u includes
+    the applied mean; x denotes the centered fluctuation only in the correlation stage. The displayed
+    inverse requires full column rank. This differs from raising a filtered input to successive powers
+    as in Wiener identification, and it does not select the polynomial degree or linear order automatically.
+  evidence:
+  - source_id: billings-fakhouri1978-hammerstein
+    locator: Section 2, Equations 14–17, PDF pp. 8–9 / printed pp. 6–7; Figure 2, PDF p. 22
+    relation: supports
+  - source_id: billings-fakhouri1977-wiener
+    locator: 'Equations 13–17, PDF pp. 7–8 / printed pp. 4–5: Wiener powers-of-filtered-input design'
+    relation: supports
+- claim_id: scale-reparameterization
+  kind: scope
+  statement: If the first stage recovers alpha*L, divide every polynomial coefficient by alpha, independent
+    of its degree, to preserve L(g(u)). For h=(1,2), u=(1,2,-1), g(v)=v+v² and scale 3, the two filtered-power
+    columns are (3,12,9) and (3,18,27); coefficients (1/3,1/3) reproduce outputs (2,10,12). These are
+    exact deterministic curator calculations and do not uniquely determine the physical block gains or
+    establish finite-sample estimation performance.
+  evidence:
+  - source_id: billings-fakhouri1978-hammerstein
+    locator: Section 2, coefficient relation following Equation 15 and Equations 16–17, PDF pp. 8–9 /
+      printed pp. 6–7; curator exact calculations in research/discovery/correlation-identification-boundaries.py
+    relation: supports
+- claim_id: gain-and-variant-boundaries
+  kind: limitation
+  statement: 'Even with u_t=1+x_t for iid standard Gaussian x, g(u)=u³-6u has zero centered input/output
+    cross-correlation through a nonzero LTI block: the polynomial contributions cancel. The source’s nonzero-mean
+    recommendation therefore needs a nonzero-gain check. Its separate parallel-feedforward extension uses
+    squared-input correlation, whose gain can also vanish, and generally identifies the combined linear
+    branch h1+omega1*h2 rather than both original paths. Those extra steps are not part of this two-stage
+    Hammerstein algorithm.'
+  evidence:
+  - source_id: billings-fakhouri1978-hammerstein
+    locator: Section 2, Equations 12–13, PDF p. 7 / printed p. 5; Section 3, Equations 20–32, PDF pp.
+      11–15 / printed pp. 9–13; Conclusions, PDF p. 17 / printed p. 15; curator exact calculations in
+      research/discovery/correlation-identification-boundaries.py
+    relation: supports
+evidence_sources:
+- source_id: billings-fakhouri1978-hammerstein
+  title: Nonlinear System Identification using the Hammerstein Model
+  authors:
+  - S. A. Billings
+  - S. Y. Fakhouri
+  source_type: author_technical_report
+  url: https://eprints.whiterose.ac.uk/id/eprint/75422/2/report%2068.pdf
+  persistent_id: https://eprints.whiterose.ac.uk/id/eprint/75422/
+  version: ACSE Research Report 68, University of Sheffield, February 1978; 26 PDF pages, all visually
+    read. PDF 1 repository cover, 2 title, 3–18 printed pp. 1–16, 19 captions, 20 Table 1 (printed p.
+    17), 21–26 figures. The later International Journal of Systems Science 10(5):567–578 article, DOI
+    10.1080/00207727908941603, was published in 1979; the publisher’s 2007 online date is not the report
+    date. Final journal full text was not compared. Figure 6’s peak is cropped in this scan.
+  access_level: full_text
+  accessed_at: '2026-10-12T13:47:24Z'
+  sha256: 6d50fec13e5904cd417d198d05a787ed55d80f3652f790d90ab4fd545d527590
+- source_id: billings-fakhouri1977-wiener
+  title: Identification of Non-Linear Systems Using the Wiener Model
+  authors:
+  - S. A. Billings
+  - S. Y. Fakhouri
+  source_type: author_technical_report
+  url: https://eprints.whiterose.ac.uk/id/eprint/75410/1/report%2060%20%282%29.pdf
+  persistent_id: https://eprints.whiterose.ac.uk/id/eprint/75410/
+  version: ACSE Research Report 60, University of Sheffield, July 1977; 13 PDF pages, all visually read.
+    PDF 1 repository cover, 2 title, 3 abstract, 4–10 printed pp. 1–7, 11 captions, 12–13 figures. The
+    later Electronics Letters 13(17):502–504 article, DOI 10.1049/el:19770367, is identified by Crossref
+    as published August 18, 1977; its full text was not compared.
+  access_level: full_text
+  accessed_at: '2026-10-12T13:47:28Z'
+  sha256: 4520676002d287a1b2da5a1af6023d1ba8071797280b12835b2a1f782ad0b441
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LeastsquaresAnalysis
+  relation: related_match
+  rationale: Both stages use residual-squared parameter fitting after the source’s correlation-based separation.
+    The pinned target describes a general fitting analysis, whereas this record specifies an ordered identification
+    procedure with excitation and block-structure assumptions. A related mapping reflects its component
+    mechanism without claiming exact identity or an asserted subclass.
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: The procedure estimates nonlinear dynamical structure from temporal input/output observations
+    and lagged correlations. The pinned target is the analysis task; related mapping preserves the algorithm/task
+    distinction.
+limitations:
+- This record covers the inspected two-stage polynomial identification procedure for a real-valued single-input
+  single-output cascade, observed exogenous input/output, a time-invariant linear block and independent
+  additive measurement noise. The displayed polynomial basis has degrees 1 through k; a constant/intercept,
+  multivariable, closed-loop, colored-input or neural variant needs separate treatment.
+- Independence removes additive output noise from correlation with a centered input, even if that noise
+  has a nonzero mean. It does not by itself remove bias from the second-stage raw-output regression without
+  an intercept. Interpreting those fitted coefficients as the system polynomial requires zero-mean noise
+  or separately justified offset treatment; subtracting the entire output mean can also remove a real
+  nonlinear signal mean.
+- Gaussian correlation factorization is a population statement under the specified excitation and finite
+  moments. Finite sample correlations, estimated regressors, chosen orders, transients, sampling, noise
+  and conditioning affect fitted results. No unconditional unbiasedness, consistency, unique physical
+  recovery or generalization guarantee is asserted.
+- Practical continuous-time white-noise excitation has finite bandwidth. A delta-correlation approximation
+  does not establish exact impulse recovery for arbitrary colored inputs. A literal ideal continuous-white
+  signal cannot be passed pointwise through an unrestricted polynomial; discrete iid Gaussian examples
+  here are well-defined curator calculations.
+- Internal gain requires a normalization or external information. A nonzero excitation mean alone does
+  not guarantee a nonzero correlation gain; cancellation can leave the first stage uninformative even
+  for a nonconstant nonlinear system.
+- All pages of both original reports were visually read. Later journal versions were identified from publisher/registration
+  metadata but not compared in full. The broader 1980 report and original correlation-theorem, iterative-estimation
+  and parallel-system sources remain follow-up evidence. No training, empirical replication or paid provider
+  was run. Records remain DRAFT; author self-review is not independent approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T14:10:31Z'
+  updated_at: '2026-10-12T14:17:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
