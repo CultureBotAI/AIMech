@@ -1,0 +1,196 @@
+id: AIMech:GaussianLossSmoothedMixedModelVariationalInference
+name: Gaussian loss-smoothed mixed-model variational inference
+aliases:
+- NCVB-UF
+concept_kind: algorithm
+definition: A nonconjugate variational inference procedure for a loss-defined mixed-effects generalized
+  posterior that retains a joint Gaussian over fixed and random coefficients, factors inverse-gamma random-effect
+  variances, and uses one-dimensional Gaussian expected-loss derivatives to alternate exact variance coordinates
+  with a full-Gaussian natural proposal. This record denotes the base NCVB-UF procedure with the precision
+  sign reconciled against its gradient/Hessian derivation.
+identity_notes: 'No normalized identity match across all 442 pinned AIO IDs, labels and scoped synonyms
+  and 553 maintained IDs, names and aliases. Ignored- and hidden-inclusive fixed-string searches of the
+  recovery, old discovery and original Documents checkouts returned 30, 0 and 0 lines, all 30 read: prior
+  source leads and contextual references, without a matching record. Assessed all 33 semantic AIO rows
+  and 113 native names/definitions, seven complete annotated AIO nodes with incident edges/generated YAML
+  and five complete native context records. Gaussian loss-smoothed mixed-model variational inference is
+  a descriptive local name for the base unconstrained-Gaussian NCVB-UF procedure in Castiglione and Bernardi
+  Algorithm 1, with the precision sign qualified against Proposition 2 and Appendix A2. Its unit-loss
+  generalized target, one-dimensional Gaussian loss smoothing, full fixed/random-effect covariance and
+  inverse-gamma variance coordinates distinguish it from generic NCVMP, BBVI, generic mean-field families
+  and the shared-spectral regression procedure. NCVB-UF is a source-specific algorithm designation, not
+  a claim that all nonconjugate variational Bayes is this method. Older titles of arXiv:2206.09444 are
+  the same source version history. Projected and stochastic extensions are separate pending scope. Absence
+  is bounded to this pin and inspected corpus.'
+definition_evidence:
+- source_id: castiglione2025
+  locator: Sections 2.2–2.3, Proposition 2, and Algorithm 1, PDF pp. 4–7 and 26
+  relation: supports
+claims:
+- claim_id: generalized-target
+  kind: scope
+  statement: 'For observations y_i and design rows c_i^T, let theta=(beta,u_1,...,u_H) and eta_i=c_i^T*theta.
+    The unit-loss generalized posterior is proportional to exp(-sum_i psi(y_i,eta_i)) times the prior:
+    beta~N(0,sigma_beta^2*R_beta^-1), u_h|s_h~N(0,s_h*R_h^-1) and independent s_h~IG(A_h,B_h). Here sigma_beta^2,A_h,B_h
+    are positive, each R is positive definite, and IG(A,B) has density proportional to s^(-A-1)*exp(-B/s),
+    s>0. These proper-prior and positive-definite assumptions delimit this record; an intrinsic singular
+    Gaussian requires separate constraints. An arbitrary loss defines a generalized target, not automatically
+    a normalized sampling likelihood. Assume its normalizing constant Z is finite and positive; a finite
+    nonnegative loss with these proper priors suffices.'
+  evidence:
+  - source_id: castiglione2025
+    locator: Section 2, Equation 1, PDF pp. 3–4; Appendix A1 Gaussian-prior expansion, PDF pp. 16–17
+    relation: supports
+- claim_id: factor-family-objective
+  kind: mechanism
+  statement: Use q(theta)=N(mu,Sigma) with a full positive-definite covariance, independently of q(s_h)=IG(alpha_h,b_h)
+    for each random-effect variance. Dependence among fixed and random coefficients is retained; dependence
+    between theta and the variances, and between the variance factors, is omitted. The variational objective
+    is L=E_q[log unnormalized_target]-E_q[log q], a lower bound on log Z under the proper-target and finite-expectation
+    conditions. It does not assert a normalized-data-likelihood evidence for arbitrary losses. This is
+    the unconstrained Gaussian factorization called NCVB-UF in the source, not its further block-factorized
+    Gaussian projections.
+  evidence:
+  - source_id: castiglione2025
+    locator: Section 2.1 objective, PDF p. 4; Section 2.2, Equation 3, PDF p. 5; Section 3.1, PDF p. 9;
+      Algorithm 1, PDF p. 26
+    relation: supports
+- claim_id: gaussian-loss-smoothing
+  kind: mechanism
+  statement: At current Gaussian moments, xi_i=c_i^T*mu and nu_i^2=c_i^T*Sigma*c_i. For nu_i>0 define
+    Psi0_i=E[psi(y_i,xi_i+nu_i*Z0)] with Z0~N(0,1), and Psi1_i and Psi2_i as its first and second xi derivatives.
+    Under dominated differentiation, for example a measurable loss of at most polynomial growth, these
+    equal E[Z0*psi]/nu_i and E[(Z0^2-1)*psi]/nu_i^2. Thus nondifferentiable losses can give smooth Gaussian
+    expected losses through one-dimensional expectations, with analytic forms for some losses and quadrature
+    for others. These identities concern positive nu and the stated integrability conditions; they are
+    not a blanket global uniform-convergence theorem or a rule for substituting nu=0.
+  evidence:
+  - source_id: castiglione2025
+    locator: Section 2.3, Proposition 3 and examples, PDF pp. 6–7; Appendix A3, PDF pp. 18–20
+    relation: supports
+- claim_id: variance-coordinates
+  kind: mechanism
+  statement: Holding current q(theta) fixed, each exact inverse-gamma coordinate has alpha_h=A_h+d_h/2
+    and b_h=B_h+(mu_h^T*R_h*mu_h+tr(R_h*Sigma_hh))/2, where d_h is the random-effect block size. Therefore
+    E_q[1/s_h]=alpha_h/b_h. The expected prior precision Rbar is block diagonal, with beta block R_beta/sigma_beta^2
+    and random block (alpha_h/b_h)*R_h. Positive prior parameters and positive-definite R make these factors
+    proper and Rbar positive definite. These exact variance-factor coordinates do not make the coupled
+    full posterior exact.
+  evidence:
+  - source_id: castiglione2025
+    locator: Section 2.2, Proposition 2, PDF pp. 5–6; Appendix A2 variance-coordinate derivation, PDF
+      p. 17; Algorithm 1 variance updates, PDF p. 26
+    relation: supports
+- claim_id: gaussian-natural-proposal
+  kind: mechanism
+  statement: In the base full-data cycle, compute xi,nu and Psi1,Psi2 from the old mu,Sigma; update the
+    variance factors from those old Gaussian moments; then use their new Rbar. Set W=diag(Psi2), P=Rbar+C^T*W*C
+    and h=C^T*(W*xi-Psi1). If P is positive definite, propose Sigma_new=P^-1 and mu_new=Sigma_new*h, equivalently
+    mu_new=mu+Sigma_new*g with g=-C^T*Psi1-Rbar*mu. This uses the plus curvature sign from Proposition
+    2 and Appendix A2, correcting the inconsistent minus sign in printed Algorithm 1. For convex losses
+    with nonnegative smoothed curvature, positive-definite Rbar makes P positive definite. The h form
+    avoids dividing by individual zero curvature entries. It is a Gaussian NCVMP fixed-point/natural proposal,
+    not an exact Gaussian-family maximizer or a general bound-ascent guarantee; recompute moments after
+    changing q(theta).
+  evidence:
+  - source_id: castiglione2025
+    locator: Proposition 2, PDF p. 6; Appendix A2 gradient/Hessian, PDF p. 18; Algorithm 1 schedule and
+      conflicting covariance line, PDF p. 26
+    relation: supports
+- claim_id: pinball-loss-example
+  kind: mechanism
+  statement: For the unscaled pinball loss psi(y,eta)=(y-eta)*(tau-1[y<eta]), 0<tau<1, set z=(y-xi)/nu
+    with nu>0. With phi and Phi the standard normal density and cumulative distribution, Psi0=nu*(phi(z)+z*(Phi(z)-1+tau)),
+    Psi1=1-tau-Phi(z), and Psi2=phi(z)/nu. This concrete Gaussian convolution supplies the gradient and
+    nonnegative curvature used by the base mixed-model update without differentiating the loss at its
+    kink. The scaling is part of the generalized target; multiplying a loss by a constant generally changes
+    that target relative to its prior.
+  evidence:
+  - source_id: castiglione2025
+    locator: Section 2.3 quantile-regression example, PDF p. 6; Appendix B3, PDF p. 24
+    relation: supports
+- claim_id: implementation-boundary
+  kind: limitation
+  statement: In the inspected package psifun SVC method, the expected hinge loss psi0 has the unscaled
+    Gaussian-convolution form, while psi1 and psi2 use twice its corresponding derivatives (apart from
+    numeric clipping). They therefore do not consistently describe derivatives of that same psi0. This
+    is a static source inconsistency, not a measured runtime or benchmark result, and does not alter the
+    unscaled pinball formulas curated here.
+  evidence:
+  - source_id: bayesglmm-psifun
+    locator: _psi(y::V, eta::V, sigma::V, f::SVC, t::T=0.0, nknots=19) definition and returned psi_0,
+      psi_1, psi_2 expressions
+    relation: supports
+evidence_sources:
+- source_id: castiglione2025
+  title: Non-conjugate variational Bayes for pseudo-likelihood mixed effect models
+  authors:
+  - Cristian Castiglione
+  - Mauro Bernardi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2206.09444v5
+  persistent_id: https://arxiv.org/abs/2206.09444v5
+  version: arXiv:2206.09444v5, revised 2025-10-13; all 41 PDF pages inspected. DOI 10.1080/10618600.2025.2527925
+    identifies the journal article; its full text and reproduction supplement were not inspected.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:48:02Z'
+  sha256: 5213ddc037e51a1165214416577ae2708cfc06f5753bc0718ca3c121c223ea9a
+- source_id: bayesglmm-psifun
+  title: BayesGLMM.jl Gaussian expected-loss implementation, src/psifun.jl
+  authors:
+  - Cristian Castiglione
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/CristianCastiglione/BayesGLMM.jl/15ce3551f62b0dfb5a54a6bc455deb1cb6966b34/src/psifun.jl
+  persistent_id: https://github.com/CristianCastiglione/BayesGLMM.jl/blob/15ce3551f62b0dfb5a54a6bc455deb1cb6966b34/src/psifun.jl
+  version: Commit 15ce3551f62b0dfb5a54a6bc455deb1cb6966b34, dated 2025-11-04; complete selected source
+    file statically inspected, not executed. Package as a whole not certified.
+  access_level: documentation
+  accessed_at: '2026-10-12T23:28:08Z'
+  sha256: 708ec333ac71bb42f49bdf45d02242999831a9f4f1bdf92a50645ca6c21a2895
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RandomEffectsModel
+  relation: related_match
+  rationale: The procedure performs approximate inference in a hierarchical mixed-effects target containing
+    random-effect blocks and their variance parameters. RandomEffectsModel denotes that modeling context,
+    not this Gaussian loss convolution, factor family or inference schedule. This is an algorithm-to-model-family
+    relationship without equivalence or an is-a assertion.
+limitations:
+- The record scopes the base unit-loss, full-Gaussian NCVB-UF procedure using Proposition 2 / Appendix
+  A2 for its precision. Printed Algorithm 1 uses Rbar-C^T*W*C, inconsistent with that derivation and invalid
+  even for some positive-curvature quadratic examples. This qualified reconstruction is not a claim that
+  all source pseudocode or an author implementation has been certified.
+- The source generic NCVMP sign, Equation 5 bound display and intermediate Appendix A1/A2 signs contain
+  inconsistencies. The general expected-log-target plus entropy definition is used here; prior log determinants
+  are separate from precision-weighted quadratics, and cancellation of scale-log terms requires the coordinate-optimal
+  inverse-gamma shapes. No unqualified transcription of the displayed bound or stopping-rule convergence
+  guarantee is asserted.
+- 'Proposition 3 overstates global uniform convergence under its broad assumptions: for psi(eta)=exp(eta),
+  Gaussian smoothing is exp(xi+nu^2/2), whose difference from exp(xi) has infinite supremum over all real
+  xi for every nu>0. Positive-variance derivative identities require justified interchange, and nu=0 needs
+  separate treatment. The source hinge and epsilon-insensitive examples also mix unscaled and doubled
+  losses; only the internally reconciled unscaled pinball example is represented.'
+- Fully/partially factorized Gaussian projections and stochastic minibatch variants remain outside this
+  record. A single coordinate projection sweep need not reach the exact reverse-KL Gaussian projection;
+  arbitrary entrywise learning rates need not preserve positive-definite precision. Global optimum comparisons
+  with compatible augmented families do not imply that a local run is superior or has a unique optimizer.
+- The author-linked BayesGLMM.jl snapshot 15ce3551f62b0dfb5a54a6bc455deb1cb6966b34 postdates arXiv v5.
+  Ten selected files were statically read, with no Julia execution. Its added observation-scale factors,
+  update order and step controls differ from the base target; its SVC expected-loss derivatives are inconsistent
+  with its own unscaled expected loss. This package was not used to certify Algorithm 1 fidelity. The
+  remaining package and journal reproduction supplement were not fully inspected.
+- All 41 arXiv v5 pages were visually read. The full journal article and reproduction supplement were
+  not accessed; journal landing-page access returned HTTP 403. Independent finite quadrature and a single
+  supplied Gaussian/IG state check derivative and update algebra, not iterative fitting, convergence or
+  accuracy. No empirical performance claim is made; inconsistencies in the source experiment descriptions
+  and table contexts are retained in the discovery report. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T23:42:43Z'
+  updated_at: '2026-10-12T23:50:15Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
