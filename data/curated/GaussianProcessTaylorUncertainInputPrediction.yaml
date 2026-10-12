@@ -1,0 +1,197 @@
+id: AIMech:GaussianProcessTaylorUncertainInputPrediction
+name: Taylor approximation for uncertain-input Gaussian-process prediction
+aliases:
+- Taylor Gaussian-process uncertainty propagation
+concept_kind: algorithm
+definition: A local Gaussian-process prediction algorithm that expands a fixed posterior mean to first
+  order and its latent variance to second order about the mean of a prescribed Gaussian test input, integrates
+  those expansions, and uses the resulting approximate moments for a Gaussian predictive representation
+  and iterative covariance propagation.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 541 native IDs, names
+  and aliases against the proposed ID, name, descriptive alias and Taylor uncertain-input GP terms: no
+  normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery, older discovery
+  and original Documents checkouts returned 98, 0 and 0 lines. All 56 distinct matched strings were read,
+  including the full generated search-index match; they describe the pending Taylor lead or the already
+  represented exact Gaussian-input integration procedure. Read 37 semantic AIO rows, 77 native name/definition
+  neighbors, six full annotated CLASS nodes with incident edges/generated records and five complete contextual
+  native records. The scoped method approximates posterior mean and variance functions by local Taylor
+  expansions before integrating over a Gaussian test input. It differs from exact squared-exponential
+  input integration, generic GP regression, derivative observations used as training data and correlation-aware
+  trajectory linearization. Absence is bounded to the inspected pin and maintained corpus; the alias does
+  not claim all GP uncertainty propagation methods are identical.'
+definition_evidence:
+- source_id: girard-tr2002
+  locator: Sections 3.2–3.4, Equations 12–22, PDF pp. 8–9; Sections 4.1–4.2, PDF pp. 11–13
+  relation: supports
+claims:
+- claim_id: local-moments
+  kind: mechanism
+  statement: For a fixed trained GP posterior with differentiable scalar mean m(x) and twice-differentiable
+    latent variance v(x), take a prescribed Gaussian test input X~N(mu,Sigma) independent of the posterior
+    function conditional on the training data and fixed hyperparameters. The source expands m to first
+    order and v to second order about mu. Integrating these truncated expressions gives the predictive
+    mean approximation m(mu) and latent variance approximation v(mu)+0.5*tr(H_v(mu)*Sigma)+grad(m)(mu)^T*Sigma*grad(m)(mu).
+    This combines the expected conditional variance and the variance of the linearized conditional mean.
+    A Gaussian with these moments is an additional approximation to the predictive law, provided the resulting
+    variance is valid.
+  evidence:
+  - source_id: girard-tr2002
+    locator: Sections 3.2–3.4, Equations 12–22, PDF pp. 8–9
+    relation: supports
+  - source_id: girard2002
+    locator: Section 3.1, Equations 6–9, PDF p. 3
+    relation: supports
+- claim_id: lag-covariance
+  kind: application
+  statement: For iterative autoregressive prediction the report carries a full Gaussian covariance of
+    the lagged outputs. The local expansion gives Cov(X,f(X)) approximately Sigma*grad(m)(mu), with the
+    transpose used for Cov(f(X),X). This cross-covariance forms the new row and column while the retained
+    lag block shifts forward. If predicting a future noisy output rather than the latent function value,
+    add its independent observation-noise variance once to the new output diagonal. Training noise already
+    used in the GP posterior and this future output noise play different roles. Using only independent
+    lag variances is a different approximation.
+  evidence:
+  - source_id: girard-tr2002
+    locator: Sections 4.1–4.2, PDF pp. 11–13; Equations 32–35 and the lag covariance matrix, PDF p. 13
+    relation: supports
+- claim_id: mean-curvature
+  kind: limitation
+  statement: 'A second-order Taylor expansion of the conditional variance is not a general assertion of
+    second-order accuracy for the predictive moments: the source retains only a first-order expansion
+    of the conditional mean. A curator unit-kernel example conditioned on the exact observation f(0)=1
+    and X~N(0,s) gives Taylor mean 1 and Taylor variance s, whereas exact integration gives mean 1/sqrt(1+s)
+    and variance s/(1+s). The mean error is of order s as s approaches zero, even though the posterior-mean
+    gradient vanishes at the expansion point. At Sigma=0 the formulas reduce to ordinary fixed-input GP
+    prediction.'
+  evidence:
+  - source_id: girard-tr2002
+    locator: Sections 3.3–3.4, Equations 14–22, PDF pp. 8–9
+    relation: supports
+  - source_id: girard2002
+    locator: Section 3.1, exact squared-exponential integrals, Equations 10–13, PDF p. 4
+    relation: supports
+- claim_id: variance-validity
+  kind: limitation
+  statement: The local Taylor variance is not guaranteed nonnegative for arbitrary input uncertainty.
+    A curator calculation for a unit-amplitude, unit-lengthscale squared-exponential GP conditioned on
+    an exact f(0)=0, with input mean 1 and variance 2, gives Taylor variance 1-3/e<0 while the exact integrated
+    variance is 1-exp(-1/5)/sqrt(5)>0. This deliberately nonlocal case limits an unrestricted covariance
+    claim; it is not an empirical reproduction or a refutation of a justified small-uncertainty approximation.
+    An invalid computed covariance cannot be interpreted as a Gaussian predictive distribution without
+    a separately justified correction.
+  evidence:
+  - source_id: girard-tr2002
+    locator: Section 3.4, Equations 18–22, PDF p. 9
+    relation: supports
+  - source_id: girard2002
+    locator: Section 3.1, Equations 8–13, PDF pp. 3–4
+    relation: supports
+- claim_id: distinct-exact-and-correlated-methods
+  kind: scope
+  statement: The local Taylor procedure is distinct from analytic squared-exponential Gaussian-input moment
+    integration, which the technical report lists as future work and the proceedings paper presents separately.
+    Moreover, propagating a Gaussian lag covariance while repeatedly treating the current input as independent
+    of the uncertain function does not preserve all dependence created by one shared dynamics function
+    across a trajectory. The later correlation-aware trajectory approaches address that different approximation;
+    this record does not identify them with the earlier local Taylor method.
+  evidence:
+  - source_id: girard-tr2002
+    locator: Conclusion and future work, PDF p. 17
+    relation: supports
+  - source_id: girard2002
+    locator: Section 3.1, Taylor Equations 8–9 versus exact Equations 10–13, PDF pp. 3–4
+    relation: supports
+  - source_id: hewing2020
+    locator: Introduction and Sections 2–3, PDF pp. 1–4; proposed trajectory methods, PDF pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: girard-tr2002
+  title: 'Gaussian Process priors with Uncertain Inputs: Multiple-Step-Ahead Prediction'
+  authors:
+  - Agathe Girard
+  - Carl Edward Rasmussen
+  - Roderick Murray-Smith
+  source_type: author_technical_report
+  url: https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf
+  persistent_id: TR-2002-119
+  version: University of Glasgow Technical Report TR-2002-119, October 2002; all 18 PDF pages visually
+    read, with matching printed page indices. Earlier Taylor method, distinct authorship and experiments
+    from the four-author proceedings paper.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:50:34Z'
+  sha256: f2e78afd674d4a4224933b3b4c0e4656a93553491a65ffcd4f118b7d740d006b
+- source_id: girard2002
+  title: Gaussian Process Priors with Uncertain Inputs Application to Multiple-Step Ahead Time Series
+    Forecasting
+  authors:
+  - Agathe Girard
+  - Carl Edward Rasmussen
+  - Joaquin Quiñonero Candela
+  - Roderick Murray-Smith
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2002/file/f3ac63c91272f19ce97c7397825cc15f-Paper.pdf
+  persistent_id: https://papers.nips.cc/paper_files/paper/2002/hash/f3ac63c91272f19ce97c7397825cc15f-Abstract.html
+  version: NIPS 2002, Advances in Neural Information Processing Systems 15; official eight-page unpaginated
+    PDF, also cited as the 2003 volume. All eight pages, figures, table and references visually read;
+    locators use PDF indices.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:50:31Z'
+  sha256: b8b19f828d8d796566549d0ddbda746b04868af65c5af9d9a2a8fc978c9da7aa
+- source_id: hewing2020
+  title: On Simulation and Trajectory Prediction with Gaussian Process Dynamics
+  authors:
+  - Lukas Hewing
+  - Elena Arcari
+  - Lukas P. Fröhlich
+  - Melanie N. Zeilinger
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  persistent_id: https://proceedings.mlr.press/v120/hewing20a.html
+  version: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices
+    are 1–11, which are used for locators.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:55:19Z'
+  sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The algorithm approximates a fitted GP response prediction under uncertain test inputs. RegressionAnalysis
+    denotes the task context, not this local integration procedure or an equivalent algorithm.
+- target: AIO:TimeSeriesForecasting
+  relation: related_match
+  rationale: The primary report explicitly develops the Taylor construction for iterative multiple-step
+    time-series prediction with lag covariance. This is an application relationship, not a claim that
+    the forecasting task is a superclass-equivalent algorithm.
+limitations:
+- The method is a local approximation requiring sufficient smoothness and input uncertainty small enough
+  for the retained expansions to be useful. Gaussian test-input independence, fixed training locations/data
+  and fixed hyperparameters are explicit assumptions; uncertain training locations and hyperparameter
+  integration are not solved here.
+- The first-order mean omits the curvature term 0.5*tr(H_m*Sigma). The scalar negative-variance example
+  also prevents a universal positive-semidefinite covariance claim. No general error bound, calibration
+  guarantee or automatic covariance-repair procedure is asserted.
+- 'The technical report changes its squared-exponential width notation: early widths are lengthscales
+  in a denominator, while Equation 25 uses inverse squared lengthscales. Any implementation must choose
+  one consistent parameterization. The record uses posterior derivatives directly and does not copy incompatible
+  width symbols across sections.'
+- Full lag covariance handles correlation between uncertain regressor components, but does not retain
+  the complete shared-function trajectory dependence. Gaussian closure also omits higher moments. A local
+  covariance formula is not exact nonlinear trajectory propagation.
+- The source forecasting mean can coincide with a mean-only rollout because this particular mean approximation
+  is m(mu); the covariance correction changes the uncertainty estimate. Source comparisons on synthetic
+  dynamics and pH data do not establish universal accuracy, superiority or calibrated coverage, and their
+  numerical results are not curated here.
+- The exact-observation unit-kernel examples are curator analytic checks, not fitted-model or benchmark
+  reproductions. No author implementation, training, paid provider or stochastic simulation was run. The
+  record remains DRAFT after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T21:22:08Z'
+  updated_at: '2026-10-12T21:22:08Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
