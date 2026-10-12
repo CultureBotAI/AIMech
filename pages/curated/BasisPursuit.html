@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basis pursuit · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Basis pursuit</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Basis pursuit</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:BasisPursuit</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A signal-representation optimization principle that minimizes the L1 norm of real synthesis coefficients subject to exact reconstruction of a supplied signal from a fixed finite dictionary.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record selects the equality-constrained, real finite-dictionary principle of Chen, Donoho and Saunders. It is not a particular LP solver, a learned dictionary, generic sparse coding or the penalized denoising extension. BP is a source abbreviation but is not asserted as an unqualified alias. All 442 AIO IDs, labels and scoped synonyms and 524 preceding native IDs, names and aliases were compared, with no normalized collision. Ignored/hidden-inclusive searches of both checkouts returned the same 38 matching lines: the preceding source lead, contextual semiparametric LP record, its review and rendered copies. All 29 distinct matched text windows were inspected. The semantic comparison read 114 AIO name/synonym/definition rows and 151 native name/definition rows; eight full annotated AIO CLASS nodes and incident edges were inspected. Native least-angle regression, elastic net, NMF and iterated Wiener filtering have different objectives or roles. The semiparametric LP regression fits epsilon-insensitive residuals rather than requiring equality. These are bounded identity checks, not an assertion of absence from all literature.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exact-synthesis-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a supplied real n-by-p matrix Phi whose columns are dictionary atoms and a signal s in its column span, choose a real coefficient vector a minimizing sum_j abs(a_j) subject to Phi*a=s. Overcompleteness is typical but not required. The dictionary stays fixed; a need not equal the analysis coefficients Phi^T*s. If s is outside the column span, the equality-constrained problem is infeasible. The optimization principle does not require or define a neural network.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2 and 3.1, Equations 2.2 and 3.1–3.2, PDF pp. 6,11–13 / printed pp. 134,139–141</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#linear-program-and-dual</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Writing a=u-v with u,v&gt;=0 gives the LP minimize 1^T(u+v) subject to [Phi,-Phi](u,v)=s. Its dual is maximize s^T*z subject to abs(Phi^T*z)&lt;=1 componentwise. A feasible primal and feasible dual with equal objective values certify optimality; complementary signs can additionally constrain active coefficients. These formulas use real coefficients and are algebraic specializations of the source LP, not a claim that signed coefficients are nonnegative.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 and 6.1, Equations 3.2 and 6.1–6.2, PDF pp. 11–12,24 / printed pp. 139–140,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sparse-basic-solution-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source uses LP geometry to explain why a feasible finite problem has an optimal basic representation with at most n nonzero signed coefficients. Existence of such an optimum does not make every optimum sparse, establish uniqueness, require exactly n active coefficients, or guarantee minimum nonzero count. Source-specific exact recovery results for particular dictionaries in Section 7.1 require additional hypotheses; their cited external proofs were not independently audited.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1.1 and Section 7.1, PDF pp. 12,28 / printed pp. 140,156</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#l1-versus-l0-certificate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A curator-derived unit-column example distinguishes minimum L1 from minimum support. Let Phi=[e1,e2,e3,b], where b=(8/9,4/9,1/9), and s=e1-b. The unique BP coefficients are (1/9,-4/9,-1/9,0), with three nonzeros and L1=2/3. The dual z=(1,-1,-1) has correlations (1,-1,-1,1/3) and value 2/3; its strict fourth constraint forces the fourth coefficient to zero at any optimum. Yet (1,0,0,-1) reconstructs s with two nonzeros and L1=2. No single column is collinear with s, so the minimum support is two. Thus even normalized atoms do not make BP an unconditional minimum-L0 method.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1.1 and 6.1, PDF pp. 12,24 / printed pp. 140,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nonuniqueness-and-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For Phi=[1,1] and s=1, (1,0), (0,1) and (1/2,1/2) all minimize L1 at value 1. The last has more nonzeros than the one-dimensional signal space, so the sparse-basic-solution existence result does not describe every minimizer. Scaling the second atom to 2 changes the preferred representation to (0,1/2), with objective 1/2. These exact curator examples show why coefficient attribution, support and dictionary scaling require care; a fixed unweighted coefficient norm is not invariant to independently rescaling atoms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1,3.1 and 6.1, PDF pp. 2–6,11–13,24 / printed pp. 130–134,139–141,152; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#denoising-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 5.1 instead defines basis pursuit denoising by minimizing (1/2)*||y-Phi*a||_2^2+lambda*||a||_1 for lambda&gt;0. That penalized problem generally permits a residual and is outside the exact-equality definition here. For scalar Phi=1,y=1,lambda=1/2 its minimizer is 1/2, while exact BP gives 1. Setting lambda exactly to zero discards the L1 preference; it is not the same operation as selecting the limit of positive-penalty optima. Any statement that the residual tends to zero also needs an exact representation to be feasible.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.1–5.2, Equations 5.1 and 5.3, PDF pp. 19–20 / printed pp. 147–148; curator-derived certificates in research/discovery/basis-pursuit-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#principle-versus-numerical-implementation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3.1.2 distinguishes the optimization principle from simplex and interior-point implementations. The paper develops a primal-dual log-barrier implementation using approximate conjugate-gradient or LSQR linear solves for dictionaries with fast synthesis and analysis products. Its perturbed programs and finite tolerances approximate the exact problem; nonzero quadratic or residual regularization is not silently an exact BP solution. Runtime depends on dictionary structure, signal and requested accuracy, and the paper explicitly declines to guarantee reaching the optimum in reasonable time. Selected synthetic examples and historical Sun SPARC20 timings do not establish universal sparsity, superresolution, denoising superiority or a nearly-linear exact-solver bound.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chen2001">Atomic Decomposition by Basis Pursuit</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1.2 and 6.2–6.6, Table 6.1, PDF pp. 13,24–28 / printed pp. 141,152–156</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record is limited to real finite dictionaries and exact equality. Complex coefficients, analysis sparsity, weighted/group norms, noisy constrained forms and dictionary-learning algorithms need their own evidence and identity decisions.</li>
+      <li>Optimal L1 need not recover the fewest atoms or a unique representation. Sparse exact-recovery theorems require additional dictionary/signal assumptions; their external proofs were not audited.</li>
+      <li>All 31 pages of the 2001 reprint were visually read. External primary sources, the 1995 precursor and the separate 1998 version remain uninspected in full. The image example in Section 7.2 is expressly a modified BP-inspired method, not validation of this exact implementation.</li>
+      <li>Exact rational examples are curator calculations, not historical experiments. No optimizer, learned model, benchmark or paid provider was run. The record remains DRAFT and has no independent scientific approval.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a representation-learning network that finds sparse linear representations and identifies their elements, with exact synonyms sparse coding and sparse dictionary learning. BP supplies a particular fixed-dictionary coefficient optimization principle, without learning atoms or requiring a network. The sparse-representation relationship is direct, but these differences rule out exact identity or an asserted network subclass. RepresentationLearning and SparseAutoEncoder likewise denote different neural scopes. LassoRegression, LeastsquaresAnalysis, RegularizationLayer and MathematicalFunction do not identify the exact-equality minimum-L1 principle; incidental use as FeatureExtraction is not its defining role.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-chen2001">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">chen2001</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf" target="_blank" rel="noopener">Atomic Decomposition by Basis Pursuit</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Scott Shaobing Chen, David L. Donoho, Michael A. Saunders
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1137/S003614450037906X</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6d80bd72893…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T12:00:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T12:00:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BasisPursuit.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BasisPursuit.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
