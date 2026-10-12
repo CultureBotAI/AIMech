@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nearest-neighbor distance-norm data description · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Nearest-neighbor distance-norm data description</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nearest-neighbor distance-norm data description</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NearestNeighborDistanceNormDataDescription</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Nearest neighbor domain description (Angiulli), NNDD distance-norm rule
+    </div>
+
+  <div class="detail-desc">
+    A one-class decision rule that forms the ordered distances from a query to its first k reference neighbors and accepts the query when the L_r norm of that distance vector is at most a supplied threshold, with self inclusion and infinite padding when fewer than k references exist.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the NNDD distance-norm rule in Angiulli2007, independently of the optional CNNDD reference-condensation procedure. It is not the Tax-Duin ratio between a query distance and a selected reference point&#39;s own neighbor spacing, nor supervised neighbor voting. The record uses a qualified alias rather than assigning all uses of NNDD to one concept. The later prototype rule has a narrower reference-data correspondence, not general identity of decision regions. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 506 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Whole-word fixed-string searches included ignored and hidden files in both checkouts, aliases, acronyms and source identifiers. All 24 matched lines per checkout, seventeen distinct texts at 48 locations, were inspected: they concern prior query/frontier context and the ratio detector explicitly excluding generic NNDD as a unique alias. A fresh semantic search returned 85 AIO label/synonym/definition rows and 65 native name/definition matches, all read. Twelve annotated AIO nodes and their outgoing edges and twenty-one contextual YAMLs were read or reused after unchanged-byte checks. Absence is bounded to this pin and corpus; the broader native matches were not full scientific reviews.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ordered-distance-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For finite reference set D, object-space metric d, integer k&gt;=1 and finite threshold theta&gt;=0, let delta contain the k smallest reference distances from query x, including distance zero to x itself when x is in D. Missing entries when |D|&lt;k are +infinity. Accept iff ||delta||_r&lt;=theta; the published formal scope uses positive integer r or infinity. Thus r=1 sums the k distances, r=infinity uses the kth distance, and k=1 gives the union of radius-theta metric balls around D. This is a distance score, not a normalized density or novelty probability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2007">Condensed Nearest Neighbor Data Domain Description</a></span>
+        <span>· <strong>Locator:</strong> Section3, authorp2 / PDFp3, definition, sign convention and footnote1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#parameter-and-training-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With D, metric and other parameters fixed, increasing theta expands acceptance and increasing k contracts it. For a fixed k-distance vector, increasing r from a finite value toward infinity cannot increase its norm, so it expands or preserves acceptance at the same theta. These are monotonic relations, not proportional error laws. For distances {3/5,4/5} and theta=1, r=1 rejects while r=2 and infinity accept. Every self-included training point is accepted for k=1 and theta&gt;=0, but k&gt;1 can reject training points, and |D|&lt;k rejects every query at finite theta. Equal-distance ordering does not change the norm, although selected neighbor identities can matter to a subsequent condensation algorithm.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2007">Condensed Nearest Neighbor Data Domain Description</a></span>
+        <span>· <strong>Locator:</strong> Section3, authorpp2-3 / PDFpp3-4; Section5.3, authorp12 / PDFp13; exact curator checks in research/discovery/neighbor-domain-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#reference-subset-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An NNDD reference-consistent subset S of D preserves the decisions of the full D rule on every observation in D, including observations originally rejected. Removing references cannot decrease an ordered neighbor distance, so the acceptance region under S is contained in that under D at fixed k, theta, r and metric. Agreement on D does not establish identical decisions everywhere: with D={0,1}, S={0}, k=1 and theta=1, both reference observations are accepted by both rules, but query2 is accepted only using D. This can help or harm future error depending on the query&#39;s true class.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2007">Condensed Nearest Neighbor Data Domain Description</a></span>
+        <span>· <strong>Locator:</strong> Section3 reference consistency, authorp3 / PDFp4; Section4 subset-distance inequality, authorp4 / PDFp5; curator finite example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#prototype-correspondence-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The later PDD paper associates a prototype x with radius equal to its kth-reference-neighbor distance, retaining prototypes with radius&lt;=theta. Its Theorem2.4 establishes agreement with infinity-norm NNDD on reference observations D; it does not assert global equality of acceptance regions. For D={0,2}, k=2 and theta=2, both prototype radii are2, so PDD accepts only its two prototype locations, whereas infinity-norm NNDD also accepts midpoint1. This exact example qualifies the abstract&#39;s equivalence wording; it does not review CPDD or FastCPDD algorithms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli-pdd">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Definitions2.1-2.3 and Theorem2.4, authorpp2-3 / PDFpp3-4; curator midpoint calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source&#39;s printed neighbor-rank wording is not a complete tie implementation; this record follows its ordered-distance-vector definition. Reference membership, distance representation, scaling, k, r and threshold are part of the procedure.</li>
+      <li>Section5.3 experimentally includes r&lt;1 outside the formal norm scope. Its tuned compression comparisons do not override fixed-parameter norm inequalities, and no universal parameter or calibrated false-alarm probability is inferred.</li>
+      <li>All15 pages of the2007 author PDF were visually read; only the specifically cited two pages of the later manuscript were visually inspected. The2005 proceedings version was not compared in full. No trained model or historical benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The NNDD accept-versus-reject task, including the detector constructed from a CNNDD-selected reference set, is related to AIO:BinaryClassification. This is an algorithm-to-task association, not an exact match or is-a assertion. The target has Classification and SupervisedLearning ancestry; this related link does not assert representative abnormal-class training examples. Inspected Classification, BinaryClassification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction, Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor voting and value averaging are distinct; reference selection does not reduce feature dimensions or assert a sampling-bias condition. Generic preparation and distillation terminology does not identify the specified consistency procedure. Nine native contexts distinguish local distance ratios, bootstrap variance, density-connected clustering, supervised metric learning, sphere support estimation and medoid optimization; none receives renewed scientific approval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-angiulli2007">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">angiulli2007</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2007.pdf" target="_blank" rel="noopener">Condensed Nearest Neighbor Data Domain Description</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fabrizio Angiulli
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TPAMI.2007.1086</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:999fcdbad349…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-angiulli-pdd">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">angiulli-pdd</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf" target="_blank" rel="noopener">Prototype-based Domain Description for One-Class Classification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fabrizio Angiulli
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TPAMI.2011.204</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a75e67435eb6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T08:14:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T08:14:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NearestNeighborDistanceNormDataDescription.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NearestNeighborDistanceNormDataDescription.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
