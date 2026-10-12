@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Non-conjugate variational message passing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Non-conjugate variational message passing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Non-conjugate variational message passing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NonconjugateVariationalMessagePassing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> NCVMP
+    </div>
+
+  <div class="detail-desc">
+    An approximate inference algorithm that restricts variational blocks to exponential families and updates their natural parameters by matching expected-log-factor gradients through the sufficient-statistic covariance.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No normalized match across 442 pinned AIO IDs, names and scoped synonyms and 550 maintained IDs, names and aliases, including NCVMP and spelling variants. Full-text fixed-string searches of the recovery, older discovery and original Documents checkouts included ignored and hidden files: 34, 13 and 15 matched lines. All 26 distinct contents were read; matches are prior nonconjugate-model context, the Tan neighborhood record and its fitting leads, and unrelated programming-language tokens. Assessed all 15 semantic AIO rows and 121 native names/definitions, six complete annotated AIO CLASS nodes with incident edges and generated YAML, and six complete native neighboring records. NCVMP specifies expected-log-factor gradient matching and a Fisher-preconditioned fixed-point update, beyond choosing a mean-field family. It is distinct from BBVI score-sampling, natural evolution strategies, model-parameter VEM and query-local neighborhood selection. Wand’s full-Gaussian rewrite is represented as a specialization of this algorithm, not a duplicate new identity. The mapping and absence assessment are bounded to the inspected pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#restricted-family</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed normalizable target p(x) proportional to a product of factors f_a(x_a), choose q(x)=product_i q_i(x_i), allowing each block x_i to be vector-valued. Each q_i is a specified regular minimal exponential family q_i=exp(theta_i^T*u_i-kappa_i(theta_i)) relative to a fixed reference measure. The factorization of p must use the same product reference measure; nonconstant carrier terms cannot simply be discarded. Approximate inference minimizes KL(q||p), equivalently maximizing the expected log unnormalized target plus entropy relative to that measure. This is an inference procedure, not a requirement for neural amortization or model-parameter learning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, Algorithm 1 and Theorems 1–2, PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gradient-messages</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At the current proper q, hold all other blocks fixed and define S_a(theta_i)=E_q[log f_a] for factors adjacent to block i. Let C_i=Cov_q_i[u_i]=Hessian kappa_i, assumed finite and invertible. Compute each message’s natural-parameter contribution phi_ai=C_i^(-1)*grad_theta_i S_a and propose theta_i_new=sum_a phi_ai. Repeat block updates using current neighboring factors. The message contributions are potentials; individual messages need not each normalize as a standalone distribution, whereas their resulting q_i must be proper. The rule requires tractable or explicitly approximated expectations and their derivatives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, Algorithm 1 and Theorems 1–2, PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#stationarity-not-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Where the fixed reference measure, finite expectations, differentiation and interior regularity assumptions apply, grad_theta_i KL=C_i*theta_i-sum_a grad_theta_i S_a. Thus the proposed increment theta_i_new-theta_i equals the Fisher natural-gradient direction of the variational lower bound. A valid fixed point has zero block gradients and conversely, but this algebra does not certify a local minimum, global optimum, exact posterior, monotonic bound improvement or convergence of unit steps. Approximate expectation bounds or numerical derivatives can instead yield stationary points of their approximation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, Algorithm 1 and Theorems 1–2, PDF pp. 2–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011-supp">Supplementary material for Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Fixed-point and cavity derivation, PDF pp. 1–2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conjugate-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    If E_q_-i[log f_a] is beta_ai^T*u_i(x_i) plus a term constant in x_i, then grad_theta_i S_a=C_i*beta_ai and the message reduces to the usual conjugate variational message beta_ai. This reduces to the conjugate message rule within the chosen factorization; it does not remove the posterior approximation caused by independence restrictions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Theorem 2 and proof, PDF p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#damping-and-domain</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A damped block proposal mixes natural parameters as theta_i_next=(1-rho)*theta_i+rho*theta_i_new with 0&lt;rho&lt;=1, corresponding to multiplying old and proposed message potentials to the complementary powers. For a fixed positive rho, valid fixed points are unchanged. If both endpoints lie in the regular natural-parameter domain, convex mixing stays there; an invalid endpoint requires an explicit domain check. Damping may help but supplies no general ascent or convergence guarantee. Initialize with proper variational factors rather than assuming theta_i=0 is a normalizable uniform density on an unbounded domain.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1 initialization, PDF p. 3; Section 7 damping, PDF p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#full-gaussian-specialization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a vector block q_i=N(mu,Sigma), set S=E_q[log p_tilde(x)] with other blocks fixed, and define g=grad_mu S and symmetric G by the differential dS=g^T*dmu+tr(G^T*dSigma). Evaluate both derivatives at the current mu and Sigma. The full-Gaussian NCVMP proposal is Sigma_new=(-2*G)^(-1), mu_new=mu+Sigma_new*g, provided -2*G is positive definite. This is an algebraic specialization of the sufficient-statistic update, not a new objective or a general guarantee that the proposed covariance is valid. Correlations inside this block are retained; dependence between separately factorized blocks is omitted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equation 7, PDF p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wand2014">Fully Simplified Multivariate Normal Updates in Non-Conjugate Variational Message Passing</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, Theorem 1 and Equation 7, PDF pp. 2–7 / printed pp. 1352–1357; Appendix A, PDF pp. 13–15 / printed pp. 1363–1365</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gradient-versus-moment-matching</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The local message approximation matches derivatives of expected log factors with derivatives of their exponential-family surrogate at the current variational parameters. The supplement also derives this through a fixed-cavity message update. Its analogy with expectation propagation does not identify the two algorithms: it does not replace the update by matching ordinary sufficient-statistic moments of an EP tilted distribution. Gradient-matching equations transform consistently under a differentiable change of coordinates with nonsingular Jacobian; this is not arbitrary finite-step parameterization invariance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Section 4, gradient-matching discussion, PDF pp. 3–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-knowles2011-supp">Supplementary material for Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a></span>
+        <span>· <strong>Locator:</strong> Cavity and parameterization derivations, PDF pp. 1–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Regular minimal families, valid support, finite sufficient-statistic covariance and differentiable expectations are substantive assumptions. A nonminimal representation can have singular Fisher covariance; a formally written inverse is not a numerical recipe. Proper initialization and updated-factor normalization are required even if message potentials are individually improper.</li>
+      <li>The unit proposal can leave the natural-parameter domain even for a proper target. The saved exact Gaussian example uses p(x) proportional to exp(2*x^2-x^4/4) and current q=N(0,1); the proposed precision is -1. A quarter natural-parameter step is proper in that example, without asserting bound ascent. These are curator arithmetic examples, not fitted posteriors or reproduced source experiments.</li>
+      <li>Mean-field partition and exponential-family restrictions can produce inaccurate uncertainty or miss posterior structure. Fixed-point stationarity is weaker than convergence or optimality. Gaussian moment-coordinate simplification preserves the same proposal where well-defined; it does not make the general nonconjugate problem an exact coordinate solve.</li>
+      <li>The main paper’s final proof line on PDF p. 3 has an entropy-derivative sign inconsistency corrected by Equation 6 on p. 4. Its zero-natural-parameter uniform initialization is not generally proper. The supplement’s parameterization argument needs a nonsingular Jacobian in addition to one-to-one labeling. The Gaussian rewrite follows Wand’s displayed derivation rather than a prose line that appears to differentiate the scalar expected-log-joint symbol prematurely.</li>
+      <li>Logistic/softmax quadrature and auxiliary bounds are application-specific treatments, not defining requirements of general NCVMP. Source factor-of-two, sign and curvature-order issues in those variants remain recorded in the discovery notes; no separate bound algorithm is certified here. Tan spectral-fitting step-size adaptations likewise require a separate implementation and boundary audit.</li>
+      <li>All three primary documents were read in full, including experimental contexts, but no quantitative accuracy or runtime superiority is asserted. No author implementation, fitting pipeline, training or benchmark was executed. The record remains DRAFT and author self-review is not independent approval.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary construction uses a probabilistic factor graph and its factor-to-variable neighborhoods to organize approximate inference. The pinned AIO class denotes a graphical-model task, whereas this record denotes an inference algorithm. This is a method-to-modeling-context relation without equivalence or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-knowles2011">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">knowles2011</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2011/file/5c936263f3428a40227908d5a3847c0b-Paper.pdf" target="_blank" rel="noopener">Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David A. Knowles, Thomas P. Minka
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.nips.cc/paper_files/paper/2011/hash/5c936263f3428a40227908d5a3847c0b-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7c979ceb97fa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-wand2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">wand2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf" target="_blank" rel="noopener">Fully Simplified Multivariate Normal Updates in Non-Conjugate Variational Message Passing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matt P. Wand
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v15/wand14a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e2938b069d80…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-knowles2011-supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">knowles2011-supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf" target="_blank" rel="noopener">Supplementary material for Non-conjugate Variational Message Passing for Multinomial and Binary Regression</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David A. Knowles, Thomas P. Minka
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e48b0a0caeee…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T22:52:50Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T22:59:48Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NonconjugateVariationalMessagePassing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NonconjugateVariationalMessagePassing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,751 @@
+# Scientific author self-review of non-conjugate variational message passing
+
+- Review: 20261012T225659Z-nonconjugate-message-passing-open
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T22:53:21Z
+- Finished UTC: 2026-10-12T22:56:59Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+Retain the supported NCVMP algorithm and Gaussian specialization. Correct one minor Wand section/page locator. The record remains DRAFT.
+
+## Scope And Provenance
+
+All maintained fields and primary evidence for general NCVMP.
+
+Selection: Exact maintained ID: AIMech:NonconjugateVariationalMessagePassing
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 40770a7875f3c4397b3838dfeae53e93e9c17637.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NonconjugateVariationalMessagePassing | data/curated/NonconjugateVariationalMessagePassing.yaml | maintained | Non-conjugate variational message passing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NonconjugateVariationalMessagePassing | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 108.44s (0:01:48)<br>Checked 442 record(s); 0 failed.<br>Checked 551 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 198 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 196,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NonconjugateVariationalMessagePassing | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:NonconjugateVariationalMessagePassing | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:NonconjugateVariationalMessagePassing | Exited 0 without output. |
+| Exact NCVMP Gaussian and domain arithmetic | passed | True | AIMech:NonconjugateVariationalMessagePassing | {"conjugate_natural_parameters": ["-5/4", "-7/6"], "quartic_supplied_mean_variance": ["2/3", "4/5"], "quartic_updated_mean_variance": ["80/639", "15/71"], "natural_elbo_direction": ["-13/54", "-209/120"], "proper_bimodal_target_unit_proposal_is_improper": true, "bimodal_proposal_natural_parameters": ["0", "1/2"], "quarter_step_natural_parameters": ["0", "-1/4"], "scope": "Exact Fraction arithmetic at supplied Gaussian parameters, not a fit, convergence proof, empirical performance or author-code execution. Damped propriety does not assert ELBO ascent."} |
+
+## Scientific And Domain Assessments
+
+### General gradient-matching inference algorithm
+
+identity: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+Retain one NCVMP algorithm record.
+
+Choosing a mean-field family does not specify this expected-log-factor gradient rule. BBVI sampling, natural evolution strategies, model-parameter VEM and neighborhood selection are distinct. The full-Gaussian moment rewrite preserves the same natural-parameter proposal and is a specialization rather than a second concept identity. Source-specific logistic bounds and Tan spectral steps remain pending.
+
+### Algorithm-to-modeling-context relation
+
+grounding: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+Related ProbabilisticGraphicalModel mapping is justified.
+
+The source factor graph directly organizes adjacent-factor messages; the AIO target denotes a graphical-model task, not this algorithm. BayesianNetwork imposes a different directed architecture. Topic models and regression are applications; variational autoencoders and probabilistic layers are different architectures. No equivalence or is-a assertion is made.
+
+### restricted-family
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+For a fixed normalizable target p(x) proportional to a product of factors f_a(x_a), choose q(x)=product_i q_i(x_i), allowing each block x_i to be vector-valued. Each q_i is a specified regular minimal exponential family q_i=exp(theta_i^T*u_i-kappa_i(theta_i)) relative to a fixed reference measure. The factorization of p must use the same product reference measure; nonconstant carrier terms cannot simply be discarded. Approximate inference minimizes KL(q&#124;&#124;p), equivalently maximizing the expected log unnormalized target plus entropy relative to that measure. This is an inference procedure, not a requirement for neural amortization or model-parameter learning.
+
+### gradient-messages
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+At the current proper q, hold all other blocks fixed and define S_a(theta_i)=E_q[log f_a] for factors adjacent to block i. Let C_i=Cov_q_i[u_i]=Hessian kappa_i, assumed finite and invertible. Compute each message’s natural-parameter contribution phi_ai=C_i^(-1)*grad_theta_i S_a and propose theta_i_new=sum_a phi_ai. Repeat block updates using current neighboring factors. The message contributions are potentials; individual messages need not each normalize as a standalone distribution, whereas their resulting q_i must be proper. The rule requires tractable or explicitly approximated expectations and their derivatives.
+
+### stationarity-not-convergence
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+Where the fixed reference measure, finite expectations, differentiation and interior regularity assumptions apply, grad_theta_i KL=C_i*theta_i-sum_a grad_theta_i S_a. Thus the proposed increment theta_i_new-theta_i equals the Fisher natural-gradient direction of the variational lower bound. A valid fixed point has zero block gradients and conversely, but this algebra does not certify a local minimum, global optimum, exact posterior, monotonic bound improvement or convergence of unit steps. Approximate expectation bounds or numerical derivatives can instead yield stationary points of their approximation.
+
+### conjugate-reduction
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+If E_q_-i[log f_a] is beta_ai^T*u_i(x_i) plus a term constant in x_i, then grad_theta_i S_a=C_i*beta_ai and the message reduces to the usual conjugate variational message beta_ai. This reduces to the conjugate message rule within the chosen factorization; it does not remove the posterior approximation caused by independence restrictions.
+
+### damping-and-domain
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+A damped block proposal mixes natural parameters as theta_i_next=(1-rho)*theta_i+rho*theta_i_new with 0&lt;rho&lt;=1, corresponding to multiplying old and proposed message potentials to the complementary powers. For a fixed positive rho, valid fixed points are unchanged. If both endpoints lie in the regular natural-parameter domain, convex mixing stays there; an invalid endpoint requires an explicit domain check. Damping may help but supplies no general ascent or convergence guarantee. Initialize with proper variational factors rather than assuming theta_i=0 is a normalizable uniform density on an unbounded domain.
+
+### full-gaussian-specialization
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+For a vector block q_i=N(mu,Sigma), set S=E_q[log p_tilde(x)] with other blocks fixed, and define g=grad_mu S and symmetric G by the differential dS=g^T*dmu+tr(G^T*dSigma). Evaluate both derivatives at the current mu and Sigma. The full-Gaussian NCVMP proposal is Sigma_new=(-2*G)^(-1), mu_new=mu+Sigma_new*g, provided -2*G is positive definite. This is an algebraic specialization of the sufficient-statistic update, not a new objective or a general guarantee that the proposed covariance is valid. Correlations inside this block are retained; dependence between separately factorized blocks is omitted.
+
+### gradient-versus-moment-matching
+
+evidence: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The mechanism is supported under the stated assumptions.
+
+The local message approximation matches derivatives of expected log factors with derivatives of their exponential-family surrogate at the current variational parameters. The supplement also derives this through a fixed-cavity message update. Its analogy with expectation propagation does not identify the two algorithms: it does not replace the update by matching ordinary sufficient-statistic moments of an EP tilted distribution. Gradient-matching equations transform consistently under a differentiable change of coordinates with nonsingular Jacobian; this is not arbitrary finite-step parameterization invariance.
+
+### Natural gradient, Gaussian rewrite and valid domain
+
+consistency: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The curvature and domain distinctions are correct.
+
+The direct sufficient-statistic covariance inverse agrees exactly with the scalar Gaussian moment update for supplied rational parameters. A conjugate quadratic recovers its natural parameters. A quartic target gives the stated finite proposal. For the proper target exp(2*x^2-x^4/4), current N(0,1) instead gives precision -1; a quarter natural step restores propriety in that example without establishing ascent. The matrix extension uses symmetric G and requires positive-definite precision. This is curator arithmetic, not source experiment reproduction.
+
+### Carriers, message potentials and parameterization
+
+scope: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+The record does not silently discard required terms.
+
+With q relative to a fixed carrier measure, the target density must use that same measure; otherwise extra expected-log-carrier terms enter the KL gradient. Message potentials may be improper while their combined q must normalize. A smooth bijection need not have nonsingular Jacobian, so the source parameterization argument is explicitly conditioned. Gradient matching is not EP tilted moment matching or arbitrary finite natural-gradient-step invariance.
+
+### Complete record and source audit
+
+provenance: supported. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+All fields were assessed and DRAFT retained.
+
+Read the ID/name/alias, algorithm kind, definition, identity notes, seven claims and all evidence locators, three source versions/access timestamps/hashes, AIO pin/mapping, six limitations and curation timestamps. The report mirrors the exact YAML. Source entropy sign, improper zero initialization, derivative prose and separate logistic-bound issues remain explicit. All PDFs were fully inspected; no author code, fitting or empirical benchmark was run. One source locator needs correction as recorded below.
+
+### Locate the final full-Gaussian update precisely
+
+evidence: concern. Targets: AIMech:NonconjugateVariationalMessagePassing.
+
+Correct the Wand section and page range for the Gaussian update.
+
+Replace Sections 2–3 with Sections 2–4 and include Equation 7, PDF p. 7 / printed p. 1357. The existing p. 6 derivation and Appendix A support the algebra, but a reader following the current locator cannot find the named final simplified updates on the cited pages. No mathematical or mapping change is needed.
+
+## Findings
+
+### F1: Correct the Wand locator for the full-Gaussian NCVMP update
+
+minor / open / confirmed; issue key: aimech-ncvmp-gaussian-update-locator.
+
+The claim cites Sections 2–3 and PDF pp. 2–6 for the simplified Gaussian update. Theorem 1 is in Section 4 and the final update is Equation 7 on PDF p. 7 / printed p. 1357. Correct this source locator while preserving the supported mechanism.
+
+## Recommended Actions And Acceptance Checks
+
+### A1
+
+Correct the Wand section/page/equation locator, synchronize the report and page, append actual history and save a linked successor review.
+
+- The citation includes Sections 2–4, Theorem 1 and Equation 7, PDF pp. 2–7 / printed pp. 1352–1357.
+- The mathematical claim, identity and AIO mapping remain unchanged.
+- Required checks pass and a successor review resolves F1 for the maintained target.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T225250Z-nonconjugate-message-passing.json | supports | No normalized match across 442 pinned AIO IDs, names and scoped synonyms and 550 maintained IDs, names and aliases, including NCVMP and spelling variants. Full-text fixed-string searches of the recovery, older discovery and original Documents checkouts included ignored and hidden files: 34, 13 and 15 matched lines. All 26 distinct contents were read; matches are prior nonconjugate-model context, the Tan neighborhood record and its fitting leads, and unrelated programming-language tokens. Assessed all 15 semantic AIO rows and 121 native names/definitions, six complete annotated AIO CLASS nodes with incident edges and generated YAML, and six complete native neighboring records. NCVMP specifies expected-log-factor gradient matching and a Fisher-preconditioned fixed-point update, beyond choosing a mean-field family. It is distinct from BBVI score-sampling, natural evolution strategies, model-parameter VEM and query-local neighborhood selection. Wand’s full-Gaussian rewrite is represented as a specialization of this algorithm, not a duplicate new identity. The mapping and absence assessment are bounded to the inspected pin and corpus. |
+| mapping | sources/aio/aio.json | supports | Assessed 15 semantic AIO rows and 121 native names/definitions, six full annotated AIO nodes and incident edges/generated YAML, and six full native context records. The algorithm-to-graphical-model related mapping and five rejected targets preserve abstraction boundaries. |
+| calculation | research/discovery/ncvmp-boundaries.py | supports | Exact Fraction checks compare direct sufficient-statistic covariance inversion to Gaussian moment-coordinate updates, recover conjugate parameters, and give a normalizable quartic-target counterexample to unconditional unit-step propriety. No model fitting or performance experiment. |
+| knowles2011 | https://papers.nips.cc/paper_files/paper/2011/file/5c936263f3428a40227908d5a3847c0b-Paper.pdf; Sections 2–4 and 7, Algorithm 1, Theorems 1–2, Equation 7; PDF pp. 2–4, 8. | supports | NIPS 2011, Advances in Neural Information Processing Systems 24. All nine proceedings PDF pages visually read, including Figures 1–3, Table 1, Theorems 1–2 and twenty references. All pages read during preparation. Against the frozen YAML, reread main PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp. 5–7. |
+| wand2014 | https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf; Sections 2–4, Theorem 1 and Equation 7, PDF pp. 2–7 / printed pp. 1352–1357; Appendix A, PDF pp. 13–15. | supports | JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including Theorems 1–2, Algorithm 1, both figures, Appendices A–C and twenty references. Printed page = PDF page + 1350. All pages read during preparation. Against the frozen YAML, reread main PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp. 5–7. |
+| knowles2011-supp | https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf; Sections 1–3, cavity and parameterization arguments, PDF pp. 1–3. | supports | Author-hosted six-page supplement dated 29 October 2011. All six pages visually read, including cavity and parameterization derivations and the softmax-bound variants. All pages read during preparation. Against the frozen YAML, reread main PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp. 5–7. |
+| gaussian-locator | data/curated/NonconjugateVariationalMessagePassing.yaml | supports | The full-gaussian-specialization claim cites Wand Sections 2–3 and PDF pp. 2–6 for the simplified updates. Theorem 1 lies in Section 4, and the final displayed updates and Equation 7 are on PDF p. 7, printed p. 1357. The mechanism is correct, but this locator omits its most direct equation. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- An initial restricted vendored check could not resolve the public host. An authorized network retry verified all 22 pinned artifacts; the failed attempt is preserved in the session log.
+- Added one DRAFT algorithm, yielding 551 native and 442 unchanged generated records. The 736-entry main frontier retains 485 pending and 56 partly addressed cohorts; no saturation claim.
+- All three primary documents were read in full, including experimental contexts, but no quantitative accuracy or runtime superiority is asserted. No author implementation, fitting pipeline, training or benchmark was executed. The record remains DRAFT and author self-review is not independent approval.
+- Historical download/source-search notes preserve access status at their capture; the current reading notes establish later complete inspection of all three PDFs. Nested source leads are not counted as fully deduplicated main-frontier entries.
+- Original-checkout synchronization and old round141 cleanup still await explicit approval after automatic review rejection; this round uses the isolated recovery checkout.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T225659Z-nonconjugate-message-passing-open
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of non-conjugate variational message passing
+started_at: '2026-10-12T22:53:21Z'
+finished_at: '2026-10-12T22:56:59Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent challenged identity, reference measures,
+    gradient/covariance algebra, valid domains, source formula errors and evidence
+    locators. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: needs_curation
+scientific_review: true
+summary: Retain the supported NCVMP algorithm and Gaussian specialization. Correct
+  one minor Wand section/page locator. The record remains DRAFT.
+source:
+  git_revision: 40770a7875f3c4397b3838dfeae53e93e9c17637
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/ProbabilisticTopicModel.yaml
+    sha256: a3ddfd23b511de967f562e99542d8a89109852359d286a4d707d784359ddfe32
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/BlackBoxVariationalInference.yaml
+    sha256: 8237d3233ae06163b8fab5b4fa047ffc938e275bc1e3ede883348e06c2b266a8
+    role: context
+  - path: data/curated/FullyFactorizedMeanFieldInference.yaml
+    sha256: 102be6f77143b26acb0d482f91e2dfa58ea113f2188b14b92067484cc4f9408d
+    role: context
+  - path: data/curated/NaturalEvolutionStrategies.yaml
+    sha256: b11c8d02da55175afcf5d5c11cf91a864418d7396b726f423f865d95cfe76a4c
+    role: context
+  - path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    sha256: 8fb25afb0c4641a385f5e7b2b6570d3fdd99d6be86efd55f98785f43a8cf32ad
+    role: target
+  - path: data/curated/StructuredMeanFieldInference.yaml
+    sha256: 3cd31e539123908291c2a9a394792c52dacf415ce3c19c4d6a42e9be6173c86b
+    role: context
+  - path: data/curated/TwoStageAdaptiveNeighborhoodSparseSpectrumRegression.yaml
+    sha256: a8ed8c144a7b82979d72594f54450e229b605de5a8712938ef03680019878da7
+    role: context
+  - path: data/curated/VariationalExpectationMaximization.yaml
+    sha256: 5ec118dcfd17dd552866d1f4b883ed273c812c04aca5c3eefc628a5f8035ad5d
+    role: context
+  - path: research/discovery/20261012T225250Z-nonconjugate-message-passing.json
+    sha256: 52ab5002e950d9461c7b573974b3867e67009c80d9cf544a001194e295fa2612
+    role: context
+  - path: research/discovery/ncvmp-boundaries.py
+    sha256: 86a09268a0839f682247bd04ee0781e75c9b83066d79d7a7432653a9064ebfdb
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NonconjugateVariationalMessagePassing
+  path: data/curated/NonconjugateVariationalMessagePassing.yaml
+  label: Non-conjugate variational message passing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    role: maintained
+scope:
+  description: All maintained fields and primary evidence for general NCVMP.
+  selection: 'Exact maintained ID: AIMech:NonconjugateVariationalMessagePassing'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exclusions:
+  - target: Application-specific logistic bounds and Tan spectral-fitting variants
+    reason: Separate pending identity and source-formula assessments.
+  - target: Author implementation and empirical reproduction
+    reason: Full primary PDFs and finite curator arithmetic only.
+  - target: Existing AIO/native context records
+    reason: Identity and mapping context rather than full scientific rereview.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 108.44s (0:01:48)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 551 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 198 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 196,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Exact NCVMP Gaussian and domain arithmetic
+  command: python3 research/discovery/ncvmp-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"conjugate_natural_parameters": ["-5/4", "-7/6"], "quartic_supplied_mean_variance":
+    ["2/3", "4/5"], "quartic_updated_mean_variance": ["80/639", "15/71"], "natural_elbo_direction":
+    ["-13/54", "-209/120"], "proper_bimodal_target_unit_proposal_is_improper": true,
+    "bimodal_proposal_natural_parameters": ["0", "1/2"], "quarter_step_natural_parameters":
+    ["0", "-1/4"], "scope": "Exact Fraction arithmetic at supplied Gaussian parameters,
+    not a fit, convergence proof, empirical performance or author-code execution.
+    Damped propriety does not assert ELBO ascent."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T225250Z-nonconjugate-message-passing.json
+  accessed_at: '2026-10-12T22:53:21Z'
+  support: supports
+  summary: 'No normalized match across 442 pinned AIO IDs, names and scoped synonyms
+    and 550 maintained IDs, names and aliases, including NCVMP and spelling variants.
+    Full-text fixed-string searches of the recovery, older discovery and original
+    Documents checkouts included ignored and hidden files: 34, 13 and 15 matched lines.
+    All 26 distinct contents were read; matches are prior nonconjugate-model context,
+    the Tan neighborhood record and its fitting leads, and unrelated programming-language
+    tokens. Assessed all 15 semantic AIO rows and 121 native names/definitions, six
+    complete annotated AIO CLASS nodes with incident edges and generated YAML, and
+    six complete native neighboring records. NCVMP specifies expected-log-factor gradient
+    matching and a Fisher-preconditioned fixed-point update, beyond choosing a mean-field
+    family. It is distinct from BBVI score-sampling, natural evolution strategies,
+    model-parameter VEM and query-local neighborhood selection. Wand’s full-Gaussian
+    rewrite is represented as a specialization of this algorithm, not a duplicate
+    new identity. The mapping and absence assessment are bounded to the inspected
+    pin and corpus.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T22:53:21Z'
+  support: supports
+  summary: Assessed 15 semantic AIO rows and 121 native names/definitions, six full
+    annotated AIO nodes and incident edges/generated YAML, and six full native context
+    records. The algorithm-to-graphical-model related mapping and five rejected targets
+    preserve abstraction boundaries.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/ncvmp-boundaries.py
+  accessed_at: '2026-10-12T22:53:21Z'
+  snapshot_sha256: 86a09268a0839f682247bd04ee0781e75c9b83066d79d7a7432653a9064ebfdb
+  support: supports
+  summary: Exact Fraction checks compare direct sufficient-statistic covariance inversion
+    to Gaussian moment-coordinate updates, recover conjugate parameters, and give
+    a normalizable quartic-target counterexample to unconditional unit-step propriety.
+    No model fitting or performance experiment.
+- evidence_id: knowles2011
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2011/file/5c936263f3428a40227908d5a3847c0b-Paper.pdf
+  locator: Sections 2–4 and 7, Algorithm 1, Theorems 1–2, Equation 7; PDF pp. 2–4,
+    8.
+  accessed_at: '2026-10-12T22:35:40Z'
+  snapshot_sha256: 7c979ceb97fa3c78c09b9ea0ca96ecd916763b079675b2e4e455af2dc1e73b20
+  support: supports
+  summary: NIPS 2011, Advances in Neural Information Processing Systems 24. All nine
+    proceedings PDF pages visually read, including Figures 1–3, Table 1, Theorems
+    1–2 and twenty references. All pages read during preparation. Against the frozen
+    YAML, reread main PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp. 5–7.
+- evidence_id: wand2014
+  kind: primary_source
+  reference: https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf
+  locator: Sections 2–4, Theorem 1 and Equation 7, PDF pp. 2–7 / printed pp. 1352–1357;
+    Appendix A, PDF pp. 13–15.
+  accessed_at: '2026-10-12T22:35:40Z'
+  snapshot_sha256: e2938b069d803ecae4f41a409e29c53e7532b8b6f1e76498e0675735087b5ba1
+  support: supports
+  summary: JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including
+    Theorems 1–2, Algorithm 1, both figures, Appendices A–C and twenty references.
+    Printed page = PDF page + 1350. All pages read during preparation. Against the
+    frozen YAML, reread main PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp.
+    5–7.
+- evidence_id: knowles2011-supp
+  kind: primary_source
+  reference: https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf
+  locator: Sections 1–3, cavity and parameterization arguments, PDF pp. 1–3.
+  accessed_at: '2026-10-12T22:38:02Z'
+  snapshot_sha256: e48b0a0caeeeea6b0c1d56ff33211e9670e66448dda27b786d4bccec92662fdc
+  support: supports
+  summary: Author-hosted six-page supplement dated 29 October 2011. All six pages
+    visually read, including cavity and parameterization derivations and the softmax-bound
+    variants. All pages read during preparation. Against the frozen YAML, reread main
+    PDF pp. 2–4 and 8, supplement pp. 1–3, and Wand PDF pp. 5–7.
+- evidence_id: gaussian-locator
+  kind: record_content
+  reference: data/curated/NonconjugateVariationalMessagePassing.yaml
+  accessed_at: '2026-10-12T22:53:21Z'
+  snapshot_sha256: 8fb25afb0c4641a385f5e7b2b6570d3fdd99d6be86efd55f98785f43a8cf32ad
+  support: supports
+  summary: The full-gaussian-specialization claim cites Wand Sections 2–3 and PDF
+    pp. 2–6 for the simplified updates. Theorem 1 lies in Section 4, and the final
+    displayed updates and Equation 7 are on PDF p. 7, printed p. 1357. The mechanism
+    is correct, but this locator omits its most direct equation.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: General gradient-matching inference algorithm
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - identity
+  - knowles2011
+  - wand2014
+  summary: Retain one NCVMP algorithm record.
+  details: Choosing a mean-field family does not specify this expected-log-factor
+    gradient rule. BBVI sampling, natural evolution strategies, model-parameter VEM
+    and neighborhood selection are distinct. The full-Gaussian moment rewrite preserves
+    the same natural-parameter proposal and is a specialization rather than a second
+    concept identity. Source-specific logistic bounds and Tan spectral steps remain
+    pending.
+- assessment_id: mapping
+  area: grounding
+  topic: Algorithm-to-modeling-context relation
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - mapping
+  - knowles2011
+  summary: Related ProbabilisticGraphicalModel mapping is justified.
+  details: The source factor graph directly organizes adjacent-factor messages; the
+    AIO target denotes a graphical-model task, not this algorithm. BayesianNetwork
+    imposes a different directed architecture. Topic models and regression are applications;
+    variational autoencoders and probabilistic layers are different architectures.
+    No equivalence or is-a assertion is made.
+- assessment_id: restricted-family
+  area: evidence
+  topic: restricted-family
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  summary: The mechanism is supported under the stated assumptions.
+  details: For a fixed normalizable target p(x) proportional to a product of factors
+    f_a(x_a), choose q(x)=product_i q_i(x_i), allowing each block x_i to be vector-valued.
+    Each q_i is a specified regular minimal exponential family q_i=exp(theta_i^T*u_i-kappa_i(theta_i))
+    relative to a fixed reference measure. The factorization of p must use the same
+    product reference measure; nonconstant carrier terms cannot simply be discarded.
+    Approximate inference minimizes KL(q||p), equivalently maximizing the expected
+    log unnormalized target plus entropy relative to that measure. This is an inference
+    procedure, not a requirement for neural amortization or model-parameter learning.
+- assessment_id: gradient-messages
+  area: evidence
+  topic: gradient-messages
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  summary: The mechanism is supported under the stated assumptions.
+  details: At the current proper q, hold all other blocks fixed and define S_a(theta_i)=E_q[log
+    f_a] for factors adjacent to block i. Let C_i=Cov_q_i[u_i]=Hessian kappa_i, assumed
+    finite and invertible. Compute each message’s natural-parameter contribution phi_ai=C_i^(-1)*grad_theta_i
+    S_a and propose theta_i_new=sum_a phi_ai. Repeat block updates using current neighboring
+    factors. The message contributions are potentials; individual messages need not
+    each normalize as a standalone distribution, whereas their resulting q_i must
+    be proper. The rule requires tractable or explicitly approximated expectations
+    and their derivatives.
+- assessment_id: stationarity-not-convergence
+  area: evidence
+  topic: stationarity-not-convergence
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - knowles2011-supp
+  - calculation
+  summary: The mechanism is supported under the stated assumptions.
+  details: Where the fixed reference measure, finite expectations, differentiation
+    and interior regularity assumptions apply, grad_theta_i KL=C_i*theta_i-sum_a grad_theta_i
+    S_a. Thus the proposed increment theta_i_new-theta_i equals the Fisher natural-gradient
+    direction of the variational lower bound. A valid fixed point has zero block gradients
+    and conversely, but this algebra does not certify a local minimum, global optimum,
+    exact posterior, monotonic bound improvement or convergence of unit steps. Approximate
+    expectation bounds or numerical derivatives can instead yield stationary points
+    of their approximation.
+- assessment_id: conjugate-reduction
+  area: evidence
+  topic: conjugate-reduction
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - calculation
+  summary: The mechanism is supported under the stated assumptions.
+  details: If E_q_-i[log f_a] is beta_ai^T*u_i(x_i) plus a term constant in x_i, then
+    grad_theta_i S_a=C_i*beta_ai and the message reduces to the usual conjugate variational
+    message beta_ai. This reduces to the conjugate message rule within the chosen
+    factorization; it does not remove the posterior approximation caused by independence
+    restrictions.
+- assessment_id: damping-and-domain
+  area: evidence
+  topic: damping-and-domain
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - calculation
+  summary: The mechanism is supported under the stated assumptions.
+  details: A damped block proposal mixes natural parameters as theta_i_next=(1-rho)*theta_i+rho*theta_i_new
+    with 0<rho<=1, corresponding to multiplying old and proposed message potentials
+    to the complementary powers. For a fixed positive rho, valid fixed points are
+    unchanged. If both endpoints lie in the regular natural-parameter domain, convex
+    mixing stays there; an invalid endpoint requires an explicit domain check. Damping
+    may help but supplies no general ascent or convergence guarantee. Initialize with
+    proper variational factors rather than assuming theta_i=0 is a normalizable uniform
+    density on an unbounded domain.
+- assessment_id: full-gaussian-specialization
+  area: evidence
+  topic: full-gaussian-specialization
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - wand2014
+  - calculation
+  summary: The mechanism is supported under the stated assumptions.
+  details: For a vector block q_i=N(mu,Sigma), set S=E_q[log p_tilde(x)] with other
+    blocks fixed, and define g=grad_mu S and symmetric G by the differential dS=g^T*dmu+tr(G^T*dSigma).
+    Evaluate both derivatives at the current mu and Sigma. The full-Gaussian NCVMP
+    proposal is Sigma_new=(-2*G)^(-1), mu_new=mu+Sigma_new*g, provided -2*G is positive
+    definite. This is an algebraic specialization of the sufficient-statistic update,
+    not a new objective or a general guarantee that the proposed covariance is valid.
+    Correlations inside this block are retained; dependence between separately factorized
+    blocks is omitted.
+- assessment_id: gradient-versus-moment-matching
+  area: evidence
+  topic: gradient-versus-moment-matching
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - knowles2011-supp
+  summary: The mechanism is supported under the stated assumptions.
+  details: 'The local message approximation matches derivatives of expected log factors
+    with derivatives of their exponential-family surrogate at the current variational
+    parameters. The supplement also derives this through a fixed-cavity message update.
+    Its analogy with expectation propagation does not identify the two algorithms:
+    it does not replace the update by matching ordinary sufficient-statistic moments
+    of an EP tilted distribution. Gradient-matching equations transform consistently
+    under a differentiable change of coordinates with nonsingular Jacobian; this is
+    not arbitrary finite-step parameterization invariance.'
+- assessment_id: algebra
+  area: consistency
+  topic: Natural gradient, Gaussian rewrite and valid domain
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - wand2014
+  - calculation
+  summary: The curvature and domain distinctions are correct.
+  details: The direct sufficient-statistic covariance inverse agrees exactly with
+    the scalar Gaussian moment update for supplied rational parameters. A conjugate
+    quadratic recovers its natural parameters. A quartic target gives the stated finite
+    proposal. For the proper target exp(2*x^2-x^4/4), current N(0,1) instead gives
+    precision -1; a quarter natural step restores propriety in that example without
+    establishing ascent. The matrix extension uses symmetric G and requires positive-definite
+    precision. This is curator arithmetic, not source experiment reproduction.
+- assessment_id: reference-measure
+  area: scope
+  topic: Carriers, message potentials and parameterization
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - knowles2011
+  - knowles2011-supp
+  summary: The record does not silently discard required terms.
+  details: With q relative to a fixed carrier measure, the target density must use
+    that same measure; otherwise extra expected-log-carrier terms enter the KL gradient.
+    Message potentials may be improper while their combined q must normalize. A smooth
+    bijection need not have nonsingular Jacobian, so the source parameterization argument
+    is explicitly conditioned. Gradient matching is not EP tilted moment matching
+    or arbitrary finite natural-gradient-step invariance.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete record and source audit
+  outcome: supported
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - identity
+  - mapping
+  - knowles2011
+  - knowles2011-supp
+  - wand2014
+  - calculation
+  summary: All fields were assessed and DRAFT retained.
+  details: Read the ID/name/alias, algorithm kind, definition, identity notes, seven
+    claims and all evidence locators, three source versions/access timestamps/hashes,
+    AIO pin/mapping, six limitations and curation timestamps. The report mirrors the
+    exact YAML. Source entropy sign, improper zero initialization, derivative prose
+    and separate logistic-bound issues remain explicit. All PDFs were fully inspected;
+    no author code, fitting or empirical benchmark was run. One source locator needs
+    correction as recorded below.
+- assessment_id: gaussian-locator
+  area: evidence
+  topic: Locate the final full-Gaussian update precisely
+  outcome: concern
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  evidence_ids:
+  - gaussian-locator
+  - wand2014
+  summary: Correct the Wand section and page range for the Gaussian update.
+  details: Replace Sections 2–3 with Sections 2–4 and include Equation 7, PDF p. 7
+    / printed p. 1357. The existing p. 6 derivation and Appendix A support the algebra,
+    but a reader following the current locator cannot find the named final simplified
+    updates on the cited pages. No mathematical or mapping change is needed.
+findings:
+- finding_id: F1
+  issue_key: aimech-ncvmp-gaussian-update-locator
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Correct the Wand locator for the full-Gaussian NCVMP update
+  description: The claim cites Sections 2–3 and PDF pp. 2–6 for the simplified Gaussian
+    update. Theorem 1 is in Section 4 and the final update is Equation 7 on PDF p.
+    7 / printed p. 1357. Correct this source locator while preserving the supported
+    mechanism.
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  field_paths:
+  - claims[5].evidence[1].locator
+  evidence_ids:
+  - gaussian-locator
+  - wand2014
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Correct the Wand section/page/equation locator, synchronize the report
+    and page, append actual history and save a linked successor review.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:NonconjugateVariationalMessagePassing
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    role: maintained
+  acceptance_checks:
+  - The citation includes Sections 2–4, Theorem 1 and Equation 7, PDF pp. 2–7 / printed
+    pp. 1352–1357.
+  - The mathematical claim, identity and AIO mapping remain unchanged.
+  - Required checks pass and a successor review resolves F1 for the maintained target.
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- An initial restricted vendored check could not resolve the public host. An authorized
+  network retry verified all 22 pinned artifacts; the failed attempt is preserved
+  in the session log.
+- Added one DRAFT algorithm, yielding 551 native and 442 unchanged generated records.
+  The 736-entry main frontier retains 485 pending and 56 partly addressed cohorts;
+  no saturation claim.
+- All three primary documents were read in full, including experimental contexts,
+  but no quantitative accuracy or runtime superiority is asserted. No author implementation,
+  fitting pipeline, training or benchmark was executed. The record remains DRAFT and
+  author self-review is not independent approval.
+- Historical download/source-search notes preserve access status at their capture;
+  the current reading notes establish later complete inspection of all three PDFs.
+  Nested source leads are not counted as fully deduplicated main-frontier entries.
+- Original-checkout synchronization and old round141 cleanup still await explicit
+  approval after automatic review rejection; this round uses the isolated recovery
+  checkout.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- variational-inference
+- message-passing
+- self-review
+- discovery-ongoing
+```
