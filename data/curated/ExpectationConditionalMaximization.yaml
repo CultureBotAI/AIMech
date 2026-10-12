@@ -1,0 +1,110 @@
+name: Expectation Conditional Maximization
+aliases:
+- ECM Algorithm
+- ECM
+concept_kind: algorithm
+definition: An extension of expectation maximization that replaces a joint maximization of the expected
+  complete-data log likelihood with a sequence of constrained maximizations, holding the E-step expectation
+  fixed throughout that sequence.
+identity_notes: 'The Meng-Rubin ECM framework allows general constraint functions; coordinate-block maximization
+  is a special case. It is distinct from posterior Gibbs sampling, ECME steps on actual observed likelihood,
+  and parameter-expanded EM. Ordinary EM is recovered by one unconstrained maximization. Multicycle ECM
+  refreshes the expectation within an outer iteration and is identified here as a related schedule variant,
+  not the fixed-Q definition. No normalized identity match was found across all 442 pinned AIO labels
+  and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches of worktree
+  and main included ignored and hidden files, yielding 52 and 53 matched lines respectively. All 41 distinct
+  contextual passages across 105 line instances and nine checkout-qualified paths were read; these concern
+  prior discovery references and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion
+  string. They are not existing identities for these three algorithms. All 223 semantic label/synonym
+  rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected: fourteen
+  verified unchanged after prior reading and DataAugmentation newly read. Twenty-five contextual YAMLs
+  comprise fifteen AIO and ten native records; twenty are unchanged verified prior readings, two are hash-verified
+  final records fully read in the preceding cohort, and three were fully read here. General EM, tempered
+  EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized deep Bayesian data
+  augmentation and alternating Newton fitting do not identify these particular conditional/expanded EM
+  procedures. Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.'
+definition_evidence:
+- source_id: method-source
+  locator: Section 3, Equations 3.1-3.3 and Definition 1, printed p.272 / PDF p.6
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Maximum likelihood estimation via the ECM algorithm: A general framework'
+  authors:
+  - Xiao-Li Meng
+  - Donald B. Rubin
+  source_type: primary_paper
+  url: https://www.maths.usyd.edu.au/u/jchan/GLM/Meng%26Rubin1993ECM.pdf
+  persistent_id: https://www.maths.usyd.edu.au/u/jchan/GLM/Meng%26Rubin1993ECM.pdf
+  version: Institution-hosted scan of Biometrika 80(2):267-278 (1993). All twelve PDF pages visually read,
+    including proofs and bibliography. Printed page equals PDF page plus 266; the 2016 download watermark
+    is not the publication date.
+  access_level: full_text
+  accessed_at: '2026-10-12T02:55:17Z'
+  sha256: 709bcb504347a27caea1c1fcebb628d843baa455b46a81b1c32d621ca6195467
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This is an explicit likelihood-fitting algorithm used to learn parameters from data. The
+    pinned target denotes a learning process/task, so the link is algorithm-to-task relatedness, not equivalence
+    or a subclass assertion. Latent-data augmentation and auxiliary parameter expansion do not identify
+    the pinned transformation-based DataAugmentation term.
+claims:
+- claim_id: fixed-expectation-conditional-maxima
+  kind: mechanism
+  statement: At theta_t compute Q(theta|theta_t), the conditional expectation of complete-data log likelihood
+    given the observed data under theta_t. Starting at theta_t, CM step s maximizes that same Q subject
+    to g_s(theta)=g_s(theta_previous_substep). The constraint preserves feasibility of the previous substep.
+    Use the final CM result as theta_(t+1), then compute the next E step. The constraints can fix a parameter
+    block, its complement, or a more general function; the CM subproblems need not have closed-form solutions.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2-3, pp.269-273 / PDF pp.3-7, especially Equations 3.1-3.3
+    relation: supports
+- claim_id: ascent-and-space-filling
+  kind: mechanism
+  statement: Exact CM steps make the fixed Q nondecreasing, so the full ECM iteration is a generalized
+    EM step and makes observed likelihood nondecreasing. This compares the final iterate with the E-step
+    anchor; it does not require observed likelihood to increase between every pair of intermediate CM
+    points. Stationary-limit results additionally require the stated regularity and parameter-space coverage
+    conditions. In the differentiable full-rank formulation, space filling requires that the available
+    constraint-tangent directions collectively span the parameter directions.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3-4, Equations 3.4-3.7, Theorems 1-3 and Corollary 1, pp.272-275 / PDF pp.6-9; curator
+      Gaussian counterexample to intermediate observed-likelihood monotonicity
+    relation: supports
+- claim_id: moments-and-refresh-schedule
+  kind: scope
+  statement: Incomplete normal-data examples use old conditional first and second moments throughout the
+    CM sequence, while regression coefficients and covariance parameters change in their specified order.
+    Missing values replaced only by conditional means discard required uncertainty terms. Multicycle ECM
+    refreshes expectations before selected CM steps; its outer update need not increase one single original
+    Q, although each valid refreshed cycle has its own EM ascent relation.
+  evidence:
+  - source_id: method-source
+    locator: Section 2 Example 1, pp.269-270 / PDF pp.3-4; Section 5, pp.276-277 / PDF pp.10-11
+    relation: supports
+limitations:
+- Bounded monotone likelihood values do not alone establish parameter convergence, stationarity, a local
+  maximum or global optimality. The source stationary-limit theorems impose regularity, interior and space-filling
+  conditions, with additional uniqueness or alternative technical conditions on CM updates.
+- Optimizing only a restricted set of directions can stop at a point with nonzero gradient in an excluded
+  direction. Arbitrary approximate Newton or other numerical steps require their own ascent checks.
+- The framework is deterministic likelihood or specified posterior-mode optimization, not posterior simulation.
+  The incomplete-data examples assume an appropriate ignorable missingness formulation.
+- CM simplicity, number of iterations and total computation are different considerations. The source does
+  not supply a universal speed ordering among EM, ECM and multicycle ECM. Finite curator examples check
+  scheduling and direction-coverage boundaries; no historical fit or author software was reproduced.
+id: AIMech:ExpectationConditionalMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T03:11:01Z'
+  updated_at: '2026-10-12T03:11:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

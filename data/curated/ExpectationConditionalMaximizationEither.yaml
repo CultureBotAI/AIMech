@@ -1,0 +1,134 @@
+name: Expectation Conditional Maximization Either
+aliases:
+- ECME Algorithm
+- ECME
+concept_kind: algorithm
+definition: An extension of expectation conditional maximization that replaces selected final conditional
+  maximizations of expected complete-data log likelihood with conditional maximizations of actual observed-data
+  likelihood.
+identity_notes: 'The either refers to the objective used for a conditional parameter update. The inspected
+  construction performs its fixed-Q updates before final observed-likelihood updates; arbitrary interleaving
+  with stale expectations is not asserted. It is distinct from ordinary ECM, unrestricted joint likelihood
+  optimization, AECM changes of augmentation and PX-EM expansion/reduction. Primary 1995 and 1998 follow-ups
+  support this construction; the original 1994 rate proof remains uninspected. No normalized identity
+  match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names
+  and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding
+  52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances
+  and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis
+  evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities
+  for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO
+  CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation
+  newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged
+  verified prior readings, two are hash-verified final records fully read in the preceding cohort, and
+  three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis
+  sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify
+  these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained
+  corpus and inspected neighborhood.'
+definition_evidence:
+- source_id: method-source
+  locator: Section 6, pp.27-28 / PDF pp.9-10
+  relation: supports
+- source_id: factor-source
+  locator: Introduction, p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: ML Estimation of the t Distribution Using EM and Its Extensions, ECM and ECME
+  authors:
+  - Chuanhai Liu
+  - Donald B. Rubin
+  source_type: primary_paper
+  url: https://www3.stat.sinica.edu.tw/statistica/oldpdf/a5n12.pdf
+  persistent_id: https://www3.stat.sinica.edu.tw/statistica/oldpdf/a5n12.pdf
+  version: Journal-hosted Statistica Sinica 5(1995):19-39 primary follow-up. All twenty-one PDF pages
+    visually read; printed page equals PDF page plus 18. Figure 1 plotting region is blank in the inspected
+    rendering, so its curves were not inspected. The original 1994 ECME full text was inaccessible.
+  access_level: full_text
+  accessed_at: '2026-10-12T02:58:44Z'
+  sha256: 52999e1b82ef44bc1c5f8cd99cf8bf9d6718c6d7aa21ac1b1a33f7361bec02ed
+- source_id: factor-source
+  title: Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete
+    Data
+  authors:
+  - Chuanhai Liu
+  - Donald B. Rubin
+  source_type: primary_paper
+  url: https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf
+  version: Journal-hosted Statistica Sinica 8(1998):729-747 primary follow-up. All nineteen pages visually
+    read in the preceding cohort; identical bytes verified here and PDF pages 2,5,6 reread for ECME ordering
+    and Newton safeguards. Printed page equals PDF page plus 728. This is not the original 1994 ECME article.
+  persistent_id: https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf
+  access_level: full_text
+  accessed_at: '2026-10-12T02:33:40Z'
+  sha256: 0d03448be6ec796c4076f354bd4a9f1159b45c4c398105f54db9363bbac9aacf
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This is an explicit likelihood-fitting algorithm used to learn parameters from data. The
+    pinned target denotes a learning process/task, so the link is algorithm-to-task relatedness, not equivalence
+    or a subclass assertion. Latent-data augmentation and auxiliary parameter expansion do not identify
+    the pinned transformation-based DataAugmentation term.
+claims:
+- claim_id: ordered-either-objective-updates
+  kind: mechanism
+  statement: Compute the E-step expectation at the current parameter. Carry out the selected conditional
+    Q maximizations using that fixed expectation, followed by the selected conditional actual-likelihood
+    maximizations at the current intermediate parameters. The Q sequence establishes likelihood ascent
+    relative to its E-step anchor; the subsequent observed-likelihood steps preserve or improve that value.
+    The complete ECME iteration need not increase the original Q and therefore need not be a generalized
+    EM step relative to that Q.
+  evidence:
+  - source_id: factor-source
+    locator: Introduction, p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6; curator Gaussian comparison
+      of Q-then-likelihood and invalid stale-Q reverse ordering
+    relation: supports
+- claim_id: t-model-example
+  kind: mechanism
+  statement: For the multivariate t normal/gamma augmentation, compute expected latent weights from the
+    old parameters. Update location and scatter through Q at the old degrees of freedom, then conditionally
+    maximize actual observed likelihood over positive degrees of freedom using the new location and scatter.
+    In this final step, terms depending on degrees of freedom must vary with each trial value; they are
+    not frozen old E-step statistics. The fully observed scatter update centers weighted residuals at
+    the new mean and divides by sample count. The parameter is scatter, not the marginal t covariance.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2-6, pp.20-28 / PDF pp.2-10, especially Section 6 Equations 29-30; consistent sufficient-statistic
+      expression in Equation 24
+    relation: supports
+- claim_id: factor-model-and-safeguards
+  kind: scope
+  statement: In the inspected Gaussian factor-analysis application, Q updates loadings and any free factor-covariance
+    parameters, followed by actual-likelihood fitting of diagonal uniqueness variances at those updated
+    values. Numerical Newton steps are acceptable only with the required likelihood increase; Newton iteration
+    alone does not guarantee it. This changes the fitting procedure while retaining the same marginal
+    factor model.
+  evidence:
+  - source_id: factor-source
+    locator: Section 3, pp.733-734 / PDF pp.5-6
+    relation: supports
+limitations:
+- Observed-likelihood ascent is not global optimality or unconditional parameter convergence. Conditional
+  numerical solves require valid parameter constraints and objective safeguards; a stationary root need
+  not be the intended conditional maximum.
+- The scheduling statement is the final-likelihood-step construction supported by the inspected sources.
+  An earlier likelihood update followed by an unrefreshed Q update can decrease the full-iteration likelihood,
+  as the saved curator Gaussian example shows.
+- The t examples assume ignorable missingness and correct conditional first and second moments. The source
+  contains inconsistent displayed conditional-mean signs and old/new mean subscripts; the record uses
+  the model-consistent moment interpretation and does not reproduce those expressions.
+- The original 1994 publisher PDF returned HTTP 403. Its general rate proof is not claimed as read. Two
+  complete primary follow-ups support the stated method; historical iteration/time comparisons, clinical
+  examples and source software were not reproduced. No universal acceleration or compute-cost guarantee
+  is asserted.
+id: AIMech:ExpectationConditionalMaximizationEither
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T03:11:01Z'
+  updated_at: '2026-10-12T03:11:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

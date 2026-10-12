@@ -1,0 +1,124 @@
+name: Parameter-Expanded Expectation Maximization
+aliases:
+- PX-EM
+- Parameter-Expanded EM
+concept_kind: algorithm
+definition: An expectation-maximization construction that fits an expanded complete-data model with auxiliary
+  parameters, reduces its result to the original observed-data parameterization through a likelihood-preserving
+  map, and resets the auxiliary parameters before the next iteration.
+identity_notes: 'PX-EM changes the complete-data representation without enlarging the original observed-data
+  model family. Auxiliary parameters are not independently identified from the observed data. It is deterministic
+  likelihood fitting, distinct from parameter-expanded data-augmentation sampling, generic model overparameterization,
+  ECM constrained updates and transformation-based training-data augmentation. No normalized identity
+  match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names
+  and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding
+  52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances
+  and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis
+  evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities
+  for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO
+  CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation
+  newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged
+  verified prior readings, two are hash-verified final records fully read in the preceding cohort, and
+  three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis
+  sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify
+  these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained
+  corpus and inspected neighborhood.'
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1-3.2, pp.758-759 / PDF pp.5-6
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: 'Parameter Expansion to Accelerate EM: The PX-EM Algorithm'
+  authors:
+  - Chuanhai Liu
+  - Donald B. Rubin
+  - Ying Nian Wu
+  source_type: primary_paper
+  url: https://faculty.stat.ucla.edu/ywu/research/papers/PXEM.pdf
+  persistent_id: https://faculty.stat.ucla.edu/ywu/research/papers/PXEM.pdf
+  version: Author-hosted scan of Biometrika 85(4):755-770 (December 1998), preceded by a JSTOR cover.
+    All seventeen PDF pages visually read; article printed page equals PDF page plus 753. PDF pages 13
+    and 15 additionally inspected at higher resolution. The February 2007 cover timestamp is not the publication
+    date.
+  access_level: full_text
+  accessed_at: '2026-10-12T02:57:47Z'
+  sha256: ab0e7c8503b3f8650fb43e937e59d187f2ff7d96469a09a7e7b3a295156185a7
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This is an explicit likelihood-fitting algorithm used to learn parameters from data. The
+    pinned target denotes a learning process/task, so the link is algorithm-to-task relatedness, not equivalence
+    or a subclass assertion. Latent-data augmentation and auxiliary parameter expansion do not identify
+    the pinned transformation-based DataAugmentation term.
+claims:
+- claim_id: expand-fit-reduce-reset
+  kind: mechanism
+  statement: Specify an expanded complete-data density p_X(y_com|theta_star,alpha) that recovers the original
+    augmentation at alpha_0 and whose observed density equals the original density at theta=R(theta_star,alpha).
+    At each iteration embed the current theta with alpha_0, compute expanded conditional sufficient moments,
+    maximize expanded Q over the expanded parameters, reduce by R, and reset the auxiliary parameter to
+    alpha_0 for the next E step. The observed-density equality makes expanded EM ascent transfer to the
+    original likelihood.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.1-3.2, Equations 3.1-3.2 and Theorem 1, pp.758-759 / PDF pp.5-6
+    relation: supports
+- claim_id: fixed-degrees-t-expansion
+  kind: mechanism
+  statement: For a p-dimensional t distribution with fixed positive degrees of freedom nu, old latent
+    weights are w_i=(nu+p)/(nu+delta_i), with delta_i the old scatter-based squared Mahalanobis distance.
+    Ordinary EM uses the weighted mean and scatter sum_i w_i(y_i-mu_new)(y_i-mu_new)^T/N. Expanding the
+    mean of the latent gamma scale yields alpha_new=sum_i w_i/N. Dividing the expanded scatter by alpha_new
+    reduces to the original t model, giving denominator sum_i w_i instead of N; the next iteration resets
+    alpha to one. This normalization follows from the stated expansion and reduction.
+  evidence:
+  - source_id: method-source
+    locator: Section 2, pp.756-758 / PDF pp.3-5
+    relation: supports
+- claim_id: scalar-normal-example
+  kind: mechanism
+  statement: For y|z~Normal(z,1), z~Normal(theta,sigma_squared), with known positive sigma_squared, ordinary
+    EM updates theta to m=(theta_old+sigma_squared*y)/(1+sigma_squared). Expanding the conditional observation
+    mean to z+alpha gives theta_star_new=m and alpha_new=y-m. The reduction theta_star+alpha returns theta_new=y
+    in one iteration, while ordinary EM contracts its error by 1/(1+sigma_squared). This exact example
+    does not establish one-step convergence for other expansions.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.4, pp.761-762 / PDF pp.8-9; curator scalar arithmetic
+    relation: supports
+- claim_id: local-rate-boundary
+  kind: limitation
+  statement: The information-matrix comparison linearizes at a converged likelihood solution under the
+    stated differentiability, invertibility and positive-information conditions. It orders the slowest
+    local linear convergence direction relative to the parent EM and permits equality. The paper’s global
+    rate terminology refers to the extremal local direction, not convergence from arbitrary initializations.
+    It does not order every finite iterate or total computational time.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.3, pp.760-761 / PDF pp.7-8; Section 5, pp.768-769 / PDF pp.15-16
+    relation: supports
+limitations:
+- Finding a useful likelihood-preserving expansion is problem-specific. Additional free observed-model
+  parameters without a valid reduction do not constitute this PX-EM construction.
+- Monotone bounded likelihood values alone do not prove parameter convergence or global optimality. Approximate
+  expanded maximization and matrix/scatter boundary cases need separate validity and ascent checks.
+- The probit second-moment expression printed on p.766 fails the zero-predictor half-normal check, and
+  the Poisson latent-count expectation printed on p.768 conflicts with the stated Poisson split. These
+  curator-identified discrepancies are retained in the ledger; the record does not assert those example
+  formulas.
+- All seventeen source PDF pages were read and two formulas reread at higher resolution. Finite calculations
+  check scalar reduction, one fixed-nu t update and elementary moment contradictions; no historical fit,
+  source implementation, clinical conclusion or benchmark was reproduced.
+id: AIMech:ParameterExpandedExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T03:11:01Z'
+  updated_at: '2026-10-12T03:11:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

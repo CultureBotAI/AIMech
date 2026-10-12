@@ -1,0 +1,1052 @@
+# Scientific self-review of ECM, ECME and parameter-expanded EM
+
+- Review: 20261012T031731Z-conditional-and-expanded-em
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T03:13:33Z
+- Finished UTC: 2026-10-12T03:17:31Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain ECM, ECME and PX-EM as distinct likelihood-fitting constructions. Preserve fixed-Q and final-likelihood schedules, space-filling assumptions, expansion/reduction/reset, conditional local-rate scope and explicit source-formula discrepancies. No actionable curation finding remains in the final three additions.
+
+## Scope And Provenance
+
+All fields of three source-defined conditional or expanded EM algorithms.
+
+Selection: Exact maintained IDs ExpectationConditionalMaximization, ExpectationConditionalMaximizationEither and ParameterExpandedExpectationMaximization; full selected cohort without sampling.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base b77fdc9ca90199da1b4d785c7719f3e7014927d0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ExpectationConditionalMaximization | data/curated/ExpectationConditionalMaximization.yaml | maintained | Expectation Conditional Maximization |
+| AIMech:ExpectationConditionalMaximizationEither | data/curated/ExpectationConditionalMaximizationEither.yaml | maintained | Expectation Conditional Maximization Either |
+| AIMech:ParameterExpandedExpectationMaximization | data/curated/ParameterExpandedExpectationMaximization.yaml | maintained | Parameter-Expanded Expectation Maximization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 130.77s (0:02:10)<br>Checked 442 record(s); 0 failed.<br>Checked 466 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 136 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 133,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization | Command exited 0 with no output. |
+| Conditional and expanded EM boundaries | passed | True | AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization | {"schedule": {"old": {"theta": [1.0, 1.0], "observed_log_likelihood": -1.0, "old_q": -1.0}, "first_cm": {"theta": [0.5, 1.0], "observed_log_likelihood": -0.625, "old_q": -0.75}, "ecm": {"theta": [0.5, 1.0396039603960396], "observed_log_likelihood": -0.6653881972355652, "old_q": -0.6707920792079208}, "em": {"theta": [0.10784313725490197, 1.0784313725490196], "observed_log_likelihood": -0.587322183775471, "old_q": -0.5931372549019609}, "ecme": {"theta": [0.5, 0.0], "observed_log_likelihood": -0.125, "old_q": -55.25}, "invalid_l_then_q": {"theta": [5.5, 0.0], "observed_log_likelihood": -15.125, "old_q": -30.25}}, "restricted_gradient_b": -1.0, "scalar_pxem": {"old": 0.0, "ordinary_em": 0.4, "expanded_theta": 0.4, "expanded_alpha": 1.6, "reduced_theta": 2.0, "next_auxiliary_reset": 0, "ordinary_error_factor": 0.8, "px_error_factor": 0}, "fixed_nu_t": {"data": [-2.0, -0.5, 1.0, 4.0], "nu": 4.0, "weights": [0.625, 1.1764705882352942, 1.0, 0.25], "mu": 0.053012048192771076, "ordinary_scatter": 1.9463855421686747, "expanded_alpha": 0.7628676470588236, "reduced_scatter": 2.5514065902162866, "old_ll": -10.389200177358628, "ordinary_ll": -9.453166946046448, "px_ll": -9.262326259914948}, "source_formula_audits": {"probit_true_second": 1.0, "probit_printed_second": 1.6366197723675815, "poisson_true_eu": 0.7, "poisson_printed_eu": 1.05, "conditional_normal_mean": 1.0, "new_mean_scatter": 1.0, "old_mean_scatter": 2.0}, "scope": "Finite analytic curator examples, not author code, empirical reproduction or a general convergence proof."} |
+
+## Scientific And Domain Assessments
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:ExpectationConditionalMaximization.
+
+The Meng-Rubin ECM framework allows general constraint functions; coordinate-block maximization is a special case. It is distinct from posterior Gibbs sampling, ECME steps on actual observed likelihood, and parameter-expanded EM. Ordinary EM is recovered by one unconstrained maximization. Multicycle ECM refreshes the expectation within an outer iteration and is identified here as a related schedule variant, not the fixed-Q definition. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding 52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged verified prior readings, two are hash-verified final records fully read in the preceding cohort, and three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.
+
+At theta_t compute Q(theta&#124;theta_t), the conditional expectation of complete-data log likelihood given the observed data under theta_t. Starting at theta_t, CM step s maximizes that same Q subject to g_s(theta)=g_s(theta_previous_substep). The constraint preserves feasibility of the previous substep. Use the final CM result as theta_(t+1), then compute the next E step. The constraints can fix a parameter block, its complement, or a more general function; the CM subproblems need not have closed-form solutions. Exact CM steps make the fixed Q nondecreasing, so the full ECM iteration is a generalized EM step and makes observed likelihood nondecreasing. This compares the final iterate with the E-step anchor; it does not require observed likelihood to increase between every pair of intermediate CM points. Stationary-limit results additionally require the stated regularity and parameter-space coverage conditions. In the differentiable full-rank formulation, space filling requires that the available constraint-tangent directions collectively span the parameter directions. Incomplete normal-data examples use old conditional first and second moments throughout the CM sequence, while regression coefficients and covariance parameters change in their specified order. Missing values replaced only by conditional means discard required uncertainty terms. Multicycle ECM refreshes expectations before selected CM steps; its outer update need not increase one single original Q, although each valid refreshed cycle has its own EM ascent relation. Limitations: Bounded monotone likelihood values do not alone establish parameter convergence, stationarity, a local maximum or global optimality. The source stationary-limit theorems impose regularity, interior and space-filling conditions, with additional uniqueness or alternative technical conditions on CM updates. Optimizing only a restricted set of directions can stop at a point with nonzero gradient in an excluded direction. Arbitrary approximate Newton or other numerical steps require their own ascent checks. The framework is deterministic likelihood or specified posterior-mode optimization, not posterior simulation. The incomplete-data examples assume an appropriate ignorable missingness formulation. CM simplicity, number of iterations and total computation are different considerations. The source does not supply a universal speed ordering among EM, ECM and multicycle ECM. Finite curator examples check scheduling and direction-coverage boundaries; no historical fit or author software was reproduced.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:ExpectationConditionalMaximizationEither.
+
+The either refers to the objective used for a conditional parameter update. The inspected construction performs its fixed-Q updates before final observed-likelihood updates; arbitrary interleaving with stale expectations is not asserted. It is distinct from ordinary ECM, unrestricted joint likelihood optimization, AECM changes of augmentation and PX-EM expansion/reduction. Primary 1995 and 1998 follow-ups support this construction; the original 1994 rate proof remains uninspected. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding 52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged verified prior readings, two are hash-verified final records fully read in the preceding cohort, and three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.
+
+Compute the E-step expectation at the current parameter. Carry out the selected conditional Q maximizations using that fixed expectation, followed by the selected conditional actual-likelihood maximizations at the current intermediate parameters. The Q sequence establishes likelihood ascent relative to its E-step anchor; the subsequent observed-likelihood steps preserve or improve that value. The complete ECME iteration need not increase the original Q and therefore need not be a generalized EM step relative to that Q. For the multivariate t normal/gamma augmentation, compute expected latent weights from the old parameters. Update location and scatter through Q at the old degrees of freedom, then conditionally maximize actual observed likelihood over positive degrees of freedom using the new location and scatter. In this final step, terms depending on degrees of freedom must vary with each trial value; they are not frozen old E-step statistics. The fully observed scatter update centers weighted residuals at the new mean and divides by sample count. The parameter is scatter, not the marginal t covariance. In the inspected Gaussian factor-analysis application, Q updates loadings and any free factor-covariance parameters, followed by actual-likelihood fitting of diagonal uniqueness variances at those updated values. Numerical Newton steps are acceptable only with the required likelihood increase; Newton iteration alone does not guarantee it. This changes the fitting procedure while retaining the same marginal factor model. Limitations: Observed-likelihood ascent is not global optimality or unconditional parameter convergence. Conditional numerical solves require valid parameter constraints and objective safeguards; a stationary root need not be the intended conditional maximum. The scheduling statement is the final-likelihood-step construction supported by the inspected sources. An earlier likelihood update followed by an unrefreshed Q update can decrease the full-iteration likelihood, as the saved curator Gaussian example shows. The t examples assume ignorable missingness and correct conditional first and second moments. The source contains inconsistent displayed conditional-mean signs and old/new mean subscripts; the record uses the model-consistent moment interpretation and does not reproduce those expressions. The original 1994 publisher PDF returned HTTP 403. Its general rate proof is not claimed as read. Two complete primary follow-ups support the stated method; historical iteration/time comparisons, clinical examples and source software were not reproduced. No universal acceleration or compute-cost guarantee is asserted.
+
+### Definition, identity, claim support, limitations and AIO mapping direction
+
+evidence: supported. Targets: AIMech:ParameterExpandedExpectationMaximization.
+
+PX-EM changes the complete-data representation without enlarging the original observed-data model family. Auxiliary parameters are not independently identified from the observed data. It is deterministic likelihood fitting, distinct from parameter-expanded data-augmentation sampling, generic model overparameterization, ECM constrained updates and transformation-based training-data augmentation. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding 52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged verified prior readings, two are hash-verified final records fully read in the preceding cohort, and three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.
+
+Specify an expanded complete-data density p_X(y_com&#124;theta_star,alpha) that recovers the original augmentation at alpha_0 and whose observed density equals the original density at theta=R(theta_star,alpha). At each iteration embed the current theta with alpha_0, compute expanded conditional sufficient moments, maximize expanded Q over the expanded parameters, reduce by R, and reset the auxiliary parameter to alpha_0 for the next E step. The observed-density equality makes expanded EM ascent transfer to the original likelihood. For a p-dimensional t distribution with fixed positive degrees of freedom nu, old latent weights are w_i=(nu+p)/(nu+delta_i), with delta_i the old scatter-based squared Mahalanobis distance. Ordinary EM uses the weighted mean and scatter sum_i w_i(y_i-mu_new)(y_i-mu_new)^T/N. Expanding the mean of the latent gamma scale yields alpha_new=sum_i w_i/N. Dividing the expanded scatter by alpha_new reduces to the original t model, giving denominator sum_i w_i instead of N; the next iteration resets alpha to one. This normalization follows from the stated expansion and reduction. For y&#124;z~Normal(z,1), z~Normal(theta,sigma_squared), with known positive sigma_squared, ordinary EM updates theta to m=(theta_old+sigma_squared*y)/(1+sigma_squared). Expanding the conditional observation mean to z+alpha gives theta_star_new=m and alpha_new=y-m. The reduction theta_star+alpha returns theta_new=y in one iteration, while ordinary EM contracts its error by 1/(1+sigma_squared). This exact example does not establish one-step convergence for other expansions. The information-matrix comparison linearizes at a converged likelihood solution under the stated differentiability, invertibility and positive-information conditions. It orders the slowest local linear convergence direction relative to the parent EM and permits equality. The paper’s global rate terminology refers to the extremal local direction, not convergence from arbitrary initializations. It does not order every finite iterate or total computational time. Limitations: Finding a useful likelihood-preserving expansion is problem-specific. Additional free observed-model parameters without a valid reduction do not constitute this PX-EM construction. Monotone bounded likelihood values alone do not prove parameter convergence or global optimality. Approximate expanded maximization and matrix/scatter boundary cases need separate validity and ascent checks. The probit second-moment expression printed on p.766 fails the zero-predictor half-normal check, and the Poisson latent-count expectation printed on p.768 conflicts with the stated Poisson split. These curator-identified discrepancies are retained in the ledger; the record does not assert those example formulas. All seventeen source PDF pages were read and two formulas reread at higher resolution. Finite calculations check scalar reduction, one fixed-nu t update and elementary moment contradictions; no historical fit, source implementation, clinical conclusion or benchmark was reproduced.
+
+### General constraint functions and fixed expectation
+
+consistency: supported. Targets: AIMech:ExpectationConditionalMaximization.
+
+Retain general constrained maximization rather than narrowing ECM to a coordinate partition.
+
+Each CM constraint preserves the preceding point while optimizing the same old Q. Full Q ascent implies observed-likelihood improvement relative to the E-step anchor. In the saved Gaussian example Q increases from -1 to -0.75 to about -0.6708, but observed likelihood moves from -1 to -0.625 to about -0.6654. Thus the final iteration improves over its start despite an intermediate observed-likelihood decrease.
+
+### Space filling, regularity and refresh cycles
+
+consistency: supported. Targets: AIMech:ExpectationConditionalMaximization.
+
+Keep monotone values separate from stationary-limit and parameter claims.
+
+The inspected stationary-limit results require regularity and space-filling conditions with additional CM uniqueness or stated alternatives. A complete-data update that optimizes only a while holding b=1 reaches a=0 with nonzero b gradient. Refreshing Q inside a multicycle iteration changes the applicable anchor; its outer step need not increase one original Q. No universal EM/ECM speed ordering follows.
+
+### Q updates before final observed-likelihood updates
+
+consistency: supported. Targets: AIMech:ExpectationConditionalMaximizationEither.
+
+Retain the supported ECME schedule and exclude stale-Q interleaving.
+
+The factor-analysis follow-up explicitly replaces final CM steps by actual-likelihood steps. The Gaussian example gives valid ECME observed likelihood -0.125 from -1 even though old Q falls to -55.25, demonstrating why it need not be GEM. Reversing the order without refreshing Q yields observed likelihood -15.125. This is a curator counterexample, not a source empirical benchmark.
+
+### Conditional moments, trial parameters and numerical safeguards
+
+consistency: supported. Targets: AIMech:ExpectationConditionalMaximizationEither.
+
+Preserve updated means, scatter meaning and actual-likelihood Newton safeguards.
+
+The t location/scatter Q step precedes the degrees-of-freedom likelihood step. Trial-nu weights vary with trial nu; scatter uses the new mean and is not marginal covariance. Missing-data moments retain conditional covariance. Model-based arithmetic contradicts the printed minus sign in the conditional mean and the old-mean scatter equality. The record excludes these expressions. The factor follow-up requires checking actual likelihood increase for Newton steps.
+
+### Observed-law preservation, reduction and reset
+
+consistency: supported. Targets: AIMech:ParameterExpandedExpectationMaximization.
+
+Retain auxiliary expansion without enlarging the observed model family.
+
+An expanded complete-data fit reduces through R to the original observed law and resets alpha to its embedding value. In the scalar example theta_star=0.4 and alpha=1.6 reduce to y=2, while parent EM gives 0.4. A fixed-nu t example gives ordinary scatter about 1.9464 and reduced scatter about 2.5514 with both improving likelihood over the start. These finite calculations do not order all iterates or prove general acceleration.
+
+### Local information comparison and contradicted example formulas
+
+consistency: supported. Targets: AIMech:ParameterExpandedExpectationMaximization.
+
+Qualify rate language and retain explicit source contradictions.
+
+The source rate comparison linearizes near a converged solution with information-matrix regularity; its extremal-direction global rate is not a guarantee from arbitrary starts or of lower CPU cost. The printed probit expression gives 1+2/pi for a half-normal second moment that equals 1. The printed Poisson expectation gives 1.05 in a split whose correct latent expectation is 0.7. The record retains these as curator-identified source discrepancies and does not assert the invalid formulas.
+
+### Access gaps, source versions and algorithm/task mappings
+
+grounding: supported. Targets: AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization.
+
+Retain three distinct algorithms with bounded evidence.
+
+Fifty new PDF pages were visually read. The complete preceding nineteen-page factor follow-up was byte-verified and three key pages reread. The original 1994 ECME full text remains inaccessible and one 1995 figure has a blank plotting region. Algorithm-to-task related mappings avoid treating preprocessing augmentation, latent probability models or sampling transitions as equivalent. Eleven provisional new cohorts and 397 pending leads preclude saturation.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:ExpectationConditionalMaximization, AIMech:ExpectationConditionalMaximizationEither, AIMech:ParameterExpandedExpectationMaximization. Fixed-Q constrained maximization, final observed-likelihood conditional updates and expanded complete-data fitting with reduction/reset have distinct defining operations. Shared EM ancestry does not establish equivalence. Related algorithm/task mappings preserve abstraction.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T031236Z-conditional-and-expanded-em.json | supports | No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches of worktree and main included ignored and hidden files, yielding 52 and 53 matched lines respectively. All 41 distinct contextual passages across 105 line instances and nine checkout-qualified paths were read; these concern prior discovery references and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion string. They are not existing identities for these three algorithms. All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty are unchanged verified prior readings, two are hash-verified final records fully read in the preceding cohort, and three were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized deep Bayesian data augmentation and alternating Newton fitting do not identify these particular conditional/expanded EM procedures. Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.<br> |
+| mapping | sources/aio/aio.json; 15 annotated CLASS nodes and outgoing edges; all 223 semantic label/synonym rows | supports | Each local identity is a likelihood-fitting algorithm related to AIO:MachineLearningTask, whose pinned definition is a process intended to build methods that learn from data. The relation is algorithm-to-task related_match, not equivalence or a subclass assertion. Model describes a model rather than its fitting algorithm. TrainingStrategy and Preprocessing have preprocessing-scoped definitions that do not capture generic likelihood iteration; no additional link is forced. DataAugmentation concerns transformations expanding training examples, unlike latent-data augmentation or auxiliary parameter expansion. SupervisedLearning, UnsupervisedLearning, RegressionAnalysis and Clustering are possible application tasks, not required defining properties. GLM, RandomEffectsModel, FixedEffectsModel and ProbabilisticGraphicalModel cover selected model/application structures, not these general algorithms. ArtificialNeuralNetwork and RepresentationLearning are also not required. All fifteen target CLASS nodes and outgoing edges and all twenty-five contextual records were inspected or byte-verified against prior full readings. Mappings remain bounded to commit 397851c547d1c4d8f06ef184f63c1d40bc86937a and its pinned SHA-256.<br> |
+| neighbors | research/discovery/20261012T031236Z-conditional-and-expanded-em.json; Ten native neighbors and 15 generated contextual YAMLs in source_analysis.context_reading | supports | Twenty-five contextual YAMLs comprise twenty verified prior context readings, two verified final preceding-cohort records and three new full readings. Generic EM, tempered EM, Gaussian latent models, Gibbs/Metropolis, deep Bayesian augmentation and block Newton fitting distinguish these methods from neighboring identities. Contextual records receive no renewed scientific approval. |
+| finite-boundaries | research/discovery/conditional-and-expanded-em-boundaries.py; Fixed-Q and observed-likelihood schedules; PX reduction/reset; source moment contradictions | supports | Finite Gaussian augmentation distinguishes fixed-Q ascent from observed-likelihood substep ascent, exhibits valid ECME with lower original Q, and supplies a stale-Q ordering counterexample. A restricted-direction complete-data update misses stationarity. The scalar PX-EM example reduces exactly to the MLE, and one fixed-nu t example verifies weight normalization and ascent. Elementary moments contradict printed probit and Poisson formulas in the PX-EM paper and a conditional-mean sign / old-mean scatter expression in the t paper. These are curator mathematical checks, not publisher errata, general convergence proofs, author software or empirical reproduction. |
+| expectationconditionalmaximization-source-0 | https://www.maths.usyd.edu.au/u/jchan/GLM/Meng%26Rubin1993ECM.pdf; Section 2 Example 1, pp.269-270 / PDF pp.3-4; Section 5, pp.276-277 / PDF pp.10-11; Section 3, Equations 3.1-3.3 and Definition 1, printed p.272 / PDF p.6; Sections 2-3, pp.269-273 / PDF pp.3-7, especially Equations 3.1-3.3; Sections 3-4, Equations 3.4-3.7, Theorems 1-3 and Corollary 1, pp.272-275 / PDF pp.6-9; curator Gaussian counterexample to intermediate observed-likelihood monotonicity | supports | Maximum likelihood estimation via the ECM algorithm: A general framework. Institution-hosted scan of Biometrika 80(2):267-278 (1993). All twelve PDF pages visually read, including proofs and bibliography. Printed page equals PDF page plus 266; the 2016 download watermark is not the publication date. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| expectationconditionalmaximizationeither-source-0 | https://www3.stat.sinica.edu.tw/statistica/oldpdf/a5n12.pdf; Section 6, pp.27-28 / PDF pp.9-10; Sections 2-6, pp.20-28 / PDF pp.2-10, especially Section 6 Equations 29-30; consistent sufficient-statistic expression in Equation 24 | supports | ML Estimation of the t Distribution Using EM and Its Extensions, ECM and ECME. Journal-hosted Statistica Sinica 5(1995):19-39 primary follow-up. All twenty-one PDF pages visually read; printed page equals PDF page plus 18. Figure 1 plotting region is blank in the inspected rendering, so its curves were not inspected. The original 1994 ECME full text was inaccessible. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| expectationconditionalmaximizationeither-source-1 | https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf; Introduction, p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6; Introduction, p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6; curator Gaussian comparison of Q-then-likelihood and invalid stale-Q reverse ordering; Section 3, pp.733-734 / PDF pp.5-6 | supports | Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data. Journal-hosted Statistica Sinica 8(1998):729-747 primary follow-up. All nineteen pages visually read in the preceding cohort; identical bytes verified here and PDF pages 2,5,6 reread for ECME ordering and Newton safeguards. Printed page equals PDF page plus 728. This is not the original 1994 ECME article. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+| parameterexpandedexpectationmaximization-source-0 | https://faculty.stat.ucla.edu/ywu/research/papers/PXEM.pdf; Section 2, pp.756-758 / PDF pp.3-5; Section 3.3, pp.760-761 / PDF pp.7-8; Section 5, pp.768-769 / PDF pp.15-16; Section 3.4, pp.761-762 / PDF pp.8-9; curator scalar arithmetic; Sections 3.1-3.2, Equations 3.1-3.2 and Theorem 1, pp.758-759 / PDF pp.5-6; Sections 3.1-3.2, pp.758-759 / PDF pp.5-6 | supports | Parameter Expansion to Accelerate EM: The PX-EM Algorithm. Author-hosted scan of Biometrika 85(4):755-770 (December 1998), preceded by a JSTOR cover. All seventeen PDF pages visually read; article printed page equals PDF page plus 753. PDF pages 13 and 15 additionally inspected at higher resolution. The February 2007 cover timestamp is not the publication date. Curator algebraic deductions are distinguished from historical empirical results or uninspected software. |
+
+## Limits And Additional Notes
+
+- Adversarial author self-review only; all three records remain DRAFT.
+- Fifty new PDF pages visually read: ECM twelve, PX-EM seventeen including cover, and the t/ECME follow-up twenty-one. The factor-analysis follow-up was fully read in the preceding cohort; identical bytes verified and three ECME-relevant pages reread here.
+- Figure 1 plotting region in the 1995 t paper is blank in the inspected render. Its caption and neighboring table were inspected, but no curve shapes were read. No alternate Poppler renderer was available on PATH.
+- The original 1994 ECME publisher PDF returned 403 and was not bypassed. The original general rate proof remains a pending access lead; the core construction uses two complete primary follow-ups.
+- An initial PX-EM CiteSeer request returned 404. The old author host refused connection; the same path on the current faculty host succeeded using system curl with certificate verification. No disabled TLS validation was used.
+- The inspected papers contain model/formula inconsistencies. Explicit source notes retain them, and finite curator checks support the stated corrections. No unverified formula is copied merely because it appears in a primary paper.
+- Ascent, stationary-limit theorems, local rate comparisons and computation time are separate claims. The records state supported schedules and assumptions without universal speed or global-optimality guarantees.
+- No author software, historical fit, training, medical inference or benchmark was reproduced. Full papers are not redistributed.
+- Eleven new provisional cohorts leave 397 pending leads and other unresolved dispositions. New labels were compared with all prior labels and an ignored-inclusive checkout search; underlying methods still need identity and source review. No saturation is claimed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T031731Z-conditional-and-expanded-em
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of ECM, ECME and parameter-expanded EM
+started_at: '2026-10-12T03:13:33Z'
+finished_at: '2026-10-12T03:17:31Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read all fields of three final
+    maintained records against fifty newly read primary PDF pages, a byte-verified
+    fully read follow-up with three key pages reread, fifteen annotated AIO nodes
+    and ten native neighbors. Finite arithmetic checks schedules, expansion/reduction
+    and source-formula contradictions. This is author self-review; no independent
+    approval is claimed.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain ECM, ECME and PX-EM as distinct likelihood-fitting constructions.
+  Preserve fixed-Q and final-likelihood schedules, space-filling assumptions, expansion/reduction/reset,
+  conditional local-rate scope and explicit source-formula discrepancies. No actionable
+  curation finding remains in the final three additions.
+source:
+  git_revision: b77fdc9ca90199da1b4d785c7719f3e7014927d0
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataAugmentation.yaml
+    sha256: e99fd76071e8b52cbe8ed53f694b30093d7fb7a8af2e225f2f158f5cab5f11ae
+    role: context
+  - path: data/aio/FixedEffectsModel.yaml
+    sha256: ce9b21b60e99bf7abfd19b9b480d5c73777ba59f38af53c3fa2d6bfc50f71a86
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/BayesianDataAugmentation.yaml
+    sha256: 4d95781fa743392ee3bcda4cf5cb3d79a35052750a01e090d2bc54b5693e14b5
+    role: context
+  - path: data/curated/ExpectationConditionalMaximization.yaml
+    sha256: 525c100f17166d92874cf2f44d4f622b376f86fca16e6716474d463632c53e44
+    role: target
+  - path: data/curated/ExpectationConditionalMaximizationEither.yaml
+    sha256: e9b94dc648b9453f958558e2d91af4c09bd7663380b1a5dd96d52d44f7d15074
+    role: target
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GaussianFactorAnalysis.yaml
+    sha256: bb064b83883b55e849a24d39aebcbb38ebf85aad309ff3b1e656d5f332737ef9
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/MetropolisWithinGibbs.yaml
+    sha256: 0e9cfedc93c7e46cc6316809d5a9ec9488b33891a9c9862f914a0adf8f7cb140
+    role: context
+  - path: data/curated/MixturesOfProbabilisticPCA.yaml
+    sha256: ee44925815c046c15a22346e43bba2993b159ceace76c88237cf76c0d38aca29
+    role: context
+  - path: data/curated/ParallelAlternatingNewtonAPM.yaml
+    sha256: c06b2dfb369ce073f2fbb4373d5ada58e42185c6bebe84681c09601fbeb287ba
+    role: context
+  - path: data/curated/ParameterExpandedExpectationMaximization.yaml
+    sha256: 5bb3941c8224bb835043bae5e22ecb01225a5060cb5f1ea90c531df0dc1104cd
+    role: target
+  - path: data/curated/ProbabilisticPCA.yaml
+    sha256: 393a9dafbc77ca21442c597c8fcd67957698d2dd32d9175ef0ac7f006f1248b5
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: data/curated/TemperedExpectationMaximization.yaml
+    sha256: 792d43ce4f38f485002b9fadbb1e9d9ac32879069cb2ec6e42b3443b57441ca5
+    role: context
+  - path: research/discovery/20261012T031236Z-conditional-and-expanded-em.json
+    sha256: 5dbf912bb4f523d88fef3233c7fb4dca9f209c104fdd708c07326a42ae6baa8b
+    role: context
+  - path: research/discovery/conditional-and-expanded-em-boundaries.py
+    sha256: 312e7d2e6064ca53b3e5e9e82137b2ddd68e19e225400607cbe2f6b7c5235166
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ExpectationConditionalMaximization
+  path: data/curated/ExpectationConditionalMaximization.yaml
+  label: Expectation Conditional Maximization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExpectationConditionalMaximization.yaml
+    role: maintained
+- target_id: AIMech:ExpectationConditionalMaximizationEither
+  path: data/curated/ExpectationConditionalMaximizationEither.yaml
+  label: Expectation Conditional Maximization Either
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExpectationConditionalMaximizationEither.yaml
+    role: maintained
+- target_id: AIMech:ParameterExpandedExpectationMaximization
+  path: data/curated/ParameterExpandedExpectationMaximization.yaml
+  label: Parameter-Expanded Expectation Maximization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ParameterExpandedExpectationMaximization.yaml
+    role: maintained
+scope:
+  description: All fields of three source-defined conditional or expanded EM algorithms.
+  selection: Exact maintained IDs ExpectationConditionalMaximization, ExpectationConditionalMaximizationEither
+    and ParameterExpandedExpectationMaximization; full selected cohort without sampling.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exclusions:
+  - target: Contextual AIO and maintained records
+    reason: Context informs identity and abstraction boundaries without renewed scientific
+      approval or mutation.
+  - target: Historical implementations and empirical reproduction
+    reason: No source software, empirical training, biological experiment or benchmark
+      ran. Curator arithmetic checks bounded mathematical claims only.
+  - target: Remaining discovery frontier
+    reason: Eleven new provisional cohorts and 397 pending leads remain, alongside
+      other unresolved dispositions including the original ECME rate-proof access
+      gap. The three named core identities are represented, not the whole literature.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 130.77s (0:02:10)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 466 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 136 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 133,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: finite-arithmetic
+  name: Conditional and expanded EM boundaries
+  command: python3 research/discovery/conditional-and-expanded-em-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"schedule": {"old": {"theta": [1.0, 1.0], "observed_log_likelihood":
+    -1.0, "old_q": -1.0}, "first_cm": {"theta": [0.5, 1.0], "observed_log_likelihood":
+    -0.625, "old_q": -0.75}, "ecm": {"theta": [0.5, 1.0396039603960396], "observed_log_likelihood":
+    -0.6653881972355652, "old_q": -0.6707920792079208}, "em": {"theta": [0.10784313725490197,
+    1.0784313725490196], "observed_log_likelihood": -0.587322183775471, "old_q": -0.5931372549019609},
+    "ecme": {"theta": [0.5, 0.0], "observed_log_likelihood": -0.125, "old_q": -55.25},
+    "invalid_l_then_q": {"theta": [5.5, 0.0], "observed_log_likelihood": -15.125,
+    "old_q": -30.25}}, "restricted_gradient_b": -1.0, "scalar_pxem": {"old": 0.0,
+    "ordinary_em": 0.4, "expanded_theta": 0.4, "expanded_alpha": 1.6, "reduced_theta":
+    2.0, "next_auxiliary_reset": 0, "ordinary_error_factor": 0.8, "px_error_factor":
+    0}, "fixed_nu_t": {"data": [-2.0, -0.5, 1.0, 4.0], "nu": 4.0, "weights": [0.625,
+    1.1764705882352942, 1.0, 0.25], "mu": 0.053012048192771076, "ordinary_scatter":
+    1.9463855421686747, "expanded_alpha": 0.7628676470588236, "reduced_scatter": 2.5514065902162866,
+    "old_ll": -10.389200177358628, "ordinary_ll": -9.453166946046448, "px_ll": -9.262326259914948},
+    "source_formula_audits": {"probit_true_second": 1.0, "probit_printed_second":
+    1.6366197723675815, "poisson_true_eu": 0.7, "poisson_printed_eu": 1.05, "conditional_normal_mean":
+    1.0, "new_mean_scatter": 1.0, "old_mean_scatter": 2.0}, "scope": "Finite analytic
+    curator examples, not author code, empirical reproduction or a general convergence
+    proof."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T031236Z-conditional-and-expanded-em.json
+  accessed_at: '2026-10-12T03:13:33Z'
+  support: supports
+  summary: 'No normalized identity match was found across all 442 pinned AIO labels
+    and scoped synonyms and 463 preceding native IDs, names and aliases. Fixed-string
+    searches of worktree and main included ignored and hidden files, yielding 52 and
+    53 matched lines respectively. All 41 distinct contextual passages across 105
+    line instances and nine checkout-qualified paths were read; these concern prior
+    discovery references and factor-analysis evidence, plus an unrelated ignored URI-template
+    parameter-expansion string. They are not existing identities for these three algorithms.
+    All 223 semantic label/synonym rows were read. Fifteen exact annotated AIO CLASS
+    nodes and outgoing edges were inspected: fourteen verified unchanged after prior
+    reading and DataAugmentation newly read. Twenty-five contextual YAMLs comprise
+    fifteen AIO and ten native records; twenty are unchanged verified prior readings,
+    two are hash-verified final records fully read in the preceding cohort, and three
+    were fully read here. General EM, tempered EM, Gaussian factor models, PPCA mixtures,
+    Gibbs/Metropolis sampling, specialized deep Bayesian data augmentation and alternating
+    Newton fitting do not identify these particular conditional/expanded EM procedures.
+    Absence is bounded to the pinned snapshot, maintained corpus and inspected neighborhood.
+
+    '
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison and included as explicit identity
+    terms in the full-text whole-word searches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: 15 annotated CLASS nodes and outgoing edges; all 223 semantic label/synonym
+    rows
+  accessed_at: '2026-10-12T03:13:33Z'
+  support: supports
+  summary: 'Each local identity is a likelihood-fitting algorithm related to AIO:MachineLearningTask,
+    whose pinned definition is a process intended to build methods that learn from
+    data. The relation is algorithm-to-task related_match, not equivalence or a subclass
+    assertion. Model describes a model rather than its fitting algorithm. TrainingStrategy
+    and Preprocessing have preprocessing-scoped definitions that do not capture generic
+    likelihood iteration; no additional link is forced. DataAugmentation concerns
+    transformations expanding training examples, unlike latent-data augmentation or
+    auxiliary parameter expansion. SupervisedLearning, UnsupervisedLearning, RegressionAnalysis
+    and Clustering are possible application tasks, not required defining properties.
+    GLM, RandomEffectsModel, FixedEffectsModel and ProbabilisticGraphicalModel cover
+    selected model/application structures, not these general algorithms. ArtificialNeuralNetwork
+    and RepresentationLearning are also not required. All fifteen target CLASS nodes
+    and outgoing edges and all twenty-five contextual records were inspected or byte-verified
+    against prior full readings. Mappings remain bounded to commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+    and its pinned SHA-256.
+
+    '
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T031236Z-conditional-and-expanded-em.json
+  locator: Ten native neighbors and 15 generated contextual YAMLs in source_analysis.context_reading
+  accessed_at: '2026-10-12T03:13:33Z'
+  support: supports
+  summary: Twenty-five contextual YAMLs comprise twenty verified prior context readings,
+    two verified final preceding-cohort records and three new full readings. Generic
+    EM, tempered EM, Gaussian latent models, Gibbs/Metropolis, deep Bayesian augmentation
+    and block Newton fitting distinguish these methods from neighboring identities.
+    Contextual records receive no renewed scientific approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/conditional-and-expanded-em-boundaries.py
+  locator: Fixed-Q and observed-likelihood schedules; PX reduction/reset; source moment
+    contradictions
+  accessed_at: '2026-10-12T03:13:33Z'
+  snapshot_sha256: 312e7d2e6064ca53b3e5e9e82137b2ddd68e19e225400607cbe2f6b7c5235166
+  support: supports
+  summary: Finite Gaussian augmentation distinguishes fixed-Q ascent from observed-likelihood
+    substep ascent, exhibits valid ECME with lower original Q, and supplies a stale-Q
+    ordering counterexample. A restricted-direction complete-data update misses stationarity.
+    The scalar PX-EM example reduces exactly to the MLE, and one fixed-nu t example
+    verifies weight normalization and ascent. Elementary moments contradict printed
+    probit and Poisson formulas in the PX-EM paper and a conditional-mean sign / old-mean
+    scatter expression in the t paper. These are curator mathematical checks, not
+    publisher errata, general convergence proofs, author software or empirical reproduction.
+- evidence_id: expectationconditionalmaximization-source-0
+  kind: primary_source
+  reference: https://www.maths.usyd.edu.au/u/jchan/GLM/Meng%26Rubin1993ECM.pdf
+  locator: Section 2 Example 1, pp.269-270 / PDF pp.3-4; Section 5, pp.276-277 / PDF
+    pp.10-11; Section 3, Equations 3.1-3.3 and Definition 1, printed p.272 / PDF p.6;
+    Sections 2-3, pp.269-273 / PDF pp.3-7, especially Equations 3.1-3.3; Sections
+    3-4, Equations 3.4-3.7, Theorems 1-3 and Corollary 1, pp.272-275 / PDF pp.6-9;
+    curator Gaussian counterexample to intermediate observed-likelihood monotonicity
+  accessed_at: '2026-10-12T02:55:17Z'
+  snapshot_sha256: 709bcb504347a27caea1c1fcebb628d843baa455b46a81b1c32d621ca6195467
+  support: supports
+  summary: 'Maximum likelihood estimation via the ECM algorithm: A general framework.
+    Institution-hosted scan of Biometrika 80(2):267-278 (1993). All twelve PDF pages
+    visually read, including proofs and bibliography. Printed page equals PDF page
+    plus 266; the 2016 download watermark is not the publication date. Curator algebraic
+    deductions are distinguished from historical empirical results or uninspected
+    software.'
+- evidence_id: expectationconditionalmaximizationeither-source-0
+  kind: primary_source
+  reference: https://www3.stat.sinica.edu.tw/statistica/oldpdf/a5n12.pdf
+  locator: Section 6, pp.27-28 / PDF pp.9-10; Sections 2-6, pp.20-28 / PDF pp.2-10,
+    especially Section 6 Equations 29-30; consistent sufficient-statistic expression
+    in Equation 24
+  accessed_at: '2026-10-12T02:58:44Z'
+  snapshot_sha256: 52999e1b82ef44bc1c5f8cd99cf8bf9d6718c6d7aa21ac1b1a33f7361bec02ed
+  support: supports
+  summary: ML Estimation of the t Distribution Using EM and Its Extensions, ECM and
+    ECME. Journal-hosted Statistica Sinica 5(1995):19-39 primary follow-up. All twenty-one
+    PDF pages visually read; printed page equals PDF page plus 18. Figure 1 plotting
+    region is blank in the inspected rendering, so its curves were not inspected.
+    The original 1994 ECME full text was inaccessible. Curator algebraic deductions
+    are distinguished from historical empirical results or uninspected software.
+- evidence_id: expectationconditionalmaximizationeither-source-1
+  kind: primary_source
+  reference: https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf
+  locator: Introduction, p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6; Introduction,
+    p.730 / PDF p.2; Section 3, pp.733-734 / PDF pp.5-6; curator Gaussian comparison
+    of Q-then-likelihood and invalid stale-Q reverse ordering; Section 3, pp.733-734
+    / PDF pp.5-6
+  accessed_at: '2026-10-12T02:33:40Z'
+  snapshot_sha256: 0d03448be6ec796c4076f354bd4a9f1159b45c4c398105f54db9363bbac9aacf
+  support: supports
+  summary: Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm
+    with Complete and Incomplete Data. Journal-hosted Statistica Sinica 8(1998):729-747
+    primary follow-up. All nineteen pages visually read in the preceding cohort; identical
+    bytes verified here and PDF pages 2,5,6 reread for ECME ordering and Newton safeguards.
+    Printed page equals PDF page plus 728. This is not the original 1994 ECME article.
+    Curator algebraic deductions are distinguished from historical empirical results
+    or uninspected software.
+- evidence_id: parameterexpandedexpectationmaximization-source-0
+  kind: primary_source
+  reference: https://faculty.stat.ucla.edu/ywu/research/papers/PXEM.pdf
+  locator: Section 2, pp.756-758 / PDF pp.3-5; Section 3.3, pp.760-761 / PDF pp.7-8;
+    Section 5, pp.768-769 / PDF pp.15-16; Section 3.4, pp.761-762 / PDF pp.8-9; curator
+    scalar arithmetic; Sections 3.1-3.2, Equations 3.1-3.2 and Theorem 1, pp.758-759
+    / PDF pp.5-6; Sections 3.1-3.2, pp.758-759 / PDF pp.5-6
+  accessed_at: '2026-10-12T02:57:47Z'
+  snapshot_sha256: ab0e7c8503b3f8650fb43e937e59d187f2ff7d96469a09a7e7b3a295156185a7
+  support: supports
+  summary: 'Parameter Expansion to Accelerate EM: The PX-EM Algorithm. Author-hosted
+    scan of Biometrika 85(4):755-770 (December 1998), preceded by a JSTOR cover. All
+    seventeen PDF pages visually read; article printed page equals PDF page plus 753.
+    PDF pages 13 and 15 additionally inspected at higher resolution. The February
+    2007 cover timestamp is not the publication date. Curator algebraic deductions
+    are distinguished from historical empirical results or uninspected software.'
+assessments:
+- assessment_id: expectationconditionalmaximization
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - expectationconditionalmaximization-source-0
+  summary: 'The Meng-Rubin ECM framework allows general constraint functions; coordinate-block
+    maximization is a special case. It is distinct from posterior Gibbs sampling,
+    ECME steps on actual observed likelihood, and parameter-expanded EM. Ordinary
+    EM is recovered by one unconstrained maximization. Multicycle ECM refreshes the
+    expectation within an outer iteration and is identified here as a related schedule
+    variant, not the fixed-Q definition. No normalized identity match was found across
+    all 442 pinned AIO labels and scoped synonyms and 463 preceding native IDs, names
+    and aliases. Fixed-string searches of worktree and main included ignored and hidden
+    files, yielding 52 and 53 matched lines respectively. All 41 distinct contextual
+    passages across 105 line instances and nine checkout-qualified paths were read;
+    these concern prior discovery references and factor-analysis evidence, plus an
+    unrelated ignored URI-template parameter-expansion string. They are not existing
+    identities for these three algorithms. All 223 semantic label/synonym rows were
+    read. Fifteen exact annotated AIO CLASS nodes and outgoing edges were inspected:
+    fourteen verified unchanged after prior reading and DataAugmentation newly read.
+    Twenty-five contextual YAMLs comprise fifteen AIO and ten native records; twenty
+    are unchanged verified prior readings, two are hash-verified final records fully
+    read in the preceding cohort, and three were fully read here. General EM, tempered
+    EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling, specialized
+    deep Bayesian data augmentation and alternating Newton fitting do not identify
+    these particular conditional/expanded EM procedures. Absence is bounded to the
+    pinned snapshot, maintained corpus and inspected neighborhood.'
+  details: 'At theta_t compute Q(theta|theta_t), the conditional expectation of complete-data
+    log likelihood given the observed data under theta_t. Starting at theta_t, CM
+    step s maximizes that same Q subject to g_s(theta)=g_s(theta_previous_substep).
+    The constraint preserves feasibility of the previous substep. Use the final CM
+    result as theta_(t+1), then compute the next E step. The constraints can fix a
+    parameter block, its complement, or a more general function; the CM subproblems
+    need not have closed-form solutions. Exact CM steps make the fixed Q nondecreasing,
+    so the full ECM iteration is a generalized EM step and makes observed likelihood
+    nondecreasing. This compares the final iterate with the E-step anchor; it does
+    not require observed likelihood to increase between every pair of intermediate
+    CM points. Stationary-limit results additionally require the stated regularity
+    and parameter-space coverage conditions. In the differentiable full-rank formulation,
+    space filling requires that the available constraint-tangent directions collectively
+    span the parameter directions. Incomplete normal-data examples use old conditional
+    first and second moments throughout the CM sequence, while regression coefficients
+    and covariance parameters change in their specified order. Missing values replaced
+    only by conditional means discard required uncertainty terms. Multicycle ECM refreshes
+    expectations before selected CM steps; its outer update need not increase one
+    single original Q, although each valid refreshed cycle has its own EM ascent relation.
+    Limitations: Bounded monotone likelihood values do not alone establish parameter
+    convergence, stationarity, a local maximum or global optimality. The source stationary-limit
+    theorems impose regularity, interior and space-filling conditions, with additional
+    uniqueness or alternative technical conditions on CM updates. Optimizing only
+    a restricted set of directions can stop at a point with nonzero gradient in an
+    excluded direction. Arbitrary approximate Newton or other numerical steps require
+    their own ascent checks. The framework is deterministic likelihood or specified
+    posterior-mode optimization, not posterior simulation. The incomplete-data examples
+    assume an appropriate ignorable missingness formulation. CM simplicity, number
+    of iterations and total computation are different considerations. The source does
+    not supply a universal speed ordering among EM, ECM and multicycle ECM. Finite
+    curator examples check scheduling and direction-coverage boundaries; no historical
+    fit or author software was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A source-defined deterministic likelihood-fitting algorithm, not a
+      probability model or trained instance.
+    evidence_ids:
+    - expectationconditionalmaximization-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'Each local identity is a likelihood-fitting algorithm related to
+      AIO:MachineLearningTask, whose pinned definition is a process intended to build
+      methods that learn from data. The relation is algorithm-to-task related_match,
+      not equivalence or a subclass assertion. Model describes a model rather than
+      its fitting algorithm. TrainingStrategy and Preprocessing have preprocessing-scoped
+      definitions that do not capture generic likelihood iteration; no additional
+      link is forced. DataAugmentation concerns transformations expanding training
+      examples, unlike latent-data augmentation or auxiliary parameter expansion.
+      SupervisedLearning, UnsupervisedLearning, RegressionAnalysis and Clustering
+      are possible application tasks, not required defining properties. GLM, RandomEffectsModel,
+      FixedEffectsModel and ProbabilisticGraphicalModel cover selected model/application
+      structures, not these general algorithms. ArtificialNeuralNetwork and RepresentationLearning
+      are also not required. All fifteen target CLASS nodes and outgoing edges and
+      all twenty-five contextual records were inspected or byte-verified against prior
+      full readings. Mappings remain bounded to commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+      and its pinned SHA-256.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: expectationconditionalmaximizationeither
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximizationEither
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - expectationconditionalmaximizationeither-source-0
+  - expectationconditionalmaximizationeither-source-1
+  summary: 'The either refers to the objective used for a conditional parameter update.
+    The inspected construction performs its fixed-Q updates before final observed-likelihood
+    updates; arbitrary interleaving with stale expectations is not asserted. It is
+    distinct from ordinary ECM, unrestricted joint likelihood optimization, AECM changes
+    of augmentation and PX-EM expansion/reduction. Primary 1995 and 1998 follow-ups
+    support this construction; the original 1994 rate proof remains uninspected. No
+    normalized identity match was found across all 442 pinned AIO labels and scoped
+    synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches
+    of worktree and main included ignored and hidden files, yielding 52 and 53 matched
+    lines respectively. All 41 distinct contextual passages across 105 line instances
+    and nine checkout-qualified paths were read; these concern prior discovery references
+    and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion
+    string. They are not existing identities for these three algorithms. All 223 semantic
+    label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing
+    edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation
+    newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records;
+    twenty are unchanged verified prior readings, two are hash-verified final records
+    fully read in the preceding cohort, and three were fully read here. General EM,
+    tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling,
+    specialized deep Bayesian data augmentation and alternating Newton fitting do
+    not identify these particular conditional/expanded EM procedures. Absence is bounded
+    to the pinned snapshot, maintained corpus and inspected neighborhood.'
+  details: 'Compute the E-step expectation at the current parameter. Carry out the
+    selected conditional Q maximizations using that fixed expectation, followed by
+    the selected conditional actual-likelihood maximizations at the current intermediate
+    parameters. The Q sequence establishes likelihood ascent relative to its E-step
+    anchor; the subsequent observed-likelihood steps preserve or improve that value.
+    The complete ECME iteration need not increase the original Q and therefore need
+    not be a generalized EM step relative to that Q. For the multivariate t normal/gamma
+    augmentation, compute expected latent weights from the old parameters. Update
+    location and scatter through Q at the old degrees of freedom, then conditionally
+    maximize actual observed likelihood over positive degrees of freedom using the
+    new location and scatter. In this final step, terms depending on degrees of freedom
+    must vary with each trial value; they are not frozen old E-step statistics. The
+    fully observed scatter update centers weighted residuals at the new mean and divides
+    by sample count. The parameter is scatter, not the marginal t covariance. In the
+    inspected Gaussian factor-analysis application, Q updates loadings and any free
+    factor-covariance parameters, followed by actual-likelihood fitting of diagonal
+    uniqueness variances at those updated values. Numerical Newton steps are acceptable
+    only with the required likelihood increase; Newton iteration alone does not guarantee
+    it. This changes the fitting procedure while retaining the same marginal factor
+    model. Limitations: Observed-likelihood ascent is not global optimality or unconditional
+    parameter convergence. Conditional numerical solves require valid parameter constraints
+    and objective safeguards; a stationary root need not be the intended conditional
+    maximum. The scheduling statement is the final-likelihood-step construction supported
+    by the inspected sources. An earlier likelihood update followed by an unrefreshed
+    Q update can decrease the full-iteration likelihood, as the saved curator Gaussian
+    example shows. The t examples assume ignorable missingness and correct conditional
+    first and second moments. The source contains inconsistent displayed conditional-mean
+    signs and old/new mean subscripts; the record uses the model-consistent moment
+    interpretation and does not reproduce those expressions. The original 1994 publisher
+    PDF returned HTTP 403. Its general rate proof is not claimed as read. Two complete
+    primary follow-ups support the stated method; historical iteration/time comparisons,
+    clinical examples and source software were not reproduced. No universal acceleration
+    or compute-cost guarantee is asserted.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A source-defined deterministic likelihood-fitting algorithm, not a
+      probability model or trained instance.
+    evidence_ids:
+    - expectationconditionalmaximizationeither-source-0
+    - expectationconditionalmaximizationeither-source-1
+  - name: aio-assessment
+    value: related_match
+    definition: 'Each local identity is a likelihood-fitting algorithm related to
+      AIO:MachineLearningTask, whose pinned definition is a process intended to build
+      methods that learn from data. The relation is algorithm-to-task related_match,
+      not equivalence or a subclass assertion. Model describes a model rather than
+      its fitting algorithm. TrainingStrategy and Preprocessing have preprocessing-scoped
+      definitions that do not capture generic likelihood iteration; no additional
+      link is forced. DataAugmentation concerns transformations expanding training
+      examples, unlike latent-data augmentation or auxiliary parameter expansion.
+      SupervisedLearning, UnsupervisedLearning, RegressionAnalysis and Clustering
+      are possible application tasks, not required defining properties. GLM, RandomEffectsModel,
+      FixedEffectsModel and ProbabilisticGraphicalModel cover selected model/application
+      structures, not these general algorithms. ArtificialNeuralNetwork and RepresentationLearning
+      are also not required. All fifteen target CLASS nodes and outgoing edges and
+      all twenty-five contextual records were inspected or byte-verified against prior
+      full readings. Mappings remain bounded to commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+      and its pinned SHA-256.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: parameterexpandedexpectationmaximization
+  area: evidence
+  topic: Definition, identity, claim support, limitations and AIO mapping direction
+  outcome: supported
+  target_ids:
+  - AIMech:ParameterExpandedExpectationMaximization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - parameterexpandedexpectationmaximization-source-0
+  summary: 'PX-EM changes the complete-data representation without enlarging the original
+    observed-data model family. Auxiliary parameters are not independently identified
+    from the observed data. It is deterministic likelihood fitting, distinct from
+    parameter-expanded data-augmentation sampling, generic model overparameterization,
+    ECM constrained updates and transformation-based training-data augmentation. No
+    normalized identity match was found across all 442 pinned AIO labels and scoped
+    synonyms and 463 preceding native IDs, names and aliases. Fixed-string searches
+    of worktree and main included ignored and hidden files, yielding 52 and 53 matched
+    lines respectively. All 41 distinct contextual passages across 105 line instances
+    and nine checkout-qualified paths were read; these concern prior discovery references
+    and factor-analysis evidence, plus an unrelated ignored URI-template parameter-expansion
+    string. They are not existing identities for these three algorithms. All 223 semantic
+    label/synonym rows were read. Fifteen exact annotated AIO CLASS nodes and outgoing
+    edges were inspected: fourteen verified unchanged after prior reading and DataAugmentation
+    newly read. Twenty-five contextual YAMLs comprise fifteen AIO and ten native records;
+    twenty are unchanged verified prior readings, two are hash-verified final records
+    fully read in the preceding cohort, and three were fully read here. General EM,
+    tempered EM, Gaussian factor models, PPCA mixtures, Gibbs/Metropolis sampling,
+    specialized deep Bayesian data augmentation and alternating Newton fitting do
+    not identify these particular conditional/expanded EM procedures. Absence is bounded
+    to the pinned snapshot, maintained corpus and inspected neighborhood.'
+  details: 'Specify an expanded complete-data density p_X(y_com|theta_star,alpha)
+    that recovers the original augmentation at alpha_0 and whose observed density
+    equals the original density at theta=R(theta_star,alpha). At each iteration embed
+    the current theta with alpha_0, compute expanded conditional sufficient moments,
+    maximize expanded Q over the expanded parameters, reduce by R, and reset the auxiliary
+    parameter to alpha_0 for the next E step. The observed-density equality makes
+    expanded EM ascent transfer to the original likelihood. For a p-dimensional t
+    distribution with fixed positive degrees of freedom nu, old latent weights are
+    w_i=(nu+p)/(nu+delta_i), with delta_i the old scatter-based squared Mahalanobis
+    distance. Ordinary EM uses the weighted mean and scatter sum_i w_i(y_i-mu_new)(y_i-mu_new)^T/N.
+    Expanding the mean of the latent gamma scale yields alpha_new=sum_i w_i/N. Dividing
+    the expanded scatter by alpha_new reduces to the original t model, giving denominator
+    sum_i w_i instead of N; the next iteration resets alpha to one. This normalization
+    follows from the stated expansion and reduction. For y|z~Normal(z,1), z~Normal(theta,sigma_squared),
+    with known positive sigma_squared, ordinary EM updates theta to m=(theta_old+sigma_squared*y)/(1+sigma_squared).
+    Expanding the conditional observation mean to z+alpha gives theta_star_new=m and
+    alpha_new=y-m. The reduction theta_star+alpha returns theta_new=y in one iteration,
+    while ordinary EM contracts its error by 1/(1+sigma_squared). This exact example
+    does not establish one-step convergence for other expansions. The information-matrix
+    comparison linearizes at a converged likelihood solution under the stated differentiability,
+    invertibility and positive-information conditions. It orders the slowest local
+    linear convergence direction relative to the parent EM and permits equality. The
+    paper’s global rate terminology refers to the extremal local direction, not convergence
+    from arbitrary initializations. It does not order every finite iterate or total
+    computational time. Limitations: Finding a useful likelihood-preserving expansion
+    is problem-specific. Additional free observed-model parameters without a valid
+    reduction do not constitute this PX-EM construction. Monotone bounded likelihood
+    values alone do not prove parameter convergence or global optimality. Approximate
+    expanded maximization and matrix/scatter boundary cases need separate validity
+    and ascent checks. The probit second-moment expression printed on p.766 fails
+    the zero-predictor half-normal check, and the Poisson latent-count expectation
+    printed on p.768 conflicts with the stated Poisson split. These curator-identified
+    discrepancies are retained in the ledger; the record does not assert those example
+    formulas. All seventeen source PDF pages were read and two formulas reread at
+    higher resolution. Finite calculations check scalar reduction, one fixed-nu t
+    update and elementary moment contradictions; no historical fit, source implementation,
+    clinical conclusion or benchmark was reproduced.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: A source-defined deterministic likelihood-fitting algorithm, not a
+      probability model or trained instance.
+    evidence_ids:
+    - parameterexpandedexpectationmaximization-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'Each local identity is a likelihood-fitting algorithm related to
+      AIO:MachineLearningTask, whose pinned definition is a process intended to build
+      methods that learn from data. The relation is algorithm-to-task related_match,
+      not equivalence or a subclass assertion. Model describes a model rather than
+      its fitting algorithm. TrainingStrategy and Preprocessing have preprocessing-scoped
+      definitions that do not capture generic likelihood iteration; no additional
+      link is forced. DataAugmentation concerns transformations expanding training
+      examples, unlike latent-data augmentation or auxiliary parameter expansion.
+      SupervisedLearning, UnsupervisedLearning, RegressionAnalysis and Clustering
+      are possible application tasks, not required defining properties. GLM, RandomEffectsModel,
+      FixedEffectsModel and ProbabilisticGraphicalModel cover selected model/application
+      structures, not these general algorithms. ArtificialNeuralNetwork and RepresentationLearning
+      are also not required. All fifteen target CLASS nodes and outgoing edges and
+      all twenty-five contextual records were inspected or byte-verified against prior
+      full readings. Mappings remain bounded to commit 397851c547d1c4d8f06ef184f63c1d40bc86937a
+      and its pinned SHA-256.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: ecm-constraints
+  area: consistency
+  topic: General constraint functions and fixed expectation
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  evidence_ids:
+  - expectationconditionalmaximization-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain general constrained maximization rather than narrowing ECM to a
+    coordinate partition.
+  details: Each CM constraint preserves the preceding point while optimizing the same
+    old Q. Full Q ascent implies observed-likelihood improvement relative to the E-step
+    anchor. In the saved Gaussian example Q increases from -1 to -0.75 to about -0.6708,
+    but observed likelihood moves from -1 to -0.625 to about -0.6654. Thus the final
+    iteration improves over its start despite an intermediate observed-likelihood
+    decrease.
+- assessment_id: ecm-convergence
+  area: consistency
+  topic: Space filling, regularity and refresh cycles
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  evidence_ids:
+  - expectationconditionalmaximization-source-0
+  - finite-boundaries
+  summary: Keep monotone values separate from stationary-limit and parameter claims.
+  details: The inspected stationary-limit results require regularity and space-filling
+    conditions with additional CM uniqueness or stated alternatives. A complete-data
+    update that optimizes only a while holding b=1 reaches a=0 with nonzero b gradient.
+    Refreshing Q inside a multicycle iteration changes the applicable anchor; its
+    outer step need not increase one original Q. No universal EM/ECM speed ordering
+    follows.
+- assessment_id: ecme-order
+  area: consistency
+  topic: Q updates before final observed-likelihood updates
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximizationEither
+  evidence_ids:
+  - expectationconditionalmaximizationeither-source-0
+  - expectationconditionalmaximizationeither-source-1
+  - finite-boundaries
+  summary: Retain the supported ECME schedule and exclude stale-Q interleaving.
+  details: The factor-analysis follow-up explicitly replaces final CM steps by actual-likelihood
+    steps. The Gaussian example gives valid ECME observed likelihood -0.125 from -1
+    even though old Q falls to -55.25, demonstrating why it need not be GEM. Reversing
+    the order without refreshing Q yields observed likelihood -15.125. This is a curator
+    counterexample, not a source empirical benchmark.
+- assessment_id: ecme-moments
+  area: consistency
+  topic: Conditional moments, trial parameters and numerical safeguards
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximizationEither
+  evidence_ids:
+  - expectationconditionalmaximizationeither-source-0
+  - expectationconditionalmaximizationeither-source-1
+  - finite-boundaries
+  summary: Preserve updated means, scatter meaning and actual-likelihood Newton safeguards.
+  details: The t location/scatter Q step precedes the degrees-of-freedom likelihood
+    step. Trial-nu weights vary with trial nu; scatter uses the new mean and is not
+    marginal covariance. Missing-data moments retain conditional covariance. Model-based
+    arithmetic contradicts the printed minus sign in the conditional mean and the
+    old-mean scatter equality. The record excludes these expressions. The factor follow-up
+    requires checking actual likelihood increase for Newton steps.
+- assessment_id: pxem-construction
+  area: consistency
+  topic: Observed-law preservation, reduction and reset
+  outcome: supported
+  target_ids:
+  - AIMech:ParameterExpandedExpectationMaximization
+  evidence_ids:
+  - parameterexpandedexpectationmaximization-source-0
+  - finite-boundaries
+  - neighbors
+  summary: Retain auxiliary expansion without enlarging the observed model family.
+  details: An expanded complete-data fit reduces through R to the original observed
+    law and resets alpha to its embedding value. In the scalar example theta_star=0.4
+    and alpha=1.6 reduce to y=2, while parent EM gives 0.4. A fixed-nu t example gives
+    ordinary scatter about 1.9464 and reduced scatter about 2.5514 with both improving
+    likelihood over the start. These finite calculations do not order all iterates
+    or prove general acceleration.
+- assessment_id: pxem-rates-and-formulas
+  area: consistency
+  topic: Local information comparison and contradicted example formulas
+  outcome: supported
+  target_ids:
+  - AIMech:ParameterExpandedExpectationMaximization
+  evidence_ids:
+  - parameterexpandedexpectationmaximization-source-0
+  - finite-boundaries
+  summary: Qualify rate language and retain explicit source contradictions.
+  details: The source rate comparison linearizes near a converged solution with information-matrix
+    regularity; its extremal-direction global rate is not a guarantee from arbitrary
+    starts or of lower CPU cost. The printed probit expression gives 1+2/pi for a
+    half-normal second moment that equals 1. The printed Poisson expectation gives
+    1.05 in a split whose correct latent expectation is 0.7. The record retains these
+    as curator-identified source discrepancies and does not assert the invalid formulas.
+- assessment_id: source-and-mapping-scope
+  area: grounding
+  topic: Access gaps, source versions and algorithm/task mappings
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - expectationconditionalmaximization-source-0
+  - expectationconditionalmaximizationeither-source-0
+  - expectationconditionalmaximizationeither-source-1
+  - parameterexpandedexpectationmaximization-source-0
+  summary: Retain three distinct algorithms with bounded evidence.
+  details: Fifty new PDF pages were visually read. The complete preceding nineteen-page
+    factor follow-up was byte-verified and three key pages reread. The original 1994
+    ECME full text remains inaccessible and one 1995 figure has a blank plotting region.
+    Algorithm-to-task related mappings avoid treating preprocessing augmentation,
+    latent probability models or sampling transitions as equivalent. Eleven provisional
+    new cohorts and 397 pending leads preclude saturation.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:ExpectationConditionalMaximization
+  - AIMech:ExpectationConditionalMaximizationEither
+  - AIMech:ParameterExpandedExpectationMaximization
+  evidence_ids:
+  - identity
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - expectationconditionalmaximization-source-0
+  - expectationconditionalmaximizationeither-source-0
+  - expectationconditionalmaximizationeither-source-1
+  - parameterexpandedexpectationmaximization-source-0
+  rationale: Fixed-Q constrained maximization, final observed-likelihood conditional
+    updates and expanded complete-data fitting with reduction/reset have distinct
+    defining operations. Shared EM ancestry does not establish equivalence. Related
+    algorithm/task mappings preserve abstraction.
+limitations:
+- Adversarial author self-review only; all three records remain DRAFT.
+- 'Fifty new PDF pages visually read: ECM twelve, PX-EM seventeen including cover,
+  and the t/ECME follow-up twenty-one. The factor-analysis follow-up was fully read
+  in the preceding cohort; identical bytes verified and three ECME-relevant pages
+  reread here.'
+- Figure 1 plotting region in the 1995 t paper is blank in the inspected render. Its
+  caption and neighboring table were inspected, but no curve shapes were read. No
+  alternate Poppler renderer was available on PATH.
+- The original 1994 ECME publisher PDF returned 403 and was not bypassed. The original
+  general rate proof remains a pending access lead; the core construction uses two
+  complete primary follow-ups.
+- An initial PX-EM CiteSeer request returned 404. The old author host refused connection;
+  the same path on the current faculty host succeeded using system curl with certificate
+  verification. No disabled TLS validation was used.
+- The inspected papers contain model/formula inconsistencies. Explicit source notes
+  retain them, and finite curator checks support the stated corrections. No unverified
+  formula is copied merely because it appears in a primary paper.
+- Ascent, stationary-limit theorems, local rate comparisons and computation time are
+  separate claims. The records state supported schedules and assumptions without universal
+  speed or global-optimality guarantees.
+- No author software, historical fit, training, medical inference or benchmark was
+  reproduced. Full papers are not redistributed.
+- Eleven new provisional cohorts leave 397 pending leads and other unresolved dispositions.
+  New labels were compared with all prior labels and an ignored-inclusive checkout
+  search; underlying methods still need identity and source review. No saturation
+  is claimed.
+links: []
+tags:
+- native-concepts
+- conditional-and-expanded-em
+- self-review
+- discovery-ongoing
+```
