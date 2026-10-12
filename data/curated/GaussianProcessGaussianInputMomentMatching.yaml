@@ -1,0 +1,197 @@
+id: AIMech:GaussianProcessGaussianInputMomentMatching
+name: Gaussian-process moment matching for Gaussian inputs
+aliases:
+- Gaussian input Gaussian process moment matching
+concept_kind: algorithm
+definition: A Gaussian-process prediction procedure that analytically integrates a fixed squared-exponential
+  posterior over an independently prescribed Gaussian test-input distribution and represents the resulting
+  latent prediction by a Gaussian matching its exact first two moments.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 540 native IDs, names
+  and aliases against the proposed ID/name, descriptive alias, uncertain-input and GP-moment terminology:
+  no normalized identity match. Ignored- and hidden-inclusive full-text searches in the recovery, older
+  discovery and original Documents checkouts returned 60, 47 and 46 lines. All ten distinct matched text
+  strings were read in full; they concern pending GP source leads, EP or DropConnect moment approximations,
+  and neighboring derivative GP records. Read all 37 semantic AIO rows, 76 native name/definition neighbors,
+  six full annotated AIO CLASS nodes with incident edges and generated records, and four complete contextual
+  native records. The procedure integrates a prescribed Gaussian test-input law against a fixed squared-exponential
+  GP posterior and matches the resulting first two moments. It is narrower than generic GP regression
+  and is not EP site matching, DropConnect prediction, a derivative-observation method, or the earlier
+  local Taylor approximation. Iterative forecasting uses the procedure with additional Gaussian and temporal-independence
+  approximations. Absence is bounded to the inspected pin and record corpus; no universal uncertain-input-GP
+  alias is asserted.'
+definition_evidence:
+- source_id: girard2002
+  locator: Sections 2–2.2, Equations 5–13, PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: mixture-moments
+  kind: mechanism
+  statement: Let X have a prescribed Gaussian distribution independent of the latent GP posterior, conditional
+    on the training data and fixed hyperparameters. Integrating p(f(x)|x,data) over this input law gives
+    a generally non-Gaussian mixture. Its mean is E_X[m(X)] and its variance is E_X[v(X)]+Var_X[m(X)],
+    where m and v are the fixed-input latent posterior mean and variance. Replacing this mixture by a
+    Gaussian with those moments is a distributional approximation, even when both moments are evaluated
+    exactly.
+  evidence:
+  - source_id: girard2002
+    locator: Section 2, Equations 5–7, PDF p. 3; Section 2.2, PDF pp. 4–5
+    relation: supports
+  - source_id: hewing2020
+    locator: Sections 1–3, especially the dependence distinction on PDF pp. 1–4
+    relation: supports
+- claim_id: squared-exponential-integrals
+  kind: mechanism
+  statement: For the paper’s zero-mean, unit-amplitude squared-exponential GP with Gaussian observation
+    noise, write beta=K_y^{-1}y, k_X for covariances between the training inputs and X, q=E[k_X], and
+    Q=E[k_X k_X^T]. Then the latent predictive mean is q^T beta and variance is 1-tr(K_y^{-1}Q)+beta^T
+    Q beta-(q^T beta)^2. Gaussian integration supplies closed forms for q and Q. For the one-dimensional
+    unit-lengthscale kernel and X~N(mu,s), q_i=exp(-(mu-x_i)^2/(2(1+s)))/sqrt(1+s) and Q_ij=exp(-(x_i-x_j)^2/4-(mu-(x_i+x_j)/2)^2/(1+2s))/sqrt(1+2s),
+    with s denoting input variance. The zero-input-variance limit recovers ordinary fixed-input prediction.
+    These exact moment statements condition on the specified kernel, data and hyperparameters.
+  evidence:
+  - source_id: girard2002
+    locator: Section 1, Equations 1–4, PDF pp. 2–3; Section 2.2, Equations 10–13, PDF p. 4
+    relation: supports
+- claim_id: forecasting-extension
+  kind: application
+  statement: For iterative autoregressive forecasting, the source carries a joint Gaussian approximation
+    to the lagged outputs, computes the next scalar output moments and its cross-covariances with the
+    existing lags, and shifts the resulting covariance block. Full lag covariance is part of that construction;
+    independently propagating only marginal variances is a different approximation. When the predicted
+    quantity is a future noisy observation, add its independent observation-noise variance once to the
+    new output diagonal. Gaussian moment closure and treating the current input distribution as independent
+    of the uncertain GP function are additional assumptions; retained lag covariance alone does not make
+    the complete shared-function trajectory posterior exact.
+  evidence:
+  - source_id: girard2002
+    locator: Section 3, Equation 14 and the lagged covariance construction, PDF p. 5
+    relation: supports
+  - source_id: hewing2020
+    locator: Introduction and Sections 2–3, PDF pp. 1–4
+    relation: supports
+- claim_id: taylor-boundary
+  kind: scope
+  statement: 'The earlier first-order posterior-mean and second-order posterior-variance Taylor construction
+    approximates the same total-moment integrals locally; it is not the closed-form squared-exponential
+    Gaussian integral. The technical report explicitly leaves exact evaluation of those moments to future
+    work. Curator boundary calculations show why the distinction matters: with the unit kernel, an exact
+    observation f(0)=0, input mean 1 and input variance 2, the local Taylor variance is 1-3/e<0, whereas
+    the exact mixture variance is 1-exp(-1/5)/sqrt(5)>0. This deliberately nonlocal example is not a reproduction
+    of the paper’s benchmark or a rejection of the approximation within its small-uncertainty regime.'
+  evidence:
+  - source_id: girard2002
+    locator: Section 2.1, Equations 8–9, PDF p. 3
+    relation: supports
+  - source_id: girard-tr2002
+    locator: Section 4, Equations 16–22, PDF pp. 8–9; conclusions, PDF p. 17
+    relation: supports
+- claim_id: shared-function-limit
+  kind: limitation
+  statement: 'In a trajectory generated by a single uncertain GP dynamics function, later inputs generally
+    depend on that same function. Repeated independent-input moment calculations do not preserve this
+    dependence. Hewing and colleagues explicitly identify this issue in established GP trajectory prediction,
+    including the Girard construction. A curator linear-kernel illustration uses f(x)=A*x with A~N(0,1)
+    and x_0=1: reusing A gives x_2=A^2 with mean 1 and variance 2, while independently redrawing A at
+    each step gives a product with mean 0 and variance 1. This illustrates a change in the modeled law,
+    not a squared-exponential benchmark replication or a universal direction of variance error.'
+  evidence:
+  - source_id: hewing2020
+    locator: Introduction, persistent-versus-independent parameter examples and Gaussian trajectory discussion,
+      PDF pp. 1–4
+    relation: supports
+evidence_sources:
+- source_id: girard2002
+  title: Gaussian Process Priors with Uncertain Inputs Application to Multiple-Step Ahead Time Series
+    Forecasting
+  authors:
+  - Agathe Girard
+  - Carl Edward Rasmussen
+  - Joaquin Quiñonero Candela
+  - Roderick Murray-Smith
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2002/file/f3ac63c91272f19ce97c7397825cc15f-Paper.pdf
+  persistent_id: https://papers.nips.cc/paper_files/paper/2002/hash/f3ac63c91272f19ce97c7397825cc15f-Abstract.html
+  version: NIPS 2002, Advances in Neural Information Processing Systems 15; official eight-page unpaginated
+    PDF, also cited as the 2003 volume. All eight pages, figures, table and references visually read;
+    locators use PDF indices.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:50:31Z'
+  sha256: b8b19f828d8d796566549d0ddbda746b04868af65c5af9d9a2a8fc978c9da7aa
+- source_id: girard-tr2002
+  title: 'Gaussian Process priors with Uncertain Inputs: Multiple-Step-Ahead Prediction'
+  authors:
+  - Agathe Girard
+  - Carl Edward Rasmussen
+  - Roderick Murray-Smith
+  source_type: author_technical_report
+  url: https://www.dcs.gla.ac.uk/~rod/publications/GirRasMur02-TR-2002-119.pdf
+  persistent_id: TR-2002-119
+  version: University of Glasgow Technical Report TR-2002-119, October 2002; all 18 PDF pages visually
+    read, with matching printed page indices. Earlier Taylor method, distinct authorship and experiments
+    from the four-author proceedings paper.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:50:34Z'
+  sha256: f2e78afd674d4a4224933b3b4c0e4656a93553491a65ffcd4f118b7d740d006b
+- source_id: hewing2020
+  title: On Simulation and Trajectory Prediction with Gaussian Process Dynamics
+  authors:
+  - Lukas Hewing
+  - Elena Arcari
+  - Lukas P. Fröhlich
+  - Melanie N. Zeilinger
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  persistent_id: https://proceedings.mlr.press/v120/hewing20a.html
+  version: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices
+    are 1–11, which are used for locators.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:55:19Z'
+  sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The algorithm integrates a fitted GP response prediction over uncertain inputs. RegressionAnalysis
+    names the task context rather than this particular inference procedure; no exact identity or upstream
+    subclass is asserted.
+- target: AIO:TimeSeriesForecasting
+  relation: related_match
+  rationale: The primary method is developed and evaluated as a component of iterative multiple-step time-series
+    forecasting. This explicit application relationship does not identify all forecasting with the moment-matching
+    procedure or turn the algorithm into a task.
+limitations:
+- Closed-form moments here concern the zero-mean squared-exponential GP and a prescribed Gaussian test-input
+  distribution with fixed hyperparameters. Other kernels, non-Gaussian inputs, uncertain training locations
+  or hyperparameter integration require further treatment. The method does not automatically estimate
+  the input distribution or solve a general errors-in-variables problem.
+- Exact first and second moments do not make the mixture Gaussian or its Gaussian credible intervals calibrated.
+  A unit-kernel f(0)=0 example in the curator calculator has a fourth moment different from that of the
+  matched Gaussian. Input integration can also lower variance relative to evaluating the GP only at the
+  input mean; uncertainty is not guaranteed to increase at every step.
+- Iterative lag covariance and observation noise must be handled consistently. A singular Gaussian input
+  covariance can occur when initial lags are exact; Gaussian expectations have well-defined degenerate
+  limits, but an implementation must not blindly invert that input covariance. Noise in training K_y and
+  future observation noise have different roles.
+- The earlier Taylor report is contextual evidence for a distinct local approximation. Its notation changes
+  the meaning of kernel width parameters between sections. The proceedings text also contains a lengthscale
+  irrelevance statement inconsistent with its displayed kernel and ambiguous trace/parenthesis typography;
+  the record uses the total-variance identity and directly checked scalar integrals instead of reproducing
+  those ambiguities.
+- The source’s Mackey–Glass and pH illustrations do not establish universal forecasting superiority or
+  calibration. The proceedings pH test count is printed as an unresolved placeholder; the earlier technical
+  report has different preprocessing and results, so its count is not silently transferred. No comparative
+  numerical performance claim is curated.
+- No author implementation, fitted GP, stochastic trajectory simulation or benchmark was executed. Curator
+  analytic and numerical-quadrature checks establish only the displayed mathematical examples. The record
+  remains DRAFT after author self-review; correlation-aware trajectory methods require their own identity
+  and implementation-scope assessments.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T21:02:07Z'
+  updated_at: '2026-10-12T21:02:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
