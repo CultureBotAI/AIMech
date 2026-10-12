@@ -1,0 +1,1160 @@
+# Scientific self-review of information projection and adaptive fitting
+
+- Review: 20261012T053244Z-information-projection
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T05:30:41Z
+- Finished UTC: 2026-10-12T05:32:44Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The four method scopes and AIO assessments are supported with stated limits. The confirmed minor checkout-count provenance finding is resolved after correction, fresh inspection and validation. All records remain DRAFT.
+
+## Scope And Provenance
+
+All fields of four new projection and statistical-fitting algorithms.
+
+Selection: Exact maintained IDs AlternatingKullbackLeiblerMinimization, FixedComponentMixtureWeightEM, BlahutArimotoRateDistortionAlgorithm and AdaptiveAlternatingMinimization; no sampling.
+Coverage: full; 4 reviewed / 4 in the declared population.
+Source: working_tree at Git base dab5a765a110564007f3a6533930f2f4fe65e611.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AlternatingKullbackLeiblerMinimization | data/curated/AlternatingKullbackLeiblerMinimization.yaml | maintained | Alternating Kullback-Leibler Minimization |
+| AIMech:FixedComponentMixtureWeightEM | data/curated/FixedComponentMixtureWeightEM.yaml | maintained | Fixed-Component Mixture-Weight EM |
+| AIMech:BlahutArimotoRateDistortionAlgorithm | data/curated/BlahutArimotoRateDistortionAlgorithm.yaml | maintained | Blahut-Arimoto Rate-Distortion Algorithm |
+| AIMech:AdaptiveAlternatingMinimization | data/curated/AdaptiveAlternatingMinimization.yaml | maintained | Adaptive Alternating Minimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 143.85 s (0:02:23)<br>Checked 442 record(s); 0 failed.<br>Checked 487 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 143 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 140,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Verified AIO https://w 3 id.org/aio/releases/2026-07-22/aio.json at 397851 c 547 d 1 c 4 d 8 f 06 ef 184 f 63 c 1 d 40 bc 86937 a<br> |
+| git diff --check | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Command exited 0 with no output. |
+| uv run --locked aimech validate-curated | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Checked 487 curated concept record(s); 0 error(s).<br> |
+| uv run --locked aimech validate-history --base HEAD | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Checked 143 history record(s); 0 error(s).<br> |
+| uv run --locked python scripts/record_review.py check | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | {<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 141,<br>  "coverage": "declared_scopes_only"<br>}<br>topClass is deprecated - use top_class<br> |
+| git diff --check | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Command exited 0 with no output. |
+| uv run --locked aimech validate-history --base HEAD | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Checked 144 history record(s); 0 error(s).<br> |
+| Initial sandbox attempt at governed-artifact verification | failed | False | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | Historical attempt could not resolve the public source host inside the sandbox. It was superseded by the successful network-enabled required check above. bash scripts/check_vendored_sync.sh<br>FETCH ERROR: Unable to fetch canonical artifact https://raw.githubusercontent.com/CultureBotAI/culturebotai-claw/a 5 d 562962 c 75 a 2 ad 9 efd 8160 b 548 df 5944315422/src/kg_microbe_governance/vendored_artifacts.json: &lt;urlopen error [Errno 8] nodename nor servname provided, or not known&gt;<br>error: recipe &#96;vendored-check&#96; failed on line 22 with exit code 1<br> |
+| Information-projection boundary calculations | passed | True | AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization | {"status": "pass", "finite_measure_stopping_bound": {"probability_gap": 0.0032716509704409447, "printed_bound": 0.11332868530700307, "mass 100_gap": 0.32716509704409424, "corrected_bound": 11.332868530700308}, "vanishing_coordinate_ratios": [[100, 1.98], [1000, 1.998], [10000, 1.9998]], "weight_em": {"weights": [0.6666666666666666, 0.3333333333333335], "divergence": -8.881784197001253 e-17}, "binary_rate_distortion": {"marginal": [0.5000000000000002, 0.4999999999999998], "channel": [[0.7500000000000002, 0.24999999999999983], [0.25000000000000017, 0.7499999999999998]], "distortion": 0.25, "mutual_information": 0.13081203594113697, "objective": 0.4054651081081644, "zero_support_objective": 0.5493061443340549}, "squared_vs_unsquared": {"mean": 2.6666666666666665, "median": 4, "absolute_cost_at_mean": 1.777777777777778, "absolute_cost_at_median": 1.3333333333333333}} |
+
+## Scientific And Domain Assessments
+
+### Definition, identity, claim support, limitations and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:AlternatingKullbackLeiblerMinimization.
+
+Definition and method scope supported; the shared checkout-count provenance finding has been corrected. A paired-distribution optimization procedure that alternately minimizes Kullback-Leibler divergence in its first and second arguments over specified convex probability families.
+
+Start with Q_0 in the second family. At each iteration choose P_n minimizing D(P&#124;&#124;Q_(n-1)) over the first family, then Q_n minimizing D(P_n&#124;&#124;Q) over the second. For probability laws, D(P&#124;&#124;Q)=integral log(dP/dQ)dP, with infinity when absolute continuity fails. The two coordinate projections have different directions. Each displayed argmin must exist and be finite along the realized sequence; this is not supplied by the algorithm name. Exact steps cannot increase the paired objective. The convex-family KL construction has the three-point and four-point inequalities used to prove a five-point descent inequality. The objective tends to the infimum over the initialization-accessible first-family laws: those with finite D(P&#124;&#124;Q_n) for some iterate. Equality of that infimum with the unrestricted one is an additional support/accessibility condition. Objective convergence is distinct from convergence of the distributions. In finite probability spaces, closed families are compact; analogous arguments for unnormalized measures need their own boundedness or compactness justification. The paper also uses uncorrected D(P&#124;&#124;Q) for finite measures, which can be negative when their masses differ. Its nonnegative auxiliary is D(P&#124;&#124;Pprime)+Pprime(X)-P(X). That extension must not be silently treated as probability KL. The stopping-bound step that integrates log(dQ_n/dQ_(n-1)) against a minimizing P requires its total-mass factor unless P is normalized. A convergent Q sequence alone also does not force successive density ratios to approach one at coordinates whose limit is zero. The saved finite examples exhibit both issues. For incomplete-data fitting, a family of complete laws with prescribed observed marginal can be paired with a model-distribution family. Projection onto the prescribed marginal rescales the current joint law by the observed-to-current marginal ratio; the other projection fits the model to the completed law. A convex model-distribution family can inherit the global accessible-infimum result. Jointly parameterized nonconvex mixture or neural families do not become convex merely because they use EM. Limitations: The maintained identity uses probability families; finite-measure formulas in the source are explicitly separated. On infinite spaces, positivity alone does not ensure finite KL or compactness. The unbounded off-support Q example challenges a compactness step in the finite-measure proof, not the theorem for closed finite probability families. No blanket theorem refutation is asserted. Finite curator calculations check selected support, normalization and convergence boundaries. They are not author software, historical experiments or a proof of every source theorem.
+
+### Definition, identity, claim support, limitations and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:FixedComponentMixtureWeightEM.
+
+Definition and method scope supported; the shared checkout-count provenance finding has been corrected. An expectation-maximization specialization that keeps every component distribution fixed and updates only their simplex mixing weights by averaging current component responsibilities.
+
+For fixed component probabilities mu_i(y) and a target probability p(y), let q_c(y)=sum_i c_i mu_i(y). With positive initial weights summing to one and q_c positive on target support, set r_i(y)=c_i mu_i(y)/q_c(y) and c_i_new=sum_y p(y) r_i(y). The update normalizes because the responsibilities sum to one on target support. For empirical frequencies, it is the average responsibility over observations. No component location, covariance or shape parameter is updated. The source gives the corresponding integral formula for general fixed finite measures. Under Theorem 5: a probability target, finitely many fixed component measures, strictly positive simplex initialization and a finite best divergence, the coefficient vector converges to a vector attaining the minimum divergence. For fixed probability components in a finite observation space this is the convex mixture-weight likelihood problem. The proof does not require identifiable component representation, so the limit can depend on initialization; identical components preserve their initial relative weights. This guarantee does not extend to jointly moving component parameters. The theorem bounds the current divergence gap by max_i log(c_i_(n+1)/c_i_n) where the ratios are defined. A coefficient driven to zero because its component has no target-support mass can be removed with an explicit support convention. Arbitrary zero initialization instead may permanently exclude useful components. With mu_1=(0.8,0.2), mu_2=(0.2,0.8) and target(0.6,0.4), an interior start tends to weights(2/3,1/3), while start(1,0) stays on a suboptimal face. Continuous-observation likelihood requires fixed density versions and the appropriate lifted measure; empirical point masses cannot naively be assigned finite KL to a continuous density. Limitations: The number and distributions of candidate components are supplied. Fitting their weights does not choose a universally correct number of clusters or establish semantic component labels. Convexity does not imply strict convexity or unique coefficients. General continuous-law and finite-measure versions retain the source integrability and support conditions. Finite curator calculations check selected support, normalization and convergence boundaries. They are not author software, historical experiments or a proof of every source theorem.
+
+### Definition, identity, claim support, limitations and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:BlahutArimotoRateDistortionAlgorithm.
+
+Definition and method scope supported; the shared checkout-count provenance finding has been corrected. An alternating channel-and-marginal minimization algorithm for a fixed-source rate-distortion problem at a specified nonnegative distortion multiplier.
+
+For finite source/reproduction alphabets, fixed source p(x), finite nonnegative distortion rho(x,y), multiplier beta&gt;=0 and positive initial reproduction marginal q(y), set W(y&#124;x)=q(y)exp(-beta*rho(x,y))/sum_z q(z)exp(-beta*rho(x,z)). Then set q_new(y)=sum_x p(x)W(y&#124;x) and repeat. These are exact coordinate minima of F(W,q)=sum_x,y p(x)W(y&#124;x)log(W(y&#124;x)/q(y))+beta*E[rho]. At q=pW, F equals I(X;Y)+beta*E[rho]. Unused zero-probability source rows can be omitted. For the stated finite-alphabet, finite-distortion and positive-initial-marginal setting, the alternating procedure converges to a channel attaining the fixed-multiplier minimum. This solves one supporting-slope problem; choosing beta to attain a requested distortion or tracing the whole rate-distortion curve is a separate operation. An optimizer need not be unique, and different beta values or initializations can give different optimal channels in degenerate cases. A zero reproduction probability is multiplicatively preserved and can exclude the best channel. In the saved symmetric binary Hamming example at beta=log(3), an interior start reaches distortion 1/4 and objective log(3/2), while marginal(1,0) remains fixed with larger objective log(3)/2. The adjacent source section’s positive log(reverse/input) expression belongs to capacity maximization; using it as a minimization objective reverses that problem. The rate-distortion objective above has its own minimizing sign. Csiszar’s 1974 correspondence identifies a gap in the original Blahut convergence argument and supplies a finite-reproduction-alphabet convergence result, with weaker and conditional conclusions for countable alphabets. The record does not transfer finite-alphabet convergence unconditionally to arbitrary continuous alphabets or rely on the original proof gap as evidence that the finite algorithm fails. Limitations: The exact source law, distortion and multiplier are inputs. Estimating an unknown source, approximating continuous domains and choosing a decision-making target add separate errors and modeling assumptions. Direct access to the 1974 PDF returned 403. Its article text was read, while the core 1984 method and formulas were visually inspected. No original 1972 Blahut/ArimotoPDF or historical implementation is claimed read. Finite curator calculations check selected support, normalization and convergence boundaries. They are not author software, historical experiments or a proof of every source theorem.
+
+### Definition, identity, claim support, limitations and explicit AIO assessment
+
+evidence: supported. Targets: AIMech:AdaptiveAlternatingMinimization.
+
+Definition and method scope supported; the shared checkout-count provenance finding has been corrected. A two-coordinate minimization procedure that performs one exact alternating sweep over a newly supplied pair of feasible sets at each iteration, aiming at the optimum of their limiting sets.
+
+Given a real-valued objective D and an initial Q_0 in family Q_0, at iteration n choose P_n in argmin over family P_n of D(P,Q_(n-1)), then Q_n in argmin over family Q_n of D(P_n,Q). The family subscripts denote the newly revealed domains, while P_n and Q_n denote chosen points. Each coordinate step is exact, but the pair need not solve that iteration’s full joint problem. Changing domains can raise the objective relative to the preceding iteration. Theorem 4 assumes compact families within a common compact metric space, Hausdorff convergence to compact limiting families, continuous D, and its compatible three-point/four-point inequalities C 1-C 2. It first guarantees that the objective liminf equals the limiting global minimum and that cluster points of subsequences attaining that liminf are optimal. Full objective convergence and optimality of all cluster points additionally follow if sum_n omega_D(2 epsilon_n) is finite, where epsilon_n is the sum of the two Hausdorff errors and omega_D is the modulus of continuity on the sum product metric. This is a sufficient condition, not a necessary one, and does not require a unique optimum or imply convergence of the entire point sequence. The finite-mixture realization keeps component laws fixed and bounded below, constrains coefficients by a positive floor, and updates the prescribed data marginal as observations arrive. Its M projection thresholds and rescales component masses to satisfy the coefficient floor; its E projection rescales the lifted model to the current marginal. The paper also modifies small empirical frequencies to maintain positivity, a correction that is eventually inactive under its iid assumptions. For the ordinary empirical convergence rate, the authors conclude liminf optimality and explicitly withhold the stronger full-convergence conclusion from this theorem. The Hilbert specialization uses squared distance. Its product-space weighted-mean projection therefore minimizes a sum of weighted squared distances to sets, although printed Eq 22 instead displays unsquared distances. For singleton sets{0},{4},{4} with equal weights, the projection mean 8/3 minimizes the squared cost while the unsquared cost is minimized at 4. This qualifies that application formula, not the general changing-domain theorem. AAM’s theorem also does not give generic tracking of domains that never settle. Limitations: C 1-C 2 are substantive compatibility inequalities, not consequences of convexity of an arbitrary paired objective. The auxiliary delta is not required to be nonnegative in this adaptive theorem. Positive floors, a common compact domain, and the stated set convergence matter in the KL application. The absence of a stronger theorem conclusion is not proof of divergence. The arXiv version page was checked; no separate audit of its 12-page preprint or adaptive-step-size algorithms is claimed. Finite curator calculations check selected support, normalization and convergence boundaries. They are not author software, historical experiments or a proof of every source theorem.
+
+### Exact projection, fixed weights, fixed-source distortion and changing domains
+
+consistency: supported. Targets: AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization.
+
+Retain the four specified scopes.
+
+Exact KL alternation requires two directed coordinate minima over fixed convex families; weight EM fixes component laws and specializes the feasible set; rate-distortion BA fixes the source and alternates a channel/marginal under a specified penalty; AAM changes the domains and performs one sweep per revealed pair. GAM, IM maximization, NMF block rules and SeLa margin constraints do not identify these complete procedures.
+
+### Probability and finite-measure KL, accessibility and stopping
+
+consistency: supported. Targets: AIMech:AlternatingKullbackLeiblerMinimization.
+
+Retain bounded qualifications of the 1984 source.
+
+Exact finite attained minima and initialization-accessible infimum matter. The uncorrected finite-measure divergence differs from normalized KL; the mass 100 example has gap 0.327165 exceeding the unscaled printed 0.113329 bound, while the mass-corrected bound holds. A convergent probability Q with an oscillating vanishing coordinate has successive ratios tending 2 along a subsequence. Unbounded off-support Q shows a compactness proof gap for general finite measures, not a refutation of the closed finite-probability result.
+
+### Known component laws, coefficient convergence and identifiability
+
+consistency: supported. Targets: AIMech:FixedComponentMixtureWeightEM.
+
+Keep the convex specialization separate from joint mixture fitting.
+
+The exact responsibility average preserves normalization and converges under the stated Theorem 5 support/integrability assumptions. Positive initialization is essential to unrestricted access: weights(1,0)lock a worse solution in the finite example, whereas an interior start reaches(2/3,1/3). Identical components preserve initial weight allocation, so convergence is not unique identification. Continuous densities require the source measure treatment.
+
+### Gibbs row minimum, source marginal and fixed multiplier
+
+consistency: supported. Targets: AIMech:BlahutArimotoRateDistortionAlgorithm.
+
+Retain rate-distortion BA without capacity or arbitrary-alphabet conflation.
+
+The finite binary example at beta=log 3 gives distortion 1/4, information 0.130812 and objective log 1.5. Zero reproduction support remains locked at a worse objective. The source capacity expression has the opposite optimization direction. The 1974 article text documents an original proof gap and corrected finite-reproduction result; no image or local hash is claimed for that unavailable PDF. The complete core 1984 method was visually read.
+
+### Liminf, summability and product-space squared norm
+
+consistency: supported. Targets: AIMech:AdaptiveAlternatingMinimization.
+
+Retain the actual theorem conclusion and application boundary.
+
+Common compact ambient space, Hausdorff family convergence, continuous D and C 1-C 2 give a liminf statement. Summable continuity errors suffice for full objective convergence; they are not necessary, nor do they imply a unique point limit. The empirical mixture application includes floors and gives only the weaker conclusion through this theorem. The weighted-mean Hilbert projection minimizes squared distances, in contrast to printed unsquared Eq 22; the{0},{4},{4}example separates the objectives.
+
+### Native identity, evidence access and AIO direction
+
+grounding: supported. Targets: AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization.
+
+Preserve explicit related matches and the no-match assessment.
+
+Three fitting algorithms have scoped algorithm-to-task relations; rate-distortion BA rejects dimensionality reduction, neural representation learning, Model, MathematicalFunction and a forced learning-task association. The six exact nodes and outgoing edges support this bounded decision. All 40 primary PDF pages were visually read,1974 article text separately accessed, and all 925 existing record identities compared.409 pending cohorts remain, so there is no saturation.
+
+### Checkout labels on recorded search counts
+
+provenance: supported. Targets: AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization.
+
+The shared sentence now consistently assigns 8 matched lines to worktree and 9 to main. All four records and current ledger agree with the saved raw evidence.
+
+## Findings
+
+### checkout-count-order: Correct checkout order in identity-search provenance
+
+minor / resolved / confirmed; issue key: CultureBotAI-AIMech-InformationProjection-CheckoutCountOrder.
+
+All four new identity_notes name main then worktree but give 8 then 9 matched lines with respectively. The raw ledger records 8 worktree and 9 main, as does each trailing explicit sentence. Replace the reversed ordering in records and synchronized ledger fields; no identity collision or source mechanism defect is implied.
+
+Disposition: All four corrected identity notes and synchronized ledger fields now assign 8 matched lines to worktree and 9 to main. Raw evidence, methods, source hashes and AIO mappings are unchanged. Corrected bytes were reread and canonically reinspected; curated/history/review checks passed. Append-only edit history records the actual change.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:AlternatingKullbackLeiblerMinimization, AIMech:FixedComponentMixtureWeightEM, AIMech:BlahutArimotoRateDistortionAlgorithm, AIMech:AdaptiveAlternatingMinimization. Retain the distinct fixed-family KL, fixed component weight, fixed-source rate/distortion and changing-domain scopes. Shared updates or projection interpretations do not imply identity.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T052336Z-information-projection.json; identity_search.text_searches: worktree8matched_lines, main9matched_lines; corrected identity_assessment and four identity_notes | supports | The raw searches include ignored and hidden files and have no normalized collision. Corrected shared prose names worktree then main with 8 then 9 matches; explicit trailing counts agree. All four records and synchronized ledger summaries were reread, with methods, source evidence and AIO assessments unchanged. |
+| mapping | sources/aio/aio.json; Six annotated CLASS nodes/outgoing edges;442class labels and138semantic label/scoped-synonym rows | supports | All 442 AIOclass labels and 138 semantic label/scoped-synonym rows read; six exact annotated nodes/outgoing edges and 13 full contextual YAMLs inspected. KL and adaptive alternating minimization relate to MachineLearningTask through their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning. Rate-distortion BA has an explicit no-match assessment: solving a fixed-source information/distortion problem is not by itself dimensionality reduction, a deep representation network, a model or a learning task. No arbitrary universal MathematicalFunction mapping is forced.<br> |
+| neighbors | research/discovery/20261012T052336Z-information-projection.json; Thirteen full contextual YAMLs: seven native neighbors and six generated AIO records | supports | EM, GAM, variational IM, Lee-Seung NMF updates, SeLa, mixture density networks and MPPCA were fully read as identity context; none receives renewed scientific approval. |
+| finite-boundaries | research/discovery/information-projection-boundaries.py; Finite-measure mass/ratio, fixed mixture weights, binary rate distortion, moving domains and squared-distance examples | supports | Tests finite-measure stopping normalization, vanishing-coordinate ratios, off-support unboundedness, fixed-component weight convergence/support, binary rate-distortion objective and capacity sign, moving-domain objective increases and nonnecessary summability, and squared-versus-unsquared product-space costs. Bounded curator examples, not source software or empirical reproduction. |
+| alternatingkullbackleiblerminimization-source-0 | https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf; Section1 Eq1.1, pp205-208 / PDF1-4; Section3 Eq3.1 and Lemmas2-3, pp214-218 / PDF10-14; Section3 Eq3.1-3.3 and Eq3.11 discussion, pp214-219 / PDF10-15; curator finite-measure scaling and vanishing-coordinate examples; Section4 Theorem4 and Eq4.1-4.6, pp220-221 / PDF16-17; Section5A, pp226-230 / PDF22-26; Sections1-2, Theorems1-2, pp207-213 / PDF3-9; Section3 Theorem3 and subsequent proof, pp217-218 / PDF13-14; Sections1-3, pp205-218 / PDF1-14; Eq1.1, three/four-point properties and Theorem3 | supports | Information Geometry and Alternating Minimization Procedures. Statistics &amp; Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983. MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204. Almost-empty text extraction was not treated as absence of content. Curator deductions and article-text-only access are distinguished from visual PDF inspection and author implementation. |
+| fixedcomponentmixtureweightem-source-0 | https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf; Section4 Theorem5 Eq4.12-4.16, pp223-224 / PDF19-20; Section5A, pp229-230 / PDF25-26; Section4 Theorem5 and coefficient KL argument, pp223-226 / PDF19-22; Section5A concluding mixture discussion, pp229-230 / PDF25-26; Section4 Theorem5, Eq4.12-4.22 and remark, pp223-226 / PDF19-22; Section5A mixture discussion, pp229-230 / PDF25-26; Theorem5 stopping inequality and proof, pp223-226 / PDF19-22; Section5A continuous-observation discussion, pp226-230 / PDF22-26; curator finite support example | supports | Information Geometry and Alternating Minimization Procedures. Statistics &amp; Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983. MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204. Almost-empty text extraction was not treated as absence of content. Curator deductions and article-text-only access are distinguished from visual PDF inspection and author implementation. |
+| blahutarimotoratedistortionalgorithm-source-0 | https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf; Section5C, Eq5.9 and convergence discussion, pp233-234 / PDF29-30; Section5C, Eq5.9 and double-minimum construction, pp233-234 / PDF29-30; Section5C, pp233-234 / PDF29-30; explicit normalized row minimum of the displayed double-minimum objective; Sections5B-5C, pp231-234 / PDF27-30; curator binary channel and support calculations | supports | Information Geometry and Alternating Minimization Procedures. Statistics &amp; Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983. MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204. Almost-empty text extraction was not treated as absence of content. Curator deductions and article-text-only access are distinguished from visual PDF inspection and author implementation. |
+| blahutarimotoratedistortionalgorithm-source-1 | https://www.researchgate.net/publication/3082334_On_the_computation_of_rate-distortion_functions_Corresp; Introduction, p122; SectionIII Theorems1-2 and SectionIV, pp123-124; author-uploaded article text | supports | On the computation of rate-distortion functions (Corresp.). IEEE Transactions on Information Theory 20(1):122-124 (January 1974 according to the article header; ResearchGate metadata says February). Author-uploaded full article text read on the web, excluding neighboring articles. PDF indexing reported three pages, but no PDF image or local bytes were obtained: direct download returned HTTP 403. Mechanism formulas are grounded in the visually inspected 1984 source. Curator deductions and article-text-only access are distinguished from visual PDF inspection and author implementation. |
+| adaptivealternatingminimization-source-0 | https://sia.mit.edu/wp-content/uploads/2015/04/2009-niesen-shah-wornell-it.pdf; SectionII notation, pp1424-1425 / PDF2-3; SectionIIIC-D Theorem4 and proof, pp1425-1427 / PDF3-5; SectionIVA-B, Eq18-21 and floor construction, pp1427-1428 / PDF5-6; SectionVA-B, Eq22-23 and projection formulas, pp1428-1429 / PDF6-7; curator singleton-set calculation; SectionsIB and IIIA-B, pp1424-1425 / PDF2-3; SectionsIB and IIIA-B, pp1424-1425 / PDF2-3, adaptive update equations | supports | Adaptive Alternating Minimization Algorithms. IEEE Transactions on Information Theory 55(3):1423-1429 (March 2009); final seven-page journal PDF from the MIT author laboratory. All pages visually read, including theorem proof and application formulas. Printed page = PDF page + 1422. Curator deductions and article-text-only access are distinguished from visual PDF inspection and author implementation. |
+
+## Limits And Additional Notes
+
+- Author self-review; all four concepts remain DRAFT.
+- All33pages of the1984scan and all7pages of the2009journal paper were visually read, including proofs, references and application formulas. Additional key1984pages were re-viewed while writing. The1974article was read as web text only; local PDF403 and absent screenshot images are recorded.
+- The probability/finite-measure distinction, accessible infimum, exact attained minima and compactness hypotheses remain explicit. Uncorrected finite-measure KL can be negative. Curator calculations show the missing mass factor in the stopping bound and nonvanishing ratios on vanishing coordinates; the unbounded-Q example challenges a proof step, not the finite-probability theorem.
+- Fixed-component weight fitting is a convex specialization of EM, not joint mixture fitting. Positive initialization and support matter; identifiable/unique coefficients are not required for the cited convergence but are not guaranteed either. Continuous-observation likelihood requires the correct lifted measure.
+- Rate-distortion BA has a fixed source and minimizing objective, separate from capacity maximization and variational information maximization. Positive support, finite alphabets and fixed multiplier are explicit. The1974correction qualifies the original proof, not the validity of the finite algorithm.
+- Changing-domain AAM distinguishes objective liminf, full objective convergence under a sufficient summability condition, and point-sequence convergence. The2009Hilbert application prints an unsquared objective for a squared-norm product-space construction; the singleton counterexample is bounded to that application formula.
+- Three new source cohorts remain provisional. No original author software, benchmark, training, paid service or full-paper redistribution occurred. Four additions bring the native collection to487;442pinned AIO records are unchanged. No literature saturation.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T053244Z-information-projection
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific self-review of information projection and adaptive fitting
+started_at: '2026-10-12T05:30:41Z'
+finished_at: '2026-10-12T05:32:44Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent adversarially read every field of four new
+    records against 40 visually inspected primary PDF pages, the 1974 article text,
+    six annotated AIO nodes and seven native neighbors. Finite calculations challenge
+    scope, support, normalization, objective direction and convergence. The four corrected
+    identity notes and synchronized ledger were reread and reinspected. This is author
+    self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The four method scopes and AIO assessments are supported with stated limits.
+  The confirmed minor checkout-count provenance finding is resolved after correction,
+  fresh inspection and validation. All records remain DRAFT.
+source:
+  git_revision: dab5a765a110564007f3a6533930f2f4fe65e611
+  state: working_tree
+  inputs:
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AdaptiveAlternatingMinimization.yaml
+    sha256: 8854c0500523858f55cf89e68f3921213890dff1e6c067e87e111dd551d2f678
+    role: target
+  - path: data/curated/AlternatingKullbackLeiblerMinimization.yaml
+    sha256: 6c291ff4c4c2a3787ac075664ce912f09b0b82df9214b71c557024a2326ef038
+    role: target
+  - path: data/curated/BlahutArimotoRateDistortionAlgorithm.yaml
+    sha256: 7e7e05bc224e256cef7fa22d696bca28fa4097563f14980843b145ab2613506a
+    role: target
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/FixedComponentMixtureWeightEM.yaml
+    sha256: 3c1835ab99983d2fe8d5f40f0b7156d124c3140c0d019df7617aff38d2131a08
+    role: target
+  - path: data/curated/GeneralizedAlternatingMinimization.yaml
+    sha256: 96d356b33ab15f73bb351d97ab472871085d7abf9d7f48fdd1917df8cf2283e0
+    role: context
+  - path: data/curated/LeeSeungMultiplicativeUpdates.yaml
+    sha256: c94eb2299a6f71dea98ac6e47548358f1eea4905aa2708b5efa12f2874b15fb1
+    role: context
+  - path: data/curated/MixtureDensityNetwork.yaml
+    sha256: 1c6eab5597faff5398e917351cea1b0ab6feca98d690219dc69d44ffe7abba52
+    role: context
+  - path: data/curated/MixturesOfProbabilisticPCA.yaml
+    sha256: ee44925815c046c15a22346e43bba2993b159ceace76c88237cf76c0d38aca29
+    role: context
+  - path: data/curated/SeLa.yaml
+    sha256: 0b5e4c15b065fcf3fd0958d25d93c2c18a418dedac7e29c8a805cb3fd3a674ea
+    role: context
+  - path: data/curated/VariationalInformationMaximizationIMAlgorithm.yaml
+    sha256: 61783c7e57a0ce7b6b9201e1f29e7e3d603b7027b7ad541f9d26591f70222e6b
+    role: context
+  - path: research/discovery/20261012T052336Z-information-projection.json
+    sha256: 5b72a05c842b7faabf96534ef2b4b51d24b363da636fd6df966f116dab39a182
+    role: context
+  - path: research/discovery/information-projection-boundaries.py
+    sha256: 42dee1ad54376cfdba0013e77cccf30b5b1f359361091838593bcfdd71bc760d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AlternatingKullbackLeiblerMinimization
+  path: data/curated/AlternatingKullbackLeiblerMinimization.yaml
+  label: Alternating Kullback-Leibler Minimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AlternatingKullbackLeiblerMinimization.yaml
+    role: maintained
+- target_id: AIMech:FixedComponentMixtureWeightEM
+  path: data/curated/FixedComponentMixtureWeightEM.yaml
+  label: Fixed-Component Mixture-Weight EM
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FixedComponentMixtureWeightEM.yaml
+    role: maintained
+- target_id: AIMech:BlahutArimotoRateDistortionAlgorithm
+  path: data/curated/BlahutArimotoRateDistortionAlgorithm.yaml
+  label: Blahut-Arimoto Rate-Distortion Algorithm
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BlahutArimotoRateDistortionAlgorithm.yaml
+    role: maintained
+- target_id: AIMech:AdaptiveAlternatingMinimization
+  path: data/curated/AdaptiveAlternatingMinimization.yaml
+  label: Adaptive Alternating Minimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaptiveAlternatingMinimization.yaml
+    role: maintained
+scope:
+  description: All fields of four new projection and statistical-fitting algorithms.
+  selection: Exact maintained IDs AlternatingKullbackLeiblerMinimization, FixedComponentMixtureWeightEM,
+    BlahutArimotoRateDistortionAlgorithm and AdaptiveAlternatingMinimization; no sampling.
+  coverage: full
+  population_size: 4
+  reviewed_target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exclusions:
+  - target: Contextual AIO and maintained neighbors
+    reason: Used for identity and mapping, without renewed scientific approval.
+  - target: Historical software and empirical reproduction
+    reason: Only bounded curator finite calculations ran.
+  - target: Remaining discovery frontier
+    reason: 409 pending cohorts and other unresolved dispositions remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 143.85 s (0:02:23)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 487 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 143 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 140,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w 3 id.org/aio/releases/2026-07-22/aio.json at 397851
+    c 547 d 1 c 4 d 8 f 06 ef 184 f 63 c 1 d 40 bc 86937 a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: required-4
+  name: uv run --locked aimech validate-curated
+  command: uv run --locked aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 487 curated concept record(s); 0 error(s).
+
+    '
+- check_id: required-5
+  name: uv run --locked aimech validate-history --base HEAD
+  command: uv run --locked aimech validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 143 history record(s); 0 error(s).
+
+    '
+- check_id: required-6
+  name: uv run --locked python scripts/record_review.py check
+  command: uv run --locked python scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 141,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}\ntopClass is deprecated - use top_class\n"
+- check_id: required-7
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Command exited 0 with no output.
+- check_id: required-8
+  name: uv run --locked aimech validate-history --base HEAD
+  command: uv run --locked aimech validate-history --base HEAD
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 144 history record(s); 0 error(s).
+
+    '
+- check_id: sandbox-network-attempt
+  name: Initial sandbox attempt at governed-artifact verification
+  command: just vendored-check
+  status: failed
+  required: false
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 1
+  expected_exit_code: 0
+  summary: 'Historical attempt could not resolve the public source host inside the
+    sandbox. It was superseded by the successful network-enabled required check above.
+    bash scripts/check_vendored_sync.sh
+
+    FETCH ERROR: Unable to fetch canonical artifact https://raw.githubusercontent.com/CultureBotAI/culturebotai-claw/a
+    5 d 562962 c 75 a 2 ad 9 efd 8160 b 548 df 5944315422/src/kg_microbe_governance/vendored_artifacts.json:
+    <urlopen error [Errno 8] nodename nor servname provided, or not known>
+
+    error: recipe `vendored-check` failed on line 22 with exit code 1
+
+    '
+- check_id: finite-arithmetic
+  name: Information-projection boundary calculations
+  command: python3 research/discovery/information-projection-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"status": "pass", "finite_measure_stopping_bound": {"probability_gap":
+    0.0032716509704409447, "printed_bound": 0.11332868530700307, "mass 100_gap": 0.32716509704409424,
+    "corrected_bound": 11.332868530700308}, "vanishing_coordinate_ratios": [[100,
+    1.98], [1000, 1.998], [10000, 1.9998]], "weight_em": {"weights": [0.6666666666666666,
+    0.3333333333333335], "divergence": -8.881784197001253 e-17}, "binary_rate_distortion":
+    {"marginal": [0.5000000000000002, 0.4999999999999998], "channel": [[0.7500000000000002,
+    0.24999999999999983], [0.25000000000000017, 0.7499999999999998]], "distortion":
+    0.25, "mutual_information": 0.13081203594113697, "objective": 0.4054651081081644,
+    "zero_support_objective": 0.5493061443340549}, "squared_vs_unsquared": {"mean":
+    2.6666666666666665, "median": 4, "absolute_cost_at_mean": 1.777777777777778, "absolute_cost_at_median":
+    1.3333333333333333}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T052336Z-information-projection.json
+  locator: 'identity_search.text_searches: worktree8matched_lines, main9matched_lines;
+    corrected identity_assessment and four identity_notes'
+  accessed_at: '2026-10-12T05:30:41Z'
+  support: supports
+  summary: The raw searches include ignored and hidden files and have no normalized
+    collision. Corrected shared prose names worktree then main with 8 then 9 matches;
+    explicit trailing counts agree. All four records and synchronized ledger summaries
+    were reread, with methods, source evidence and AIO assessments unchanged.
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison and included as explicit identity
+    terms in the full-text whole-word searches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Six annotated CLASS nodes/outgoing edges;442class labels and138semantic
+    label/scoped-synonym rows
+  accessed_at: '2026-10-12T05:30:41Z'
+  support: supports
+  summary: 'All 442 AIOclass labels and 138 semantic label/scoped-synonym rows read;
+    six exact annotated nodes/outgoing edges and 13 full contextual YAMLs inspected.
+    KL and adaptive alternating minimization relate to MachineLearningTask through
+    their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning.
+    Rate-distortion BA has an explicit no-match assessment: solving a fixed-source
+    information/distortion problem is not by itself dimensionality reduction, a deep
+    representation network, a model or a learning task. No arbitrary universal MathematicalFunction
+    mapping is forced.
+
+    '
+- evidence_id: neighbors
+  kind: record_content
+  reference: research/discovery/20261012T052336Z-information-projection.json
+  locator: 'Thirteen full contextual YAMLs: seven native neighbors and six generated
+    AIO records'
+  accessed_at: '2026-10-12T05:30:41Z'
+  support: supports
+  summary: EM, GAM, variational IM, Lee-Seung NMF updates, SeLa, mixture density networks
+    and MPPCA were fully read as identity context; none receives renewed scientific
+    approval.
+- evidence_id: finite-boundaries
+  kind: record_content
+  reference: research/discovery/information-projection-boundaries.py
+  locator: Finite-measure mass/ratio, fixed mixture weights, binary rate distortion,
+    moving domains and squared-distance examples
+  accessed_at: '2026-10-12T05:30:41Z'
+  snapshot_sha256: 42dee1ad54376cfdba0013e77cccf30b5b1f359361091838593bcfdd71bc760d
+  support: supports
+  summary: Tests finite-measure stopping normalization, vanishing-coordinate ratios,
+    off-support unboundedness, fixed-component weight convergence/support, binary
+    rate-distortion objective and capacity sign, moving-domain objective increases
+    and nonnecessary summability, and squared-versus-unsquared product-space costs.
+    Bounded curator examples, not source software or empirical reproduction.
+- evidence_id: alternatingkullbackleiblerminimization-source-0
+  kind: primary_source
+  reference: https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf
+  locator: Section1 Eq1.1, pp205-208 / PDF1-4; Section3 Eq3.1 and Lemmas2-3, pp214-218
+    / PDF10-14; Section3 Eq3.1-3.3 and Eq3.11 discussion, pp214-219 / PDF10-15; curator
+    finite-measure scaling and vanishing-coordinate examples; Section4 Theorem4 and
+    Eq4.1-4.6, pp220-221 / PDF16-17; Section5A, pp226-230 / PDF22-26; Sections1-2,
+    Theorems1-2, pp207-213 / PDF3-9; Section3 Theorem3 and subsequent proof, pp217-218
+    / PDF13-14; Sections1-3, pp205-218 / PDF1-14; Eq1.1, three/four-point properties
+    and Theorem3
+  accessed_at: '2026-10-12T04:44:25Z'
+  support: supports
+  summary: Information Geometry and Alternating Minimization Procedures. Statistics
+    & Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983.
+    MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204.
+    Almost-empty text extraction was not treated as absence of content. Curator deductions
+    and article-text-only access are distinguished from visual PDF inspection and
+    author implementation.
+  snapshot_sha256: 96ef51b835fdd5d2f26b2505476b063cb4963a39db169b342be54af94ceb2e8b
+- evidence_id: fixedcomponentmixtureweightem-source-0
+  kind: primary_source
+  reference: https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf
+  locator: Section4 Theorem5 Eq4.12-4.16, pp223-224 / PDF19-20; Section5A, pp229-230
+    / PDF25-26; Section4 Theorem5 and coefficient KL argument, pp223-226 / PDF19-22;
+    Section5A concluding mixture discussion, pp229-230 / PDF25-26; Section4 Theorem5,
+    Eq4.12-4.22 and remark, pp223-226 / PDF19-22; Section5A mixture discussion, pp229-230
+    / PDF25-26; Theorem5 stopping inequality and proof, pp223-226 / PDF19-22; Section5A
+    continuous-observation discussion, pp226-230 / PDF22-26; curator finite support
+    example
+  accessed_at: '2026-10-12T04:44:25Z'
+  support: supports
+  summary: Information Geometry and Alternating Minimization Procedures. Statistics
+    & Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983.
+    MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204.
+    Almost-empty text extraction was not treated as absence of content. Curator deductions
+    and article-text-only access are distinguished from visual PDF inspection and
+    author implementation.
+  snapshot_sha256: 96ef51b835fdd5d2f26b2505476b063cb4963a39db169b342be54af94ceb2e8b
+- evidence_id: blahutarimotoratedistortionalgorithm-source-0
+  kind: primary_source
+  reference: https://www.mit.edu/~6.454/www_fall_2002/shaas/Csiszar.pdf
+  locator: Section5C, Eq5.9 and convergence discussion, pp233-234 / PDF29-30; Section5C,
+    Eq5.9 and double-minimum construction, pp233-234 / PDF29-30; Section5C, pp233-234
+    / PDF29-30; explicit normalized row minimum of the displayed double-minimum objective;
+    Sections5B-5C, pp231-234 / PDF27-30; curator binary channel and support calculations
+  accessed_at: '2026-10-12T04:44:25Z'
+  support: supports
+  summary: Information Geometry and Alternating Minimization Procedures. Statistics
+    & Decisions, Supplement 1:205-237 (1984); revised manuscript dated July 4, 1983.
+    MIT-hosted 33-page scan, all pages visually read. Printed page = PDF page + 204.
+    Almost-empty text extraction was not treated as absence of content. Curator deductions
+    and article-text-only access are distinguished from visual PDF inspection and
+    author implementation.
+  snapshot_sha256: 96ef51b835fdd5d2f26b2505476b063cb4963a39db169b342be54af94ceb2e8b
+- evidence_id: blahutarimotoratedistortionalgorithm-source-1
+  kind: primary_source
+  reference: https://www.researchgate.net/publication/3082334_On_the_computation_of_rate-distortion_functions_Corresp
+  locator: Introduction, p122; SectionIII Theorems1-2 and SectionIV, pp123-124; author-uploaded
+    article text
+  accessed_at: '2026-10-12T05:19:48Z'
+  support: supports
+  summary: 'On the computation of rate-distortion functions (Corresp.). IEEE Transactions
+    on Information Theory 20(1):122-124 (January 1974 according to the article header;
+    ResearchGate metadata says February). Author-uploaded full article text read on
+    the web, excluding neighboring articles. PDF indexing reported three pages, but
+    no PDF image or local bytes were obtained: direct download returned HTTP 403.
+    Mechanism formulas are grounded in the visually inspected 1984 source. Curator
+    deductions and article-text-only access are distinguished from visual PDF inspection
+    and author implementation.'
+- evidence_id: adaptivealternatingminimization-source-0
+  kind: primary_source
+  reference: https://sia.mit.edu/wp-content/uploads/2015/04/2009-niesen-shah-wornell-it.pdf
+  locator: SectionII notation, pp1424-1425 / PDF2-3; SectionIIIC-D Theorem4 and proof,
+    pp1425-1427 / PDF3-5; SectionIVA-B, Eq18-21 and floor construction, pp1427-1428
+    / PDF5-6; SectionVA-B, Eq22-23 and projection formulas, pp1428-1429 / PDF6-7;
+    curator singleton-set calculation; SectionsIB and IIIA-B, pp1424-1425 / PDF2-3;
+    SectionsIB and IIIA-B, pp1424-1425 / PDF2-3, adaptive update equations
+  accessed_at: '2026-10-12T05:14:18Z'
+  support: supports
+  summary: Adaptive Alternating Minimization Algorithms. IEEE Transactions on Information
+    Theory 55(3):1423-1429 (March 2009); final seven-page journal PDF from the MIT
+    author laboratory. All pages visually read, including theorem proof and application
+    formulas. Printed page = PDF page + 1422. Curator deductions and article-text-only
+    access are distinguished from visual PDF inspection and author implementation.
+  snapshot_sha256: addb105074fad71973f420baad7830651ca6bd8772fb52978e19179e649e6e24
+assessments:
+- assessment_id: alternatingkullbackleiblerminimization
+  area: evidence
+  topic: Definition, identity, claim support, limitations and explicit AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  evidence_ids:
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - alternatingkullbackleiblerminimization-source-0
+  summary: Definition and method scope supported; the shared checkout-count provenance
+    finding has been corrected. A paired-distribution optimization procedure that
+    alternately minimizes Kullback-Leibler divergence in its first and second arguments
+    over specified convex probability families.
+  details: 'Start with Q_0 in the second family. At each iteration choose P_n minimizing
+    D(P||Q_(n-1)) over the first family, then Q_n minimizing D(P_n||Q) over the second.
+    For probability laws, D(P||Q)=integral log(dP/dQ)dP, with infinity when absolute
+    continuity fails. The two coordinate projections have different directions. Each
+    displayed argmin must exist and be finite along the realized sequence; this is
+    not supplied by the algorithm name. Exact steps cannot increase the paired objective.
+    The convex-family KL construction has the three-point and four-point inequalities
+    used to prove a five-point descent inequality. The objective tends to the infimum
+    over the initialization-accessible first-family laws: those with finite D(P||Q_n)
+    for some iterate. Equality of that infimum with the unrestricted one is an additional
+    support/accessibility condition. Objective convergence is distinct from convergence
+    of the distributions. In finite probability spaces, closed families are compact;
+    analogous arguments for unnormalized measures need their own boundedness or compactness
+    justification. The paper also uses uncorrected D(P||Q) for finite measures, which
+    can be negative when their masses differ. Its nonnegative auxiliary is D(P||Pprime)+Pprime(X)-P(X).
+    That extension must not be silently treated as probability KL. The stopping-bound
+    step that integrates log(dQ_n/dQ_(n-1)) against a minimizing P requires its total-mass
+    factor unless P is normalized. A convergent Q sequence alone also does not force
+    successive density ratios to approach one at coordinates whose limit is zero.
+    The saved finite examples exhibit both issues. For incomplete-data fitting, a
+    family of complete laws with prescribed observed marginal can be paired with a
+    model-distribution family. Projection onto the prescribed marginal rescales the
+    current joint law by the observed-to-current marginal ratio; the other projection
+    fits the model to the completed law. A convex model-distribution family can inherit
+    the global accessible-infimum result. Jointly parameterized nonconvex mixture
+    or neural families do not become convex merely because they use EM. Limitations:
+    The maintained identity uses probability families; finite-measure formulas in
+    the source are explicitly separated. On infinite spaces, positivity alone does
+    not ensure finite KL or compactness. The unbounded off-support Q example challenges
+    a compactness step in the finite-measure proof, not the theorem for closed finite
+    probability families. No blanket theorem refutation is asserted. Finite curator
+    calculations check selected support, normalization and convergence boundaries.
+    They are not author software, historical experiments or a proof of every source
+    theorem.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An algorithm with a specified objective, domain and update rule; no
+      trained instance or source theorem alone is made a concept.
+    evidence_ids:
+    - alternatingkullbackleiblerminimization-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'All442AIOclass labels and138semantic label/scoped-synonym rows read;
+      six exact annotated nodes/outgoing edges and13full contextual YAMLs inspected.
+      KL and adaptive alternating minimization relate to MachineLearningTask through
+      their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning.
+      Rate-distortion BA has an explicit no-match assessment: solving a fixed-source
+      information/distortion problem is not by itself dimensionality reduction, a
+      deep representation network, a model or a learning task. No arbitrary universal
+      MathematicalFunction mapping is forced.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: fixedcomponentmixtureweightem
+  area: evidence
+  topic: Definition, identity, claim support, limitations and explicit AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:FixedComponentMixtureWeightEM
+  evidence_ids:
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - fixedcomponentmixtureweightem-source-0
+  summary: Definition and method scope supported; the shared checkout-count provenance
+    finding has been corrected. An expectation-maximization specialization that keeps
+    every component distribution fixed and updates only their simplex mixing weights
+    by averaging current component responsibilities.
+  details: 'For fixed component probabilities mu_i(y) and a target probability p(y),
+    let q_c(y)=sum_i c_i mu_i(y). With positive initial weights summing to one and
+    q_c positive on target support, set r_i(y)=c_i mu_i(y)/q_c(y) and c_i_new=sum_y
+    p(y) r_i(y). The update normalizes because the responsibilities sum to one on
+    target support. For empirical frequencies, it is the average responsibility over
+    observations. No component location, covariance or shape parameter is updated.
+    The source gives the corresponding integral formula for general fixed finite measures.
+    Under Theorem 5: a probability target, finitely many fixed component measures,
+    strictly positive simplex initialization and a finite best divergence, the coefficient
+    vector converges to a vector attaining the minimum divergence. For fixed probability
+    components in a finite observation space this is the convex mixture-weight likelihood
+    problem. The proof does not require identifiable component representation, so
+    the limit can depend on initialization; identical components preserve their initial
+    relative weights. This guarantee does not extend to jointly moving component parameters.
+    The theorem bounds the current divergence gap by max_i log(c_i_(n+1)/c_i_n) where
+    the ratios are defined. A coefficient driven to zero because its component has
+    no target-support mass can be removed with an explicit support convention. Arbitrary
+    zero initialization instead may permanently exclude useful components. With mu_1=(0.8,0.2),
+    mu_2=(0.2,0.8) and target(0.6,0.4), an interior start tends to weights(2/3,1/3),
+    while start(1,0) stays on a suboptimal face. Continuous-observation likelihood
+    requires fixed density versions and the appropriate lifted measure; empirical
+    point masses cannot naively be assigned finite KL to a continuous density. Limitations:
+    The number and distributions of candidate components are supplied. Fitting their
+    weights does not choose a universally correct number of clusters or establish
+    semantic component labels. Convexity does not imply strict convexity or unique
+    coefficients. General continuous-law and finite-measure versions retain the source
+    integrability and support conditions. Finite curator calculations check selected
+    support, normalization and convergence boundaries. They are not author software,
+    historical experiments or a proof of every source theorem.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An algorithm with a specified objective, domain and update rule; no
+      trained instance or source theorem alone is made a concept.
+    evidence_ids:
+    - fixedcomponentmixtureweightem-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'All442AIOclass labels and138semantic label/scoped-synonym rows read;
+      six exact annotated nodes/outgoing edges and13full contextual YAMLs inspected.
+      KL and adaptive alternating minimization relate to MachineLearningTask through
+      their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning.
+      Rate-distortion BA has an explicit no-match assessment: solving a fixed-source
+      information/distortion problem is not by itself dimensionality reduction, a
+      deep representation network, a model or a learning task. No arbitrary universal
+      MathematicalFunction mapping is forced.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: blahutarimotoratedistortionalgorithm
+  area: evidence
+  topic: Definition, identity, claim support, limitations and explicit AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  evidence_ids:
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - blahutarimotoratedistortionalgorithm-source-0
+  - blahutarimotoratedistortionalgorithm-source-1
+  summary: Definition and method scope supported; the shared checkout-count provenance
+    finding has been corrected. An alternating channel-and-marginal minimization algorithm
+    for a fixed-source rate-distortion problem at a specified nonnegative distortion
+    multiplier.
+  details: 'For finite source/reproduction alphabets, fixed source p(x), finite nonnegative
+    distortion rho(x,y), multiplier beta>=0 and positive initial reproduction marginal
+    q(y), set W(y|x)=q(y)exp(-beta*rho(x,y))/sum_z q(z)exp(-beta*rho(x,z)). Then set
+    q_new(y)=sum_x p(x)W(y|x) and repeat. These are exact coordinate minima of F(W,q)=sum_x,y
+    p(x)W(y|x)log(W(y|x)/q(y))+beta*E[rho]. At q=pW, F equals I(X;Y)+beta*E[rho].
+    Unused zero-probability source rows can be omitted. For the stated finite-alphabet,
+    finite-distortion and positive-initial-marginal setting, the alternating procedure
+    converges to a channel attaining the fixed-multiplier minimum. This solves one
+    supporting-slope problem; choosing beta to attain a requested distortion or tracing
+    the whole rate-distortion curve is a separate operation. An optimizer need not
+    be unique, and different beta values or initializations can give different optimal
+    channels in degenerate cases. A zero reproduction probability is multiplicatively
+    preserved and can exclude the best channel. In the saved symmetric binary Hamming
+    example at beta=log(3), an interior start reaches distortion 1/4 and objective
+    log(3/2), while marginal(1,0) remains fixed with larger objective log(3)/2. The
+    adjacent source section’s positive log(reverse/input) expression belongs to capacity
+    maximization; using it as a minimization objective reverses that problem. The
+    rate-distortion objective above has its own minimizing sign. Csiszar’s 1974 correspondence
+    identifies a gap in the original Blahut convergence argument and supplies a finite-reproduction-alphabet
+    convergence result, with weaker and conditional conclusions for countable alphabets.
+    The record does not transfer finite-alphabet convergence unconditionally to arbitrary
+    continuous alphabets or rely on the original proof gap as evidence that the finite
+    algorithm fails. Limitations: The exact source law, distortion and multiplier
+    are inputs. Estimating an unknown source, approximating continuous domains and
+    choosing a decision-making target add separate errors and modeling assumptions.
+    Direct access to the 1974 PDF returned 403. Its article text was read, while the
+    core 1984 method and formulas were visually inspected. No original 1972 Blahut/ArimotoPDF
+    or historical implementation is claimed read. Finite curator calculations check
+    selected support, normalization and convergence boundaries. They are not author
+    software, historical experiments or a proof of every source theorem.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An algorithm with a specified objective, domain and update rule; no
+      trained instance or source theorem alone is made a concept.
+    evidence_ids:
+    - blahutarimotoratedistortionalgorithm-source-0
+    - blahutarimotoratedistortionalgorithm-source-1
+  - name: aio-assessment
+    value: aio_no_match
+    definition: 'All442AIOclass labels and138semantic label/scoped-synonym rows read;
+      six exact annotated nodes/outgoing edges and13full contextual YAMLs inspected.
+      KL and adaptive alternating minimization relate to MachineLearningTask through
+      their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning.
+      Rate-distortion BA has an explicit no-match assessment: solving a fixed-source
+      information/distortion problem is not by itself dimensionality reduction, a
+      deep representation network, a model or a learning task. No arbitrary universal
+      MathematicalFunction mapping is forced.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: adaptivealternatingminimization
+  area: evidence
+  topic: Definition, identity, claim support, limitations and explicit AIO assessment
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - mapping
+  - neighbors
+  - finite-boundaries
+  - adaptivealternatingminimization-source-0
+  summary: Definition and method scope supported; the shared checkout-count provenance
+    finding has been corrected. A two-coordinate minimization procedure that performs
+    one exact alternating sweep over a newly supplied pair of feasible sets at each
+    iteration, aiming at the optimum of their limiting sets.
+  details: 'Given a real-valued objective D and an initial Q_0 in family Q_0, at iteration
+    n choose P_n in argmin over family P_n of D(P,Q_(n-1)), then Q_n in argmin over
+    family Q_n of D(P_n,Q). The family subscripts denote the newly revealed domains,
+    while P_n and Q_n denote chosen points. Each coordinate step is exact, but the
+    pair need not solve that iteration’s full joint problem. Changing domains can
+    raise the objective relative to the preceding iteration. Theorem 4 assumes compact
+    families within a common compact metric space, Hausdorff convergence to compact
+    limiting families, continuous D, and its compatible three-point/four-point inequalities
+    C 1-C 2. It first guarantees that the objective liminf equals the limiting global
+    minimum and that cluster points of subsequences attaining that liminf are optimal.
+    Full objective convergence and optimality of all cluster points additionally follow
+    if sum_n omega_D(2 epsilon_n) is finite, where epsilon_n is the sum of the two
+    Hausdorff errors and omega_D is the modulus of continuity on the sum product metric.
+    This is a sufficient condition, not a necessary one, and does not require a unique
+    optimum or imply convergence of the entire point sequence. The finite-mixture
+    realization keeps component laws fixed and bounded below, constrains coefficients
+    by a positive floor, and updates the prescribed data marginal as observations
+    arrive. Its M projection thresholds and rescales component masses to satisfy the
+    coefficient floor; its E projection rescales the lifted model to the current marginal.
+    The paper also modifies small empirical frequencies to maintain positivity, a
+    correction that is eventually inactive under its iid assumptions. For the ordinary
+    empirical convergence rate, the authors conclude liminf optimality and explicitly
+    withhold the stronger full-convergence conclusion from this theorem. The Hilbert
+    specialization uses squared distance. Its product-space weighted-mean projection
+    therefore minimizes a sum of weighted squared distances to sets, although printed
+    Eq 22 instead displays unsquared distances. For singleton sets{0},{4},{4} with
+    equal weights, the projection mean 8/3 minimizes the squared cost while the unsquared
+    cost is minimized at 4. This qualifies that application formula, not the general
+    changing-domain theorem. AAM’s theorem also does not give generic tracking of
+    domains that never settle. Limitations: C 1-C 2 are substantive compatibility
+    inequalities, not consequences of convexity of an arbitrary paired objective.
+    The auxiliary delta is not required to be nonnegative in this adaptive theorem.
+    Positive floors, a common compact domain, and the stated set convergence matter
+    in the KL application. The absence of a stronger theorem conclusion is not proof
+    of divergence. The arXiv version page was checked; no separate audit of its 12-page
+    preprint or adaptive-step-size algorithms is claimed. Finite curator calculations
+    check selected support, normalization and convergence boundaries. They are not
+    author software, historical experiments or a proof of every source theorem.'
+  dimensions:
+  - name: concept-kind
+    value: algorithm
+    definition: An algorithm with a specified objective, domain and update rule; no
+      trained instance or source theorem alone is made a concept.
+    evidence_ids:
+    - adaptivealternatingminimization-source-0
+  - name: aio-assessment
+    value: related_match
+    definition: 'All442AIOclass labels and138semantic label/scoped-synonym rows read;
+      six exact annotated nodes/outgoing edges and13full contextual YAMLs inspected.
+      KL and adaptive alternating minimization relate to MachineLearningTask through
+      their specified statistical-fitting realization; weight-only EM relates to UnsupervisedLearning.
+      Rate-distortion BA has an explicit no-match assessment: solving a fixed-source
+      information/distortion problem is not by itself dimensionality reduction, a
+      deep representation network, a model or a learning task. No arbitrary universal
+      MathematicalFunction mapping is forced.
+
+      '
+    evidence_ids:
+    - mapping
+- assessment_id: distinct-objectives
+  area: consistency
+  topic: Exact projection, fixed weights, fixed-source distortion and changing domains
+  outcome: supported
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - neighbors
+  - finite-boundaries
+  summary: Retain the four specified scopes.
+  details: Exact KL alternation requires two directed coordinate minima over fixed
+    convex families; weight EM fixes component laws and specializes the feasible set;
+    rate-distortion BA fixes the source and alternates a channel/marginal under a
+    specified penalty; AAM changes the domains and performs one sweep per revealed
+    pair. GAM, IM maximization, NMF block rules and SeLa margin constraints do not
+    identify these complete procedures.
+- assessment_id: normalization-and-accessibility
+  area: consistency
+  topic: Probability and finite-measure KL, accessibility and stopping
+  outcome: supported
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  evidence_ids:
+  - alternatingkullbackleiblerminimization-source-0
+  - finite-boundaries
+  summary: Retain bounded qualifications of the 1984 source.
+  details: Exact finite attained minima and initialization-accessible infimum matter.
+    The uncorrected finite-measure divergence differs from normalized KL; the mass
+    100 example has gap 0.327165 exceeding the unscaled printed 0.113329 bound, while
+    the mass-corrected bound holds. A convergent probability Q with an oscillating
+    vanishing coordinate has successive ratios tending 2 along a subsequence. Unbounded
+    off-support Q shows a compactness proof gap for general finite measures, not a
+    refutation of the closed finite-probability result.
+- assessment_id: mixture-coefficients
+  area: consistency
+  topic: Known component laws, coefficient convergence and identifiability
+  outcome: supported
+  target_ids:
+  - AIMech:FixedComponentMixtureWeightEM
+  evidence_ids:
+  - fixedcomponentmixtureweightem-source-0
+  - finite-boundaries
+  summary: Keep the convex specialization separate from joint mixture fitting.
+  details: 'The exact responsibility average preserves normalization and converges
+    under the stated Theorem 5 support/integrability assumptions. Positive initialization
+    is essential to unrestricted access: weights(1,0)lock a worse solution in the
+    finite example, whereas an interior start reaches(2/3,1/3). Identical components
+    preserve initial weight allocation, so convergence is not unique identification.
+    Continuous densities require the source measure treatment.'
+- assessment_id: rate-distortion-direction
+  area: consistency
+  topic: Gibbs row minimum, source marginal and fixed multiplier
+  outcome: supported
+  target_ids:
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  evidence_ids:
+  - blahutarimotoratedistortionalgorithm-source-0
+  - blahutarimotoratedistortionalgorithm-source-1
+  - finite-boundaries
+  summary: Retain rate-distortion BA without capacity or arbitrary-alphabet conflation.
+  details: The finite binary example at beta=log 3 gives distortion 1/4, information
+    0.130812 and objective log 1.5. Zero reproduction support remains locked at a
+    worse objective. The source capacity expression has the opposite optimization
+    direction. The 1974 article text documents an original proof gap and corrected
+    finite-reproduction result; no image or local hash is claimed for that unavailable
+    PDF. The complete core 1984 method was visually read.
+- assessment_id: adaptive-limit-and-hilbert
+  area: consistency
+  topic: Liminf, summability and product-space squared norm
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - adaptivealternatingminimization-source-0
+  - finite-boundaries
+  summary: Retain the actual theorem conclusion and application boundary.
+  details: Common compact ambient space, Hausdorff family convergence, continuous
+    D and C 1-C 2 give a liminf statement. Summable continuity errors suffice for
+    full objective convergence; they are not necessary, nor do they imply a unique
+    point limit. The empirical mixture application includes floors and gives only
+    the weaker conclusion through this theorem. The weighted-mean Hilbert projection
+    minimizes squared distances, in contrast to printed unsquared Eq 22; the{0},{4},{4}example
+    separates the objectives.
+- assessment_id: mapping-and-coverage
+  area: grounding
+  topic: Native identity, evidence access and AIO direction
+  outcome: supported
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - mapping
+  - neighbors
+  summary: Preserve explicit related matches and the no-match assessment.
+  details: Three fitting algorithms have scoped algorithm-to-task relations; rate-distortion
+    BA rejects dimensionality reduction, neural representation learning, Model, MathematicalFunction
+    and a forced learning-task association. The six exact nodes and outgoing edges
+    support this bounded decision. All 40 primary PDF pages were visually read,1974
+    article text separately accessed, and all 925 existing record identities compared.409
+    pending cohorts remain, so there is no saturation.
+- assessment_id: search-count-provenance
+  area: provenance
+  topic: Checkout labels on recorded search counts
+  outcome: supported
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - identity
+  summary: The shared sentence now consistently assigns 8 matched lines to worktree
+    and 9 to main. All four records and current ledger agree with the saved raw evidence.
+findings:
+- finding_id: checkout-count-order
+  issue_key: CultureBotAI-AIMech-InformationProjection-CheckoutCountOrder
+  category: provenance
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct checkout order in identity-search provenance
+  description: All four new identity_notes name main then worktree but give 8 then
+    9 matched lines with respectively. The raw ledger records 8 worktree and 9 main,
+    as does each trailing explicit sentence. Replace the reversed ordering in records
+    and synchronized ledger fields; no identity collision or source mechanism defect
+    is implied.
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  field_paths:
+  - identity_notes
+  - identity_assessment
+  - source_analysis.identity_inspection.identity_collision_disposition
+  evidence_ids:
+  - identity
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AlternatingKullbackLeiblerMinimization.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FixedComponentMixtureWeightEM.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BlahutArimotoRateDistortionAlgorithm.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaptiveAlternatingMinimization.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T052336Z-information-projection.json
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/150
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261012T052849Z-information-projection-initial
+    finding_id: checkout-count-order
+  disposition_reason: All four corrected identity notes and synchronized ledger fields
+    now assign 8 matched lines to worktree and 9 to main. Raw evidence, methods, source
+    hashes and AIO mappings are unchanged. Corrected bytes were reread and canonically
+    reinspected; curated/history/review checks passed. Append-only edit history records
+    the actual change.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:AlternatingKullbackLeiblerMinimization
+  - AIMech:FixedComponentMixtureWeightEM
+  - AIMech:BlahutArimotoRateDistortionAlgorithm
+  - AIMech:AdaptiveAlternatingMinimization
+  evidence_ids:
+  - mapping
+  - neighbors
+  - finite-boundaries
+  rationale: Retain the distinct fixed-family KL, fixed component weight, fixed-source
+    rate/distortion and changing-domain scopes. Shared updates or projection interpretations
+    do not imply identity.
+limitations:
+- Author self-review; all four concepts remain DRAFT.
+- All33pages of the1984scan and all7pages of the2009journal paper were visually read,
+  including proofs, references and application formulas. Additional key1984pages were
+  re-viewed while writing. The1974article was read as web text only; local PDF403
+  and absent screenshot images are recorded.
+- The probability/finite-measure distinction, accessible infimum, exact attained minima
+  and compactness hypotheses remain explicit. Uncorrected finite-measure KL can be
+  negative. Curator calculations show the missing mass factor in the stopping bound
+  and nonvanishing ratios on vanishing coordinates; the unbounded-Q example challenges
+  a proof step, not the finite-probability theorem.
+- Fixed-component weight fitting is a convex specialization of EM, not joint mixture
+  fitting. Positive initialization and support matter; identifiable/unique coefficients
+  are not required for the cited convergence but are not guaranteed either. Continuous-observation
+  likelihood requires the correct lifted measure.
+- Rate-distortion BA has a fixed source and minimizing objective, separate from capacity
+  maximization and variational information maximization. Positive support, finite
+  alphabets and fixed multiplier are explicit. The1974correction qualifies the original
+  proof, not the validity of the finite algorithm.
+- Changing-domain AAM distinguishes objective liminf, full objective convergence under
+  a sufficient summability condition, and point-sequence convergence. The2009Hilbert
+  application prints an unsquared objective for a squared-norm product-space construction;
+  the singleton counterexample is bounded to that application formula.
+- Three new source cohorts remain provisional. No original author software, benchmark,
+  training, paid service or full-paper redistribution occurred. Four additions bring
+  the native collection to487;442pinned AIO records are unchanged. No literature saturation.
+links: []
+tags:
+- native-concepts
+- information-projection
+- self-review
+- discovery-ongoing
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261012T052849Z-information-projection-initial
+  relationship: Successor disposition resolving checkout-count provenance after curation.
+```
