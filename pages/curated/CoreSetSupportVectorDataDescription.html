@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core-set support vector data description · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Core-set support vector data description</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Core-set support vector data description</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CoreSetSupportVectorDataDescription</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CSVDD
+    </div>
+
+  <div class="detail-desc">
+    An approximate one-class training algorithm that grows a core subset using the nearest expanded-sphere violator, refits support vector data description and enforces radius growth until the expanded sphere meets an outlier-count stopping rule.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the Chu-Tsang-Kwok2004 CSVDD training procedure. It is distinct from ordinary SVDD, squared-slack SVDD, sphere-based clustering and hard-MEB core-vector solvers. Later CVDD usage is not assumed to be an exact alias. Compared all442 pinned AIO IDs, labels and scoped synonyms with all517 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Whole-word fixed-string searches included ignored and hidden files in both checkouts, expanded names, CSVDD/CVDD acronyms and source identifiers. All83 distinct matched-text windows were inspected; the post-merge repeat retained exactly those windows at293 locations. Hits are unresolved CVDD/catalogue leads and unrelated uses of rapid, not an existing CSVDD record. Of94 semantic AIO rows,93 match the preceding full reading exactly and the additional EnergyBasedLLM row was read; all74 native name/definition rows were read or reused after exact equality checks. Fifteen annotated AIO CLASS nodes and outgoing edges were inspected, and24 contextual YAMLs retain byte-verified prior full readings. Absence is bounded to this pinned and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#underlying-soft-sphere-problem</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The underlying target-only SVDD minimizes R²+(1/(nu*N))*sum_i xi_i with R&gt;=0, xi_i&gt;=0 and ||phi(x_i)-c||²&lt;=R²+xi_i, for0&lt;nu&lt;1. Its displayed dual maximizes sum_i alpha_i*K_ii-alpha^T*K*alpha with sum(alpha)=1 and0&lt;=alpha_i&lt;=1/(nu*N). Thus the slack penalty is linear, not the squared-slack formulation used by L2-loss SVDD or a hard-MEB reformulation. Positive-semidefinite kernels permit feature-space distances without explicitly constructing features. Radius recovery from a free boundary coefficient requires such a coefficient to exist.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p2, primal and dual displays, center recovery and kernelization paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#core-initialization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fit ordinary SVDD to a fixed-size random sample of n0 observations and select the sampled observation z closest to that fitted center as a probable inlier. Choose a random sampled x, find its farthest observation y in the full dataset, and set D=||phi(x)-phi(y)|| and initial radius R1=D/k for k&gt;1. Start the core with z and center c1=phi(z). This initial center is an observation, not the fitted sample center; the initial radius need not equal the one-point minimum-enclosing-ball radius. The probable-inlier choice is a heuristic, not a guarantee that z is normal.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Section III-A, PDF pp2-3, Equation1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#nearest-violator-and-radius-growth</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At iteration i, compute P_i={x in the full dataset:||phi(x)-c_i||&gt;(1+epsilon)*R_i}. Stop when |P_i|&lt;nu*N, with a strict inequality. Otherwise select the observation in P_i outside the current core that is nearest to c_i, enlarge the core, refit SVDD on that subset, and enforce R_(i+1)&gt;=(1+delta*epsilon)*R_i for positive delta and epsilon. Repeat with the new center and radius. Nearest violating-point selection, soft subset refits and imposed radius growth distinguish this procedure from farthest-point hard-MEB core algorithms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, PDF p3, steps1-7 and Equation2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#expanded-quota-and-objective-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Termination checks the expanded radius (1+epsilon)*R, not the unexpanded sphere used by ordinary SVDD prediction. A permitted exact initialization illustrates the difference: use linear-kernel points0,1/10,1, nu=epsilon=1/5, n0=3, random x=0 and k=5/4. The initial sample SVDD has center1/2 and radius1/2; z=1/10 is its unique nearest observation. D=1 yields R1=4/5 and expanded radius24/25. No training point lies outside the expanded sphere, so the procedure stops immediately; one of three lies outside the original sphere, exceeding nu=1/5. The stopped sphere has full SVDD objective277/300 versus optimum1/4, a ratio277/75 greater than(1+epsilon)². This is exact curator arithmetic for allowed procedure choices, not a historical benchmark or claim about the paper’s experimental settings.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Sections II and III-A/B, PDF pp2-3; curator derivation in research/discovery/core-set-svdd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#conditional-cost-analysis</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source derives O(M²*N+M⁴) work for M core additions using unit-cost kernel evaluations and a cubic subset-QP cost, and states M&lt;=k/(delta*epsilon). Its O(N/epsilon²+epsilon^-4) form treats k and delta as fixed. The experiments instead set delta=0.01*epsilon; substitution into the same cost model gives O(N/epsilon^4+epsilon^-8) at fixed k. These expressions omit dimension-dependent kernel cost and input storage. The stated iteration argument uses the optimal full-data MEB radius as an enclosure bound, but an arbitrary current convex-hull center can require up to twice that radius: points0,2 have optimal radius1 at center1 and farthest distance2 from center0. The literal constant bound therefore needs its center assumptions checked; it is not a proof of soft-SVDD objective or decision-boundary approximation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Section III-C, PDF p3, Equation3; Section IV introduction, PDF pp3-4, parameter choices; curator dependence and center calculations in research/discovery/core-set-svdd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#subproblem-and-implementation-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A reimplementation must specify the subset SVDD penalty convention, radius-growth enforcement, numerical tolerances and tie or missing-free-support handling. Merely retaining the full-data cap1/(nu*N) on a smaller equality-simplex subproblem can make it infeasible: for N=100, nu=1/10 and a two-point core, the sum of upper bounds is1/5&lt;1. Using the subset sample size gives a different cap. The paper says to run SVDD on the subset but does not expose a complete CSVDD implementation resolving all such choices. This feasibility calculation is not evidence that its historical code used the full-data cap.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Sections II and III-B, PDF pp2-3, dual constraints and iterative steps5-6; curator exact cap calculation in research/discovery/core-set-svdd-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#empirical-and-identity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section IV explicitly names the method Core-set Support Vector Data Description, CSVDD. The two application studies concern BioID-derived face detection and MNIST one-class digit detection, with selected Gaussian kernels, nu values, tolerances,20 random repetitions and historical MATLAB/MOSEK3, dd_tools and LIBSVM configurations. The reported time, memory failures and AUC trade-offs are specific to those data and implementations. They do not prove universal accuracy, speed or soft-objective approximation. This record does not equate CSVDD with every later method called core vector data description or CVDD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chu2004">Scaling up Support Vector Data Description by Using Core-Sets</a></span>
+        <span>· <strong>Locator:</strong> Sections IV-V, PDF pp3-6, Figures1-6 and TablesI-III</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The stopping quota applies the expanded sphere. Neither a full-data soft-SVDD objective approximation nor a prediction/generalization guarantee follows from it.</li>
+      <li>Source complexity depends on parameter choices, kernel cost, subset solves and radius/center assumptions. Input storage is separate.</li>
+      <li>All six primary PDF pages were visually read. Exact rational calculations test stated formulas and an allowed initialization; no historical implementation, optimizer or benchmark was executed.</li>
+      <li>CSVDD remains a native DRAFT. Later CVDD variants, the related MPhil thesis, RAPID, minimax/LP novelty methods and later regularized or accelerated support descriptions remain unresolved.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:BinaryClassification is related through the eventual accept/reject task of the trained support description. Its Classification ancestry is under SupervisedLearning; this related mapping asserts neither algorithm-task equivalence, is-a membership nor two-class supervision. AIO:SupportVectorMachine describes a supervised category-separating network with layer relationships, not this one-class subset-training procedure. UnsupervisedLearning and MachineLearningTask describe task scope; KernelLayer is a component, TrainingStrategy is defined as preprocessing, and DataPreparation/SelectionAndSamplingBias do not identify the iterative algorithm. Native SVDD defines sphere estimation, L2-loss SVDD changes the slack objective, SVC adds graph-component labels, CVM/generalized CVM use different enclosing-ball reductions and BVM changes center updates. Regression and density-model matches do not identify CSVDD.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-chu2004">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">chu2004</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://home.cse.ust.hk/~jamesk/papers/ijcnn04.pdf" target="_blank" rel="noopener">Scaling up Support Vector Data Description by Using Core-Sets</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Calvin S. Chu, Ivor W. Tsang, James T. Kwok
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:aaaaa600dad5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T10:17:46Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T10:25:03Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CoreSetSupportVectorDataDescription.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CoreSetSupportVectorDataDescription.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
