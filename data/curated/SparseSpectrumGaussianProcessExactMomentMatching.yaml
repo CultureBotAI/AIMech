@@ -1,0 +1,198 @@
+id: AIMech:SparseSpectrumGaussianProcessExactMomentMatching
+name: Sparse-spectrum Gaussian-process exact moment matching
+aliases:
+- SSGP-EMM
+concept_kind: algorithm
+definition: An uncertain-input prediction algorithm that analytically integrates sine/cosine feature moments
+  of a fixed sparse-spectrum Gaussian-process posterior over an independently prescribed Gaussian input
+  and represents the output by a Gaussian with the resulting exact mean and covariance.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 543 maintained IDs, names
+  and aliases: neither proposed identity nor its acronym matched. Full-text searches in the recovery,
+  older discovery and original Documents checkouts included ignored and hidden files and returned 98,
+  0 and 0 lines; all 62 distinct matched strings were read. Hits concern pending sparse-spectrum leads,
+  source reading notes and scope distinctions in existing GP records. Read all 39 semantic AIO rows and
+  107 native name/definition neighbors, seven complete annotated AIO CLASS nodes with incident edges and
+  generated records, and four native context records. The fixed finite-feature posterior differs from
+  the full squared-exponential kernel model; SSGP-EMM integrates its moments, whereas SSGP-Lin linearizes
+  its mean and freezes its conditional variance. Neither identity denotes learning the underlying sparse-spectrum
+  regression model, general Fourier feature construction, a complete Bayesian filter, or a model predictive
+  controller. The earlier Girard Taylor record retains a conditional-variance Hessian term that SSGP-Lin
+  omits. Absence is bounded to this inspected pin and corpus.'
+definition_evidence:
+- source_id: pan2017
+  locator: Sections 2–3 and 3.1, Equations 8–11, PDF pp. 2–4
+  relation: supports
+- source_id: pan2017-supp
+  locator: Section 3.4, PDF p. 5
+  relation: supports
+claims:
+- claim_id: fixed-feature-posterior
+  kind: mechanism
+  statement: For fixed frequencies omega_i, the source uses a 2m-dimensional feature vector with cosine
+    and sine entries scaled by sigma_f/sqrt(m). With Gaussian coefficient prior N(0,I) and scalar Gaussian
+    observation noise of variance sigma_n^2, its trained coefficient posterior is N(alpha,S), where alpha=A^{-1}*Phi*y,
+    S=sigma_n^2*A^{-1} and A=Phi*Phi^T+sigma_n^2*I. The fixed-input response has mean alpha^T*phi(x) and
+    variance sigma_n^2+phi(x)^T*S*phi(x). Uncertain-input prediction integrates a prescribed X~N(mu,Sigma)
+    independently of this fixed coefficient posterior, conditional on the training data, frequencies and
+    hyperparameters. These prediction methods do not require one particular training solver once the posterior
+    coefficient moments are supplied.
+  evidence:
+  - source_id: pan2017
+    locator: Section 2, Equations 4, 6–7 and following remark, PDF pp. 2–3; Section 3 assumptions, PDF
+      p. 3
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Sections 2–3.1, Equations 1–5 and Gaussian-input assumptions, PDF pp. 1–2
+    relation: supports
+- claim_id: exact-feature-moments
+  kind: mechanism
+  statement: Let q=E[phi(X)] and Psi=E[phi(X)*phi(X)^T]. SSGP-EMM computes E[Y]=alpha^T*q and Var[Y]=sigma_n^2+tr(S*Psi)+alpha^T*(Psi-q*q^T)*alpha,
+    then represents the output by a Gaussian with these moments. Gaussian characteristic-function identities
+    give E[cos(omega^T*X)]=exp(-omega^T*Sigma*omega/2)*cos(omega^T*mu), with sine in place of cosine for
+    E[sin]. Product-to-sum identities at frequency sums and differences give Psi. These are exact first
+    two moments of the fixed finite-feature posterior under the stated independent Gaussian input, not
+    exact moments of the original infinite-rank kernel model or integration over frequencies and hyperparameters.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3.1, Equations 8–9, Proposition 1 and feature-product blocks, PDF pp. 3–4
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Sections 3.1–3.2 and 3.4, PDF pp. 3–5
+    relation: supports
+- claim_id: cross-covariances
+  kind: mechanism
+  statement: For a column-vector input, Cov(X,Y)=Cov(X,phi(X))*alpha. The cosine feature column is -sigma_k*Sigma*omega_i*E[sin(omega_i^T*X)]
+    and the sine feature column is sigma_k*Sigma*omega_i*E[cos(omega_i^T*X)], with sigma_k the feature
+    scale. For distinct conditionally independent scalar output models a and b with independent residual
+    noises, Cov(Y_a,Y_b)=alpha_a^T*(Psi_ab-q_a*q_b^T)*alpha_b, where Psi_ab=E[phi_a(X)*phi_b(X)^T]. Shared
+    input uncertainty can therefore correlate outputs even when their conditional distributions factorize.
+    Conditional cross-output covariance or correlated noise would require an additional term.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3.1, Equations 10–11 and Proposition 2, PDF p. 4
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Sections 3.1, 3.3–3.4, PDF pp. 3–5; Section 6.1, PDF p. 12
+    relation: supports
+- claim_id: gaussian-shape-boundary
+  kind: limitation
+  statement: Matching exact first two moments does not make the nonlinear predictive mixture Gaussian.
+    As a curator boundary illustration, fixed coefficient Y=cos(X) with X~N(0,1) has mean exp(-1/2), variance
+    (1+exp(-2))/2-exp(-1)>0 and support [-1,1]. Its moment-matched Gaussian has unbounded support. This
+    uses deterministic coefficients and no observation noise as a limiting finite-feature example, not
+    a fitted SSGP experiment. Direct deterministic quadrature of a separate nondegenerate two-feature
+    Gaussian coefficient example checks moment and covariance formulas without establishing general empirical
+    accuracy.
+  evidence:
+  - source_id: pan2017
+    locator: Section 3, distinction between the predictive integral and Gaussian approximation, PDF p.
+      3; Proposition 1, PDF p. 3
+    relation: supports
+  - source_id: pan2017-supp
+    locator: Section 3 introductory assumptions and Section 3.4, PDF pp. 2 and 5
+    relation: supports
+- claim_id: sequential-use
+  kind: limitation
+  statement: The source uses these prediction transforms inside Bayesian filtering and future-state prediction
+    for control. Gaussian moment propagation alone does not retain the full predictive shape or all dependence
+    between a repeatedly used uncertain dynamics function and subsequent states. Hewing and colleagues
+    explicitly analyze the successive-evaluation independence approximation in Pan-style trajectory prediction.
+    This prediction transform is therefore not an exact shared-function trajectory inference algorithm
+    or, by itself, a complete filter or controller.
+  evidence:
+  - source_id: pan2017
+    locator: Section 4.1 prediction and filtering stages, PDF pp. 5–6; Section 4.2, PDF pp. 6–7
+    relation: supports
+  - source_id: hewing2020
+    locator: Introduction and Sections 2–3, PDF pp. 1–4; distinct trajectory constructions, PDF pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: pan2017
+  title: Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering
+    and Control
+  authors:
+  - Yunpeng Pan
+  - Xinyan Yan
+  - Evangelos A. Theodorou
+  - Byron Boots
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/pan17a/pan17a.pdf
+  persistent_id: https://proceedings.mlr.press/v70/pan17a.html
+  version: ICML 2017, PMLR 70:2760–2768; official nine-page proceedings PDF, all pages visually read.
+    Locators use PDF indices; method pages have no printed page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:10:55Z'
+  sha256: f6419aa3e01484a8a221de3080dff9496b2ffc87d7f2ba4cef601824ac88797d
+- source_id: pan2017-supp
+  title: Appendix for Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications
+    to Filtering and Control
+  authors:
+  - Yunpeng Pan
+  - Xinyan Yan
+  - Evangelos A. Theodorou
+  - Byron Boots
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/pan17a/pan17a-supp.zip
+  persistent_id: https://proceedings.mlr.press/v70/pan17a.html
+  version: Official ICML 2017 supplementary ZIP. The source hash identifies the archive. All 15 pages
+    of member Supplementary/supplementary.pdf were visually read; its extracted SHA-256 is bfcedf97bfa95140092a5b540e4d771d74c9273acb56ee7cf2e22f1821d8086b.
+    Printed and PDF page indices coincide. README and archive member list inspected; driving video not
+    viewed.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:23:41Z'
+  sha256: 4cdea13525c08fb71b20c8b6cf5cf0560989ec5063b6dfa9a02b25ff6f43527c
+- source_id: hewing2020
+  title: On Simulation and Trajectory Prediction with Gaussian Process Dynamics
+  authors:
+  - Lukas Hewing
+  - Elena Arcari
+  - Lukas P. Fröhlich
+  - Melanie N. Zeilinger
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v120/hewing20a/hewing20a.pdf
+  persistent_id: https://proceedings.mlr.press/v120/hewing20a.html
+  version: L4DC 2020, PMLR 120:424–434. All 11 official PDF pages visually read; PDF and printed indices
+    are 1–11, which are used for locators.
+  access_level: full_text
+  accessed_at: '2026-10-12T20:55:19Z'
+  sha256: e03bc1f123643b8ae5607d096b0ac94aacb5fa0bb1ea425aa50f7ea5c7e412ce
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: This procedure predicts a learned regression response while integrating or approximating
+    uncertainty in its test input. The mapping expresses that regression-task relationship rather than
+    algorithm identity or an asserted subclass.
+- target: AIO:TimeSeriesForecasting
+  relation: related_match
+  rationale: The primary source repeatedly applies the transform to predict future dynamical states in
+    filtering and model predictive control. This is a demonstrated forecasting application, not a restriction
+    of the generic prediction algorithm to time series.
+limitations:
+- Exactness is for first two moments of the fixed finite-feature posterior, not Gaussianity of the predictive
+  distribution or exactness for the original stationary kernel.
+- The input Gaussian is prescribed independently of the fixed trained coefficient posterior. Frequencies,
+  hyperparameters, training data and feature count are conditioned on rather than integrated out; finite-feature
+  kernel approximation remains a separate source of error.
+- The displayed variance includes a future independent observation-noise term once. A latent-function
+  prediction omits that additive future-noise term while retaining the trained posterior coefficient covariance.
+- Multivariate cross-output formulas assume conditionally independent scalar models and independent residual
+  noises. Shared input covariance remains; correlated-output priors and correlated measurement noises
+  require additional terms.
+- Gaussian representations and repeated independent-input propagation discard predictive shape and shared-function
+  temporal dependence. Filtering updates and belief-space controller optimization are additional algorithms,
+  not identities of this prediction transform.
+- Source notation inconsistencies were checked against the supplement and independent algebra. Table 1
+  spectral-density constants, controller derivative formulas, runtime claims and numerical comparative
+  performance are not asserted here. No author implementation, training, paid provider or benchmark was
+  run; analytic examples are curator illustrations. The record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T21:48:25Z'
+  updated_at: '2026-10-12T21:48:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
