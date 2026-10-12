@@ -1,0 +1,200 @@
+id: AIMech:NonconjugateVariationalMessagePassing
+name: Non-conjugate variational message passing
+aliases:
+- NCVMP
+concept_kind: algorithm
+definition: An approximate inference algorithm that restricts variational blocks to exponential families
+  and updates their natural parameters by matching expected-log-factor gradients through the sufficient-statistic
+  covariance.
+identity_notes: 'No normalized match across 442 pinned AIO IDs, names and scoped synonyms and 550 maintained
+  IDs, names and aliases, including NCVMP and spelling variants. Full-text fixed-string searches of the
+  recovery, older discovery and original Documents checkouts included ignored and hidden files: 34, 13
+  and 15 matched lines. All 26 distinct contents were read; matches are prior nonconjugate-model context,
+  the Tan neighborhood record and its fitting leads, and unrelated programming-language tokens. Assessed
+  all 15 semantic AIO rows and 121 native names/definitions, six complete annotated AIO CLASS nodes with
+  incident edges and generated YAML, and six complete native neighboring records. NCVMP specifies expected-log-factor
+  gradient matching and a Fisher-preconditioned fixed-point update, beyond choosing a mean-field family.
+  It is distinct from BBVI score-sampling, natural evolution strategies, model-parameter VEM and query-local
+  neighborhood selection. Wand’s full-Gaussian rewrite is represented as a specialization of this algorithm,
+  not a duplicate new identity. The mapping and absence assessment are bounded to the inspected pin and
+  corpus.'
+definition_evidence:
+- &id001
+  source_id: knowles2011
+  locator: Sections 2–4, Algorithm 1 and Theorems 1–2, PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: restricted-family
+  kind: scope
+  statement: For a fixed normalizable target p(x) proportional to a product of factors f_a(x_a), choose
+    q(x)=product_i q_i(x_i), allowing each block x_i to be vector-valued. Each q_i is a specified regular
+    minimal exponential family q_i=exp(theta_i^T*u_i-kappa_i(theta_i)) relative to a fixed reference measure.
+    The factorization of p must use the same product reference measure; nonconstant carrier terms cannot
+    simply be discarded. Approximate inference minimizes KL(q||p), equivalently maximizing the expected
+    log unnormalized target plus entropy relative to that measure. This is an inference procedure, not
+    a requirement for neural amortization or model-parameter learning.
+  evidence:
+  - *id001
+- claim_id: gradient-messages
+  kind: mechanism
+  statement: At the current proper q, hold all other blocks fixed and define S_a(theta_i)=E_q[log f_a]
+    for factors adjacent to block i. Let C_i=Cov_q_i[u_i]=Hessian kappa_i, assumed finite and invertible.
+    Compute each message’s natural-parameter contribution phi_ai=C_i^(-1)*grad_theta_i S_a and propose
+    theta_i_new=sum_a phi_ai. Repeat block updates using current neighboring factors. The message contributions
+    are potentials; individual messages need not each normalize as a standalone distribution, whereas
+    their resulting q_i must be proper. The rule requires tractable or explicitly approximated expectations
+    and their derivatives.
+  evidence:
+  - *id001
+- claim_id: stationarity-not-convergence
+  kind: mechanism
+  statement: Where the fixed reference measure, finite expectations, differentiation and interior regularity
+    assumptions apply, grad_theta_i KL=C_i*theta_i-sum_a grad_theta_i S_a. Thus the proposed increment
+    theta_i_new-theta_i equals the Fisher natural-gradient direction of the variational lower bound. A
+    valid fixed point has zero block gradients and conversely, but this algebra does not certify a local
+    minimum, global optimum, exact posterior, monotonic bound improvement or convergence of unit steps.
+    Approximate expectation bounds or numerical derivatives can instead yield stationary points of their
+    approximation.
+  evidence:
+  - *id001
+  - source_id: knowles2011-supp
+    locator: Fixed-point and cavity derivation, PDF pp. 1–2
+    relation: supports
+- claim_id: conjugate-reduction
+  kind: mechanism
+  statement: If E_q_-i[log f_a] is beta_ai^T*u_i(x_i) plus a term constant in x_i, then grad_theta_i S_a=C_i*beta_ai
+    and the message reduces to the usual conjugate variational message beta_ai. This reduces to the conjugate
+    message rule within the chosen factorization; it does not remove the posterior approximation caused
+    by independence restrictions.
+  evidence:
+  - source_id: knowles2011
+    locator: Theorem 2 and proof, PDF p. 4
+    relation: supports
+- claim_id: damping-and-domain
+  kind: limitation
+  statement: A damped block proposal mixes natural parameters as theta_i_next=(1-rho)*theta_i+rho*theta_i_new
+    with 0<rho<=1, corresponding to multiplying old and proposed message potentials to the complementary
+    powers. For a fixed positive rho, valid fixed points are unchanged. If both endpoints lie in the regular
+    natural-parameter domain, convex mixing stays there; an invalid endpoint requires an explicit domain
+    check. Damping may help but supplies no general ascent or convergence guarantee. Initialize with proper
+    variational factors rather than assuming theta_i=0 is a normalizable uniform density on an unbounded
+    domain.
+  evidence:
+  - source_id: knowles2011
+    locator: Algorithm 1 initialization, PDF p. 3; Section 7 damping, PDF p. 8
+    relation: supports
+- claim_id: full-gaussian-specialization
+  kind: mechanism
+  statement: For a vector block q_i=N(mu,Sigma), set S=E_q[log p_tilde(x)] with other blocks fixed, and
+    define g=grad_mu S and symmetric G by the differential dS=g^T*dmu+tr(G^T*dSigma). Evaluate both derivatives
+    at the current mu and Sigma. The full-Gaussian NCVMP proposal is Sigma_new=(-2*G)^(-1), mu_new=mu+Sigma_new*g,
+    provided -2*G is positive definite. This is an algebraic specialization of the sufficient-statistic
+    update, not a new objective or a general guarantee that the proposed covariance is valid. Correlations
+    inside this block are retained; dependence between separately factorized blocks is omitted.
+  evidence:
+  - source_id: knowles2011
+    locator: Section 4.1, Equation 7, PDF p. 4
+    relation: supports
+  - source_id: wand2014
+    locator: Sections 2–3, Theorem 1 and simplified updates, PDF pp. 2–6 / printed pp. 1352–1356; Appendix
+      A, PDF pp. 13–15 / printed pp. 1363–1365
+    relation: supports
+- claim_id: gradient-versus-moment-matching
+  kind: scope
+  statement: 'The local message approximation matches derivatives of expected log factors with derivatives
+    of their exponential-family surrogate at the current variational parameters. The supplement also derives
+    this through a fixed-cavity message update. Its analogy with expectation propagation does not identify
+    the two algorithms: it does not replace the update by matching ordinary sufficient-statistic moments
+    of an EP tilted distribution. Gradient-matching equations transform consistently under a differentiable
+    change of coordinates with nonsingular Jacobian; this is not arbitrary finite-step parameterization
+    invariance.'
+  evidence:
+  - source_id: knowles2011
+    locator: Section 4, gradient-matching discussion, PDF pp. 3–4
+    relation: supports
+  - source_id: knowles2011-supp
+    locator: Cavity and parameterization derivations, PDF pp. 1–3
+    relation: supports
+evidence_sources:
+- source_id: knowles2011
+  title: Non-conjugate Variational Message Passing for Multinomial and Binary Regression
+  authors:
+  - David A. Knowles
+  - Thomas P. Minka
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2011/file/5c936263f3428a40227908d5a3847c0b-Paper.pdf
+  persistent_id: https://papers.nips.cc/paper_files/paper/2011/hash/5c936263f3428a40227908d5a3847c0b-Abstract.html
+  version: NIPS 2011, Advances in Neural Information Processing Systems 24. All nine proceedings PDF pages
+    visually read, including Figures 1–3, Table 1, Theorems 1–2 and twenty references.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:35:40Z'
+  sha256: 7c979ceb97fa3c78c09b9ea0ca96ecd916763b079675b2e4e455af2dc1e73b20
+- source_id: wand2014
+  title: Fully Simplified Multivariate Normal Updates in Non-Conjugate Variational Message Passing
+  authors:
+  - Matt P. Wand
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume15/wand14a/wand14a.pdf
+  persistent_id: https://www.jmlr.org/papers/v15/wand14a.html
+  version: JMLR 15(39):1351–1369, April 2014. All 19 PDF pages visually read, including Theorems 1–2,
+    Algorithm 1, both figures, Appendices A–C and twenty references. Printed page = PDF page + 1350.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:35:40Z'
+  sha256: e2938b069d803ecae4f41a409e29c53e7532b8b6f1e76498e0675735087b5ba1
+- source_id: knowles2011-supp
+  title: Supplementary material for Non-conjugate Variational Message Passing for Multinomial and Binary
+    Regression
+  authors:
+  - David A. Knowles
+  - Thomas P. Minka
+  source_type: primary_paper
+  url: https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf
+  persistent_id: https://cs.stanford.edu/people/davidknowles/knowles2011ncvmp_supp.pdf
+  version: Author-hosted six-page supplement dated 29 October 2011. All six pages visually read, including
+    cavity and parameterization derivations and the softmax-bound variants.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:38:02Z'
+  sha256: e48b0a0caeeeea6b0c1d56ff33211e9670e66448dda27b786d4bccec92662fdc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The primary construction uses a probabilistic factor graph and its factor-to-variable neighborhoods
+    to organize approximate inference. The pinned AIO class denotes a graphical-model task, whereas this
+    record denotes an inference algorithm. This is a method-to-modeling-context relation without equivalence
+    or an is-a assertion.
+limitations:
+- Regular minimal families, valid support, finite sufficient-statistic covariance and differentiable expectations
+  are substantive assumptions. A nonminimal representation can have singular Fisher covariance; a formally
+  written inverse is not a numerical recipe. Proper initialization and updated-factor normalization are
+  required even if message potentials are individually improper.
+- The unit proposal can leave the natural-parameter domain even for a proper target. The saved exact Gaussian
+  example uses p(x) proportional to exp(2*x^2-x^4/4) and current q=N(0,1); the proposed precision is -1.
+  A quarter natural-parameter step is proper in that example, without asserting bound ascent. These are
+  curator arithmetic examples, not fitted posteriors or reproduced source experiments.
+- Mean-field partition and exponential-family restrictions can produce inaccurate uncertainty or miss
+  posterior structure. Fixed-point stationarity is weaker than convergence or optimality. Gaussian moment-coordinate
+  simplification preserves the same proposal where well-defined; it does not make the general nonconjugate
+  problem an exact coordinate solve.
+- The main paper’s final proof line on PDF p. 3 has an entropy-derivative sign inconsistency corrected
+  by Equation 6 on p. 4. Its zero-natural-parameter uniform initialization is not generally proper. The
+  supplement’s parameterization argument needs a nonsingular Jacobian in addition to one-to-one labeling.
+  The Gaussian rewrite follows Wand’s displayed derivation rather than a prose line that appears to differentiate
+  the scalar expected-log-joint symbol prematurely.
+- Logistic/softmax quadrature and auxiliary bounds are application-specific treatments, not defining requirements
+  of general NCVMP. Source factor-of-two, sign and curvature-order issues in those variants remain recorded
+  in the discovery notes; no separate bound algorithm is certified here. Tan spectral-fitting step-size
+  adaptations likewise require a separate implementation and boundary audit.
+- All three primary documents were read in full, including experimental contexts, but no quantitative
+  accuracy or runtime superiority is asserted. No author implementation, fitting pipeline, training or
+  benchmark was executed. The record remains DRAFT and author self-review is not independent approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T22:52:50Z'
+  updated_at: '2026-10-12T22:52:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
