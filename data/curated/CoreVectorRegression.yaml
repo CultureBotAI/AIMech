@@ -1,0 +1,180 @@
+id: AIMech:CoreVectorRegression
+name: Core vector regression
+aliases:
+- CVR
+concept_kind: algorithm
+definition: A support-vector regression training algorithm that approximates a penalized-bias, paired
+  squared-slack formulation with a learned unconstrained margin using a center-constrained minimum enclosing
+  ball over two transformed points per observation.
+identity_notes: This record denotes the CVR formulation and training method introduced by Tsang-Kwok-Lai2005
+  and developed by Tsang-Kwok-Zurada2006. It is distinct from the general solver, generic SVR, standard
+  nonnegative-width variants, least-squares regression and a fitted model instance. Compared all 442 pinned
+  AIO IDs, labels and scoped synonyms with all 515 preceding native IDs, names and aliases. No normalized
+  identity collision was found for either candidate. Fixed-string whole-word searches of both checkouts
+  included ignored and hidden files, expanded names, CVR/GCVM/CVM acronyms and source identifiers. All
+  147 distinct matched-text windows were read; the post-merge repeat has the same distinct windows in
+  both checkouts. Hits describe original CVM/BVM, their reviews and unresolved extensions, not an existing
+  generalized-CVM or CVR record. All 93 semantic AIO rows were reused after exact equality checks, and
+  all 44 native name/definition matches were read. Fifteen annotated AIO CLASS nodes and outgoing edges
+  plus 22 contextual YAMLs were inspected or reused after unchanged-byte checks. This assessment is bounded
+  to the pinned and maintained corpus.
+definition_evidence:
+- source_id: tsang2006
+  locator: Section III-A, printed p1129 / PDF p4, Equations9-15
+  relation: supports
+- source_id: tsang2005
+  locator: Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3
+  relation: supports
+claims:
+- claim_id: paired-squared-slack-regression
+  kind: mechanism
+  statement: For m observations and C,mu>0, the displayed formulation minimizes ||w||²+b²+C/(mu*m)*sum_i(xi_i²+xi_i_star²)+2*C*epsilon_bar,
+    subject to y_i-f_i<=epsilon_bar+xi_i and f_i-y_i<=epsilon_bar+xi_i_star, where f_i=w^T*phi(x_i)+b.
+    The bias is penalized and the paired slack errors are squared. The source displays no nonnegativity
+    constraint on the learned epsilon_bar. This formulation is distinct from L1-slack SVR and from a learned-width
+    formulation explicitly requiring epsilon_bar>=0.
+  evidence:
+  - source_id: tsang2006
+    locator: Section III-A, printed p1129 / PDF p4, Equations9-15
+    relation: supports
+  - source_id: tsang2005
+    locator: Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3
+    relation: supports
+- claim_id: two-copy-simplex-dual-and-recovery
+  kind: mechanism
+  statement: Let alpha=(lambda,lambda_star)>=0 sum to1 and v=(y,-y). The scaled dual maximizes (2/C)*v^T*alpha-alpha^T*Ktilde*alpha,
+    where Ktilde has diagonal blocks K+11^T+(mu*m/C)*I and off-diagonal blocks -(K+11^T). Thus m original
+    observations yield2m transformed points. Recover w=C*sum_i(lambda_i-lambda_i_star)*phi(x_i), b=C*sum_i(lambda_i-lambda_i_star),
+    xi_i=mu*m*lambda_i, xi_i_star=mu*m*lambda_i_star and epsilon_bar=v^T*alpha-C*alpha^T*Ktilde*alpha.
+    The original primal optimum equals C² times this unshifted scaled-dual optimum.
+  evidence:
+  - source_id: tsang2006
+    locator: Section III-A, printed p1129 / PDF p4, Equations9-15
+    relation: supports
+  - source_id: tsang2006
+    locator: Section III-B, printed p1130 / PDF p5; Appendix Property3 proof, printed p1139 / PDF p14
+    relation: supports
+  - source_id: tsang2005
+    locator: Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3
+    relation: supports
+- claim_id: core-vector-regression-training
+  kind: mechanism
+  statement: Choose Delta=(2/C)*v-diag(Ktilde)+eta*1>=0 and apply center-constrained MEB core growth to
+    the2m transformed points. Add an outside point, solve the enlarged core problem and recover the regression
+    coefficients from its simplex weights. This is the regression-specific application of the generalized
+    CVM solver. A selected transformed point, an original observation and a nonzero final regression coefficient
+    are different notions; the two copies of an observation can contribute with opposite signs.
+  evidence:
+  - source_id: tsang2006
+    locator: Sections III-A and III-B, printed pp1129-1130 / PDF pp4-5, Equations11-22
+    relation: supports
+  - source_id: tsang2005
+    locator: Sections3.1-3.3, PDF pp3-5, Equations6-15 and Property3
+    relation: supports
+- claim_id: learned-width-and-loss-interpretation
+  kind: limitation
+  statement: The missing nonnegative-width constraint is material to interpreting the displayed formulation.
+    An exact curator calculation with one zero-feature observation y=0, C=mu=1 gives optimal lambda=lambda_star=1/2,
+    w=b=0, xi=xi_star=1/2 and epsilon_bar=-1/2, with primal and scaled-dual value-1/2. The mean paired-slack
+    sum equals mu=1, whereas max(|y-f|-epsilon_bar,0)=1/2. Thus the paper’s interpretation of mu as the
+    ordinary epsilon-insensitive error needs a nonnegative-width qualification; it is not asserted unconditionally
+    here. This result follows from the displayed primal/dual, not from executing historical CVR code.
+  evidence:
+  - source_id: tsang2006
+    locator: Section III-A, printed p1129 / PDF p4, Equations9-15
+    relation: supports
+  - source_id: tsang2005
+    locator: Section3.1, PDF p3; exact curator derivation in research/discovery/generalized-core-vector-boundaries.py
+    relation: supports
+- claim_id: shifted-scaled-objective-guarantee
+  kind: limitation
+  statement: With exact core optimization and exhaustive all-point termination, a core radius R gives
+    R²<=p_star/C²+eta<=(1+epsilon)²*R² for the original primal optimum p_star. This is a bound on the
+    shifted and scaled objective, not a multiplicative bound on p_star alone; p_star can be negative,
+    as the exact zero-output example shows. Tolerance is not a test-error bound. Finite inner numerical
+    tolerance, sampled searches, kernel costs and total input storage require separate treatment.
+  evidence:
+  - source_id: tsang2006
+    locator: Section III-C Property3, printed p1131 / PDF p6; Appendix proof, printed p1139 / PDF p14
+    relation: supports
+  - source_id: tsang2005
+    locator: Section3.3.1, PDF p5, Property3 and its proof
+    relation: supports
+- claim_id: version-and-application-boundaries
+  kind: scope
+  statement: The 2005 ICML CVR paper is an abridged precursor to the 2006 generalized-CVM paper, not a
+    separate CVR identity. The earlier paper applies regression fits to implicit surface reconstruction
+    using nonzero level sets and multiscale residual fitting. Historical regression comparisons use specified
+    datasets, hyperparameter choices, hardware, LIBSVM/SVMlight versions and different loss formulations;
+    the 2006 paper notes a change in LIBSVM version. These experiments do not establish universal speed,
+    sparsity or prediction superiority. No historical software or benchmark was reproduced.
+  evidence:
+  - source_id: tsang2006
+    locator: Section I ending, printed p1127 / PDF p2; Section V, printed pp1132-1137 / PDF pp7-12, including
+      footnote7 on p1132
+    relation: supports
+  - source_id: tsang2005
+    locator: Sections4.1-4.2 and5, PDF pp5-8
+    relation: supports
+evidence_sources:
+- source_id: tsang2005
+  title: Core Vector Regression for Very Large Regression Problems
+  authors:
+  - Ivor W. Tsang
+  - James T. Kwok
+  - Kimo T. Lai
+  source_type: primary_paper
+  url: https://icml.cc/Conferences/2005/proceedings/papers/115_CoreVector_TsangEtAl.pdf
+  version: ICML2005 proceedings PDF; all eight pages visually read. This PDF has no visible printed-page
+    labels; locators use PDF page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:37:34Z'
+  sha256: efd81da2420549a86d811ba09d7613d61938e7fc61ffb45ce2b3b3545fd89f9d
+- source_id: tsang2006
+  title: Generalized Core Vector Machines
+  authors:
+  - Ivor Wai-Hung Tsang
+  - James Tin-Yau Kwok
+  - Jacek M. Zurada
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~jamesk/papers/tnn06b.pdf
+  version: IEEE Transactions on Neural Networks17(5):1126-1140, September2006; all15 author-hosted final-article
+    PDF pages visually read. Printed page equals PDF page plus1125. The 2005 CVR paper is identified as
+    an abridged precursor.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:37:35Z'
+  sha256: 72725b613ce4c9895e2611fafc54a973392166f407cff7e4efcc0785eb157dbf
+  persistent_id: doi:10.1109/TNN.2006.878123
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SupportVectorMachine
+  relation: related_match
+  rationale: This training algorithm has a direct relationship to support-vector formulations. AIO:SupportVectorMachine
+    is a related model/network target whose definition covers supervised classification and regression,
+    with Network ancestry and layer relations. It is not equivalent to this solver or an is-a assertion
+    about the algorithm. RegressionAnalysis, Classification, BinaryClassification, SupervisedLearning
+    and UnsupervisedLearning describe task scope; they do not identify the optimization procedure. LinearRegression,
+    Least-squares Analysis and RidgeRegression do not encode the source-specific paired-slack CVR objective.
+    KernelLayer is a component and TrainingStrategy is defined as preprocessing. Original CVM requires
+    a constant-diagonal reduction, BVM uses different center updates, SVDD estimates a sphere and SVC
+    adds cluster labeling; shared kernels, spheres or output tasks do not establish identity.
+limitations:
+- The source assumes valid positive-semidefinite kernels and particular simplex-compatible formulations.
+  Approximation guarantees depend on the additive objective shift, exact inner optimization and exhaustive
+  violation checking.
+- All23 pages of the two primary PDFs were visually read. Source-specific claims are retained with their
+  versions; historical software access failed, and no optimizer, training or benchmark was executed.
+- Exact rational calculations test negative learned width, primal-dual scaling and shift-sensitive termination.
+  They are curator derivations from the displayed mathematics, not reproduced implementation behavior.
+- The record remains a native DRAFT with a related AIO model mapping. Later core-vector, soft-margin,
+  multiview, ranking and data-description extensions remain unresolved.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T09:55:07Z'
+  updated_at: '2026-10-12T09:55:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
