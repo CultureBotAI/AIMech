@@ -1,0 +1,179 @@
+id: AIMech:SparseSpectrumGaussianProcessRegression
+name: Sparse-spectrum Gaussian-process regression
+aliases:
+- SSGP
+- Sparse spectrum Gaussian process
+concept_kind: model_family
+definition: A Gaussian-process regression model family whose latent prior is a finite sum of paired sine
+  and cosine features with independent Gaussian coefficients, yielding a stationary finite-spectral covariance
+  and Gaussian fixed-input predictions under Gaussian observation noise.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 545 maintained IDs, names
+  and aliases against the proposed identity; no normalized match. The separately assessed SSGP acronym
+  also has no identity match. Full-text searches across the recovery, older discovery and original Documents
+  checkouts included hidden and ignored files and returned 280, 0 and 0 lines. All 165 distinct strings
+  were read: existing prediction algorithms, pending model/regression leads, primary-source readings and
+  their rendered mirrors. Read 39 semantic AIO rows, 109 native names/definitions, seven full annotated
+  AIO CLASS nodes with incident edges and generated records, and three complete native context records.
+  This finite trigonometric Gaussian regression model specializes generic Gaussian-process regression;
+  it is not identical to SSGP-EMM or SSGP-Lin uncertain-input prediction, generic random Fourier feature
+  construction, or the optional marginal-likelihood frequency-learning procedure. SSGP and the expanded
+  alias are evidenced in the original source; SSGPR was retained as a search term rather than asserted
+  as an alias. Absence is bounded to the inspected pin and corpus.'
+definition_evidence:
+- source_id: lazaro2010
+  locator: Sections 3–4, Equations 5–11, PDF pp. 4–6 / printed pp. 1868–1870; model interpretation in
+    conclusions, PDF p. 15 / printed p. 1879
+  relation: supports
+claims:
+- claim_id: finite-spectral-prior
+  kind: mechanism
+  statement: For m fixed frequency vectors s_r and inputs x in R^d, the scalar latent function is f(x)=sum_r[a_r*cos(2*pi*s_r^T*x)+b_r*sin(2*pi*s_r^T*x)].
+    All 2m coefficients have independent N(0,sigma_0^2/m) priors. The resulting zero-mean GP has k(x,x_prime)=(sigma_0^2/m)*sum_r
+    cos(2*pi*s_r^T*(x-x_prime)), a positive-semidefinite stationary prior kernel of rank at most 2m on
+    a finite input set. Its prior diagonal is sigma_0^2. Stationarity and constant variance here concern
+    the prior; conditioning on training data need not preserve either property.
+  evidence:
+  - source_id: lazaro2010
+    locator: Section 3, Equations 5–6 and paired-feature definition, PDF p. 4 / printed p. 1868; GP conditioning
+      in Section 2, PDF p. 3 / printed p. 1867
+    relation: supports
+- claim_id: conditional-regression
+  kind: mechanism
+  statement: For n scalar training responses collected in y and independent Gaussian observation noise
+    with positive variance sigma_n^2, let phi(x) be the 2m-vector of unscaled cosine/sine pairs and Phi=[phi(x_1),...,phi(x_n)]
+    the 2m by n design matrix. With positive sigma_0^2 and A=Phi*Phi^T+(m*sigma_n^2/sigma_0^2)*I, the
+    conditional mean at fixed x is phi(x)^T*A^{-1}*Phi*y and the future noisy-response variance is sigma_n^2+sigma_n^2*phi(x)^T*A^{-1}*phi(x).
+    The latent-function variance omits the first future-noise term. These Gaussian predictions are exact
+    for the chosen finite feature model conditional on its frequencies and hyperparameters, not automatically
+    for a different full stationary kernel or after integrating uncertain frequencies.
+  evidence:
+  - source_id: lazaro2010
+    locator: Sections 2–3, observation model and Equations 2, 5–7, PDF pp. 3–4 / printed pp. 1867–1868
+    relation: supports
+- claim_id: spectral-approximation
+  kind: mechanism
+  statement: A stationary covariance with finite spectral measure can be approximated by symmetric positive/negative
+    frequency atoms. For the displayed equal-weight cosine kernel, each atom at s_r and -s_r carries mass
+    sigma_0^2/(2m), counting coincident atoms with multiplicity, so the total spectral mass is sigma_0^2.
+    Drawing frequencies from the normalized target spectrum gives the paper’s Monte Carlo kernel approximation.
+    Subsequent optimization of those frequencies against the data learns a finite spectral covariance
+    and departs from merely approximating that initially selected target kernel.
+  evidence:
+  - source_id: lazaro2010
+    locator: Section 4, Equations 9–11 and symmetric-frequency sum, PDF pp. 5–6 / printed pp. 1869–1870;
+      Section 4.2, PDF pp. 7–8 / printed pp. 1871–1872
+    relation: supports
+- claim_id: frequency-selection
+  kind: mechanism
+  statement: The original training procedure initializes covariance/noise parameters, draws spectral points
+    from the chosen spectrum and jointly optimizes the marginal likelihood over frequencies and hyperparameters
+    using conjugate gradients. Gaussian coefficients are integrated out in that evidence objective. The
+    source also evaluates a fixed-spectral-points variant. Thus learning frequencies is a supported fitting
+    procedure for this model family, not a requirement that defines every fixed-feature posterior or every
+    later SSGP prediction algorithm. The optimization is local and its result can depend on initialization.
+  evidence:
+  - source_id: lazaro2010
+    locator: Section 4.2 steps 1–3, PDF pp. 7–8 / printed pp. 1871–1872; fixed-points comparator in Section
+      5.2, PDF p. 10 / printed p. 1874; initialization sensitivity in Section 5.4, PDF pp. 13–14 / printed
+      pp. 1877–1878
+    relation: supports
+- claim_id: feature-kernel-equivalence
+  kind: mechanism
+  statement: Feature-space and finite-kernel conditioning represent the same model. The source recommends
+    Cholesky solves for A rather than forming a numerical inverse. Equivalently, absorb sigma_0/sqrt(m)
+    into the features and give their coefficients a unit Gaussian prior; converting cycles s_r to angular
+    frequencies omega_r=2*pi*s_r yields the convention used in the later Pan paper. That later paper supplies
+    separate exact-moment and linearized transforms for uncertain test inputs, which are additional algorithms
+    beyond fixed-input regression.
+  evidence:
+  - source_id: lazaro2010
+    locator: Section 3, Equations 6–8, PDF p. 4 / printed p. 1868; Appendix A, PDF p. 16 / printed p.
+      1880
+    relation: supports
+  - source_id: pan2017
+    locator: Section 2, Equations 4, 6–7 and following remark, PDF pp. 2–3; Sections 3.1–3.2, PDF pp.
+      3–5
+    relation: supports
+- claim_id: overconfidence-boundary
+  kind: limitation
+  statement: Marginal-likelihood selection of spectral frequencies does not guarantee calibrated predictive
+    uncertainty. The source explicitly reports an overconfidence failure in its nearly noise-free Pendulum
+    example and sensitivity to initialization. Its comparison concerns a nine-dimensional regression task
+    predicting angular-velocity change over 50 milliseconds, with 315 training and 315 test cases; this
+    is evidence of a possible failure under that protocol, not a universal property or an independently
+    reproduced benchmark.
+  evidence:
+  - source_id: lazaro2010
+    locator: Section 5.4 and Figure 8, PDF pp. 13–15 / printed pp. 1877–1879; conclusions, PDF pp. 14–15
+      / printed pp. 1878–1879
+    relation: supports
+evidence_sources:
+- source_id: lazaro2010
+  title: Sparse Spectrum Gaussian Process Regression
+  authors:
+  - Miguel Lázaro-Gredilla
+  - Joaquin Quiñonero-Candela
+  - Carl Edward Rasmussen
+  - Aníbal R. Figueiras-Vidal
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume11/lazaro-gredilla10a/lazaro-gredilla10a.pdf
+  persistent_id: https://www.jmlr.org/papers/v11/lazaro-gredilla10a.html
+  version: JMLR 11 (2010), 1865–1881; official 17-page PDF. All pages, figures, Appendix A and references
+    visually read. PDF page p corresponds to printed page 1864+p; published June 2010.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:43:34Z'
+  sha256: c3135d24550ebbfaffb95dd05eaa2ab4ef00a023922cbb4ac1429d6ae09715a5
+- source_id: pan2017
+  title: Prediction under Uncertainty in Sparse Spectrum Gaussian Processes with Applications to Filtering
+    and Control
+  authors:
+  - Yunpeng Pan
+  - Xinyan Yan
+  - Evangelos A. Theodorou
+  - Byron Boots
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/pan17a/pan17a.pdf
+  persistent_id: https://proceedings.mlr.press/v70/pan17a.html
+  version: ICML 2017, PMLR 70:2760–2768; official nine-page proceedings PDF, all pages visually read.
+    Locators use PDF indices; method pages have no printed page numbers.
+  access_level: full_text
+  accessed_at: '2026-10-12T21:10:55Z'
+  sha256: f6419aa3e01484a8a221de3080dff9496b2ffc87d7f2ba4cef601824ac88797d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The finite Gaussian model estimates a scalar response from observed input/response pairs
+    and supplies a predictive distribution. This expresses its regression-task relationship; the AIO task
+    does not identify the particular spectral prior, fitting procedure or model family, so no equivalence
+    or subclass assertion is made.
+limitations:
+- The finite-feature prior is a model choice. Exact Gaussian conditioning requires the stated Gaussian
+  coefficient and observation-noise assumptions and fixed frequencies/hyperparameters. It is not exact
+  inference for an arbitrary original kernel or Bayesian integration over spectral parameters.
+- Prior stationarity and a constant prior diagonal do not imply constant posterior variance or universal
+  recovery of prior uncertainty far from data. Multiple incommensurate frequencies need not have a common
+  finite period, so the source’s broad periodicity wording is not adopted as a property of every model.
+- Frequency optimization can overfit and is sensitive to initialization. The cited failure is specific
+  to the paper’s Pendulum protocol; no universal ranking, numerical benchmark improvement or calibrated-interval
+  claim is asserted.
+- The paired independent Gaussian coefficients are essential to the specified prior. A cosine-only representation
+  with optimized deterministic phases is not automatically the same probabilistic model; an equivalent
+  amplitude/phase change of variables must preserve the induced prior.
+- Spectral atoms use the normalization implied by the source’s displayed symmetric sum; ambiguous prose
+  about individual atom amplitudes is not copied. Complexity statements in the introductory text are not
+  used as a claim about total training cost.
+- All 17 original-paper pages and the nine-page later prediction paper were read. Author code and frequency-learning
+  implementation were not inspected or run. A fixed finite-matrix curator calculation checks feature/kernel
+  algebra only; no fitting pipeline, paid provider, simulation or benchmark was run. The record remains
+  DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T22:07:35Z'
+  updated_at: '2026-10-12T22:07:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
