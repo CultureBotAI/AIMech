@@ -1,0 +1,120 @@
+name: Generalized Alternating Minimization
+aliases:
+- GAM (generalized alternating minimization)
+concept_kind: algorithm
+definition: An information-geometric fitting framework that updates a generating distribution constrained
+  by the observations and model parameters to decrease their joint Kullback-Leibler objective, allowing
+  inexact distribution and parameter minimization.
+identity_notes: 'This record denotes the Gunawardana-Byrne distribution/parameter KL-descent framework.
+  In its alternating realization both coordinate updates decrease the same paired objective; the general
+  composite formulation can establish overall descent directly. Exact EM and suitable generalized EM are
+  special cases. GAM does not mean every approximate E-step, every alternating loss or the unrelated generalized
+  additive model. Restricted-family variational EM is a specialization, while cyclic incremental EM has
+  a separate cache/sweep realization. No normalized match across all442pinned AIO labels/scoped synonyms
+  and480native IDs/names/aliases, including GAM and VEM probes. Full-checkout searches include ignored
+  and hidden files in worktree and main;59and61matched lines reduce to31distinct text windows, all read.
+  Hits denote topic-model fitting steps, prior frontier leads, unrelated GAM generalized-additive-model
+  context or programming mnemonics. GAM is the joint distribution/parameter KL-descent framework, not
+  GEM with its exact current E-step. Variational EM fits model parameters with a restricted posterior
+  family; BBVI is a stochastic variational-gradient procedure, NVIL specifies amortized stochastic learning,
+  and structured factorial-HMM inference is model-specific. Melting shares its fixed-bandwidth weighted-mean
+  update with Gaussian mean shift; its named outer heating, membership tree and persistence selection
+  supply the distinct scope. Bare GAM/VEM aliases are qualified. Absence is bounded to this snapshot,
+  corpus and inspected semantic neighborhood. Identity-search counts: 59 matched lines in the worktree
+  and 61 in main; all 31 distinct matching-text windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: gam-source
+  locator: Sections2.1-2.2, pp2052-2054 / PDF4-6, Eq4; Section3 Theorem3, pp2058-2059 / PDF10-11
+  relation: supports
+evidence_sources:
+- source_id: gam-source
+  title: Convergence Theorems for Generalized Alternating Minimization Procedures
+  authors:
+  - Asela Gunawardana
+  - William Byrne
+  source_type: primary_paper
+  url: https://jmlr.csail.mit.edu/papers/volume6/gunawardana05a/gunawardana05a.pdf
+  persistent_id: https://www.jmlr.org/papers/v6/gunawardana05a.html
+  version: JMLR6(69):2049-2073, December2005; official25-page journal PDF. All pages including theorem
+    proofs, figures, appendices and references visually read. Printed page=PDFpage+2048.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:44:24Z'
+  sha256: 39339eb274d53fedc6ef5de5d1acb94a721eaa6948049f552f6a36b7c37d82b5
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This procedure fits model parameters from observations; the inspected AIO target denotes
+    a learning process/task. The algorithm-to-task relationship asserts neither equivalence nor an is-a
+    relation.
+claims:
+- claim_id: paired-descent
+  kind: mechanism
+  statement: Let D contain normalized generating laws supported on the complete-data fiber compatible
+    with the observed event, and let P_theta be the normalized complete-data model. Minimize D_KL(Q||P_theta)
+    over the pair. A generalized forward step reduces it in Q at fixed theta; a generalized backward step
+    reduces it in theta at the updated Q. Exact forward minimization over the unrestricted desired family
+    gives the current conditional posterior, and exact backward minimization maximizes expected complete-data
+    log likelihood. A constrained family changes the optimization problem. Finite, continuous KL on the
+    relevant domain is an explicit premise here.
+  evidence:
+  - source_id: gam-source
+    locator: Sections2.1-2.2, pp2052-2054 / PDF4-6; Eq4 and Figure2
+    relation: supports
+- claim_id: conditional-limit-set
+  kind: scope
+  statement: The inspected convergence theorem requires compact parameter space, an eventually entered
+    compact invariant generating-distribution set, a closed update map, continuous finite objective, nonincrease,
+    and strict decrease outside the set of joint coordinatewise global minimizers. It concludes objective
+    convergence and membership of accumulation points in that set, not necessarily convergence of the
+    whole parameter sequence. For the unrestricted desired family, additional interior differentiability
+    conditions give stationary observed-likelihood accumulation points; stationary does not mean a local
+    maximum. Separate coordinate descent tests need extra hypotheses, such as the unique forward minimizer
+    in Proposition5, to establish the composite equality condition.
+  evidence:
+  - source_id: gam-source
+    locator: Section3 Definition1, Theorems2-3, Corollary4 and Proposition5, pp2058-2062 / PDF10-14; AppendicesA-B,
+      PDF20-24
+    relation: supports
+- claim_id: surrogate-versus-likelihood
+  kind: limitation
+  statement: D_KL(Q||P_theta)=D_KL(Q||P_theta(.|observed))-log p_theta(observed). Decreasing the paired
+    divergence may lower observed likelihood when the posterior approximation gap also changes. The paper’s
+    constrained two-coin example moves theta from0.3 to0.4, reducing likelihood from0.58 to0.52 and reaching
+    a restricted fixed point that is not likelihood-stationary. Even exact EM can stay at the likelihood
+    minimum theta=0.5 in that example.
+  evidence:
+  - source_id: gam-source
+    locator: Section2.4 Example2, pp2056-2058 / PDF8-10; Section3 decomposition, p2060 / PDF12
+    relation: supports
+- claim_id: domain-and-source-conditions
+  kind: limitation
+  statement: Positive common support alone does not ensure finite KL on an arbitrary countably infinite
+    state space. Continuous-observation extensions also need suitable measures and regularity. The incremental-EM
+    argument applies to the inspected finite cyclic full sweep with unique admissible cached M minimizers
+    and the theorem’s compactness/closedness hypotheses, not every random or unfair schedule. The displayed
+    Section4 GEM comparison has its Q inequality reversed; it is not adopted as an ascent rule.
+  evidence:
+  - source_id: gam-source
+    locator: Section2.1 assumptionsQ1-Q3, p2052 / PDF4; Section4 and Proposition6, pp2062-2065 / PDF14-17;
+      AppendixB, pp2070-2072 / PDF22-24
+    relation: supports
+limitations:
+- The finite-discrete formulation is the directly interpretable setting here. Global coordinate minimizers,
+  strict progress and compact iterates are substantive assumptions, not consequences of calling an update
+  GAM.
+- The1984Csiszar-Tusnady PDF was downloaded and rendered but has not yet been visually read; it is not
+  unseen primary support for this record.
+- No historical software, benchmark or source experiment was reproduced. Saved normalized finite calculations
+  challenge bounded formula/prose claims, not the complete conditional convergence theorems.
+id: AIMech:GeneralizedAlternatingMinimization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:01:54Z'
+  updated_at: '2026-10-12T05:01:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

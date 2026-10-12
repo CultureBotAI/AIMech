@@ -1,0 +1,119 @@
+name: Clustering Data by Melting
+aliases:
+- Melting Algorithm for Clustering
+concept_kind: algorithm
+definition: A scale-dependent clustering procedure that heats Gaussian-weighted center iterations to build
+  a merging membership tree, then selects clusters by persistence of their within-cluster weight fraction
+  across logarithmic scales.
+identity_notes: 'This record denotes Wong’s complete melting procedure plus fractional-free-energy persistence
+  selection. At one inverse temperature, the center update is the Gaussian mean-shift weighted mean; the
+  outer heating path, original-point membership tree and selection stage distinguish the named algorithm.
+  Weights are normalized over original observations, not mixture components. Cluster independence means
+  separate center updates using the same data, not statistical independence of clusters. Heating decreases
+  inverse temperature, unlike DAEM cooling toward one. No normalized match across all442pinned AIO labels/scoped
+  synonyms and480native IDs/names/aliases, including GAM and VEM probes. Full-checkout searches include
+  ignored and hidden files in worktree and main;59and61matched lines reduce to31distinct text windows,
+  all read. Hits denote topic-model fitting steps, prior frontier leads, unrelated GAM generalized-additive-model
+  context or programming mnemonics. GAM is the joint distribution/parameter KL-descent framework, not
+  GEM with its exact current E-step. Variational EM fits model parameters with a restricted posterior
+  family; BBVI is a stochastic variational-gradient procedure, NVIL specifies amortized stochastic learning,
+  and structured factorial-HMM inference is model-specific. Melting shares its fixed-bandwidth weighted-mean
+  update with Gaussian mean shift; its named outer heating, membership tree and persistence selection
+  supply the distinct scope. Bare GAM/VEM aliases are qualified. Absence is bounded to this snapshot,
+  corpus and inspected semantic neighborhood. Identity-search counts: 59 matched lines in the worktree
+  and 61 in main; all 31 distinct matching-text windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: melting-source
+  locator: Sections2-4, pp90-98 / PDF2-10, Eq2.1-3.2 and4.1, Melting Procedure and Melting Algorithm
+  relation: supports
+evidence_sources:
+- source_id: melting-source
+  title: Clustering Data by Melting
+  authors:
+  - Yiu-fai Wong
+  source_type: primary_paper
+  url: https://authors.library.caltech.edu/records/9hpen-xzq34/files/WONnc93.pdf?download=1
+  persistent_id: doi:10.1162/neco.1993.5.1.89
+  version: Neural Computation5(1):89-104, January1993; Caltech author-repository16-page journal PDF. All
+    pages, figures, captions and references visually read; printed page=PDFpage+88. Eq2.5 additionally
+    inspected at240dpi.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:44:24Z'
+  sha256: cb2f6511c0f5fe5882a7310a1c67b6986c744189e08254e7d7197254aabe9884
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The method constructs and selects clusters from unlabeled points. The inspected target denotes
+    an unsupervised clustering process/task; this related match preserves the algorithm-versus-task distinction
+    without asserting equivalence or an upstream subclass.
+claims:
+- claim_id: weighted-center-heating
+  kind: mechanism
+  statement: For each center y and beta>0, assign original points weights P_y,beta(x)=exp(-beta*||x-y||^2)/sum_u
+    exp(-beta*||u-y||^2). Iterate y_new=sum_x x*P_y,beta(x) at fixed beta. Start centers at observations
+    at a sufficiently high initial beta, retain their point memberships, track converged centers, and
+    combine memberships when centers coalesce. Decrease beta and warm-start the retained centers; the
+    printed schedule divides beta by1.05 and uses200inner iterations in demonstrations. The weighting
+    set remains the original observations, not an unweighted replacement by merged centers.
+  evidence:
+  - source_id: melting-source
+    locator: Section2 Eq2.1-2.5, pp90-91 / PDF2-3; Section3 Eq3.1 and Melting Procedure, pp92-94 / PDF4-6
+    relation: supports
+- claim_id: persistence-selection
+  kind: mechanism
+  statement: For nominal cluster Q at its tracked center, fractional free energy M_Q(beta)=sum_(x in Q)P_y,beta(x)
+    is a membership weight fraction. Choose a threshold M_T; a cluster is good where its fraction exceeds
+    that threshold, and robustness is the corresponding range of logarithmic scales. Greedily select the
+    most robust good cluster, remove its ancestors and descendants from consideration, and repeat. Observations
+    not covered by selected clusters remain in a leftover set; complete coverage is hoped for in the source,
+    not guaranteed. Threshold choice and tie handling affect the result.
+  evidence:
+  - source_id: melting-source
+    locator: Section4 Eq4.1, Definition2 and Melting Algorithm steps1-6, pp95-98 / PDF7-10
+    relation: supports
+- claim_id: fixed-points-and-rate
+  kind: limitation
+  statement: 'Stationary centers satisfy the weighted-mean equation for F=-log Z/beta, but not every fixed
+    point is a local minimum or exponentially attracting. For points{-1,+1}, the update is tanh(2*beta*y):
+    at beta=1, y=0 stays at an unstable free-energy maximum if initialized exactly there; at beta=0.5,
+    the critical map tanh(y) has derivative one and no uniform local geometric rate. The one-dimensional
+    bifurcation condition2*beta*weighted_variance=1 does not establish higher-dimensional global cluster
+    recovery.'
+  evidence:
+  - source_id: melting-source
+    locator: Section3 fixed-point and convergence prose, pp92-95 / PDF4-7, Eq3.2 and Figure3; Section6
+      rate discussion, p101 / PDF13; curator finite/algebraic examples
+    relation: supports
+- claim_id: implementation-and-empirical-limits
+  kind: limitation
+  statement: The printed merge step says more than two coincident clusters, while the surrounding prose
+    describes two-cluster mergers; this record uses the intended two-or-more interpretation explicitly.
+    Exact coincidence tolerance, robust tie policy and a universally adequate initial scale are not specified.
+    Finite inner iteration does not certify convergence or finite exact tree completion. Selected synthetic
+    and SAR demonstrations do not establish universal density/shape insensitivity, semantic cluster-count
+    recovery or superiority to ISODATA under arbitrary initialization.
+  evidence:
+  - source_id: melting-source
+    locator: Section3 Melting Procedure step6 and preceding prose, pp92-93 / PDF4-5; Sections4-6, pp98-102
+      / PDF10-14
+    relation: supports
+limitations:
+- High initial beta is a data-dependent choice. Euclidean rotation invariance does not guarantee recovery
+  of arbitrary anisotropic clusters. The method can be costly because each center uses all original points
+  at many scales.
+- The1992thesis, cited SAR original studies and Tam implementation report remain uninspected. Suggested
+  continuation, grouping and adaptive-step speedups are not certified implementations here.
+- No historical software, benchmark or source experiment was reproduced. Saved normalized finite calculations
+  challenge bounded formula/prose claims, not the complete conditional convergence theorems.
+id: AIMech:ClusteringDataByMelting
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:01:54Z'
+  updated_at: '2026-10-12T05:01:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
