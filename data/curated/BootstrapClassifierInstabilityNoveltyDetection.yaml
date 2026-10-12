@@ -1,0 +1,129 @@
+id: AIMech:BootstrapClassifierInstabilityNoveltyDetection
+name: Bootstrap classifier-instability novelty detection
+aliases:
+- Outlier detection using classifier instability
+- Bootstrap output-variance novelty detection
+concept_kind: algorithm
+definition: A novelty-detection procedure that trains classifiers on bootstrap resamples of reference
+  data, estimates the variance of their outputs at a query, and rejects queries with unusually high variability
+  relative to a chosen reference-score threshold.
+identity_notes: This is the Tax-Duin1998 instability-based detector. Its novelty signal is variability
+  of classifier outputs across bootstrap training sets, not the mean prediction used for ordinary bagging,
+  nearest-neighbor spacing, a density estimate, vote entropy or a Bayesian posterior uncertainty. The
+  published experiment uses labels among normal digit classes to train its base classifiers; target-versus-abnormal
+  detection does not imply that the entire fitting procedure is label-free. The source's threshold notation
+  is ambiguous, so the record preserves the procedure and that uncertainty rather than declaring an exact
+  executable reference implementation. Compared all 442 pinned AIO IDs, labels and scoped synonyms with
+  all 504 preceding native IDs, names and aliases. No normalized candidate identity collision was found.
+  Fixed-string whole-word searches included ignored and hidden files in both checkouts, expanded names,
+  acronyms and source identifiers. All 12 matching lines per checkout, eight distinct texts at 24 locations,
+  were inspected as queries, bibliographic notes and pending leads in the preceding discovery ledger.
+  A fresh semantic AIO search returned 65 label/synonym/definition rows, all read; eleven annotated class
+  nodes and outgoing edges and eighteen contextual YAMLs were read or reused after unchanged-byte checks.
+  A wider native neighbor search inspected names and definitions only. Absence is bounded to this pin
+  and inspected corpus.
+definition_evidence:
+- source_id: tax1998
+  locator: Section 2.1, PDF p.3, Equation 4; Section 2.2 thresholding and Section 3, PDF pp.3-4
+  relation: supports
+claims:
+- claim_id: bootstrap-output-variance
+  kind: mechanism
+  statement: Draw bootstrap training sets of the original reference-set size, fit the chosen classifier
+    to each, and compare their output values at the same query. The source defines rho(x)=E_b[out_b(x)^2]-(E_b[out_b(x)])^2,
+    where the expectation is over bootstrap fits. Repeated fitted outputs estimate this variance; a large
+    score indicates sensitivity to the sampled training set. It is not itself the probability that the
+    query is novel. Base learner, output scaling, resampling and finite-ensemble variance-estimation conventions
+    affect the result.
+  evidence:
+  - source_id: tax1998
+    locator: Section 2.1, PDF p.3, Equation 4 and bootstrap paragraph
+    relation: supports
+- claim_id: published-multiclass-configuration
+  kind: mechanism
+  statement: The digit experiment uses a linear classifier based on Fisher's criterion, with a normalized
+    sigmoid of distance to its decision boundary as output. It fits one-versus-rest classifiers for nine
+    retained digit classes, produces 25 bootstrap classifier sets and averages output variances over the
+    nine class outputs to obtain one novelty score. The withheld tenth digit class supplies abnormal examples
+    for evaluation. These counts and learner choices describe that experiment, not fixed requirements
+    for every use of the variance-gating procedure.
+  evidence:
+  - source_id: tax1998
+    locator: Section 3, PDF pp.3-4, feature, class-split and classifier paragraphs
+    relation: supports
+- claim_id: threshold-ambiguity
+  kind: limitation
+  statement: Section2.2 motivates a threshold at the reference-score mean plus three standard deviations
+    under a rough Gaussian-score assumption, but Equation6 writes mean plus three times var. These are
+    different numerical rules unless var is being used for a different convention; the paper does not
+    resolve that notation here. For reference scores {0,1/4}, the two thresholds are 1/2 and 11/64 respectively,
+    so a query score of 1/4 receives different decisions. Doubling all classifier outputs multiplies variance
+    scores by four; the literal mean-plus-three-variance threshold does not generally scale in the same
+    way. The record does not select a hidden implementation convention or infer an exact false-alarm probability.
+  evidence:
+  - source_id: tax1998
+    locator: Section 2.2, PDF p.3, prose and Equation 6; curator exact score calculations in research/discovery/novelty-score-boundaries.py
+    relation: supports
+- claim_id: stable-outliers-and-evaluation
+  kind: limitation
+  statement: Outliers can receive low variance when all bootstrap classifiers extrapolate stably, and
+    difficult normal observations can receive high variance. More bootstrap replicates can improve estimation
+    of a fixed variability signal but do not guarantee that stable outliers acquire a detectable signal.
+    The reported digit comparisons depend on representation and training-set size; the normal evaluation
+    population includes training examples, and rotation-invariant features can make withheld digits indistinguishable
+    from retained ones. The source itself reports stable-region failures and weaker results at larger
+    sample sizes. This supports a bounded instability indicator, not a universal novelty detector or general
+    performance advantage.
+  evidence:
+  - source_id: tax1998
+    locator: Sections 3.1 and 4, PDF pp.5-8, Figures 2-3 and conclusion
+    relation: supports
+evidence_sources:
+- source_id: tax1998
+  title: Outlier Detection using Classifier Instability
+  authors:
+  - David M. J. Tax
+  - Robert P. W. Duin
+  source_type: primary_paper
+  url: https://rduin.nl/papers/stipr_98_outlier.pdf
+  version: Exact unnumbered nine-page author-hosted manuscript, all pages visually read. Author bibliography
+    identifies SSPR/SPR1998, LNCS1451:593-601; locators use PDF pages, without asserting identical proceedings
+    pagination.
+  persistent_id: https://doi.org/10.1007/BFb0033283
+  access_level: full_text
+  accessed_at: '2026-10-12T07:46:39Z'
+  sha256: e6be8fdbbfc63236407da3a4fa066b176849c57463e37be339e60260f4cf009e
+limitations:
+- The source does not fully resolve its threshold notation, finite-sample variance divisor or all bootstrap
+  implementation conventions. No precise historical implementation is certified.
+- A low score can reflect shared stable extrapolation rather than familiar input. Output variance, class
+  probability, predictive accuracy and novelty are different quantities.
+- The training labels, base classifier and output transformation used in the reported experiment are retained
+  explicitly. No new model was trained and no reported benchmark result was reproduced.
+- All nine primary manuscript pages were visually read. Plot captions and the text-defined corrected rejection
+  metric are not silently equated; no numerical benchmark result is curated.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The accept-versus-reject output is related to AIO:BinaryClassification. This is a method-to-task
+    association, not an is-a or exact-match assertion. Its Classification parent is under SupervisedLearning;
+    the related mapping does not assert representative training data from the abnormal class. Inspected
+    BinaryClassification, Classification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask,
+    Model, three KnearestNeighbor nodes, EnsembleLearning and UncertaintyBias with their annotations and
+    outgoing edges. The pinned nearest-neighbor nodes specify label plurality or value averaging, not
+    local distance-ratio rejection. EnsembleLearning emphasizes combined prediction, not the particular
+    bootstrap-variance novelty signal, and UncertaintyBias denotes a sampling bias rather than a detector.
+    Generic models and learning tasks do not identify these procedures. Bagging, DBSCAN, OPTICS, NCA,
+    LMNN and both SVDD loss variants supply distinct contextual mechanisms and receive no renewed scientific
+    approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T07:57:39Z'
+  updated_at: '2026-10-12T07:57:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
