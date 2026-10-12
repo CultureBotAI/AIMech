@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nearest-neighbor ratio data description · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Nearest-neighbor ratio data description</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nearest-neighbor ratio data description</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NearestNeighborRatioDataDescription</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Nearest neighbor distance ratio data description, Nearest-neighbor data description (Tax-Duin)
+    </div>
+
+  <div class="detail-desc">
+    A target-class data-description algorithm that scores a query by its distance to a nearest reference observation divided by that observation&#39;s nearest-other-reference spacing, and accepts queries whose ratio does not exceed a chosen threshold, where the denominator and neighbor-selection conventions are well defined.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the local distance-ratio detector described in Tax-Duin1998 Equation3 and Tax-Duin2000 Equations4-6. The 2000 paper studies a unit threshold and threshold sweeps; the 1998 paper uses a different, incompletely specified calibration convention. The core score is shared, but the complete experimental protocols are not asserted identical. The denominator concerns the selected reference point&#39;s own nearest other reference, not necessarily the query&#39;s second-nearest point. This method does not vote among class labels, average regression values, learn a supervised distance matrix, label density-connected components or optimize an enclosing sphere. Generic NN-d and NNDD acronyms are searched but not assigned as unique aliases. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 504 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts, expanded names, acronyms and source identifiers. All 12 matching lines per checkout, eight distinct texts at 24 locations, were inspected as queries, bibliographic notes and pending leads in the preceding discovery ledger. A fresh semantic AIO search returned 65 label/synonym/definition rows, all read; eleven annotated class nodes and outgoing edges and eighteen contextual YAMLs were read or reused after unchanged-byte checks. A wider native neighbor search inspected names and definitions only. Absence is bounded to this pin and inspected corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#local-spacing-score</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a reference set with at least two observations, select i minimizing ||x-x_i||_2 and another reference j!=i minimizing ||x_i-x_j||_2. When d2=||x_i-x_j||_2 is positive, use rho(x)=||x-x_i||_2/d2. The 2000 default accepts rho&lt;=1; increasing the threshold expands acceptance for a fixed reference set and neighbor-selection rule. The score uses Euclidean distances, not their squares, and the density motivation does not make rho a normalized probability or an outlier posterior.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax2000">Data Description in Subspaces</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, printed p.673 / PDF p.2, Equations 3-6 and threshold paragraph</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF pp.2-3, Equation 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#duplicates-ties-and-region</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The denominator requires excluding the selected reference observation itself. Duplicate coordinates can still make d2=0, including an undefined 0/0 for a matching query; a singleton reference set has no other neighbor. The sources do not specify a general duplicate or nearest-tie policy. Ties can affect the decision: for references {-1/10,0,2} and query 1, choosing 0 gives ratio 10 while choosing 2 gives 1/2. The nearest-selected rule is also not generally the union of all reference-centered balls with radii equal to local spacing: query 9/10 in the same example is rejected at unit threshold although it lies inside the radius-2 ball centered at 2. These are exact curator calculations, not repairs attributed to the papers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax2000">Data Description in Subspaces</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, printed p.673 / PDF p.2, Equations 4-6; curator examples in research/discovery/novelty-score-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF pp.2-3, Equation 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#coverage-and-calibration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With distinct reference coordinates and queries evaluated against the full reference set, each training point has ratio zero and is accepted at a nonnegative threshold. This does not guarantee acceptance of all future target observations, minimum-volume support estimation or a calibrated false-alarm rate. The 1998 calibration text says three standard deviations above the training-score mean, while its displayed Equation6 uses three times var. Its nonzero training-ratio histogram also requires a scoring convention beyond naive self-including resubstitution; the exact exclusion protocol is not established here. These settings are not silently substituted for the 2000 unit-threshold rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax2000">Data Description in Subspaces</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2 and 5, printed pp.673 and 675 / PDF pp.2 and 4; curator training-query qualification</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 and experimental protocol, PDF pp.3-4, Equation 6 and Figure 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evidence-and-noise-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The rule depends on individual reference locations, feature scaling and threshold choice, and is sensitive to noise and sparse internal regions. The 2000 study compares synthetic uniform, Gaussian, heavy-tailed and embedded low-variance settings, with target-coverage versus outlier-acceptance tradeoffs. Its pump example uses 96 training objects with 64 autoregressive features and compares reduced representations and other detectors. The 1998 digit study reports poor nearest-neighbor results in many settings and includes training observations in its normal test population. Neither source establishes universal small-sample or high-dimensional superiority; no numerical performance claim or minimum-volume theorem is inferred from their summaries.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax2000">Data Description in Subspaces</a></span>
+        <span>· <strong>Locator:</strong> Introduction and Sections 3-5, printed pp.672-675 / PDF pp.1-4, Figures 1-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Sections 3-4, PDF pp.4-8, Figures 1-3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Duplicate, tie, reference-exclusion and threshold conventions affect reproducibility; unspecified policies remain explicit instead of being invented.</li>
+      <li>The 1998 and 2000 papers share a score but differ in calibration and evaluation. Source shorthand concerning density, coverage and minimum volume is not treated as a universal guarantee.</li>
+      <li>All thirteen cited PDF pages were visually read. The 2000 document is a scan; extraction was insufficient and all equations and figures were checked from renders. Exact finite calculations were executed, without historical code, model training or benchmark reproduction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The accept-versus-reject output is related to AIO:BinaryClassification. This is a method-to-task association, not an is-a or exact-match assertion. Its Classification parent is under SupervisedLearning; the related mapping does not assert representative training data from the abnormal class. Inspected BinaryClassification, Classification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, Model, three KnearestNeighbor nodes, EnsembleLearning and UncertaintyBias with their annotations and outgoing edges. The pinned nearest-neighbor nodes specify label plurality or value averaging, not local distance-ratio rejection. EnsembleLearning emphasizes combined prediction, not the particular bootstrap-variance novelty signal, and UncertaintyBias denotes a sampling bias rather than a detector. Generic models and learning tasks do not identify these procedures. Bagging, DBSCAN, OPTICS, NCA, LMNN and both SVDD loss variants supply distinct contextual mechanisms and receive no renewed scientific approval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-tax2000">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tax2000</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://rduin.nl/papers/icpr_00_dd.pdf" target="_blank" rel="noopener">Data Description in Subspaces</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. J. Tax, Robert P. W. Duin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/ICPR.2000.906164</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:880da8ebd7fe…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-tax1998">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tax1998</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://rduin.nl/papers/stipr_98_outlier.pdf" target="_blank" rel="noopener">Outlier Detection using Classifier Instability</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. J. Tax, Robert P. W. Duin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/BFb0033283</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e6be8fdbbfc6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T07:57:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T07:57:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NearestNeighborRatioDataDescription.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NearestNeighborRatioDataDescription.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

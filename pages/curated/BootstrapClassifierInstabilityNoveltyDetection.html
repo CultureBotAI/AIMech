@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap classifier-instability novelty detection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Bootstrap classifier-instability novelty detection</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Bootstrap classifier-instability novelty detection</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BootstrapClassifierInstabilityNoveltyDetection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Outlier detection using classifier instability, Bootstrap output-variance novelty detection
+    </div>
+
+  <div class="detail-desc">
+    A novelty-detection procedure that trains classifiers on bootstrap resamples of reference data, estimates the variance of their outputs at a query, and rejects queries with unusually high variability relative to a chosen reference-score threshold.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the Tax-Duin1998 instability-based detector. Its novelty signal is variability of classifier outputs across bootstrap training sets, not the mean prediction used for ordinary bagging, nearest-neighbor spacing, a density estimate, vote entropy or a Bayesian posterior uncertainty. The published experiment uses labels among normal digit classes to train its base classifiers; target-versus-abnormal detection does not imply that the entire fitting procedure is label-free. The source&#39;s threshold notation is ambiguous, so the record preserves the procedure and that uncertainty rather than declaring an exact executable reference implementation. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 504 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts, expanded names, acronyms and source identifiers. All 12 matching lines per checkout, eight distinct texts at 24 locations, were inspected as queries, bibliographic notes and pending leads in the preceding discovery ledger. A fresh semantic AIO search returned 65 label/synonym/definition rows, all read; eleven annotated class nodes and outgoing edges and eighteen contextual YAMLs were read or reused after unchanged-byte checks. A wider native neighbor search inspected names and definitions only. Absence is bounded to this pin and inspected corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#bootstrap-output-variance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Draw bootstrap training sets of the original reference-set size, fit the chosen classifier to each, and compare their output values at the same query. The source defines rho(x)=E_b[out_b(x)^2]-(E_b[out_b(x)])^2, where the expectation is over bootstrap fits. Repeated fitted outputs estimate this variance; a large score indicates sensitivity to the sampled training set. It is not itself the probability that the query is novel. Base learner, output scaling, resampling and finite-ensemble variance-estimation conventions affect the result.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p.3, Equation 4 and bootstrap paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#published-multiclass-configuration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The digit experiment uses a linear classifier based on Fisher&#39;s criterion, with a normalized sigmoid of distance to its decision boundary as output. It fits one-versus-rest classifiers for nine retained digit classes, produces 25 bootstrap classifier sets and averages output variances over the nine class outputs to obtain one novelty score. The withheld tenth digit class supplies abnormal examples for evaluation. These counts and learner choices describe that experiment, not fixed requirements for every use of the variance-gating procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp.3-4, feature, class-split and classifier paragraphs</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#threshold-ambiguity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section2.2 motivates a threshold at the reference-score mean plus three standard deviations under a rough Gaussian-score assumption, but Equation6 writes mean plus three times var. These are different numerical rules unless var is being used for a different convention; the paper does not resolve that notation here. For reference scores {0,1/4}, the two thresholds are 1/2 and 11/64 respectively, so a query score of 1/4 receives different decisions. Doubling all classifier outputs multiplies variance scores by four; the literal mean-plus-three-variance threshold does not generally scale in the same way. The record does not select a hidden implementation convention or infer an exact false-alarm probability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.3, prose and Equation 6; curator exact score calculations in research/discovery/novelty-score-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#stable-outliers-and-evaluation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Outliers can receive low variance when all bootstrap classifiers extrapolate stably, and difficult normal observations can receive high variance. More bootstrap replicates can improve estimation of a fixed variability signal but do not guarantee that stable outliers acquire a detectable signal. The reported digit comparisons depend on representation and training-set size; the normal evaluation population includes training examples, and rotation-invariant features can make withheld digits indistinguishable from retained ones. The source itself reports stable-region failures and weaker results at larger sample sizes. This supports a bounded instability indicator, not a universal novelty detector or general performance advantage.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tax1998">Outlier Detection using Classifier Instability</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 and 4, PDF pp.5-8, Figures 2-3 and conclusion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source does not fully resolve its threshold notation, finite-sample variance divisor or all bootstrap implementation conventions. No precise historical implementation is certified.</li>
+      <li>A low score can reflect shared stable extrapolation rather than familiar input. Output variance, class probability, predictive accuracy and novelty are different quantities.</li>
+      <li>The training labels, base classifier and output transformation used in the reported experiment are retained explicitly. No new model was trained and no reported benchmark result was reproduced.</li>
+      <li>All nine primary manuscript pages were visually read. Plot captions and the text-defined corrected rejection metric are not silently equated; no numerical benchmark result is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The accept-versus-reject output is related to AIO:BinaryClassification. This is a method-to-task association, not an is-a or exact-match assertion. Its Classification parent is under SupervisedLearning; the related mapping does not assert representative training data from the abnormal class. Inspected BinaryClassification, Classification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, Model, three KnearestNeighbor nodes, EnsembleLearning and UncertaintyBias with their annotations and outgoing edges. The pinned nearest-neighbor nodes specify label plurality or value averaging, not local distance-ratio rejection. EnsembleLearning emphasizes combined prediction, not the particular bootstrap-variance novelty signal, and UncertaintyBias denotes a sampling bias rather than a detector. Generic models and learning tasks do not identify these procedures. Bagging, DBSCAN, OPTICS, NCA, LMNN and both SVDD loss variants supply distinct contextual mechanisms and receive no renewed scientific approval.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-tax1998">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tax1998</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://rduin.nl/papers/stipr_98_outlier.pdf" target="_blank" rel="noopener">Outlier Detection using Classifier Instability</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. J. Tax, Robert P. W. Duin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1007/BFb0033283</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e6be8fdbbfc6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T07:57:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T07:57:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BootstrapClassifierInstabilityNoveltyDetection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BootstrapClassifierInstabilityNoveltyDetection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
