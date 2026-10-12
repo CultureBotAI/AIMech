@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real-time A* · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Real-time A*</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Real-time A*</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RealTimeAStar</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RTA*, Real-time A-star
+    </div>
+
+  <div class="detail-desc">
+    A real-time heuristic search algorithm that moves to a neighbor with minimum edge-cost-plus-heuristic estimate and stores the second-best such estimate at the state it leaves, using bounded lookahead or initial heuristics for previously unvisited states.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The record identifies the basic RTA* control algorithm with a second-best backup, not ordinary A* frontier search, IDA* repeated cost-bounded passes, LRTA* minimum-value learning, or the additional graph-correction procedure sketched in the 1988 paper. Distances used to choose the next move are relative to the current state rather than the original start. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a table for states actually visited. At the current non-goal state, enumerate neighboring states and evaluate edge cost plus the stored heuristic of a visited neighbor or a heuristic estimate, optionally produced by bounded minimin lookahead, for a new neighbor. Move to a neighbor with minimum resulting score, resolving ties among minima, and store the second-best score at the old state. With tied best alternatives, the second-best score may equal the best. The table persists during the search and allows revisits and backtracking. Only roots actually visited need enter this table; lookahead descendants need not all be retained. The 1990 paper proves eventual goal finding for a finite problem space with positive edge costs, finite heuristic values and a goal reachable from every state. Its local-optimality theorem concerns decisions relative to the cumulative searched frontier on a tree, not globally shortest returned paths.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Real-Time Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section5, PDF11–15 / printed199–203; core procedure, Figure3, Theorem1 and Theorem2; Section7 opening, PDF18–19 / printed206–207</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-earlier-conference-paper">Real-Time Heuristic Search: New Results</a></span>
+        <span>· <strong>Locator:</strong> Section3.2 RTA* on a Graph and Section3.3 completeness, PDF4 / printed142; Section4 opening and continuation PDF4–5 / printed142–143</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A finite reachable goal from the initial state alone is insufficient if an irreversible move can enter a region with no route to any goal. Infinite spaces, zero/negative cost cycles and infinite heuristic barriers are outside the stated completeness theorem.</li>
+      <li>The 1990 tree local-optimality theorem does not extend unchanged to graphs with cycles. The 1988 paper separately sketches a recursive correction of stored values and omits its proof for space; the 1990 article says significant modifications would be required. That variant is not silently included in basic RTA*.</li>
+      <li>Real-time work depends on a fixed lookahead/resource policy and manageable branching and heuristic evaluation. The method is not a uniform constant-time implementation for arbitrary successor sets or lookahead depths, and the visited-state table can grow with execution.</li>
+      <li>The second-best rule assumes alternatives from which that value can be obtained. The inspected method description does not state a general single-successor fallback; an executable implementation must declare this boundary rather than invent an undocumented convention here.</li>
+      <li>Second-best backups can overestimate remaining goal distance when reused across trials. The source motivates LRTA* as a separate multi-trial learning modification. No puzzle benchmark or complete graph-correction proof was audited.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable AIO counterpart was established for this basic state-space search procedure in the inspected snapshot and neighborhood. Shared graph, reasoning or heuristic words do not justify a model/task mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms and 313 preceding maintained IDs/names/aliases; ignored/hidden text in both full checkouts; semantic label search for search, planning, heuristic, path, traversal, symbolic, reasoning, graph, reinforcement and learning-task terminology; seven exact AIO CLASS nodes and four complete native neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Operating on a state-space graph does not make this procedure a language model over graph representations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a language model with reasoning during language tasks, not a general path or constraint search algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuroSymbolicLLM.html"><code>AIO:NeuroSymbolicLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure does not require neural language modeling or a neuro-symbolic language-model architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This basic single-search procedure adjusts search bookkeeping; it does not require learning a reusable predictor from multiple problem-solving trials. The separately curated LRTA* extension explicitly does that.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm uses and updates a cost function; it is not identical to the mathematical function itself.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Search, revisitation and adaptive costs alone do not identify the basic procedure with a learning task balancing exploration and exploitation. Multi-trial heuristic learning is separately represented.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm does not require preprocessing or training a machine-learning model.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf" target="_blank" rel="noopener">Real-Time Heuristic Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1016/0004-3702(90)90054-4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8cf1b89fb487…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-earlier-conference-paper">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">earlier-conference-paper</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf" target="_blank" rel="noopener">Real-Time Heuristic Search: New Results</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab17a837c83e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T15:04:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T15:04:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RealTimeAStar.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RealTimeAStar.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

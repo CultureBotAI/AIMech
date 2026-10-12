@@ -1,0 +1,60 @@
+<div class="table-wrap">
+  <table id="conceptTable">
+    <thead>
+      <tr>
+        <th style="min-width: 280px;">Concept</th>
+        <th style="width: 100px;">Origin</th>
+        <th style="width: 160px;">Kind / Branch</th>
+        <th style="width: 170px;">Identifier</th>
+        <th style="width: 120px;">Evidence / Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in records %}
+      <tr data-origin="{{ r.origin }}"
+          data-kind="{{ r.kind_id }}"
+          data-branch="{{ r.branches_str }}"
+          data-search="{{ r.search_text }}">
+        <td>
+          <a href="{{ root }}{{ r.page }}" style="font-weight: 600; font-size: 1rem;">{{ r.name }}</a>
+          {% if r.aliases %}
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> {{ r.aliases[:2] | join(', ') }}{% if r.aliases | length > 2 %}…{% endif %}
+            </div>
+          {% endif %}
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            {{ r.definition_preview }}
+          </div>
+        </td>
+        <td>
+          {% if r.origin == 'curated' %}
+            <span class="badge badge-curated">Curated</span>
+          {% else %}
+            <span class="badge badge-aio">AIO</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if r.origin == 'curated' %}
+            <a href="{{ root }}kinds/{{ r.kind_id }}.html" style="font-size: 0.85rem;">{{ r.kind_label }}</a>
+          {% else %}
+            {% for b in r.branches %}
+              <a href="{{ root }}branches/{{ b }}.html" style="font-size: 0.85rem;">{{ b }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          {% endif %}
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">{{ r.id }}</code>
+        </td>
+        <td>
+          {% if r.origin == 'curated' %}
+            <span class="badge badge-mechanism" title="{{ r.claims_count }} claims curated">{{ r.claims_count }} claim{% if r.claims_count != 1 %}s{% endif %}</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">{{ r.sources_count }} source{% if r.sources_count != 1 %}s{% endif %}</div>
+          {% else %}
+            <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

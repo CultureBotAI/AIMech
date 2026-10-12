@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FixMatch · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FixMatch</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FixMatch</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FixMatch</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A semi-supervised classifier-training procedure that fits labeled examples and trains on strongly augmented unlabeled inputs using hard pseudo-labels retained only when the corresponding weakly augmented prediction reaches a confidence threshold.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      FixMatch’s defining combination is weak-to-strong consistency with confidence-masked hard pseudo-labels. It differs from MixMatch’s soft guessed targets and interpolation, ReMixMatch’s distribution alignment and anchored soft targets, and an EMA-target Mean Teacher. AIO SemiSupervisedLLM is a narrower, differently structured LLM model class, not this classifier-training algorithm. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 234 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 21 lines in each from prior discovery and the related MixMatch record. Twelve exact AIO CLASS nodes, their scoped synonyms and outgoing edges, plus six neighboring native mechanisms were inspected. This absence assessment is bounded to the pinned snapshot and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Use B labeled examples and an unlabeled-input batch of size mu*B. Compute average cross-entropy on weakly augmented labeled inputs. For each unlabeled input u_b, compute q_b from the current model on its weak augmentation and make a one-hot pseudo-label at argmax(q_b). With these target predictions detached from gradients, use mask 1[max(q_b)≥tau] and cross-entropy against the model prediction on a strong augmentation of the same input. Sum masked losses and divide by the full mu*B, not by the number retained. Add this loss with fixed weight lambda_u to the labeled loss; the stated core algorithm does not require a separate weight ramp. The paper’s input pool can include labeled examples with their labels ignored in this branch. The source uses weak flip/shift augmentation and strong RandAugment or CTAugment plus Cutout; these generators and hyperparameters instantiate the procedure. EMA parameters are used for reported evaluation, while weak-view pseudo-labels come from the current model. The core does not require MixUp or distribution alignment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–2.5, especially Equations (3)–(4) and footnote 2, PDF/printed pp. 2–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation">FixMatch author implementation — fixed pseudo-label targets and masked loss</a></span>
+        <span>· <strong>Locator:</strong> fixmatch.py lines 85–138: student logits, detached weak probabilities, &gt;= threshold, mean masked loss and evaluation EMA</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#threshold-convention</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Main-paper Equation4 and the inspected author code use max(q)≥tau, whereas supplementary Algorithm1 writes max(q)&gt;tau. Equality can change whether an example contributes. The inclusive convention is used here; the supplement’s strict inequality is not silently treated as identical.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</a></span>
+        <span>· <strong>Locator:</strong> Equation (4), main PDF/printed p. 3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-implementation">FixMatch author implementation — fixed pseudo-label targets and masked loss</a></span>
+        <span>· <strong>Locator:</strong> fixmatch.py lines 112–118</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-supplement">FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix A Algorithm1, supplementary PDF p. 1 / printed p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>High confidence need not mean correctness; the threshold trades target coverage against potential confirmation errors rather than proving label quality.</li>
+      <li>The denominator includes masked-out inputs, so changing the retained fraction changes the effective contribution at fixed lambda_u.</li>
+      <li>Class-preserving augmentations and labeled/unlabeled distribution assumptions affect applicability. Strong-augmentation extensions and distribution alignment are separate variants.</li>
+      <li>Published source notation differs at the threshold boundary; the record follows the inclusive main-paper and pinned-code convention. No performance score is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Classification.html" style="font-weight: 600;"><code>AIO:Classification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns class predictions from labeled and unlabeled examples. The pinned target is a classification task under SupervisedLearning; the association is not an equivalence or an is-a assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This training algorithm realizes learning from data; the AIO target is a general learning task at a different abstraction level, so the relation is associative.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper/2020/file/06964dce9addb1c5cb5d6e3d9838f733-Paper.pdf" target="_blank" rel="noopener">FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kihyuk Sohn, David Berthelot, Chun-Liang Li, Zizhao Zhang, Nicholas Carlini, Ekin D. Cubuk, Alex Kurakin, Han Zhang, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c405d1d8a3e8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-implementation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">implementation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/google-research/fixmatch/blob/d4985a158065947dba803e626ee9a6721709c570/fixmatch.py" target="_blank" rel="noopener">FixMatch author implementation — fixed pseudo-label targets and masked loss</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Google Research
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46fb0f881c17…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2020/file/06964dce9addb1c5cb5d6e3d9838f733-Supplemental.pdf" target="_blank" rel="noopener">FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence — supplementary material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kihyuk Sohn, David Berthelot, Chun-Liang Li, Zizhao Zhang, Nicholas Carlini, Ekin D. Cubuk, Alex Kurakin, Han Zhang, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0483c3a036f6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T10:22:43Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T10:22:43Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FixMatch.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FixMatch.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

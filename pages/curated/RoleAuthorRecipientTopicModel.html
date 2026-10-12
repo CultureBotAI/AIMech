@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Role-author-recipient-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Role-author-recipient-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Role-author-recipient-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:RoleAuthorRecipientTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RART
+    </div>
+
+  <div class="detail-desc">
+    A family of message-content models in which actors have latent-role distributions and ordered sender-role/recipient-role pairs determine topic mixtures, with token-level or message-level role assignments.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the RART family introduced by McCallum and colleagues, with the 2007 preprint specifying RART1 in detail and sketching RART2 and RART3. RART1 draws both roles per token; RART2 fixes a sender role and individual recipient roles per message; RART3 uses one common recipient role per message. The latter sketches are not asserted to provide complete independent inference algorithms. Explicit actor roles distinguish this family from ART pair-specific topic vectors and author-topic models. RART is a source acronym within this scope. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 429 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; 23 matching lines per checkout came from four unique file contents containing prior frontier leads and contextual distinctions. All matching excerpts were inspected. The semantic search returned 205 label/synonym hits, with 204 unchanged from prior reading and one newly read. Eighteen annotated AIO CLASS nodes and outgoing edges were byte-verified against prior inspected versions. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two final round102 records verified against their fully read scientific-review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#token-role-topic-generation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In RART1, each actor has a Dirichlet-distributed role vector psi, each ordered sender-role/recipient-role pair has a Dirichlet topic vector theta, and each topic has a Dirichlet word vector phi. Given observed sender a and a nonempty recipient set R, a token chooses r uniformly from R, sender role g from psi_a, recipient role h from psi_r, topic z from theta_gh, then word w from phi_z. An actor uses the same role vector for sending and receiving, while theta distinguishes the order of the roles. The model conditions on participants and message lengths rather than generating network edges. Shared random vectors must be integrated jointly across their uses; two roles drawn for the same actor need not be independent after psi is integrated out.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topic and Role Discovery in Social Networks with Experiments on Enron and Academic Email</a></span>
+        <span>· <strong>Locator:</strong> Section 5, preprint pp.18-19, RART1 generative description and joint distribution</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#staged-conditional-fitting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported RART1 experiment first fits ART, fixes topic and recipient assignments from one sample, and then infers the role structure conditionally on those assignments. This staged procedure does not sample the full joint RART posterior or propagate all uncertainty in the frozen assignments. The source states that general Gibbs updates can be derived, but its Appendix A derives ART updates, not a complete RART sampler. Conditional on fixed parameters, token role choices can vary within a message; RART2 and RART3 impose different message-level sharing and cannot be substituted without changing the model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Topic and Role Discovery in Social Networks with Experiments on Enron and Academic Email</a></span>
+        <span>· <strong>Locator:</strong> Section 5, preprint pp.18-19; Section 6, pp.19-20; Appendix A, pp.21-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Only RART1 has a detailed generative specification in this source. The RART2/3 diagrams and prose leave further implementation and inference choices for exploration; family coverage does not certify fully specified variants.</li>
+      <li>The demonstrated 15-role, 50-topic fit is illustrated by selected email users and manually named roles in Tables 6-7. Some apparently unrelated assignments remain unexplained, and entity-resolution errors are present. These examples do not establish verified occupations, expertise, causal influence or universal predictive superiority. Earlier ART perplexity results are not RART benchmark results.</li>
+      <li>Fixed role/topic counts, bag-of-words observations, uniform recipient selection and corpus-specific participation affect identifiability and interpretation. Latent role labels are exchangeable; semantic names are human interpretations. A single ART sample judged plausible does not establish adequate uncertainty propagation or convergence.</li>
+      <li>Finite synthetic collapsed-probability checks cover the specified RART1 factorization, including a shared actor in sender and recipient positions. They are not a reproduction of historical software, email preprocessing or the reported benchmark.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-defined generative model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is classified as a task, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/art-jair07.pdf" target="_blank" rel="noopener">Topic and Role Discovery in Social Networks with Experiments on Enron and Academic Email</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew McCallum, Xuerui Wang, Andrés Corrada-Emmanuel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1613/jair.2229</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:40e7acc75fca…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:12:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:12:37Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RoleAuthorRecipientTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RoleAuthorRecipientTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

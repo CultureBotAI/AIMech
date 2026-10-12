@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AntNet · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AntNet</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AntNet</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AntNet</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A distributed adaptive routing algorithm in which forward agents sample network paths and backward agents use the measured trip times to update local traffic models and probabilistic routing tables.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the 1998 datagram-network AntNet formulation. Forward ants experience ordinary data queues and backward ants return with priority; the proposed later scheme using fast forward ants and estimated virtual delays is a separate extension. It is an instantiated routing method within the ant-colony approach, not all ACO algorithms, a static TSP optimizer, Q-routing, or a generic multi-agent system. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 295 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 57 and 57 lines respectively. Text hits were prior candidate leads and neighboring-method mentions in maintained records, saved reviews and discovery reports; they did not identify an existing record for these candidates. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each node maintain destination-specific next-hop probabilities summing to one and local statistics of experienced trip times, including mean, variance and a recent best time. Periodically launch forward ants with destinations biased by local data traffic. They share data queues, record visited nodes and elapsed times, and choose among unvisited neighbors whenever any are available, falling back to all neighbors only when all have already been visited. Within that eligible set, choices use routing probabilities plus an instantaneous queue-length heuristic. On revisiting a node, remove the cycle from memory; discard an ant if the cycle consumed more than half its current age. At the destination, create a backward ant carrying the recorded path; it returns along that path through higher-priority queues. At each visited node, use forward-trip elapsed times to update the destination’s local statistics and reinforce the neighbor leading forward toward that destination. Statistically good subpaths can also update their corresponding destinations. For a chosen forward neighbor f and reinforcement r in (0,1], set P_f_new=P_f+r*(1−P_f) and each other P_n_new=(1−r)*P_n. The inspected scoring scheme combines a recent-best-time ratio with a dispersion-based correction and a normalized nonlinear squash; it rewards a path relative to local traffic conditions. Data packets sample from a power-reweighted routing table, whereas forward ants also use queue heuristics. Updates are concurrent and local; measured forward times, not recursively bootstrapped estimates from downstream nodes, supply the feedback.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">AntNet: Distributed Stigmergetic Control for Communications Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1–4.2, PDF pp.9–18 / journal pp.325–334, Equations 1–9 and Figures 2–3; model limits, PDF p.7; Sections 8–10, PDF pp.35–42</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Backward traversal requires bidirectional links; forward and reverse costs need not be equal. The simulation omits full transport-layer error, flow and congestion control, so its comparisons are not deployment guarantees or universal superiority claims.</li>
+      <li>The full-neighbor queue formula uses l_n=1−q_n/sum(q) and weights P_n+alpha*l_n. Zero queue sums and sampling from the restricted unvisited set require a declared normalization/fallback convention. The record does not silently treat the full-neighbor denominator as normalized after exclusions. Zero local traffic also needs a destination-selection convention.</li>
+      <li>Every selected completed route receives positive reinforcement in the baseline, including poorly scored routes; alternatives decrease by normalization. This is not a negative reward on the selected bad route. At r=1 other probabilities become zero, so the algebra alone supplies no permanent full-support guarantee. Positive probabilities remain positive under a finite power reweighting in exact arithmetic; that transformation suppresses rather than categorically forbids rare data routes.</li>
+      <li>The score’s interval is a deliberately rough asymmetric estimate built from adaptive statistics, not a calibrated confidence guarantee. Score parameters, window reset, zero dispersion, denominators, queue behavior and finite precision require declared conventions. Returned information can already be stale under changing traffic.</li>
+      <li>The explicit method and Figure 3 allow good-subpath updates; Section 8.3’s one-destination summary is a simplification. Relations to actor–critic, Monte Carlo and temporal-difference learning are qualified analogies in the paper; the method does not inherit tabular Q-learning convergence or require TD bootstrapping. No author simulator or empirical benchmark was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source explicitly analyzes AntNet as adaptive stochastic routing with reinforcement-based policy updates and discusses its connection to reinforcement learning. The AIO target is a learning task; this related match does not equate AntNet to that task, to Q-learning, or to a stationary Markov controller.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1105.5449" target="_blank" rel="noopener">AntNet: Distributed Stigmergetic Control for Communications Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Gianni Di Caro, Marco Dorigo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1613/jair.530</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bee45446fa42…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:47:28Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:50:11Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AntNet.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AntNet.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

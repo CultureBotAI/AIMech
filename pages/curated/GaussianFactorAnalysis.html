@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaussian Factor Analysis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Gaussian Factor Analysis</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gaussian Factor Analysis</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:GaussianFactorAnalysis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Linear Gaussian Factor Analysis
+    </div>
+
+  <div class="detail-desc">
+    A linear Gaussian latent-variable model in which observed variables share a lower-dimensional Gaussian factor and have conditionally independent residuals with variable-specific nonnegative variances.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the normal linear factor model with diagonal uniqueness covariance. It does not encompass arbitrary non-Gaussian, nonlinear, nonnegative or count-data factor models. PPCA adds an isotropic uniqueness restriction; EM and ECME are fitting procedures for the factor model, not model synonyms. Confirmatory zero-loading constraints and exploratory rotations require explicit identifiability assessments. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#latent-covariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In column-vector notation, let y=mu+Wz+epsilon, z~Normal(0,R) with positive-definite R, and independent epsilon~Normal(0,Psi), where Psi is diagonal and nonnegative. Then y has covariance C=WRW^T+Psi. The residual coordinates are conditionally independent given z; observed coordinates are generally dependent. R is often fixed to identity. Unlike isotropic-noise PPCA, the uniqueness variances can differ by observed variable, and the loading span need not be the leading covariance eigenspace.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data</a></span>
+        <span>· <strong>Locator:</strong> Section 2, pp. 731-732 / PDF pp. 3-4; Section 4 joint Gaussian distribution, p. 735 / PDF p. 7; curator two-dimensional covariance comparison</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conditional-latent-moments</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonsingular C, the conditional factor mean is R W^T C^(-1)(y-mu), and its covariance is R-RW^T C^(-1)WR. Complete-data EM uses these first moments and second moments, including the posterior covariance. It updates allowed loading coefficients through expected Gaussian regression sufficient statistics and uniqueness variances through expected residual squares. Replacing missing factors by their means while discarding posterior uncertainty is not this EM procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data</a></span>
+        <span>· <strong>Locator:</strong> Section 3, E-step and M-step, pp. 732-733 / PDF pp. 4-5; Section 4, p. 735 / PDF p. 7; column-vector translation and curator moment/EM calculations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#identifiability-and-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With R fixed to identity and unrestricted loadings, an orthogonal rotation of the latent coordinates changes W without changing WW^T. Further loading/uniqueness nonidentifiability can remain in underspecified models, including constrained examples. A zero uniqueness variance is a parameter boundary; it does not alone imply singular marginal covariance, because latent contributions can supply that direction. Positive-definite observed covariance and the specified parameter constraints must be checked separately.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data</a></span>
+        <span>· <strong>Locator:</strong> Section 2 identifiability discussion, p. 732 / PDF p. 4; Section 5.2, pp. 742-745 / PDF pp. 14-17; curator rotation and zero-uniqueness covariance examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fitting-and-missingness</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    EM can progress so slowly that an apparent plateau is not convergence. The paper’s ECME alternative updates loadings using expected complete-data likelihood, then updates uniqueness variances using actual observed likelihood; its Newton steps must be checked for an increase. Missing observed coordinates can be integrated using Gaussian conditional first and second moments and observed covariance submatrices. The demonstrated incomplete-data likelihood assumes an ignorable missingness mechanism. Neither EM nor the examples establish global optimality, universal speed improvement or applicability to arbitrary missingness.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data</a></span>
+        <span>· <strong>Locator:</strong> Sections 3-4, pp. 733-737 / PDF pp. 5-9; Sections 5.1-5.2 and practical conclusion, pp. 738-745 / PDF pp. 10-17, especially the missingness assumption on p. 740</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Latent dimension, covariance constraints and loading restrictions are part of model specification. Gaussianity and conditional residual independence can be misspecified; fitted factors are not automatically causal, unique or biologically meaningful.</li>
+      <li>Nonnegative uniqueness and positive-definite marginal covariance are different conditions. Log-variance parameterization remains strictly positive at finite coordinates; exact zero is a boundary limit.</li>
+      <li>This record uses the fully inspected Liu-Rubin 1998 primary follow-up. The Rubin-Thayer 1982 full-text request returned HTTP 401; it was not bypassed or treated as read. The 1983 critique remains abstract-level context, not a fully reviewed proof about all stationary points.</li>
+      <li>All 19 source pages were read. Finite calculations check Gaussian conditioning, inclusion of posterior variance, one EM improvement, rescaling and zero-uniqueness boundaries. Source tables have inconsistent example labels and an apparent observation-count discrepancy; those labels/counts are not asserted here. Historical fits and software were not reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The specified Gaussian latent-factor distribution is a mathematical model. The pinned task-scoped PCA, regression and random/fixed-effects terms do not identify its diagonal-uniqueness latent construction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf" target="_blank" rel="noopener">Maximum Likelihood Estimation of Factor Analysis Using the ECME Algorithm with Complete and Incomplete Data</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chuanhai Liu, Donald B. Rubin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www3.stat.sinica.edu.tw/statistica/oldpdf/A8n36.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d03448be6ec…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:46:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:47:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GaussianFactorAnalysis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GaussianFactorAnalysis.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

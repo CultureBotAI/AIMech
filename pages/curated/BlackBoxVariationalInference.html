@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Black box variational inference · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Black box variational inference</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Black box variational inference</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BlackBoxVariationalInference</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BBVI
+    </div>
+
+  <div class="detail-desc">
+    A variational-inference procedure that estimates evidence-lower-bound gradients from samples of a tractable variational distribution using its score function and model log joint, with mean-field local signals and score control variates to manage estimator variance.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers Ranganath, Gerrish and Blei’s original BBVI Algorithms 1–2 and their score-function estimator, mean-field local signals and control variates. It is not every black-box inference method, a pathwise reparameterization estimator, a model architecture or an amortized recognition network such as NVIL. The hierarchical data-subsampling extension is outside the validated mechanism scope here. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 337 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 22 and 22 lines respectively. All 15 unique matched line contents were inspected in full: the preceding gradient-estimator records, their cited Bengio source, saved source-reading scopes, reviews and open discovery leads, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Thirteen exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed observed x and joint model p(x,z), choose a variational family q(z;lambda), sample z from q, and maximize L(lambda)=E_q[log p(x,z)-log q(z;lambda)] by stochastic ascent. Under the normalized-score and differentiation-under-expectation conditions, the raw gradient is E_q[grad_lambda log q(z;lambda)*(log p(x,z)-log q(z;lambda))], estimated by a Monte Carlo average. The mean-field version factors q into q_i(z_i;lambda_i) and uses for each factor the model log terms that depend on z_i together with -log q_i; unrelated terms cancel in expectation under the stated factorization. For parameter coordinate d in factor i, let h_d be the score and f_d be that score times the local log signal. A fixed control-variate coefficient gives f_d-a_d*h_d because E[h_d]=0; the population variance-minimizing coefficient is Cov(f_d,h_d)/Var(h_d) when these quantities exist and Var(h_d)&gt;0. The source estimates coefficients from samples and averages corrected contributions before a stochastic-ascent update. Its fixed-coefficient expectation identity does not by itself justify arbitrary reuse of samples to estimate both the coefficient and corrected gradient.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Black Box Variational Inference</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, Equations (1)–(9), Algorithms 1–2, PDF pp.2–5 / proceedings pp.815–818; Section 5 sample-count context, PDF p.6 / p.819</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bbvi-supplement">Black Box Variational Inference (Extra Materials)</a></span>
+        <span>· <strong>Locator:</strong> Appendix: The Gradient of the ELBO, Equations (A.1)–(A.3), and Supplement: Derivation of the Rao-Blackwellized Gradient, Equations (S.4)–(S.6), PDF pp.1–2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Black box still requires sampling from and evaluating the variational distribution, score derivatives with respect to its parameters, and evaluation of the model log joint at sampled latent states. The method does not require differentiation through a discrete latent sample, but support and integrability conditions remain necessary.</li>
+      <li>Raw unbiasedness requires the regularity assumptions behind differentiation under the expectation and zero expected score. A model normalization constant independent of lambda cancels from this gradient; a parameter-dependent term cannot be discarded on that basis.</li>
+      <li>A coefficient fixed independently of the gradient samples preserves expectation when the relevant moments exist. A coefficient estimated from those same samples can correlate with the sample score and introduce bias. The paper reports separate sample counts for coefficient estimation and gradient calculation, but the inspected description does not establish an exact sampling-independence convention; no implementation behavior is asserted.</li>
+      <li>Population-optimal control-variate scaling and conditional-expectation variance reduction do not guarantee that estimated coefficients or every additional removal of zero-mean terms reduces finite-sample variance. Zero or poorly estimated score variance requires handling beyond division by the displayed ratio.</li>
+      <li>The practical step schedule and change-in-parameters stopping rule do not establish global optimality or exact posterior recovery. Mean-field factorization can limit the approximation. The printed hierarchical subsampling formulas need a separate weighting audit and are not curated as a verified extension here.</li>
+      <li>No benchmark result, author-code run, general convergence proof or posterior-quality certification is included.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The original method’s factor-local signals explicitly use a probabilistic model’s conditional-dependence structure and Markov blankets. The pinned target denotes the graphical-model task, while BBVI is an inference/optimization procedure; this is a method-to-modeling-context related match, not equivalence or an is-a claim. The estimator is not restricted to a Bayesian-network architecture.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v33/ranganath14.pdf" target="_blank" rel="noopener">Black Box Variational Inference</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rajesh Ranganath, Sean Gerrish, David M. Blei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v33-ranganath14</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8f481e202eb6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-bbvi-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bbvi-supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v33/ranganath14-supp.pdf" target="_blank" rel="noopener">Black Box Variational Inference (Extra Materials)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Rajesh Ranganath, Sean Gerrish, David M. Blei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v33-ranganath14-supp</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f61d07ae80b6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T17:00:15Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T17:00:15Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BlackBoxVariationalInference.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BlackBoxVariationalInference.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

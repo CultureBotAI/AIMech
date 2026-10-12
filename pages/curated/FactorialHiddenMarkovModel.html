@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorial hidden Markov model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Factorial hidden Markov model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Factorial hidden Markov model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:FactorialHiddenMarkovModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FHMM, Factorial HMM
+    </div>
+
+  <div class="detail-desc">
+    A directed latent sequence-model family in which several independently evolving hidden Markov chains jointly determine the observation distribution at each time.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers the independent-chain factorial HMM developed by Ghahramani and Jordan, with a shared observation distribution. It is not a mixture selecting one HMM, a globally normalized product of complete HMM likelihoods, an input-conditioned HMM, or the variational algorithm used to fit the model. Each combination of chain states is one joint state; factorial refers to its distributed component representation. The later coupled-chain and input-conditioned extensions in Section 5 are outside this narrow definition. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 376 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 5 and 5 lines. All 4 unique matched contents were fully read: preceding boundary discussions, citations, reviews and pending leads, not existing records of these three identities. All 64 semantic label/synonym hits, 17 exact fully annotated AIO nodes with outgoing edges, their generated records and four native neighbors were inspected or verified unchanged after prior full reading. Absence is bounded to this pin and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With independent initial states and chain-specific transitions, the joint distribution factors into the product of chain priors, the product over times and chains of p(s_t^m|s_(t-1)^m), and one shared p(y_t|s_t^1,...,s_t^M) per time. The paper’s worked emission is Gaussian with mean sum_m W_m s_t^m for one-hot states and common covariance C. Although chains are independent a priori, observations generally couple their posterior paths through the shared emission. For M chains each having K states, the joint latent state has K^M configurations. Exact forward–backward can exploit the transition factorization by contracting one chain dimension at a time, with O(T M K^(M+1)) transition work under the paper’s fixed-observation-dimension setting; this remains exponential in M. EM uses posterior state, temporal-pair and cross-chain moments. In the additive Gaussian model its weight update is a linear-system solution with a pseudoinverse because chain contributions have redundant mean offsets. Exact inference, Gibbs sampling and variational approximations are separate procedures, not defining alternatives for model identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Factorial Hidden Markov Models</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3.2, Equations (1)–(6), printed pp.246–250 / PDF pp.2–6; Section 3.3–3.6, pp.251–256 / PDF pp.7–12; Appendices A–B, pp.265–268 / PDF pp.21–24; Note 3, p.271 / PDF p.27</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Independent latent dynamics do not imply posterior independence after shared observations. Special emission structures may decouple chains; for the Gaussian case a sufficient condition is cross-chain orthogonality in the C^-1 metric. Note 3’s ordinary orthogonality with a merely diagonal covariance is not sufficient in general.</li>
+      <li>The Gaussian additive mean is a worked parameterization, not the only possible factorial-HMM emission. Its closed-form parameter updates do not automatically transfer to nonlinear or discrete emissions.</li>
+      <li>Factorized transitions reduce exact computation relative to a naive unconstrained joint-state HMM but do not remove exponential state growth. A compact parameterization is not a universal scalability or accuracy guarantee.</li>
+      <li>Approximate E-steps may improve a variational bound without monotonically improving the true likelihood. Additive offsets are not individually identifiable without conventions; the paper uses a pseudoinverse.</li>
+      <li>Section 5’s coupled-transition and input-conditioned extension displays contain indexing/factorization ambiguities. They are not adopted as the defining joint distribution here. No experimental performance, author implementation or general convergence guarantee is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For a finite sequence, the independent-chain model with shared observation children is a directed acyclic probabilistic network. The pinned BayesianNetwork definition has that broader scope and is parented under Network; the local factorial temporal structure is more specific. This is a local mapping, not an upstream axiom.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model contains multiple latent Markov chains; shared emissions and marginalization do not make its observations a first-order Markov chain. This is a component association.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://mlg.eng.cam.ac.uk/pub/pdf/GhaJor97a.pdf" target="_blank" rel="noopener">Factorial Hidden Markov Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zoubin Ghahramani, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1023/A:1007425814087</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab3b4f8f4c8d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:44:52Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:44:52Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FactorialHiddenMarkovModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FactorialHiddenMarkovModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

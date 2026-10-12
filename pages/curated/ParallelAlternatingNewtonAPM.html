@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallel alternating Newton-like algorithm for APM · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Parallel alternating Newton-like algorithm for APM</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Parallel alternating Newton-like algorithm for APM</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ParallelAlternatingNewtonAPM</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A block-alternating Newton-like method for fitting an admixture of Poisson Markov random fields through a sparsity-penalized nodewise Poisson regression surrogate, alternating topic coefficients with document-specific simplex weights and parallelizing independent subproblems.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the fitting procedure named in Section 3 of Inouye et al. 2014, distinct from the APM probability-model construction, generic pseudolikelihood estimation and posterior EM. Its defining split yields word-specific coefficient problems and document-specific simplex problems. The inspected released solver represents independent directed nodewise coefficients; model validity requires separate compatibility and normalization restrictions. It is not generic Newton optimization, QUIC itself or a particular trained topic model. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 421 preceding native IDs, names and aliases. Full-checkout fixed-string searches in worktree and main included ignored and hidden files. Ten matched lines in each checkout concern prior discovery references, raw search/abstract captures and downloaded-source metadata; these were classified by their file/field context and matched excerpts, not treated as ontology identities. All 192 semantic label/synonym hits were read. Nineteen exact annotated CLASS nodes and outgoing edges were inspected, with 13 verified equal to prior reading and six newly read. Thirty-four contextual YAMLs comprise 19 AIO and 15 native records; eight were fully read here, three final round99 records were hash-verified after full reading, and 23 were byte-verified after earlier full reading. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#alternating-surrogate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonnegative count vectors x_i, K topics and simplex weights w_ij, define eta_is=sum_j w_ij*(a_js+sum_{t!=s} b_jts*x_it). Minimize F=(1/n)*sum_is[exp(eta_is)-x_is*eta_is]+lambda*sum_j,s,t!=s abs(b_jts), with unpenalized intercepts a_js and nonnegative lambda. Constants independent of fitted parameters are omitted. Fixing document weights gives separate convex penalized problems for each response word; fixing topic coefficients gives separate convex simplex problems for each document. Alternate the two blocks. The coefficient solver uses active/free coordinates, quadratic approximations, approximate coordinate-descent Newton directions and backtracking. The weight solver uses a quadratic approximation with pairwise coordinate transfers respecting the simplex. The paper traces decreasing regularization from an independent-component fit. These are point estimates under a surrogate, not posterior-responsibility E-steps, exact joint likelihood optimization or a globally convex joint problem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF/printed pp.3-4, Equations (1)-(3), symmetry footnote and Newton-like subproblem description; Section 3.2, pp.4-5, timing context</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-supplement">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Appendices A-D, printed pp.10-12 / supplemental PDF pp.1-3, parameter conventions, symmetry post-processing and Algorithms 1-2</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-code">APM MATLAB implementation, version 0.9.1</a></span>
+        <span>· <strong>Locator:</strong> apm.m initVars/configureAPM and alternating loop; pmrfs.m pmrfsingle, evalobj, computegamvec and gradient; admixweights.m admixsingle; utils/APMNums.m, randdirichlet.m and setmatrixtype.m; exact v0.9.1 commit and per-file hashes in ledger</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#implementation-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected v0.9.1 source uses raw counts and exponentiated linear predictors, fits asymmetric zero-diagonal nodewise coefficients, and returns those directed coefficient arrays. It does not impose the sufficient-statistic modifications, sign restrictions or joint-compatibility constraints needed to establish a proper positive-interaction Poisson MRF. The code normalizes initial document weights and retains unpenalized intercepts and 1/n component curvature scaling, clarifying omissions in the printed pseudocode. It also caps computed rates at 1e300; that numerical safeguard is not a normalized-model construction. Static inspection establishes these code paths, not the behavior of every historical experiment or unseen implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-code">APM MATLAB implementation, version 0.9.1</a></span>
+        <span>· <strong>Locator:</strong> apm.m initVars/configureAPM and alternating loop; pmrfs.m pmrfsingle, evalobj, computegamvec and gradient; admixweights.m admixsingle; utils/APMNums.m, randdirichlet.m and setmatrixtype.m; exact v0.9.1 commit and per-file hashes in ledger</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs</a></span>
+        <span>· <strong>Locator:</strong> Section 2, p.3, modified-PMRF qualification and Section 3 symmetry footnote</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-supplement">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Appendix C, printed p.11 / PDF p.2, asymmetric estimates and OR/AND post-processing</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Convexity of each fixed block does not imply joint convexity, uniqueness, global optimality or convergence for every approximate implementation. Degenerate curvature, numerical overflow and stopping tolerances require care; empirical parallel timing is not a universal complexity or speedup guarantee.</li>
+      <li>Independent nodewise Poisson conditionals may be mutually incompatible. Even symmetrizing coefficients does not make unrestricted positive raw-count interactions normalizable. OR/AND edge support post-processing and coefficient averaging do not establish causal or conditional-independence semantics for an invalid joint model.</li>
+      <li>For the stated average objective, the printed component gradient needs compatible matrix orientation, the augmented self-row index needs its intercept offset, and curvature terms require 1/n. The printed Armijo penalty difference lacks lambda. The released code resolves several of these notational issues but also omits lambda in that Armijo expression; a separate objective-decrease guard remains. No general convergence theorem is certified from the displayed pseudocode or this static code reading.</li>
+      <li>In the release, the n&gt;5000 block-gradient loop covers rows 1 through p although the augmented design has p+1 rows, omitting its final feature row. The simplex subsolver does not explicitly handle zero pair curvature. These bounded static observations are not a benchmark reproduction or a claim that every fitted result fails.</li>
+      <li>The released core routines and options do not implement the papers beta pseudocount prior. The paper names additional experimental settings; their equivalence to this release is not assumed. Held-out selection fits document weights and compares the surrogate, not a verified exact marginal document likelihood.</li>
+      <li>The model definition, raw regression surrogate and modified-statistic constructions must remain distinct. The separate APM-native model record requires a proper shared base distribution; this estimator does not automatically supply one.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local identity is a specified parameter-fitting algorithm. The pinned target uses a broad preprocessing/training description, so related match records its learning role without forcing an algorithm under that genus.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm was designed to fit a topic model. The AIO target is task-scoped; neither equivalence nor a model-family subclass assertion follows.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Paper.pdf" target="_blank" rel="noopener">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David I. Inouye, Pradeep Ravikumar, Inderjit S. Dhillon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f38e28540906…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-method-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2014/file/11f57302e794a5097ee729d99e6c69fb-Supplemental.zip" target="_blank" rel="noopener">Capturing Semantically Meaningful Word Dependencies with an Admixture of Poisson MRFs — Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David I. Inouye, Pradeep Ravikumar, Inderjit S. Dhillon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:97c115b77a70…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/davidinouye/apm/archive/1001dd0ab9ecfab6d02d79f2297df3daf6561301.zip" target="_blank" rel="noopener">APM MATLAB implementation, version 0.9.1</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David I. Inouye
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/davidinouye/apm/tree/1001dd0ab9ecfab6d02d79f2297df3daf6561301</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:62cc4a2a9741…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T23:32:13Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T23:32:13Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ParallelAlternatingNewtonAPM.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ParallelAlternatingNewtonAPM.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

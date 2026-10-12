@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Author-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Author-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Author-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:AuthorTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A generative document model in which each author has a shared topic-proportion distribution and each word is produced by uniformly selecting an author from the document&#39;s observed author set, selecting a topic from that author, and selecting a word from that topic.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Rosen-Zvi, Griffiths, Steyvers and Smyth&#39;s UAI 2004 author-topic model, whose arXiv deposit occurred in 2012. It conditions on a document&#39;s authors and pools topic preferences across their documents. It is distinct from document-specific LDA, a pure author-word mixture, author-recipient-topic models and personalized large language models. Latent token-author assignments are model variables, not observed intellectual contributions. No normalized identity match was found across all 442 pinned AIO labels and scoped synonyms and 423 preceding native IDs, names and aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main. Ten matched lines in each checkout reduce to nine unique line contents: prior frontier references, copied discovery context and cached web-result mentions. Every matching concept excerpt was inspected; these are not maintained or imported identities. All 200 semantic label/synonym hits were read. Eighteen exact annotated AIO CLASS nodes and outgoing edges were inspected, including 14 verified unchanged from prior reading and four newly read. Thirty contextual YAMLs comprise those 18 AIO records and 12 native neighbors: six fully read here, 23 byte-verified after prior reading and the updated APM verified against its fully reviewed round100 bytes. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#author-conditioned-law</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed topic count T, draw each author topic vector theta_a from a symmetric Dirichlet(alpha) and each topic word vector phi_t from a symmetric Dirichlet(beta). Given a nonempty observed author set A_d, each token draws x uniformly from A_d, z from theta_x, and w from phi_z. Conditional on theta, the document-topic mixture is the arithmetic mean of its authors&#39; topic vectors. Ordinary smoothed LDA is recovered when every document is assigned its own distinct single author and the priors match; sharing one author across documents instead pools their proportions. The author-word model requires deterministic unique topic assignment per author, a constrained degenerate case rather than a typical positive-Dirichlet draw.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Author-Topic Model for Authors and Documents</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1-2.3, printed pp.488-489 / PDF pp.2-3, including smoothed-LDA footnote and special cases</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-sampling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The published Gibbs sampler jointly updates each token&#39;s author-topic pair after integrating theta and phi. For observed word v, eligible author a in A_d and topic t, the conditional weight is proportional to (n_vt^(-i)+beta)/(n_.t^(-i)+V*beta) times (n_at^(-i)+alpha)/(n_a.^(-i)+T*alpha). Counts exclude the current token; assignments outside A_d have zero weight. The uniform author-selection factor is constant among eligible pairs and cancels in normalization. Dirichlet posterior means conditional on sampled assignments estimate the author-topic and topic-word vectors; averaging across sampled assignments approximates marginal inference. Finite sampling and posterior-mean plug-ins are not exact multiword posterior predictive integration.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Author-Topic Model for Authors and Documents</a></span>
+        <span>· <strong>Locator:</strong> Section 3, printed pp.489-490 / PDF pp.3-4, Equations (4)-(6); Section 4.2, p.492 / PDF p.6, Equation (8)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Known author sets, uniform token-level author choice, fixed topic count, bag-of-words observations and stationary author preferences constrain the model. The author set is conditioned on, not generated. Coauthors with indistinguishable participation can be unidentifiable, and inferred assignments do not establish actual authorship contributions or expertise.</li>
+      <li>Topic and author probability vectors are conditionally independent given assignments under the conjugate construction, but their marginal posterior is generally coupled. The product of separate marginal posterior factors displayed in Equation (8) must not be taken as a general exact factorization. Reported prediction averages plug-in conditional means, which need not equal integrated multiword probabilities.</li>
+      <li>The historical held-out NIPS split ensures test authors already occur in training and can incorporate observed words from each test document. It does not demonstrate cold-start prediction for unseen authors. LDA overtakes the author-topic model in reported settings as more document words become available; no blanket superiority is asserted.</li>
+      <li>Symmetric-KL author similarity and topic entropy are descriptive applications. They do not validate reviewer selection, establish causal collaboration or supply calibrated measures of author competence. Finite Gibbs runs and restarts do not prove mixing, and no author software or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local identity is a specified probability-model family; the pinned Model class is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local generative model supports topic modeling. This pinned AIO target is task-scoped, so related match preserves the model-versus-task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1207.4169v1" target="_blank" rel="noopener">The Author-Topic Model for Authors and Documents</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michal Rosen-Zvi, Thomas Griffiths, Mark Steyvers, Padhraic Smyth
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1207.4169</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6a920e2b903…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T23:45:21Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T23:45:21Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AuthorTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AuthorTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

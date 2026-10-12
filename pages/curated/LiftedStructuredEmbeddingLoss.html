@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lifted structured embedding loss · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Lifted structured embedding loss</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Lifted structured embedding loss</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:LiftedStructuredEmbeddingLoss</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Lifted structured loss
+    </div>
+
+  <div class="detail-desc">
+    A metric-learning objective that penalizes a positive pair’s Euclidean distance against negative distances incident to either endpoint, using a squared hinge and a hard maximum or its log-sum-exp relaxation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers Song et al.’s lifted structured embedding loss, including the original maximum construction and the practically optimized log-sum-exp upper-bound form. These two forms are distinguished, not asserted numerically identical. The objective is separate from the full network, image preprocessing, hard-negative batch construction and optimizer. It is not N-pair-mc’s one-anchor dot-product categorical loss or N-pair-ovo’s sum of binary softplus comparisons. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 223 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 2 worktree lines in discovery context and 6 main-checkout lines including four unrelated ignored dependency matches. Six neighboring native records and nine exact AIO nodes with scoped synonyms and outgoing edges were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For labeled embeddings let D_ij=||z_i−z_j||_2. The original Equation (3) uses full-training-set positive pairs Phat and negative pairs Nhat. For positive (i,j), define J_ij=D_ij+max({alpha−D_ik:(i,k) in Nhat} union {alpha−D_jl:(j,l) in Nhat}), then average max(0,J_ij)^2 with divisor 2|Phat|. The practical Equation (4) instead uses a supplied minibatch: let P be its unordered same-class pairs and use Jtilde_ij=D_ij+log[sum_(k:y_k!=y_i)exp(alpha−D_ik)+sum_(l:y_l!=y_j)exp(alpha−D_jl)], summing only batch examples. Its loss is (1/(2|P|))sum_(i,j in P)max(0,Jtilde_ij)^2. Both endpoint-specific terms enter even when the same negative example belongs to both pools. Log-sum-exp bounds a hard maximum over the same terms; changing to a mined minibatch does not make its value a certified bound on the full-data objective. A dense pairwise distance matrix supports the batch computation. Loss distances are Euclidean norms, not squared distances; the squared matrix is only an intermediate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Deep Metric Learning via Lifted Structured Feature Embedding</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 3–4 (printed 4006–4007), Equations (3)–(7), Algorithm 1; Section 5, PDF p. 5, implementation context</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-author-code">Author Caffe lifted structured similarity softmax loss implementation</a></span>
+        <span>· <strong>Locator:</strong> Forward_cpu: unordered positive-pair loop, two negative pools, stable log-sum-exp, squared hinge and loss/num_constraints/2; Backward_cpu normalization</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The stated minibatch expression needs at least one positive pair and a nonempty negative pool for each evaluated pair. The paper’s loss definition does not itself provide an empty-batch fallback.</li>
+      <li>For a fixed candidate pool, log-sum-exp upper-bounds and smooths the inner maximum. It is not the same loss and depends on the number of negative terms. The Euclidean norm still requires care at zero distance when differentiating with respect to embeddings.</li>
+      <li>The original author loss file enumerates all same-label unordered pairs and both different-label endpoint pools in the supplied batch. That does not imply exhaustive mining over the whole training dataset or any particular sampling distribution.</li>
+      <li>This objective imposes neither a cosine normalization nor an InfoNCE positive-containing denominator. Margin, representation, batch composition and optimization affect results. No model training or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MetricLearning.html" style="font-weight: 600;"><code>AIO:MetricLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Metric Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The loss trains neural representations so positive examples are closer than negatives. AIO MetricLearning is a deep-network representation-learning concept; this objective-to-training-approach relation is related only, not equivalence or subclass membership.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_cvpr_2016/papers/Song_Deep_Metric_Learning_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Deep Metric Learning via Lifted Structured Feature Embedding</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hyun Oh Song, Yu Xiang, Stefanie Jegelka, Silvio Savarese
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openaccess.thecvf.com/content_cvpr_2016/html/Song_Deep_Metric_Learning_CVPR_2016_paper.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b24d5a9d88cc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-author-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">author-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/rksltnl/Caffe-Deep-Metric-Learning-CVPR16/0efd7544a9846f58df923c8b992198ba5c355454/src/caffe/layers/lifted_struct_similarity_softmax_layer.cpp" target="_blank" rel="noopener">Author Caffe lifted structured similarity softmax loss implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hyun Oh Song and repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/rksltnl/Caffe-Deep-Metric-Learning-CVPR16/blob/0efd7544a9846f58df923c8b992198ba5c355454/src/caffe/layers/lifted_struct_similarity_softmax_layer.cpp</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:74c78bfb9f3e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T09:45:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T09:45:56Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LiftedStructuredEmbeddingLoss.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LiftedStructuredEmbeddingLoss.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

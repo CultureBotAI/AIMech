@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Group-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Group-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:GroupTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GT model
+    </div>
+
+  <div class="detail-desc">
+    A probabilistic model family jointly assigning topics to relation-bearing events and topic-specific latent groups to entities, using event text and event-specific group-pair agreement probabilities.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Wang, Mohanty and McCallum&#39;s NIPS2005 group-topic model. Each entity has a separate group assignment for each topic; each event chooses one topic. Agreement probabilities are indexed by event and group pair, as shown by the event plate, rather than being one global rate for a topic/group pair. This differs from author-topic or ART models that condition on observed participants without a pairwise agreement likelihood, and from a token-wise document topic mixture. The conference year follows official proceedings, not the author PDF filename. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 438 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; eleven matching lines per checkout came from four unique prior discovery-ledger contents with pending leads and bibliography context. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified against prior readings. Twenty-nine contextual YAMLs comprise 28 unchanged prior readings and one fully read final round103 native target verified against its saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#event-topic-group-generation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each topic has a Dirichlet-distributed group mixture and word vector. Every entity draws a group separately for each topic. An event chooses one topic uniformly, generates its word attributes from that topic and generates observed pairwise agreement indicators using Beta-distributed event/group-pair probabilities. Entity group assignments are shared across events assigned to the same topic, whereas the agreement-rate variables are event-specific. The worked relation is symmetric; a precise implementation must declare its participating pairs, missing observations and self-pair policy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Group and Topic Discovery from Relations and Their Attributes</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.2-3, Figure 1 and six generative steps</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-and-tempered-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Integrating group mixtures, word vectors and event block rates yields group updates combining a leave-entity-out group factor with Beta-integrated likelihood ratios for affected incident relations in matching-topic events. Event-topic updates combine a leave-event-out Dirichlet-multinomial word factor with the whole event&#39;s integrated agreement likelihood under the candidate topic groups. The printed group formula multiplies a topic indicator inside the product over all events, which would zero weights when an unrelated event is present; the prose-consistent interpretation restricts the product to matching events. The experiments raise the text factor to powers five and five hundred for Senate and UN data, respectively, changing the target relative to the untempered model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Group and Topic Discovery from Relations and Their Attributes</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p.3, Gibbs conditionals and modality-balancing paragraph</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#derived-agreement-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Conditionally independent pairwise agreement observations define a model of the derived relation network, not automatically a coherent generative law for underlying individual votes. For three entities in one block, three pairwise disagreements have integrated probability 1/4 under a uniform Beta block prior, although no binary vote assignment can realize that triangle. This does not invalidate a model scoped to observed agreement networks; it limits interpretation as a complete individual-vote model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Group and Topic Discovery from Relations and Their Attributes</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp.2-3, pairwise generation; Section 3.1, PDF p.4, agreement observations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Fixed topic and group counts, symmetric binary agreement and event-specific Beta rates define the inspected construction. General asymmetric or continuous relations are suggested without a complete evaluated extension. The text&#39;s i&lt;=j notation does not settle every practical self-pair or missing-participant policy.</li>
+      <li>The printed collapsed formulas require consistent removal of old assignments and the correct scopes for entity, word and relation counts. Modality powers define a tempered posterior weighting, not exact inference under the original untempered generative process. No behavior of uninspected author software is inferred from a display error.</li>
+      <li>The selected Senate and UN studies compare joint fitting with a sequential unigram-mixture/blockstructure baseline using fixed, somewhat arbitrarily chosen counts. Agreement Index results and selected political group interpretations do not demonstrate causal influence, validated ideological truth or general future prediction.</li>
+      <li>Finite calculations check 4096 group/event conditionals for untempered and power-five synthetic examples with explicitly chosen distinct unordered pairs. They do not reproduce the original preprocessing, power-five-hundred benchmark or author implementation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined probabilistic model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The family supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/gt-nips06.pdf" target="_blank" rel="noopener">Group and Topic Discovery from Relations and Their Attributes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xuerui Wang, Natasha Mohanty, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f01d6c2c039f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:49:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:49:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GroupTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GroupTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Whitening mean squared error · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Whitening mean squared error</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Whitening mean squared error</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:WhiteningMSE</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> W-MSE, Whitening MSE
+    </div>
+
+  <div class="detail-desc">
+    A self-supervised representation-learning procedure that differentiably whitens projected image-view embeddings and minimizes the average squared distance between normalized whitened embeddings of views from the same image.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      W-MSE refers to Ermolov et al.’s normalized whitening mean-squared-error method. It is not generic MSE, a standalone whitening transform, Barlow Twins cross-correlation matching or VICReg soft covariance regularization. The unnormalized Euclidean ablation is distinguished from the normalized default. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 195 prior native IDs/names/aliases. Ignored-inclusive, word-delimited searches of both full checkouts found nine prior discovery/review references in each plus six unrelated language-stemmer tokens in the main environment. An initial substring search also matched unrelated layer-name suffixes. Neighboring k-means, SwAV, Barlow Twins and VICReg mechanisms and exact AIO definitions/edges were inspected; shared components do not establish identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Generate d≥2 augmented views of each of N images and pass them through a shared encoder and projection head. For a whitening group of m projected vectors in R^p, center by the group mean and compute sample covariance Sigma=sum_i(v_i−mean)(v_i−mean)^T/(m−1). When Sigma is positive definite, factor Sigma=L L^T and transform each vector to z_i=L^−1(v_i−mean). For nonzero z normalize u_i=z_i/||z_i|| and minimize the average ||u_i−u_j||^2 over all N d(d−1)/2 unordered same-image view pairs. Backpropagate through both views and whitening, including its batch statistics. In batch slicing, place each image’s views in separate view partitions, apply the same random image-index permutation to every partition, split each into groups, and whiten each group separately; compare corresponding positive views afterward. Repeat slicing and average losses if configured. The procedure requires no negative-pair loss, prediction head, momentum teacher or stopped target.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Whitening for Self-Supervised Representation Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equations (3)–(8), Figures 1–3 and batch-slicing description, PDF pp. 3–5; Section 3.1 discussion, pp. 5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">Supplementary Material for Whitening for Self-Supervised Representation Learning</a></span>
+        <span>· <strong>Locator:</strong> Supplement Section 2 and 2.1, Cholesky whitening and differentiation; Section 4 unnormalized-distance ablation, PDF p. 1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">htdt/self-supervised author implementation: methods/w_mse.py</a></span>
+        <span>· <strong>Locator:</strong> methods/w_mse.py lines 8–36: shared projected views, aligned random group slicing and average pair loss</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-3">htdt/self-supervised author implementation: methods/whitening.py</a></span>
+        <span>· <strong>Locator:</strong> methods/whitening.py lines 6–61: centered sample covariance, optional shrinkage, Cholesky triangular solve and whitening</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-additional-4">htdt/self-supervised author implementation: methods/norm_mse.py</a></span>
+        <span>· <strong>Locator:</strong> methods/norm_mse.py lines 1–7: normalized loss 2−2 times average cosine similarity</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exact Cholesky whitening requires positive-definite covariance. A centered group has rank at most m−1, so m&gt;p is necessary but not sufficient. The paper’s group-size heuristic is not a rank or numerical-stability guarantee.</li>
+      <li>The pinned code optionally replaces Sigma by (1−epsilon)Sigma+epsilon I. Whitening that regularized matrix does not generally give the original centered samples identity covariance. A collapsed group is outside the exact unregularized construction; numerical regularization does not prove every optimizer avoids collapse.</li>
+      <li>Identity covariance expresses second-order decorrelation and unit variances. It does not prove statistical independence, Gaussianity or a rotationally symmetric distribution. Subsequent L2 normalization generally changes covariance again.</li>
+      <li>Whitening is group-dependent: absence of explicit negatives does not mean independent per-example training. Group composition, common view permutations, embedding dimension and repeated slicing affect the computation. The pinned slicing implementation requires the image batch size to be divisible by its group size.</li>
+      <li>Zero-norm handling and covariance regularization matter. The main record states normalized squared Euclidean distance; the supplement’s unnormalized variant and any element-averaged MSE convention are not silently identified. No runtime, gradient implementation or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns from self-generated targets or relationships between unlabeled inputs. The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/ermolov21a/ermolov21a.pdf" target="_blank" rel="noopener">Whitening for Self-Supervised Representation Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aleksandr Ermolov, Aliaksandr Siarohin, Enver Sangineto, Nicu Sebe
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/ermolov21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cef9a776e57d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/ermolov21a/ermolov21a-supp.pdf" target="_blank" rel="noopener">Supplementary Material for Whitening for Self-Supervised Representation Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aleksandr Ermolov, Aliaksandr Siarohin, Enver Sangineto, Nicu Sebe
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/ermolov21a/ermolov21a-supp.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f34fa953f14a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/htdt/self-supervised/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/w_mse.py" target="_blank" rel="noopener">htdt/self-supervised author implementation: methods/w_mse.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            htdt/self-supervised contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/htdt/self-supervised/blob/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/w_mse.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:70f50c710e1a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/htdt/self-supervised/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/whitening.py" target="_blank" rel="noopener">htdt/self-supervised author implementation: methods/whitening.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            htdt/self-supervised contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/htdt/self-supervised/blob/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/whitening.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d438ac9a9d5e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-4">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-4</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/htdt/self-supervised/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/norm_mse.py" target="_blank" rel="noopener">htdt/self-supervised author implementation: methods/norm_mse.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            htdt/self-supervised contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/htdt/self-supervised/blob/d9662c8d07dafd194a9045375f4f6aa09f5b03e9/methods/norm_mse.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9ad056410ae5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:15:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:15:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/WhiteningMSE.yaml" target="_blank" rel="noopener">
+      <code>data/curated/WhiteningMSE.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

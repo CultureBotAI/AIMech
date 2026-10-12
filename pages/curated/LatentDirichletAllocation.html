@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Latent Dirichlet allocation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Latent Dirichlet allocation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Latent Dirichlet allocation</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:LatentDirichletAllocation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A hierarchical model for collections of discrete observations in which each document draws a Dirichlet-distributed mixture over a fixed finite set of topics, and each token draws a topic and then an observation from that topic’s categorical distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The defining feature is a shared prior over document-specific topic proportions together with repeated per-token topic selection. This differs from PLSA’s fitted document-index weights and a mixture selecting one topic for a whole document. The model is distinct from its variational EM, sampling or other inference algorithms. The bare LDA alias is omitted because AIMech already uses it for the unrelated Gaussian classifier LinearDiscriminantAnalysis. The base fixed-topic-probability presentation and its Bayesian topic-prior extension are distinguished explicitly. Compared all 442 pinned AIO labels and scoped synonyms and 418 preceding native IDs, names and aliases. The initial normalized LDA hit denotes LinearDiscriminantAnalysis, whose full Gaussian-classifier record was read; the bare LDA alias is omitted from the new topic-model record. No normalized identity match remains for the final candidate names/aliases. Final full-checkout fixed-string searches, including ignored and hidden files in both worktree and main, return two lines each; both unique contents are existing frontier references. An additional broad LDA search returned 289 worktree and 237 main lines before the preceding batch merged; all 84 distinct contents were read, covering the existing classifier, topic-context references, unrelated programming mnemonics and namespace abbreviations. All 188 semantic label/synonym hits were read. Nineteen exact annotated AIO CLASS nodes and outgoing edges were inspected (18 verified unchanged from prior reading, Biclustering read here), along with their generated records and 16 native neighbors. The 35 contextual YAMLs were read or byte-verified after documented full reading. Absence is bounded to this snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a fixed K, positive alpha_i and normalized topic-word probability rows B_i, draw theta_d~Dirichlet(alpha) independently for each document. Given a document length N_d, draw z_dn~Categorical(theta_d) and w_dn~Categorical(B_zdn) for each token. Conditional on theta_d and B, token probabilities are sum_i theta_di*B_iw and tokens are independent; integrating theta_d gives p(w_d|alpha,B)=integral Dir(theta_d;alpha)*product_n(sum_i theta_di*B_i,w_dn)dtheta_d. This is an exchangeable document distribution, generally with dependent tokens after integration. An unordered count vector additionally includes its multinomial multiplicity. The paper’s Poisson length law is optional to this conditional construction. For fixed B, its mean-field approximation is q(theta,z)=Dir(theta;gamma)*product_n Cat(z_n;phi_n), with phi_ni proportional B_i,w_n*exp[digamma(gamma_i)-digamma(sum_j gamma_j)] and gamma_i=alpha_i+sum_n phi_ni. Variational EM optimizes the evidence lower bound, updating B from expected topic-word counts and alpha numerically. Section 5.4 separately places Dirichlet priors on B; then the assignment update uses expected log topic probabilities, not fixed B values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Latent Dirichlet Allocation</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–3.2, printed pp.996–998 / PDF pp.4–6, Equations (1)–(3); Sections 4.2–4.4, pp.1000–1002 / PDF pp.8–10; Sections 5.1–5.4, pp.1003–1007 / PDF pp.11–15, Equations (4)–(9); Appendix A.3–A.4, pp.1019–1022 / PDF pp.27–30</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The number of topics is finite and fixed in this construction. Integrating a continuous Dirichlet mixture does not introduce infinitely many topic classes. Infinite exchangeability supports the representation discussed in Section 3.1; arbitrary finite exchangeability alone is not the asserted theorem.</li>
+      <li>Given observed topic assignments, Dirichlet conjugacy is exact. With topics unobserved, the marginal posterior over proportions is generally not a single Dirichlet; gamma=alpha+expected counts is a variational update, not exact marginal conjugacy. Exact inference is generally difficult, and bound optimization need not monotonically improve the true likelihood or attain its global maximum.</li>
+      <li>The basic model ignores word order and explicit within-topic dependencies, though integrating document proportions induces dependence between tokens. Zero word probabilities require smoothing or other support handling for novel documents. A prior over document mixtures does not guarantee freedom from overfitting, identifiable topics or meaningful semantic labels.</li>
+      <li>The Bayesian topic-prior extension requires expected log topic probabilities in its assignment update. The appendix’s printed alpha Hessian has a sign/factor mismatch with the preceding gradient; the consistent Hessian is M*(trigamma(sum alpha)-delta_ij*trigamma(alpha_i)). This record does not adopt that printed Hessian as verified code. Equation (13) correctly uses the normalized posterior.</li>
+      <li>The comparison’s empirical mixture over training-document indices must weight an entire document once; the printed p(d) inside its token product is not adopted. These mathematical qualifications do not establish an error in unseen author software or experiments.</li>
+      <li>The source’s document, classification and recommendation experiments have distinct protocols. No exact likelihood replication, generic performance advantage or biological-mechanism conclusion is claimed. All source material concerns the specified 2003 model, not every later topic-model extension.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local concept specifies a mathematical probability model and is narrower than the pinned generic Model class. This is a local scope assessment, not an upstream assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local model describes latent topic distributions. The inspected AIO target lies in MachineLearningTask and is phrased as analyzing word themes; related match preserves the model-to-task distinction without asserting an is-a relation or temporal dynamics.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf" target="_blank" rel="noopener">Latent Dirichlet Allocation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David M. Blei, Andrew Y. Ng, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v3/blei03a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4667de63545b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T23:19:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T23:19:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LatentDirichletAllocation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LatentDirichletAllocation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pairwise Markov tree · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Pairwise Markov tree</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Pairwise Markov tree</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:PairwiseMarkovTree</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Arbre de Markov couple
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable tree-model family whose paired hidden and observed states factor into a root distribution and parent-to-child conditional kernels on a fixed rooted tree, without requiring the hidden marginal to be Markov on that tree.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Pairwise denotes Z_s=(X_s,Y_s), not generic pairwise edge potentials. The tree is the stochastic dependence topology across sites, rather than a decision-tree classifier, hierarchical mixture-of-experts gate structure, or hidden Markov decision tree’s within-time state hierarchy. An ordinary memoryless-emission hidden Markov tree is a constrained special case. A path is a degenerate tree, but the family permits branching dependencies absent from a sequential chain. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 391 preceding native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, yielding 9 and 9 matched lines; all 7 unique contents were read. Hits are prior leads and references, not records of the proposed identities. All 89 semantic label/synonym hits and 21 fully annotated exact AIO CLASS nodes with outgoing edges were read. Twenty-two contextual YAMLs were byte-verified after prior full reading and five freshly read, totaling 21 generated and six native contextual records. Short acronym identities were compared across the complete normalized inventory. Absence is bounded to the pinned source, maintained collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On a finite fixed rooted tree with one parent for each nonroot site, specify a normalized root law p(z_r) and normalized kernels K_s(z_s|z_parent(s)); their product defines the joint paired distribution. At fixed complete y, the hidden posterior factors on the same rooted tree. Set beta_s(x_s)=1 at leaves and compute each internal beta_s(x_s) as the product over children t of sum_(x_t) K_t(x_t,y_t|x_s,y_s)*beta_t(x_t). The root posterior is proportional to p(x_r,y_r)*beta_r(x_r). Each child posterior transition at fixed parent is proportional to K_t*beta_t and normalized over x_t. Propagate the root marginal downward through these conditional kernels to obtain all hidden-site marginals. Classical independent-emission hidden Markov trees result from root pi(x_r)*b(y_r|x_r) and child kernels A(x_t|x_s)*b(y_t|x_t). General joint kernels can leave hidden siblings dependent given only their hidden parent, so the hidden marginal need not itself be a Markov tree.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Arbres de Markov couple</a></span>
+        <span>· <strong>Locator:</strong> Section 3, printed pp.80–82 / PDF pp.2–4: Definition 3.1, Equation(3.1), Propositions 3.1–3.2, Equations(3.2)–(3.3) and final correlated-observation discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The definition uses a fixed finite rooted tree; it is not a graph-structure learning algorithm, a loopy-field model or a decision-making policy. Exact tree recursions require finite hidden states or separately tractable integrals.</li>
+      <li>Posterior formulas require nonzero observation evidence and valid conditional support. Numerical scaling can be needed on large trees; the factorization alone does not address parameter estimation, missing observations or arbitrary topology changes.</li>
+      <li>Independence of the child hidden-state transition from the parent observation is sufficient for a hidden Markov-tree marginal. Proposition 3.2 asserts necessity under the additional hypotheses that each internal node has at least two children with identical conditional laws given its paired parent; that converse is not adopted without those hypotheses.</li>
+      <li>Correlated observations can coexist with a Markov hidden marginal. Non-Markov projection is permitted, not required, and memoryless site emissions are not necessary for every hidden-Markov special case.</li>
+      <li>The four-page source proves structural and inference results; it does not report a comparative empirical evaluation or establish universal segmentation superiority. Later parameter-estimation and image-processing papers remain separate evidence leads.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The joint paired-state law has a normalized directed acyclic factorization on a rooted tree, a restricted Bayesian-network topology. The mapping concerns paired stochastic states and imposes no causal interpretation or requirement that the hidden marginal preserve that graph.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www-public.imtbs-tsp.eu/~pieczyn/A25.pdf" target="_blank" rel="noopener">Arbres de Markov couple</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wojciech Pieczynski
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1016/S1631-073X(02)02430-5</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7834f53dcb3b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:03:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:03:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PairwiseMarkovTree.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PairwiseMarkovTree.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composite HMM-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Composite HMM-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Composite HMM-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:CompositeHMMTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A generative sequence model combining an HMM class sequence with a document topic mixture, where one designated class emits words through latent topics and each other class emits words from its own categorical distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the composite model of Griffiths, Steyvers, Blei and Tenenbaum&#39;s Integrating Topics and Syntax. The maintained name describes that source-defined construction; no additional acronym is asserted as a source synonym. All tokens follow class transitions, while only the semantic class uses the document-topic mixture. This differs from independent topic models, generic HMMs, a product of HMM experts, or modern mixture-of-experts language models. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#class-dependent-emission</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A document draws a Dirichlet topic vector. An HMM generates the token-class sequence. If a token occupies the designated semantic class, a topic selected from the document vector determines its word distribution; otherwise its class-specific word distribution generates the token. The Bayesian formulation puts symmetric Dirichlet priors on topic emissions, nonsemantic class emissions and transition rows. The source draws a topic at every position, but topics unused by nonsemantic emissions can be marginalized. The displayed model is first order; experiments also use higher-order transitions and a dedicated sentence-marker state. Initial and boundary conventions, class count, topic count and vocabulary are part of a complete specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Integrating Topics and Syntax</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1-2.2, PDF pp.3-4, Figure 1, generative steps and prior definitions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-auxiliary-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source alternates topic and class updates with parameters integrated out. Its document-topic counts include semantic tokens only, and the first-order class update accounts for both neighboring transitions, including corrections when they share a transition row or cell. A coherent interpretation first marginalizes unused topics, then introduces a temporary topic for the currently updated nonsemantic token from the leave-one-out document predictive law. Updating that topic and then the class allows the common document-topic factor to cancel in the class conditional; discard the temporary topic if the resulting class is nonsemantic. This is an explicit curator interpretation of the printed count convention, checked in a small enumerated model, not a claim about unseen author code. Retaining all inactive topic draws in a fully augmented sampler would instead require document counts over all those draws.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Integrating Topics and Syntax</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF pp.3-4, topic and class conditionals and semantic-only count statement</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The distinction between syntactic classes and semantic topics is induced by this model and corpus. It need not coincide with linguistic ground truth, supervised part-of-speech tags or full grammar. Fixed class/topic counts and finite-state local transitions restrict its scope.</li>
+      <li>The source LDA comparison uses a semantic class plus a dedicated sentence-marker class with the stated boundary handling; arbitrary two-state HMMs are not equivalent to LDA. With one topic, the semantic emission has its own prior, so the resulting HMM comparison must preserve those hyperparameters.</li>
+      <li>A finite auxiliary-update invariance calculation supports a compatible semantic-only interpretation; it is not a proof that historical software followed that convention or that finite chains mixed. The displayed first-order transition formula requires additional factors for higher-order contexts.</li>
+      <li>Historical results use particular Brown, TASA and NIPS preparations. Adjusted Rand agreement is not supervised tag accuracy, and the reported harmonic-mean evidence estimate is not exact marginal likelihood or guaranteed stable. The document-classification experiment reports LDA somewhat better. No universal advantage or empirical reproduction is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The maintained identity is a specified probability-model family, narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning task, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2004/file/ef0917ea498b1665ad6c701057155abe-Paper.pdf" target="_blank" rel="noopener">Integrating Topics and Syntax</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas L. Griffiths, Mark Steyvers, David M. Blei, Joshua B. Tenenbaum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8878657c94e1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:00:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:00:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CompositeHMMTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CompositeHMMTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

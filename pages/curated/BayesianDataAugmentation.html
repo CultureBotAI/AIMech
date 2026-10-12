@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bayesian Data Augmentation for Deep Models · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Bayesian Data Augmentation for Deep Models</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Bayesian Data Augmentation for Deep Models</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BayesianDataAugmentation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Bayesian Data Augmentation, Bayesian DA, BDA
+    </div>
+
+  <div class="detail-desc">
+    Tran et al.’s supervised deep-learning procedure that treats synthetic labeled examples as latent data, repeatedly samples them from an evolving learned model and updates model parameters through a generalized Monte Carlo expectation-maximization formulation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record is scoped to the 2017 Tran et al. formulation for generating labeled deep-learning training examples. It is not all statistical Bayesian data augmentation, generic EM, Bayesian-network graphical modeling or posterior sampling of neural-network weights. Its class-conditioned generative model differs from AdaMixUp’s interpolation and cooperative intrusion discriminator. Generalized Monte Carlo EM is the formulation used here, not an alias identifying every GMCEM application with this record. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 250 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 9 lines in each checkout. These were references within neighboring records, their review and the prior discovery ledger, not records for the proposed identities. Fourteen exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Treat each additional labeled example z=(t_a,x_a) as a latent variable and seek a maximum-a-posteriori parameter estimate, rather than sampling a posterior over all network weights. At an iteration, sample synthetic labeled data using the current model and approximate the expected augmented log posterior with a Monte Carlo average. The generalized M-step seeks parameters that increase this sampled objective rather than solving a global maximization exactly. The published objective includes a parameter prior, an average of real-data label/data log terms and a separate average of synthetic-data label/data log terms. In the paper’s concrete GAN realization, a class-conditioned generator produces labeled images, a classifier learns dataset labels on real and generated examples, and a separate authenticator distinguishes real from generated images. The published discriminative step minimizes J_C+J_AG, while the generative step minimizes J_C−J_AG, combining class consistency with adversarial realism. J_C separately averages the real and synthetic classification losses, rather than averaging one pooled batch with weights determined solely by its real-to-synthetic count ratio. The practical training procedure uses minibatches and one epoch of stochastic updates per parameter-update iteration. The GAN architecture is one realization of the augmentation framework, not a requirement for every possible realization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Bayesian Data Augmentation Approach for Learning Deep Models</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.3, Equations (1)–(8), Section 4, Figure 2 and Equations (9)–(19), PDF pp. 4–7; abstract and formulation on pp. 1–2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The generalized M-step requires improvement of its objective. Differentiability alone does not guarantee that an arbitrary finite gradient step or a noisy minibatch epoch increases that objective.</li>
+      <li>The source’s Lemma 1 moves from a sampled-objective inequality to an expectation inequality. Improvement observed for one finite sample does not by itself guarantee improvement of the exact expected objective or the observed-data posterior, especially when the update is selected using that sample. No unconditional monotonicity or convergence guarantee for practical GAN training is asserted.</li>
+      <li>Equations (18)–(19) link authenticator losses to data log-likelihood terms. A real/fake discriminator probability is not itself a normalized data density; this record describes the published adversarial surrogate without asserting an exact normalized-likelihood or exact-EM implementation.</li>
+      <li>Separate real and synthetic means assign each group its own normalization. Increasing the number of generated samples does not automatically multiply the synthetic group’s total coefficient in the printed objective.</li>
+      <li>Generated labels and images depend on the fitted model and optimization. No label-correctness guarantee, universal sample quality, benchmark advantage or reproduction of author software is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataAugmentation.html" style="font-weight: 600;"><code>AIO:DataAugmentation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Augmentation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method generates additional labeled training samples. AIO’s augmentation node describes transformation-based data enhancement within preprocessing, whereas this method jointly learns generation and classification during training; a related mapping preserves that distinction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupervisedLearning.html" style="font-weight: 600;"><code>AIO:SupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The classifier learns from observed and generated labeled examples. This algorithm-to-task relation does not equate the particular Bayesian augmentation procedure with the general supervised-learning task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2017/file/076023edc9187cf1ac1f1163470e479a-Paper.pdf" target="_blank" rel="noopener">A Bayesian Data Augmentation Approach for Learning Deep Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Toan Tran, Trung Pham, Gustavo Carneiro, Lyle Palmer, Ian Reid
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1710.10564</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c026c6ff3e51…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T11:08:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T11:08:01Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BayesianDataAugmentation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BayesianDataAugmentation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

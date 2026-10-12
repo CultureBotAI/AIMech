@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quadratic Poisson graphical model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Quadratic Poisson graphical model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Quadratic Poisson graphical model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:QuadraticPoissonGraphicalModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> QPGM, Quadratic Poisson Markov random field
+    </div>
+
+  <div class="detail-desc">
+    A graphical probability model on nonnegative integer counts whose joint log mass contains unary linear terms, site quadratic terms and symmetric pairwise count products, with parameters restricted to make its infinite-support partition function finite.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The QPGM name follows Yang et al., but its conditional laws are quadratic exponential count distributions, not ordinary Poisson laws. The model replaces the Poisson factorial penalty with quadratic site terms. It is not the continuous auto-normal field, nor is assigning quadratic masses at integer points equivalent to rounding a continuous Gaussian. A Gaussian integral approximation is a separate numerical proposal and does not define the discrete model. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 406 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding six and six matched lines; all five unique contents were read. Hits are the prior publication lead and source URLs, not existing records of these identities. All 185 semantic label/synonym hits were read. Forty-five fully annotated exact CLASS nodes and outgoing edges were inspected: 43 byte-equivalent to prior inspected nodes and two freshly read. Fifty-nine contextual YAMLs comprise 45 generated and 14 native records: 54 byte-verified after prior reading and five freshly read. Acronyms were included in normalized identity comparison and the text-search terms. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On a finite graph with X_i in {0,1,...}, define p(x)=Z^(-1)*exp[sum_i a_i*x_i+sum_i d_i*x_i^2+sum_(i&lt;j) b_ij*x_i*x_j], with symmetric edge coefficients and finite Z. The site conditional is proportional to exp(d_i*k^2+eta_i*k), k&gt;=0, where eta_i=a_i+sum_(j!=i) b_ij*x_j. There is no factorial base measure in this construction. Define the symmetric matrix H with H_ii=d_i and H_ij=b_ij/2 for i!=j, so the quadratic contribution is x^T H x without double counting. A sufficient validity condition is x^T H x&lt;=-c*||x||^2 for some c&gt;0 on the nonnegative orthant; finite linear terms are then dominated by quadratic decay. Negative definiteness of H on the whole real space is one sufficient condition and permits either sign of the off-diagonal interactions. It is not asserted to be a necessary characterization of all admissible parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">On Poisson Graphical Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, printed/PDF p. 5, Equation (6) and Proposition 2; p. 6 before Section 3.2, claimed Gaussian integral bound; Section 4, pp. 7–8, stated evaluation and recovery limitations</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement">On Poisson Graphical Models — Supplemental Appendix</a></span>
+        <span>· <strong>Locator:</strong> Appendix A, printed p. 10 / supplemental PDF p. 1, model-family discussion and deferred fitting/statistical-recovery work</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Individually summable site quadratics do not alone ensure a finite joint partition function when positive interactions create growing joint directions. The joint validity condition must be checked; flat quadratic boundary cases require separate linear-tail analysis.</li>
+      <li>The source claims that a full-real Gaussian integral universally upper-bounds the nonnegative-integer quadratic kernel sum. This inequality fails, for example, with d=-100 and eta=0 or eta=1: the discrete sum includes a unit term at zero, but the Gaussian integral is less than 0.18. This is an original mathematical counterexample to the approximation claim, not a failure of the discrete model.</li>
+      <li>Consequently, Gaussian-regression behavior or optimization guarantees cannot be inferred from that claimed bound without an additional justified approximation. Integer support, normalization, moments and fitted parameters must be treated as those of the discrete law.</li>
+      <li>The source numerical plots compare TPGM and SPGM with other estimators; they do not supply a general empirical evaluation of QPGM. The record makes no generic accuracy claim.</li>
+      <li>The finite graph and the symmetric once-counted edge parameters must be specified. Independently fitted node regressions do not automatically agree on a compatible joint parameterization. Model definition, numerical estimation and graph selection are distinct.</li>
+      <li>The source sketches l1-penalized neighborhood fitting, but explicitly leaves extensions of statistical graph-recovery guarantees to future work. A model existence result is not a sparsistency theorem or a guarantee that a chosen approximate optimizer finds the intended fit.</li>
+      <li>The reported network experiments are contextual evidence, not a universal performance guarantee. The processed breast-cancer microRNA data and cited biological associations do not establish causal regulation or clinical predictive validity. No author implementation, empirical fit or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a specified joint probability family on integer-valued graph sites and falls within the broader mathematical representation described by Model. A particular optimizer or prediction task is not its identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The family encodes undirected graphical conditional dependencies. The pinned target is task-scoped, so a related mapping connects this probability model to graphical modeling without asserting a model is-a task relationship.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Paper.pdf" target="_blank" rel="noopener">On Poisson Graphical Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eunho Yang, Pradeep Ravikumar, Genevera I. Allen, Zhandong Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43358362c5a5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2013/file/43feaeeecd7b2fe2ae2e26d917b6477d-Supplemental.zip" target="_blank" rel="noopener">On Poisson Graphical Models — Supplemental Appendix</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eunho Yang, Pradeep Ravikumar, Genevera I. Allen, Zhandong Liu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38b42f678bb1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T22:28:17Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T22:28:17Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/QuadraticPoissonGraphicalModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/QuadraticPoissonGraphicalModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

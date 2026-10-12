@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pachinko allocation model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Pachinko allocation model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Pachinko allocation model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:PachinkoAllocationModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PAM
+    </div>
+
+  <div class="detail-desc">
+    A topic-model family that generates each word by traversing a directed acyclic graph from a root through topic nodes to a word leaf, using probability distributions over each node&#39;s children.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Li and McCallum&#39;s PAM construction, with Dirichlet child-distribution priors and the four-level experimental variant in ICML2006. Interior topics can have multiple parents, and paths may skip levels. A new path is selected for each token. This differs from a single topic path assigned to an entire document, a logistic-normal topic mixture, or a causal graph of semantic concepts. PAM is a source acronym within this scope; later hierarchical, nonparametric and scalable variants are not asserted as exact aliases. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 432 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; six matching lines per checkout came from three unique file contents containing prior frontier leads, bibliography context and a cached publication-list mention. All candidate-matching excerpts were read; the long cached browser transcript was not reread in full. All 205 semantic label/synonym hits were byte-verified unchanged from prior reading. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 17 verified prior inspections and one fresh reading. Twenty-seven contextual YAMLs comprise 25 unchanged prior readings, one fresh generated AIO reading and one final round102 native record verified against its fully read review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#dag-path-generation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the general Dirichlet formulation, each document draws a categorical child vector for each interior node. Each token starts at the root and repeatedly chooses a child until it reaches a word leaf. The finite rooted DAG and reachable word leaves ensure termination. In the demonstrated four-level variant, root-to-supertopic and supertopic-to-subtopic vectors vary per document, while subtopic-to-word vectors are drawn once and shared across the corpus. The latter sharing changes corpus marginalization: shared random emissions must be integrated jointly. The product of separately marginalized documents written for the fully document-local formulation is not automatically the marginal law of this shared-emission variant.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pachinko Allocation: DAG-Structured Mixture Models of Topic Correlations</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p.3, document/corpus probability displays; Section 2.1 pp.3-4 and Figure 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-paths-and-moments</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed positive hyperparameters in the four-level variant, a token&#39;s collapsed supertopic/subtopic weight multiplies three leave-one-out predictive factors: the document root-to-supertopic count, the document supertopic-to-subtopic count, and the corpus subtopic-to-word count, each smoothed and normalized by its Dirichlet prior. The source jointly samples both topic levels. Its experimental fitting also changes supertopic hyperparameters using smoothed empirical moments and a concentration heuristic, rather than exact maximum likelihood or MAP. That changing-parameter procedure is not simply fixed-target posterior Gibbs sampling; neither finite samples nor moment updates establish convergence or optimality.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Pachinko Allocation: DAG-Structured Mixture Models of Topic Correlations</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF p.4, collapsed update and moment-based parameter estimates</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The experiments fix a fully connected four-level structure and topic counts. Learning arbitrary DAG structure or a nonparametric number of nodes is prospective in this paper. A DAG can encode nested and overlapping mixtures without establishing a universal representation theorem for every correlation structure.</li>
+      <li>Dirichlet topic proportions are compositionally dependent, with negative off-diagonal covariances; the introductory LDA-independence contrast is not literal independence. Logistic-normal covariance parameters likewise do not mean higher-order dependence vanishes. PAM supplies a different mixing construction, not proof that CTM is exactly equivalent to a two-child DAG.</li>
+      <li>Moment updates require policies for unvisited parent nodes, zero or invalid variances and nonpositive concentration estimates. Smoothing child means alone does not specify all edge cases. LDA reductions require compatible shared or fixed emissions; redrawing every word-emission vector independently per document is a different model.</li>
+      <li>Evidence includes selected topics, a small human-judgment study, approximate held-out likelihood and five-way newsgroup classification. The prose and Table 2 disagree on majority-vote counts. The generated-document likelihood approximation is not exact marginal likelihood, and the reported results do not establish universal superiority. No author code or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined latent-variable model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/pam-icml06.pdf" target="_blank" rel="noopener">Pachinko Allocation: DAG-Structured Mixture Models of Topic Correlations</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wei Li, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1143844.1143917</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:645882dd892a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:24:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:24:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PachinkoAllocationModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PachinkoAllocationModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

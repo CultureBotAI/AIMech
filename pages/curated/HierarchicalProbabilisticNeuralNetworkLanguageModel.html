@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hierarchical probabilistic neural network language model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Hierarchical probabilistic neural network language model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hierarchical probabilistic neural network language model</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:HierarchicalProbabilisticNeuralNetworkLanguageModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A neural next-word architecture that factors word probabilities along a binary vocabulary tree and shares a nonlinear branch predictor conditioned on context-word embeddings and a separate embedding of the current tree node.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record covers Morin and Bengio’s 2005 shared-predictor architecture, including its WordNet-guided tree construction. It is a complete language model, distinct from the generic hierarchical-softmax output component and from HLBL’s linear context representation with node-vector scores. The title is scoped to this original construction, not every probabilistic language model using a hierarchy. All 442 pinned AIO labels/scoped synonyms and 355 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 54 lines each. All 41 unique matched contents were read: source references, complete-model contrasts, frontier leads and prior review context for the hierarchical-softmax component. None is an existing record for these complete architectures. Twenty exact AIO nodes and their generated records plus four complete native neighbors were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Concatenate the embeddings of the preceding context words into x, sharing their embedding matrix across all tree nodes. For internal node n, compute q_n=sigmoid(alpha_n+beta^T tanh(c+W x+U N_n)), where N_n is its separately learned node embedding, alpha_n is its scalar bias, and beta, c, W and U are shared parameters. The binary code for a target word chooses q_n or 1-q_n at each node; multiply those factors to obtain its normalized next-word probability. Training backpropagates the observed-word log loss through nodes on that path and their shared parameters. Although W x can be reused, tanh(c+W x+U N_n) generally differs by node. The reported tree starts from WordNet, selects one parent for multiply parented nodes and the most frequent sense per word, then makes nonbinary branches binary using corpus-based clustering. This hierarchy is a modeling choice, not a semantic-equivalence guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Hierarchical Probabilistic Neural Network Language Model</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–4, binary path factorization and shared node-conditioned sigmoid/tanh predictor, PDF pp.3–4; Section 5 WordNet and corpus clustering, pp.4–5; extension and limitations, Sections 5 and 7, pp.4–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Target evaluation work scales with path length and the branch-predictor cost. A logarithmic path requires suitable tree depth; producing the entire vocabulary distribution still requires at least linear output work.</li>
+      <li>The learned tree distribution is exactly normalized for its own parameters, but is not an equality-preserving numerical shortcut for a previously specified flat-softmax network.</li>
+      <li>Choosing one frequent WordNet sense loses other senses. Multiple leaves per word are discussed as an extension and require summed path probabilities; this record does not attribute that implementation to the original experiment.</li>
+      <li>Shared parameters reduce independent per-node parameterization but do not make the hidden activities identical at all nodes or establish convex learning or global convergence.</li>
+      <li>The accessed reissue PDF has unresolved references and a page-count discrepancy against its landing-page pagination; evidence is tied to the exact six-page file. No claimed speedup, test ranking or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/AutoregressiveLanguageModel.html" style="font-weight: 600;"><code>AIO:AutoregressiveLanguageModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Autoregressive Language Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source specifies next-word conditionals given preceding words, defining a sequential language model with a finite context. The AIO target is broader than this shared nonlinear node-conditioned architecture. The mapping uses its sequential-probability scope, not its qualitative assertion about excelling at generation. HierarchicalLanguageModel denotes multilevel representations and is not an exact identity for a vocabulary-tree construction; OutputLayer, SoftmaxLayer and EmbeddingLayer are components rather than whole-model superclasses.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/r5/morin05a/morin05a.pdf" target="_blank" rel="noopener">Hierarchical Probabilistic Neural Network Language Model</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Frederic Morin, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-vR5-morin05a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43409245b14c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:15:42Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:15:42Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HierarchicalProbabilisticNeuralNetworkLanguageModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HierarchicalProbabilisticNeuralNetworkLanguageModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

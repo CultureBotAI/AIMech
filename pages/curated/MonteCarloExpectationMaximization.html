@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monte Carlo Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Monte Carlo Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Monte Carlo Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MonteCarloExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MCEM, Monte Carlo EM
+    </div>
+
+  <div class="detail-desc">
+    An expectation-maximization method that approximates the current conditional expected complete-data log objective by Monte Carlo integration and maximizes that sampled objective to update the parameters.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      MCEM approximates the E-step of a latent-data fitting procedure. It differs from recursive objective averaging in SAEM, conditional expectation of a completed-data estimator in ICE, and Bayesian data-augmentation sampling of the parameter itself. Specialized synthetic-data or image-model applications do not exhaust this general algorithm. All 442 pinned AIO labels/scoped synonyms and 470 preceding native IDs, names and aliases were compared with no normalized identity match. Ignored-inclusive whole-checkout fixed-string searches found 218 matched lines in each checkout; context windows for all 41 distinct matched texts were read. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation mention applications or adjacent estimators, not these identities. All 225 semantic label/synonym rows were recomputed and verified identical to the preceding fully read inventory. Sixteen annotated AIO nodes and outgoing edges comprise fourteen verified prior readings and two new readings. Thirty-four contextual YAMLs comprise twenty-seven byte-verified prior readings and seven full new readings. Absence is bounded to this pin, maintained corpus and inspected neighborhood. No normalized name/alias matches among 442 pinned and 470 maintained records. BayesianDataAugmentation, HiddenMarkovTree and IterativeConditionalEstimation matches are applications or adjacent estimators, not duplicate generic MCEM, SAEM or MCMC-SAEM records. The inspected sufficient-statistic maximization and fixed-data scope distinguish SAEM from averaged parameter gradients, ICE and sequential-task continual learning. Persistent Markovian simulation distinguishes the MCMC extension from the exact-conditional-draw base theorem.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#current-conditional-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At current theta_k, obtain m_k latent completions from the conditional law p(z|y;theta_k). For candidate theta form Q_hat_k(theta)=m_k^(-1) sum_j log f(y,z_kj;theta), and maximize over theta to obtain the next fit. The simulated completions remain fixed while this sampled objective is optimized. The baseline MCEM calculation replaces the preceding sampled objective at each iteration; it does not recursively average objectives from earlier parameter values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-saem-source">Convergence of a stochastic approximation version of the EM algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Eq5 and Section 3 MCEM/SAEM comparison, pp.96-98 / PDF3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#integration-not-averaged-estimator</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Monte Carlo average is taken over complete log objectives or their sufficient statistics before maximization. In general this is different from averaging the complete-data maximizer over imputations. A MAP objective can be represented by an appropriate complete log posterior, but simulating latent completions at a current parameter does not by itself sample a posterior distribution over that parameter.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-saem-source">Convergence of a stochastic approximation version of the EM algorithm</a></span>
+        <span>· <strong>Locator:</strong> Sections 1-2, pp.94-97 / PDF1-4; Eq4-5 and fixed-parameter conditional-law definition</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-sample-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maximizing a finite sampled Q does not certify improvement of the exact Q or observed likelihood. The saved valid Gaussian example gives an MCEM update with lower observed likelihood than its starting value. Monte Carlo count, dependence and integration error require their own analysis; apparently stable parameters or the exact-EM ascent argument alone do not establish convergence of this stochastic procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-saem-source">Convergence of a stochastic approximation version of the EM algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Eq4-5, pp.96-97 / PDF3-4; Section 3 sampling discussion, p.98 / PDF5; finite Gaussian curator calculation in discovery ledger</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The full mechanism source inspected here is the 1999 primary SAEM paper, which explicitly presents MCEM for comparison. The original Wei-Tanner 1990 paper was identified through publisher metadata/abstract but its university PDF returned 403; no unseen original proofs or poor-man data-augmentation details are claimed.</li>
+      <li>The simple unweighted sample mean requires draws from the intended conditional law. MCMC samples are generally dependent and need appropriate exploration/ergodicity conditions; importance sampling requires its own weighting. A local-observation heuristic is not certified full-posterior sampling.</li>
+      <li>Finite Monte Carlo noise can persist near a stationary point. No generic fixed-sample-size convergence theorem, universal rate, adaptive sample-size rule or global optimum is asserted.</li>
+      <li>The complete objective must be well defined and its maximization admissible. Boundary or unbounded likelihoods, nonidentifiability, poor initialization and numerical errors remain model-specific limitations.</li>
+      <li>All 35 pages of the comparison source were read. Finite algebraic checks are curator examples, not historical software, a reproduced fit or empirical performance evidence.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm fits statistical-model parameters from observed data. The inspected AIO target denotes a learning task/process, so this is related algorithm-to-task context, not equivalence or a subclass assertion. The pinned TrainingStrategy and transformation-based DataAugmentation nodes do not identify statistical latent-data integration, and fixed-data iteration is not the pinned sequential-task ContinualLearning network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-saem-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">saem-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://oa.ee.tsinghua.edu.cn/ouzhijian/pgm/pgm-pdf/Delyon99_Convergence%20of%20a%20Stochastic%20Approximation%20Version%20of%20the%20EM%20Algorithm.pdf" target="_blank" rel="noopener">Convergence of a stochastic approximation version of the EM algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernard Delyon, Marc Lavielle, Eric Moulines
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> 10.1214/aos/1018031103</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f2c7a8005a1d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T04:03:36Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T04:03:36Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MonteCarloExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MonteCarloExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

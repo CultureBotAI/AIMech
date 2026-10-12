@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autoregressive conditional restricted Boltzmann machine · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Autoregressive conditional restricted Boltzmann machine</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Autoregressive conditional restricted Boltzmann machine</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:AutoregressiveConditionalRestrictedBoltzmannMachine</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Autoregressive CRBM
+    </div>
+
+  <div class="detail-desc">
+    A neural sequence architecture that models each current vector with a conditional RBM whose visible and hidden biases are affine functions of a fixed window of preceding observed vectors, without hidden-to-hidden temporal links.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record is scoped to Taylor, Hinton and Roweis’s autoregressive CRBM construction for vector sequences, particularly its Gaussian-visible, binary-hidden formulation. The general label conditional RBM and acronym CRBM are not claimed as exclusive aliases because other conditional RBMs condition on arbitrary inputs or use different parameterizations. This is the observed-history specialization related to TRBM-HH; RTRBM and full TRBM also propagate hidden history. A stacked multilevel construction is not silently included in the single-layer record. All 442 pinned AIO labels/scoped synonyms and 361 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 24 lines each. All 18 unique matched contents were read: temporal FRBM source references, model contrasts, a discovery lead and saved review context, rather than existing candidate records. All 44 semantic label/synonym hits and 21 exact AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Condition on preceding visible frames and compute dynamic biases d_t=c+sum_k A_k^T v_(t-k) and e_t=b+sum_k D_k^T v_(t-k), allowing different lag windows for the two sums. In the source’s unit-variance Gaussian formulation, E(v_t,h_t|history)=one-half times ||v_t-d_t|| squared minus e_t^T h_t minus v_t^T W h_t. Thus hidden probabilities are sigmoid(e_t+W^T v_t), and visible coordinates given h_t are independent unit-variance Gaussians with mean d_t+W h_t. The partition is conditional on the fixed history. For fully observed frames the hidden posterior factorizes, and likelihood gradients contrast data and conditional-model statistics; the paper approximates them by CD while holding earlier frames fixed. Its implementation description samples positive-phase binary hidden states, uses hidden probabilities for negative-phase statistics, and uses mean visible reconstructions in place of Gaussian draws. Generation starts from supplied initial frames and repeatedly samples the current conditional RBM; the original conditional training does not model the first lag-window frames.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Modeling Human Motion Using Binary Latent Variables</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–2.2, Equations (1)–(7) and Figure 2, PDF pp.2–4; initialized generation and online missing-data procedure, Sections 4 and 4.4, pp.5–6; higher-level extension and scope limits, Sections 5–6, pp.7–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-no-hidden-history-context">Learning Multilevel Distributed Representations for High-Dimensional Sequences</a></span>
+        <span>· <strong>Locator:</strong> Section 3, TRBM-HH omitted-edge definition and exact-inference qualification, PDF p.5; Section 4.2, fully observed no-HH posterior qualification, p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The single-layer visible conditional depends on the fixed observed lag window. Nonlinear hidden features do not introduce an unbounded latent temporal memory path; deeper stacked models are separate compositions.</li>
+      <li>Sections 2–2.1 explicitly give exact factorial hidden inference for fully observed frames. Section 2.2’s broad statement about omitted smoothing must not override that graph-specific result: future factors contain no earlier hidden state once the visible sequence is fixed. Missing visible data and multilevel models can require smoothing; the reported online missing-data procedure is approximate.</li>
+      <li>Replacing Gaussian visible samples by conditional means removes conditional sampling variance and is not exact Gibbs sampling from the stated Gaussian model. Finite CD is not an exact likelihood gradient or a convergence guarantee.</li>
+      <li>The general energy in Equation (1) includes visible standard deviations and scaled interactions; the displayed mechanism deliberately adopts the source’s sigma_i=1 convention. Rescaling arbitrary variances without transforming weights changes the distribution.</li>
+      <li>A conditional RBM is richer than a linear autoregression, although removing the hidden interactions leaves an autoregressive Gaussian special case. Initial-frame distributions, missing-data posterior integration, phase disambiguation and transition coverage need separate modeling assumptions. No benchmark ranking or author-code certification is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned AIO class is broader than this particular neural sequence architecture with nonlinear stochastic units and weighted connections. This mapping does not claim equivalence to a symmetric Boltzmann machine, a pure directed Bayesian network or an autoregressive language model. The latter is language-specific, while this model supports general vector sequences.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Each time step uses a conditional RBM with undirected visible–hidden interactions. The entire sequence construction additionally has directed history connections and a separate conditional normalizer per step; a related mapping records the component relationship without equating the whole temporal architecture to one unconditioned symmetric RBM.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.neurips.cc/paper/3078-modeling-human-motion-using-binary-latent-variables.pdf" target="_blank" rel="noopener">Modeling Human Motion Using Binary Latent Variables</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Graham W. Taylor, Geoffrey E. Hinton, Sam Roweis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> neurips-2006-1091660f3dff84fd648efe31391c5524</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7613916f0695…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-no-hidden-history-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">no-hidden-history-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v2/sutskever07a/sutskever07a.pdf" target="_blank" rel="noopener">Learning Multilevel Distributed Representations for High-Dimensional Sequences</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilya Sutskever, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v2-sutskever07a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b8b19704c75…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:40:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:40:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AutoregressiveConditionalRestrictedBoltzmannMachine.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AutoregressiveConditionalRestrictedBoltzmannMachine.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

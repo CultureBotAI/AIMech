@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning real-time A* · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Learning real-time A*</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Learning real-time A*</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LearningRealTimeAStar</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LRTA*, Learning real-time A-star
+    </div>
+
+  <div class="detail-desc">
+    A real-time heuristic learning algorithm that moves to a minimum estimated path-cost neighbor, stores that minimum edge-cost-plus-heuristic value at the state it leaves, and retains learned state estimates across repeated problem-solving trials with the same goals.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is Korf’s LRTA* formulation with a minimum-value backup rather than basic RTA*’s second-best backup. It learns state cost-to-go estimates from search experience; it is not ordinary A*, a trained neural network, Fill’s local-minimum-only cost increments, or Q-learning’s sampled action-value update. The inspected formulation is direct assignment of the minimum backup, not an added maximum with the state’s old value. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 313 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 24 and 24 lines respectively. All 24 unique lines were inspected, and the sorted checkout hit sets were identical: prior leads, neighboring Breakout descriptions and their saved reviews/ledgers, not existing candidate records. Seven exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each non-goal state n, use stored or initial heuristic values for its neighbors and form k(n,n′)+h(n′), where k is the edge cost. Move to a neighbor attaining the minimum and assign that minimum to h(n). Preserve the table across subsequent trials in the same problem space with the same goal set. This best-value backup replaces RTA*’s second-best backup. It can change values even when the state is not a local minimum and can decrease an initially inconsistent estimate. The source gives the same finite-space, positive-edge, finite-heuristic and everywhere-goal-reachable conditions for eventual goal finding as basic RTA*. For learning convergence, it additionally assumes non-overestimating initial estimates, zero estimates at goals, repeated random sampling of the initial states and random tie handling so the relevant alternatives continue to be explored. Under those conditions, its theorem concerns exact learned values along every optimal path from the sampled initial-state set to a goal over repeated trials.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Real-Time Heuristic Search</a></span>
+        <span>· <strong>Locator:</strong> Section7, PDF18–21 / printed206–209, best-value replacement and Theorem3 with assumptions and proof; Section5.1, PDF13–14 / printed201–202, inherited completeness conditions</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-earlier-conference-paper">Real-Time Heuristic Search: New Results</a></span>
+        <span>· <strong>Locator:</strong> Section4 Learning-RTA* and Section4.1, PDF4–5 / printed142–143; best-value backup and explicit zero-goal assumption in Theorem3 proof</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The learning result does not say every state in an arbitrary graph is learned exactly, nor that a fixed finite number of trials certifies convergence. Random initial-state sampling and random tie resolution provide the repeated exploration used in the proof.</li>
+      <li>Non-overestimation matters: an initially overestimated state can be avoided and remain uncorrected. The 1988 proof explicitly assumes h(goal)=0; the 1990 proof uses the same equality. Non-overestimation alone would not imply that equality if negative goal estimates were permitted.</li>
+      <li>LRTA* can repeatedly traverse a heuristic depression before escaping and does not inherit basic RTA*’s tree local-optimality theorem. Good asymptotic estimates do not ensure that an early trial follows a shortest path.</li>
+      <li>Replacing h(n) with max(old h(n), minimum backup) is an additional convention not asserted as the same literal source update. The direct minimum can decrease an admissible but inconsistent initial value; that does not contradict preservation of non-overestimation.</li>
+      <li>The table stores state estimates, and the method evaluates successor costs. It is not Q-learning’s model-free sampled state-action update. No stochastic-transition extension, function-approximation guarantee, convergence rate or numerical puzzle result is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary papers explicitly formulate repeated-trial learning of heuristic values from problem-solving experience. The pinned AIO target denotes the task/process of developing methods that learn from data; this algorithm-to-task relation records that connection without asserting class equivalence or an is-a hierarchy. No language-model, neural-network or preprocessing identity is implied.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.drexel.edu/~so367/teaching/2012/CS680/papers/W3R2.pdf" target="_blank" rel="noopener">Real-Time Heuristic Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1016/0004-3702(90)90054-4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8cf1b89fb487…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-earlier-conference-paper">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">earlier-conference-paper</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.mcgill.ca/~dprecup/courses/AI/Materials/rta_star.pdf" target="_blank" rel="noopener">Real-Time Heuristic Search: New Results</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard E. Korf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab17a837c83e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T15:04:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T15:04:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LearningRealTimeAStar.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LearningRealTimeAStar.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

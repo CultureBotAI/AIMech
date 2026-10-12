@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relevant component analysis · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Relevant component analysis</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Relevant component analysis</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RelevantComponentAnalysis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RCA
+    </div>
+
+  <div class="detail-desc">
+    A partially supervised linear metric-learning procedure that estimates within-group covariance from positive equivalence constraints and whitens the representation using that covariance.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      RCA forms chunklets from observations known to share a class without requiring their class names. Different chunklets need not represent different classes. It estimates variation within chunklets, unlike whitening by total covariance, and it does not optimize NCA’s stochastic neighbor reward. The maintained LDA record is a Gaussian classifier, not RCA or the optional constraints-based Fisher projection. This record describes batch RCA; online adaptation and optional dimensionality-reduction procedures are qualified extensions. No normalized identity match for this candidate was found across all 442 pinned AIO labels/scoped synonyms and 227 preceding native IDs/names/aliases. The same search identified BIRCH as an existing native record and excluded it from additions. Full-checkout word-delimited fixed-string searches included ignored and hidden files, with 79 worktree and 79 main-checkout matching lines; these concern BIRCH identity/proposal/review context and discovery leads. Ten exact AIO CLASS nodes with scoped synonyms and outgoing edges, and nine neighboring native records, were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Take the transitive closure of positive same-class constraints to obtain chunklets C_j with means m_j. Let N be the total number of observations in the chunklets, as clarified in Section 5, and compute Chat=(1/N)sum_j sum_(x in C_j)(x-m_j)(x-m_j)^T. When Chat is positive definite on the represented space, use the symmetric whitening transform W=Chat^(-1/2) on the original feature vectors. Equivalently, compare vectors with squared distance (x-y)^T Chat^(-1)(x-y). Large within-chunklet variance directions receive less weight. The method uses positive constraints without requiring explicit class labels or negative constraints. The paper permits an optional reduction before whitening and describes a constraints-based Fisher discriminant projection; nonsingularity must hold in the retained space.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Learning a Mahalanobis Metric from Equivalence Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Algorithm 1 and Equation (1), PDF pp. 4–6 (printed 940–942); Section 5, PDF p. 10, definition of N; Section 6 and Algorithm 2, PDF pp. 10–12 (printed 946–948), dimensionality and rank qualifications</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#source-convention-check</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Curator calculation: two chunklets {(0,0),(1,0),(2,0)} and {(10,0),(11,0),(12,0)} have within-chunklet covariance diag(2/3,0), of rank 1. The count sum_j(|C_j|-1)=4 exceeds the ambient dimension 2 while the covariance is singular. This disproves treating the sample-size count as a general exact rank or invertibility certificate. The exact calculation is saved in research/discovery/metric-source-boundaries.py.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Learning a Mahalanobis Metric from Equivalence Constraints</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equation (1), PDF p. 4, supplies the covariance definition evaluated by the curator; Algorithm 2, PDF p. 12, supplies the challenged rank-count expression.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The inverse and inverse square root require a nonsingular covariance on the represented space. Few, singleton or geometrically redundant chunklets may give a singular estimate. This record does not invent a universal pseudoinverse or regularization fallback.</li>
+      <li>Algorithm 2 calls sum_j(|C_j|-1) the covariance rank. In general it is a sample-size upper bound, not the actual rank; collinearity can leave the covariance singular even when that count exceeds the feature dimension. The preceding prose’s rank-greater-than-dimension condition is not a feasible matrix-rank requirement. The source heuristic is not copied as an invertibility guarantee.</li>
+      <li>Whitening can amplify low-variance noise, and erroneous equivalence constraints can contaminate entire chunklets through transitive closure. Small within-group variance is not itself evidence of relevance to a downstream task.</li>
+      <li>The paper’s likelihood and information-optimality results have stated modeling assumptions; this record claims neither universal classification improvement nor unconditional statistical optimality. Optional cFLD, online RCA and their implementation details require separate scope assessments. No model was trained.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FeatureExtraction.html" style="font-weight: 600;"><code>AIO:FeatureExtraction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Feature Extraction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RCA transforms feature vectors using learned within-chunklet covariance before downstream learning. This relates its representation-transform operation to AIO FeatureExtraction without asserting a deep neural-network identity or a specific downstream predictor.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/KnearestNeighborClassificationAlgorithm.html" style="font-weight: 600;"><code>AIO:KnearestNeighborClassificationAlgorithm</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">K-nearest Neighbor Classification Algorithm</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The learned distance can be used for nearest-neighbor classification, one stated application. Learning this representation is distinct from the target’s voting rule; the relation is an explicitly related method-to-application association.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume6/bar-hillel05a/bar-hillel05a.pdf" target="_blank" rel="noopener">Learning a Mahalanobis Metric from Equivalence Constraints</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aharon Bar-Hillel, Tomer Hertz, Noam Shental, Daphna Weinshall
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v6/bar-hillel05a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e6a710416aa0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T09:58:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T09:58:22Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RelevantComponentAnalysis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RelevantComponentAnalysis.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

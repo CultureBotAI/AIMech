@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WalkSAT · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>WalkSAT</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">WalkSAT</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:WalkSAT</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> WalkSAT/SKC, SKC WalkSAT
+    </div>
+
+  <div class="detail-desc">
+    A clause-focused SAT local-search algorithm, in its classical SKC formulation, that first selects an unsatisfied clause, prioritizes a variable with zero breakcount, and otherwise mixes a random variable flip with a minimum-breakcount flip within that clause.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record curates the classical SKC variable-selection rule under the commonly used WalkSAT name. It does not equate every later WalkSAT heuristic, the earlier underspecified WSAT family description, pure clause-first random walk, or global GSAT-with-walk selection with that exact rule. The 1994 source gives the clause-first lineage; the authors’ 2004 solver description explicitly supplies the zero-break priority and breakcount-based choice. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 316 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 7 and 7 lines respectively. All seven unique lines were inspected, and the sorted checkout hit sets were identical: neighboring GSAT/WalkSAT mentions and saved review/ledger references, not existing candidate records. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a complete truth assignment and stop successfully when all clauses are satisfied. Otherwise randomly choose an unsatisfied nonempty clause. For each candidate variable in that clause, its breakcount is the number of currently satisfied clauses that would become unsatisfied if it were flipped. If any candidate has breakcount zero, choose one such candidate at random. Only when there is no zero-break candidate, choose a random variable from the selected clause with probability p; with probability 1−p choose a candidate of minimum breakcount, breaking ties randomly. Flip the chosen variable and repeat under the application’s stopping budget. Breakcount omits how many previously unsatisfied clauses become satisfied, so it need not rank candidates like GSAT’s global net-gain score. Random restarts are an optional outer strategy; the described 2004 competition configuration uses one long run.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Walksat in the 2004 SAT Competition</a></span>
+        <span>· <strong>Locator:</strong> PDF/printed1, breakcount/makecount definitions and SKC steps1–3; PDF/printed2, variant distinctions and single-run/no-restart competition configuration</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-earlier-wsat-context">Noise Strategies for Improving Local Search</a></span>
+        <span>· <strong>Locator:</strong> Modifying the Random Walk Strategy, PDF5 / printed341, clause-first WSAT lineage and sampling contrast</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The zero-break branch precedes the noise coin, including at p=1. That setting is therefore not generally identical to a pure random-clause/random-variable walk. Removing the priority changes the specified SKC heuristic.</li>
+      <li>Candidate selection is restricted to the chosen clause and can miss the globally best net-gain flip. Minimizing breakcount is different from minimizing breakcount minus makecount; replacing one by the other changes the heuristic.</li>
+      <li>A finite unsuccessful run does not prove UNSAT, and the pure 2-CNF random-walk guarantee is not automatically a guarantee for this SKC policy on general formulas. The noise setting and restart strategy are not universal constants.</li>
+      <li>The move rule needs a nonempty selected clause and a declared formula representation. Empty clauses require separate handling; duplicate clauses, literal normalization and weighted extensions can change counts or sampling and are not silently normalized here.</li>
+      <li>AutoWalksat, Rnovelty, Rnovelty+ and later software additions are distinct procedures or configurations, not exact aliases of this SKC record. No author implementation or numerical solver benchmark was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target was established for these symbolic SAT-search variants in the inspected snapshot and semantic neighborhood. Stochastic moves, noise terminology and logical formulas do not justify a forced learning-task, neural-layer or language-model mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms and 316 preceding maintained IDs/names/aliases; ignored/hidden full-checkout text in main and worktree; semantic labels for search, heuristics, satisfiability, logic, reasoning, noise and randomness; eight exact AIO CLASS nodes and four complete native neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language model performing reasoning during language tasks is not a CNF assignment-search algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            These SAT procedures do not require preprocessing or training a machine-learning model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Searching a supplied formula for a model does not itself require developing a method that learns from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Random exploration and greedy clause scores do not make this fixed-formula search a reinforcement-learning task or a learned action-value method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Fixed configurations can admit a Markov description, but that representation does not establish this named algorithm’s identity or a specific semantic mapping to the pinned network/model class. No transition-model concept is curated here.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html"><code>AIO:ArtificialNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The described mechanisms manipulate Boolean assignments and clause counts, without requiring a network of artificial neurons.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NoiseDenseLayer.html"><code>AIO:NoiseDenseLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Random variable flips in SAT search are not noise injection into dense-layer weights for neural regularization.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GaussianNoiseLayer.html"><code>AIO:GaussianNoiseLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The noise is a choice of discrete search move, not additive zero-centered Gaussian regularization of neural inputs.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.virginia.edu/~rmw7my/papers/walksat.pdf" target="_blank" rel="noopener">Walksat in the 2004 SAT Competition</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Henry Kautz, Bart Selman, David McAllester
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:525f46d2f9fd…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-earlier-wsat-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">earlier-wsat-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cdn.aaai.org/AAAI/1994/AAAI94-051.pdf" target="_blank" rel="noopener">Noise Strategies for Improving Local Search</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bart Selman, Henry A. Kautz, Bram Cohen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fd839ba6780a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T15:17:13Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T15:17:13Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/WalkSAT.yaml" target="_blank" rel="noopener">
+      <code>data/curated/WalkSAT.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

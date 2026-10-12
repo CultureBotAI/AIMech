@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulated annealing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Simulated annealing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Simulated annealing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SimulatedAnnealing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A stochastic optimization procedure that explores candidate configurations with temperature-controlled acceptance of cost-increasing moves and progressively cools that acceptance process to concentrate search on low-cost configurations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the temperature-scheduled optimization procedure exemplified by Kirkpatrick, Gelatt and Vecchi. Its basic symmetric-proposal Metropolis step is distinguished from fixed-temperature target sampling, generic annealing metaphors, training signal annealing and a proof that a particular finite schedule reaches a global minimum. The 1983 article is a primary formulation, not a claim of exclusive invention. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 285 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 15 and 15 lines respectively. Every text hit was a prior candidate lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and seven native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose a representation of feasible configurations, an objective E to minimize, a random rearrangement proposal and an annealing schedule specifying temperatures and work at each temperature. At current configuration x, propose y and compute delta=E(y)−E(x). For the basic symmetric-proposal Metropolis rule at effective temperature T&gt;0 measured in cost units, accept delta&lt;=0 moves and accept delta&gt;0 with probability exp(−delta/T); otherwise retain x. Repeat transitions at the current temperature, then lower temperature according to the schedule. High temperatures permit larger cost-increasing moves more frequently; cooling reduces that probability. The source motivates sufficient equilibration at each stage. Candidate representation, move set and schedule depend on the optimization problem; the returned low-cost configuration is a search result rather than a certified global minimizer.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Optimization by Simulated Annealing</a></span>
+        <span>· <strong>Locator:</strong> Statistical Mechanics, PDF pp.3–4 / printed672–673, Metropolis acceptance and cooling schedule; Summary and Conclusions, PDFp.10 / printed679</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#proposal-and-temperature-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Curator qualification by substituting pi_T(x) proportional to exp(−E(x)/T) into Hastings’s Metropolis choice: when the target is proper and the ratio is defined, an asymmetric proposal requires acceptance min(1,exp(−delta/T)*q(x|y)/q(y|x)). The uncorrected exponential rule follows when the proposal ratio cancels. This fixed-temperature construction does not establish finite-schedule equilibration or annealing convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Optimization by Simulated Annealing</a></span>
+        <span>· <strong>Locator:</strong> Statistical Mechanics, PDF pp.3–4 / printed672–673</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-proposal-scope">Monte Carlo sampling methods using Markov chains and their applications</a></span>
+        <span>· <strong>Locator:</strong> Section2.2, PDF pp.3–5 / printed99–101</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The exp(−delta/T) expression is for positive effective temperature with the physical Boltzmann constant absorbed into its cost units. Zero temperature is a limiting or separately defined greedy rule, not evaluation of that quotient at T=0. Equal-cost moves are accepted in the displayed symmetric-proposal rule.</li>
+      <li>At fixed T the Boltzmann interpretation requires a proper target and a valid transition construction. Arbitrary asymmetric proposals do not justify dropping the reverse-to-forward proposal ratio. Lowering T changes the target; stationarity for a fixed stage does not imply equilibrium throughout a finite cooling run.</li>
+      <li>Positive-temperature uphill acceptance only permits escape through moves supported by the proposal. It does not ensure reaching every state, escaping a local basin in a chosen budget or tracking equilibrium. Rapid cooling can freeze search prematurely; schedule length, cost scale, move connectivity and constraints matter.</li>
+      <li>The primary article’s heuristics and empirical scaling claims are not a finite-run global-convergence theorem or a universal complexity bound. The later mathematical conditions for asymptotic annealing convergence were not audited here. No electronic-design or traveling-salesman benchmark is reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Simulated annealing uses Metropolis transitions at a sequence of temperatures. The pinned AIO target denotes a stochastic process/model and is exported beneath Network; this algorithm-to-process relation is not equivalence or an is-a assertion. A fixed cooling schedule gives time-dependent transitions, and changing temperature does not preserve a single stationary Boltzmann target throughout the run.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://hedibert.org/wp-content/uploads/2013/12/1983KirkpatrickGelattVecchi.pdf" target="_blank" rel="noopener">Optimization by Simulated Annealing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            S. Kirkpatrick, C. D. Gelatt, Jr., M. P. Vecchi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1126/science.220.4598.671</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:06f76ea70632…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-proposal-scope">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">proposal-scope</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://probability.ca/hastings/hastings.pdf" target="_blank" rel="noopener">Monte Carlo sampling methods using Markov chains and their applications</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            W. K. Hastings
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1093/biomet/57.1.97</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dc620d3651d3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:05:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:05:37Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SimulatedAnnealing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SimulatedAnnealing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

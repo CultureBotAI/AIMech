@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hierarchical mixture of experts · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Hierarchical mixture of experts</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Hierarchical mixture of experts</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:HierarchicalMixtureOfExperts</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HME
+    </div>
+
+  <div class="detail-desc">
+    A conditional mixture-model family that organizes output experts as leaves of a tree and forms each leaf’s mixture weight by multiplying input-dependent probabilistic gates along its root-to-leaf path.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The inspected Jordan–Jacobs construction uses generalized-linear experts and softmax gates with shared external input, with a finite tree defining nested soft partitions. It is static conditional modeling, distinct from temporal hidden Markov decision trees, hard classification trees, hierarchical clustering and language-specific sparse MoE routing. A mixture density network shares conditional-mixture semantics but need not impose this tree factorization or generalized-linear leaf structure. Flattening a fixed tree gives leaf weights without making every flat gating parameterization the same hierarchical model. EM, IRLS and the online surrogate are fitting procedures, not the model identity. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 382 preceding native IDs/names/aliases for the four researched candidates. Both full-checkout fixed-string searches included ignored and hidden files, with 45 and 45 matching lines. All 31 unique matched contents were read: prior specialized inference records, source/review context and pending leads, not exact records for the three new identities. Expanded titles, source IDs, plural forms and complete/partial-factorizability terminology were included. All 68 semantic label/synonym hits and 23 exact fully annotated AIO CLASS nodes with outgoing edges were read. Their generated YAMLs and seven native neighbors were read or byte-verified unchanged after prior complete reading, totaling 30 contextual records. The broader phrase structured variational inference is searched but not asserted as an unconditional alias of structured mean field. Boltzmann trees remains an unresolved full-text lead. Absence is bounded to the pinned vocabulary and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For input x and leaf l, define w_l(x) as the product of normalized child-gate probabilities along the path to l. Then p(y|x)=sum_l w_l(x) p_l(y|x). In the two-level presentation, p(y|x)=sum_i g_i(x) sum_j g_(j|i)(x) p_ij(y|x), with softmax gates and generalized-linear conditional expert densities. The conditional output mean is the corresponding weighted sum of expert means. Given an observed y, leaf responsibilities are proportional to w_l(x) p_l(y|x); they condition on both x and y, unlike input-only gates. Conditional EM alternates these responsibilities with weighted expert fits and gate fits to soft multinomial targets; a lower gate’s objective is weighted by the posterior probability of reaching its parent. The paper uses IRLS inside those maximum-likelihood subproblems. Its separate Algorithm 2 instead regresses log responsibilities by least squares, and its online variant uses discounted recursive weighted least squares. Those surrogate procedures are approximations to the specified fitting approach.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Hierarchical Mixtures of Experts and the EM Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–2.2, printed pp.182–189 / PDF spreads 2–5; Sections 2.5–2.7, pp.190–195 / PDF spreads 6–8; Sections 2.9–3, pp.199–204 / PDF spreads 10–13; Appendices A–B, pp.206–212 / PDF spreads 14–17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source uses soft gates that mix expert densities; it does not require hard routing, top-k sparse activation, a language model or a causal interpretation of the decision hierarchy.</li>
+      <li>Exact EM likelihood monotonicity requires a valid E-step and an M-step that increases the expected complete log likelihood under suitable regularity. It does not automatically apply to arbitrary gradient steps, the log-target least-squares surrogate or discounted online updates, and does not guarantee a global optimum.</li>
+      <li>The logistic expert output is a Bernoulli probability, not log odds; printed p.184 is qualified by the explicit Bernoulli density on p.188. In Appendix B, the multinomial total is m=sum_i y_i; displayed n factors in Equation (6.2) and the following mean/log-partition expressions cannot be copied when n denotes the number of categories.</li>
+      <li>Near-uniform gates average expert predictions, but a mixture of distinct expert densities need not become one generalized-linear density. Finite log-responsibility targets also require nonzero responsibilities.</li>
+      <li>The robot simulation uses test-error stopping and selected successful comparison runs. No unbiased generalization comparison, universal performance advantage, author-code execution or benchmark reproduction is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For a fixed input, latent decisions down the finite tree and a leaf-conditioned output define a normalized directed acyclic probabilistic factorization. The pinned Bayesian-network family is broader than this conditional hierarchical mixture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DecisionTree.html" style="font-weight: 600;"><code>AIO:DecisionTree</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Decision Tree</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model uses a tree of probabilistic decisions, but the pinned target is classification-scoped. The inspected model also performs conditional regression and sums over paths, so this is a structural association rather than an unqualified model-to-classification subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www2.bcs.rochester.edu/sites/robbie/jordanjacobs.nc94.pdf" target="_blank" rel="noopener">Hierarchical Mixtures of Experts and the EM Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Michael I. Jordan, Robert A. Jacobs
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/neco.1994.6.2.181</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:31f0365922df…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T20:15:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T20:15:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HierarchicalMixtureOfExperts.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HierarchicalMixtureOfExperts.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

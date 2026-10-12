@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaMixUp · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaMixUp</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaMixUp</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaMixUp</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adaptive MixUp
+    </div>
+
+  <div class="detail-desc">
+    An adaptive interpolation-training procedure that learns example-dependent mixing-coefficient regions with a policy network and trains a classifier together with an intrusion discriminator intended to separate mixed examples from original data.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      AdaMixUp learns an input-dependent mixing region and uses an intrusion objective, unlike original MixUp’s globally selected Beta distribution or Manifold Mixup’s hidden-layer interpolation. An intrusion discriminator does not make it a GAN: the generator and discriminator are trained toward separating mixtures from originals rather than adversarially making mixtures indistinguishable from real data. The mathematical distinct-class setup is relaxed in the paper’s implementation footnote. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 247 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 6 lines in the worktree and 6 in main. These were prior candidate leads, not concept records. Twelve exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a pair of examples, a policy-region network outputs a three-component softmax (alpha,delta,remainder). Interpret the first two components as the interval(alpha,alpha+delta) for the mixing coefficient. Sample epsilon uniformly on(0,1) and set gamma=alpha+delta*epsilon so gradients can pass through the interval parameters. Form gamma*x1+(1−gamma)*x2 and the correspondingly mixed class targets. Train the classifier with observed and mixed targets, and train the policy generator together with an intrusion discriminator to distinguish generated mixtures from original examples. The discriminator shares the classifier’s feature network while using its own final classification layers. For higher-fold mixing, reuse the same pairwise generator recursively by mixing an original example with an original or previously mixed example; composing a previous coefficient vector lambda with coefficient gamma gives (gamma*lambda,1−gamma). The paper describes alternating minibatch optimization of classification/mixup loss and intrusion loss. Its intended intrusion supervision treats mixed examples as outside and observed examples as inside the data manifold; this is a learned surrogate, not direct access to the true manifold.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">MixUp as Locally Linear Out-of-Manifold Regularization</a></span>
+        <span>· <strong>Locator:</strong> Adaptive MixUp and Implementation of AdaMixUp, Equations (5)–(7), Figure 3 and Training, PDF pp. 4–6 / printed pp. 3717–3719; assumptions and intrusion boundaries on pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#implementation-loss-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned Fold-2 reimplementation generates interval parameters with softmax, samples gamma by reparameterization and uses the same coefficient to mix inputs and labels. Its classifier uses softmax cross-entropy over an equal-sized mixture of generated examples and one source group. Its binary intrusion head uses softmax cross-entropy, labels originals1 and mixtures0, and averages over two original groups and one mixed group. The returned cost sums the classification and intrusion means and a weight-decay term. This realizes the separation intention using negative log-probabilities, with source-specific label encoding and weighting rather than literal positive-log minimization or a demonstrated reproduction of the paper’s alternating update schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ada-code">AdaMixUp public author reimplementation — interpolation and losses</a></span>
+        <span>· <strong>Locator:</strong> GitHub.AdaMixup.AAAI.MNIST.Cifar.py lines180–388 and407–426: policy interval, mixing, shared networks, binary labels and training cost</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">MixUp as Locally Linear Out-of-Manifold Regularization</a></span>
+        <span>· <strong>Locator:</strong> Adaptive MixUp and Implementation of AdaMixUp, Equations (5)–(7), Figure 3 and Training, PDF pp. 4–6 / printed pp. 3717–3719; assumptions and intrusion boundaries on pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The claimed avoidance of manifold intrusion depends on assumptions, generator/discriminator capacity and optimization. A learned discriminator cannot certify that every mixed point is outside the true manifold or that its soft target is correct.</li>
+      <li>Equation5 prints positive log-probabilities despite calling the quantity cross-entropy and later minimizing it. The prose and pinned implementation support minimizing negative log-probability; the discrepancy is preserved rather than treating the printed sign as an executable loss or asserting an official erratum.</li>
+      <li>The pinned public repository describes itself as a reimplementation. It uses binary labels opposite to the paper’s arbitrary0/1 convention and combines classification and intrusion batch means in one cost plus weight decay, while the paper describes alternating objectives.</li>
+      <li>The code’s classification batch combines equal original/mixed counts, while its discriminator uses twice as many original as mixed examples. Those batch means are not asserted to equal the separately averaged terms of printed Equations5–6.</li>
+      <li>The recursive mixture coefficients are nonnegative and sum to one, but this algebra alone proves neither semantic validity nor improved generalization. The record follows the verbal recursion and coefficient construction rather than the dimensionally inconsistent matrix-vector ordering in one argument of printed Equation7.</li>
+      <li>No universal architecture, fold count, performance gain or execution of the downloaded author code is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DataAugmentation.html" style="font-weight: 600;"><code>AIO:DataAugmentation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Data Augmentation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This algorithm learns transformations or synthetic examples for training. The AIO target denotes augmentation in the preprocessing branch; the local procedure includes policy learning and model training, so the association is related rather than equivalent or an asserted subclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SupervisedLearning.html" style="font-weight: 600;"><code>AIO:SupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The classifier fits observed and interpolated class targets. This relates the algorithm to a supervised learning task at a different abstraction level; it does not assert identity or a subclass relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ojs.aaai.org/index.php/AAAI/article/download/4256/4134" target="_blank" rel="noopener">MixUp as Locally Linear Out-of-Manifold Regularization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hongyu Guo, Yongyi Mao, Richong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9d97175f9bf0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ada-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ada-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/SITE5039/AdaMixUp/blob/44d1bbca2a9617e8db430406fc19c44b43c83f5d/GitHub.AdaMixup.AAAI.MNIST.Cifar.py" target="_blank" rel="noopener">AdaMixUp public author reimplementation — interpolation and losses</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            SITE5039/AdaMixUp contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f8acb2389c7a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T10:55:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T10:55:22Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaMixUp.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaMixUp.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

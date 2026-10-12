@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sarsa · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Sarsa</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Sarsa</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:Sarsa</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> State-action-reward-state-action
+    </div>
+
+  <div class="detail-desc">
+    An on-policy temporal-difference control algorithm that updates the current state-action value toward the observed reward plus the discounted estimated value of the next action selected by the same behavior policy.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record specifies one-step Sarsa through the tabular control formulation. The historical Modified Connectionist Q-Learning report supplies the selected-next-action target in a broader neural and eligibility-trace method; its lambda=0 case shares the one-step error, but the entire trace-based neural method is not made an exact alias of this record. Sarsa(lambda), expected Sarsa, Q-learning and GAE have distinct scopes. The available Cambridge PDF bears a September 1994 cover and already mentions Sutton’s proposed SARSA name in footnote 3; the later book draft credits the name to Sutton (1996). These source statements are preserved without resolving the naming chronology. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 298 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 20 and 20 lines respectively. All 17 unique hit contents were inspected: prior TD(lambda) and Q-routing leads, GAE and AntNet boundary statements, and their saved reports/reviews. These were references to methods rather than existing candidate records. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain Q(s,a), choose the current action A using the current policy derived from Q, execute it, and observe reward R and next state S_next. For a nonterminal next state, choose A_next from that same policy before updating, then set Q(S,A)=Q(S,A)+alpha*(R+gamma*Q(S_next,A_next)−Q(S,A)), using pre-update values. Carry the selected A_next forward as the next executed action; it is not replaced with a fresh sample after the update. For a terminal next state, the continuation value is zero and no next environment action is executed. Control improves the policy from Q while retaining its declared exploration rule, such as epsilon-greedy selection. The sample target uses the actual selected next action, not a maximum over actions and not an expectation over all policy actions. Rummery and Niranjan’s Eq.9 uses this error multiplied by an eligibility-weighted sum of neural-output gradients; at lambda=0 only the current gradient remains. That historical extension does not make neural networks or nonzero traces necessary for one-step tabular Sarsa.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Reinforcement Learning: An Introduction</a></span>
+        <span>· <strong>Locator:</strong> Section 6.4, PDF pp.155–156 / printed pp.137–138, Equation 6.7, terminal convention and Sarsa control pseudocode; bibliographical notes for Section 6.4, PDF p.166 / printed p.148</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-original-report">On-Line Q-Learning Using Connectionist Systems</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, PDF pp.7–8 / printed pp.6–7, Equation 9 and footnote 3; Section 4, PDF pp.8–10 / printed pp.7–9; Section 6.1, PDF p.17 / printed p.16; cover PDF p.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A persistently exploratory behavior policy changes the values being estimated; an exploratory next action can lower or raise the sampled target relative to another action. Greedy Sarsa and Q-learning can coincide on a transition, but such a special case does not equate the methods.</li>
+      <li>Convergence requires a specified setting, sampling policy and step-size assumptions. The inspected book draft attributes its tabular control convergence statement to personal communication, and the 1994 neural report discusses parameter sensitivity and missing general guarantees. Neither source is treated as an independently verified complete proof for arbitrary function approximation.</li>
+      <li>The September 2016 book draft is versioned as a draft. Its retrospective naming attribution differs from the SARSA footnote in the available 1994-covered report; no first-use date or explanation of that discrepancy is asserted.</li>
+      <li>Trace choice, replacing versus accumulating traces, n-step targets and expected backups define extensions requiring their own evidence. No robot-navigation or gridworld performance result is curated here.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html" style="font-weight: 600;"><code>AIO:ReinforcementLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Reinforcement Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected source defines Sarsa as an on-policy reinforcement-learning control algorithm. The pinned AIO class denotes the learning task rather than this particular action-value update, so the relation is neither equivalence nor an asserted algorithm-class hierarchy.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="http://incompleteideas.net/book/bookdraft2016sep.pdf" target="_blank" rel="noopener">Reinforcement Learning: An Introduction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Richard S. Sutton, Andrew G. Barto
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> http://incompleteideas.net/book/bookdraft2016sep.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:94b195c3d5f7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-original-report">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">original-report</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/rummery_tr166.pdf" target="_blank" rel="noopener">On-Line Q-Learning Using Connectionist Systems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            G. A. Rummery, M. Niranjan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> CUED/F-INFENG/TR 166</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c9434f056d17…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T14:02:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T14:02:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/Sarsa.yaml" target="_blank" rel="noopener">
+      <code>data/curated/Sarsa.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural probabilistic language model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Neural probabilistic language model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Neural probabilistic language model</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:NeuralProbabilisticLanguageModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> NPLM
+    </div>
+
+  <div class="detail-desc">
+    A neural finite-context language architecture that jointly learns a shared word-embedding lookup and a nonlinear predictor of the next-word distribution using concatenated context embeddings and a vocabulary softmax.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record is scoped to Bengio, Ducharme, Vincent and Jauvin’s published 2003 architecture, especially its tanh feed-forward formulation with optional direct input-to-output weights. It does not designate every neural probabilistic model of language, or assert historical priority over the earlier work acknowledged by the paper. It differs from LBL’s tied bilinear output embeddings and Morin–Bengio’s tree-node-conditioned nonlinear predictor. All 442 pinned AIO labels/scoped synonyms and 358 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 33 lines each. All 24 unique matched contents were read: LBL source references and model contrasts, discovery leads and saved review context. These do not constitute existing candidate records. All 85 semantic label/synonym hits and 22 exact AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Look up each preceding word in a shared matrix C and concatenate the n-1 context embeddings in their specified positions into x. Compute vocabulary logits y=b+W x+U tanh(d+H x), where direct weights W may be set to zero. Apply the vocabulary softmax and multiply next-word conditionals to obtain sequence probabilities under the chosen context convention. Jointly optimize the embeddings and network parameters by stochastic gradient ascent on the corpus log likelihood with regularization; a weight-decay term added to a maximized objective has the negative penalty sign. The input embedding lookup is shared across context positions, while the output matrices and biases are separately learned parameters. Contributions from repeated appearances of the same context word accumulate in its embedding row. The paper also discusses mixing the resulting predictions with an interpolated trigram model, which is an additional ensemble choice.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Neural Probabilistic Language Model</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Figure 1 and Equation (1), printed pp.1141–1143 / PDF pp.5–7; sequence factorization and context convention, p.1138 / PDF p.2; shared representation and prior-work scope, pp.1139–1141 / PDF pp.3–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The specified feed-forward formulation has a finite context window and a fixed vocabulary. It is not a recurrent state model or a tree-normalized output architecture.</li>
+      <li>The flat vocabulary softmax incurs vocabulary-dependent computation even when only the observed next-word likelihood is required. Joint learning is nonconvex and does not guarantee optimality or universally meaningful semantic distances.</li>
+      <li>An input-embedding row absent from an example’s context has zero gradient from that example’s likelihood, even if its word is the target. This statement excludes regularization, which can still affect unused rows. Output-word parameters remain separate and can receive gradients.</li>
+      <li>Sharing the lookup matrix does not discard context order: concatenation places embeddings in different slots with distinct subsequent weights. Optional direct weights change the parameterization but not probability normalization.</li>
+      <li>The paper warns that regularizing W and H without C can permit a compensating growth of embedding scale. Smooth feature sharing motivates generalization, but does not prove correct probabilities for every unseen combination. No benchmark superiority or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/AutoregressiveLanguageModel.html" style="font-weight: 600;"><code>AIO:AutoregressiveLanguageModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Autoregressive Language Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The primary construction predicts the next word from preceding words, defining sequential word conditionals. The pinned AIO target is broader than this jointly learned embedding and nonlinear flat-output architecture. This mapping uses sequential-probability scope, not an empirical generation-quality claim. FactoredLanguageModel denotes explicit linguistic factors, not factorized neural weight matrices; ImplicitLanguageModel and EnergyBasedLLM describe non-autoregressive sequence energies rather than these next-word conditionals.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf" target="_blank" rel="noopener">A Neural Probabilistic Language Model</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yoshua Bengio, Réjean Ducharme, Pascal Vincent, Christian Jauvin
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> jmlr-v3-bengio03a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0bddf9a608d6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:27:33Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:27:33Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NeuralProbabilisticLanguageModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NeuralProbabilisticLanguageModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

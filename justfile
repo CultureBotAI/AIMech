@@ -47,3 +47,9 @@ check-reviews *args:
 [positional-arguments]
 review-check *args:
     uv run --locked python scripts/record_review.py check "$@"
+
+render:
+    uv run --locked python scripts/render_pages.py
+
+render-check:
+    uv run --locked python scripts/render_pages.py --check

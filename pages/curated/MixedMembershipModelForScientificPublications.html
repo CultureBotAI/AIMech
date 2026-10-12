@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mixed-membership model for scientific publications · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Mixed-membership model for scientific publications</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Mixed-membership model for scientific publications</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:MixedMembershipModelForScientificPublications</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A generative document model in which one Dirichlet-distributed membership vector mixes aspect-specific word distributions for an abstract and aspect-specific reference distributions for its bibliography.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the word/reference multinomial model fitted by Erosheva, Fienberg and Lafferty in their 2004 scientific-publication study. The broader mixed-membership framework and proposed Bernoulli citation alternatives are not exact aliases for this selected model. Shared document memberships couple two observation channels; no word-to-reference alignment, author identity or latent network-block membership is assumed. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 426 preceding native IDs, names and aliases. Both full-checkout searches included ignored and hidden files; 13 matching lines in each checkout came from four unique file contents containing prior frontier leads, contextual distinctions and a cached bibliography mention. Matching concept excerpts were inspected; the long cached web transcript was not reread in full. Semantic search returned 204 label/synonym hits: 200 verified unchanged from prior reading and four newly read. Eighteen annotated AIO CLASS nodes and outgoing edges comprise 16 verified unchanged and two newly read; 30 contextual YAMLs comprise 25 unchanged prior readings, two newly read AIO records and three final records verified against the round101 scientific-review inputs. No candidate identity is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#shared-membership-channels</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed K aspects, each aspect has a categorical word distribution and a separate categorical reference-ID distribution. Each document draws lambda from Dirichlet(alpha). Conditional on lambda, its word tokens are sampled from the lambda-weighted word mixture and its reference entries from the lambda-weighted reference mixture, with channel lengths conditioned on. Equivalently, each word or reference draws its own aspect label from the same lambda. The document likelihood integrates the product of both channel likelihoods over lambda; their conditional independence does not imply marginal independence. Removing the reference observations yields a word-only LDA-type model, whereas fixed rather than random membership vectors give a PLSA-style alternative.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixed Membership Models of Scientific Publications</a></span>
+        <span>· <strong>Locator:</strong> Mixed Membership Models, preprint pp.2-3; Mixed Membership Models for Documents, pp.3-4, Equations (7)-(11)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#approximation-and-loadings</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported analysis estimates parameters through a variational approximation to the shared-membership likelihood; expectation propagation is discussed as another approximate approach. Approximate document membership posteriors supply loadings, summarized by Dirichlet means and compared descriptively with official publication categories. This is unsupervised aspect discovery with external category comparison, not supervised recovery of those labels. General corpus fitting is computationally demanding even though small finite cases can be integrated by explicit expansion; approximate EM and posterior summaries do not guarantee exact likelihoods or global optima.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Mixed Membership Models of Scientific Publications</a></span>
+        <span>· <strong>Locator:</strong> Estimating the Model, preprint p.5; Results, pp.7-10, Figure 1 p.9 and Table 4 p.13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The main model treats references as multinomial draws with replacement although observed bibliographies are represented by presence indicators. Bernoulli inclusion models that use absent references and publication-time restrictions are discussed on pp.4-5 as alternatives; they are not the fitted multinomial model.</li>
+      <li>The p.4 display labels its integrated document likelihood p(theta|d), but it is not a posterior over parameters. Conditional independence given memberships is stronger than exchangeability alone. Shared latent proportions explain modeled dependence, not causal citation relationships or objectively true scientific disciplines.</li>
+      <li>Reported results concern a selected PNAS Biological Sciences 1997-2001 corpus and a chosen eight-aspect fit. Topic counts were compared informally, and aspect interpretations used high-probability words/references. Neither universal model-selection optimality nor recovery of a unique semantic partition follows.</li>
+      <li>An unweighted average of document loadings does not generally equal a pooled token-level percentage when document lengths differ. Source figure cross-references are inconsistent: use the actual Figure 1 on preprint p.9 and Table 4 on p.13. No source implementation or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The maintained identity is a specified probability-model family, narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is classified as a machine-learning task, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.cmu.edu/afs/cs/usr/lafferty/www/pub/efl.pdf" target="_blank" rel="noopener">Mixed Membership Models of Scientific Publications</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Elena Erosheva, Stephen Fienberg, John Lafferty
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1073/pnas.0307760101</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5e9d0e08925d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:00:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:00:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MixedMembershipModelForScientificPublications.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MixedMembershipModelForScientificPublications.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

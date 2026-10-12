@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrastive divergence · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Contrastive divergence</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Contrastive divergence</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ContrastiveDivergence</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CD, CD-k
+    </div>
+
+  <div class="detail-desc">
+    A parameter-learning algorithm for energy-based or product-of-experts models that replaces the equilibrium negative-phase expectation by configurations obtained from a short model-invariant Markov chain restarted at observed data, without differentiating through the chain distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the customary contrastive-divergence update family, including CD-1 and CD-k, rather than only the formal difference-of-KL-divergences objective that motivated it. The number of transition steps is an algorithm parameter, not a separate architecture. It differs from persistent-chain learning, CD-PercLoss prediction search and pairwise representation-learning losses. The short aliases are contextual, not evidence of equivalence to every use of those initials. All 442 pinned AIO labels/scoped synonyms and 370 preceding native IDs/names/aliases were compared, with no normalized identity match. Fixed-string searches included ignored and hidden files throughout both worktree and main, returning 29 lines each; all 22 unique matched contents were read. Hits described CD as a training component, a pending lead or a boundary from CD-PercLoss, not an existing candidate record. All 61 semantic label/synonym hits, 21 exact annotated AIO nodes with outgoing edges, corresponding generated records and four native neighbors were inspected. Previously fully read contextual files were verified byte-identical. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each observed example or minibatch, initialize a Markov chain at the data and perform k transitions with the model parameters held fixed. For an RBM, alternate sampled hidden and visible blocks, then compute hidden conditional expectations at the resulting visible configurations for the negative statistics. Update weights by a learning rate times observed-data minus k-step reconstructed visible-hidden statistics; update biases by the corresponding first-moment differences. More generally, contrast derivatives of the unnormalized log model at the data and chain endpoints, treating the endpoints as fixed for the update. The motivating objective is C_k(theta)=KL(q_data||p_theta)-KL(q_data T_theta^k||p_theta). Its exact derivative also contains the parameter dependence of the k-step distribution; the customary CD update omits that contribution. With a fixed ergodic kernel and sufficiently long chains, the negative expectation approaches the equilibrium expectation; a short-chain update does not assume that limit has been reached.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Training Products of Experts by Minimizing Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, Equations (2.1)–(3.4), printed pp.1772–1777 / PDF pp.2–7; RBM specialization, Section 7, pp.1780–1782 / PDF pp.10–12; approximation analysis, Section 10, pp.1788–1791 / PDF pp.18–21</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cd-k-context">Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, contrastive divergence CD-k and mean-field variant, PDF p.2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nonconservative-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the noiseless binary-RBM CD-1 update, the inspected source gives a one-visible/one-hidden counterexample with hidden bias fixed at zero and data visible=0. At weight 1 and visible bias 0, the cross-partial difference is e*(e-1)*(e+3)/(8*(e+1)^3), which is nonzero. This rules out a universal scalar potential for that update field. Its constructed cycling regularizer and separate fixed-point results have narrower assumptions than a general convergence claim.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cd-convergence">On the Convergence Properties of Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.2 and 4.1–4.4, printed pp.790–793 / PDF pp.2–5; regularized fixed points and qualifications, Sections 5–6, printed pp.793–795 / PDF pp.5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A short-chain CD estimate is generally biased for the likelihood gradient and is not generally the exact negative gradient of the formal contrastive-divergence objective. A small objective or accurate reconstruction can coexist with poor global modeling when the chain mixes slowly.</li>
+      <li>The binary-RBM CD-1 field can have unequal cross partial derivatives, so it is not universally the gradient of any scalar objective. The inspected convergence paper also constructs cycling with a particular nonconvex regularizer; this is not a claim that ordinary L2-regularized CD always cycles. Existence of a regularized fixed point does not establish convergence to it.</li>
+      <li>Exact Gibbs transitions require sampled states. Conditional expectations can replace final sufficient statistics by Rao–Blackwellization, but feeding probability-valued states into later nonlinear transition conditionals defines a different approximation. Hinton Section 8 explicitly uses such a probability-valued visible reconstruction in its digit experiment; that variant is not silently equated to exact binary Gibbs CD.</li>
+      <li>The original simulations do not prove universal likelihood improvement, unbiased learning or global convergence. Their digit classification experiments also disclose test-set model selection; no reported ranking is adopted as a general property.</li>
+      <li>The algorithm is not tied to an RBM architecture, and the formal objective is not merely a difference of mean log likelihoods: distribution-entropy terms matter. No author implementation, training run or complete convergence theorem is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected algorithm trains RBM parameters, but is not itself the model architecture. CD also applies beyond RBMs. This is a training-method to model-family association, not equivalence or subclass identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Markov transitions supply the negative-phase configurations used by the parameter-update procedure. The AIO target denotes the stochastic process/model, not the learning algorithm or a guarantee of equilibrium sampling during adaptation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/nccd.pdf" target="_blank" rel="noopener">Training Products of Experts by Minimizing Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/089976602760128018</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a1190ee66e69…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-cd-k-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cd-k-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~tijmen/pcd/pcd.pdf" target="_blank" rel="noopener">Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tijmen Tieleman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1390156.1390290</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:058ecdda8050…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-cd-convergence">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cd-convergence</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v9/sutskever10a/sutskever10a.pdf" target="_blank" rel="noopener">On the Convergence Properties of Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ilya Sutskever, Tijmen Tieleman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v9/sutskever10a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e785b07d68e4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:18:34Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:18:34Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ContrastiveDivergence.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ContrastiveDivergence.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

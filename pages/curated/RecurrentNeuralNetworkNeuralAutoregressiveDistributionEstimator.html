@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RNN-NADE · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>RNN-NADE</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RNN-NADE</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Recurrent neural network neural autoregressive distribution estimator
+    </div>
+
+  <div class="detail-desc">
+    A neural sequence architecture in which a deterministic recurrent state supplies parameters of a NADE output distribution, combining temporal recurrence with normalized within-frame autoregressive conditionals.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the RNN-NADE identified in the 2012 recurrent-output-estimator paper by substituting NADE for the conditional RBM. Temporal order between vector frames and variable order within a frame are separate. The recurrent state and NADE prefix activations are deterministic computations; there is no stochastic RBM hidden state to integrate out. It is distinct from unconditional NADE, order-agnostic NADE, RNN-RBM and a recurrent predictor with independent Bernoulli outputs. All 442 pinned AIO labels/scoped synonyms and 364 preceding native IDs/names/aliases were compared, with no normalized identity match. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, returning 129 lines each. All 91 unique matched contents were read, including 58 initial contents and 33 additional saved-review contents: prior model contrasts, evidence references and discovery leads, rather than existing candidate identities. All 52 semantic label/synonym hits and 22 exact annotated AIO nodes were inspected, alongside corresponding generated records and four complete native neighbors. Previously read contextual files were checked for byte identity. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the single-layer binary specialization, compute the past-dependent biases b_t=b+P r_(t-1) and c_t=c+Q r_(t-1). Fix an ordering of D bits within the current frame. At position i, compute z_(t,i)=sigmoid(c_t+W[:,&lt;i] v_(t,&lt;i)) and q_(t,i)=sigmoid(b_(t,i)+V[i,:] z_(t,i)). Multiply q_(t,i) raised to v_(t,i) times (1-q_(t,i)) raised to (1-v_(t,i)) over positions, then multiply frame probabilities over time. Reuse a prefix accumulator initialized to c_t, adding W[:,i] v_(t,i) after evaluating each conditional. After the frame is observed or generated, update the separate recurrent state using its own input and recurrent weights. Differentiate the exact sum of frame negative log probabilities through the NADE parameters, the bias projections and the recurrent history. The 2012 paper explicitly contrasts these exact model gradients with CD-based RNN-RBM gradients. Ancestral generation samples bits in the fixed within-frame order before updating the recurrent state.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription</a></span>
+        <span>· <strong>Locator:</strong> NADE substitution in Section 2, PDF pp.2–3; RNN architecture and explicit RNN-NADE exact-gradient statement, Section 4 and Figure 2, pp.3–4; temporal BPTT and tractable-model discussion, Sections 4.2 and 6, pp.5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nade-component">The Neural Autoregressive Distribution Estimator</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–5, Equations (3), (9)–(11), Figure 1 and Algorithm 1, printed pp.30–33 / PDF pp.2–5; probability and accumulator notation qualified against chain-rule definition</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exact normalized probabilities and gradients apply to this specified model with fully observed training sequences. They do not imply global optimization, calibration, equality to an RBM distribution or tractable inference for every pattern of missing frames or bits.</li>
+      <li>The within-frame ordering and temporal recurrence serve different purposes. Prefix sharing gives O(DH) NADE evaluation per frame for H hidden units, in addition to the recurrent-state and bias-projection costs; it does not remove sequential generation dependencies.</li>
+      <li>The original NADE paper prints an accumulator index discrepancy and initializes a multiplicatively accumulated probability to zero with an incorrect plus between Bernoulli factors in Algorithm 1. The displayed mechanism follows its normalized chain definition, Equations (9)–(11) and prefix-update rule, retaining the source qualification.</li>
+      <li>Output weights V may be learned separately from W as in the original NADE paper. Sharing prefix parameters across conditionals does not require tying input and output weights, and it does not make within-frame variables independent.</li>
+      <li>The RNN-RBM paper’s negative joint/bias signs concern its RBM formulas and are not a prescription for NADE conditionals. Backpropagation through the separate recurrence still requires dimensionally correct transposes. No author-code or empirical superiority claim is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned AIO target is broader than this explicit recurrent neural architecture with a specified conditional-density output. The deterministic state has directed temporal connections; the output estimator adds a narrower structural restriction. A temporal probability model over vector frames is not necessarily an autoregressive language model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The visible variables can be ordered first by frame time and then by within-frame position, with normalized neural conditional factors depending only on earlier visible variables. This is a fully visible acyclic probabilistic dependence model, so the pinned BayesianNetwork is broader. Deterministic recurrent and prefix computations parameterize factors and do not imply intervention-level causality.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://icml.cc/2012/papers/590.pdf" target="_blank" rel="noopener">Modeling Temporal Dependencies in High-Dimensional Sequences: Application to Polyphonic Music Generation and Transcription</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nicolas Boulanger-Lewandowski, Yoshua Bengio, Pascal Vincent
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1206.6392</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7660a28d9292…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-nade-component">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nade-component</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v15/larochelle11a/larochelle11a.pdf" target="_blank" rel="noopener">The Neural Autoregressive Distribution Estimator</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Hugo Larochelle, Iain Murray
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pmlr-v15-larochelle11a</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b1fe502ea1b3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T18:53:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T18:53:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RecurrentNeuralNetworkNeuralAutoregressiveDistributionEstimator.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

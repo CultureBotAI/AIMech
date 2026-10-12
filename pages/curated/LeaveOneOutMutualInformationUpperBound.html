@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leave-one-out mutual information upper bound · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Leave-one-out mutual information upper bound</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Leave-one-out mutual information upper bound</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:LeaveOneOutMutualInformationUpperBound</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Leave-one-out variational information upper bound
+    </div>
+
+  <div class="detail-desc">
+    An expectation-level upper bound on mutual information that compares a known conditional density for each paired sample with a mixture of conditional densities from the other independent inputs in its batch.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the leave-one-out upper bound in Poole et al., distinct from InfoNCE’s lower bound and from generic leave-one-out cross-validation. It requires evaluable normalized p(y|x), which may be the encoder defining the modeled joint distribution; an arbitrary learned critic does not supply that requirement. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 208 preceding native IDs/names/aliases. Word-delimited fixed-string searches of both full checkouts, including ignored and hidden files, returned 57 lines each: existing MINE-f component discussion, shared primary-source references, and discovery/review context. Four native neighbors and seven exact AIO nodes with scoped synonyms and outgoing relations were inspected.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Draw K&gt;=2 independent pairs (X_i,Y_i) from p(x)p(y|x), with evaluable normalized conditional density p(y|x). For each i form q_-i(y)=(K−1)^−1 sum_(j!=i) p(y|X_j). Then I(X;Y)&lt;=E[K^−1 sum_i log(p(Y_i|X_i)/q_-i(Y_i))], assuming the expectations are well-defined. The mixture q_-i is independent of the held-out pair because it uses only the other inputs. Conditional on those inputs, the gap of the corresponding variational upper bound is KL(p(Y)||q_-i(Y)), a nonnegative quantity. Including the paired input in this denominator instead gives the known-conditional InfoNCE lower-bound construction, so the exclusion is essential. A finite batch computes an estimator of the upper-bound expectation rather than a guaranteed upper bound on its own.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">On Variational Bounds of Mutual Information</a></span>
+        <span>· <strong>Locator:</strong> Section 2.5, PDF p. 5, Equations (12)–(13), Leave one out upper bound; Section 2.1 p. 2, Equation (1), variational upper-bound identity</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The conditional must be normalized and evaluable for cross-sample inputs. Treating an uncalibrated score as p(y|x) invalidates the stated derivation.</li>
+      <li>For small batches or sharply separated conditional supports, the leave-one-out mixture can be tiny or zero where the held-out conditional is positive, producing a loose or infinite upper bound.</li>
+      <li>Independence of batch examples is part of the proof. Correlated samples or using the held-out input to construct its own denominator require a different argument.</li>
+      <li>The expected bound does not certify a realized finite-sample number. Optimization of a noisy estimate does not guarantee monotonic true information reduction or convergence. No encoder implementation or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> The inspected candidates describe networks, feature-extraction tasks or self-supervised tasks, not the mathematical information bound. Shared variational terminology, an optional neural parameterization or downstream use does not establish a suitable mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO CLASS labels and scoped synonyms and 208 preceding native IDs/names/aliases were compared. Full fixed-string word-delimited searches of both checkouts included hidden and ignored files. Exact definitions, synonyms and outgoing relations for FeatureExtraction, VariationalAutoEncoder, AutoEncoderNetwork, RepresentationLearning, DeepNeuralNetwork, BayesianNetwork and SelfsupervisedLearning were inspected. This assessment is bounded to AIO commit 397851c547d1c4d8f06ef184f63c1d40bc86937a and this semantic neighborhood.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/VariationalAutoEncoder.html"><code>AIO:VariationalAutoEncoder</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A probabilistic latent autoencoder architecture is not a variational information inequality; neither implies the other.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/AutoEncoderNetwork.html"><code>AIO:AutoEncoderNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Reconstruction networks can use information objectives but do not identify this mathematical bound.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RepresentationLearning.html"><code>AIO:RepresentationLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a deep-network representation-learning class; it is a possible use of a bound, not the bound itself.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepNeuralNetwork.html"><code>AIO:DeepNeuralNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A neural critic or decoder is one possible parameterization, not the information formula.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/FeatureExtraction.html"><code>AIO:FeatureExtraction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This preprocessing task does not specify an information estimator or bound.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Conditional distributions do not make this bound a directed graphical-model architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html"><code>AIO:SelfsupervisedLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A self-generated prediction task does not specify this population information inequality.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/poole19a/poole19a.pdf" target="_blank" rel="noopener">On Variational Bounds of Mutual Information</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ben Poole, Sherjil Ozair, Aäron van den Oord, Alexander A. Alemi, George Tucker
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v97/poole19a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:38da74b0bae6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T09:02:43Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T09:02:43Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LeaveOneOutMutualInformationUpperBound.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LeaveOneOutMutualInformationUpperBound.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

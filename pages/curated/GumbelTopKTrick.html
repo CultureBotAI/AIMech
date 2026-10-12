@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gumbel-Top-k trick · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Gumbel-Top-k trick</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gumbel-Top-k trick</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:GumbelTopKTrick</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Gumbel top-k sampling
+    </div>
+
+  <div class="detail-desc">
+    A categorical sampling construction that adds independent standard Gumbel noise to each category’s log weight and returns the indices of the k largest perturbed values in descending order, producing an ordered sample without replacement under successive renormalization of the remaining weights.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the finite categorical Gumbel-Top-k construction formalized by Kool and colleagues, who credit an earlier observation by Vieira. The k=1 case is the Gumbel-Max trick. It is distinct from truncating a language model to its k most probable tokens and then sampling, from a continuous Gumbel-Softmax relaxation, and from the separate stochastic beam algorithm that applies the construction implicitly to sequences. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 328 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 49 and 49 lines respectively. All 2 unique hit contents were inspected: a saved stochastic-beam/Gumbel discovery lead and a search-result title about coalition-formation scatter search, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and four full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n categories with positive finite weights w_i and 1≤k≤n, draw independent G_i with the standard Gumbel distribution, equivalently G_i=−log(−log U_i) for independent U_i uniform on (0,1). Rank log(w_i)+G_i and return the first k distinct indices in that perturbed order. The probability of an ordered distinct tuple (i_1,…,i_k) is the product over j of w_i_j divided by the total weight remaining after indices i_1,…,i_(j−1) are removed. Common weight normalization is unnecessary because it adds only a common shift to all log scores. This is an exact distributional statement for the specified random variables, not an assertion that the selected indices are the highest-probability unperturbed categories.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1–2.4, Theorem 1 and footnote 1, PDF p.2; Section 1 attribution, PDF p.1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sampling-proof">Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement — supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Appendix A, Theorem 1 and Equations (15)–(19), supplement PDF p.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#inclusion-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without replacement here means sequential categorical sampling with the remaining weights renormalized after every selected index. It does not mean that each category’s probability of appearing anywhere in the k-sample is proportional to its original probability. The source explicitly distinguishes these quantities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4, footnote 1 and Equation (4), PDF p.2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The ordered sampling probabilities differ from marginal inclusion probabilities; inclusion is not generally proportional to the original weight or equal to k times its normalized probability. At k=n every supported category is included.</li>
+      <li>The stated construction assumes positive finite weights and k no larger than the positive support. Zero weights require exclusion or a declared limiting convention; invalid weights and k beyond support are not covered.</li>
+      <li>Exactness assumes the specified independent continuous noise and exact ranking. Finite precision, random-number endpoints and numerical ties require implementation policies; no software implementation was certified.</li>
+      <li>Direct finite-domain application perturbs all n category scores. It does not by itself supply an efficient algorithm for exponentially many complete sequences, a differentiable relaxation, or an unbiased sample-mean estimator for arbitrary without-replacement outputs.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target for the generic ordered categorical sampling procedure was established in this inspected snapshot and semantic neighborhood. Shared probability, categorical and sampling terminology does not justify a forced model, function, bias or task mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms and 328 preceding maintained IDs/names/aliases; ignored/hidden-inclusive full text in both checkouts; semantic labels/scoped synonyms for Gumbel, beam, sampling, autoregression, inference, decoding, sequence, categorical, reparameterization, temperature, search and reasoning; nine exact AIO CLASS nodes and four complete native beam-search neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/AutoregressiveLanguageModel.html"><code>AIO:AutoregressiveLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language model supplying next-token probabilities is different from this generic finite categorical sampling rule; it does not define the rule’s identity or required application.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NaturalLanguageProcessing.html"><code>AIO:NaturalLanguageProcessing</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The generic categorical rule is not restricted to natural-language data; its sequence-model application is curated separately.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SoftmaxFunction.html"><code>AIO:SoftmaxFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Softmax normalizes scores to probabilities; Gumbel-Top-k returns discrete ordered random indices. Their mathematical relationship does not make the sampling operation the normalization function.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This record specifies an ordered stochastic sampling procedure and its distributional identity, not a deterministic input-output function class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelectionAndSamplingBias.html"><code>AIO:SelectionAndSamplingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sampling without replacement from a specified categorical distribution is not the ontology’s nonrepresentative-selection bias concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/CategoricalFeaturesPreprocessingLayer.html"><code>AIO:CategoricalFeaturesPreprocessingLayer</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Categorical random outcomes do not make the sampling rule a neural feature-preprocessing layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The finite categorical trick requires no graphical conditional-dependence representation; the tree-based sequence construction is a separate concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Drawing random indices from supplied weights does not itself learn from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No model training or training-data preprocessing is required by the sampling identity.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/kool19a/kool19a.pdf" target="_blank" rel="noopener">Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wouter Kool, Herke van Hoof, Max Welling
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0e5d71684fae…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sampling-proof">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sampling-proof</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v97/kool19a/kool19a-supp.pdf" target="_blank" rel="noopener">Stochastic Beams and Where to Find Them: The Gumbel-Top-k Trick for Sampling Sequences Without Replacement — supplementary material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wouter Kool, Herke van Hoof, Max Welling
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a0a844d8b0e4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:13:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:13:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GumbelTopKTrick.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GumbelTopKTrick.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

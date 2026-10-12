@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ant Colony System · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Ant Colony System</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Ant Colony System</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AntColonySystem</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ACS
+    </div>
+
+  <div class="detail-desc">
+    An ant-colony optimization algorithm that combines a greedy-or-proportional construction rule, local pheromone updates during construction, and global pheromone updates restricted to a selected best tour.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The selected baseline is the paper’s global-best ACS with local interpolation toward the initial trail tau0. It is distinct from Ant System’s all-ant deposits, MAX–MIN trail clipping, and the Ant-Q variant whose local target uses a discounted maximum future trail. Iteration-best reinforcement and ACS with local search are explicitly described variants, not silently incorporated into the baseline. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 288 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 10 and 10 lines respectively. Every text hit was a prior candidate lead. Six exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a traveling-salesman tour, at each construction decision draw q uniformly in [0,1]. If q&lt;=q0, choose an unvisited city maximizing tau_ij*eta_ij^beta; otherwise sample proportionally to those same weights over the unvisited set. Apply the selected local rule tau_ij_new=(1−rho)*tau_ij+rho*tau0 to traversed edges during construction. After all tours finish, update edges belonging to the shortest tour found so far with tau_ij_new=(1−alpha)*tau_ij+alpha/L_best. The scope of this global step follows Section III’s explicit best-tour-edge restriction; edges outside that tour do not undergo this global update. Figure 3 organizes construction into steps. Appendix A has all ants choose a step before its local-update loop, so sequential whole-tour construction is not assumed. Retain the best-so-far tour and reset per-tour feasibility state before the next iteration. Parameter settings, tie handling and repeated updates to an edge must be declared for an executable implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem</a></span>
+        <span>· <strong>Locator:</strong> Section III.A–D, PDF pp.5–8, Equations 1 and 3–5 and Figure 3; Appendix A, PDF p.23; discussion, PDF pp.20–22</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-comparison-source">MAX–MIN Ant System</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF p.23, explicit distinction between all-matrix evaporation in MAX–MIN and ACS</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The local update moves a trail toward tau0: it decreases a trail only when that trail exceeds tau0, increases it below tau0, and leaves equality unchanged. It is not unconditional evaporation. At q0=1 the displayed decision uses only maximization, apart from tie handling, so positive trails alone do not supply probabilistic exploration.</li>
+      <li>There is a source presentation ambiguity: Equation 4 defines zero deposit off the best tour, while Section III explicitly restricts the global update to best-tour edges. Appendix A’s global loop uses stale ant-indexed endpoints inside a generic edge loop, and its repeat jump does not explicitly reset all tour state. The record follows the main-text scope and supplies the necessary state-reset qualification; it does not claim the appendix is directly executable or that an official erratum was checked.</li>
+      <li>Random initial cities, heuristic powers, q0, alpha, rho and tau0 are configuration choices. Repeated local updates and their ordering affect trails; independent construction of entire tours is not an equivalent schedule. Zero distances, zero denominators, constraints and numerical underflow need handling.</li>
+      <li>The paper’s task-specific comparisons, optional local search and qualitative improvement claims do not establish universal superiority or finite-run global optimality. Ant-Q’s reinforcement-learning connection does not make the selected tau0 rule a Bellman update.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable mapping was found for this specific constructive ant algorithm in the inspected pin. Reinforcement and evolutionary analogies were evaluated explicitly; they do not by themselves establish a suitable class relation. Absence is bounded to this source snapshot and inspected semantic neighborhood.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO identities/scoped synonyms, all 288 preceding native identities, ignored/hidden full-checkout text, and six exact AIO targets plus five native neighboring algorithms.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target concerns preprocessing/training machine-learning models. These are general constructive combinatorial optimizers; possible learning applications do not define their identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This task class does not represent a specific pheromone-based algorithm, and combinatorial search need not be the construction of methods that learn from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source’s reinforcement analogy and Ant-Q connection were considered. The selected algorithms reinforce construction components; those observations do not establish equivalence or an is-a relationship to this machine-learning task. The ACS tau0 baseline is specifically distinct from the Q-learning-inspired alternative.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearningLLM.html"><code>AIO:ReinforcementLearningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a language model fine-tuned by rewards. Neither artificial ants nor tour construction establish language-model identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a large language model using evolutionary computation; its related evolutionary-algorithms synonym does not include every nature-inspired optimizer as the same concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An augmented-state stochastic representation is possible but too generic to identify the defining pheromone construction/update mechanism. The exported network/model class is not an appropriate semantic parent or equivalent algorithm.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf" target="_blank" rel="noopener">Ant Colony System: A Cooperative Learning Approach to the Traveling Salesman Problem</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Dorigo, Luca Maria Gambardella
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://staff.washington.edu/paymana/swarm/dorigo97-itec.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c19212f9a31a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-comparison-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">comparison-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf" target="_blank" rel="noopener">MAX–MIN Ant System</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thomas Stützle, Holger H. Hoos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.cs.ubc.ca/~hoos/Publ/fgcs00.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d4052ac2136…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:17:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:17:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AntColonySystem.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AntColonySystem.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

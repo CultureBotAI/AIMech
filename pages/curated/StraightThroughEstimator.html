@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Straight-through estimator · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Straight-through estimator</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Straight-through estimator</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:StraightThroughEstimator</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ST estimator, Identity straight-through estimator
+    </div>
+
+  <div class="detail-desc">
+    A surrogate-gradient rule that keeps a hard threshold or sampled binary output in the forward computation while propagating its downstream derivative backward as though the hard operation were the identity function.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The core identity-backward rule is the straight-through estimator named by Bengio, Léonard and Courville, who attribute the preceding idea to Hinton’s 2012 lecture. The paper also discusses a sigmoid-derivative-scaled variant; that scaling is not part of the core identity rule. This concept is distinct from a score-function estimator, a fully smooth forward relaxation, and the separately curated straight-through Gumbel-Softmax estimator with its specific temperature-dependent softmax Jacobian. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 334 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 66 and 66 lines respectively. Match-centered excerpts from all 41 unique hit contents were inspected: ordinary verb reinforce in existing ant/search/pseudo-label records and calculations, plus neighboring Gumbel straight-through discussions and the new gradient-estimator discovery lead, not existing candidate records. Exact checkout counts and differences are retained in the ledger. Ten exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and six full native neighboring records were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let a be the pre-threshold or pre-sigmoid activation and h the hard binary value supplied to downstream computation. Compute the downstream derivative dL/dh using that hard forward state. In the backward pass, substitute dL/dh for the gradient with respect to a, as if dh/da were one, and then propagate through the differentiable computation that produced a. In the paper’s Bernoulli-logistic setting, the intended stochastic output law is P(h=1)=sigmoid(a), as used in its proof; the identity backward substitution is separate from that sampling law. Multiplying dL/dh by sigmoid(a)*(1-sigmoid(a)) gives the paper’s discussed scaled alternative, not the same backward rule. No derivative through the actual binary sampling decision is obtained by this substitution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equation (13), PDF/printed p.7; Section 3, Equation (3), Theorem 1 and proof, pp.5–6; Section 5 and Figure 1, p.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#backward-variants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source explicitly defines the core backward value as dL/dh and separately discusses multiplying it by the sigmoid derivative. Hard forward values are retained in either case; the two backward rules must not be conflated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Equation (13) and preceding paragraph, PDF/printed p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sampling-notation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The indicator inequality in Equation (3) and the probability used in the following proof disagree for a general non-half sigmoid probability. The curated interpretation uses the proof’s explicit Bernoulli probability; this is a disclosed mathematical interpretation of the source, not a check of author software.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equation (3), PDF/printed p.5; proof leading to Equation (5), p.6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This is a biased surrogate, not the ordinary derivative of the hard threshold and not an unbiased estimator of the discrete expected-loss gradient. A usable downstream derivative is required; an arbitrary black-box discrete reward does not provide one automatically.</li>
+      <li>The surrogate depends on the differentiable extension of the downstream loss between binary states. Equal values at the binary endpoints do not imply equal straight-through updates, and the source’s informal single-layer sign statement is not used as a universal guarantee for arbitrary differentiable losses.</li>
+      <li>Equation (3) of the inspected paper prints the indicator U&gt;sigmoid(a), but the subsequent proof uses P(h=1)=sigmoid(a). For uniform U, the printed inequality instead gives probability 1-sigmoid(a). This record follows the explicitly used Bernoulli law and discloses the inconsistency rather than treating the printed inequality as verified executable sampling code.</li>
+      <li>Identity, sigmoid-scaled, clipped and other later straight-through rules require distinct conventions. A generic straight-through label does not establish that their Jacobians, bias or optimization behavior coincide.</li>
+      <li>The inspected conditional-computation example motivates sparse gating; no universal speedup, accuracy advantage or successful convergence is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable mapping for the general identity-backward surrogate rule was established in this bounded snapshot. A forward probability parameterization, a learned network or a broad mathematical-function category does not itself identify the derivative substitution.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels and scoped synonyms and 334 preceding native identities, plus ignored/hidden-inclusive text search in both checkouts; semantic search for reinforcement, backpropagation, gradients, variational inference, Bayesian/belief models, stochastic units, sigmoid functions and training. Ten exact AIO CLASS nodes and six complete native neighbors inspected.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SigmoidFunction.html"><code>AIO:SigmoidFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The sigmoid can parameterize the forward Bernoulli law, but the core backward rule deliberately does not use its derivative. That example component does not identify the general hard-operation surrogate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/HardSigmoidFunction.html"><code>AIO:HardSigmoidFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A piecewise-linear approximation to a sigmoid is not the binary hard threshold with identity backward substitution.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The broad input-output function class does not specify a forward/backward mismatch or identify this estimator.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned definition has a preprocessing genus and does not identify the surrogate-gradient rule.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DifferentiableLLM.html"><code>AIO:DifferentiableLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An end-to-end differentiable language model is not a derivative estimator for hard stochastic units.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A scalar-loss surrogate can be used in many settings; it is not the learning task, and it does not require a score-function reward update.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearningLLM.html"><code>AIO:ReinforcementLearningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A reward-tuned language model is neither the estimator nor a required application.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A directed conditional-dependence model is not a backward substitution rule.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepBeliefNetwork.html"><code>AIO:DeepBeliefNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The estimator does not identify this pretrained multilayer architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/VariationalAutoEncoder.html"><code>AIO:VariationalAutoEncoder</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A probabilistic latent autoencoder is an architecture, not the identity-backward estimator.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1308.3432v1" target="_blank" rel="noopener">Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yoshua Bengio, Nicholas Léonard, Aaron Courville
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1308.3432v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:509eb5e5294d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T16:43:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T16:43:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StraightThroughEstimator.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StraightThroughEstimator.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

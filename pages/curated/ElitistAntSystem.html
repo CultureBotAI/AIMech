@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elitist Ant System · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Elitist Ant System</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Elitist Ant System</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ElitistAntSystem</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ASelite
+    </div>
+
+  <div class="detail-desc">
+    An Ant System variant that retains the standard all-ant pheromone deposits and adds extra reinforcement to edges of the best-so-far tour after each construction cycle.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The defining change is active extra reinforcement of the best-so-far tour, beyond merely remembering or returning it. The original Ant System paper describes the elitist strategy and the 1997 rank-based study names it ASelite with an explicit equation. It differs from rank selection, which can omit lower-ranked current contributions, and from single-best-only updates. Zero elite weight recovers the base update as a limiting configuration. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 291 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 61 and 71 lines respectively. Text hits were prior candidate leads, citations to a reused Ant System source, neighboring mechanism distinctions, saved review/report material, and unrelated PBIL strings in ignored HOGENOM prefix-map URLs. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Use the ant-cycle construction rule and calculate all current tour lengths. Retain the shortest tour found so far with length L_best. For each edge, update tau_new=rho*tau+sum_k Q/L_k over every current ant whose tour used that edge, plus e*Q/L_best if the archived best tour uses the edge. Edges not used by a current ant receive no corresponding current deposit, and edges outside the archived tour receive no extra elite deposit. Rho is retention. The parameter e is interpreted in the original paper as the number of additional elitist ants; it weights an extra contribution without requiring those fictitious ants to construct new tours. A current best tour can receive both its ordinary all-ant contribution and the archive term. Repeat construction and reinforcement with declared parameters and stopping.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Ant System: Optimization by a colony of cooperating agents</a></span>
+        <span>· <strong>Locator:</strong> SectionsII–III, PDF pp.5–8, ant-cycle construction/update; SectionV.C, PDFp.16, elitist strategy and footnote6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-named-formulation">A New Rank Based Version of the Ant System - A Computational Study</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, PDF pp.9–10 / printed pp.6–7, Equation3 and ASelite identity</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The method assumes valid positive-cost tours and well-defined inverse-distance construction weights. Extra elite reinforcement biases future sampling; it does not force future ants to take the archived tour or guarantee that its edges are globally optimal.</li>
+      <li>The original study explicitly reports premature concentration when elite reinforcement is too strong in its tested setting. A favorable elite count on one TSP instance is not a universal parameter recommendation or a convergence theorem.</li>
+      <li>This mechanism is not the same as copying a best chromosome unchanged into a genetic population, nor merely storing a best-so-far output. It retains every ant’s ordinary deposit; rank-based selection can truncate current contributions and single-best-only reinforcement omits the all-ant term.</li>
+      <li>Initialization, nonnegative elite weight, heuristic exponents, tour ties, constraints, randomization, stopping and floating-point behavior require a declared implementation. No benchmark outcome or universal superiority is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target was found for this specific optimizer in the inspected snapshot. Learning-task, language-model and incremental-training terminology do not identify its defining state/update procedure. This is a bounded semantic assessment, not a claim of absence from every ontology.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms, all 291 preceding maintained identities, ignored/hidden full-checkout text, and eight exact AIO targets plus five native neighboring algorithms.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A general optimization search procedure is not defined by preprocessing or training a machine-learning model, even if such applications are possible.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target describes a learning task rather than this particular sampling or pheromone update procedure; shared optimization language does not establish a suitable class relation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Search feedback and analogies to reward-based methods were considered. For PBIL or rank/elite trail reinforcement they do not establish the specific discounted action-value mechanism central to the separate Ant-Q related match; no task-to-algorithm equivalence is inferred.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearningLLM.html"><code>AIO:ReinforcementLearningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a reward-fine-tuned language model, not an optimizer for generic binary strings or tours.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is an evolutionary language model. Its related evolutionary-algorithms synonym does not make a probability-vector or ant optimizer the same concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An augmented-state stochastic representation is too generic to ground the defining optimization update in this exported network/model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContinualLearning.html"><code>AIO:ContinualLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a deep network learning sequential tasks without forgetting. Incremental movement of a search probability vector is not that concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/IncremenetalFewshotLearning.html"><code>AIO:IncremenetalFewshotLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a deep network adding novel classes from few examples, not incremental optimizer-state updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf" target="_blank" rel="noopener">The Ant System: Optimization by a colony of cooperating agents</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Marco Dorigo, Vittorio Maniezzo, Alberto Colorni
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://staff.washington.edu/paymana/swarm/dorigo96-itsmc.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2bc5a12060fa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-named-formulation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">named-formulation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://research.wu.ac.at/ws/portalfiles/portal/18956627/document.pdf" target="_blank" rel="noopener">A New Rank Based Version of the Ant System - A Computational Study</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bernd Bullnheimer, Richard F. Hartl, Christine Strauß
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.57938/2eb99227-a596-4eb4-bb7d-367b53dee89d</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4777a1e0940f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:37:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:37:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ElitistAntSystem.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ElitistAntSystem.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

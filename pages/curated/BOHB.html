@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOHB · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>BOHB</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">BOHB</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BOHB</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Bayesian Optimization and Hyperband
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter optimization algorithm combining Hyperband resource brackets with model-guided configuration proposals from performance-split multivariate kernel density estimates and a continuing random-sampling component.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      BOHB denotes the KDE-based method of Falkner, Klein and Hutter. It differs from pure random-sampling Hyperband and the original tree-structured one-dimensional TPE estimator. It is not every combination of Bayesian optimization and early stopping, a Gaussian-process surrogate, a Bayesian network, or the entire HpBandSter software framework. Paper and pinned implementation conventions are distinguished. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 256 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main checkout, returning 2 lines in each checkout. These were prior random-search candidate leads, not existing records for these identities. Nine exact AIO CLASS nodes with synonyms and outgoing edges and six neighboring native mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Keep observations separated by evaluation budget. For proposals, use the highest budget with enough data to build better- and worse-performing configuration densities. The paper uses multivariate KDEs, a loss-quantile split with minimum set sizes, and finite candidate sampling from an expanded better-performing density, selecting a candidate with favorable l(x)/g(x). Retain a positive fraction of random configurations, and fall back to random sampling when no model is available. Hyperband brackets and successive halving then allocate increasing resources to surviving candidates. Observations are shared across brackets, but the proposal density is not fitted by pooling all fidelity levels indiscriminately. The method can schedule multiple brackets and concurrent evaluations; the paper’s worker policy favors waiting smaller-budget jobs. Numerical model-building and sampling details differ in the pinned implementation, as recorded separately.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">BOHB: Robust and Efficient Hyperparameter Optimization at Scale</a></span>
+        <span>· <strong>Locator:</strong> Sections3.1–4.2, PDF pp.3–5; Equations(2)–(3), Algorithms1–2 and accompanying descriptions</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schedule-code">HpBandSter author implementation: hpbandster/optimizers/bohb.py</a></span>
+        <span>· <strong>Locator:</strong> Lines96–103 and135–141: geometric budgets and bracket counts</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-density-code">HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py</a></span>
+        <span>· <strong>Locator:</strong> Lines54–80,94–234 and267–354: model selection, candidate sampling and KDE construction</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-hyperband-source">Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization</a></span>
+        <span>· <strong>Locator:</strong> Algorithm1, PDF/printed p.8: r=R*eta^(−s) and geometrically increasing allocation; original component context, not KDE evidence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pinned-implementation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned scheduler uses geometrically spaced budgets b_max*eta^(−s) and computes its initial bracket count with int(floor((s_max+1)/(s+1))*eta^s), which differs from the paper’s ceiling convention. The proposal generator selects the largest available model budget, minimizes a numerically floored g/l ratio over finite samples, expands continuous-coordinate bandwidths, and samples randomly from ConfigSpace when needed. KDEs fit disjoint best/remainder slices and are created only when each actual slice contains more rows than dimensions. This implementation does not reproduce the paper’s small-sample overlapping-set rule. These are static source observations, not a runtime or compatibility result.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-schedule-code">HpBandSter author implementation: hpbandster/optimizers/bohb.py</a></span>
+        <span>· <strong>Locator:</strong> Lines96–103 and135–141</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-density-code">HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py</a></span>
+        <span>· <strong>Locator:</strong> Lines119–234 and300–354</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The paper’s Equation(2) reverses the conditioning relative to configuration densities fitted from better/worse subsets. Its Algorithm1 prints eta^s*b_max as the initial budget, exceeding b_max for s&gt;0. The recorded density interpretation and bounded geometric budgets follow the method prose, original Hyperband and inspected code; these are curator qualifications, not an author-issued erratum.</li>
+      <li>Paper Equation(3) permits overlapping fit sets with few observations; the pinned code instead takes disjoint sorted slices and requires both actual slices to have more observations than dimensions. Its bandwidth widening applies to continuous proposal coordinates. Paper defaults and statements are not silently substituted for that implementation.</li>
+      <li>Low-budget rankings can mislead search. Random exploration, density estimation and finite candidate sets do not give an unconditional finite-budget optimum, universal speedup or independent generalization guarantee. No author implementation was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure organizes hyperparameter selection or allocation of model-training resources. The pinned AIO target describes training strategies as preprocessing; the relation connects these scopes without asserting that this search algorithm is preprocessing, an identical concept, or a subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v80/falkner18a/falkner18a.pdf" target="_blank" rel="noopener">BOHB: Robust and Efficient Hyperparameter Optimization at Scale</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Stefan Falkner, Aaron Klein, Frank Hutter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:774cc0ce9588…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-schedule-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">schedule-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/bohb.py" target="_blank" rel="noopener">HpBandSter author implementation: hpbandster/optimizers/bohb.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / HpBandSter contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:23e134540679…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-density-code">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">density-code</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/automl/HpBandSter/0ec0ce23448ae7f27c0868b35a7086bc6d0fba2a/hpbandster/optimizers/config_generators/bohb.py" target="_blank" rel="noopener">HpBandSter author implementation: hpbandster/optimizers/config_generators/bohb.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            AutoML / HpBandSter contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fc00e64eec04…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-hyperband-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hyperband-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/volume18/16-558/16-558.pdf" target="_blank" rel="noopener">Hyperband: A Novel Bandit-Based Approach to Hyperparameter Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lisha Li, Kevin Jamieson, Giulia DeSalvo, Afshin Rostamizadeh, Ameet Talwalkar
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:09c14cb28ec2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T11:28:05Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T11:32:06Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BOHB.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BOHB.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

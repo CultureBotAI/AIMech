@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Context-sensitive emission hidden Markov model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Context-sensitive emission hidden Markov model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Context-sensitive emission hidden Markov model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:ContextSensitiveEmissionHiddenMarkovModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A hidden-state sequence-model family with a first-order Markov prior whose observation distributions depend jointly on hidden states at multiple temporal positions, introducing context beyond the contemporaneous hidden state.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the Saul–Jordan context-sensitive emission construction. Its displayed one-sided Gaussian example uses states at t and t+Delta, while the reported illustration extends to left and right context. The defining distinction is the emission dependency, not a higher-order hidden transition, an external stack/queue, mixed-memory predecessor selection, independent factorial chains or the structured mean-field algorithm used to approximate its posterior. The descriptive local name disambiguates it from Yoon–Vaidyanathan’s auxiliary-memory context-sensitive HMM; the bare acronym csHMM is not asserted as an alias. No normalized identity match was found across all442 pinned AIO labels and scoped synonyms and385 preceding native IDs/names/aliases for the four researched candidates. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, yielding78 and83 matched lines; all44 unique contents were read. Hits concern prior source citations, pending leads, neighboring HME records and unrelated Python-license authors, not existing records of the three selected identities. All76 semantic label/synonym hits and22 exact fully annotated AIO CLASS nodes with outgoing edges were read. Twenty-five contextual YAMLs were byte-verified after prior full reading and eight freshly read, totaling22 generated and11 native neighbors. Adaptive local experts substantially overlaps represented MDN/HME scope and receives no duplicate ID. Bare context-sensitive HMM and csHMM are searched homonyms, not unconditional aliases. Absence is bounded to the pin and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite latent window s_1,...,s_T, specify a normalized initial law pi and row-normalized transition table A. In the source’s one-sided Gaussian construction with integer lag Delta between1 andT-1, observations x_1,...,x_(T-Delta) have conditional means u_(s_t)+v_(s_(t+Delta)) and identity covariance. The joint density is pi(s_1) times product_(t=1)^(T-1) A_(s_t,s_(t+1)) times product_(t=1)^(T-Delta) Normal(x_t;u_(s_t)+v_(s_(t+Delta)),I). Given the complete hidden path, observations are independent, but each observation couples two hidden positions in posterior inference. For binary states, expanding the Gaussian terms produces a long-range pair interaction K=-(u_+-u_-) dot (v_+-v_-)/4. At hidden index j, the contribution through the delayed v term uses observation x_(j-Delta), when that observation lies within the valid window. Summing the normalized joint density over paths gives the observed likelihood. The paper approximates the hidden posterior by retaining a tractable chain and treating added interactions through structured mean field; that inference choice is separate from model identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Exploiting Tractable Substructures in Intractable Networks</a></span>
+        <span>· <strong>Locator:</strong> Section3, Equations(23)–(27), printed pp.490–491 / PDF pp.5–6, including boundary footnote; Figure1 and caption, p.492 / PDF p.7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source’s Equation(23) omits the initial-state law and Equation(26) suppresses boundary corrections. The normalized finite-window convention is stated explicitly here; other endpoint or padding choices define different models.</li>
+      <li>Equation(26) uses the contemporaneous observation in a combined unary expression. In a general sequence, a delayed-state contribution must instead use the corresponding earlier observation; this cannot be repaired only by ignoring endpoints.</li>
+      <li>The prior remains first-order, but the conditioned hidden distribution generally has long-range interactions. A standard HMM forward–backward pass over the original single state is not automatically exact; exact inference can require an expanded state with cost growing with context width.</li>
+      <li>The Gaussian additive-mean, identity-covariance form is the inspected example, not a claim that every contextual emission distribution must have that form. The synthetic Figure1 uses five states and two-sided context rather than only the displayed binary one-sided specialization.</li>
+      <li>A usual HMM can retain marginal correlations over many time steps. The distinction is added direct conditional dependency through emissions, not the existence of any long-lag correlation or a causal interpretation of future context. No speech benchmark or accuracy guarantee is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For a fixed finite window, the hidden chain and observation children form a normalized directed acyclic factorization even when an observation has a later hidden-state parent. The AIO Bayesian-network family is broader than this emission-context sequence construction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The first-order hidden prior is a Markov chain. The whole latent-observation model and its hidden posterior are not identified with the pinned first-order process; this is a component-structure relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/1995/file/285f89b802bcb2651801455c86d78f2a-Paper.pdf" target="_blank" rel="noopener">Exploiting Tractable Substructures in Intractable Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lawrence K. Saul, Michael I. Jordan
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/1995/hash/285f89b802bcb2651801455c86d78f2a-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d0a9f10a9d70…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T20:33:55Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T20:33:55Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ContextSensitiveEmissionHiddenMarkovModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ContextSensitiveEmissionHiddenMarkovModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

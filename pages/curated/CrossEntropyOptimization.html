@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cross-entropy optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Cross-entropy optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Cross-entropy optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CrossEntropyOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Cross-entropy method for optimization
+    </div>
+
+  <div class="detail-desc">
+    A stochastic optimization method that iteratively samples a parameterized search distribution, selects high-performing samples using an adaptive threshold, and refits the distribution by maximum likelihood on those selected samples.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the optimization branch of the cross-entropy method, represented by Algorithm2.3 in the inspected 2005 tutorial. It is distinct from the rare-event probability estimator, the cross-entropy loss used to train a classifier, NES natural-gradient steps, and CMA-ES evolution-path covariance adaptation. The sampling family and its fit define concrete instances; the generic algorithm is not limited to independent Bernoulli variables or a Gaussian implementation. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 285 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 15 and 15 lines respectively. Every text hit was a prior candidate lead. Nine exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and seven native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Specify a sampling family f(x;v), initial parameter, sample size N, elite parameter rho and stopping rule. For maximization, draw candidates from the current distribution, evaluate their scores and choose the empirical (1−rho) quantile as threshold gamma. Fit new parameters by maximizing the sum of log f(x;v) over sampled candidates with score at least gamma. The optimization formulation uses unit weights: it redefines the associated stochastic problem at each iteration, so the rare-event algorithm’s nominal-to-current likelihood ratio is absent. Optionally smooth the fitted parameter toward the old one via v_new=alpha*v_fit+(1−alpha)*v_old. For independent Bernoulli coordinates, the unsmoothed fit is the coordinatewise fraction of ones among selected samples. Iterate until the chosen stopping condition; the displayed Algorithm2.3 uses an unchanged threshold over several iterations. The source’s cross-entropy derivation minimizes KL from the ideal selected-event distribution to the parameterized sampling distribution, not the reverse direction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Tutorial on the Cross-Entropy Method</a></span>
+        <span>· <strong>Locator:</strong> Section2.2, Algorithm2.3 and Remarks2.3–2.6, PDF pp.15–19 / printed33–37; Equation20, PDFp.12 / printed30; KL direction in Section2.1, PDF pp.10–11; discussion PDFp.46 / printed64</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A score&gt;=threshold rule need not select exactly rho*N candidates: order-statistic indexing and tied scores can increase the elite count. Implementations must state their quantile, tie and optimization-direction conventions; minimization requires the corresponding lower-score criterion or an equivalent score transformation.</li>
+      <li>Unsmoothed finite-sample fitting can produce Bernoulli probabilities 0 or 1 and remove future exploration. Interior initialization and 0&lt;alpha&lt;1 prevent exact endpoints after a single convex smoothing step in exact arithmetic; smoothing alone does not guarantee exploration forever or a global optimum, and finite precision can still collapse support.</li>
+      <li>The choice of sampling family, initial support, sample size, elite fraction, fit constraints and stopping rule matters. A stabilized threshold is not an optimality certificate; the source explicitly permits getting trapped at a local minimum and limits its asymptotic discussion.</li>
+      <li>Maximum-likelihood fitting of selected candidates is a sampling-distribution update, not an unbiased gradient of raw expected fitness. It does not require derivatives of the black-box objective; solving the distribution fit may still require numerical optimization. No universal performance or convergence-rate claim is curated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable mapping was found for this general optimization method in the inspected pin. Learning tasks, evolutionary language models, predictive forests, bias concepts and a generic stochastic-process representation do not establish the defining identity. This is a bounded local assessment, not a claim of absence from other ontologies.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO CLASS identities/scoped synonyms, all 285 preceding maintained identities, ignored/hidden full-checkout text, and semantic inspection of nine exact AIO targets and seven native neighbors.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This exact CLASS is a large language model using evolutionary computation. Its related synonym evolutionary algorithms does not denote every stochastic optimizer or establish model equivalence.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The definition concerns preprocessing/training machine-learning models. Optional neural-network or policy optimization applications do not define the full general optimization method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            General objective optimization is not necessarily a task of learning from data as in this target.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MetaLearning.html"><code>AIO:MetaLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Updating optimizer state or a search distribution is not necessarily learning from metadata about machine-learning experiments.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html"><code>AIO:ActiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Objective evaluation does not require querying labels for data points.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            These general optimizers do not inherently specify a policy/environment learning task; a possible use in policy search is insufficient.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RandomForest.html"><code>AIO:RandomForest</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Neither particle memory nor an adaptive sampling distribution is a predictive decision-tree ensemble.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvaluationBias.html"><code>AIO:EvaluationBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This class describes evaluation population/metric bias rather than an optimization algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A possible augmented-state Markov representation is too generic to identify this optimizer. The inspected defining operation is particle motion or elite-distribution refitting, not construction of a target-invariant Markov sampler; the pinned network/model is not an equivalent or necessary semantic parent.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf" target="_blank" rel="noopener">A Tutorial on the Cross-Entropy Method</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pieter-Tjerk de Boer, Dirk P. Kroese, Shie Mannor, Reuven Y. Rubinstein
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f68c734c2789…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:05:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:05:37Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CrossEntropyOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CrossEntropyOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

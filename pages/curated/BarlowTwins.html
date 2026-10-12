@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Barlow Twins · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Barlow Twins</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Barlow Twins</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BarlowTwins</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A self-supervised representation-learning procedure that trains shared encoder and projection networks to make the cross-correlation of two batches of augmented-view embeddings close to the identity, penalizing diagonal mismatch and off-diagonal correlation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is the Barlow Twins procedure of Zbontar et al., not all redundancy-reduction methods or a particular encoder. Its objective couples feature dimensions through a cross-view correlation matrix, with gradients through both views and no separate predictor, stopped target or momentum teacher. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 191 prior native IDs/names/aliases. Ignored-inclusive searches of both full checkouts found only prior discovery leads (four hits per checkout) and one unrelated main-environment DFSWAVE token. Neighboring SimCLR, MoCo, BYOL and DINO procedures and exact AIO definitions/edges were inspected; shared components do not establish identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For B≥2 paired augmented views, apply a shared backbone and projection head to obtain B-by-d embeddings in each view. Center every embedding coordinate over the batch. For nonzero centered column norms define C_ij=sum_b zA_bi zB_bj/[sqrt(sum_b zA_bi^2) sqrt(sum_b zB_bj^2)]. Minimize L=sum_i(1−C_ii)^2+lambda sum_(i≠j) C_ij^2 with lambda&gt;0, backpropagating through both branches and their normalization. The first term aligns matching coordinates across views; the second penalizes off-diagonal cross-view correlations. After pretraining, use backbone representations before the projection head for downstream tasks. This states the paper’s correlation-equation formulation; the pinned implementation realizes normalization with synchronized batch normalization and an epsilon-stabilized denominator.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Barlow Twins: Self-Supervised Learning via Redundancy Reduction</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.2, Equations (1)–(2) and Algorithm 1, PDF pp. 2–3; Section 5.2 and comparison discussion, PDF p. 9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-additional-1">Barlow Twins author training implementation</a></span>
+        <span>· <strong>Locator:</strong> main.py lines 88–117 (SyncBatchNorm/distributed setup) and 187–222 (projector, non-affine batch normalization, cross-correlation and loss)</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-scope" style="font-size: 0.7rem;">context</span>
+        <span><strong>Source:</strong> <a href="#source-additional-2">PyTorch BatchNorm1d API semantics</a></span>
+        <span>· <strong>Locator:</strong> Class signature and forward normalization description: biased forward variance, epsilon, and running-statistic distinction</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Zero centered variance makes the ideal correlation equation undefined. The author implementation uses non-affine BatchNorm1d, converts it to synchronized batch normalization, and reduces cross-products across workers; reproductions must preserve statistics, epsilon and batch-size conventions.</li>
+      <li>The paper’s pseudocode leaves the standard-deviation convention implicit, while its equation uses normalized column norms. Sample-standard-deviation normalization followed by division by B is not identical to that equation; do not equate arbitrary std defaults with the stated correlation.</li>
+      <li>Zero pairwise correlation does not establish statistical independence. By matrix rank, a centered B-sample cross-correlation matrix cannot equal a d-dimensional identity when d&gt;B−1; driving it toward identity is an objective, not a guarantee of attaining zero loss.</li>
+      <li>The loss is not itself a mutual-information quantity, and the source’s information-bottleneck interpretation uses additional assumptions. No general noncollapse or downstream-performance theorem is asserted.</li>
+      <li>High-dimensional projection increases the size of the d-by-d correlation computation. The record does not include proposed autocorrelation/covariance variants or numerical benchmark reproduction.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SelfsupervisedLearning.html" style="font-weight: 600;"><code>AIO:SelfsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Self-supervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is an algorithm for learning representations from relationships between unlabeled views. The pinned AIO target is a MachineLearningTask; this is a related algorithm-to-task mapping, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v139/zbontar21a/zbontar21a.pdf" target="_blank" rel="noopener">Barlow Twins: Self-Supervised Learning via Redundancy Reduction</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jure Zbontar, Li Jing, Ishan Misra, Yann LeCun, Stéphane Deny
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v139/zbontar21a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c31a5584f79…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-1">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-1</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookresearch/barlowtwins/8e8d284ca0bc02f88b92328e53f9b901e86b4a3c/main.py" target="_blank" rel="noopener">Barlow Twins author training implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Facebook Research barlowtwins contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://github.com/facebookresearch/barlowtwins/tree/8e8d284ca0bc02f88b92328e53f9b901e86b4a3c</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:24598954e022…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-additional-2">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">additional-2</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://docs.pytorch.org/docs/2.14/generated/torch.nn.BatchNorm1d.html" target="_blank" rel="noopener">PyTorch BatchNorm1d API semantics</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            PyTorch contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://docs.pytorch.org/docs/2.14/generated/torch.nn.BatchNorm1d.html</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T08:04:24Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T08:04:24Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BarlowTwins.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BarlowTwins.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

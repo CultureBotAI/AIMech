@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persistent contrastive divergence · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Persistent contrastive divergence</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Persistent contrastive divergence</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PersistentContrastiveDivergence</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PCD
+    </div>
+
+  <div class="detail-desc">
+    A learning algorithm that estimates an energy model’s negative-phase statistics with Markov chains whose states persist across parameter updates, rather than restarting those chains at the current data minibatch.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is persistent contrastive divergence as presented for RBMs by Tieleman. Persistence refers to the fantasy-particle sampling state across learning updates, not continual-learning tasks or recurrent sequence-model state. It is an instance of persistent-chain stochastic-approximation learning, not the original data-restarted CD-k rule. Fast PCD adds temporary sampling parameters and remains a separate variant. All 442 pinned AIO labels/scoped synonyms and 370 preceding native IDs/names/aliases were compared, with no normalized identity match. Fixed-string searches included ignored and hidden files throughout both worktree and main, returning 29 lines each; all 22 unique matched contents were read. Hits described CD as a training component, a pending lead or a boundary from CD-PercLoss, not an existing candidate record. All 61 semantic label/synonym hits, 21 exact annotated AIO nodes with outgoing edges, corresponding generated records and four native neighbors were inspected. Previously fully read contextual files were verified byte-identical. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a collection of fantasy-particle configurations independently of which data minibatch is currently presented. Compute positive-phase sufficient statistics from that minibatch, using exact hidden conditional expectations for an RBM. Advance the existing fantasy particles by a small number of Gibbs transitions under the current model parameters and estimate negative-phase statistics from those particles. Update the model parameters from the positive-minus-negative difference and retain the particle states for subsequent iterations. The 2008 experiments use one full Gibbs step per update, one particle per minibatch member and no chain resets; those are specified experimental choices, while persistence is the defining distinction. If the chain distribution tracks the current equilibrium sufficiently closely, its negative statistics approximate those of the model. For fixed particle-distribution R, the instantaneous update can be expressed as the negative derivative of KL(q_data||p_theta)-KL(R||p_theta), with R held fixed; this does not make the whole coupled adaptive process descent on one fixed objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, likelihood statistics and persistent contrastive divergence, PDF pp.2–3; experimental chain conventions, Section 4.4, p.3; limitations, Sections 5–6, pp.5–7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-persistent-chain-analysis">Using Fast Weights to Improve Persistent Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, Equation (10) and footnotes, PDF pp.2–3; source explains fixed current particle distribution and learning–mixing interaction</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Finite transitions, correlated particles and changing parameters can leave negative statistics biased for the current equilibrium expectation. The small-learning-rate justification depends on mixing relative to parameter drift; it is not a guarantee at every finite step size.</li>
+      <li>A persistent chain is neither an independent model sample at each iteration nor a proof of rapid mixing. The original paper discusses difficulties when strong dependencies or large weights slow exploration, and the regularization and learning-rate schedule affect behavior.</li>
+      <li>Exact positive-phase inference is available for the binary RBM formulation inspected here; that property does not transfer automatically to models with interacting latent variables. The paper also examines fully visible MRFs with different update costs and sampling structure.</li>
+      <li>The fixed-R contrastive expression is an instantaneous derivative description. Particle evolution and parameter adaptation remain coupled; the ordinary data-restarted contrastive-divergence objective does not describe that entire process.</li>
+      <li>The retained particles and one-step experimental choice do not imply that conditional models with changing conditioning inputs have the same tracking problem as an unconditional RBM. No universal superiority, global convergence or author-code behavior is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected algorithm trains RBM parameters, but is not itself the model architecture. CD also applies beyond RBMs. This is a training-method to model-family association, not equivalence or subclass identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Markov transitions supply the negative-phase configurations used by the parameter-update procedure. The AIO target denotes the stochastic process/model, not the learning algorithm or a guarantee of equilibrium sampling during adaptation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~tijmen/pcd/pcd.pdf" target="_blank" rel="noopener">Training Restricted Boltzmann Machines using Approximations to the Likelihood Gradient</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tijmen Tieleman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1390156.1390290</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:058ecdda8050…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-persistent-chain-analysis">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">persistent-chain-analysis</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~tijmen/fpcd/fpcd.pdf" target="_blank" rel="noopener">Using Fast Weights to Improve Persistent Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tijmen Tieleman, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1553374.1553506</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ce5abe1d4bfa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:18:34Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:18:34Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PersistentContrastiveDivergence.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PersistentContrastiveDivergence.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

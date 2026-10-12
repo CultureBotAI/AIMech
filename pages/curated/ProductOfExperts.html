@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product of experts · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Product of experts</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Product of experts</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:ProductOfExperts</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PoE, Products of experts
+    </div>
+
+  <div class="detail-desc">
+    A probabilistic model family that combines expert factors over the same observations by multiplying their values and normalizing the product over the observation space.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the general normalized-product construction, including latent-variable experts, rather than an arithmetic mixture, a training algorithm or a language-model-specific factorization. The original cooperative-learning setting does not require experts to be separately trained. AIO FactorizedLLM has Product of experts as a related synonym, but its definition and parent restrict it to large language models; that related synonym does not identify the general family. Logarithmic opinion pooling uses normalized exponent weights and has a separate aggregation scope. All 442 pinned AIO labels/scoped synonyms and 373 preceding native IDs/names/aliases were compared. The sole normalized hit is Product of experts as a related synonym of FactorizedLLM; its language-specific definition and parent distinguish it from the generic candidate. Both full-checkout fixed-string searches included ignored and hidden files and returned 59 lines each. All 29 unique matched contents were read; other hits concern citations, training components, prior boundary discussions or pending leads. All 88 semantic label/synonym hits, 20 exact fully annotated AIO nodes with outgoing edges, their generated records and four complete native neighbors were inspected or verified unchanged after previous full reading. Absence is bounded to this pin and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For observations x, form p(x)=product_m f_m(x;theta_m)/Z(theta), with Z the sum or integral of the product over x and 0&lt;Z&lt;infinity. Expert factors may be unnormalized; multiplying one by a positive x-independent constant cancels in the final normalization. For parameters local to expert m, the exact log-likelihood derivative is its log-factor derivative at the data minus the expectation of that derivative under the full product model. In the latent-expert construction, f_m(x)=sum_hm f_m(x,h_m), and separate expert hidden variables are conditionally independent given a completely observed x, allowing separate inference when each expert is tractable. This does not imply independence of observed coordinates or independence of experts after some observations are marginalized. Restricted Boltzmann machines instantiate the family with one expert per hidden unit, whereas product HMMs use complete HMM sequence distributions as factors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Training Products of Experts by Minimizing Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Equations (2.1)–(2.2), printed pp.1772–1774 / PDF pp.2–4; Section 7, pp.1780–1782 / PDF pp.10–12; Sections 12.1 and 12.3 including footnote 9, pp.1794–1795 / PDF pp.24–25</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sequence-expert-context">Products of Hidden Markov Models: It Takes N&gt;1 to Tango</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–2 and Figure 1, PDF pp.1–3; Section 3, Equations (3)–(9) and emission-tempered AIS construction, pp.3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The normalizer must be finite and positive. Continuous expert densities being individually normalized does not alone guarantee that their product is integrable; nonoverlapping supports can also make normalization impossible.</li>
+      <li>Tractable inference within each expert does not make the product normalizer, model sampling or likelihood learning automatically tractable. Exact likelihood derivatives involve the full product distribution; short-chain CD is a distinct approximate learning procedure.</li>
+      <li>Experts need not use disjoint input dimensions, be individually well fitted, or produce a sharper or better calibrated distribution in every setting. A product of Gaussian factors remains Gaussian when well defined, so Gaussian factors alone do not represent arbitrary multimodality.</li>
+      <li>Conditional independence is between separate latent expert states given all modeled observations. Missing observations can couple the experts. The original architecture is not defined by a sparse router or an arithmetic average of expert predictions.</li>
+      <li>Unit exponent products and geometric opinion averages are not interchangeable: multiplying duplicate factors can sharpen a distribution, while identical distributions pooled with exponent weights summing to one remain unchanged. No empirical advantage or author implementation is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The local product-model family is broader than the AIO RBM target: the primary source explicitly derives RBMs as a product with one expert per hidden unit, while other expert families include HMMs. Narrow match means the target is narrower; this is a local scope assessment, not a new upstream axiom. FactorizedLLM’s related synonym alone does not establish equivalent generic scope.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~hinton/absps/nccd.pdf" target="_blank" rel="noopener">Training Products of Experts by Minimizing Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1162/089976602760128018</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a1190ee66e69…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sequence-expert-context">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sequence-expert-context</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.utoronto.ca/~hinton/absps/pohmm_uai.pdf" target="_blank" rel="noopener">Products of Hidden Markov Models: It Takes N&gt;1 to Tango</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Graham W. Taylor, Geoffrey E. Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:1205.2614</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e62e3b6a1876…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:31:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:31:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ProductOfExperts.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ProductOfExperts.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

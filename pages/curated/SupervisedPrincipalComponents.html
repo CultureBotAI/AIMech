@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supervised Principal Components · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Supervised Principal Components</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Supervised Principal Components</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SupervisedPrincipalComponents</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Supervised Principal Components Regression
+    </div>
+
+  <div class="detail-desc">
+    A prediction procedure that screens features by their marginal association with an outcome, computes principal components of the retained feature matrix, and uses those components in an outcome regression.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the Bair-Hastie-Paul-Tibshirani screening/PCA/regression procedure. It is distinct from ordinary principal-component regression, sparse PCA, PPCA, partial least squares, supervised gene shaving, and other objectives also called supervised PCA. The ambiguous acronym SPCA is searched but not asserted as an alias. Unlabeled observations are optional in a proposed extension, not required by the base procedure. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 460 preceding native IDs, names and aliases, with no normalized collision. Ignored- and hidden-inclusive full-text searches of both checkouts returned the same 144 matching lines across 34 files. Every matched passage was read, comprising 83 unique excerpts; long serialized web captures were inspected around each match with 220-character flanks, not reread in full. Matches are discovery leads, PPCA distinctions, historical reviews and PLSA/count-factorization references, not existing candidate records. All 222 semantic label/synonym rows were read. Twenty-six annotated AIO nodes and outgoing edges comprise 22 byte-verified prior readings and 4 current complete readings. Thirty-six contextual YAMLs comprise 29 unchanged prior readings and 7 current complete readings, including ten native neighbors. This is a bounded snapshot/corpus assessment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#screen-then-project</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For centered training feature columns x_j and response y, the linear-response version scores each nonzero column by s_j=x_j^T y/||x_j|| and retains those with |s_j| greater than a threshold. It computes an SVD of the retained matrix and regresses the outcome on its first or first few left singular vectors. The threshold and component count are tuning choices. Outcome-dependent selection makes the entire fitting procedure nonlinear in the training responses, even though the fitted linear-response predictor is linear in new features.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Prediction by Supervised Principal Components</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 1-7, pp. 120-121 / PDF pp. 2-3; Section 6.1, p. 125 / PDF p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#new-sample-prediction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With retained training SVD X_theta=U D V^T, use weights V D^(-1) for nonzero retained singular values to project new observations centered by the training feature means. For one unit-norm component u, the training linear fit is ybar+(u^T y)u; the same fitted outcome coefficient multiplies the new projected score. The new observation does not need an outcome to obtain its prediction. Generalized-response versions replace the marginal score and outcome regression appropriately, including score-statistic screening and proportional-hazards regression for survival data.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Prediction by Supervised Principal Components</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 4-8 and test-vector instructions, pp. 120-122 / PDF pp. 2-4; curator nonzero-singular-value qualification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#screening-and-consistency-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The consistency analysis assumes a specified Gaussian latent-factor structure, identifiable separated signal directions, suitable relevant-dimension and signal-to-noise scaling, and adequate recovery of the relevant coordinates. With multiple factors, cancellation can make a relevant feature marginally uncorrelated with the outcome. The paper does not prove that cross-validation selects the correct feature set and notes substantial variability in small samples. Its detailed analysis also distinguishes noise-corrected latent regression coefficients from attenuated uncorrected component coefficients at fixed nonzero noise.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Prediction by Supervised Principal Components</a></span>
+        <span>· <strong>Locator:</strong> Section 9, Theorems 1-2 and Equations 36-45, pp. 130-134 / PDF pp. 12-16; Section 11, p. 135 / PDF p. 17; curator jointly-informative zero-marginal-covariance example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#extensions-and-comparisons</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An optional unlabeled-data extension selects features using labeled observations and their outcomes, then estimates components from those selected columns in labeled plus unlabeled observations. This differs from repeatedly selecting all features by correlation with the current component, which loses the original outcome supervision. The procedure does not guarantee better prediction than ridge, partial least squares or other regression methods. The historical microarray examples do not establish clinical validity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Prediction by Supervised Principal Components</a></span>
+        <span>· <strong>Locator:</strong> Section 4, p. 124 / PDF p. 6; Section 7 and Table 4, pp. 129-130 / PDF pp. 11-12; Section 10, p. 134 / PDF p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The retained feature set may be empty, columns may have zero norm, and singular values may vanish. A usable implementation must handle these cases; inverses and component formulas do not establish full rank automatically.</li>
+      <li>Marginally unassociated but jointly predictive variables can be missed; marginal associations can also select conditionally irrelevant variables. Feature scaling, threshold selection, component count and the response model affect the result.</li>
+      <li>The fitted latent components need not identify causal biological processes. Survival and classification extensions have their own outcome assumptions; the source acknowledges incomplete theoretical justification for its Cox setting.</li>
+      <li>All 19 primary pages were read. Finite orthogonal-vector calculations check selection, projection and a marginal-screening failure. Historical microarray results and software were not reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure computes PCA after outcome-based screening, but adds supervised selection and prediction. The target is task-scoped PCA rather than this complete algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html" style="font-weight: 600;"><code>AIO:RegressionAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Regression Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm predicts an outcome through selected component scores. This relates an explicit fitting procedure to the pinned regression task without asserting task/algorithm equivalence.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://hastie.su.domains/public/Papers/spca_JASA.pdf" target="_blank" rel="noopener">Prediction by Supervised Principal Components</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Eric Bair, Trevor Hastie, Debashis Paul, Robert Tibshirani
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1198/016214505000000628</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a879f3c53af4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:46:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:47:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SupervisedPrincipalComponents.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SupervisedPrincipalComponents.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

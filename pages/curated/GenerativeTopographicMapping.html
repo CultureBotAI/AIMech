@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generative Topographic Mapping · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Generative Topographic Mapping</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Generative Topographic Mapping</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:GenerativeTopographicMapping</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GTM
+    </div>
+
+  <div class="detail-desc">
+    A nonlinear latent-variable density model with a uniform discrete prior on fixed latent grid nodes, mapped through a shared smooth function to the centers of an equal-weight Gaussian mixture with common isotropic covariance.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the original fixed-basis GTM construction and its batch EM fitting. The shared latent-to-data map ties Gaussian centers and distinguishes the model from an unconstrained mixture, a conditional mixture-density network, a Kohonen map and topographic ICA energy dependence. Gaussian radial basis functions are a usual map choice, not an identity with every radial-basis network. Learned mixture weights, heteroscedastic extensions and mixtures of GTMs require separate scope. Three candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and 454 preceding native IDs, names and aliases, with no normalized match. Searches of both complete checkouts included ignored and hidden files and returned the same 176 matched-line set across 81 paths. All matching excerpts were read and distinguished from existing concept records; historical ledgers were not reread in full solely because they contained a match. All 213 semantic-search rows were read, including 212 unchanged prior rows and the additional KernelLayer row. Twenty-one annotated AIO nodes with outgoing edges were inspected: 19 unchanged prior readings and two new readings. Thirty-one contextual YAMLs, including ten native neighbors, comprise 23 unchanged prior readings and eight complete readings in this round. This identity assessment is bounded to the pinned snapshot and maintained corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#constrained-density</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose K fixed nodes x_i in a latent space of dimension L&lt;D, fixed smooth basis vectors phi(x_i), a weight matrix W and shared precision beta&gt;0. Set y_i=W phi(x_i) and p(t)=K^(-1)sum_i Normal(t;y_i,beta^(-1)I_D). This finite mixture is normalized exactly for finite parameters; the equal node weights do not imply a uniform density over the mapped surface. Mixture centers move together through W rather than being independent free parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">GTM: The Generative Topographic Mapping</a></span>
+        <span>· <strong>Locator:</strong> Sections 2-2.1, Equations 1-7, reprint/PDF pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exact-em-fitting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For N observations, the E-step gives R_in proportional to exp(-beta*||t_n-W phi(x_i)||^2/2), normalized over nodes i. With Phi_ij=phi_j(x_i), T containing data rows and G_ii=sum_n R_in, the unregularized M-step solves Phi^T G Phi W_new^T=Phi^T R T. Then beta_new^(-1)=(ND)^(-1)sum_ni R_in||t_n-W_new phi(x_i)||^2, using the old responsibilities. Exact well-defined EM updates make the observed-data log likelihood nondecreasing. Rank deficiency can require a pseudoinverse or another weighted least-squares minimizer; zero residual variance lies outside the finite-positive-precision model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">GTM: The Generative Topographic Mapping</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 8-14, reprint/PDF pp. 5-6; Section 2.4, p. 8; curator rank, boundary and EM qualifications</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#posterior-visualization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Bayes responsibilities define a posterior distribution over latent nodes for each observation. A posterior-mean display uses sum_i R_in x_i; a modal display selects a node with maximum responsibility. Multimodal posteriors can make the mean misleading. Smooth forward mapping supports local continuity, but does not ensure global injectivity, distance preservation or a unique inverse. A curator circular-map example has identical images for separated latent nodes and a posterior mean at a nearly unsupported middle node.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">GTM: The Generative Topographic Mapping</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equations 17-19, reprint/PDF p. 6; Sections 2 and 4.2, pp. 4 and 12; curator smooth-map counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fitting-and-comparison-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    EM objective nondecrease is narrower than an unconditional guarantee of convergence to a local maximum or globally optimal density. Gaussian weight regularization changes the objective to MAP and changes the normal equations. The original comparisons with SOM concern explicit mixture probability, soft responsibilities and tied-center regression; they do not establish universal superiority, monotonic posterior concentration or biologically correct topology.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">GTM: The Generative Topographic Mapping</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 15-16, reprint/PDF p. 6; Sections 4.1-4.2, Equations 21-27 and Figures 6-7, pp. 9-13; curator qualification of the paper’s convergence language</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Latent dimension, nodes, basis functions and smoothness parameters are modeling choices. The source does not establish automatic recovery of the true manifold or globally preserved topology.</li>
+      <li>Likelihood fitting is nonconvex and sensitive to initialization and model choice. Responsibilities require numerically stable evaluation; exact finite-parameter EM statements do not guarantee arbitrary approximate or floating-point implementations.</li>
+      <li>The source’s effective regression smoother can have negative entries; it is not the posterior responsibility matrix. Its row-sum property relies on the stated constant-basis and unregularized algebra.</li>
+      <li>The 16-page author reprint, including simulated oil-flow and toy-curve experiments, was read completely. Finite calculations check a tiny exact update and a topology boundary; no author software, empirical training or benchmark comparison was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GTM is a specific latent-variable probability model within the pinned class of mathematical representations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ManifoldLearning.html" style="font-weight: 600;"><code>AIO:ManifoldLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Manifold Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GTM models a smooth lower-dimensional latent-to-data map with observation noise and uses its posterior for visualization. The AIO target is in the dimensionality-reduction task hierarchy; this relation preserves the model/task distinction and does not claim perfect manifold recovery.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/1998/01/bishop-gtm-ncomp-98.pdf" target="_blank" rel="noopener">GTM: The Generative Topographic Mapping</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Christopher M. Bishop, Markus Svensén, Christopher K. I. Williams
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.microsoft.com/en-us/research/wp-content/uploads/1998/01/bishop-gtm-ncomp-98.pdf</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:296ee0761873…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T02:05:59Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T02:05:59Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GenerativeTopographicMapping.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GenerativeTopographicMapping.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

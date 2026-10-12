@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triplet Markov chain · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Triplet Markov chain</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Triplet Markov chain</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:TripletMarkovChain</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TMC
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable sequence-model family that introduces an auxiliary process so that the joint hidden, auxiliary and observed process is first-order Markov, while the hidden–observed pair obtained by marginalizing the auxiliary process need not be Markov.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The inspected construction uses finite hidden X and auxiliary U states with an observed Y process, and models the Markov triplet T_t=(X_t,U_t,Y_t). The auxiliary variable is a stochastic latent coordinate, not the emitted-symbol stack or queue used by an auxiliary-memory HMM. Pairwise Markov chains embed through a constant or redundant auxiliary coordinate; general triplet models allow hidden–observed pair laws outside that subclass. Independent factorial hidden chains and particular evidential models impose additional structure and are not synonyms of the generic triplet family. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 388 preceding native IDs, names and aliases for the three selected concepts. Full-checkout fixed-string searches included ignored and hidden files in both worktree and main, yielding 8 and 8 matched lines; all 8 unique contents were read. Hits are prior pending leads and primary-reference context, not records of these identities. All 78 semantic label/synonym hits and 22 fully annotated exact AIO CLASS nodes with outgoing edges were read. Twenty-six contextual YAMLs were byte-verified after prior full reading and three freshly read, totaling 22 generated and seven native contextual records. Short acronym identities were compared across the complete normalized record inventory. Absence is bounded to the pinned source, maintained collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Specify a normalized initial law and first-order transition kernels for T_t=(X_t,U_t,Y_t). The observable/target joint law p(x,y) is obtained by summing the complete triplet law over auxiliary paths u. For observed y, treat V_t=(X_t,U_t) as the augmented hidden state and apply the pairwise-chain forward–backward recursions with observed kernels p(v_(t+1),y_(t+1)|v_t,y_t). The product of forward and backward messages gives p(v_t,y); sum over u_t at fixed x_t and divide by p(y) to obtain p(x_t|y). Maximizing this marginalized posterior gives the per-position marginal-posterior-mode estimate. Neither X nor (X,Y), nor even the marginal pair (X,U), is required to be Markov in the generic family. A simple source example uses a Markov auxiliary U and conditionally independent (X_t,Y_t) pairs given U_t; its hidden–observed pair can still fail to be Markov. The experiments use more restricted subclasses, including a Markov (X,U) process with conditionally independent observations given that pair.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Triplet Markov Chains in hidden signal restoration</a></span>
+        <span>· <strong>Locator:</strong> Section2.1, PDF pp.2–4: definition labeled3.1, Equations(2.1)–(2.7), Remark2.1 and Example2.1; Section2.2, PDF pp.4–6; Sections3.1–3.2 and Remark3.2, PDF pp.7–10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Inference cost depends on the enlarged state cardinality |X|*|U| and the transition structure. Finite auxiliary-state forward–backward tractability is not a constant-cost claim as those spaces grow.</li>
+      <li>Summing over U is essential: maximizing over U first can change the chosen X state. Statewise marginal decoding, joint augmented-path decoding and marginal MAP of the whole X path are different objectives.</li>
+      <li>The finite forward/backward update range is t=1,...,T-1 with the stated initial/terminal messages; the manuscript prints a range including zero without defining the corresponding message. Posterior formulas require nonzero observation evidence.</li>
+      <li>The conditional-symmetry hypothesis in Proposition2.1 is part of that result. It is not adopted as an unconditional characterization of all possible Markov projections.</li>
+      <li>The evidential/Dempster–Shafer construction in Section2.2 is a particular application. Its proportional factors require a consistent normalization treatment before use as conditional transition rows; the generic model record does not certify those displayed factors or the evidential theorem.</li>
+      <li>Despite the title of Section3.2, the displayed image segmentations use supervised parameter estimates. Remark3.2 reports that attempted unsupervised EM on those noisy images did not give good results. The source’s synthetic successes do not establish universal superiority or global convergence.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The complete triplet T_t=(X_t,U_t,Y_t) is a first-order stochastic state by definition, making the AIO Markov-chain family broader. The mapping applies to this augmented joint process, not its hidden–observed projection or the target marginal.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html" style="font-weight: 600;"><code>AIO:BayesianNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Bayesian Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A finite normalized triplet-state chain has an acyclic directed factorization, with within-slice factors obtainable by the probability chain rule. The generic Bayesian-network family is broader and does not require the particular hidden/auxiliary/observed partition.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www-public.imtbs-tsp.eu/~pieczyn/C49.pdf" target="_blank" rel="noopener">Triplet Markov Chains in hidden signal restoration</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wojciech Pieczynski, Cédric Hulard, Thomas Veit
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1117/12.463183</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:170ad3a67715…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T20:49:12Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T20:49:12Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TripletMarkovChain.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TripletMarkovChain.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

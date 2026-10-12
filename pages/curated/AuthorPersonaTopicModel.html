@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Author-persona-topic model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Author-persona-topic model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Author-persona-topic model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:AuthorPersonaTopicModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> APT
+    </div>
+
+  <div class="detail-desc">
+    A probabilistic topic-model family in which each author has a mixture of personas, each persona has a topic distribution, and one persona shared across a document generates its token topics.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to the author-persona-topic model in Mimno and McCallum&#39;s KDD2007 expertise paper. Author-specific persona mixtures and one persona per whole document distinguish it from the author-topic model, which selects a coauthor per token, and from message-role models with sender/recipient role pairs. Persona counts are fixed by a document-count heuristic in the reported experiment, not inferred by a nonparametric prior. APT is the source acronym in this scope. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 438 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; eleven matching lines per checkout came from four unique prior discovery-ledger contents with pending leads and bibliography context. All matching excerpts were read. All 205 semantic label/synonym hits and 21 annotated AIO nodes with outgoing edges were byte-verified against prior readings. Twenty-nine contextual YAMLs comprise 28 unchanged prior readings and one fully read final round103 native target verified against its saved review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#document-persona-generation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Corpus-shared topic word vectors have Dirichlet priors. Each author has a Dirichlet persona vector and each author/persona pair has a Dirichlet topic vector. A single-author document chooses one persona, then each token independently chooses a topic from that persona and a word from that topic conditional on the parameters. Multi-author publications are replicated once per relevant author and treated as single-author copies; this preprocessing does not infer which coauthor contributed each token.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Expertise Modeling for Matching Papers with Reviewers</a></span>
+        <span>· <strong>Locator:</strong> Section 3, printed pp.501-502 / PDF pp.2-3; Section 3.2.2, printed p.503 / PDF p.4 and Figure 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#collapsed-document-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With fixed hyperparameters, a collapsed topic update combines leave-token-out persona-topic and shared topic-word predictive factors. A persona update removes the entire document, combines the author-persona document-count factor with a Dirichlet-multinomial ratio for the document&#39;s whole topic histogram, and preserves within-document count reinforcement. Topic-word factors cancel when those topic assignments are fixed. The reported persona count is the ceiling of author document count divided by twenty, and each persona coordinate has prior value ten, so total persona concentration grows with the chosen count.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Expertise Modeling for Matching Papers with Reviewers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, printed pp.503-504 / PDF pp.4-5, Equations 5-6 and parameter discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#query-persona-sharing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a query treated as a new document and fixed parameters, the generative law sums over a shared persona outside the product over query tokens. Moving that sum inside the product instead gives independent token personas and a different law. With two equiprobable personas assigning word probability 0.9 and 0.1, a two-copy query has probability 0.41 under a shared persona versus 0.25 under independent token personas. The paper prints plug-in query scoring for its single-author AT comparator but does not provide a complete separate APT ranking formula; this model-law distinction does not certify the historical ranking implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Expertise Modeling for Matching Papers with Reviewers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.2, printed p.503 / PDF p.4, generative process; Section 3.3, printed pp.504-505 / PDF pp.5-6, Equations 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Persona counts and topic counts are fixed heuristics in the evaluated construction. The displayed persona rule needs an additional policy for an author with no documents; none is invented here. Mentioned logarithmic and Dirichlet-process variants are not reported complete methods in this evidence.</li>
+      <li>The study uses 148 accepted NIPS2006 papers and 364 reviewers drawn from NIPS2005 according to its footnote. The 650 pooled judgments cover candidates retrieved by the compared systems, not every paper/reviewer pair. Authors and conflicts are not excluded, so this is relevance ranking rather than a complete constrained reviewer-assignment algorithm.</li>
+      <li>Reported comparisons depend on relevance thresholds, disagreement handling, 75 or 200 topics and averaging ten chains after specified sampling. The single-document language model leads at the first five ranks, while APT200 improves several later ranks; no universal superiority, convergence or objectively correct persona interpretation follows.</li>
+      <li>Finite calculations verify collapsed assignment probabilities and document-level sharing on synthetic examples. They do not reproduce author software, ranking scores or the benchmark.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This source-defined probabilistic model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The family supports probabilistic topic modeling; the pinned target is task-scoped, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/expertise-kdd07.pdf" target="_blank" rel="noopener">Expertise Modeling for Matching Papers with Reviewers</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Mimno, Andrew McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2e8b3a9641a3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:49:25Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:49:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AuthorPersonaTopicModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AuthorPersonaTopicModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

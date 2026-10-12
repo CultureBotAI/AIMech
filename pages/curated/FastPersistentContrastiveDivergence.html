@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast persistent contrastive divergence · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fast persistent contrastive divergence</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fast persistent contrastive divergence</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FastPersistentContrastiveDivergence</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FPCD
+    </div>
+
+  <div class="detail-desc">
+    A persistent-chain RBM learning algorithm that adds rapidly updated, rapidly decaying auxiliary parameters to the sampling energy while retaining separate regular parameters for the model distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This is fast PCD from Tieleman and Hinton, not a generic fast implementation of PCD. Its temporary energy overlay is separate from the parameters defining the learned model. It differs from momentum alone, partial smoothing of positive gradients, ordinary persistent sampling and fast-weight memory architectures used for prediction. All 442 pinned AIO labels/scoped synonyms and 370 preceding native IDs/names/aliases were compared, with no normalized identity match. Fixed-string searches included ignored and hidden files throughout both worktree and main, returning 29 lines each; all 22 unique matched contents were read. Hits described CD as a training component, a pending lead or a boundary from CD-PercLoss, not an existing candidate record. All 61 semantic label/synonym hits, 21 exact annotated AIO nodes with outgoing edges, corresponding generated records and four native neighbors were inspected. Previously fully read contextual files were verified byte-identical. Absence is bounded to this snapshot and inspected neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain regular parameters theta, auxiliary fast parameters phi and persistent visible configurations. Compute positive statistics using hidden conditional probabilities under theta given the data. Compute negative statistics at the fantasy configurations using hidden conditionals under theta+phi, and advance the persistent chains with the combined sampling parameters. Use the same positive-minus-negative statistic difference g to increment theta by eta_regular*g and set phi to rho*phi+eta_fast*g. The paper’s pseudocode uses rho=19/20, initializes fast parameters at zero and regular parameters at small random values, and uses 100 initially zero visible chains. Its initial experiments keep the fast learning rate constant while reducing the regular rate, and later examine alternative schedules. These numerical settings instantiate the method rather than defining every FPCD variant. The reported model probability is defined by theta alone; the fast overlay shapes fantasy-particle exploration and decays quickly.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Using Fast Weights to Improve Persistent Contrastive Divergence</a></span>
+        <span>· <strong>Locator:</strong> Abstract, PDF p.1; Sections 2–4, temporary sampling overlay and fast-weight updates, pp.2–3; Section 6 pseudocode, p.4; parameter alternatives and limitations, Sections 7–8, pp.5–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The negative phase uses a changing overlay and is not an unbiased equilibrium estimate for the base theta model merely because each conditional is tractable. Fast parameters intentionally change the sampling landscape; improved mixing is a motivation supported by particular experiments, not a universal guarantee.</li>
+      <li>Section 6 computes h-minus as a vector of conditional probabilities and then writes a visible draw conditioned on h-minus while calling this a full Gibbs update. Exact binary block Gibbs also requires drawing a hidden state; using the probability vector directly gives a distinct mean-field-style transition. This record preserves the intended combined-parameter sampling mechanism without certifying an uninspected implementation or silently resolving that pseudocode ambiguity.</li>
+      <li>The pseudocode computes negative statistics at the current particles before advancing them, then updates both parameter sets. Changing the ordering or using regular instead of combined parameters in the negative conditionals changes the stated procedure. Final conditional expectations for statistics and sampled states for transitions must be distinguished.</li>
+      <li>Fast decay, learning-rate schedules, particle count and initialization influence the procedure. The paper tests alternatives, and its 19/20 decay and 100 chains are not universal optimal settings. Fast PCD does not mean that fast parameters contribute to the final base model’s normalized density.</li>
+      <li>The source’s mixing discussion and restricted MNIST/Micro-NORB experiments do not certify global convergence, asymptotic unbiasedness, universally better likelihood or optimal general hyperparameters. No author-code or empirical-performance reproduction was performed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html" style="font-weight: 600;"><code>AIO:RestrictedBoltzmannMachine</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Restricted Boltzmann Machine</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected algorithm trains RBM parameters, but is not itself the model architecture. CD also applies beyond RBMs. This is a training-method to model-family association, not equivalence or subclass identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Markov transitions supply the negative-phase configurations used by the parameter-update procedure. The AIO target denotes the stochastic process/model, not the learning algorithm or a guarantee of equilibrium sampling during adaptation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.toronto.edu/~tijmen/fpcd/fpcd.pdf" target="_blank" rel="noopener">Using Fast Weights to Improve Persistent Contrastive Divergence</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tijmen Tieleman, Geoffrey Hinton
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1145/1553374.1553506</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ce5abe1d4bfa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T19:18:34Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T19:18:55Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastPersistentContrastiveDivergence.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastPersistentContrastiveDivergence.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

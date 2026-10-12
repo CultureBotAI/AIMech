@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joint term-citation model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Joint term-citation model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Joint term-citation model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:JointTermCitationModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A latent-factor document model that shares each document&#39;s fixed topic proportions between categorical term and citation-incidence channels, with topic-specific distributions for each channel.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to Cohn and Hofmann&#39;s joint content/connectivity model in The Missing Link. The maintained name describes its term/citation construction; PHITS names a link-only predecessor and is not used as an alias. Fixed document memberships distinguish this PLSA-style model from the integrated Dirichlet word/reference model of Erosheva and colleagues. Link orientation must be specified from the supplied incidence matrix rather than silently treating cited targets and citing sources as interchangeable. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 429 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; 23 matching lines per checkout came from four unique file contents containing prior frontier leads and contextual distinctions. All matching excerpts were inspected. The semantic search returned 205 label/synonym hits, with 204 unchanged from prior reading and one newly read. Eighteen annotated AIO CLASS nodes and outgoing edges were byte-verified against prior inspected versions. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two final round102 records verified against their fully read scientific-review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#shared-fixed-memberships</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each document d has one fixed topic probability vector theta_d. Topic z has a categorical term distribution phi_z and a separate categorical citation-incidence distribution psi_z. The channel mixtures are P(t|d)=sum_z theta_dz*phi_zt and P(c|d)=sum_z theta_dz*psi_zc. Topic choices are made per observation and share the document weights; the construction is not one latent topic for a whole document and does not integrate a Dirichlet membership prior. The source optimizes alpha times the term log score plus 1-alpha times the link log score, separately normalizing each document&#39;s counts in each channel. This weighted criterion gives equal document mass per nonempty channel and differs from the raw-count corpus likelihood.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Missing Link - A Probabilistic Model of Document Content and Hypertext Connectivity</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp.3-4, channel mixtures and Equation (2)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#weighted-responsibility-fitting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An EM-style fit computes topic responsibilities separately for observed terms and citation incidences, then pools their document-normalized expected counts with channel weights alpha and 1-alpha. Document mixtures combine the two channel responsibility averages, and each topic&#39;s emission counts must be normalized over its own channel categories. Equation (3) has an inconsistent document subscript in its first numerator, and the displayed emission updates in Equation (4) omit the final categorical normalization; use the conditioning document and normalized vectors for a coherent probability model. Experiments use tempered responsibilities, so ordinary beta=1 EM monotonicity does not certify the whole temperature schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">The Missing Link - A Probabilistic Model of Document Content and Hypertext Connectivity</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p.4, Equations (3)-(5); Section 4.1, PDF p.5, tempering settings</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The exposition alternates between citing-source and cited-target language: Section 2 defines an incidence matrix as document i cited by j, while PHITS and Section 3 use differing verbal descriptions. The factor equations apply to the chosen orientation, but transposing the matrix changes the modeling task. No unique historical implementation orientation is inferred.</li>
+      <li>The displayed channel normalization is undefined for a document with an empty channel; a complete implementation needs an explicit missing-channel policy. Alpha endpoints discard one channel. Fixed topic count, categorical incidence modeling and fixed document weights constrain generalization; unseen documents require inference of new mixtures.</li>
+      <li>The reported factor-space nearest-neighbor classification, topic counts tied to known category counts, and source-page ranking among random distractors are specific evaluation setups. They do not establish recovery of true classes, universal advantage, or a demonstrated end-to-end web crawler.</li>
+      <li>Reference-flow scores sum over observed link support and use reverse document-given-topic probabilities requiring prior and normalization choices. They are not automatically a calibrated Markov transition or causal information flow. The proposed continuous-state MDP extension is prospective. No author code or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-defined generative model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticTopicModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticTopicModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Topic Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The model supports probabilistic topic modeling; the pinned target is classified as a task, so related match preserves the model/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.nips.cc/paper_files/paper/2000/file/f45a1078feb35de77d26b3f7a52ef502-Paper.pdf" target="_blank" rel="noopener">The Missing Link - A Probabilistic Model of Document Content and Hypertext Connectivity</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Cohn, Thomas Hofmann
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d0deb7b9c084…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:12:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:12:37Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/JointTermCitationModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/JointTermCitationModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

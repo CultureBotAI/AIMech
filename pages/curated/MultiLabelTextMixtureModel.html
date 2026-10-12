@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-label text mixture model · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Multi-label text mixture model</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Multi-label text mixture model</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:MultiLabelTextMixtureModel</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A generative multi-label document model that selects a label subset and a mixture supported on that subset, then generates each word through one of the selected labels and its class-specific word distribution.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Scoped to McCallum&#39;s 1999 mixture model for multi-label text classification, whose training observes document label sets while token labels are latent. The maintained name describes this source construction; no source acronym is invented. It differs from independent binary classifiers, mutually exclusive multiclass classification and unsupervised topic discovery. The uniform author-word comparator cited by later author-topic papers is a simplified case, not an alias for the full learned label-mixture construction. No normalized candidate identity matched all 442 pinned AIO IDs, labels and scoped synonyms or 429 preceding native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts; 23 matching lines per checkout came from four unique file contents containing prior frontier leads and contextual distinctions. All matching excerpts were inspected. The semantic search returned 205 label/synonym hits, with 204 unchanged from prior reading and one newly read. Eighteen annotated AIO CLASS nodes and outgoing edges were byte-verified against prior inspected versions. Twenty-six contextual YAMLs comprise 24 unchanged prior readings and two final round102 records verified against their fully read scientific-review inputs. No candidate record is present within this bounded pinned-snapshot and maintained-corpus search.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#label-subset-word-mixture</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A document first chooses a label subset c with prior P(c), then a mixing vector lambda from P(lambda|c) with zero mass outside that subset. For each word, a label is sampled from lambda and the word from that label&#39;s categorical distribution. Training supplies document label subsets and leaves token-label assignments unobserved. Classifying a new document compares subset scores containing P(c) and the word likelihood integrated over lambda. The presented implementation approximates that integral by evaluating one prior-mode mixture for each subset, rather than fitting or integrating an arbitrary full mixing distribution. The source&#39;s first displayed document probability omits P(c); Equation (1) includes it consistently with the generative description.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Multi-Label Text Classification with a Mixture Model Trained by EM</a></span>
+        <span>· <strong>Locator:</strong> Section 2, converted PDF pp.2-3, first document-probability display and Equation (1)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#estimation-and-subset-search</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The fitting procedure assigns posterior label responsibilities to words, pools class-word counts across documents, and pools mixture weights over documents with the same observed label subset. Unseen subsets use an overlap-weighted backoff from observed subset mixtures. The reported modifications include leave-one-document-out responsibility estimation, a shared learned background component and a uniform word component. Prediction combines two greedy searches over label subsets; annealing is suggested as another search approach. These approximations and modifications do not establish exact marginalization, globally optimal subset selection, or ordinary full-data EM monotonicity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Multi-Label Text Classification with a Mixture Model Trained by EM</a></span>
+        <span>· <strong>Locator:</strong> Section 2 Parameter Estimation and Additional Features, converted PDF pp.3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The prior-mode substitution is not generally the integrated likelihood or the posterior mode of lambda given the document. Per-subset parameters and label-subset search become difficult with many labels; the source uses backoff and heuristic search.</li>
+      <li>The reported additive estimate (count+m)/(D+m*number_of_subsets) is a posterior mean under symmetric Dirichlet(m), or an interior MAP estimate under Dirichlet(m+1). With positive m it is not generally MAP under a flat Dirichlet(1), despite the source wording. The m=1 Laplace estimator can be retained without adopting that prior interpretation.</li>
+      <li>Experiments use Reuters-21578 ModApte and particular preprocessing; the ten-class binary naive-Bayes baseline vocabulary was selected on test data, explicitly noted by the author. Preliminary 90-label results report improved macro F1 with unchanged micro F1 and precision/recall tradeoffs. No universal advantage or modern comparative claim follows.</li>
+      <li>Background and uniform components are smoothing/modeling devices, not evidence that every document belongs to a real semantic background class. The original PostScript and converted PDF are separately hashed. No author code or benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source-defined generative model family is narrower than the pinned Model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Classification.html" style="font-weight: 600;"><code>AIO:Classification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This generative model supports prediction of label subsets. The pinned Classification class describes a supervised task, not this specified model family.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://people.cs.umass.edu/~mccallum/papers/multilabel-nips99s.ps" target="_blank" rel="noopener">Multi-Label Text Classification with a Mixture Model Trained by EM</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Andrew Kachites McCallum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:165bb4792e91…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T00:12:37Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T00:12:37Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MultiLabelTextMixtureModel.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MultiLabelTextMixtureModel.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

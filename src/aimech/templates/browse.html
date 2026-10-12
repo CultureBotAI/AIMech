@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Browse AI Concepts & Ontology Classes · AIMech{% endblock %}
+
+{% block content %}
+<div class="breadcrumbs">
+  <a href="{{ root }}index.html">Home</a>
+  <span>/</span>
+  <strong>Browse</strong>
+</div>
+
+<h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
+<p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
+  Explore <strong>{{ total_concepts }}</strong> artificial intelligence concepts, comprising <strong>{{ curated_count }}</strong> evidence-curated algorithms, architectures, and model families alongside <strong>{{ aio_count }}</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+</p>
+
+<div class="browser-controls">
+  <div class="search-bar">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search by name, ID, definition, authors, claims, or keywords (e.g. attention, optimizer, diffusion)..." autofocus>
+  </div>
+  <div class="filter-row">
+    <div style="display: flex; align-items: center; gap: 0.4rem;">
+      <label for="originSelect" class="filter-label">Origin:</label>
+      <select id="originSelect" class="filter-select">
+        <option value="all">All Origins ({{ total_concepts }})</option>
+        <option value="curated">Curated AIMech ({{ curated_count }})</option>
+        <option value="aio">AIO Imported ({{ aio_count }})</option>
+      </select>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.4rem;">
+      <label for="kindSelect" class="filter-label">Concept Kind:</label>
+      <select id="kindSelect" class="filter-select">
+        <option value="all">All Kinds</option>
+        {% for k in kinds_meta %}
+          <option value="{{ k.id }}">{{ k.label }} ({{ k.count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.4rem;">
+      <label for="branchSelect" class="filter-label">AIO Branch:</label>
+      <select id="branchSelect" class="filter-select">
+        <option value="all">All Branches</option>
+        {% for b in branches_meta %}
+          <option value="{{ b.id }}">{{ b.label }} ({{ b.count }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="button" id="resetFilters" class="btn">Reset</button>
+
+    <div class="filter-count">
+      Showing <span id="matchCount">{{ total_concepts }}</span> of <span id="totalCount">{{ total_concepts }}</span>
+    </div>
+  </div>
+</div>
+
+{% include "record_table.html" %}
+
+<script src="{{ root }}record-browser.js"></script>
+{% endblock %}

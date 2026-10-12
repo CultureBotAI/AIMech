@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Otsu thresholding · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Otsu thresholding</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Otsu thresholding</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:OtsuThresholding</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Otsu’s method, Otsu threshold selection
+    </div>
+
+  <div class="detail-desc">
+    A histogram-based threshold-selection algorithm that partitions ordered gray levels by maximizing class-weighted between-class variance, equivalently minimizing within-class variance for a fixed histogram.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The binary method chooses a global intensity threshold without labeled training data or a fitted parametric intensity density. Its ordered multilevel extension jointly selects several thresholds using the same variance decomposition. It is not a supervised classifier, a learned activation threshold, adaptive spatial thresholding or a guarantee of semantically correct image segmentation. The threshold search depends on intensity counts and order, not spatial adjacency. Thresholds with the same partition can be equivalent even when their numeric values differ. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 397 preceding native IDs, names and aliases for these three concepts. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, yielding 12 and 12 matched lines; all 9 unique contents were read. Hits represent citations and discovery leads rather than records of these identities. All 161 semantic label/synonym hits were read. Forty fully annotated exact CLASS nodes and outgoing edges were inspected:24 byte-verified after prior full reading and 16 freshly read. Fifty contextual YAMLs comprise 40 generated and 10 native records:28 byte-verified after prior reading and 22 freshly read. Any truncated display was reread in smaller batches. Short acronyms were included in the complete normalized identity comparison. Absence is bounded to the pin, native collection and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For nonnegative counts n_i at ordered gray levels i with positive total N, use p_i=n_i/N and total mean mu_T=sum_i i*p_i. For every binary threshold k admitting two nonempty classes, set w=sum_(i&lt;=k) p_i and m=sum_(i&lt;=k) i*p_i. Compute between-class variance B(k)=(mu_T*w-m)^2/[w*(1-w)] and choose a global maximizer. Cumulative counts and first moments give an O(L) scan over L gray levels after histogram construction. At fixed total variance T, within-class variance is T-B(k); if T&gt;0, maximizing the separability ratio B(k)/T gives the same maximizers. The source’s multilevel extension jointly partitions the ordered levels into nonempty classes and maximizes sum_c w_c*(mu_c-mu_T)^2; recursive binary splitting is not automatically equivalent to that joint optimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">A Threshold Selection Method from Gray-Level Histograms</a></span>
+        <span>· <strong>Locator:</strong> Section II, printed pp. 62–64 / PDF pp. 1–3, Equations (1)–(18); Section III B, p. 64 / PDF p. 3, multilevel extension; Section III D, p. 66 / PDF p. 5, unproved unimodality suggestion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>An empty histogram has no probability distribution. A constant-intensity histogram has no admissible nonempty binary split and has zero total variance, so the separability ratio is undefined without an added convention. Implementations must state how they handle these cases.</li>
+      <li>Multiple thresholds can maximize the objective. The paper does not prescribe a universal tie rule such as averaging all maximizing thresholds. Quantization, bin selection and intensity transformations can affect the result; the stated invariance is for corresponding affine intensity transformations, not arbitrary nonlinear remapping.</li>
+      <li>Section III D suggests that the objective is always unimodal while acknowledging no proof. That universal claim is not adopted: the original finite histogram with equal counts at 0, 10, 11, 21 has two separated maximizing threshold plateaus with a lower objective at 10. A full scan preserves the global objective; an assumed-unimodal local search need not.</li>
+      <li>The variance criterion measures statistical separation in intensity space. It does not require visibly bimodal histograms and does not ensure that the selected classes correspond to the desired objects. Spatial connectivity, texture and semantic labels are absent from this objective.</li>
+      <li>The multilevel criterion requires a joint ordered-threshold optimization or another justified optimizer. The linear scan complexity above is for the binary case, not every multilevel search.</li>
+      <li>The three small illustrative character, texture and cell images are application examples, not a modern accuracy benchmark or a universal comparison. The PDF shares pages with unrelated articles and a book review; those passages are excluded from evidence. No author implementation or image evaluation was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method groups unlabeled intensities into ordered classes by a between/within-class variance criterion. The AIO target describes an unsupervised grouping task; related_match connects that role without equating this specific threshold-selection algorithm with the task or requiring supervised classification.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://skynet.ecn.purdue.edu/~ace/vip/A_Threshold_Selection_Method_from_Gray-Level_Histograms_otsu.pdf" target="_blank" rel="noopener">A Threshold Selection Method from Gray-Level Histograms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nobuyuki Otsu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1109/TSMC.1979.4310076</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:24fd73e56dca…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T21:41:53Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T21:43:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/OtsuThresholding.yaml" target="_blank" rel="noopener">
+      <code>data/curated/OtsuThresholding.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

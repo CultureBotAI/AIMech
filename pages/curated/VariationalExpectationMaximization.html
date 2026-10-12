@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variational Expectation Maximization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Variational Expectation Maximization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Variational Expectation Maximization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:VariationalExpectationMaximization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Variational EM, VEM (variational expectation maximization)
+    </div>
+
+  <div class="detail-desc">
+    A latent-variable model-fitting procedure that alternates optimization of a posterior approximation within a specified restricted family and optimization of model parameters using that approximation, targeting an evidence lower bound.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes variational EM with point-estimated model parameters and an explicitly restricted latent-posterior family, as analyzed by Gunawardana-Byrne. It is not all variational inference, an inference-only fit with fixed model parameters, fully Bayesian parameter inference, an amortized architecture, or a particular score/pathwise gradient estimator. Mean-field factorization is one family choice rather than the definition. Exact global coordinate solves are the clean projection realization; partial numerical solves need their own progress conditions. No normalized match across all442pinned AIO labels/scoped synonyms and480native IDs/names/aliases, including GAM and VEM probes. Full-checkout searches include ignored and hidden files in worktree and main;59and61matched lines reduce to31distinct text windows, all read. Hits denote topic-model fitting steps, prior frontier leads, unrelated GAM generalized-additive-model context or programming mnemonics. GAM is the joint distribution/parameter KL-descent framework, not GEM with its exact current E-step. Variational EM fits model parameters with a restricted posterior family; BBVI is a stochastic variational-gradient procedure, NVIL specifies amortized stochastic learning, and structured factorial-HMM inference is model-specific. Melting shares its fixed-bandwidth weighted-mean update with Gaussian mean shift; its named outer heating, membership tree and persistence selection supply the distinct scope. Bare GAM/VEM aliases are qualified. Absence is bounded to this snapshot, corpus and inspected semantic neighborhood. Identity-search counts: 59 matched lines in the worktree and 61 in main; all 31 distinct matching-text windows were read, with ignored and hidden files included.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#restricted-e-and-parameter-m</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Choose a normalized tractable family q_lambda(z) on latent states compatible with observed x and a model p_theta(x,z). At fixed theta optimize F(lambda,theta)=E_q[log p_theta(x,z)-log q_lambda(z)], equivalently minimize KL(q_lambda||p_theta(z|x)). Then, holding q fixed, maximize its expected complete-data log likelihood over theta and repeat. Exact coordinate optima give the source’s restricted projection formulation; checked partial ascent steps give a generalized realization. The latent family, model support and finite expectations must be specified.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gam-source">Convergence Theorems for Generalized Alternating Minimization Procedures</a></span>
+        <span>· <strong>Locator:</strong> Sections2.1-2.3, pp2052-2056 / PDF4-8; Section5, pp2065-2067 / PDF17-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#approximation-gap</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The lower bound equals log p_theta(x)-KL(q_lambda||p_theta(z|x)). Bound ascent therefore does not generally imply observed-likelihood ascent or exact posterior recovery. At a differentiable interior fixed pair with a stationary parameter M-step, the observed log-likelihood gradient equals the theta gradient of that KL gap with q fixed. A zero gap is sufficient for the usual touching-bound argument, but zero gradient of the gap can also occur when the gap is positive; stationary error is not necessarily a local error minimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gam-source">Convergence Theorems for Generalized Alternating Minimization Procedures</a></span>
+        <span>· <strong>Locator:</strong> Section3 decomposition, p2060 / PDF12; Section5 stationary-error discussion, pp2065-2067 / PDF17-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#inexact-posterior-can-be-stationary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source’s broad claim that an independence approximation permits likelihood stationarity only in an exact-family degenerate case is not adopted as a general impossibility theorem. In the saved normalized counterexample, p_theta(y,z)=Bernoulli_theta(y)*r(z), fixed correlated r has probabilities(0.3,0.2,0.2,0.3), and the unique best product approximation is uniform. Its positive KL gap is independent of theta, so variational EM still attains the observed-data likelihood optimum. This qualifies the general prose without refuting the conditional GAM theorem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gam-source">Convergence Theorems for Generalized Alternating Minimization Procedures</a></span>
+        <span>· <strong>Locator:</strong> Section5 broad independence-approximation argument, pp2066-2067 / PDF18-19; curator finite counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#solver-and-theorem-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A mean-field fixed-point equation alone does not establish the global restricted E minimizer. The GAM convergence assumptions, including compactness, continuity, closed maps and sufficient strict progress, remain necessary for the cited conditional result. The printed fixed-q Boltzmann KL derivative has the opposite sign: the correct derivative is model moment minus q moment, although setting either sign to zero gives the same moment equation. Marginal independence of one pair does not alone imply a zero direct interaction when other latent paths can cancel its marginal association.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gam-source">Convergence Theorems for Generalized Alternating Minimization Procedures</a></span>
+        <span>· <strong>Locator:</strong> Section2.3 mean-field equations, pp2055-2056 / PDF7-8; Section3 Proposition5, pp2061-2062 / PDF13-14; Section5 derivative/independence argument, pp2066-2067 / PDF18-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>A restricted variational optimum is not automatically a stationary point of observed likelihood, a local maximum, a global optimum or an accurate posterior. Conversely, approximation error alone does not preclude likelihood stationarity.</li>
+      <li>The broad family accommodates structured approximations; it does not equate the existing factorial-HMM procedure, BBVI, NVIL or topic models. No original Jordan1999 chapter or uninspected implementation is claimed read.</li>
+      <li>No historical software, benchmark or source experiment was reproduced. Saved normalized finite calculations challenge bounded formula/prose claims, not the complete conditional convergence theorems.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This procedure fits model parameters from observations; the inspected AIO target denotes a learning process/task. The algorithm-to-task relationship asserts neither equivalence nor an is-a relation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gam-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gam-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.csail.mit.edu/papers/volume6/gunawardana05a/gunawardana05a.pdf" target="_blank" rel="noopener">Convergence Theorems for Generalized Alternating Minimization Procedures</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Asela Gunawardana, William Byrne
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.jmlr.org/papers/v6/gunawardana05a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:39339eb274d5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T05:01:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T05:01:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/VariationalExpectationMaximization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/VariationalExpectationMaximization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

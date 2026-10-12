@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Population-based incremental learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Population-based incremental learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Population-based incremental learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PopulationBasedIncrementalLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PBIL
+    </div>
+
+  <div class="detail-desc">
+    An optimization method that samples candidate solutions from a probability-vector representation and incrementally moves that representation toward high-evaluation sampled solutions, with probability-vector mutation in its basic formulation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The inspected baseline uses independent Bernoulli coordinates for fixed-length binary solutions and moves toward the current generation’s single best sample. Multiple-positive and negative-example updates are explicit extensions. It is not continual learning, supervised classification, direct crossover of persistent chromosomes, or the general cross-entropy optimization framework. A single-elite Bernoulli CE fit with smoothing can coincide with the PBIL attraction step; that shared subcase does not establish equivalence of the full named procedures. No normalized identity match was found across all 442 pinned AIO labels/scoped synonyms and 291 preceding native IDs/names/aliases. Full-checkout fixed-string searches included ignored and hidden files in worktree and main, returning 61 and 71 lines respectively. Text hits were prior candidate leads, citations to a reused Ant System source, neighboring mechanism distinctions, saved review/report material, and unrelated PBIL strings in ignored HOGENOM prefix-map URLs. Eight exact AIO CLASS nodes with scoped synonyms/comments and outgoing edges and five native neighboring mechanisms were inspected. Absence is bounded to this snapshot and semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initialize each binary-coordinate probability P_i to .5. At each generation, independently sample a population of binary vectors according to P, evaluate them and choose a sample x_best with the highest objective value in that generation. Update each coordinate P_i_new=(1−LR)*P_i+LR*x_best_i. Then, with a configured mutation probability per coordinate, shift that probability toward a randomly chosen binary endpoint b using P_i_new=(1−MUT_SHIFT)*P_i+MUT_SHIFT*b. Repeat for the selected budget or stopping rule. For these convex-update interpretations, LR and MUT_SHIFT lie in [0,1]. Maintain the highest-evaluation solution vectors separately for return, as the Figure4 caption recommends. The baseline updates its distribution toward the current-generation winner, not automatically the best-so-far archive. Injecting the archived best into later populations, moving toward several winners, or learning away from differing bits of poor samples are separately described extensions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Population-Based Incremental Learning: A Method for Integrating Genetic Search Based Function Optimization and Competitive Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections2.2–2.4, PDF pp.10–15, especially update on p.12 and Figure4 on p.14; extensions, Section4 pp.17–19 and Section7.2–7.3 pp.34–35</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The product of coordinate marginals cannot represent general dependencies between bits or arbitrary mixtures of dissimilar good solutions. Different populations can have the same marginals; representation and encoding affect the search.</li>
+      <li>A high learning rate can concentrate probabilities prematurely; a very low rate can make adaptation slow. With interior probabilities and 0&lt;LR&lt;1, a finite attraction step stays interior in exact arithmetic, but this does not guarantee lasting exploration or a finite-budget global optimum. Mutation events can be absent, and floating-point probabilities can collapse.</li>
+      <li>Probability-vector mutation is not a bit flip of every sampled chromosome and is not guaranteed to increase diversity on each event: a move toward an already favored endpoint can increase concentration. Mutation toward .5 is discussed separately as a future alternative.</li>
+      <li>Selection of the current-generation winner depends on objective ordering, whereas tie handling, objective direction, noise, population size and mutation randomization remain configuration choices. A preserved output archive does not force that archived vector into future samples. The report’s comparative results are not universal performance guarantees.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable target was found for this specific optimizer in the inspected snapshot. Learning-task, language-model and incremental-training terminology do not identify its defining state/update procedure. This is a bounded semantic assessment, not a claim of absence from every ontology.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> All 442 pinned AIO labels/scoped synonyms, all 291 preceding maintained identities, ignored/hidden full-checkout text, and eight exact AIO targets plus five native neighboring algorithms.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A general optimization search procedure is not defined by preprocessing or training a machine-learning model, even if such applications are possible.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target describes a learning task rather than this particular sampling or pheromone update procedure; shared optimization language does not establish a suitable class relation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Search feedback and analogies to reward-based methods were considered. For PBIL or rank/elite trail reinforcement they do not establish the specific discounted action-value mechanism central to the separate Ant-Q related match; no task-to-algorithm equivalence is inferred.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearningLLM.html"><code>AIO:ReinforcementLearningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is a reward-fine-tuned language model, not an optimizer for generic binary strings or tours.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The target is an evolutionary language model. Its related evolutionary-algorithms synonym does not make a probability-vector or ant optimizer the same concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An augmented-state stochastic representation is too generic to ground the defining optimization update in this exported network/model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ContinualLearning.html"><code>AIO:ContinualLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a deep network learning sequential tasks without forgetting. Incremental movement of a search probability vector is not that concept.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/IncremenetalFewshotLearning.html"><code>AIO:IncremenetalFewshotLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target denotes a deep network adding novel classes from few examples, not incremental optimizer-state updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://publications.ri.cmu.edu/storage/publications/pub_files/pub1/baluja_shumeet_1994_2/baluja_shumeet_1994_2.pdf" target="_blank" rel="noopener">Population-Based Incremental Learning: A Method for Integrating Genetic Search Based Function Optimization and Competitive Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shumeet Baluja
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> CMU-CS-94-163</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7b87d3c11052…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T13:37:30Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T13:37:30Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PopulationBasedIncrementalLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PopulationBasedIncrementalLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

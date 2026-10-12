@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auto-binomial Markov random field · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/model_family.html">Model Families</a>
+  <span>/</span>
+  <strong>Auto-binomial Markov random field</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Auto-binomial Markov random field</h1>
+    <span class="badge badge-curated">Model Families</span>
+    <span class="detail-id">AIMech:AutoBinomialMarkovRandomField</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Auto-binomial model, Auto-binomial scheme
+    </div>
+
+  <div class="detail-desc">
+    A finite pairwise Markov-field model for bounded site counts whose full conditionals are binomial with fixed trial counts and log odds linear in neighboring counts, using symmetric interaction coefficients.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The classical auto-binomial construction specifies a joint law for mutually dependent counts, not a collection of independent binomial regressions. Trial counts m_i are fixed nonnegative integer bounds; nondegenerate sites have m_i at least one. When every m_i is one, the model reduces to the binary auto-logistic special case. The general bounded-count family is not identical to that special case, a classification task, a sigmoid activation or a Boltzmann neural architecture with a specified visible/hidden partition. The binomial property is a full-conditional statement; it does not assert binomial marginal laws for interacting sites. No normalized identity match was found across all 442 pinned AIO labels and all scoped synonyms and 403 preceding native IDs, names and aliases. Fixed-string full-checkout searches included ignored and hidden files in worktree and main, yielding 37 and 37 matched lines; all 20 unique contents were read. Hits are citations, contextual statements and discovery leads rather than records of these identities. All 185 semantic label/synonym hits were read. Forty-three fully annotated exact CLASS nodes and outgoing edges were inspected: 38 byte-equivalent to prior inspected nodes and five freshly read. Fifty-four contextual YAMLs comprise 43 generated and 11 native records: 46 byte-verified after prior reading and eight freshly read. Absence is bounded to the pinned snapshot, maintained corpus and inspected semantic neighborhood.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Claim</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#method</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On a finite graph, take X_i in {0,...,m_i}, finite real alpha_i and symmetric beta_ij=beta_ji, with beta_ij=0 on nonedges. The site full conditional is Binomial(m_i,theta_i), where log(theta_i/(1-theta_i))=alpha_i+sum_(j!=i) beta_ij*x_j. Substituting the binomial base measure into the source pairwise representation gives p(x)=Z^(-1)*product_i choose(m_i,x_i)*exp[sum_i alpha_i*x_i+sum_(i&lt;j) beta_ij*x_i*x_j]. Each undirected edge occurs once. Its finite support gives a finite positive Z for finite coefficients of either sign. Conditioning on all other sites yields the stated binomial law, with conditional mean m_i*theta_i. Setting every m_i=1 removes the combinatorial factors and recovers the auto-logistic family; setting all interactions to zero gives independent binomials.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-method-source">Spatial Interaction and the Statistical Analysis of Lattice Systems</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–4.1, printed pp. 197–200 / PDF pp. 7–10, especially Equations (3.1)–(3.3) and (4.1)–(4.6); Section 4.2.3, p. 202 / PDF p. 12; Section 4.3, pp. 202–203 / PDF pp. 12–13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The combinatorial factors choose(m_i,x_i) are essential when m_i exceeds one. Dropping them changes the site conditionals; a bounded geometric-type energy is not automatically auto-binomial.</li>
+      <li>Finite support permits either sign of a symmetric interaction coefficient, but does not guarantee that a chosen parameterization fits observed counts. Changing trial counts, aggregation scale or support changes the model.</li>
+      <li>The source develops the count construction formally. Its two detailed ecological examples concern binary and Gaussian data, so they are not empirical validation of arbitrary auto-binomial count models.</li>
+      <li>The graph, site supports and any conditioning boundary values must be specified. The construction assumes compatible positive full conditionals on the stated Cartesian support; arbitrary separately fitted regressions or asymmetric neighbor coefficients do not automatically define a joint model.</li>
+      <li>The finite fixed-site model does not by itself specify a random-location point process, temporal causal mechanism, hidden observation layer or infinite-lattice existence theorem. Conditional association does not establish causation.</li>
+      <li>A closed-form site conditional does not make the joint partition function, maximum-likelihood fit or uncertainty calculation trivial. Estimation, sampling and model diagnostics require their own procedures. No author implementation, empirical fit or benchmark was reproduced.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Model.html" style="font-weight: 600;"><code>AIO:Model</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The finite joint probability family is a mathematical representation within the broader Model class. Its defining support and compatible full conditionals do not require a particular regression task or neural architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The field represents undirected graphical conditional dependence. The pinned AIO target is task-scoped, so related_match connects the model family to that graphical-modeling task without asserting model is-a task.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-method-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">method-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.stat.cmu.edu/~brian/720-2007-source/nice%20materials/besag-74-contains-hammersley-clifford.pdf" target="_blank" rel="noopener">Spatial Interaction and the Statistical Analysis of Lattice Systems</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Julian Besag
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1111/j.2517-6161.1974.tb00999.x</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:796199ef5d87…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-11T22:15:55Z</div>
+    <div><strong>Updated:</strong> 2026-10-11T22:15:55Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AutoBinomialMarkovRandomField.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AutoBinomialMarkovRandomField.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
