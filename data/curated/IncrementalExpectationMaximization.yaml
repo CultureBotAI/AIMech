@@ -1,0 +1,144 @@
+name: Incremental Expectation Maximization
+aliases:
+- Incremental EM
+- IEM (incremental expectation maximization)
+concept_kind: algorithm
+definition: An EM variant for independent observed cases that refreshes selected cached case posteriors
+  at the current parameters and then fits parameters using the complete collection of refreshed and retained
+  case expectations.
+identity_notes: 'This record denotes the Neal-Hinton exact-cache fixed-data construction. It revisits
+  a fixed data set and subtracts each selected case’s old contribution before adding its new one. It is
+  distinct from streaming observation arrival, exponentially decayed online statistics, decreasing-step
+  SAEM, arbitrary Gibbs updates of dependent latent coordinates and fixed-current-E GEM. Small batches
+  of cases are a scheduling realization rather than a separate identity. Bare IEM is not asserted as an
+  unambiguous alias. No normalized identity matches among 442 pinned and 476 maintained records, including
+  acronym probes. GEM is the exact-current-E/Q-improvement framework, IEM refreshes cached independent
+  cases, sparse EM preserves frozen outside mass, and DAEM is the warm-started cooling-to-beta1 procedure.
+  Existing TEM has the same finite-state fixed-beta update, but its broader update framework and held-out
+  inverse-annealing realization do not define that outer cooling procedure. ECM, AECM and SAGE specialize
+  parameter/augmentation updates, not these case or probability-subset operations. Structured factorial-HMM
+  variational inference imposes a different family restriction. Names and incidental frontier references
+  do not establish identity; qualified GEM/IEM aliases avoid unrelated uses. The absence assessment is
+  bounded to this snapshot and corpus. Identity-search counts: 253 matched lines in the worktree and 260
+  in main; all 98 distinct matching-text windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: neal-source
+  locator: Section3 Eq6-10, PDF6-8
+  relation: supports
+- source_id: correction-source
+  locator: SectionII Eq1-2, p752 / PDF2
+  relation: supports
+evidence_sources:
+- source_id: neal-source
+  title: A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants
+  authors:
+  - Radford M. Neal
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/emk.pdf
+  persistent_id: https://www.cs.toronto.edu/~hinton/absps/emk.pdf
+  version: Fourteen-page author-hosted manuscript of the 1998 Learning in Graphical Models chapter, published
+    pp.355-368. Manuscript internal pages equal PDF pages; published offsets are not assumed. All14pages
+    visually read because extracted text has severe font-encoding corruption. The1993draft date is not
+    the publication date.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:26:30Z'
+  sha256: 6b07cbc3c578a2eaabcbb95008652cf40eeb9a7ca3cf7533a15fa2c9f4a19909
+- source_id: correction-source
+  title: Comments on “Efficient Training Algorithms for HMM’s Using Incremental Estimation”
+  authors:
+  - William Byrne
+  - Asela Gunawardana
+  source_type: primary_paper
+  url: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/byrne00__commen_train_algor_using_increm.pdf
+  persistent_id: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/byrne00__commen_train_algor_using_increm.pdf
+  version: Author-hosted journal comment, IEEE Transactions on Speech and Audio Processing8(6):751-754,
+    November2000. All four PDF pages containing the comment were visually read; printed page=PDFpage+750.
+    The comment occupies only the right column on751 and left column on754; adjacent unrelated articles
+    were not fully inspected.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:33:24Z'
+  sha256: 3b92702a985c4ab54096c2534cc8da1b7cc7c4a24b148caba6d007b04067fa4a
+claims:
+- claim_id: case-cache
+  kind: mechanism
+  statement: For p(X,Z|theta)=product_i p(x_i,z_i|theta), retain a distribution q_i or its sufficient
+    statistics for every case. Select a case or batch, replace each selected q_i with p(z_i|x_i,theta_current),
+    and leave all other q_i unchanged. Maximize sum_i E_q_i log p(x_i,z_i|theta) over admissible theta
+    using every cached case. With additive statistics, S_new=S_old-s_i_old+s_i_new; forgetting the subtraction
+    or fitting only the selected observation changes the method.
+  evidence:
+  - source_id: neal-source
+    locator: Section3 Eq6-9 and sufficient-statistic implementation, PDF6-8
+    relation: supports
+- claim_id: bound-not-likelihood
+  kind: scope
+  statement: Exact selected-posterior updates and admissible full-cache M-steps make F=sum_i E_q_i log
+    p(x_i,z_i|theta)+sum_i H(q_i) nondecreasing. F equals observed log likelihood only when every cached
+    distribution is the current posterior. The published correction explicitly shows incremental EM need
+    not be GEM and displays likelihood decreases at early and later updates; ordinary observed-likelihood
+    monotonicity cannot be inherited from ordinary EM.
+  evidence:
+  - source_id: correction-source
+    locator: SectionII Eq1-2, p752 / PDF2; Figures2-3 and captions, p753 / PDF3
+    relation: supports
+  - source_id: neal-source
+    locator: Section2 Eq1-5, PDF3-6; Section3 Eq6-9, PDF6-8, entropy-augmented objective and case-cache
+      updates
+    relation: supports
+- claim_id: convergence-and-cost
+  kind: limitation
+  statement: The published stationary-point result is conditional on the underlying standard-EM regularity
+    and initialization assumptions plus uniqueness of the maximizer of the full cached sum for every tuple
+    of case anchors and full support of the complete-data family. The comment cites an external proof;
+    uniqueness and support alone are not asserted sufficient here. Storage for per-case caches and rounding
+    drift also matter. Fewer passes are not necessarily less runtime because many more M-steps can be
+    required.
+  evidence:
+  - source_id: correction-source
+    locator: SectionIII, pp753-754 / PDF3-4
+    relation: supports
+  - source_id: neal-source
+    locator: Section3 implementation discussion, PDF7-8; Section4, PDF9-11, cache storage, roundoff and
+      passes versus computation
+    relation: supports
+- claim_id: decay-boundary
+  kind: scope
+  statement: Replacing the cache total by gamma*S_old+s_i_new with fixed 0<gamma<1 is the separate decayed-statistics
+    comparator. It does not maintain the exact sum of one current cached contribution per fixed observation
+    and is not certified to optimize the same fixed-data likelihood. The source also describes small batches
+    and occasional total recomputation to manage overhead and roundoff.
+  evidence:
+  - source_id: neal-source
+    locator: Section3 Eq10, PDF8; Section4, PDF9-11
+    relation: supports
+limitations:
+- Independent complete-data cases are part of this formulation. A partial update to one coordinate of
+  a coupled latent vector is not justified by the independent-case formula.
+- Fair revisiting, admissible M-step solutions, support and compactness/regularity conditions require
+  a problem-specific analysis. No unconditional parameter convergence, local/global maximum or universal
+  speedup is claimed.
+- The original1998HMM article and referenced convergence report were not fully inspected. A finite curator
+  cache-state example shows F increase with likelihood decrease; it does not reproduce the source’s complete
+  training trajectory.
+- No author software or historical empirical study was reproduced. Finite curator calculations illustrate
+  stated objective and schedule boundaries; they are not a general convergence proof or an empirical speed
+  comparison.
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This procedure fits latent-model parameters from observed data. The inspected AIO target
+    denotes a learning process/task; this algorithm-to-task relationship asserts neither equivalence nor
+    an is-a relation.
+id: AIMech:IncrementalExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:39:47Z'
+  updated_at: '2026-10-12T04:47:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
