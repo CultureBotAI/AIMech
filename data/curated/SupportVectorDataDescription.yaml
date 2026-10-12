@@ -1,0 +1,209 @@
+id: AIMech:SupportVectorDataDescription
+name: Support vector data description
+aliases:
+- SVDD
+- Support vector domain description
+- L1-loss SVDD
+concept_kind: algorithm
+definition: A one-class support-estimation algorithm that learns a sphere in an input or kernel feature
+  space by minimizing squared radius plus linearly penalized nonnegative distance-constraint violations,
+  then accepts a query when its feature lies within or on the learned sphere.
+identity_notes: 'This record covers the target-only linear-slack method called support vector domain description
+  in 1999 and support vector data description in 2004, with later qualifications to its optimization.
+  L1 refers to the slack loss, not an L1 norm on the sphere center. The negative-example extension and
+  squared-hinge-loss variant change the optimization and are not exact aliases. Sphere support estimation
+  does not include SVC graph-component labeling or the general origin-separating one-class hyperplane
+  formulation. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 502 preceding native
+  IDs, names and aliases. No normalized candidate identity collision was found. Full fixed-string whole-word
+  searches included ignored and hidden files in both checkouts, expanded names, acronyms and source identifiers.
+  All 15 matches per checkout, eight distinct texts at 30 locations, were inspected as source queries,
+  search terms and pending leads in the preceding discovery ledger, not existing concepts. Ten annotated
+  AIO nodes and outgoing edges, their generated records, and three native neighbors were inspected or
+  checked against unchanged complete readings. Four SAT Novelty-family records were inspected only for
+  names, definitions and identity notes: those flip heuristics are unrelated. Absence is bounded to this
+  pin and inspected corpus.'
+definition_evidence:
+- source_id: tax1999
+  locator: Sections 2-3, printed pp.1192-1194 / PDF pp.2-4
+  relation: supports
+- source_id: tax2004
+  locator: Section 2.1, printed pp.47-50 / PDF pp.3-6
+  relation: supports
+- source_id: chang-revisit
+  locator: Sections 2.2-3.3, PDF pp.4-11
+  relation: supports
+claims:
+- claim_id: convex-formulation
+  kind: mechanism
+  statement: For N target observations and C>0, use squared radius t>=0, center a and slacks xi_i>=0 to
+    minimize t+C*sum_i xi_i subject to ||Phi(x_i)-a||²<=t+xi_i. This is a convex reformulation of the
+    radius-variable problem and satisfies a strict-feasibility condition supporting strong duality. The
+    objective penalizes violation magnitudes, not an exact count of rejected examples. The optimal center
+    is unique, but the radius and slacks can have multiple optima.
+  evidence:
+  - source_id: tax2004
+    locator: Section 2.1, printed pp.47-49 / PDF pp.3-5, Equations 1-15
+    relation: supports
+  - source_id: chang-revisit
+    locator: Sections 2.2-3.1, PDF pp.4-7, Equation 7, Theorem 2 and Corollary 1; Appendix A, pp.15-16
+    relation: supports
+- claim_id: dual-and-small-penalty
+  kind: mechanism
+  statement: 'For C>1/N, the usual dual maximizes sum_i alpha_i*K_ii-alpha^T*K*alpha subject to sum_i
+    alpha_i=1 and 0<=alpha_i<=C, and a=sum_i alpha_i*Phi(x_i). For 0<C<1/N this equality-simplex dual
+    is infeasible even though the primal is feasible: its optimum has t=0 and the feature-space sample
+    mean as center. At C=1/N the same zero-radius solution is optimal, but additional positive-radius
+    optima may exist. Dividing the original radius stationarity equation by R silently omits R=0. For
+    C>1 the method reduces to the minimum sphere enclosing all training features.'
+  evidence:
+  - source_id: chang-revisit
+    locator: Sections 2.3 and 3.2, PDF pp.5-11, Theorems 4 and 6, Equations 9-26; Appendices B and D,
+      pp.16-17
+    relation: supports
+- claim_id: radius-and-prediction
+  kind: mechanism
+  statement: For C>1/N and an optimal dual solution, squared distances d_i² to the center bound an optimal
+    t by max_{alpha_i<C} d_i² <= t <= min_{alpha_i>0} d_i². A free coefficient 0<alpha_i<C fixes the radius;
+    otherwise choosing the interval midpoint is an implementation convention. Bounded coefficients need
+    not be strictly outside the sphere. Accept a query when K(x,x)-2*sum_i alpha_i*K(x_i,x)+alpha^T*K*alpha<=t.
+    For observations {-2,-1,1,2} with a linear kernel and C=1/2, a=0 and every t in [1,4] achieves objective
+    4; this illustrates different acceptance regions at the same optimum.
+  evidence:
+  - source_id: tax2004
+    locator: Section 2.1, printed p.49 / PDF p.5, Equations 14-15
+    relation: supports
+  - source_id: chang-revisit
+    locator: Section 3.2, PDF pp.9-11, Theorem 5 and Equations 20-23; Appendix A, p.16, Equation 41; Appendix
+      C, p.17
+    relation: supports
+- claim_id: gaussian-and-boundary-scope
+  kind: mechanism
+  statement: A Gaussian kernel exp(-||x-y||²/s²) gives a weighted kernel-score acceptance region without
+    explicitly constructing features. It can produce a non-spherical region in input space. The narrow-width
+    equal-weight limit assumes distinct training inputs; the exact constant-kernel limit is degenerate
+    and does not select a unique coefficient vector. Comparisons with one-class hyperplane support estimation
+    require the stated kernel/normalization conditions rather than general method identity. The boundary
+    estimate is not by itself a normalized density model or a component-labeling rule.
+  evidence:
+  - source_id: tax1999
+    locator: Section 3, printed pp.1193-1194 / PDF pp.3-4
+    relation: supports
+  - source_id: tax2004
+    locator: Sections 2.1 and 2.3, printed pp.50-54 / PDF pp.6-10, Equations 16-21 and 30-35; curator
+      constant-Gram qualification
+    relation: supports
+- claim_id: support-count-and-error
+  kind: limitation
+  statement: The papers use support-vector fractions to guide target-error and kernel-width choices. The
+    2004 account distinguishes essential from nonessential vectors and gives a leave-one-out bound/estimate;
+    the raw support fraction is not universally equal to observed leave-one-out rejection or a calibrated
+    future error rate. With two identical training features and C=2, a valid two-support-vector representation
+    has radius zero, while either leave-one-out fit accepts the omitted duplicate. For the nonnegative
+    equality-simplex coefficients the fraction at the upper bound is at most 1/(N*C); bounded coefficients
+    can be on the boundary, and this count bound cannot be transferred unchanged to signed negative-example
+    coefficients.
+  evidence:
+  - source_id: tax1999
+    locator: Section 4, printed pp.1194-1195 / PDF pp.4-5, Equation 11
+    relation: supports
+  - source_id: tax2004
+    locator: Section 2.4, printed pp.55-56 / PDF pp.11-12, Equation 36; curator duplicate-feature and
+      coefficient-sum calculations
+    relation: supports
+- claim_id: empirical-and-extension-boundaries
+  kind: limitation
+  statement: The published tests depend on target/negative sampling, feature dimension, preprocessing,
+    kernel width and target-rejection settings. The 2004 paper reports failures when a pump training set
+    covers too little operating range and cautions that overlapping negative examples can worsen its separate
+    negative-example extension. Its reverse distance constraints are not the convex target-only formulation
+    above. These studies do not establish universal performance superiority or immunity to distribution
+    changes.
+  evidence:
+  - source_id: tax1999
+    locator: Sections 5-6 and Discussion, printed pp.1195-1199 / PDF pp.5-9
+    relation: supports
+  - source_id: tax2004
+    locator: Section 2.2, printed pp.51-52 / PDF pp.7-8; Sections 3-5, pp.57-65 / PDF pp.13-21, Tables
+      1-4 and Figures 4-7
+    relation: supports
+evidence_sources:
+- source_id: tax1999
+  title: Support vector domain description
+  authors:
+  - David M. J. Tax
+  - Robert P. W. Duin
+  source_type: primary_paper
+  url: https://rduin.nl/papers/prl_99_svdd.pdf
+  version: Pattern Recognition Letters 20 (1999):1191-1199; exact author-hosted 9-page PDF, all pages
+    visually read.
+  access_level: full_text
+  accessed_at: '2026-10-12T07:18:49Z'
+  sha256: 3a5748fa74d9dcfa36f126f12dc56d55ca41c782189d164a439deabb29bd6d77
+- source_id: tax2004
+  title: Support Vector Data Description
+  authors:
+  - David M. J. Tax
+  - Robert P. W. Duin
+  source_type: primary_paper
+  url: https://rduin.nl/papers/ML_SVDD_04.pdf
+  version: Machine Learning 54 (2004):45-66; DOI 10.1023/B:MACH.0000008084.60811.49. Exact author-hosted
+    22-page journal PDF, all pages visually read; final manuscript date June 17, 2002 is distinct from
+    publication year.
+  access_level: full_text
+  accessed_at: '2026-10-12T07:21:27Z'
+  sha256: fe7e0705e66bae7237353ec43dbaf23cecc0c527d375d966b35170c1787bef30
+- source_id: chang-revisit
+  title: A Revisit to Support Vector Data Description
+  authors:
+  - Wei-Cheng Chang
+  - Ching-Pei Lee
+  - Chih-Jen Lin
+  source_type: primary_paper
+  url: https://www.csie.ntu.edu.tw/~cjlin/papers/svdd.pdf
+  version: Exact 21-page author-hosted manuscript at the recorded URL, all pages and appendices visually
+    read. Lin author index identifies a Technical report, 2013; Lee author index labels the work 2015
+    and links a differently formatted PDF. This record identifies the inspected bytes without assigning
+    an unverified revision date or journal publication. The two author-hosted PDF versions were not compared
+    in full.
+  access_level: full_text
+  accessed_at: '2026-10-12T07:21:32Z'
+  sha256: 7618a0ff3b9260977e3a9d94231258a7271be76cc4d226fd8b7c21f3fb9f8a44
+limitations:
+- Kernel, preprocessing, regularization and decision-threshold conventions affect the acceptance region.
+  The method does not guarantee a calibrated future outlier probability, discovery of all abnormal cases,
+  or optimal cluster labels.
+- The later mathematical reassessment is an author-hosted technical manuscript with conflicting author-index
+  year labels. Exact URL and hash preserve inspected evidence; journal publication and version equivalence
+  are not asserted.
+- Exact finite calculations check mathematical edge cases. No historical implementation, training run
+  or benchmark was executed.
+- All 9, 22 and 21 pages of the three cited PDFs were visually read. Equations with degenerate-radius
+  assumptions, categorical multiplier descriptions and unqualified support-count interpretations are explicitly
+  qualified. No new numerical benchmark result is asserted.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: AIO:BinaryClassification is related through the accept-versus-reject prediction task. Its
+    Classification parent is under SupervisedLearning, whereas this particular algorithm learns a target-class
+    description without requiring representative negative training examples. This is a related task mapping,
+    not algorithm-task equivalence, an is-a assertion or a claim of two-class supervision. Inspected BinaryClassification,
+    Classification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, SupportVectorMachine,
+    Model, Network, KernelLayer and UnsupervisedClustering, including definitions and outgoing edges.
+    The supervised category-separating network definition of SupportVectorMachine does not identify a
+    sphere support estimator. The clustering task assigns groups, while this method supplies an acceptance
+    region; generic models, networks and kernel layers do not identify the algorithm. All 442 class labels
+    and 153 semantic matches retain byte-verified prior readings; expanded description/hinge/enclosing/classification
+    searches added no rows. SupportVectorClustering adds graph labeling; DBSCAN uses neighborhood density
+    connectivity; KernelPCA extracts variance directions. These contexts do not receive renewed scientific
+    approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T07:36:18Z'
+  updated_at: '2026-10-12T07:36:18Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
