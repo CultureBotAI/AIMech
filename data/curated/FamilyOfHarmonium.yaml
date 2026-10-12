@@ -1,0 +1,121 @@
+name: Family-of-harmonium
+definition: A classification model family comprising separately parameterized harmoniums for each class,
+  with binary text features and Gaussian image features coupled to Gaussian latent variables and compared
+  through normalized class-conditional likelihoods.
+concept_kind: model_family
+identity_notes: Scoped to the FoH construction in Yang and colleagues' semantic-video manuscript. Each
+  labeled class owns its parameters and latent coordinates; a categorical class selector has a prior distribution.
+  This differs from the shared label-coupled hierarchical harmonium, an unsupervised single harmonium
+  followed by an SVM, and the earlier unbounded Poisson-text dual-wing specialization. The record covers
+  the proper Gaussian parameter domain; published training or normalizer-estimation safeguards are not
+  inferred from the existence of that domain. No normalized identity matched four candidates against all
+  442 pinned AIO IDs, labels and scoped synonyms or 444 preceding native IDs, names and aliases. Full-checkout
+  searches included ignored and hidden files in both checkouts; five matching lines per checkout came
+  from two unique prior discovery-ledger contents, and all matching excerpts were read. All 205 semantic
+  label/synonym hits were byte-verified against prior readings. Twenty-nine annotated AIO nodes and outgoing
+  edges comprise 28 unchanged prior readings and one newly read multimodal-deep-learning node. Thirty-nine
+  contextual YAMLs comprise 34 unchanged prior readings and five fully read current records. Three candidates
+  are curated; the unbounded-count DWH specialization remains deferred because the inspected joint is
+  not normalizable with nonzero count couplings. Absence is bounded to this pinned snapshot and maintained
+  corpus.
+limitations:
+- The manuscript acknowledges hidden partition functions but does not give a complete operational recipe
+  for estimating and comparing every class normalizer. Raw energy comparison is not certified as probability
+  comparison; no omission in uninspected author code is alleged.
+- The Appendix adds quantities as log-partitions but displays integrals without the required logarithms.
+  The compatible main joint and standard exponential-family algebra determine this record, rather than
+  that inconsistent display. Gaussian color features are a modeling approximation to physical histogram
+  observations.
+- Fully factorized mean field and short-chain CD approximate learning statistics. The manuscript's broad
+  CD-to-maximum-likelihood convergence statement is not accepted as a general guarantee. Sampling schedules
+  and stability safeguards remain implementation details not fully specified by the paper.
+- Main model comparisons use the five largest TRECVID categories, 1078 shots, an equal training/test split
+  and selected latent sizes. The broader collection has 15 classes and 2468 shots. Selected topic examples
+  and classification curves do not prove universal semantic accuracy, causality or generalization. No
+  historical implementation or benchmark was run.
+aliases:
+- FoH
+definition_evidence:
+- source_id: method-source
+  locator: Sections 3.1-3.2, PDF pp.3-5, Figure 2 and Equations 3.1-3.7
+  relation: supports
+claims:
+- claim_id: class-specific-modalities
+  kind: mechanism
+  statement: For a selected class y, each word-presence variable is Bernoulli with logit alpha_i^y+sum_k
+    W_ik^y h_k. The demonstrated image-feature conditional is Gaussian with identity covariance and mean
+    beta^y+U^y h. Hidden variables given all text/image features and the class are independent unit-Gaussian
+    variables with mean (W^y)^T x+(U^y)^T z. Separate class parameters produce separate latent coordinates;
+    topic positions across classes are not inherently aligned.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, PDF pp.4-5, Equations 3.2-3.5; Section 3.4, pp.6-7
+    relation: supports
+- claim_id: proper-gaussian-domain
+  kind: limitation
+  statement: For the identity-covariance construction, the Gaussian image/hidden precision must be positive
+    definite; equivalently I-U^y(U^y)^T must be positive definite in every class. Binary word variables
+    add bounded-state linear terms and do not repair an unstable Gaussian coupling. Proper-looking conditional
+    normals alone do not establish a proper joint. The record restricts the probability-model definition
+    to this admissible domain and does not certify that the historical fitting procedure enforced it.
+  evidence:
+  - source_id: method-source
+    locator: Section 3.2, PDF p.5, Equations 3.3-3.6; Appendix, p.12
+    relation: supports
+- claim_id: class-normalized-decision
+  kind: mechanism
+  statement: Integrating Gaussian hidden variables gives class-specific visible log mass F_y(x,z)=alpha^y
+    dot x+beta^y dot z-||z||^2/2+||(W^y)^T x+(U^y)^T z||^2/2. Class posterior scores require pi_y exp(F_y)/Z_y.
+    Assuming uniform class priors removes pi_y but not the separate class normalizers Z_y. In a one-word,
+    one-image-feature example, unnormalized scores favor the second class while normalized densities favor
+    the first. Each class can be fitted from its labeled examples; adding a class does not require sharing
+    its latent coordinates with existing classes.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3.2 and 3.4, PDF pp.5-7, Equations 3.6-3.7 and scalability discussion
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Harmonium Models for Semantic Video Representation and Classification
+  authors:
+  - Jun Yang
+  - Yan Liu
+  - Eric P. Xing
+  - Alexander G. Hauptmann
+  source_type: primary_paper
+  url: https://www.cs.cmu.edu/~epxing/papers/sdm07jyang.pdf
+  version: Author-hosted twelve-page manuscript associated with SDM2007 by primary proceedings and author-lab
+    metadata. The title page prints Eric X. Ping, while proceedings metadata names Eric P. Xing. All pages
+    including the Appendix visually read. Numeric printed labels are absent; locators use PDF pages. Not
+    asserted byte-identical to a final publisher file.
+  access_level: full_text
+  accessed_at: '2026-10-12T01:04:31Z'
+  sha256: 23177fca49a459f341ea4654825537c14f417330de069cfa20b29e8a235938b1
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Bipartite conditional-independence structure is shared with harmoniums, but the pinned RBM
+    class does not identify this exact observation, hidden-support and parameter-sharing construction.
+- target: AIO:Classification
+  relation: related_match
+  rationale: The model supplies classification from labeled examples; the pinned target is a supervised
+    task, not an exact probability-model identity.
+- target: AIO:MultimodalLearning
+  relation: related_match
+  rationale: Text and image features are modeled jointly. The pinned target denotes a task; its deep-learning
+    comment is not used to assert that this classical harmonium is a deep neural network.
+id: AIMech:FamilyOfHarmonium
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:13:01Z'
+  updated_at: '2026-10-12T01:16:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

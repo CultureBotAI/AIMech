@@ -1,0 +1,114 @@
+name: Rate-adapting Poisson model
+definition: A harmonium model family coupling unbounded visible Poisson counts to finite binomial hidden
+  variables through bilinear interactions that shift conditional log rates and binomial logits.
+concept_kind: model_family
+identity_notes: Scoped to Gehler, Holub and Welling's ICML2006 RAP construction with fixed finite integer
+  binomial trial counts. This differs from a Gaussian-hidden count harmonium, a two-unbounded-Poisson-layer
+  construction, categorical word-bin EFH and replicated-token Softmax. Baseline Poisson rates and hidden
+  logits are conditional parameters, not generally marginal means or independent hidden priors. The latent
+  count model is distinct from its CD fitting algorithm or a trained retrieval system. No normalized identity
+  matched four candidates against all 442 pinned AIO IDs, labels and scoped synonyms or 444 preceding
+  native IDs, names and aliases. Full-checkout searches included ignored and hidden files in both checkouts;
+  five matching lines per checkout came from two unique prior discovery-ledger contents, and all matching
+  excerpts were read. All 205 semantic label/synonym hits were byte-verified against prior readings. Twenty-nine
+  annotated AIO nodes and outgoing edges comprise 28 unchanged prior readings and one newly read multimodal-deep-learning
+  node. Thirty-nine contextual YAMLs comprise 34 unchanged prior readings and five fully read current
+  records. Three candidates are curated; the unbounded-count DWH specialization remains deferred because
+  the inspected joint is not normalizable with nonzero count couplings. Absence is bounded to this pinned
+  snapshot and maintained corpus.
+limitations:
+- The normalizer is finite but its exact finite hidden sum can grow exponentially with the number and
+  ranges of hidden units. CD, minibatches and momentum do not certify exact maximum likelihood or chain
+  convergence. No noninteger binomial trial-count extension is asserted.
+- The document-retrieval topic dimension is selected using test-set one-nearest-neighbor performance,
+  explicitly stated in the Figure 4 caption. Reported curves therefore do not constitute an independently
+  tuned held-out comparison. The split used for class-informed newsgroup vocabulary selection is insufficiently
+  specified to assert a separate leakage mechanism.
+- RAP is compared with LSI and PLSI on selected text corpora and bag-of-visual-words image tasks. LDA
+  is omitted from the reported comparison. Different retrieval measures and dataset configurations yield
+  different rankings; no universal performance advantage is curated.
+- Finite checks verify 96 hidden conditional probabilities, exact visible marginalization, a likelihood
+  gradient and complement symmetry. No author code, coordinate-mode implementation, empirical benchmark,
+  hierarchical extension or negative-binomial replacement was executed or certified.
+aliases:
+- RAP
+definition_evidence:
+- source_id: method-source
+  locator: Section 2.1, PDF pp.2-3, Equations 1-3 and 6
+  relation: supports
+claims:
+- claim_id: compatible-count-conditionals
+  kind: mechanism
+  statement: With baseline log rates a_i, hidden thresholds beta_j, interaction weights W_ij and finite
+    integer trial counts M_j, visible counts conditioned on h are independent Poisson with rates exp(a_i+sum_j
+    W_ij h_j). Hidden variables conditioned on x are independent Binomial(M_j,sigmoid(sum_i W_ij x_i-beta_j)).
+    The joint retains visible factorial and hidden binomial base measures. Summing all visible counts
+    first leaves a finite sum over bounded hidden configurations, proving a finite joint normalizer for
+    finite parameters without truncating visible counts.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, PDF pp.2-3, Equations 1-3
+    relation: supports
+- claim_id: marginal-and-complement-symmetry
+  kind: mechanism
+  statement: Marginalizing hidden units gives visible log mass sum_i(a_i x_i-log(x_i!))+sum_j M_j softplus(sum_i
+    W_ij x_i-beta_j), up to a global constant. The hard threshold interpretation is an approximation to
+    softplus, not exact zero influence below a threshold. Complementing a hidden count to M_j-h_j, reversing
+    its weight column and threshold, and adding M_j W_ij to each visible log baseline preserves the normalized
+    visible law. This discrete symmetry does not establish arbitrary orthogonal rotation invariance or
+    full parameter identifiability.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1-2.2, PDF pp.3-4, Equations 6-9
+    relation: supports
+- claim_id: conditional-moment-learning-and-features
+  kind: mechanism
+  statement: Likelihood gradients contrast observed and equilibrium sufficient statistics. Conditional
+    hidden expectations M_j sigmoid(W_j^T x-beta_j) replace sampled hidden counts in the displayed gradient
+    statistics. The reported CD1 procedure draws hidden counts from each observed vector, reconstructs
+    visible counts and uses short-chain negative expectations, introducing approximation bias. Retrieval
+    uses cosine similarity of the linear projection W^T x, which is distinct from the nonlinear conditional-binomial
+    mean and from exact joint likelihood scoring.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3, PDF p.4, Equation 10 and Algorithm 1; Sections 3.1-3.2, pp.5-6
+    relation: supports
+evidence_sources:
+- source_id: method-source
+  title: The Rate Adapting Poisson Model for Information Retrieval and Object Recognition
+  authors:
+  - Peter V. Gehler
+  - Alex D. Holub
+  - Max Welling
+  source_type: primary_paper
+  url: https://vision.ics.uci.edu/papers/GehlerHW_ICML_2006/GehlerHW_ICML_2006.pdf
+  version: Author-affiliated UCI-hosted eight-page ICML2006 paper; all pages visually read. Numeric printed
+    page labels are absent, so locators use PDF pages. The MPI download returned an HTML challenge; it
+    is not the inspected PDF.
+  access_level: full_text
+  accessed_at: '2026-10-12T01:06:08Z'
+  sha256: 413a1ce4396add087e3bd0fc2304415621296f749a3996517e37932d2905ba0f
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined probabilistic model family is narrower than the pinned Model class.
+- target: AIO:RestrictedBoltzmannMachine
+  relation: related_match
+  rationale: Bipartite conditional-independence structure is shared with harmoniums, but the pinned RBM
+    class does not identify this exact observation, hidden-support and parameter-sharing construction.
+- target: AIO:ProbabilisticTopicModel
+  relation: related_match
+  rationale: The construction learns latent topic features for count data; the pinned target is a probabilistic-topic
+    task rather than this particular joint law.
+id: AIMech:RateAdaptingPoissonModel
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:13:01Z'
+  updated_at: '2026-10-12T01:16:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
