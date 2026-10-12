@@ -1,0 +1,109 @@
+name: Infomax Independent Component Analysis
+aliases:
+- Infomax ICA
+- Bell-Sejnowski ICA
+concept_kind: algorithm
+definition: An unsupervised source-separation learning algorithm that adjusts an invertible square linear
+  transform and biases by the ordinary gradient of the differential entropy of coordinatewise sigmoid-transformed
+  outputs.
+identity_notes: 'Scoped to the standard logistic instantaneous algorithm of Bell and Sejnowski 1995. The
+  unsquashed linear outputs estimate sources; the sigmoid outputs define its entropy contrast. This is
+  distinct from the broader Infomax principle, Deep InfoMax’s learned dependence critics, later natural-gradient
+  ICA, FastICA, and the paper’s separately developed temporal deconvolution and generalized-sigmoid variants.
+  Four candidate identities were compared against all 442 pinned AIO IDs, labels and scoped synonyms and
+  450 preceding native IDs, names and aliases, with no normalized match. Ignored/hidden full-checkout
+  searches returned the same 106 matched-line set in each checkout after the prior merge. All matched
+  excerpts from 76 files were read; they are discovery context, not existing concept records. The semantic
+  search covered all pinned labels and scoped synonyms and returned 212 rows: 205 byte-equivalent prior
+  readings and seven additional rows, all inspected. Twenty-three annotated AIO nodes with outgoing edges
+  comprise 21 unchanged prior readings and two new inspections. Thirty contextual YAMLs, including seven
+  native neighbors, comprise 25 unchanged prior readings and five complete new readings. This absence
+  assessment is bounded to the pinned snapshot and inspected maintained corpus.'
+definition_evidence:
+- source_id: method-source
+  locator: Sections 2.1-2.2, Equations 2.1-2.16, printed pp. 1131-1134 / PDF pp. 3-6; Appendix A.1-A.8,
+    pp. 1154-1155 / PDF pp. 26-27
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: An Information-Maximization Approach to Blind Separation and Blind Deconvolution
+  authors:
+  - Anthony J. Bell
+  - Terrence J. Sejnowski
+  source_type: primary_paper
+  url: https://papers.cnl.salk.edu/PDFs/An%20Information-Maximization%20Approach%20to%20Blind%20Separation%20and%20Blind%20Deconvolution%201995-3631.pdf
+  version: Salk-hosted final Neural Computation 7(6):1129-1159 (1995) scan, 31 PDF pages, all visually
+    read. Printed page equals PDF page plus 1128. This is not the earlier institutional technical report.
+  persistent_id: doi:10.1162/neco.1995.7.6.1129
+  access_level: full_text
+  accessed_at: '2026-10-12T01:33:57Z'
+  sha256: abcb3468dc3c1c0cdf08b2fd508371f5b2a73acd1101ba603a3a2205a94bcc9b
+claims:
+- claim_id: entropy-gradient
+  kind: mechanism
+  statement: Let u=Wx+b with square invertible W and y_i=1/(1+exp(-u_i)). The output differential entropy
+    differs from H(X) by log|det W|+sum_i E[log(y_i(1-y_i))]. Its ordinary gradient updates are proportional
+    to W^(-T)+(1-2y)x^T for W and 1-2y for b, averaged or sampled over observations. This is the ordinary
+    parameter gradient, not a natural-gradient replacement. The inverse term is undefined at singular
+    W, and finite steps need not preserve invertibility automatically.
+  evidence:
+  - source_id: method-source
+    locator: Sections 2.1-2.2, Equations 2.2-2.16, printed pp. 1131-1134 / PDF pp. 3-6; Appendix A.1-A.8,
+      pp. 1154-1155 / PDF pp. 26-27
+    relation: supports
+- claim_id: information-and-independence
+  kind: limitation
+  statement: 'The curated objective is output differential entropy. For noiseless invertible transformations
+    of continuous variables, mutual information between input and output is infinite, so the finite change-of-variables
+    contrast is not a finite noiseless mutual-information value. A finite added output-noise model has
+    a different noisy-output entropy unless the appropriate limiting approximation is justified. Maximizing
+    the sigmoid-output entropy also trades off marginal entropy and dependence: a fixed nonlinearity mismatched
+    to source distributions can prefer mixed outputs. The source illustrates this for uniform sources;
+    arbitrary stationary points do not certify independent components.'
+  evidence:
+  - source_id: method-source
+    locator: Section 2.1, printed p. 1131 / PDF p. 3; Section 4 and Figure 4, pp. 1141-1143 / PDF pp.
+      13-15; curator continuous-information qualification
+    relation: supports
+- claim_id: source-separation-scope
+  kind: scope
+  statement: The instantaneous application assumes a linear mixture x=A s and seeks unsquashed outputs
+    u that recover sources up to scale, sign and permutation under suitable distributional and identifiability
+    conditions. The historical demonstrations mix recorded audio and discuss failures with multiple Gaussian
+    white-noise sources and ill-conditioned mixing. The paper separately derives FIR blind deconvolution,
+    which can whiten a nonwhite source instead of recovering the exact original. Neither arbitrary acoustic
+    propagation delays nor unmodeled input noise is handled by the standard instantaneous rule.
+  evidence:
+  - source_id: method-source
+    locator: Sections 3-5.3, printed pp. 1138-1149 / PDF pp. 10-21; Section 6.4, pp. 1153-1154 / PDF pp.
+      25-26
+    relation: supports
+limitations:
+- Square nonsingular mixing, suitable source distributions and an appropriate contrast are substantive
+  assumptions. The standard fixed logistic rule is not a universal source-separation or independence guarantee.
+- The generalized sigmoid ODE in Equation 2.32 gives a chain-rule factor y^(p-1)(1-y)^(r-1) multiplying
+  p(1-y)-r*y; Equations 2.33-2.34 omit it outside the standard p=r=1 case. Curator arithmetic verifies
+  this discrepancy. Those generalized variants are excluded here; no uninspected author-code defect is
+  asserted.
+- Gradient ascent with a chosen finite learning rate need not converge globally or monotonically. The
+  inverse-weight term is nonlocal; the source does not establish a biological learning mechanism.
+- Audio demonstrations, annealing schedules and comparative timings are historical source-specific evidence.
+  No author implementation, audio separation experiment or benchmark was run.
+aio_mappings:
+- target: AIO:UnsupervisedLearning
+  relation: related_match
+  rationale: The algorithm estimates source-separating parameters from observations without labeled source
+    targets. The task-scoped AIO target is related to this algorithm without equating their abstraction
+    levels.
+id: AIMech:InfomaxICA
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:49:01Z'
+  updated_at: '2026-10-12T01:49:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,100 @@
+name: Nonnegative Matrix Factorization
+aliases:
+- NMF
+concept_kind: mathematical_method
+definition: A matrix-decomposition method that represents or approximates a nonnegative data matrix as
+  the product of two entrywise nonnegative factor matrices, so each data column is expressed by additive
+  nonnegative combinations of basis columns.
+identity_notes: 'The mathematical factorization is distinct from a particular fitting algorithm, trained
+  dictionary or application. The separately represented Lee-Seung multiplicative updates optimize two
+  specified objectives. Nonnegative factors need not be sparse, orthogonal or uniquely determined; this
+  is not the exact sparse-coding identity in AIO or ordinary PCA. Non-negative and British factorisation
+  spellings name the same method. Four candidate identities were compared against all 442 pinned AIO IDs,
+  labels and scoped synonyms and 450 preceding native IDs, names and aliases, with no normalized match.
+  Ignored/hidden full-checkout searches returned the same 106 matched-line set in each checkout after
+  the prior merge. All matched excerpts from 76 files were read; they are discovery context, not existing
+  concept records. The semantic search covered all pinned labels and scoped synonyms and returned 212
+  rows: 205 byte-equivalent prior readings and seven additional rows, all inspected. Twenty-three annotated
+  AIO nodes with outgoing edges comprise 21 unchanged prior readings and two new inspections. Thirty contextual
+  YAMLs, including seven native neighbors, comprise 25 unchanged prior readings and five complete new
+  readings. This absence assessment is bounded to the pinned snapshot and inspected maintained corpus.'
+definition_evidence:
+- source_id: method-source
+  locator: Sections 1-3, Equations 1-3, PDF pp. 1-2
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Algorithms for Non-negative Matrix Factorization
+  authors:
+  - Daniel D. Lee
+  - H. Sebastian Seung
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2000/file/f9d1152547c0bde01830b7e8bd60024c-Paper.pdf
+  version: Official seven-page NIPS 2000 paper in Advances in Neural Information Processing Systems 13.
+    All pages visually read, including both auxiliary-function proofs; locators use PDF pages. The conference
+    year is 2000, although later references may cite the proceedings as 2001.
+  persistent_id: https://papers.nips.cc/paper_files/paper/2000/hash/f9d1152547c0bde01830b7e8bd60024c-Abstract.html
+  access_level: full_text
+  accessed_at: '2026-10-12T01:33:53Z'
+  sha256: d943865213cbb4c678d783ab20944147d9eaef1756513e9f9388e26471f31305
+claims:
+- claim_id: factorization-scope
+  kind: mechanism
+  statement: For V in the nonnegative n-by-m matrices, seek W of size n-by-r and H of size r-by-m with
+    nonnegative entries and V approximately W H. Columns of W supply basis elements and columns of H their
+    nonnegative coefficients. Choosing r below the data dimensions yields a compressed representation
+    with product rank at most r, but small r is a modeling choice rather than a consequence of nonnegativity.
+    Factors can be dense.
+  evidence:
+  - source_id: method-source
+    locator: Sections 1-2, Equation 1, PDF pp. 1-2
+    relation: supports
+- claim_id: objectives-and-zeros
+  kind: scope
+  statement: The inspected source fits either squared Frobenius error ||V-WH||_F^2 or generalized KL divergence
+    sum_ij[V_ij log(V_ij/(WH)_ij)-V_ij+(WH)_ij]. The latter is a divergence between nonnegative arrays,
+    not necessarily normalized probability distributions and not a symmetric distance. By continuity a
+    zero V entry contributes the corresponding reconstruction, while a positive V entry with zero reconstruction
+    gives infinite divergence. An observed zero contributes to these objectives; it is not automatically
+    a missing value.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations 2-3, PDF p. 2; curator boundary conventions of the displayed divergence
+    relation: supports
+- claim_id: identifiability
+  kind: limitation
+  statement: Nonnegativity supports additive representations but does not guarantee recovery of unique
+    physical parts or causes. For any positive diagonal D, W D and D^(-1) H give the same reconstruction,
+    and a common factor permutation also preserves it. The nonconvex joint fitting problem and chosen
+    objective further affect the result. These algebraic ambiguities remain even when a factorization
+    has small reconstruction error.
+  evidence:
+  - source_id: method-source
+    locator: Sections 1-3, PDF pp. 1-2; curator invariances of Equation 1
+    relation: supports
+limitations:
+- No universal sparsity, uniqueness, causal interpretation or global optimization guarantee follows from
+  the nonnegative constraint. Additional constraints or probabilistic models define narrower methods.
+- The two inspected objectives are representative source formulations, not an exhaustive definition of
+  every NMF loss or algorithm. Missing-data masks, regularization, sparse constraints and probabilistic
+  count models require their own specification.
+- The inspected paper is an algorithm and proof contribution; no new benchmark ranking, author implementation,
+  empirical fitting or parts-recognition result was reproduced.
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: A low-rank NMF representation performs dimensionality reduction, a task-scoped AIO concept.
+    The related mapping preserves the mathematical-method/task distinction and does not require every
+    permitted factor size to reduce dimension.
+id: AIMech:NonnegativeMatrixFactorization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:49:01Z'
+  updated_at: '2026-10-12T01:49:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

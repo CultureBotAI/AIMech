@@ -1,0 +1,137 @@
+name: Topographic Independent Component Analysis
+aliases:
+- Topographic ICA
+- TICA
+concept_kind: model_family
+definition: A linear latent-component model whose otherwise conditionally independent source components
+  share random scales through fixed overlapping neighborhoods, allowing nearby component energies to be
+  dependent while supporting a topographic organization of the representation.
+identity_notes: 'Scoped to Hyvarinen, Hoyer and Inki’s 2001 generative construction and its approximate
+  estimation. Topography describes higher-order statistical dependence of component amplitudes, not Euclidean
+  proximity of prototypes, causal structure or arbitrary spatial data. This differs from ordinary mutually
+  independent ICA, Kohonen maps and the undirected Product of Student-t analysis density. Overlapping
+  neighborhoods distinguish it from disjoint independent subspaces; the source likelihood surrogate is
+  not silently substituted for the exact directed model. Four candidate identities were compared against
+  all 442 pinned AIO IDs, labels and scoped synonyms and 450 preceding native IDs, names and aliases,
+  with no normalized match. Ignored/hidden full-checkout searches returned the same 106 matched-line set
+  in each checkout after the prior merge. All matched excerpts from 76 files were read; they are discovery
+  context, not existing concept records. The semantic search covered all pinned labels and scoped synonyms
+  and returned 212 rows: 205 byte-equivalent prior readings and seven additional rows, all inspected.
+  Twenty-three annotated AIO nodes with outgoing edges comprise 21 unchanged prior readings and two new
+  inspections. Thirty contextual YAMLs, including seven native neighbors, comprise 25 unchanged prior
+  readings and five complete new readings. This absence assessment is bounded to the pinned snapshot and
+  inspected maintained corpus.'
+definition_evidence:
+- source_id: method-source
+  locator: Section 2, Equations 2.1-2.10 and Figure 2, printed pp. 1529-1534 / PDF pp. 3-8
+  relation: supports
+evidence_sources:
+- source_id: method-source
+  title: Topographic Independent Component Analysis
+  authors:
+  - Aapo Hyvärinen
+  - Patrik O. Hoyer
+  - Mika Inki
+  source_type: primary_paper
+  url: https://redwood.berkeley.edu/wp-content/uploads/2020/08/hyvarinen-hoyer01.pdf
+  version: Institution-hosted final Neural Computation 13:1527-1558 (2001) PDF, 32 pages, all visually
+    read. Printed page equals PDF page plus 1526. Acceptance and PDF producer dates do not replace the
+    publication year.
+  persistent_id: doi:10.1162/089976601750264992
+  access_level: full_text
+  accessed_at: '2026-10-12T01:34:07Z'
+  sha256: 662379f40bc4104c6bdb2ca04027a385c5c22efbd5aaa8f661848bf4eb1dfe85
+claims:
+- claim_id: shared-scale-model
+  kind: mechanism
+  statement: Generate independent higher-order variables u_k and independent zero-mean unit-variance z_i,
+    all mutually independent. For a fixed nonnegative neighborhood h, set sigma_i=phi(sum_k h(i,k)u_k),
+    s_i=sigma_i*z_i and x=A s with square invertible mixing A, proper latent distributions and finite
+    positive scales. Distinct s_i are uncorrelated when the needed moments exist, but their squared-value
+    covariance equals Cov(sigma_i^2,sigma_j^2). Disjoint scale neighborhoods imply independent components
+    under the model. Shared neighborhoods can yield energy dependence; constant scales need not. Gaussian
+    z gives Gaussian scale mixtures, with excess fourth cumulant 3 Var(sigma_i^2) when finite. Delta neighborhoods
+    recover independent source components.
+  evidence:
+  - source_id: method-source
+    locator: Section 2.3-2.4, Equations 2.5-2.10, printed pp. 1532-1534 / PDF pp. 6-8; curator moment
+      and degeneracy qualifications
+    relation: supports
+- claim_id: likelihood-surrogate
+  kind: mechanism
+  statement: The exact marginal integrates the latent scales. For Gaussian z and phi(v)=v^(-1/2), the
+    paper replaces sqrt(sum_k h(i,k)u_k) by sqrt(h(i,i)u_i) in the integrand. With nonnegative u,h and
+    positive diagonal h this produces a pointwise lower bound, factoring as exp(sum_k G(sum_i h(i,k)s_i^2)),
+    where G is the one-dimensional log integral in Equation 3.9. This is generally an unnormalized surrogate
+    rather than the original marginal. Normalizing the surrogate does not preserve its pointwise lower-bound
+    property. The later smoothed-square-root and polynomial contrast choices are not automatically exact
+    lower bounds for a specified latent prior.
+  evidence:
+  - source_id: method-source
+    locator: Section 3, Equations 3.1-3.14, printed pp. 1534-1537 / PDF pp. 8-11; curator normalization
+      consequences
+    relation: supports
+- claim_id: approximate-fitting
+  kind: mechanism
+  statement: After centering and whitening, optionally in a PCA-reduced subspace, constrain the square
+    separating matrix W to be orthogonal. Write a_i=w_i^T z, local energies e_k=sum_j h(k,j)a_j^2 and
+    r_i=sum_k h(i,k)Gprime(e_k) for symmetric h. The source contrast gradient is proportional to E[z*a_i*r_i],
+    with a common factor two absorbed into step size. Reorthogonalize using W <- (W W^T)^(-1/2) W when
+    full rank. On this orthogonal domain log|det W| is constant, explaining its omission. The rule differentiates
+    the approximate contrast, not the generally intractable exact likelihood.
+  evidence:
+  - source_id: method-source
+    locator: Section 4, Equations 4.1-4.5, printed pp. 1538-1539 / PDF pp. 12-13; Appendix A.1-A.5, pp.
+      1554-1555 / PDF pp. 28-29
+    relation: supports
+- claim_id: model-and-evaluation-limits
+  kind: limitation
+  statement: 'The image experiment finds energy covariance that remains above zero at long distances,
+    indicating mismatch to the model’s distant-independence ideal. Synthetic recovery with matched topology
+    does not prove consistency for arbitrary contrasts; the quadratic/kurtosis contrast gives unsatisfactory
+    image results. Proper scale mixtures need not have finite variance: with delta neighborhoods and squared-standard-Gaussian
+    u, the inverse-square-root construction gives a Cauchy component. Thus moment and whitening arguments
+    need conditions beyond a proper probability distribution. A positive quadratic G also defines an optimization
+    contrast, not an integrable exp(G) source density over all real coordinates.'
+  evidence:
+  - source_id: method-source
+    locator: Sections 3 and 6.1-6.2, printed pp. 1537 and 1543-1548 / PDF pp. 11 and 17-22; curator tail
+      and moment deductions
+    relation: supports
+limitations:
+- Neighborhoods and latent hyperparameters are specified by the model; the paper does not infer an arbitrary
+  topology. Neighborhood overlap, sufficient moments and actual data fit govern statistical interpretations.
+- A proper generative marginal, its lower-bound surrogate and heuristic contrasts are different objects.
+  For fixed complete invertible transforms a surrogate normalizer can be independent of W without making
+  the surrogate the original likelihood.
+- Whitening and moment claims require finite moments and suitable covariance rank. Orthogonalization requires
+  a full-rank intermediate matrix. PCA reduction retains a subspace; it does not reconstruct discarded
+  dimensions.
+- Finite-step projected gradient updates do not establish monotone ascent, unique estimates or global
+  optimization. The finite calculations check local derivatives, mixture normalization and energy covariance,
+  not statistical consistency.
+- Natural-image features and a two-minute MEG artifact illustration provide bounded applications. Complex-cell
+  and wiring interpretations are hypotheses, not causal biological validation; adjacency is not automatically
+  meaningful for every recovered signal.
+- No author implementation, image-model training, MEG processing or benchmark was executed.
+aio_mappings:
+- target: AIO:Model
+  relation: broad_match
+  rationale: The source-defined latent-variable distribution is a specific mathematical representation
+    within the pinned Model class.
+- target: AIO:UnsupervisedLearning
+  relation: related_match
+  rationale: The model is estimated from unlabeled observations to expose latent component structure.
+    The target is a task, so this mapping does not assert model/task equivalence.
+id: AIMech:TopographicICA
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T01:49:01Z'
+  updated_at: '2026-10-12T01:49:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
