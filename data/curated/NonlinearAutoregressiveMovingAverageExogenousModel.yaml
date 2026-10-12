@@ -1,0 +1,184 @@
+id: AIMech:NonlinearAutoregressiveMovingAverageExogenousModel
+name: Nonlinear autoregressive moving average model with exogenous inputs
+aliases:
+- NARMAX model
+concept_kind: model_family
+definition: A discrete-time nonlinear input-output model family whose current output is a function of
+  finite lagged outputs, exogenous inputs and errors, plus an additive current error.
+identity_notes: Compared all 442 pinned AIO IDs, labels and all scoped synonyms and 528 native IDs, names
+  and aliases with the proposed names, IDs, NARX/NARMAX and expanded variants; no normalized identity
+  match. Ignored- and hidden-inclusive full-text searches covered the recovery worktree and readable previous
+  worktree, returning 22 and zero lines respectively; all hits were inspected and concern the previous
+  OLS record, its saved review, pages and pending source cohort. The original Documents checkout remains
+  inaccessible, so its untracked files are not claimed searched. Read all 76 AIO semantic rows and 98
+  native name/definition neighbors, 12 complete annotated AIO CLASS nodes with incident edges, four closest
+  generated records and the native linear state-space layer record. The OLS selector is an estimator rather
+  than either model family. A neural autoregressive density estimator models ordered conditional distributions;
+  it does not by its name denote these lagged input-output recurrences. State-space neural layers and
+  architectures maintain different state/parameterization scopes. This assessment is bounded to the inspected
+  pin and accessible corpus. NARMAX is the encompassing notation in the representation paper; the companion
+  OLS paper explicitly distinguishes its NARX subclass. Linear regression, least-squares analysis and
+  forward selection describe estimators or fitting scope. RecurrentNeuralNetwork and EchoStateNetwork
+  require neural structures; VAR requires linear multivariate structure; TAR uses regime changes; autoregressive
+  language models target token distributions. None is an exact identity for this family.
+definition_evidence:
+- source_id: chen-luo1989
+  locator: Section 2, Equations 1–6, PDF p. 3 / printed p. 1874
+  relation: supports
+- source_id: chen-billings1989
+  locator: Section 6, Equation 69, PDF p. 16 / printed p. 1028
+  relation: supports
+claims:
+- claim_id: lagged-error-recurrence
+  kind: mechanism
+  statement: In the strictly causal scalar form, y_t=F(y_{t−1},…,y_{t−ny},u_{t−1},…,u_{t−nu},e_{t−1},…,e_{t−ne})+e_t.
+    Removing explicit lagged-error dependence gives NARX; removing exogenous inputs gives a NARMA form.
+    The moving-average terminology here concerns lagged errors inside a possibly nonlinear function, not
+    a running arithmetic average of observations. Finite-lag recurrence structure does not require a neural
+    network.
+  evidence:
+  - source_id: chen-luo1989
+    locator: Section 2, Equations 1–6, PDF p. 3 / printed p. 1874
+    relation: supports
+  - source_id: chen-billings1989
+    locator: Section 6, Equations 69–72, PDF p. 16 / printed p. 1028
+    relation: supports
+- claim_id: innovation-versus-fitted-residual
+  kind: scope
+  statement: In the conditional-mean innovation construction, the prediction is the conditional expectation
+    of the current output given available past information, and the innovation is output minus that expectation.
+    This interpretation requires the relevant moments and information set; it does not imply independent
+    Gaussian errors. The companion OLS formulation separately assumes zero-mean independent noise. For
+    an estimated model with chosen parameters, recursively computed prediction residuals are parameter-dependent
+    and are not automatically the true innovations of the data-generating system.
+  evidence:
+  - source_id: chen-billings1989
+    locator: Section 6, Equations 58–69 and 77–81, PDF pp. 15–16,18 / printed pp. 1027–1028,1030
+    relation: supports
+  - source_id: chen-luo1989
+    locator: Section 2, Equations 1–5 and noise definition, PDF p. 3 / printed p. 1874
+    relation: supports
+- claim_id: latent-error-estimation
+  kind: mechanism
+  statement: Polynomial expansion is formally linear in coefficients, but lagged noise variables are not
+    directly observed. Consequently the regressor matrix is not fixed directly from input-output measurements.
+    The OLS paper describes an iterative extension that substitutes prediction residuals, rebuilds noise-containing
+    regressors and refits. This is one estimator for the family; its reported few-iteration behavior is
+    not a universal convergence guarantee or a definition of NARMAX itself.
+  evidence:
+  - source_id: chen-luo1989
+    locator: Sections 2 and 5, Equations 83–91, PDF pp. 5,18–20 / printed pp. 1876,1889–1891
+    relation: supports
+- claim_id: residual-initialization-and-stability
+  kind: limitation
+  statement: 'Prediction with lagged errors requires residual initialization. Model invertibility asks
+    whether residual sequences from different initializations forget that difference for the specified
+    model and input process. Linearity in lagged errors alone is insufficient: in y_t=u_{t−1}²+a*e_{t−1}+e_t,
+    two residual recursions driven by identical observations differ by (−a)^t times their initial difference.
+    With initial difference 1, the difference after eight steps is 1/256 for a=1/2 and 256 for a=2. The
+    source’s particular stochastic sufficient condition and example must not be generalized to arbitrary
+    coefficients or input distributions.'
+  evidence:
+  - source_id: chen-billings1989
+    locator: Section 6, Equations 74–83 and Example 6, PDF pp. 17–19 / printed pp. 1029–1031; curator
+      exact examples in research/discovery/narx-narmax-boundaries.py
+    relation: supports
+- claim_id: polynomial-scope
+  kind: scope
+  statement: A polynomial parameterization expands finite lag variables into monomials and is linear in
+    the monomial coefficients, while it can be nonlinear in the input and output values. The continuous
+    scalar recurrence function on a specified compact finite-dimensional lag domain can be uniformly approximated
+    by some polynomial; this does not prescribe a fixed degree, identify coefficients from finite observations,
+    justify extrapolation, or guarantee stable recursive trajectories. The general model family is not
+    restricted to polynomial parameterizations.
+  evidence:
+  - source_id: chen-luo1989
+    locator: Section 2, Equations 6–13, PDF pp. 3–5 / printed pp. 1874–1876
+    relation: supports
+  - source_id: chen-billings1989
+    locator: Section 4, Equations 34–43, PDF pp. 9–11 / printed pp. 1021–1023; curator exact examples
+      in research/discovery/narx-narmax-boundaries.py
+    relation: supports
+- claim_id: published-approximation-bound
+  kind: limitation
+  statement: 'The source supplies the displayed formulas and stated error bound below; the refutation
+    and trajectory calculation are curator derivations. The representation paper’s particular degree-four
+    approximation example claims error below 0.04 on |y|<=1/4, |u|<=1. Exact substitution in its displayed
+    formulas gives error 5/16 at y=−1/4,u=1, and 2336/15625 at y=−6/25,u=1 (the y coordinate is interior;
+    u is on the boundary). These curator counterexamples reject that numerical bound, not the compact-domain
+    polynomial approximation existence statement. A small one-step function error also need not remain
+    small under repeated simulation: comparing f(y)=2y and g(y)=2y+1/100 from zero gives difference (2^t−1)/100
+    after t steps.'
+  evidence:
+  - source_id: chen-billings1989
+    locator: Section 4, displayed recurrence, polynomial and claimed error bound after Equation 43, PDF
+      pp. 11–12 / printed pp. 1023–1024; these source inputs support the explicit curator derivations
+      in research/discovery/narx-narmax-boundaries.py, not an author-reported correction
+    relation: supports
+evidence_sources:
+- source_id: chen-luo1989
+  title: Orthogonal least squares methods and their application to non-linear system identification
+  authors:
+  - S. Chen
+  - S. A. Billings
+  - W. Luo
+  source_type: primary_paper
+  url: https://eprints.soton.ac.uk/251147/2/778742007_content.pdf
+  version: International Journal of Control 50(5):1873–1896, 1989. University-hosted publisher PDF with
+    2007 download cover; 25 PDF pages including cover, all visually read. Article printed page equals
+    PDF page plus 1871. Includes Sections 1–7, Equations 1–94, Figures 1–3, Tables 1–3 and all references.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:30:51Z'
+  sha256: 62199a403df8853661f7b802d4dd0797b800a84eaf99e846ed6fb82631a02224
+  persistent_id: https://doi.org/10.1080/00207178908953472
+- source_id: chen-billings1989
+  title: 'Representations of non-linear systems: the NARMAX model'
+  authors:
+  - S. Chen
+  - S. A. Billings
+  source_type: primary_paper
+  url: https://eprints.soton.ac.uk/251145/1/IJC-1989-03.pdf
+  persistent_id: https://doi.org/10.1080/00207178908559683
+  version: International Journal of Control 49(3):1013–1032, 1989; university-hosted scanned article.
+    All 20 PDF pages visually read, including abstract, Sections 1–7, Equations 1–83, six examples and
+    complete references. Printed page equals PDF page plus 1012. A few leading characters on PDF page
+    8 are clipped in the original scan; they are not relied on for exact claims.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:48:16Z'
+  sha256: 68f4dc694ad146759f04b13d86f611cd293d65260a2ee3afe209f04097dac99b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TimeSeriesAnalysis
+  relation: related_match
+  rationale: This finite-lag input-output model family provides a representation used in time-series analysis
+    and system identification. The pinned target is an analysis task, so this is a model/task relationship
+    rather than equivalence or an is-a assertion.
+- target: AIO:AutoregressiveMovingAverage
+  relation: related_match
+  rationale: Both use autoregressive and lagged-error structure. The pinned ARMA class describes stationary-series
+    modeling; this record allows nonlinear functions and exogenous inputs and does not imply stationarity.
+    The shared structure supports a related mapping, not an exact or broader-class claim.
+limitations:
+- This record covers finite-lag, real-valued, discrete-time, strictly causal input-output formulations;
+  current-input/feedthrough conventions and broader vector/noise assumptions need explicit specification.
+  The family is not a trained model, dataset or unique estimator.
+- Local realization, uniqueness, stability, identifiability and predictive accuracy are separate questions.
+  No claim is made that every nonlinear or stochastic system has an exact global representation of this
+  form. Original 1984 reports and 1985 journal proofs are follow-up sources, not audited theorem evidence
+  here.
+- The 1989 representation paper contains problematic unrestricted inverse formulas and a numerical approximation
+  bound contradicted by exact substitution. Those statements are not adopted. Its explicit recurrence
+  definitions and scoped polynomial construction are distinguishable from these source defects.
+- No model was trained and no empirical result was replicated. Exact finite curator examples check stated
+  boundaries. The record remains DRAFT; structural validation and author self-review are not independent
+  scientific approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T13:00:32Z'
+  updated_at: '2026-10-12T13:07:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
