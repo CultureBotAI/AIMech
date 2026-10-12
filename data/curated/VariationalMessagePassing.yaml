@@ -1,0 +1,172 @@
+id: AIMech:VariationalMessagePassing
+name: Variational message passing
+aliases:
+- VMP
+concept_kind: algorithm
+definition: A variational inference algorithm that organizes conjugate-exponential coordinate updates
+  as local messages carrying expected sufficient statistics and natural-parameter contributions through
+  a Bayesian network.
+identity_notes: 'No normalized identity match across 442 pinned AIO IDs, labels and all scoped synonyms
+  and 551 native IDs, names and aliases, including VMP and conjugate spelling variants. Full-checkout
+  fixed-string searches included ignored and hidden files in the recovery, old discovery and original
+  Documents checkouts, with 58, 0 and 1 matched lines. All 42 distinct contents were read, including the
+  complete generated NCVMP search string: matches are the newer nonconjugate algorithm, pending source
+  leads and an unrelated word. Assessed all 15 semantic AIO rows and 122 native names/definitions, six
+  full annotated AIO CLASS nodes with incident edges/generated YAML and six full native context records.
+  VMP supplies graph-local sufficient-statistic message routing and closed conjugate coordinate updates,
+  beyond a mean-field family and objective alone. It differs from BBVI stochastic gradients, NCVMP expected-log-gradient
+  fixed-point proposals, VEM model-parameter alternation and ICM point-state maximization. This record
+  covers the original conjugate-exponential core; auxiliary-bound, sampling and structured extensions
+  need their own assumptions. Absence is bounded to the inspected pin and corpus.'
+definition_evidence:
+- source_id: winn2005
+  locator: Sections 2–3, Equations 6 and 18–20, Algorithm 1, PDF pp. 3–10 / printed pp. 663–670
+  relation: supports
+claims:
+- claim_id: variational-coordinate-objective
+  kind: mechanism
+  statement: For fixed observed variables v and a proper Bayesian-network joint p(h,v)=product_i p(x_i|pa_i)
+    with positive finite evidence p(v), choose normalized variational factors q(h)=product_j q_j(h_j)
+    over disjoint hidden blocks. Maximize L(q)=E_q[log p(h,v)]+H(q), so log p(v)-L(q)=KL(q||p(h|v)) where
+    expectations are finite and supports compatible. Holding all other factors fixed, the normalized update
+    q_j_new(h_j) proportional to exp(E_q_-j[log p(h,v)]) is the exact coordinate optimum when this distribution
+    exists in the permitted family. Vector-valued node blocks can retain within-block dependence.
+  evidence:
+  - source_id: winn2005
+    locator: Sections 2–3, Equations 6 and 18–20, Algorithm 1, PDF pp. 3–10 / printed pp. 663–670
+    relation: supports
+- claim_id: local-markov-blanket
+  kind: mechanism
+  statement: 'The coordinate log update depends only on the updated node’s own conditional and its children’s
+    conditionals: its parents, children and the children’s other parents supply the required local information.
+    Nonadjacent log terms are constant in the updated block. The graph’s conditional-independence structure
+    is used to compute the variational update; it does not assert that the true posterior factors like
+    q.'
+  evidence:
+  - source_id: winn2005
+    locator: Section 2, Equation 7 and Figure 1, PDF pp. 4–5 / printed pp. 664–665
+    relation: supports
+- claim_id: conjugate-message-routing
+  kind: mechanism
+  statement: In the conjugate-exponential core, write the updated node’s conditional log density as phi(pa)^T*u(x)+f(x)-kappa(phi(pa)).
+    Parent-to-child messages provide current expected sufficient statistics. Each child-to-parent message
+    supplies the expected natural-parameter coefficient of u(x) from that child’s log conditional, using
+    the child’s moments and its other parents’ current moments. The node’s new natural parameter is E[phi(pa)]
+    plus the sum of its child contributions; retain the carrier f(x) once and normalize the resulting
+    factor. Recompute its sufficient-statistic moments from the log-partition derivative or equivalent
+    exact formulas. Observed nodes send their actual sufficient statistics. The needed expectations must
+    be closed under the selected conjugate families.
+  evidence:
+  - source_id: winn2005
+    locator: Sections 3.1–3.3, Equations 8–20 and Algorithm 1, PDF pp. 5–10 / printed pp. 665–670
+    relation: supports
+- claim_id: schedule-and-guarantee
+  kind: mechanism
+  statement: Initialize proper factors with consistent moments and update one block at a time using current
+    incoming information, recomputing its outgoing moments before later affected updates. In exact arithmetic,
+    each valid conjugate coordinate optimum cannot decrease the fixed-model variational lower bound. A
+    bound threshold or iteration cap is a stopping rule, not a posterior-accuracy certificate. Bound monotonicity
+    does not imply global optimality, convergence of all parameter iterates or even that every fixed point
+    is a local optimum; synchronous updates using stale interacting neighbors do not inherit the sequential
+    guarantee.
+  evidence:
+  - source_id: winn2005
+    locator: Algorithm 1 and discussion, PDF pp. 10–13 / printed pp. 670–673
+    relation: supports
+- claim_id: gaussian-mean-precision
+  kind: mechanism
+  statement: For observations y_n conditionally N(mu,tau^-1), independent priors mu~N(m0,lambda0^-1) and
+    tau~Gamma(a0,b0) in shape-rate form, and q(mu)q(tau), the conjugate updates are v_mu=(lambda0+N*E[tau])^-1,
+    m_mu=v_mu*(lambda0*m0+E[tau]*sum_n y_n), a_tau=a0+N/2 and b_tau=b0+0.5*sum_n((y_n-E[mu])^2+Var(mu)),
+    with each update using current moments. E[tau]=a_tau/b_tau. The variance term in the precision-rate
+    update is required; replacing E[(y_n-mu)^2] by its squared-mean residual alone changes the method.
+    These are coordinate updates of an approximate product posterior.
+  evidence:
+  - source_id: winn2005
+    locator: Section 3.4, Equations 21–22, Figure 3 and unnumbered message updates, PDF pp. 10–12 / printed
+      pp. 670–672
+    relation: supports
+- claim_id: bound-accounting
+  kind: mechanism
+  statement: The variational bound sums the expected log conditional of every model node, including observed
+    nodes, plus the entropy of each hidden variational factor. Node normalizers and carrier terms must
+    be retained for the bound even when constants cancel from parameter updates. The resulting quantity
+    is a lower bound on log model evidence, log p(v); comparing such bounds does not in general reproduce
+    exact Bayes-factor rankings, because different models can have different approximation gaps.
+  evidence:
+  - source_id: winn2005
+    locator: Section 3.6, Equation 23 and nodewise bound contributions, PDF pp. 13–15 / printed pp. 673–675;
+      Appendix A, PDF pp. 27–32 / printed pp. 687–692
+    relation: supports
+- claim_id: extension-boundaries
+  kind: scope
+  statement: Deterministic transformations require appropriate moment closure and consistent substitution;
+    they are not arbitrary independent variational point masses. Mixture indicators weight natural-parameter
+    contributions by responsibilities rather than replacing the update by an arithmetic mixture of child
+    densities. Multivariate node blocks can retain internal correlation while separate factors remain
+    independent. Nonconjugate auxiliary bounds, point-estimate heuristics and sampling of message expectations
+    are extensions whose objectives, normalization and progress guarantees require separate analysis.
+  evidence:
+  - source_id: winn2005
+    locator: Sections 4.2–4.4, PDF pp. 16–20 / printed pp. 676–680; Section 6, PDF pp. 22–26 / printed
+      pp. 682–686
+    relation: supports
+evidence_sources:
+- source_id: winn2005
+  title: Variational Message Passing
+  authors:
+  - John Winn
+  - Christopher M. Bishop
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume6/winn05a/winn05a.pdf
+  persistent_id: https://www.jmlr.org/papers/v6/winn05a.html
+  version: JMLR 6(23):661–694, April 2005; official 34-page journal PDF. All pages visually read, including
+    16 figures, Table 1, Algorithm 1, Appendix A and 19 references. Printed page = PDF page + 660. The
+    primary page resolves the 2006 citation year in a later bibliography to 2005.
+  access_level: full_text
+  accessed_at: '2026-10-12T22:48:01Z'
+  sha256: 54b3d6c6fdb702763198795b998b4079476358f5b0d170f9154c48f8aeaa4f2e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The original core algorithm performs approximate inference through the parent, child and
+    coparent neighborhoods of a directed acyclic probabilistic model. The pinned BayesianNetwork class
+    denotes that model architecture, whereas VMP denotes an inference procedure; this is a direct algorithm-to-model
+    relation, not equivalence or an is-a assertion.
+limitations:
+- The conjugate-exponential core requires a normalizable coordinate distribution, computable current sufficient-statistic
+  expectations, fixed model and declared factorization. Sparse graph structure alone does not make all
+  moments cheap. No Fisher-covariance inverse is needed for these analytic conjugate updates, even when
+  a convenient sufficient-statistic representation is redundant.
+- Mean-field restrictions omit dependence between blocks. Initialization, update order and partition can
+  affect the result. A curator example p(x,y) proportional to exp(2*x*y) on {-1,+1}^2 has the uniform-product
+  exact coordinate fixed point but an indefinite ELBO Hessian with eigenvalues 1 and -3; therefore fixed-point
+  convergence is not a universal local-optimality certificate. The source’s stronger local-minimum prose
+  is not adopted.
+- The Gaussian example’s displayed normalizing constant in Equation 22 uses -log(2*pi) rather than -0.5*log(2*pi);
+  the latter is required for absolute evidence although the constant cancels from local parameter updates.
+  The source calls Gamma b a scale in one passage, while its displayed density and updates use a rate.
+  The record follows the density and states the convention.
+- Nonconjugate logistic-bound updates optimize an additional bound, not necessarily the original ELBO.
+  Continuous point-mass approximations have singular entropy issues. The gamma-shape sampling extension’s
+  unconditional transformed log-concavity claim has a counterexample preserved in the source notes; no
+  adaptive-rejection sampler is certified here.
+- VIBES is the paper’s historical implementation context. Its code was not downloaded, inspected or executed.
+  The Gaussian-mixture demonstration and reported bounds do not establish general accuracy, runtime or
+  exact model-selection performance. A positive-parameter Dirichlet mean is not exactly zero merely because
+  a component is described as pruned.
+- The full 34-page primary paper was read, including all figures, Table 1, Algorithm 1, Appendix A and
+  references. The saved rational and analytic examples check message equivalence, uncertainty propagation
+  and stationary-point boundaries; no source experiment, fitted posterior or benchmark was reproduced.
+  The record remains DRAFT; author self-review is not independent approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T23:10:14Z'
+  updated_at: '2026-10-12T23:17:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
