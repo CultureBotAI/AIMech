@@ -1,0 +1,127 @@
+definition: An exemplar-based clustering procedure that fixes candidate component centers at every observed
+  point, fits their simplex weights through a convex soft information-distortion objective, and derives
+  a hard grouping from selected posterior-MAP exemplars.
+identity_notes: 'This is the Lashkari-Golland procedure, also described as convex mixture model clustering.
+  Its data-derived exemplar dictionary and hard extraction policy specialize fixed-component weight EM
+  and finite rate-distortion Blahut-Arimoto. It is distinct from moving-centroid k-means, neural balanced
+  transport in SeLa, scale-persistence melting, and fusion-penalty methods also called convex clustering.
+  CMM and CCE are searched contextual acronyms, not unqualified identity aliases. No normalized identity
+  collision across all 442 pinned AIO IDs, labels/scoped synonyms and 487 maintained IDs, names and aliases.
+  Full-checkout searches include ignored and hidden files: 8 matched lines in the worktree and 9 in main.
+  All six distinct matched texts were read; they concern the prior exemplar-clustering frontier, its source/query
+  URLs and an unrelated FreeFem lexer token. Seven annotated AIO nodes and seven full native neighbors
+  were inspected. The same pinned bytes retain the previously read 442 class labels and 138 semantic label/synonym
+  rows. Absence is bounded to this snapshot and corpus.'
+definition_evidence:
+- source_id: exemplar-source
+  locator: Sections 2-5, PDF pp. 2-5, Equations 2, 4, 8-9 and hard-exemplar extraction
+  relation: supports
+evidence_sources:
+- source_id: exemplar-source
+  title: Convex Clustering with Exemplar-Based Models
+  authors:
+  - Danial Lashkari
+  - Polina Golland
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/3181-convex-clustering-with-exemplar-based-models.pdf
+  persistent_id: https://papers.nips.cc/paper_files/paper/2007/hash/3fe94a002317b5f9259f82690aeea4cd-Abstract.html
+  version: NIPS 2007 proceedings, volume 20; official eight-page PDF, internally numbered 1-8. All pages,
+    figures, captions and references visually read.
+  access_level: full_text
+  accessed_at: '2026-10-12T05:29:43Z'
+  sha256: d15f7a33be58a8364e3d27d854da66f0f92b0beba690b7cb2ea687981c75dda9
+claims:
+- claim_id: soft-objective-and-update
+  kind: mechanism
+  statement: For N indexed observations, fixed finite dissimilarities d_ij and beta>=0, set S_ij=exp(-beta*d_ij).
+    Minimize J(q)=-(1/N)sum_i log(sum_j q_j S_ij) over simplex weights with positive initialization. With
+    z_i=sum_j q_j S_ij, set r_ij=q_j S_ij/z_i and q_j_new=(1/N)sum_i r_ij. Equivalently, the row-conditional
+    channel minimizes I(I;J)+beta*E[d_ij] with a uniform data-index source. A valid common-base component
+    family additionally gives the stated mixture-likelihood interpretation; Gaussian components use squared
+    Euclidean distance.
+  evidence:
+  - source_id: exemplar-source
+    locator: Sections 2-4, PDF pp. 2-4, Equations 2, 4, 6-9; conditional normalization from Equations
+      6-8
+    relation: supports
+- claim_id: convexity-and-support
+  kind: scope
+  statement: 'For finite positive kernels and positive initialization, the exact unpruned iteration converges
+    to a global optimum of the restricted soft weight objective. This is not a global fit of freely moving
+    mixture components. Convexity does not imply unique coefficients: at beta=0 every q is fixed and optimal.
+    Zero weights stay zero and can exclude useful exemplars; exact positive-kernel finite iterations preserve
+    positive weights. At an optimum eta_j=(1/N)sum_i S_ij/z_i equals one on positive weights and is at
+    most one on inactive coordinates, rather than necessarily strictly less.'
+  evidence:
+  - source_id: exemplar-source
+    locator: Section 2, PDF p. 3, Equation 4 and positive-support condition; Section 4, PDF p. 4, Equation
+      9; curator support and beta-zero checks
+    relation: supports
+- claim_id: hard-exemplar-extraction
+  kind: mechanism
+  statement: 'The 2007 visualization policy first selects every exemplar index that maximizes r_ij for
+    at least one observation, then assigns each observation to its closest selected exemplar. Tie handling
+    is not specified. This differs from the later multiview top-M policy. Beta controls the soft distortion
+    tradeoff but does not uniquely determine a universally correct hard cluster count. Hardening does
+    not retain the soft optimum guarantee or a general bound I<=log(K_hard): for points (0,1,3), squared
+    distance and beta=1/4, the saved near-optimal soft solution has I about 0.03228 nats while this MAP
+    policy selects only the middle point.'
+  evidence:
+  - source_id: exemplar-source
+    locator: Section 5, PDF p. 5, hard assignment and loss of optimality; Figure 1 caption; curator finite
+      soft-channel/MAP calculation
+    relation: supports
+- claim_id: approximations-and-cost
+  kind: limitation
+  statement: The dense exact update uses two matrix-vector operations with O(N^2) work per iteration.
+    The paper separately proposes deleting weights below 10^-3/N and renormalizing, and retaining only
+    a rowwise subset of large similarities. These approximations can change the feasible set or objective
+    and need not preserve the full soft optimum. The saved two-point example shows the stated pruning
+    threshold removing a small but useful positive component.
+  evidence:
+  - source_id: exemplar-source
+    locator: Section 4, PDF pp. 4-5, Equation 9, pruning and similarity sparsification; curator finite
+      pruning example
+    relation: supports
+- claim_id: printed-normalization-boundaries
+  kind: limitation
+  statement: The expression r_ij=q_j S_ij/(N z_i) after Equation 9 is joint data-index/exemplar mass,
+    not the row-conditional r defined in Equation 6; the conditional omits N. Literal KL from an atomic
+    empirical measure to a continuous density is not finite merely by evaluating that density at data
+    points. The finite-index objective and normalized responsibilities above avoid transferring that common-measure
+    ambiguity from Equation 3.
+  evidence:
+  - source_id: exemplar-source
+    locator: Section 2, PDF p. 3, Equation 3; Section 3, Equations 6-8; Section 4, PDF p. 4, expression
+      after Equation 9; curator normalization checks
+    relation: supports
+limitations:
+- Sparsity at an asymptotic limit, numerical pruning, and the selected hard exemplars are different notions.
+  Neither every beta change nor every initialization produces a distinct optimum.
+- Natural-log objectives use nats; bit rates require consistent log-base and multiplier conversion. A
+  slope statement for the rate-distortion curve needs differentiability or a supporting-slope interpretation.
+- Synthetic source comparisons tune beta using class labels and do not establish universal performance
+  or a biological application. No historical software or benchmark was reproduced.
+id: AIMech:ExemplarBasedConvexClustering
+name: Exemplar-Based Convex Clustering
+aliases:
+- Convex Clustering with Exemplar-Based Models
+- Convex Mixture Model Clustering
+concept_kind: algorithm
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The procedure fits exemplar weights and constructs a grouping from unlabeled observations.
+    The inspected AIO target is a clustering task; this algorithm-to-task association asserts neither
+    equivalence nor an upstream subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:43:14Z'
+  updated_at: '2026-10-12T05:43:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

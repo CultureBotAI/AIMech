@@ -1,0 +1,101 @@
+definition: A multiview exemplar-clustering procedure that fits a single vector of exemplar weights by
+  minimizing the equally weighted sum of fixed-component negative log likelihoods across aligned data
+  views, then selects a specified number of exemplars.
+identity_notes: 'This is the unweighted Tzortzis-Likas 2009 procedure. Shared q couples corresponding
+  exemplar indices across views, while each view retains its own fixed component family and scale. It
+  averages view-specific log objectives and responsibilities; fixing uniform view weights inside the later
+  weighted log-of-sum objective does not recover this procedure. The original sum-of-posteriors hard assignment
+  and top-M ranking stop are retained explicitly. No normalized identity collision across all 442 pinned
+  AIO IDs, labels/scoped synonyms and 487 maintained IDs, names and aliases. Full-checkout searches include
+  ignored and hidden files: 8 matched lines in the worktree and 9 in main. All six distinct matched texts
+  were read; they concern the prior exemplar-clustering frontier, its source/query URLs and an unrelated
+  FreeFem lexer token. Seven annotated AIO nodes and seven full native neighbors were inspected. The same
+  pinned bytes retain the previously read 442 class labels and 138 semantic label/synonym rows. Absence
+  is bounded to this snapshot and corpus.'
+definition_evidence:
+- source_id: multiview-source
+  locator: Section 3, printed pp. 208-210 / PDF pp. 4-6, Equations 5-11
+  relation: supports
+evidence_sources:
+- source_id: multiview-source
+  title: Convex Mixture Models for Multi-view Clustering
+  authors:
+  - Grigorios Tzortzis
+  - Aristidis Likas
+  source_type: primary_paper
+  url: https://www.cs.uoi.gr/~arly/full/conferences/C64.pdf
+  persistent_id: doi:10.1007/978-3-642-04277-5_21
+  version: ICANN 2009, Part II, LNCS 5769, pp. 205-214; author-hosted ten-page proceedings PDF. All pages
+    visually read; printed page = PDF page + 204.
+  access_level: full_text
+  accessed_at: '2026-10-12T05:37:11Z'
+  sha256: d0bde397e858b35c43abc00c1be5e3063790ded1da0fd768996c5517085d7766
+claims:
+- claim_id: shared-weight-fitting
+  kind: mechanism
+  statement: For N observations with V aligned views, fix view-specific component values f_vij=f_vj(x_vi)
+    and common simplex weights q_j. Minimize -(1/(N V))sum_vi log Q_vi, where Q_vi=sum_j q_j f_vij. Set
+    q_j_new=q_j/(N V)*sum_vi f_vij/Q_vi. Each view contributes its average current responsibilities equally.
+    Common factors depending on the view and observation but not the exemplar cancel in this update. With
+    finite positive component values, positive support and exact unpruned iteration, the soft convex problem
+    attains a global optimum; coefficient uniqueness is not implied.
+  evidence:
+  - source_id: multiview-source
+    locator: Sections 3.1-3.2, printed pp. 208-209 / PDF pp. 4-5, Equations 6-9 and support condition
+    relation: supports
+- claim_id: specified-exemplars-and-assignment
+  kind: mechanism
+  statement: Given a requested M, retain the M largest fitted q values as exemplars, each anchoring its
+    own cluster. Assign every other observation to the selected exemplar maximizing sum_v q_j f_vij/Q_vi.
+    This sums per-view posteriors, rather than multiplying densities or taking the maximum over individual
+    views. The source uses strict comparisons without a tie policy. Its implementation stops when the
+    selected top-M indices and their ranking stay unchanged for several consecutive iterations; this can
+    occur before the soft objective is optimized.
+  evidence:
+  - source_id: multiview-source
+    locator: Section 3.2, printed pp. 209-210 / PDF pp. 5-6, stopping discussion and Equation 10
+    relation: supports
+- claim_id: scope-and-calibration
+  kind: limitation
+  statement: View families and beta_v values remain supplied choices. The empirical scale N^2 log(N)/sum_ij
+    d_vij is a search guide and is undefined when its denominator vanishes. The fitting update needs O(N^2
+    V) dense arithmetic per iteration, apart from distance construction. A fixed-M hard partition has
+    no transferred global-optimum guarantee; stable ranking is not a bound on residual objective error.
+    Equal view contribution also does not guarantee robustness to uninformative or systematically biased
+    views.
+  evidence:
+  - source_id: multiview-source
+    locator: Section 3.2, printed p. 210 / PDF p. 6, Equation 11 and cost; Sections 4-5, printed pp. 210-214
+      / PDF pp. 6-10; curator stable-ranking example
+    relation: supports
+limitations:
+- The record uses the finite evaluated-component/log-likelihood objective; the source empirical-versus-continuous
+  KL shorthand requires a compatible measure or lift. Gaussian exponents use squared Euclidean distances.
+- The soft fit is a shared-weight specialization of fixed-component EM. The complete multiview data construction,
+  equal-view objective and sum-of-posteriors/top-M policy define this narrower algorithm.
+- Source experiments remove observations lacking required views and select scale multipliers by label
+  entropy. They do not establish an intrinsic missing-view algorithm, fully label-free model selection,
+  or universal performance. No historical experiment was reproduced.
+id: AIMech:UnweightedMultiviewConvexMixtureClustering
+name: Unweighted Multiview Convex Mixture Clustering
+aliases:
+- Multiview Convex Mixture Model Clustering
+- Convex Mixture Models for Multi-view Clustering
+concept_kind: algorithm
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The procedure fits exemplar weights and constructs a grouping from unlabeled observations.
+    The inspected AIO target is a clustering task; this algorithm-to-task association asserts neither
+    equivalence nor an upstream subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:43:14Z'
+  updated_at: '2026-10-12T05:43:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
