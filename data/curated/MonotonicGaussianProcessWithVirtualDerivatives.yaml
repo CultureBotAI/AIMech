@@ -1,0 +1,131 @@
+id: AIMech:MonotonicGaussianProcessWithVirtualDerivatives
+name: Monotonic Gaussian process with virtual derivatives
+aliases:
+- GP with monotonicity information
+- Gaussian process with monotonicity information
+concept_kind: algorithm
+definition: A Gaussian-process inference procedure that promotes monotonicity in selected input coordinates
+  by combining observed outputs with finite virtual derivative-sign factors and approximating the resulting
+  posterior using expectation propagation.
+identity_notes: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 538 native IDs, names
+  and aliases against the proposed ID, names and descriptive variants: no normalized identity match. Full
+  ignored- and hidden-inclusive searches of the recovery worktree, older discovery worktree and restored
+  original Documents checkout returned 392, 362 and 361 lines. Candidate-specific excerpts and matched
+  paths were inspected: the virtual-derivative references are contextual mentions in the Hammerstein–Wiener
+  record and its pending predictor cohort; most broader monotonicity hits concern optimization objectives.
+  Read all 35 semantic AIO rows, 88 native name/definition neighbors, five complete annotated AIO CLASS
+  nodes with incident edges, their generated records and three native neighbors. General Gaussian process
+  regression does not specify derivative-sign factors or EP sites. FABOLAS uses a size-dependent GP surrogate
+  for resource selection; the Hammerstein–Wiener record defines a cascade family. AIO regression and binary
+  classification are tasks; GLM and graphical-model definitions do not supply this inference procedure.
+  This absence assessment is bounded to the inspected snapshot and records.'
+definition_evidence:
+- source_id: riihimaki-vehtari2010
+  locator: Sections 2–3.1, especially Equations 5–10, printed pp. 646–649 / PDF pp. 2–5
+  relation: supports
+claims:
+- claim_id: joint-values-and-derivatives
+  kind: mechanism
+  statement: A differentiable GP prior supplies joint covariance blocks for function values and selected
+    partial derivatives by differentiating its kernel. The inspected formulation uses a squared-exponential
+    kernel with coordinate-specific lengthscales. These latent derivatives are coupled to the observed
+    function values; their virtual sign information is distinct from measuring a derivative magnitude.
+    For a unit one-dimensional squared-exponential kernel, the derivative–derivative covariance at separation
+    d is (1-d²)*exp(-d²/2), which can be zero or negative away from the same point.
+  evidence:
+  - source_id: riihimaki-vehtari2010
+    locator: Section 2, printed p. 646 / PDF p. 2; Section 3 Equation 6, p. 647 / PDF p. 3; kernel derivative
+      check in research/discovery/monotonic-gp-boundaries.py
+    relation: supports
+- claim_id: probit-sites-and-ep
+  kind: mechanism
+  statement: At each chosen location and input coordinate, positive derivative information contributes
+    Phi(f_prime/nu), with nu>0 and Phi the standard-normal CDF. EP replaces these non-Gaussian factors
+    with Gaussian sites and approximates the joint posterior. Gaussian observation likelihoods are used
+    for regression; binary probit classification applies EP to class-observation factors as well. Hyperparameters
+    maximize an approximate joint marginal likelihood in the inspected procedure rather than being integrated
+    out.
+  evidence:
+  - source_id: riihimaki-vehtari2010
+    locator: Section 3, Equations 5–10 and subsequent inference/prediction equations, printed pp. 647–648
+      / PDF pp. 3–4
+    relation: supports
+- claim_id: virtual-point-placement
+  kind: mechanism
+  statement: The source proposes grids in low dimensions, selected observed covariate locations in higher
+    dimensions, and iterative placement where the current predictive derivative has high probability of
+    being negative. Points can be added, moved or removed after conditioning. Dense computation scales
+    cubically in the combined number of real and virtual observations, and a grid grows exponentially
+    with input dimension; spacing relative to the fitted lengthscale affects how constraints influence
+    intervening locations.
+  evidence:
+  - source_id: riihimaki-vehtari2010
+    locator: Section 3.1, printed pp. 648–649 / PDF pp. 4–5; Section 5, p. 652 / PDF p. 8
+    relation: supports
+- claim_id: approximate-monotonicity
+  kind: limitation
+  statement: Finite derivative sites and an EP approximation do not guarantee a globally monotone function.
+    As a logical finite-site counterexample, f(x)=2x³-3x²+x has derivative 1 at x=0 and x=1, but -1/2
+    at x=1/2. Finite nu also gives positive likelihood to negative slopes. Even the Gaussian matching
+    a standard normal truncated to a positive derivative retains about 0.0928 probability below zero.
+    This last value is a curator one-site limiting calculation, not a measured violation rate for the
+    paper’s models or a run of its EP implementation.
+  evidence:
+  - source_id: riihimaki-vehtari2010
+    locator: Section 3 Equation 5 and Gaussian approximation, printed p. 647 / PDF p. 3; Section 4.2 and
+      conclusion, pp. 651–652 / PDF pp. 7–8; curator calculations in research/discovery/monotonic-gp-boundaries.py
+    relation: supports
+evidence_sources:
+- source_id: riihimaki-vehtari2010
+  title: Gaussian processes with monotonicity information
+  authors:
+  - Jaakko Riihimäki
+  - Aki Vehtari
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v9/riihimaki10a/riihimaki10a.pdf
+  persistent_id: https://proceedings.mlr.press/v9/riihimaki10a.html
+  version: AISTATS 2010, PMLR 9:645–652, official eight-page proceedings PDF. All eight pages, four figures,
+    Table 1 and references visually read; PDF pages 1–8 correspond to printed pages 645–652.
+  access_level: full_text
+  accessed_at: '2026-10-12T14:47:11Z'
+  sha256: 0221482450da7b3a033f34941c7991a78a433beaa97b86d8df4ab4c3604bf260
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: related_match
+  rationale: The Gaussian-observation variant estimates a response relationship while adding derivative-sign
+    information. The target names a broad task, whereas this record specifies an inference procedure;
+    the mapping does not assert identity or an upstream subclass.
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The source extends the procedure to two-class probit observations, approximating both class
+    and derivative factors. This is a method/task relationship, not exact identity or a claim about every
+    classification method.
+limitations:
+- This record denotes the Riihimäki–Vehtari virtual-derivative/probit/EP inference procedure for regression
+  and binary classification. It is not every shape-constrained GP, an isotonic estimator, a construction-enforced
+  monotone random process or a generic EP record. The inspected paper uses positive derivative information
+  in selected coordinates; any decreasing-coordinate extension must state its sign convention.
+- The derivative covariance requires a sufficiently differentiable kernel. Finite site placement, approximate
+  Gaussian inference and point-estimated hyperparameters do not certify monotonicity between sites, calibrated
+  uncertainty, convergence to a global optimum or correct prior knowledge.
+- The source reports lower errors for some smooth synthetic functions and worse errors for its step-function
+  examples, attributing difficulties to smoothness and Gaussian approximation near truncated derivative
+  boundaries. Its health-care classification example is an application with an assumed age trend, not
+  evidence of causal effects or general clinical benefit.
+- The cubic counterexample checks the logic of finite derivative constraints, not a sampled squared-exponential
+  GP trajectory. The half-normal calculation is a one-site hard-sign limit and is not the finite-nu multi-site
+  empirical violation probability. No source implementation or empirical experiment was executed.
+- All primary PDF pages were read. The author GPstuff demonstration is a discovered implementation lead;
+  its complete implementation and runtime behavior were not audited. This record remains DRAFT and author
+  self-review is not independent scientific approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T15:00:52Z'
+  updated_at: '2026-10-12T15:00:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
