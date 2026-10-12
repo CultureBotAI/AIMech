@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fast condensed prototype-based domain description · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fast condensed prototype-based domain description</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fast condensed prototype-based domain description</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FastCondensedPrototypeBasedDomainDescription</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FastCPDD, FCPDD
+    </div>
+
+  <div class="detail-desc">
+    A heuristic for selecting PDD prototypes that samples remaining reference observations, computes their radius offsets against the full dataset, accumulates eligible candidates, and greedily selects them by uncovered-reference gain with an adaptive sampling schedule.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      FastCPDD, also called FCPDD, is the sampled candidate-selection variant introduced in Section 5 of Angiulli&#39;s PDD paper. It is distinct from full-candidate CPDD and the PDD prediction rule. The conceptual sampling and selection policy is supported; the printed pseudocode has unresolved boundary conventions, and its stated exhaustion modification does not by itself establish the claimed consistency guarantee. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 508 preceding native IDs, names and aliases. No normalized candidate identity collision was found. Fixed-string whole-word searches included ignored and hidden files in both checkouts, candidate aliases, acronyms and source identifiers. All 103 matched lines per checkout, 61 distinct texts at 206 locations, were inspected: these are the preceding NNDD record and its generated pages, provenance, discovery and review context, including explicit pending CPDD/FastCPDD leads. The 85 semantic AIO rows and 65 preceding native identity matches were unchanged from their fully read prior search; the two new native neighbors were fully read. Twelve annotated AIO nodes and outgoing edges were read; twenty-three contextual YAMLs were reused after unchanged-byte checks. Absence is bounded to this pin and corpus, and wider identity-field matches are not full scientific reviews.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sampled-candidate-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain selected prototype pairs S, covered reference points C, eligible candidate pool E and remaining sampling pool Dprime. Draw T from Dprime, compute each sampled point&#39;s kth self-included neighbor distance against full D, retain sampled candidates P with r_i&lt;=theta, and form their neighborhoods using d(x_i,y)+r_i&lt;=rho*theta. Add P to E. Greedily select from E by largest residual neighborhood gain, breaking ties by smaller radius, and insert while gain&gt;(1-eta)*k. The inner loop ends when the chosen candidate belongs to the current P or fails the gain test; older candidates can be inserted first. Remove T union C from Dprime after the iteration. Stored radii are unchanged at prediction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Figure 3 steps 1-2g and accompanying Section 5 prose, author p6 / PDF p7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adaptive-sampling-and-stopping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initialize sigma=1, count=k+1 and countstar=0. The nominal sample size is ((1-a)*sigma+a)*s, with a=0.1 in the source. After selecting candidates, count is the last residual gain, countstar is the maximum gain seen, and sigma is updated to log(count)/log(countstar). The default outer loop continues while count&gt;(1-eta)*k. Here eta controls marginal gain, not CPDD&#39;s total covered fraction. A low-gain sample does not prove that no useful unsampled candidate remains; the source acknowledges that default stopping is heuristic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Figure 3, author p6 / PDF p7; Section 5 stopping discussion, author p7 / PDF p8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#exhaustion-theorem-counterexample</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 5.1 proposes eta=1 and changing the outer guard to Dprime nonempty as a consistency condition. A curator trace of the printed flow disproves sufficiency of that change alone: let D={0,1/10,10,101/10}, k=1, theta=1/5, rho=eta=1 and s=4. The first sample T=D has zero radii and two disconnected two-point neighborhoods. Selecting any current-sample candidate covers only one pair; the inner loop then ends. Removing T union C empties Dprime, so the modified guard exits while two originally accepted points remain uncovered. Gain=count=countstar=2 makes the log update defined, so this failure is independent of log singularities. The trace does not certify how any historical implementation behaved.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Figure 3, author p6 / PDF p7; Theorem 5.1 and proposed guard change, author p7 / PDF p8; executable curator trace in research/discovery/prototype-domain-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#implementation-and-complexity-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed description leaves sample-size rounding or clipping, empty candidate maxima, exhausted sampling pools and log-zero or log-one updates unresolved. Isolated k=1 neighborhoods can give count=countstar=1, making the stated update 0/0. If M distinct observations are sampled without replacement from the remaining pool, computing their distances to full D requires M*|D|&lt;=|D|^2 distance evaluations; this permits quadratic worst-case work and does not establish subquadratic total runtime. The baseline CPDD set-cover approximation is not transferred to this heuristic.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Figure 3 and Section 5 computational analysis, author pp6-7 / PDF pp7-8; exact unit-gain boundary calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#probability-and-experiment-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The sample-hit analysis assumes a very large dataset with kth-neighbor radii approximated near zero and a specified population density. Its region-hit probability does not establish distribution-free selection of an optimal prototype. Reported synthetic and UCI comparisons are conditional on sample size, k, thresholds, metrics, hardware and chosen classes; they do not establish exact agreement with CPDD or universal compression, speed or accuracy gains. No numerical performance advantage is curated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-angiulli2012">Prototype-based Domain Description for One-Class Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 and Figure 4, author pp7-8 / PDF pp8-9; Section 6.5, Figures 11-12 and tables, author pp12-13 / PDF pp13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This is a supported heuristic concept with explicitly unresolved pseudocode boundaries. Neither default gain stopping nor the printed Dprime-exhaustion modification is represented as a general consistency guarantee.</li>
+      <li>A full implementation would need documented boundary choices; no unpublished repair is attributed to the author. Exact-name, code and erratum searches and the public 15-repository lab inventory did not identify a correcting implementation, a bounded search result rather than proof of absence.</li>
+      <li>All 15 primary PDF pages were visually read. The consistency counterexample and logarithm boundary were checked by exact finite calculations; no historical software, statistical training or benchmark execution was performed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/BinaryClassification.html" style="font-weight: 600;"><code>AIO:BinaryClassification</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Binary Classification</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The PDD accept-versus-reject task, including detectors constructed by CPDD or FastCPDD, is related to AIO:BinaryClassification. This is an algorithm-to-task association, not equivalence or subclass membership. The target has Classification and SupervisedLearning ancestry, but the link does not assert representative abnormal-class training data. Inspected Classification, BinaryClassification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor nodes, DimensionalityReduction, Distillation, DataPreparation and SelectionAndSamplingBias with annotations and outgoing edges. Neighbor voting or value averaging is distinct from radius-offset decisions; condensation does not reduce feature dimensions or assert a bias condition. Generic preparation and teacher-student distillation do not identify these covering procedures. Eleven native contexts distinguish NNDD distance norms, CNNDD reference selection, local distance ratios, bootstrap variability, density clustering, supervised metric learning, sphere support estimation and medoid optimization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-angiulli2012">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">angiulli2012</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf" target="_blank" rel="noopener">Prototype-based Domain Description for One-Class Classification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fabrizio Angiulli
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/TPAMI.2011.204</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a75e67435eb6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T08:31:31Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T08:31:31Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FastCondensedPrototypeBasedDomainDescription.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FastCondensedPrototypeBasedDomainDescription.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
