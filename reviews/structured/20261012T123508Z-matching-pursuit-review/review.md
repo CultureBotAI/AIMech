@@ -1,0 +1,676 @@
+# Scientific author self-review of Matching pursuit
+
+- Review: 20261012T123508Z-matching-pursuit-review
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T12:27:27Z
+- Finished UTC: 2026-10-12T12:35:08Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the single-atom matching-pursuit algorithm with explicit convergence and refit boundaries; no actionable finding in this scope.
+
+## Scope And Provenance
+
+All fields of one maintained pursuit algorithm.
+
+Selection: Exact maintainedID AIMech:MatchingPursuit
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f0c4b81da07d6134ffc9e2eb69e9aa7582809fe9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:MatchingPursuit | data/curated/MatchingPursuit.yaml | maintained | Matching pursuit |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:MatchingPursuit | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 104.58s (0:01:44)<br>Checked 442 record(s); 0 failed.<br>Checked 527 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 174 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 171,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:MatchingPursuit | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:MatchingPursuit | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:MatchingPursuit | Exited0withoutoutput. |
+| Exact pursuit counterexamples | passed | True | AIMech:MatchingPursuit | {"mp_three_steps": [{"atom": 1, "coefficient": "4/5", "residual": ["-12/25", "9/25"]}, {"atom": 0, "coefficient": "-12/25", "residual": ["0", "9/25"]}, {"atom": 1, "coefficient": "36/125", "residual": ["-108/625", "81/625"]}], "omp_two_steps": [{"selected": [1], "coefficients": ["4/5"], "residual": ["-12/25", "9/25"]}, {"selected": [1, 0], "coefficients": ["5/4", "-3/4"], "residual": ["0", "0"]}], "omp_nonminimal_support": [{"selected": [1], "coefficients": ["-4/9"], "residual": ["1/9", "0", "-1/9"]}, {"selected": [1, 0], "coefficients": ["-4/9", "1/9"], "residual": ["0", "0", "-1/9"]}, {"selected": [1, 0, 2], "coefficients": ["-4/9", "1/9", "-1/9"], "residual": ["0", "0", "0"]}], "minimum_possible_support": 2, "weak_selected_threshold_not_maximum": {"signal": ["1", "3/4"], "alpha": "1/2", "delta": "4/5"}, "raw_correlation_versus_projection_gain": {"dictionary": [["1", "0", "0"], ["12/13", "5/13", "0"], ["0", "0", "1"]], "signal": ["10", "4/5", "3/5"], "first_selected": 0, "remaining_correlations": ["4/13", "3/5"], "remaining_gains": ["16/25", "9/25"], "omp_next": 2, "gain_maximizer": 1}, "scope": "Exact finite real unit dictionaries; deterministic lowest-index ties. Algebraic counterexamples, not empirical benchmarks."} |
+
+## Scientific And Domain Assessments
+
+### Finite fixed-dictionary pursuit identity
+
+identity: supported. Targets: AIMech:MatchingPursuit.
+
+Retain the distinct algorithm record.
+
+A greedy fixed-dictionary approximation algorithm that repeatedly selects a unit-norm atom by its absolute correlation with the current residual and subtracts the residual projection onto that atom. The record covers the finite real-dictionary algorithm and identifies the paper’s fixed-fraction weak-selection generalization. MP is used only as a contextual source abbreviation and is not an identity alias. It differs from orthogonal matching pursuit, which refits the whole selected span at every step. All 442 AIO IDs, labels and scoped synonyms and 525 preceding native IDs, names and aliases were compared. The only normalized hit was MP, an exact MarkovChain synonym; the full MarkovChain record and node distinguish that stochastic model from pursuit. Ignored/hidden-inclusive searches of both checkouts found the prior pursuit source lead, Markov-chain context, author initials and unrelated environment tokens or RDF prefixes, not an existing pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows and 148 native name/definition rows; nine full AIO CLASS nodes and incident edges and twelve contextual YAMLs were inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle regression follows an equiangular path, and NMF fits nonnegative factors. This is a bounded identity assessment of the inspected corpus.
+
+### Sparse representation versus learned network
+
+grounding: supported. Targets: AIMech:MatchingPursuit.
+
+Related mapping preserves abstraction and dictionary-learning differences.
+
+The pinned target is a representation-learning network that finds sparse linear representations and identifies their elements, with exact sparse-coding and dictionary-learning synonyms. Pursuit constructs a representation using a supplied fixed dictionary, so the sparse-representation connection is direct. It does not learn dictionary elements or require a neural network; related_match preserves those scope differences without a subclass or equivalence assertion. RepresentationLearning and SparseAutoEncoder are different neural scopes. LassoRegression, LinearRegression and LeastsquaresAnalysis do not specify this atom-selection procedure. FeatureExtraction can be an application, and MathematicalFunction is too generic to identify it. MarkovChain is unrelated despite its MP synonym.
+
+### single atom update
+
+evidence: supported. Targets: AIMech:MatchingPursuit.
+
+Supported within its explicit mathematical and source scope.
+
+For supplied unit real atoms g_j and r_0=y, exact matching chooses an index maximizing abs(g_j^T*r_k), sets c_k=g_j^T*r_k and r_(k+1)=r_k-c_k*g_j, and adds c_k*g_j to the approximation. Ties require a choice rule. The source also permits a fixed weak fraction 0&lt;alpha&lt;=1 with selected correlation at least alpha times the supremum; alpha=1 is attainable for a finite dictionary. The dictionary remains fixed, and selected atoms can recur. Locators: Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400
+
+### residual and energy
+
+evidence: supported. Targets: AIMech:MatchingPursuit.
+
+Supported within its explicit mathematical and source scope.
+
+Each residual is orthogonal to the atom just selected, and &#124;&#124;r_k&#124;&#124;^2=abs(c_k)^2+&#124;&#124;r_(k+1)&#124;&#124;^2. Summing gives &#124;&#124;y&#124;&#124;^2=sum_k abs(c_k)^2+&#124;&#124;r_m&#124;&#124;^2 for the performed steps. This sum uses per-step coefficients; combining repeated occurrences of an atom does not preserve that coefficient-energy formula. Earlier selected atoms need not remain orthogonal to the residual. Locators: Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400
+
+### projection convergence boundary
+
+evidence: supported. Targets: AIMech:MatchingPursuit.
+
+Supported within its explicit mathematical and source scope.
+
+The ideal weak-selection sequence with a fixed positive fraction converges to the signal component orthogonal to the closed dictionary span. Thus zero residual requires the signal to belong to that span. The complete finite-dimensional case has a dictionary-dependent geometric residual bound. Neither statement guarantees finite termination, minimum support, a unique decomposition, a practical uniform rate, or the same behavior after early stopping and finite-precision errors. Locators: Section III Theorem 1, Section IV Lemmas 1–2, Appendices A–B, PDF pp. 4,6,14–15 / printed pp. 3400,3402,3410–3411
+
+### orthogonal refit distinction
+
+evidence: supported. Targets: AIMech:MatchingPursuit.
+
+Supported within its explicit mathematical and source scope.
+
+An exact curator example uses D=[e1,b], b=(3/5,4/5), y=e2. MP chooses b then e1, with step coefficients 4/5 and -12/25, leaving residual (0,9/25), whose correlation with b is 36/125. It selects b again next. OMP instead refits those two atoms to coefficients 5/4 on b and -3/4 on e1, giving zero residual. The original MP paper’s optional final backprojection onto the selected span is a separate correction; it does not refit before each subsequent selection as OMP does. Locators: Section III, Equations 18–29, PDF pp. 4–5 / printed pp. 3400–3401; curator-derived exact examples in research/discovery/pursuit-boundaries.py; Sections 2–2.2, PDF pp. 2–3 / printed pp. 41–42; curator-derived exact examples in research/discovery/pursuit-boundaries.py
+
+### structured implementation scope
+
+evidence: supported. Targets: AIMech:MatchingPursuit.
+
+Supported within its explicit mathematical and source scope.
+
+The paper’s Gabor implementation uses a structured coarse dictionary, local refinement and recursive correlation updates. Its O(N log N) per-iteration analysis uses those dictionary and numerical approximation assumptions, not an arbitrary dense dictionary. The time-frequency representation and denoising examples are applications of the algorithm; the supplied atoms are not learned by the basic pursuit recursion. Locators: Sections IV–VIII and Appendix E, PDF pp. 5–14,17–18 / printed pp. 3401–3410,3413–3414
+
+### Single-atom update and selected-span refit
+
+consistency: supported. Targets: AIMech:MatchingPursuit.
+
+Exact example distinguishes the two algorithms.
+
+MP uses coefficients4/5then-12/25and revisitsb because the second residual retains correlation36/125. OMPrefitsbto5/4and e1to-3/4, eliminating the residual. MPfinalbackprojection is explicitly optional and occurs after the unrefitted pursuit steps. TelescopingMPenergy uses per-step coefficients. The convergence claim concerns the residual sequence, not the approximation sequence.
+
+### Support, rank and thresholds
+
+consistency: supported. Targets: AIMech:MatchingPursuit.
+
+The record avoids unconditional minimum-support and exact-recovery claims.
+
+Unitdictionary[e1,e2,e3,(8/9,4/9,1/9)]and y=e1-b force3OMPselections under specifiedties although2atoms suffice and1doesnot. Exact nonzero-correlated selection grows the span by one independentdirection; the fullspanprojection requires at most ranksteps, while earlystopping and finiteprecision need separate analysis. A weakselectedcorrelation belowdelta can coexist with a maximum abovedelta; the rational example verifies it.
+
+### Correlation and projected-energy rankings
+
+consistency: supported. Targets: AIMech:MatchingPursuit.
+
+The corrected statement is a source-derived algebraic comparison.
+
+ForD=[e1,b,e3],b=(12/13,5/13,0),y=(10,4/5,3/5),OMPfirstselectse1. Remainingcorrelations are4/13forb and3/5fore3, soOMPselectse3. Equation7projected-energy gains instead are16/25and9/25. This proves rankingscandiffer; no usebyany external algorithm is attributed. Every evidence source is now used by a supported claim.
+
+### Full maintained content after correction
+
+provenance: supported. Targets: AIMech:MatchingPursuit.
+
+All maintained fields were read after the final input capture.
+
+ReadID,name,aliases,kind,definition,identitynotes,definitioncitations,allclaims andlocators,allsourceidentity/access/hash/versionmetadata,mappingpin/direction/rationale,limitations,DRAFTstatus andactualUTCcuration. Reportmirror, PDFhashes and calculatoroutputmatch. The recovered public checkout has identical original inputbytes at the same publicbase; original Documentscheckout remains untouched and awaits restored OSaccess.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:MatchingPursuit. Fixed-dictionaryMP and selected-span-refittingOMP have different update paths, as shown by the same-input example. Neither is exactBP, dictionarylearning, a neural architecture or an unconditional global subset optimizer.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T121936Z-matching-pursuits.json | supports | The record covers the finite real-dictionary algorithm and identifies the paper’s fixed-fraction weak-selection generalization. MP is used only as a contextual source abbreviation and is not an identity alias. It differs from orthogonal matching pursuit, which refits the whole selected span at every step. All 442 AIO IDs, labels and scoped synonyms and 525 preceding native IDs, names and aliases were compared. The only normalized hit was MP, an exact MarkovChain synonym; the full MarkovChain record and node distinguish that stochastic model from pursuit. Ignored/hidden-inclusive searches of both checkouts found the prior pursuit source lead, Markov-chain context, author initials and unrelated environment tokens or RDF prefixes, not an existing pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows and 148 native name/definition rows; nine full AIO CLASS nodes and incident edges and twelve contextual YAMLs were inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle regression follows an equiangular path, and NMF fits nonnegative factors. This is a bounded identity assessment of the inspected corpus. |
+| mapping | sources/aio/aio.json; Nine annotated CLASS nodes with incident edges and twelve contextual YAML records. | supports | The pinned target is a representation-learning network that finds sparse linear representations and identifies their elements, with exact sparse-coding and dictionary-learning synonyms. Pursuit constructs a representation using a supplied fixed dictionary, so the sparse-representation connection is direct. It does not learn dictionary elements or require a neural network; related_match preserves those scope differences without a subclass or equivalence assertion. RepresentationLearning and SparseAutoEncoder are different neural scopes. LassoRegression, LinearRegression and LeastsquaresAnalysis do not specify this atom-selection procedure. FeatureExtraction can be an application, and MathematicalFunction is too generic to identify it. MarkovChain is unrelated despite its MP synonym. |
+| certificates | research/discovery/pursuit-boundaries.py | supports | Exact rational examples verify MP revisits, OMP joint-refit coefficients, a unit-dictionary OMP three-atom result when two suffice, and weak selected-threshold failure to bound the maximum correlation. A further example shows rawcorrelation and normalized projection-energy gain rank candidates differently without attributing any external algorithm. |
+| mallat1993 | https://www.di.ens.fr/~mallat/papiers/MallatPursuit93.pdf; IEEE Transactions on Signal Processing 41(12),3397–3415,December 1993. Actual 19-page author-hosted scan; all pages visually read, including Sections I–VIII, Appendices A–E, Figures 1–6 and 17 references. Printed page = PDF page + 3396. The separate 1992 preprint was not inspected. | supports | Source inspected at the declared access level. All24primaryPDFpages visually read; after final capture, Mallatpages4–5 and Patipage3 were reread to verify optional backprojection, convergence, selection and energy decrease. The scikit-learn1.8guide section corroborates exact max-correlation selection and approximate cardinality objectives. No external OLS full-method audit is claimed. |
+| pati1993 | https://www.ccs.neu.edu/home/eelhami/courses/EE290A/OMP_Krishnaprasad.pdf; Proceedings of the 27th Asilomar Conference on Signals, Systems and Computers,vol.1,40–44,1993. Actual five-page university-hosted paper; all pages visually read, including Sections 1–4, the algorithm box, Theorem 2.1, Figures 1–5 and three references. Printed page = PDF page + 39. | supports | Source inspected at the declared access level. All24primaryPDFpages visually read; after final capture, Mallatpages4–5 and Patipage3 were reread to verify optional backprojection, convergence, selection and energy decrease. The scikit-learn1.8guide section corroborates exact max-correlation selection and approximate cardinality objectives. No external OLS full-method audit is claimed. |
+
+## Limits And Additional Notes
+
+- Author self-review only; native status remains DRAFT.
+- Original Documentscheckout update and localbranch cleanup await restored OSaccess; publication and validation use the recovered public checkout.
+- Two DRAFT algorithms added;527native and442unchangedAIOrecords.463pendingand46partlyaddressedcohorts plus other unresolved scopes mean discovery is ongoing.
+- All24pages across the two1993primarypapers were visually read. The1992MPpreprint, external recovery results, orthogonal-least-squares and newsourcecohorts were not fully audited.
+- No model training, empirical benchmark or author implementation was run. Exact rational counterexamples establish finite algebraic cases.
+- Apparent source typography is explicitly preserved. DOIwebopens/IEEEbodyaccess failed; public Crossrefmetadata and actual inspected PDFs establish bibliographic identity.
+- The OMPguide was read for Section1.1.9. Technicalreport2008abstract/openingtext is a lead, not a full method inspection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T123508Z-matching-pursuit-review
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Matching pursuit
+started_at: '2026-10-12T12:27:27Z'
+finished_at: '2026-10-12T12:35:08Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read bothprimarypapers in full, challenged
+    claims with exact rational cases, and reread the final records and affectedprimarypages
+    after capture. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the single-atom matching-pursuit algorithm with explicit convergence
+  and refit boundaries; no actionable finding in this scope.
+source:
+  git_revision: f0c4b81da07d6134ffc9e2eb69e9aa7582809fe9
+  state: working_tree
+  inputs:
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/curated/BasisPursuit.yaml
+    sha256: 962cb52fb514105bea0b9296ad29569b0857a9fe8ecf437894dc1c1426010730
+    role: context
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/MatchingPursuit.yaml
+    sha256: a24959ced5e8f39c3b861dd89fe7ab4407ac632f9187bc4bfa8f0cb1c30a5953
+    role: target
+  - path: data/curated/NonnegativeMatrixFactorization.yaml
+    sha256: 3b79c0f7568f3cdc86f5779be7e9c3e2341c547682223e214a6b94031016df7b
+    role: context
+  - path: data/curated/OrthogonalMatchingPursuit.yaml
+    sha256: 3b61cc7ec2356d4e8789480e10a8edb24ec303f5fa63df10db5652145b1d6d42
+    role: context
+  - path: research/discovery/20261012T121936Z-matching-pursuits.json
+    sha256: ca7ad9b4ad36d54dc4c7b8c2eecf3c8a5372801f1e88d47e7fe8120458a8a257
+    role: context
+  - path: research/discovery/pursuit-boundaries.py
+    sha256: 1827b271d2ea9cf3a8a3ce6c06aeec770f04a4880bee73676af4977de02c646a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MatchingPursuit
+  path: data/curated/MatchingPursuit.yaml
+  label: Matching pursuit
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MatchingPursuit.yaml
+    role: maintained
+scope:
+  description: All fields of one maintained pursuit algorithm.
+  selection: Exact maintainedID AIMech:MatchingPursuit
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MatchingPursuit
+  exclusions:
+  - target: Contextual records
+    reason: Identity/mapping context only.
+  - target: External recovery, OLS and source cohorts
+    reason: No complete primarymethod audit.
+  - target: Empirical execution
+    reason: Only exact rational examples, not modeltraining or benchmarks.
+  - target: Discovery frontier
+    reason: 463pendingand46partlyaddressedcohorts remain.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MatchingPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 104.58s (0:01:44)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 527 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 174 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 171,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MatchingPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MatchingPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MatchingPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0withoutoutput.
+- check_id: certificates
+  name: Exact pursuit counterexamples
+  command: python3 research/discovery/pursuit-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MatchingPursuit
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"mp_three_steps": [{"atom": 1, "coefficient": "4/5", "residual": ["-12/25",
+    "9/25"]}, {"atom": 0, "coefficient": "-12/25", "residual": ["0", "9/25"]}, {"atom":
+    1, "coefficient": "36/125", "residual": ["-108/625", "81/625"]}], "omp_two_steps":
+    [{"selected": [1], "coefficients": ["4/5"], "residual": ["-12/25", "9/25"]}, {"selected":
+    [1, 0], "coefficients": ["5/4", "-3/4"], "residual": ["0", "0"]}], "omp_nonminimal_support":
+    [{"selected": [1], "coefficients": ["-4/9"], "residual": ["1/9", "0", "-1/9"]},
+    {"selected": [1, 0], "coefficients": ["-4/9", "1/9"], "residual": ["0", "0", "-1/9"]},
+    {"selected": [1, 0, 2], "coefficients": ["-4/9", "1/9", "-1/9"], "residual": ["0",
+    "0", "0"]}], "minimum_possible_support": 2, "weak_selected_threshold_not_maximum":
+    {"signal": ["1", "3/4"], "alpha": "1/2", "delta": "4/5"}, "raw_correlation_versus_projection_gain":
+    {"dictionary": [["1", "0", "0"], ["12/13", "5/13", "0"], ["0", "0", "1"]], "signal":
+    ["10", "4/5", "3/5"], "first_selected": 0, "remaining_correlations": ["4/13",
+    "3/5"], "remaining_gains": ["16/25", "9/25"], "omp_next": 2, "gain_maximizer":
+    1}, "scope": "Exact finite real unit dictionaries; deterministic lowest-index
+    ties. Algebraic counterexamples, not empirical benchmarks."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T121936Z-matching-pursuits.json
+  accessed_at: '2026-10-12T12:27:27Z'
+  support: supports
+  summary: The record covers the finite real-dictionary algorithm and identifies the
+    paper’s fixed-fraction weak-selection generalization. MP is used only as a contextual
+    source abbreviation and is not an identity alias. It differs from orthogonal matching
+    pursuit, which refits the whole selected span at every step. All 442 AIO IDs,
+    labels and scoped synonyms and 525 preceding native IDs, names and aliases were
+    compared. The only normalized hit was MP, an exact MarkovChain synonym; the full
+    MarkovChain record and node distinguish that stochastic model from pursuit. Ignored/hidden-inclusive
+    searches of both checkouts found the prior pursuit source lead, Markov-chain context,
+    author initials and unrelated environment tokens or RDF prefixes, not an existing
+    pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows
+    and 148 native name/definition rows; nine full AIO CLASS nodes and incident edges
+    and twelve contextual YAMLs were inspected. Basis pursuit specifies exact minimum-L1
+    reconstruction, least-angle regression follows an equiangular path, and NMF fits
+    nonnegative factors. This is a bounded identity assessment of the inspected corpus.
+  search_scope: All labels, all scoped synonyms, aliases and IDs normalized for record
+    identity; full-text searches of both checkouts include ignored/hidden files. Acronyms
+    were checked in the normalized identity comparison and included as explicit identity
+    terms in the full-text whole-word searches.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: Nine annotated CLASS nodes with incident edges and twelve contextual YAML
+    records.
+  accessed_at: '2026-10-12T12:27:27Z'
+  support: supports
+  summary: The pinned target is a representation-learning network that finds sparse
+    linear representations and identifies their elements, with exact sparse-coding
+    and dictionary-learning synonyms. Pursuit constructs a representation using a
+    supplied fixed dictionary, so the sparse-representation connection is direct.
+    It does not learn dictionary elements or require a neural network; related_match
+    preserves those scope differences without a subclass or equivalence assertion.
+    RepresentationLearning and SparseAutoEncoder are different neural scopes. LassoRegression,
+    LinearRegression and LeastsquaresAnalysis do not specify this atom-selection procedure.
+    FeatureExtraction can be an application, and MathematicalFunction is too generic
+    to identify it. MarkovChain is unrelated despite its MP synonym.
+- evidence_id: certificates
+  kind: record_content
+  reference: research/discovery/pursuit-boundaries.py
+  accessed_at: '2026-10-12T12:27:27Z'
+  snapshot_sha256: 1827b271d2ea9cf3a8a3ce6c06aeec770f04a4880bee73676af4977de02c646a
+  support: supports
+  summary: Exact rational examples verify MP revisits, OMP joint-refit coefficients,
+    a unit-dictionary OMP three-atom result when two suffice, and weak selected-threshold
+    failure to bound the maximum correlation. A further example shows rawcorrelation
+    and normalized projection-energy gain rank candidates differently without attributing
+    any external algorithm.
+- evidence_id: mallat1993
+  kind: primary_source
+  reference: https://www.di.ens.fr/~mallat/papiers/MallatPursuit93.pdf
+  locator: IEEE Transactions on Signal Processing 41(12),3397–3415,December 1993.
+    Actual 19-page author-hosted scan; all pages visually read, including Sections
+    I–VIII, Appendices A–E, Figures 1–6 and 17 references. Printed page = PDF page
+    + 3396. The separate 1992 preprint was not inspected.
+  accessed_at: '2026-10-12T12:05:23Z'
+  snapshot_sha256: 5f0efe79b52470bcee30af82be8765402913a3e9c2bea6f2ef080938c22bebe7
+  support: supports
+  summary: Source inspected at the declared access level. All24primaryPDFpages visually
+    read; after final capture, Mallatpages4–5 and Patipage3 were reread to verify
+    optional backprojection, convergence, selection and energy decrease. The scikit-learn1.8guide
+    section corroborates exact max-correlation selection and approximate cardinality
+    objectives. No external OLS full-method audit is claimed.
+- evidence_id: pati1993
+  kind: primary_source
+  reference: https://www.ccs.neu.edu/home/eelhami/courses/EE290A/OMP_Krishnaprasad.pdf
+  locator: Proceedings of the 27th Asilomar Conference on Signals, Systems and Computers,vol.1,40–44,1993.
+    Actual five-page university-hosted paper; all pages visually read, including Sections
+    1–4, the algorithm box, Theorem 2.1, Figures 1–5 and three references. Printed
+    page = PDF page + 39.
+  accessed_at: '2026-10-12T12:05:32Z'
+  snapshot_sha256: 8cb44738ff5756265a3935de64bf0afd8ef4d090a7980c715893ebf60374be6c
+  support: supports
+  summary: Source inspected at the declared access level. All24primaryPDFpages visually
+    read; after final capture, Mallatpages4–5 and Patipage3 were reread to verify
+    optional backprojection, convergence, selection and energy decrease. The scikit-learn1.8guide
+    section corroborates exact max-correlation selection and approximate cardinality
+    objectives. No external OLS full-method audit is claimed.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Finite fixed-dictionary pursuit identity
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - identity
+  - mallat1993
+  - pati1993
+  summary: Retain the distinct algorithm record.
+  details: A greedy fixed-dictionary approximation algorithm that repeatedly selects
+    a unit-norm atom by its absolute correlation with the current residual and subtracts
+    the residual projection onto that atom. The record covers the finite real-dictionary
+    algorithm and identifies the paper’s fixed-fraction weak-selection generalization.
+    MP is used only as a contextual source abbreviation and is not an identity alias.
+    It differs from orthogonal matching pursuit, which refits the whole selected span
+    at every step. All 442 AIO IDs, labels and scoped synonyms and 525 preceding native
+    IDs, names and aliases were compared. The only normalized hit was MP, an exact
+    MarkovChain synonym; the full MarkovChain record and node distinguish that stochastic
+    model from pursuit. Ignored/hidden-inclusive searches of both checkouts found
+    the prior pursuit source lead, Markov-chain context, author initials and unrelated
+    environment tokens or RDF prefixes, not an existing pursuit record. The semantic
+    comparison read 107 AIO name/synonym/definition rows and 148 native name/definition
+    rows; nine full AIO CLASS nodes and incident edges and twelve contextual YAMLs
+    were inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle
+    regression follows an equiangular path, and NMF fits nonnegative factors. This
+    is a bounded identity assessment of the inspected corpus.
+- assessment_id: mapping
+  area: grounding
+  topic: Sparse representation versus learned network
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mapping
+  - mallat1993
+  - pati1993
+  summary: Related mapping preserves abstraction and dictionary-learning differences.
+  details: The pinned target is a representation-learning network that finds sparse
+    linear representations and identifies their elements, with exact sparse-coding
+    and dictionary-learning synonyms. Pursuit constructs a representation using a
+    supplied fixed dictionary, so the sparse-representation connection is direct.
+    It does not learn dictionary elements or require a neural network; related_match
+    preserves those scope differences without a subclass or equivalence assertion.
+    RepresentationLearning and SparseAutoEncoder are different neural scopes. LassoRegression,
+    LinearRegression and LeastsquaresAnalysis do not specify this atom-selection procedure.
+    FeatureExtraction can be an application, and MathematicalFunction is too generic
+    to identify it. MarkovChain is unrelated despite its MP synonym.
+- assessment_id: single-atom-update
+  area: evidence
+  topic: single atom update
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - certificates
+  summary: Supported within its explicit mathematical and source scope.
+  details: 'For supplied unit real atoms g_j and r_0=y, exact matching chooses an
+    index maximizing abs(g_j^T*r_k), sets c_k=g_j^T*r_k and r_(k+1)=r_k-c_k*g_j, and
+    adds c_k*g_j to the approximation. Ties require a choice rule. The source also
+    permits a fixed weak fraction 0<alpha<=1 with selected correlation at least alpha
+    times the supremum; alpha=1 is attainable for a finite dictionary. The dictionary
+    remains fixed, and selected atoms can recur. Locators: Section III, Equations
+    9–17, PDF pp. 3–4 / printed pp. 3399–3400'
+- assessment_id: residual-and-energy
+  area: evidence
+  topic: residual and energy
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - certificates
+  summary: Supported within its explicit mathematical and source scope.
+  details: 'Each residual is orthogonal to the atom just selected, and ||r_k||^2=abs(c_k)^2+||r_(k+1)||^2.
+    Summing gives ||y||^2=sum_k abs(c_k)^2+||r_m||^2 for the performed steps. This
+    sum uses per-step coefficients; combining repeated occurrences of an atom does
+    not preserve that coefficient-energy formula. Earlier selected atoms need not
+    remain orthogonal to the residual. Locators: Section III, Equations 9–17, PDF
+    pp. 3–4 / printed pp. 3399–3400'
+- assessment_id: projection-convergence-boundary
+  area: evidence
+  topic: projection convergence boundary
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - certificates
+  summary: Supported within its explicit mathematical and source scope.
+  details: 'The ideal weak-selection sequence with a fixed positive fraction converges
+    to the signal component orthogonal to the closed dictionary span. Thus zero residual
+    requires the signal to belong to that span. The complete finite-dimensional case
+    has a dictionary-dependent geometric residual bound. Neither statement guarantees
+    finite termination, minimum support, a unique decomposition, a practical uniform
+    rate, or the same behavior after early stopping and finite-precision errors. Locators:
+    Section III Theorem 1, Section IV Lemmas 1–2, Appendices A–B, PDF pp. 4,6,14–15
+    / printed pp. 3400,3402,3410–3411'
+- assessment_id: orthogonal-refit-distinction
+  area: evidence
+  topic: orthogonal refit distinction
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - pati1993
+  - certificates
+  summary: Supported within its explicit mathematical and source scope.
+  details: 'An exact curator example uses D=[e1,b], b=(3/5,4/5), y=e2. MP chooses
+    b then e1, with step coefficients 4/5 and -12/25, leaving residual (0,9/25), whose
+    correlation with b is 36/125. It selects b again next. OMP instead refits those
+    two atoms to coefficients 5/4 on b and -3/4 on e1, giving zero residual. The original
+    MP paper’s optional final backprojection onto the selected span is a separate
+    correction; it does not refit before each subsequent selection as OMP does. Locators:
+    Section III, Equations 18–29, PDF pp. 4–5 / printed pp. 3400–3401; curator-derived
+    exact examples in research/discovery/pursuit-boundaries.py; Sections 2–2.2, PDF
+    pp. 2–3 / printed pp. 41–42; curator-derived exact examples in research/discovery/pursuit-boundaries.py'
+- assessment_id: structured-implementation-scope
+  area: evidence
+  topic: structured implementation scope
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - certificates
+  summary: Supported within its explicit mathematical and source scope.
+  details: 'The paper’s Gabor implementation uses a structured coarse dictionary,
+    local refinement and recursive correlation updates. Its O(N log N) per-iteration
+    analysis uses those dictionary and numerical approximation assumptions, not an
+    arbitrary dense dictionary. The time-frequency representation and denoising examples
+    are applications of the algorithm; the supplied atoms are not learned by the basic
+    pursuit recursion. Locators: Sections IV–VIII and Appendix E, PDF pp. 5–14,17–18
+    / printed pp. 3401–3410,3413–3414'
+- assessment_id: adversarial-updates
+  area: consistency
+  topic: Single-atom update and selected-span refit
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - mallat1993
+  - pati1993
+  - certificates
+  summary: Exact example distinguishes the two algorithms.
+  details: MP uses coefficients4/5then-12/25and revisitsb because the second residual
+    retains correlation36/125. OMPrefitsbto5/4and e1to-3/4, eliminating the residual.
+    MPfinalbackprojection is explicitly optional and occurs after the unrefitted pursuit
+    steps. TelescopingMPenergy uses per-step coefficients. The convergence claim concerns
+    the residual sequence, not the approximation sequence.
+- assessment_id: adversarial-optimality
+  area: consistency
+  topic: Support, rank and thresholds
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - pati1993
+  - certificates
+  summary: The record avoids unconditional minimum-support and exact-recovery claims.
+  details: Unitdictionary[e1,e2,e3,(8/9,4/9,1/9)]and y=e1-b force3OMPselections under
+    specifiedties although2atoms suffice and1doesnot. Exact nonzero-correlated selection
+    grows the span by one independentdirection; the fullspanprojection requires at
+    most ranksteps, while earlystopping and finiteprecision need separate analysis.
+    A weakselectedcorrelation belowdelta can coexist with a maximum abovedelta; the
+    rational example verifies it.
+- assessment_id: adversarial-score
+  area: consistency
+  topic: Correlation and projected-energy rankings
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - pati1993
+  - certificates
+  summary: The corrected statement is a source-derived algebraic comparison.
+  details: ForD=[e1,b,e3],b=(12/13,5/13,0),y=(10,4/5,3/5),OMPfirstselectse1. Remainingcorrelations
+    are4/13forb and3/5fore3, soOMPselectse3. Equation7projected-energy gains instead
+    are16/25and9/25. This proves rankingscandiffer; no usebyany external algorithm
+    is attributed. Every evidence source is now used by a supported claim.
+- assessment_id: all-fields
+  area: provenance
+  topic: Full maintained content after correction
+  outcome: supported
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - identity
+  - mapping
+  - mallat1993
+  - pati1993
+  - certificates
+  summary: All maintained fields were read after the final input capture.
+  details: ReadID,name,aliases,kind,definition,identitynotes,definitioncitations,allclaims
+    andlocators,allsourceidentity/access/hash/versionmetadata,mappingpin/direction/rationale,limitations,DRAFTstatus
+    andactualUTCcuration. Reportmirror, PDFhashes and calculatoroutputmatch. The recovered
+    public checkout has identical original inputbytes at the same publicbase; original
+    Documentscheckout remains untouched and awaits restored OSaccess.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:MatchingPursuit
+  evidence_ids:
+  - identity
+  - mapping
+  - mallat1993
+  - pati1993
+  - certificates
+  rationale: Fixed-dictionaryMP and selected-span-refittingOMP have different update
+    paths, as shown by the same-input example. Neither is exactBP, dictionarylearning,
+    a neural architecture or an unconditional global subset optimizer.
+limitations:
+- Author self-review only; native status remains DRAFT.
+- Original Documentscheckout update and localbranch cleanup await restored OSaccess;
+  publication and validation use the recovered public checkout.
+- Two DRAFT algorithms added;527native and442unchangedAIOrecords.463pendingand46partlyaddressedcohorts
+  plus other unresolved scopes mean discovery is ongoing.
+- All24pages across the two1993primarypapers were visually read. The1992MPpreprint,
+  external recovery results, orthogonal-least-squares and newsourcecohorts were not
+  fully audited.
+- No model training, empirical benchmark or author implementation was run. Exact rational
+  counterexamples establish finite algebraic cases.
+- Apparent source typography is explicitly preserved. DOIwebopens/IEEEbodyaccess failed;
+  public Crossrefmetadata and actual inspected PDFs establish bibliographic identity.
+- The OMPguide was read for Section1.1.9. Technicalreport2008abstract/openingtext
+  is a lead, not a full method inspection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- matching-pursuit
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,146 @@
+id: AIMech:MatchingPursuit
+name: Matching pursuit
+concept_kind: algorithm
+definition: A greedy fixed-dictionary approximation algorithm that repeatedly selects a unit-norm atom
+  by its absolute correlation with the current residual and subtracts the residual projection onto that
+  atom.
+identity_notes: The record covers the finite real-dictionary algorithm and identifies the paper’s fixed-fraction
+  weak-selection generalization. MP is used only as a contextual source abbreviation and is not an identity
+  alias. It differs from orthogonal matching pursuit, which refits the whole selected span at every step.
+  All 442 AIO IDs, labels and scoped synonyms and 525 preceding native IDs, names and aliases were compared.
+  The only normalized hit was MP, an exact MarkovChain synonym; the full MarkovChain record and node distinguish
+  that stochastic model from pursuit. Ignored/hidden-inclusive searches of both checkouts found the prior
+  pursuit source lead, Markov-chain context, author initials and unrelated environment tokens or RDF prefixes,
+  not an existing pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows and
+  148 native name/definition rows; nine full AIO CLASS nodes and incident edges and twelve contextual
+  YAMLs were inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle regression
+  follows an equiangular path, and NMF fits nonnegative factors. This is a bounded identity assessment
+  of the inspected corpus.
+definition_evidence:
+- source_id: mallat1993
+  locator: Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400
+  relation: supports
+claims:
+- claim_id: single-atom-update
+  kind: mechanism
+  statement: For supplied unit real atoms g_j and r_0=y, exact matching chooses an index maximizing abs(g_j^T*r_k),
+    sets c_k=g_j^T*r_k and r_(k+1)=r_k-c_k*g_j, and adds c_k*g_j to the approximation. Ties require a
+    choice rule. The source also permits a fixed weak fraction 0<alpha<=1 with selected correlation at
+    least alpha times the supremum; alpha=1 is attainable for a finite dictionary. The dictionary remains
+    fixed, and selected atoms can recur.
+  evidence:
+  - source_id: mallat1993
+    locator: Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400
+    relation: supports
+- claim_id: residual-and-energy
+  kind: mechanism
+  statement: Each residual is orthogonal to the atom just selected, and ||r_k||^2=abs(c_k)^2+||r_(k+1)||^2.
+    Summing gives ||y||^2=sum_k abs(c_k)^2+||r_m||^2 for the performed steps. This sum uses per-step coefficients;
+    combining repeated occurrences of an atom does not preserve that coefficient-energy formula. Earlier
+    selected atoms need not remain orthogonal to the residual.
+  evidence:
+  - source_id: mallat1993
+    locator: Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400
+    relation: supports
+- claim_id: projection-convergence-boundary
+  kind: limitation
+  statement: The ideal weak-selection sequence with a fixed positive fraction converges to the signal
+    component orthogonal to the closed dictionary span. Thus zero residual requires the signal to belong
+    to that span. The complete finite-dimensional case has a dictionary-dependent geometric residual bound.
+    Neither statement guarantees finite termination, minimum support, a unique decomposition, a practical
+    uniform rate, or the same behavior after early stopping and finite-precision errors.
+  evidence:
+  - source_id: mallat1993
+    locator: Section III Theorem 1, Section IV Lemmas 1–2, Appendices A–B, PDF pp. 4,6,14–15 / printed
+      pp. 3400,3402,3410–3411
+    relation: supports
+- claim_id: orthogonal-refit-distinction
+  kind: scope
+  statement: An exact curator example uses D=[e1,b], b=(3/5,4/5), y=e2. MP chooses b then e1, with step
+    coefficients 4/5 and -12/25, leaving residual (0,9/25), whose correlation with b is 36/125. It selects
+    b again next. OMP instead refits those two atoms to coefficients 5/4 on b and -3/4 on e1, giving zero
+    residual. The original MP paper’s optional final backprojection onto the selected span is a separate
+    correction; it does not refit before each subsequent selection as OMP does.
+  evidence:
+  - source_id: mallat1993
+    locator: Section III, Equations 18–29, PDF pp. 4–5 / printed pp. 3400–3401; curator-derived exact
+      examples in research/discovery/pursuit-boundaries.py
+    relation: supports
+  - source_id: pati1993
+    locator: Sections 2–2.2, PDF pp. 2–3 / printed pp. 41–42; curator-derived exact examples in research/discovery/pursuit-boundaries.py
+    relation: supports
+- claim_id: structured-implementation-scope
+  kind: scope
+  statement: The paper’s Gabor implementation uses a structured coarse dictionary, local refinement and
+    recursive correlation updates. Its O(N log N) per-iteration analysis uses those dictionary and numerical
+    approximation assumptions, not an arbitrary dense dictionary. The time-frequency representation and
+    denoising examples are applications of the algorithm; the supplied atoms are not learned by the basic
+    pursuit recursion.
+  evidence:
+  - source_id: mallat1993
+    locator: Sections IV–VIII and Appendix E, PDF pp. 5–14,17–18 / printed pp. 3401–3410,3413–3414
+    relation: supports
+evidence_sources:
+- source_id: mallat1993
+  title: Matching Pursuits With Time-Frequency Dictionaries
+  authors:
+  - Stéphane G. Mallat
+  - Zhifeng Zhang
+  source_type: primary_paper
+  url: https://www.di.ens.fr/~mallat/papiers/MallatPursuit93.pdf
+  persistent_id: https://doi.org/10.1109/78.258082
+  version: IEEE Transactions on Signal Processing 41(12),3397–3415,December 1993. Actual 19-page author-hosted
+    scan; all pages visually read, including Sections I–VIII, Appendices A–E, Figures 1–6 and 17 references.
+    Printed page = PDF page + 3396. The separate 1992 preprint was not inspected.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:05:23Z'
+  sha256: 5f0efe79b52470bcee30af82be8765402913a3e9c2bea6f2ef080938c22bebe7
+- source_id: pati1993
+  title: 'Orthogonal Matching Pursuit: Recursive Function Approximation with Applications to Wavelet Decomposition'
+  authors:
+  - Y. C. Pati
+  - R. Rezaiifar
+  - P. S. Krishnaprasad
+  source_type: primary_paper
+  url: https://www.ccs.neu.edu/home/eelhami/courses/EE290A/OMP_Krishnaprasad.pdf
+  persistent_id: https://doi.org/10.1109/ACSSC.1993.342465
+  version: Proceedings of the 27th Asilomar Conference on Signals, Systems and Computers,vol.1,40–44,1993.
+    Actual five-page university-hosted paper; all pages visually read, including Sections 1–4, the algorithm
+    box, Theorem 2.1, Figures 1–5 and three references. Printed page = PDF page + 39.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:05:32Z'
+  sha256: 8cb44738ff5756265a3935de64bf0afd8ef4d090a7980c715893ebf60374be6c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: The pinned target is a representation-learning network that finds sparse linear representations
+    and identifies their elements, with exact sparse-coding and dictionary-learning synonyms. Pursuit
+    constructs a representation using a supplied fixed dictionary, so the sparse-representation connection
+    is direct. It does not learn dictionary elements or require a neural network; related_match preserves
+    those scope differences without a subclass or equivalence assertion. RepresentationLearning and SparseAutoEncoder
+    are different neural scopes. LassoRegression, LinearRegression and LeastsquaresAnalysis do not specify
+    this atom-selection procedure. FeatureExtraction can be an application, and MathematicalFunction is
+    too generic to identify it. MarkovChain is unrelated despite its MP synonym.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T12:17:49Z'
+  updated_at: '2026-10-12T12:17:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+limitations:
+- The maintained definition is scoped to supplied finite real unit-norm dictionaries. Complex or infinite
+  dictionaries, learned dictionaries, batch methods and recovery theorems need their own conditions and
+  evidence.
+- Greedy representation is not a universal minimum-support or minimum-L1 solver. Ties, normalization,
+  conditioning and stopping criteria can affect the selected representation.
+- Both original papers were visually read in full. No author implementation, model training or empirical
+  benchmark was run; the rational examples are curator calculations. The record remains DRAFT and this
+  work provides no independent scientific approval.
+- The scan appears to omit squares in Equation 35; the consistent squared energy identity is used. Speech
+  sample and selected-atom counts also differ within the paper, so no quantitative performance claim is
+  curated from those ambiguous examples.

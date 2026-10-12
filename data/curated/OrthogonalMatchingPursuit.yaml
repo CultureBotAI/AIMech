@@ -1,0 +1,192 @@
+id: AIMech:OrthogonalMatchingPursuit
+name: Orthogonal matching pursuit
+aliases:
+- OMP
+concept_kind: algorithm
+definition: A greedy fixed-dictionary approximation algorithm that selects an atom correlated with the
+  current residual and recomputes the approximation as the orthogonal projection of the signal onto the
+  span of all selected atoms.
+identity_notes: The record selects finite real unit-norm dictionaries and exact maximum-correlation selection,
+  while describing the original weak-selection formulation separately. Orthogonal refers to the residual
+  and selected-span projection; the supplied dictionary need not be orthogonal. It is distinct from single-atom
+  matching pursuit, a minimum-L1 principle, and a globally optimal subset search. OMP is a source-supported
+  local alias; same-token environment RDF prefixes do not denote this AI concept. All 442 AIO IDs, labels
+  and scoped synonyms and 525 preceding native IDs, names and aliases were compared. The only normalized
+  hit was MP, an exact MarkovChain synonym; the full MarkovChain record and node distinguish that stochastic
+  model from pursuit. Ignored/hidden-inclusive searches of both checkouts found the prior pursuit source
+  lead, Markov-chain context, author initials and unrelated environment tokens or RDF prefixes, not an
+  existing pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows and 148 native
+  name/definition rows; nine full AIO CLASS nodes and incident edges and twelve contextual YAMLs were
+  inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle regression follows an
+  equiangular path, and NMF fits nonnegative factors. This is a bounded identity assessment of the inspected
+  corpus.
+definition_evidence:
+- source_id: pati1993
+  locator: Sections 1–2.2, Equations 1–7 and algorithm Steps I–VII, PDF pp. 1–3 / printed pp. 40–42
+  relation: supports
+- source_id: sklearn18
+  locator: Section 1.1.9, greedy selection and orthogonal projection description
+  relation: supports
+claims:
+- claim_id: select-and-refit
+  kind: mechanism
+  statement: Starting from an empty selected set and residual y, choose an unselected unit atom maximizing
+    absolute correlation with the current residual. Add it to the set, solve least squares over all selected
+    columns and recompute the residual from that joint fit. In exact arithmetic the residual is orthogonal
+    to the entire selected span. A nonzero correlated atom cannot already lie in that span. The method
+    does not require the dictionary atoms to be mutually orthogonal.
+  evidence:
+  - source_id: pati1993
+    locator: Sections 1–2.2, Equations 1–7 and algorithm Steps I–VII, PDF pp. 1–3 / printed pp. 40–42
+    relation: supports
+- claim_id: recursive-projection-update
+  kind: mechanism
+  statement: Let x_new=sum_i b_i*x_i+gamma, with gamma orthogonal to the old selected span. For a nonzero
+    selected correlation, gamma is nonzero. In the real case the new coefficient is c=(r^T*x_new)/||gamma||^2,
+    and each old coefficient changes from a_i to a_i-c*b_i. The squared residual decreases by abs(r^T*x_new)^2/||gamma||^2.
+    The source’s recursive Gram-matrix implementation realizes this projection algebra; nearly dependent
+    atoms can make finite-precision solves sensitive.
+  evidence:
+  - source_id: pati1993
+    locator: Sections 2.1–2.3, Equations 4–12, PDF pp. 2–4 / printed pp. 41–43
+    relation: supports
+- claim_id: selected-subset-versus-global-optimum
+  kind: limitation
+  statement: Optimality of the least-squares fit is conditional on the selected subset; it is not optimal
+    selection among all equally sized subsets. A curator example with unit columns [e1,e2,e3,b], b=(8/9,4/9,1/9),
+    and y=e1-b selects e2 first, then e1 and e3 under lowest-index ties, requiring three atoms for zero
+    residual. Yet e1-b is a two-atom representation, and no single atom is collinear with y. The documented
+    fixed-cardinality and residual-tolerance objectives are approximation targets, not unconditional minimum-support
+    guarantees.
+  evidence:
+  - source_id: pati1993
+    locator: Section 2 opening paragraph and Section 2.2 remarks, PDF pp. 2–3 / printed pp. 41–42; curator-derived
+      exact examples in research/discovery/pursuit-boundaries.py
+    relation: supports
+  - source_id: sklearn18
+    locator: Section 1.1.9, approximate fixed-cardinality and residual-tolerance objectives
+    relation: supports
+- claim_id: finite-termination-conditions
+  kind: limitation
+  statement: With exact arithmetic, a finite dictionary and no premature tolerance stop, each nonzero-correlation
+    selection adds an independent direction; the process reaches the projection onto the full dictionary
+    span in at most its rank steps. This rank bound sharpens the paper’s dictionary-size bound by the
+    stated independence argument. Residual zero additionally requires y to lie in that span. Early stopping,
+    numerical rank decisions and noisy observations change the practical result and do not establish recovery
+    of a generating support.
+  evidence:
+  - source_id: pati1993
+    locator: Section 2.2, Theorem 2.1 and remarks, PDF p. 3 / printed p. 42; curator finite-dimensional
+      independence consequence
+    relation: supports
+- claim_id: weak-selection-and-printing-caveat
+  kind: scope
+  statement: The original paper introduces a fixed-fraction correlation condition with 0<alpha<=1. Its
+    page-3 algorithm box prints strict > against alpha times the supremum even though the earlier condition
+    is >=; strict > is impossible at alpha=1. This record uses the consistent non-strict condition and
+    exact finite maximum convention, also described in the versioned implementation guide, and preserves
+    the apparent source inconsistency. The paper’s selected-correlation threshold delta>0 is an early-stop
+    rule. Under weak selection, a selected correlation below delta need not mean that every available
+    atom has correlation below delta.
+  evidence:
+  - source_id: pati1993
+    locator: Section 1 correlation condition and Section 2.1 algorithm Steps II–III, PDF pp. 1,3 / printed
+      pp. 40,42; curator-derived exact examples in research/discovery/pursuit-boundaries.py
+    relation: supports
+  - source_id: sklearn18
+    locator: Section 1.1.9, maximum-correlation selection
+    relation: supports
+- claim_id: runtime-and-method-boundaries
+  kind: scope
+  statement: 'The paper contrasts whole-span refitting with MP and gives selected wavelet-decomposition
+    examples. Fewer iterations do not imply universally lower cost: refitting adds work, and the conclusion’s
+    speed expectation for highly redundant dictionaries is explicitly a conjecture. The exact selection
+    score is absolute residual correlation with the original unit atom. The projection-energy decrease
+    derived in the source is instead abs(r^T*x_new)^2/||gamma||^2; its atom-dependent denominator means
+    the two scores need not select the same atom. This is an algebraic distinction within the inspected
+    OMP formulation, not an attribution to an unaudited external algorithm. An external orthogonal-least-squares
+    algorithm and its identity require separate primary-source assessment.'
+  evidence:
+  - source_id: pati1993
+    locator: Sections 2.1–4, Equation 7, Figures 1–5 and conclusion, PDF pp. 3–5 / printed pp. 42–44;
+      curator-derived score-ranking example in research/discovery/pursuit-boundaries.py
+    relation: supports
+  - source_id: mallat1993
+    locator: Section III, Equations 11–17 and optional backprojection Equations 18–29, PDF pp. 3–5 / printed
+      pp. 3399–3401; MP update contrasted with whole-span refitting
+    relation: supports
+evidence_sources:
+- source_id: mallat1993
+  title: Matching Pursuits With Time-Frequency Dictionaries
+  authors:
+  - Stéphane G. Mallat
+  - Zhifeng Zhang
+  source_type: primary_paper
+  url: https://www.di.ens.fr/~mallat/papiers/MallatPursuit93.pdf
+  persistent_id: https://doi.org/10.1109/78.258082
+  version: IEEE Transactions on Signal Processing 41(12),3397–3415,December 1993. Actual 19-page author-hosted
+    scan; all pages visually read, including Sections I–VIII, Appendices A–E, Figures 1–6 and 17 references.
+    Printed page = PDF page + 3396. The separate 1992 preprint was not inspected.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:05:23Z'
+  sha256: 5f0efe79b52470bcee30af82be8765402913a3e9c2bea6f2ef080938c22bebe7
+- source_id: pati1993
+  title: 'Orthogonal Matching Pursuit: Recursive Function Approximation with Applications to Wavelet Decomposition'
+  authors:
+  - Y. C. Pati
+  - R. Rezaiifar
+  - P. S. Krishnaprasad
+  source_type: primary_paper
+  url: https://www.ccs.neu.edu/home/eelhami/courses/EE290A/OMP_Krishnaprasad.pdf
+  persistent_id: https://doi.org/10.1109/ACSSC.1993.342465
+  version: Proceedings of the 27th Asilomar Conference on Signals, Systems and Computers,vol.1,40–44,1993.
+    Actual five-page university-hosted paper; all pages visually read, including Sections 1–4, the algorithm
+    box, Theorem 2.1, Figures 1–5 and three references. Printed page = PDF page + 39.
+  access_level: full_text
+  accessed_at: '2026-10-12T12:05:32Z'
+  sha256: 8cb44738ff5756265a3935de64bf0afd8ef4d090a7980c715893ebf60374be6c
+- source_id: sklearn18
+  title: 'scikit-learn User Guide: Orthogonal Matching Pursuit'
+  authors:
+  - scikit-learn developers
+  source_type: official_documentation
+  url: https://scikit-learn.org/1.8/modules/linear_model.html#orthogonal-matching-pursuit-omp
+  version: scikit-learn 1.8.0, Section 1.1.9; versioned user-guide description inspected, not an execution
+    or source-code audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T12:15:49Z'
+  sha256: 358fa62c5481b2f90974d9ea42895548ffd796ae199fcf99ea43c4b57e65cf9b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: The pinned target is a representation-learning network that finds sparse linear representations
+    and identifies their elements, with exact sparse-coding and dictionary-learning synonyms. Pursuit
+    constructs a representation using a supplied fixed dictionary, so the sparse-representation connection
+    is direct. It does not learn dictionary elements or require a neural network; related_match preserves
+    those scope differences without a subclass or equivalence assertion. RepresentationLearning and SparseAutoEncoder
+    are different neural scopes. LassoRegression, LinearRegression and LeastsquaresAnalysis do not specify
+    this atom-selection procedure. FeatureExtraction can be an application, and MathematicalFunction is
+    too generic to identify it. MarkovChain is unrelated despite its MP synonym.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T12:17:49Z'
+  updated_at: '2026-10-12T12:26:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
+limitations:
+- The maintained definition is scoped to supplied finite real unit-norm dictionaries. Complex or infinite
+  dictionaries, learned dictionaries, batch methods and recovery theorems need their own conditions and
+  evidence.
+- Greedy representation is not a universal minimum-support or minimum-L1 solver. Ties, normalization,
+  conditioning and stopping criteria can affect the selected representation.
+- Both original papers were visually read in full. No author implementation, model training or empirical
+  benchmark was run; the rational examples are curator calculations. The record remains DRAFT and this
+  work provides no independent scientific approval.
+- The apparent strict-inequality printing error is retained explicitly; no publisher erratum was located
+  or claimed. Versioned scikit-learn documentation was read as corroboration, without claiming that every
+  API option or numerical implementation was audited.

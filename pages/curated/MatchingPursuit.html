@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matching pursuit · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Matching pursuit</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Matching pursuit</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MatchingPursuit</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A greedy fixed-dictionary approximation algorithm that repeatedly selects a unit-norm atom by its absolute correlation with the current residual and subtracts the residual projection onto that atom.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The record covers the finite real-dictionary algorithm and identifies the paper’s fixed-fraction weak-selection generalization. MP is used only as a contextual source abbreviation and is not an identity alias. It differs from orthogonal matching pursuit, which refits the whole selected span at every step. All 442 AIO IDs, labels and scoped synonyms and 525 preceding native IDs, names and aliases were compared. The only normalized hit was MP, an exact MarkovChain synonym; the full MarkovChain record and node distinguish that stochastic model from pursuit. Ignored/hidden-inclusive searches of both checkouts found the prior pursuit source lead, Markov-chain context, author initials and unrelated environment tokens or RDF prefixes, not an existing pursuit record. The semantic comparison read 107 AIO name/synonym/definition rows and 148 native name/definition rows; nine full AIO CLASS nodes and incident edges and twelve contextual YAMLs were inspected. Basis pursuit specifies exact minimum-L1 reconstruction, least-angle regression follows an equiangular path, and NMF fits nonnegative factors. This is a bounded identity assessment of the inspected corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#single-atom-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For supplied unit real atoms g_j and r_0=y, exact matching chooses an index maximizing abs(g_j^T*r_k), sets c_k=g_j^T*r_k and r_(k+1)=r_k-c_k*g_j, and adds c_k*g_j to the approximation. Ties require a choice rule. The source also permits a fixed weak fraction 0&lt;alpha&lt;=1 with selected correlation at least alpha times the supremum; alpha=1 is attainable for a finite dictionary. The dictionary remains fixed, and selected atoms can recur.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mallat1993">Matching Pursuits With Time-Frequency Dictionaries</a></span>
+        <span>· <strong>Locator:</strong> Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#residual-and-energy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each residual is orthogonal to the atom just selected, and ||r_k||^2=abs(c_k)^2+||r_(k+1)||^2. Summing gives ||y||^2=sum_k abs(c_k)^2+||r_m||^2 for the performed steps. This sum uses per-step coefficients; combining repeated occurrences of an atom does not preserve that coefficient-energy formula. Earlier selected atoms need not remain orthogonal to the residual.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mallat1993">Matching Pursuits With Time-Frequency Dictionaries</a></span>
+        <span>· <strong>Locator:</strong> Section III, Equations 9–17, PDF pp. 3–4 / printed pp. 3399–3400</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#projection-convergence-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The ideal weak-selection sequence with a fixed positive fraction converges to the signal component orthogonal to the closed dictionary span. Thus zero residual requires the signal to belong to that span. The complete finite-dimensional case has a dictionary-dependent geometric residual bound. Neither statement guarantees finite termination, minimum support, a unique decomposition, a practical uniform rate, or the same behavior after early stopping and finite-precision errors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mallat1993">Matching Pursuits With Time-Frequency Dictionaries</a></span>
+        <span>· <strong>Locator:</strong> Section III Theorem 1, Section IV Lemmas 1–2, Appendices A–B, PDF pp. 4,6,14–15 / printed pp. 3400,3402,3410–3411</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#orthogonal-refit-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    An exact curator example uses D=[e1,b], b=(3/5,4/5), y=e2. MP chooses b then e1, with step coefficients 4/5 and -12/25, leaving residual (0,9/25), whose correlation with b is 36/125. It selects b again next. OMP instead refits those two atoms to coefficients 5/4 on b and -3/4 on e1, giving zero residual. The original MP paper’s optional final backprojection onto the selected span is a separate correction; it does not refit before each subsequent selection as OMP does.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mallat1993">Matching Pursuits With Time-Frequency Dictionaries</a></span>
+        <span>· <strong>Locator:</strong> Section III, Equations 18–29, PDF pp. 4–5 / printed pp. 3400–3401; curator-derived exact examples in research/discovery/pursuit-boundaries.py</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pati1993">Orthogonal Matching Pursuit: Recursive Function Approximation with Applications to Wavelet Decomposition</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–2.2, PDF pp. 2–3 / printed pp. 41–42; curator-derived exact examples in research/discovery/pursuit-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#structured-implementation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper’s Gabor implementation uses a structured coarse dictionary, local refinement and recursive correlation updates. Its O(N log N) per-iteration analysis uses those dictionary and numerical approximation assumptions, not an arbitrary dense dictionary. The time-frequency representation and denoising examples are applications of the algorithm; the supplied atoms are not learned by the basic pursuit recursion.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mallat1993">Matching Pursuits With Time-Frequency Dictionaries</a></span>
+        <span>· <strong>Locator:</strong> Sections IV–VIII and Appendix E, PDF pp. 5–14,17–18 / printed pp. 3401–3410,3413–3414</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The maintained definition is scoped to supplied finite real unit-norm dictionaries. Complex or infinite dictionaries, learned dictionaries, batch methods and recovery theorems need their own conditions and evidence.</li>
+      <li>Greedy representation is not a universal minimum-support or minimum-L1 solver. Ties, normalization, conditioning and stopping criteria can affect the selected representation.</li>
+      <li>Both original papers were visually read in full. No author implementation, model training or empirical benchmark was run; the rational examples are curator calculations. The record remains DRAFT and this work provides no independent scientific approval.</li>
+      <li>The scan appears to omit squares in Equation 35; the consistent squared energy identity is used. Speech sample and selected-atom counts also differ within the paper, so no quantitative performance claim is curated from those ambiguous examples.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned target is a representation-learning network that finds sparse linear representations and identifies their elements, with exact sparse-coding and dictionary-learning synonyms. Pursuit constructs a representation using a supplied fixed dictionary, so the sparse-representation connection is direct. It does not learn dictionary elements or require a neural network; related_match preserves those scope differences without a subclass or equivalence assertion. RepresentationLearning and SparseAutoEncoder are different neural scopes. LassoRegression, LinearRegression and LeastsquaresAnalysis do not specify this atom-selection procedure. FeatureExtraction can be an application, and MathematicalFunction is too generic to identify it. MarkovChain is unrelated despite its MP synonym.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mallat1993">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mallat1993</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.di.ens.fr/~mallat/papiers/MallatPursuit93.pdf" target="_blank" rel="noopener">Matching Pursuits With Time-Frequency Dictionaries</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Stéphane G. Mallat, Zhifeng Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/78.258082</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5f0efe79b524…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-pati1993">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pati1993</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ccs.neu.edu/home/eelhami/courses/EE290A/OMP_Krishnaprasad.pdf" target="_blank" rel="noopener">Orthogonal Matching Pursuit: Recursive Function Approximation with Applications to Wavelet Decomposition</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Y. C. Pati, R. Rezaiifar, P. S. Krishnaprasad
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/ACSSC.1993.342465</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8cb44738ff57…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T12:17:49Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T12:17:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MatchingPursuit.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MatchingPursuit.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
