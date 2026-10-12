@@ -1,0 +1,141 @@
+id: AIMech:NearestNeighborDistanceNormDataDescription
+name: Nearest-neighbor distance-norm data description
+aliases:
+- Nearest neighbor domain description (Angiulli)
+- NNDD distance-norm rule
+concept_kind: algorithm
+definition: A one-class decision rule that forms the ordered distances from a query to its first k reference
+  neighbors and accepts the query when the L_r norm of that distance vector is at most a supplied threshold,
+  with self inclusion and infinite padding when fewer than k references exist.
+identity_notes: 'This is the NNDD distance-norm rule in Angiulli2007, independently of the optional CNNDD
+  reference-condensation procedure. It is not the Tax-Duin ratio between a query distance and a selected
+  reference point''s own neighbor spacing, nor supervised neighbor voting. The record uses a qualified
+  alias rather than assigning all uses of NNDD to one concept. The later prototype rule has a narrower
+  reference-data correspondence, not general identity of decision regions. Compared all 442 pinned AIO
+  IDs, labels and scoped synonyms with all 506 preceding native IDs, names and aliases. No normalized
+  candidate identity collision was found. Whole-word fixed-string searches included ignored and hidden
+  files in both checkouts, aliases, acronyms and source identifiers. All 24 matched lines per checkout,
+  seventeen distinct texts at 48 locations, were inspected: they concern prior query/frontier context
+  and the ratio detector explicitly excluding generic NNDD as a unique alias. A fresh semantic search
+  returned 85 AIO label/synonym/definition rows and 65 native name/definition matches, all read. Twelve
+  annotated AIO nodes and their outgoing edges and twenty-one contextual YAMLs were read or reused after
+  unchanged-byte checks. Absence is bounded to this pin and corpus; the broader native matches were not
+  full scientific reviews.'
+definition_evidence:
+- source_id: angiulli2007
+  locator: Section3, authorpp2-3 / PDFpp3-4, NNDD definition and insufficient-reference footnote
+  relation: supports
+claims:
+- claim_id: ordered-distance-rule
+  kind: mechanism
+  statement: For finite reference set D, object-space metric d, integer k>=1 and finite threshold theta>=0,
+    let delta contain the k smallest reference distances from query x, including distance zero to x itself
+    when x is in D. Missing entries when |D|<k are +infinity. Accept iff ||delta||_r<=theta; the published
+    formal scope uses positive integer r or infinity. Thus r=1 sums the k distances, r=infinity uses the
+    kth distance, and k=1 gives the union of radius-theta metric balls around D. This is a distance score,
+    not a normalized density or novelty probability.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section3, authorp2 / PDFp3, definition, sign convention and footnote1
+    relation: supports
+- claim_id: parameter-and-training-boundaries
+  kind: limitation
+  statement: With D, metric and other parameters fixed, increasing theta expands acceptance and increasing
+    k contracts it. For a fixed k-distance vector, increasing r from a finite value toward infinity cannot
+    increase its norm, so it expands or preserves acceptance at the same theta. These are monotonic relations,
+    not proportional error laws. For distances {3/5,4/5} and theta=1, r=1 rejects while r=2 and infinity
+    accept. Every self-included training point is accepted for k=1 and theta>=0, but k>1 can reject training
+    points, and |D|<k rejects every query at finite theta. Equal-distance ordering does not change the
+    norm, although selected neighbor identities can matter to a subsequent condensation algorithm.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section3, authorpp2-3 / PDFpp3-4; Section5.3, authorp12 / PDFp13; exact curator checks in
+      research/discovery/neighbor-domain-boundaries.py
+    relation: supports
+- claim_id: reference-subset-scope
+  kind: limitation
+  statement: 'An NNDD reference-consistent subset S of D preserves the decisions of the full D rule on
+    every observation in D, including observations originally rejected. Removing references cannot decrease
+    an ordered neighbor distance, so the acceptance region under S is contained in that under D at fixed
+    k, theta, r and metric. Agreement on D does not establish identical decisions everywhere: with D={0,1},
+    S={0}, k=1 and theta=1, both reference observations are accepted by both rules, but query2 is accepted
+    only using D. This can help or harm future error depending on the query''s true class.'
+  evidence:
+  - source_id: angiulli2007
+    locator: Section3 reference consistency, authorp3 / PDFp4; Section4 subset-distance inequality, authorp4
+      / PDFp5; curator finite example
+    relation: supports
+- claim_id: prototype-correspondence-boundary
+  kind: limitation
+  statement: The later PDD paper associates a prototype x with radius equal to its kth-reference-neighbor
+    distance, retaining prototypes with radius<=theta. Its Theorem2.4 establishes agreement with infinity-norm
+    NNDD on reference observations D; it does not assert global equality of acceptance regions. For D={0,2},
+    k=2 and theta=2, both prototype radii are2, so PDD accepts only its two prototype locations, whereas
+    infinity-norm NNDD also accepts midpoint1. This exact example qualifies the abstract's equivalence
+    wording; it does not review CPDD or FastCPDD algorithms.
+  evidence:
+  - source_id: angiulli-pdd
+    locator: Definitions2.1-2.3 and Theorem2.4, authorpp2-3 / PDFpp3-4; curator midpoint calculation
+    relation: supports
+evidence_sources:
+- source_id: angiulli2007
+  title: Condensed Nearest Neighbor Data Domain Description
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2007.pdf
+  version: 'Exact author-hosted 15-page PDF: copyright cover plus author pages1-14, all visually read.
+    Cover identifies definitive TPAMI29(10):1746-1758, October2007. Locators use author pagination, not
+    an inferred journal offset.'
+  persistent_id: https://doi.org/10.1109/TPAMI.2007.1086
+  access_level: full_text
+  accessed_at: '2026-10-12T08:03:15Z'
+  sha256: 999fcdbad349e99f32b15f644cf234adff675ddc9d201cf493a49790a9026ead
+- source_id: angiulli-pdd
+  title: Prototype-based Domain Description for One-Class Classification
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2012.pdf
+  version: Exact 15-page author PDF; only PDFpp3-4 / authorpp2-3 visually read for identity correspondence,
+    with abstract/introduction read as extracted text. Remaining methods and experiments not reviewed.
+    Cover identifies2011 DOI version; author catalogue lists final2012 journal issue.
+  persistent_id: https://doi.org/10.1109/TPAMI.2011.204
+  access_level: full_text
+  accessed_at: '2026-10-12T08:07:52Z'
+  sha256: a75e67435eb69f60814619ce7cfe82f54ad6042c00e56b77f92d637fbf111021
+limitations:
+- The source's printed neighbor-rank wording is not a complete tie implementation; this record follows
+  its ordered-distance-vector definition. Reference membership, distance representation, scaling, k, r
+  and threshold are part of the procedure.
+- Section5.3 experimentally includes r<1 outside the formal norm scope. Its tuned compression comparisons
+  do not override fixed-parameter norm inequalities, and no universal parameter or calibrated false-alarm
+  probability is inferred.
+- All15 pages of the2007 author PDF were visually read; only the specifically cited two pages of the later
+  manuscript were visually inspected. The2005 proceedings version was not compared in full. No trained
+  model or historical benchmark was executed.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The NNDD accept-versus-reject task, including the detector constructed from a CNNDD-selected
+    reference set, is related to AIO:BinaryClassification. This is an algorithm-to-task association, not
+    an exact match or is-a assertion. The target has Classification and SupervisedLearning ancestry; this
+    related link does not assert representative abnormal-class training examples. Inspected Classification,
+    BinaryClassification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor
+    nodes, DimensionalityReduction, Distillation, DataPreparation and SelectionAndSamplingBias with annotations
+    and outgoing edges. Neighbor voting and value averaging are distinct; reference selection does not
+    reduce feature dimensions or assert a sampling-bias condition. Generic preparation and distillation
+    terminology does not identify the specified consistency procedure. Nine native contexts distinguish
+    local distance ratios, bootstrap variance, density-connected clustering, supervised metric learning,
+    sphere support estimation and medoid optimization; none receives renewed scientific approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:14:35Z'
+  updated_at: '2026-10-12T08:14:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

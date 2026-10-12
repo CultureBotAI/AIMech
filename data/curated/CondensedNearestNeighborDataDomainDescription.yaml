@@ -1,0 +1,146 @@
+id: AIMech:CondensedNearestNeighborDataDomainDescription
+name: Condensed nearest-neighbor data domain description
+aliases:
+- CNNDD
+- Condensed NNDD rule
+concept_kind: algorithm
+definition: A greedy reference-selection algorithm for the NNDD distance-norm decision rule that uses
+  two passes over the original observations followed by neighbor augmentation to obtain a subset preserving
+  every original-reference decision.
+identity_notes: 'CNNDD selects the reference subset for Angiulli''s distance-norm NNDD rule. It is distinct
+  from the prediction rule itself, supervised condensed nearest-neighbor voting, Tax-Duin local distance
+  ratios, fixed-count medoid optimization and feature-dimensionality reduction. Reference consistency
+  means agreement with full-set decisions, not acceptance of every supplied observation or equality of
+  all future predictions. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 506 preceding
+  native IDs, names and aliases. No normalized candidate identity collision was found. Whole-word fixed-string
+  searches included ignored and hidden files in both checkouts, aliases, acronyms and source identifiers.
+  All 24 matched lines per checkout, seventeen distinct texts at 48 locations, were inspected: they concern
+  prior query/frontier context and the ratio detector explicitly excluding generic NNDD as a unique alias.
+  A fresh semantic search returned 85 AIO label/synonym/definition rows and 65 native name/definition
+  matches, all read. Twelve annotated AIO nodes and their outgoing edges and twenty-one contextual YAMLs
+  were read or reused after unchanged-byte checks. Absence is bounded to this pin and corpus; the broader
+  native matches were not full scientific reviews.'
+definition_evidence:
+- source_id: angiulli2007
+  locator: Section4, authorpp3-4 / PDFpp4-5, Figure1 and phases1-3
+  relation: supports
+claims:
+- claim_id: two-scans-and-augmentation
+  kind: mechanism
+  statement: Process the observations in order, inserting an observation when the current reference subset
+    rejects it. Partition selected references into currently accepted and rejected points, and maintain
+    neighbor information for the rejected selected points. The second dataset scan considers earlier omitted
+    observations needed to determine whether those selected rejections also occur under the full reference
+    set. For selected points accepted by the full set but still rejected by the subset, augment the subset
+    with stored neighboring observations until their acceptance is restored. Objects truly rejected by
+    the full reference rule remain selected and rejected. The two scans and the final augmentation are
+    distinct phases.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section4, authorp4 / PDFp5; Figure1, authorp3 / PDFp4
+    relation: supports
+- claim_id: consistency-and-prediction
+  kind: limitation
+  statement: The intended output S preserves NNDD_D(p)=NNDD_S(p) for every p in D at the supplied metric,
+    k, theta and r. The full-set rule can already reject supplied observations; consistency preserves
+    those rejections rather than treating all inputs as accepted labels. At fixed parameters, subset acceptance
+    can only shrink, so new-query agreement and improved generalization do not follow from training consistency.
+    For D={0,1}, k=1 and theta=1, starting with0 can produce S={0}; query2 changes from accepted to rejected.
+    A test distribution concentrated on normal query2 therefore has worse classification error after this
+    condensation.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section3, authorp3 / PDFp4; Section4 Equation1 and subset inequality, authorp4 / PDFp5; curator
+      finite example
+    relation: supports
+- claim_id: order-and-nonminimum-output
+  kind: limitation
+  statement: The greedy selection can depend on input order and is not guaranteed to have minimum cardinality.
+    With D={0,1,2}, k=1 and theta=1, order(0,1,2) selects{0,2}, while order(1,0,2) selects{1}; both preserve
+    all original decisions but differ in size and accept query3 differently. For D={0,2}, k=2 and theta=1,
+    the full rule rejects both points. The described procedure retains both, although a singleton subset
+    is already consistent because insufficient-reference padding makes it reject all queries. These exact
+    cases demonstrate why reference consistency and minimum-size optimization are different properties.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section4, authorp4 / PDFp5, original-outlier retention; Section5.2, authorp11 / PDFp12, explicit
+      greedy/nonminimum qualification; curator checks in research/discovery/neighbor-domain-boundaries.py
+    relation: supports
+- claim_id: computational-cost-scope
+  kind: limitation
+  statement: Two passes reduce dataset scanning but do not establish linear computation. With n original
+    objects and s retained references, the source bounds distance/heap work by O(n*s*(c_d+log k)), where
+    c_d is one distance computation's cost; s can be n. It gives O(s*k) neighbor-storage cost, in addition
+    to storing retained object representations and ordinary input access. The retained subset can therefore
+    approach the original size, and the pairwise work can be quadratic. Historical timing comparisons
+    depend on hardware, implementations and selected operating parameters.
+  evidence:
+  - source_id: angiulli2007
+    locator: Section4, authorpp4-5 / PDFpp5-6; Section5.2 and Figure7, authorpp11-12 / PDFpp12-13
+    relation: supports
+- claim_id: evaluation-and-theorem-limits
+  kind: limitation
+  statement: 'The experiments cover synthetic and UCI one-versus-rest settings, generally using Euclidean
+    object distances and r=1, with ten-fold cross-validation and parameter sweeps for ROC comparisons.
+    Results do not establish universal superiority: the satellite damp-grey-soil row in Table1 favors
+    the reported SVM comparison, despite the surrounding blanket best-on-all-data wording. Noise robustness
+    is conditional; the shuttle contamination experiment samples added training contaminants from its
+    abnormal test population. The minimum-subset hardness discussion is for general metric inputs and
+    does not certify CNNDD optimality or an unexamined fixed-dimensional Euclidean hardness claim. No
+    numerical performance advantage is curated.'
+  evidence:
+  - source_id: angiulli2007
+    locator: Section3 Theorem1, authorp3 / PDFp4; Section5, authorpp5-13 / PDFpp6-14; Table1, authorp9
+      / PDFp10; Section5.3 contamination protocol, authorp13 / PDFp14
+    relation: supports
+evidence_sources:
+- source_id: angiulli2007
+  title: Condensed Nearest Neighbor Data Domain Description
+  authors:
+  - Fabrizio Angiulli
+  source_type: primary_paper
+  url: https://siloe.dimes.unical.it/angiulli/papers/angiulli_tpami2007.pdf
+  version: 'Exact author-hosted 15-page PDF: copyright cover plus author pages1-14, all visually read.
+    Cover identifies definitive TPAMI29(10):1746-1758, October2007. Locators use author pagination, not
+    an inferred journal offset.'
+  persistent_id: https://doi.org/10.1109/TPAMI.2007.1086
+  access_level: full_text
+  accessed_at: '2026-10-12T08:03:15Z'
+  sha256: 999fcdbad349e99f32b15f644cf234adff675ddc9d201cf493a49790a9026ead
+limitations:
+- The paper's pseudocode abbreviates heap initialization and one distance argument; the accompanying phase
+  descriptions establish the intended method, not an exact certified implementation. Neighbor and input-order
+  conventions can change the selected subset.
+- The printed arbitrary-k dominating-set proof requires care when a dominating set has fewer than k members,
+  since missing neighbors are infinite. The general k=1 metric reduction is sufficient for a general hardness
+  result; this record does not extend that argument to every fixed k or Euclidean dimension.
+- Subset-size bounds or sample-compression arguments are not a guarantee that every condensed classifier
+  has lower true error. Two dataset scans are not a linear-runtime guarantee.
+- All15 primary author-PDF pages were visually read, including the table and all figures. Exact finite
+  examples and the k=1 special-case selection were executed; historical CNNDD code, timing and benchmarks
+  were not reproduced.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BinaryClassification
+  relation: related_match
+  rationale: The NNDD accept-versus-reject task, including the detector constructed from a CNNDD-selected
+    reference set, is related to AIO:BinaryClassification. This is an algorithm-to-task association, not
+    an exact match or is-a assertion. The target has Classification and SupervisedLearning ancestry; this
+    related link does not assert representative abnormal-class training examples. Inspected Classification,
+    BinaryClassification, SupervisedLearning, UnsupervisedLearning, MachineLearningTask, all three KnearestNeighbor
+    nodes, DimensionalityReduction, Distillation, DataPreparation and SelectionAndSamplingBias with annotations
+    and outgoing edges. Neighbor voting and value averaging are distinct; reference selection does not
+    reduce feature dimensions or assert a sampling-bias condition. Generic preparation and distillation
+    terminology does not identify the specified consistency procedure. Nine native contexts distinguish
+    local distance ratios, bootstrap variance, density-connected clustering, supervised metric learning,
+    sphere support estimation and medoid optimization; none receives renewed scientific approval.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T08:14:35Z'
+  updated_at: '2026-10-12T08:14:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
