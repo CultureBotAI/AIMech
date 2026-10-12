@@ -1,0 +1,131 @@
+definition: A multiview exemplar-clustering procedure that learns shared exemplar weights and view weights
+  through outer view-responsibility updates and an inner shared-weight fit, then assigns observations
+  to a specified set of high-weight exemplars.
+identity_notes: 'This is the Tzortzis-Likas 2010 weighted multiview CMM procedure. Despite the inherited
+  CMM name, its joint objective is not convex. It uses the log of a view-weighted sum of exemplar scores,
+  whereas the 2009 algorithm sums view log likelihoods. This record distinguishes the general component-value
+  formulation from the distance-only experimental variant that omits density base factors, and does not
+  assert that marginal densities on different view spaces automatically define a joint generative model.
+  No normalized identity collision across all 442 pinned AIO IDs, labels/scoped synonyms and 487 maintained
+  IDs, names and aliases. Full-checkout searches include ignored and hidden files: 8 matched lines in
+  the worktree and 9 in main. All six distinct matched texts were read; they concern the prior exemplar-clustering
+  frontier, its source/query URLs and an unrelated FreeFem lexer token. Seven annotated AIO nodes and
+  seven full native neighbors were inspected. The same pinned bytes retain the previously read 442 class
+  labels and 138 semantic label/synonym rows. Absence is bounded to this snapshot and corpus.'
+definition_evidence:
+- source_id: weighted-source
+  locator: Sections IV-A/IV-B, printed pp. 1928-1930 / PDF pp. 4-6, Equations 9-15 and Algorithm 1
+  relation: supports
+evidence_sources:
+- source_id: weighted-source
+  title: Multiple View Clustering Using a Weighted Combination of Exemplar-Based Mixture Models
+  authors:
+  - Grigorios F. Tzortzis
+  - Aristidis C. Likas
+  source_type: primary_paper
+  url: https://www.cs.uoi.gr/~arly/full/journals/J71.pdf
+  persistent_id: doi:10.1109/TNN.2010.2081999
+  version: IEEE Transactions on Neural Networks 21(12):1925-1938, December 2010. Author-hosted journal
+    PDF; all 14 pages, tables and appendices visually read. Printed page = PDF page + 1924.
+  access_level: full_text
+  accessed_at: '2026-10-12T05:33:45Z'
+  sha256: 6b6c13d90ee99bdaa09f28d7f065df0bd9bbb6c775eb02bb014c01df47915d3d
+claims:
+- claim_id: outer-view-and-inner-exemplar-updates
+  kind: mechanism
+  statement: Given fixed positive component values f_vij, let Q_vi(q)=sum_j q_j f_vij and maximize L(q,pi)=sum_i
+    log(sum_v pi_v Q_vi(q)) with q and pi on their respective simplices. From the current parameters compute
+    gamma_iv=pi_v Q_vi/sum_w pi_w Q_wi. Set pi_v_new=(1/N)sum_i gamma_iv. Hold these outer responsibilities
+    fixed while iterating q_j <- q_j/N*sum_iv gamma_iv f_vij/Q_vi(q), using the current inner q in the
+    denominator. Repeat inner updates to their stated tolerance, then recompute outer responsibilities.
+    The paper starts both weight vectors uniformly and uses inner L1-change and outer objective-change
+    stopping conditions.
+  evidence:
+  - source_id: weighted-source
+    locator: Section IV-B, printed p. 1929 / PDF p. 5, Equations 11-13 and Algorithm 1; Appendix A, printed
+      pp. 1936-1937 / PDF pp. 12-13, Equations 22-28
+    relation: supports
+- claim_id: objective-and-convergence-scope
+  kind: scope
+  statement: The objective is separately concave in either weight vector with the other fixed, but not
+    jointly concave in general. The nested surrogate updates support objective ascent for admissible exact
+    arithmetic; a finite inner tolerance is an approximate M-step. Uniform starts, small objective changes
+    or successful source examples do not prove global optimality, a unique limit, or that every stationary
+    outcome is a local maximum. Uniform pi also leaves a log-of-sum objective, not the unweighted sum-of-logs
+    objective.
+  evidence:
+  - source_id: weighted-source
+    locator: Section IV-B, printed pp. 1928-1929 / PDF pp. 4-5; Appendix A, printed pp. 1936-1937 / PDF
+      pp. 12-13; curator two-view objective/update comparison
+    relation: supports
+- claim_id: view-domain-and-density-factors
+  kind: limitation
+  statement: The source writes a sum of marginal densities Q_v(x_v) as a density of the full view tuple.
+    That sum is not automatically normalized on the product observation space without an appropriate common
+    observation model or background factors. For two- and three-state view alphabets, its total mass is
+    3*pi_1+2*pi_2. The finite positive-score objective still has meaningful normalized responsibilities
+    and surrogate updates, but does not by itself establish the asserted generative interpretation. View-specific
+    density scales affect the learned pi; they are not pure measures of semantic view quality.
+  evidence:
+  - source_id: weighted-source
+    locator: Section IV-A, printed p. 1928 / PDF p. 4, Equation 9; Appendix A, printed p. 1936 / PDF p.
+      12, Equations 17-21; curator product-mass and coordinate-rescaling examples
+    relation: supports
+- claim_id: distance-only-experimental-variant
+  kind: limitation
+  statement: The general outer gamma calculation retains C_v(x_vi) from f_vij=C_v(x_vi)exp(-beta_v*d_vij).
+    These factors cancel within the inner q update but not generally across views in gamma. The experiments
+    explicitly omit them from the outer update to work from distances alone; this optimizes a modified
+    affinity-score objective unless the factors cancel across views. With exp(-beta*||x-m||^2), the normalized
+    Gaussian factor is (beta/pi)^(d/2), rather than the printed (beta/(2*pi))^(d/2). Source benchmark
+    results for omitted factors do not certify the normalized-density formulation.
+  evidence:
+  - source_id: weighted-source
+    locator: Section IV-B, printed p. 1929 / PDF p. 5, third implementation remark; Section V-A, printed
+      p. 1930 / PDF p. 6, Gaussian factor and explicit removal; curator Gaussian-integral check
+    relation: supports
+- claim_id: hard-assignment-and-cost
+  kind: mechanism
+  statement: After fitting, select a specified M largest-q exemplars and anchor each to its own cluster.
+    Assign other observations by maximizing q_j sum_v pi_v f_vij among the selected exemplars. The full-component
+    denominator is shared and cancels for this comparison; the selected-subset scores need not sum to
+    one as M-cluster probabilities without renormalization. Ties need an explicit policy. Dense training
+    costs O(N^2 V tau tau_inner), excluding initial distances. Kernel squared distances can supply a feature-space
+    realization, but a generic dissimilarity matrix does not automatically establish a normalized feature-space
+    density.
+  evidence:
+  - source_id: weighted-source
+    locator: Section IV-B, printed pp. 1929-1930 / PDF pp. 5-6, Equations 14-15; Section IV-C, PDF p.
+      6; Appendix B, printed p. 1937 / PDF p. 13, Equations 29-34
+    relation: supports
+limitations:
+- All views must be aligned to the same observation and exemplar indices. The source explicitly does not
+  model general dependence between views and notes failures with systematic inter-view bias.
+- The number of final exemplars and each component scale remain supplied choices. Hard assignment is separate
+  from soft fitting and has no global clustering guarantee. Zero weights remain excluded; positivity and
+  nonzero denominators matter.
+- The empirical comparisons use complete-view filtering, specified cluster counts, label-based scale selection
+  and optional kernel-k-means fine-tuning. They do not establish general noise immunity, semantic calibration
+  of view weights, or universal superiority. No author software or historical benchmark was reproduced.
+id: AIMech:WeightedMultiviewConvexMixtureClustering
+name: Weighted Multiview Convex Mixture Clustering
+aliases:
+- Weighted Multiview CMM Clustering
+concept_kind: algorithm
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The procedure fits exemplar weights and constructs a grouping from unlabeled observations.
+    The inspected AIO target is a clustering task; this algorithm-to-task association asserts neither
+    equivalence nor an upstream subclass.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T05:43:14Z'
+  updated_at: '2026-10-12T05:43:14Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
