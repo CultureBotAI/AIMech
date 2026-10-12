@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiclass Multiple Kernel Maximum Margin Clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Multiclass Multiple Kernel Maximum Margin Clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Multiclass Multiple Kernel Maximum Margin Clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MulticlassMultipleKernelMaximumMarginClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Multi-Class Multiple Kernel Clustering
+    </div>
+
+  <div class="detail-desc">
+    A multiclass unsupervised clustering procedure that jointly fits shared nonnegative multiple-kernel weights and latent class-score functions using winner-margin cutting planes and repeated convex conic fits.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the multiclass Zhao-Kwok-Zhang2009 procedure for a supplied class count m. Its displayed class scores have no intercept, and its margins compare a winning class with competing classes; it is not simply the binary intercept-bearing implementation run unchanged. Shared learned kernel weights differ from fixed kernels, observed-label supervised SVMs and multiview variance criteria. The shared source acronym MKC is not used as a unique alias. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 496 prior native IDs, names and aliases; no normalized identity collision. Full searches of both checkouts include ignored and hidden files, returning 16 worktree and 16 main matched lines. All 11 distinct matched texts were inspected as bibliographic, query or frontier references, not existing identities. Thirteen annotated AIO nodes and outgoing edges, thirteen generated YAMLs and five native neighbors were examined. Nine unchanged annotated targets, their generated records, all 442 class labels and 147 semantic rows reuse byte-verified earlier readings; four additional annotated targets and five new semantic rows were read (152 rows total). Absence is bounded to this pin and corpus.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kernel-weight-geometry</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given supplied PSD base kernels K_k and feature maps Phi_k, learn nonnegative weights beta_k with sum_k beta_k^2&lt;=1, not a simplex constraint. The resulting mixed kernel is sum_k beta_k*K_k, consistently represented by concatenated sqrt(beta_k)*Phi_k blocks. The paper introductory sum of feature maps must not be read as an arbitrary vector sum that adds cross terms, especially when feature dimensions differ. Its reparameterization v_k=beta_k*w_k gives a quadratic-over-linear regularizer. At beta_k=0 the closed perspective has cost zero for v_k=0 and infinite cost otherwise. Kernel scaling affects the optimization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mkc-source">Multiple Kernel Clustering</a></span>
+        <span>· <strong>Locator:</strong> PDF pp. 1-3 / printed pp. 638-640, Equations 1.1 and 2.4-2.6; PDF pp. 8-10 / pp. 645-647, Equations 4.30-4.32 and Section 5.2; curator mixed-kernel and cone checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#shared-kernel-class-scores</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For m supplied classes, set g_ip=sum_k (v_k^p)^T*Phi_k(x_i) with no displayed bias term and one shared beta vector. Minimize 0.5*sum_k,p ||v_k^p||^2/beta_k+(C/n)*sum_i xi_i with winning-class-versus-competitor margins, nonnegative slacks and the nonnegative L2 kernel-weight bound. For every class pair p,q impose |sum_i(g_ip-g_iq)|&lt;=l. These aggregate score constraints are not class-count balance constraints and do not ensure that every class is occupied.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mkc-source">Multiple Kernel Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp. 8-9 / pp. 645-646, Equations 4.29-4.34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#multiclass-working-set</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a unique winning class p_i and runner-up r_i, the per-observation slack is max(0,1-(g_i,p_i-g_i,r_i)). Aggregate slacks with masks c_i drawn from the zero vector or one-hot class vectors. The separation step uses the runner-up mask when the top-versus-runner-up gap is below 1, and the zero mask otherwise. The outer cutting-plane loop alternates restricted fitting with adding the most violated mask until violation is at most epsilon. The inner procedure freezes winning-class indicators at previous scores and solves the convex quadratic-over-linear problem by SOCP, repeating under its stopping rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mkc-source">Multiple Kernel Clustering</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1-4.2, PDF pp. 9-10 / pp. 646-647, Equations 4.33-4.35 and Algorithms 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#winner-ties-and-optimization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed z_ip indicator requires class p to score strictly above every other class. At a tied maximum all indicators are zero, so the displayed label sum_p p*z_ip equals zero, outside the class set {1,...,m}. A one-hot argmax tie policy is therefore needed, but no particular repair is silently treated as part of the printed algorithm. Freezing winners gives a convex inner fit; it does not by itself prove global optimality or unconditional convergence and monotonicity across changes of winning labels. The binary bias and multiclass score parameterizations and margin scales also preclude an unqualified claim that m=2 is the identical implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mkc-source">Multiple Kernel Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 8-10 / pp. 645-647, especially the strict indicator following Equation 4.33 and Algorithm 4; curator tied-score example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The full problem is nonconvex. Solving convex second-order cone subproblems does not establish a globally optimal kernel combination, globally optimal labels or universal local-optimum behavior. Initialization, score ties, numeric tolerances and stopping conventions matter.</li>
+      <li>Nonnegative kernel weights preserve PSD when the supplied base kernels are PSD. Feature construction, kernel choice and scaling, regularization C, balance limit l and cutting-plane tolerance epsilon remain supplied choices. No class-count balance or nonempty-cluster guarantee follows solely from aggregate score constraints.</li>
+      <li>All twelve source pages, including experiments and references, were read. The reported comparisons use selected datasets, known class counts, chosen kernels and tuning; their per-cluster majority-label accuracy is not stated as one-to-one cluster matching. The source whole-dataset generalization evaluation includes the fitting subset. No universal performance, independent held-out guarantee, historical implementation or benchmark reproduction is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The inspected procedure performs unlabeled clustering; the AIO target is the related task, not an equivalent algorithm identity or asserted superclass. In this pin SupportVectorMachine is scoped as a supervised classification/regression network, and BinaryClassification and MulticlassClassification inherit supervised task scope. Shared margin terminology does not establish those identities.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mkc-source">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mkc-source</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://home.cse.ust.hk/~jamesk/papers/sdm09.pdf" target="_blank" rel="noopener">Multiple Kernel Clustering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Bin Zhao, James T. Kwok, Changshui Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1137/1.9781611972795.55</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1d46873539fe…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T06:37:49Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T06:37:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MulticlassMultipleKernelMaximumMarginClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MulticlassMultipleKernelMaximumMarginClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

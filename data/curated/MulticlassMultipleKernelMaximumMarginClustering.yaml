@@ -1,0 +1,122 @@
+id: AIMech:MulticlassMultipleKernelMaximumMarginClustering
+name: Multiclass Multiple Kernel Maximum Margin Clustering
+aliases:
+- Multi-Class Multiple Kernel Clustering
+concept_kind: algorithm
+definition: A multiclass unsupervised clustering procedure that jointly fits shared nonnegative multiple-kernel
+  weights and latent class-score functions using winner-margin cutting planes and repeated convex conic
+  fits.
+identity_notes: This record denotes the multiclass Zhao-Kwok-Zhang2009 procedure for a supplied class
+  count m. Its displayed class scores have no intercept, and its margins compare a winning class with
+  competing classes; it is not simply the binary intercept-bearing implementation run unchanged. Shared
+  learned kernel weights differ from fixed kernels, observed-label supervised SVMs and multiview variance
+  criteria. The shared source acronym MKC is not used as a unique alias. Compared all 442 pinned AIO IDs,
+  labels and scoped synonyms with all 496 prior native IDs, names and aliases; no normalized identity
+  collision. Full searches of both checkouts include ignored and hidden files, returning 16 worktree and
+  16 main matched lines. All 11 distinct matched texts were inspected as bibliographic, query or frontier
+  references, not existing identities. Thirteen annotated AIO nodes and outgoing edges, thirteen generated
+  YAMLs and five native neighbors were examined. Nine unchanged annotated targets, their generated records,
+  all 442 class labels and 147 semantic rows reuse byte-verified earlier readings; four additional annotated
+  targets and five new semantic rows were read (152 rows total). Absence is bounded to this pin and corpus.
+definition_evidence:
+- source_id: mkc-source
+  locator: Section 4, PDF pp. 8-10 / printed pp. 645-647, Equations 4.29-4.35 and Algorithms 3-4
+  relation: supports
+claims:
+- claim_id: kernel-weight-geometry
+  kind: mechanism
+  statement: Given supplied PSD base kernels K_k and feature maps Phi_k, learn nonnegative weights beta_k
+    with sum_k beta_k^2<=1, not a simplex constraint. The resulting mixed kernel is sum_k beta_k*K_k,
+    consistently represented by concatenated sqrt(beta_k)*Phi_k blocks. The paper introductory sum of
+    feature maps must not be read as an arbitrary vector sum that adds cross terms, especially when feature
+    dimensions differ. Its reparameterization v_k=beta_k*w_k gives a quadratic-over-linear regularizer.
+    At beta_k=0 the closed perspective has cost zero for v_k=0 and infinite cost otherwise. Kernel scaling
+    affects the optimization.
+  evidence:
+  - source_id: mkc-source
+    locator: PDF pp. 1-3 / printed pp. 638-640, Equations 1.1 and 2.4-2.6; PDF pp. 8-10 / pp. 645-647,
+      Equations 4.30-4.32 and Section 5.2; curator mixed-kernel and cone checks
+    relation: supports
+- claim_id: shared-kernel-class-scores
+  kind: mechanism
+  statement: For m supplied classes, set g_ip=sum_k (v_k^p)^T*Phi_k(x_i) with no displayed bias term and
+    one shared beta vector. Minimize 0.5*sum_k,p ||v_k^p||^2/beta_k+(C/n)*sum_i xi_i with winning-class-versus-competitor
+    margins, nonnegative slacks and the nonnegative L2 kernel-weight bound. For every class pair p,q impose
+    |sum_i(g_ip-g_iq)|<=l. These aggregate score constraints are not class-count balance constraints and
+    do not ensure that every class is occupied.
+  evidence:
+  - source_id: mkc-source
+    locator: Section 4.1, PDF pp. 8-9 / pp. 645-646, Equations 4.29-4.34
+    relation: supports
+- claim_id: multiclass-working-set
+  kind: mechanism
+  statement: For a unique winning class p_i and runner-up r_i, the per-observation slack is max(0,1-(g_i,p_i-g_i,r_i)).
+    Aggregate slacks with masks c_i drawn from the zero vector or one-hot class vectors. The separation
+    step uses the runner-up mask when the top-versus-runner-up gap is below 1, and the zero mask otherwise.
+    The outer cutting-plane loop alternates restricted fitting with adding the most violated mask until
+    violation is at most epsilon. The inner procedure freezes winning-class indicators at previous scores
+    and solves the convex quadratic-over-linear problem by SOCP, repeating under its stopping rule.
+  evidence:
+  - source_id: mkc-source
+    locator: Sections 4.1-4.2, PDF pp. 9-10 / pp. 646-647, Equations 4.33-4.35 and Algorithms 3-4
+    relation: supports
+- claim_id: winner-ties-and-optimization
+  kind: limitation
+  statement: The displayed z_ip indicator requires class p to score strictly above every other class.
+    At a tied maximum all indicators are zero, so the displayed label sum_p p*z_ip equals zero, outside
+    the class set {1,...,m}. A one-hot argmax tie policy is therefore needed, but no particular repair
+    is silently treated as part of the printed algorithm. Freezing winners gives a convex inner fit; it
+    does not by itself prove global optimality or unconditional convergence and monotonicity across changes
+    of winning labels. The binary bias and multiclass score parameterizations and margin scales also preclude
+    an unqualified claim that m=2 is the identical implementation.
+  evidence:
+  - source_id: mkc-source
+    locator: Section 4, PDF pp. 8-10 / pp. 645-647, especially the strict indicator following Equation
+      4.33 and Algorithm 4; curator tied-score example
+    relation: supports
+evidence_sources:
+- source_id: mkc-source
+  title: Multiple Kernel Clustering
+  authors:
+  - Bin Zhao
+  - James T. Kwok
+  - Changshui Zhang
+  source_type: primary_paper
+  url: https://home.cse.ust.hk/~jamesk/papers/sdm09.pdf
+  persistent_id: doi:10.1137/1.9781611972795.55
+  version: SDM2009 proceedings pp. 638-649, author-hosted published copy. All twelve PDF pages visually
+    read; printed page equals PDF page plus 637.
+  access_level: full_text
+  accessed_at: '2026-10-12T06:00:50Z'
+  sha256: 1d46873539fe4a4570f8b4336061018e5cc438c2a449fe729eed1fd3759ebb19
+limitations:
+- The full problem is nonconvex. Solving convex second-order cone subproblems does not establish a globally
+  optimal kernel combination, globally optimal labels or universal local-optimum behavior. Initialization,
+  score ties, numeric tolerances and stopping conventions matter.
+- Nonnegative kernel weights preserve PSD when the supplied base kernels are PSD. Feature construction,
+  kernel choice and scaling, regularization C, balance limit l and cutting-plane tolerance epsilon remain
+  supplied choices. No class-count balance or nonempty-cluster guarantee follows solely from aggregate
+  score constraints.
+- All twelve source pages, including experiments and references, were read. The reported comparisons use
+  selected datasets, known class counts, chosen kernels and tuning; their per-cluster majority-label accuracy
+  is not stated as one-to-one cluster matching. The source whole-dataset generalization evaluation includes
+  the fitting subset. No universal performance, independent held-out guarantee, historical implementation
+  or benchmark reproduction is asserted.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The inspected procedure performs unlabeled clustering; the AIO target is the related task,
+    not an equivalent algorithm identity or asserted superclass. In this pin SupportVectorMachine is scoped
+    as a supervised classification/regression network, and BinaryClassification and MulticlassClassification
+    inherit supervised task scope. Shared margin terminology does not establish those identities.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T06:37:49Z'
+  updated_at: '2026-10-12T06:37:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
