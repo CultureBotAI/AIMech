@@ -1,0 +1,861 @@
+# Scientific author self-review of three-block dynamical cascade families
+
+- Review: 20261012T145121Z-three-block-resolved
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T14:43:13Z
+- Finished UTC: 2026-10-12T14:51:21Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain both ordered model families; source-type defect resolved and final checks pass.
+
+## Scope And Provenance
+
+All fields of the exact two-record three-block scalar deterministic model-family cohort.
+
+Selection: Exact IDs: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base cdfcad102df115059d9d264307f37f4f29aa9637.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:WienerHammersteinModel | data/curated/WienerHammersteinModel.yaml | maintained | Wiener–Hammerstein model |
+| AIMech:HammersteinWienerModel | data/curated/HammersteinWienerModel.yaml | maintained | Hammerstein–Wiener model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 146.79s (0:02:26)<br>Checked 442 record(s); 0 failed.<br>Checked 538 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 185 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 183,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel | Exited0 without output. |
+| Exact cascade and Gaussian boundary calculations | passed | True | AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel | {"wiener_hammerstein_output": ["1", "19", "57"], "wiener_hammerstein_rescaled": ["1", "19", "57"], "hammerstein_wiener_output": ["2", "222", "738"], "hammerstein_wiener_rescaled": ["2", "222", "738"], "printed_hw_scaling_output": ["10/9", "30", "90"], "non_even_zero_first_correlation": ["0", "0"], "nonlinear_zero_second_correlation": {"first": ["15", "30"], "second": ["0", "0"]}, "non_hammerstein_proportional_correlations": {"first": ["4", "4"], "second": ["2", "2"], "mixed_difference": 2}, "cubic_second_centered_correlation": "18", "pre_output_gaussian_noise_mean_shifts": ["3", "6"]} |
+
+## Scientific And Domain Assessments
+
+### Three-block ordered model families
+
+identity: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+Retain both model identities.
+
+LNL places one static function between two LTI blocks; NLN places static functions around one LTI block. Shared Wiener/Hammerstein/linear special cases imply overlap, not family equivalence. Neither identity denotes a fitted instance, a GP prior, an observed-history recurrence or a particular estimator. Declared scalar discrete-time deterministic scope is explicit in both definitions.
+
+### Schema-supported primary source classification
+
+schema: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+Both primary papers now use a permitted source category.
+
+Use primary_paper for each research paper, retaining exact post-print/preprint version, arXiv suffix, access time, SHA256 and publication-status description. The correction does not transform the 2026 preprint into a peer-reviewed final article.
+
+### Model/task relationship
+
+grounding: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+Two related mappings are supported curator assessments.
+
+This ordered dynamical model family represents temporal input-output relationships for system identification and analysis. The inspected AIO target is an analysis task, so the link is a model/task relationship rather than exact identity or an asserted subclass. This ordered dynamical model family represents temporal input-output relationships for system identification and analysis. The inspected AIO target is an analysis task, so the link is a model/task relationship rather than exact identity or an asserted subclass.
+
+### linear-static-linear
+
+evidence: supported. Targets: AIMech:WienerHammersteinModel.
+
+Claim is supported with its explicit curator qualifications.
+
+For zero-state linear operators R and S and a memoryless function f, the response is y=S(f(Ru)). The first block mixes input history, f acts pointwise on the resulting internal signal, and S filters that nonlinear signal. With causal finite filters R=(1,2), S=(1,3), inputs (1,2,-1), zero prehistory and f(v)=v², the first three outputs are (1,19,57). This is an exact curator example of the specified composition, not a fitted benchmark. Locators: Section 2.2, Figure 1 and Equations 3–4, PDF/printed pp. 2–3; curator calculation in research/discovery/three-block-cascade-boundaries.py
+
+### two-block-special-cases
+
+evidence: supported. Targets: AIMech:WienerHammersteinModel.
+
+Claim is supported with its explicit curator qualifications.
+
+An identity input block R gives the Hammerstein order, and an identity output block S gives the Wiener order. If f is the identity, the cascade reduces to the linear composition SR. The families therefore overlap through degenerate or linear special cases; their different ordered structures are not interchangeable names, and a three-block representation need not be minimal. Locators: Introduction and Figure 1, PDF/printed pp. 1–2; direct algebraic specializations of Equation 3 on p. 3, checked in research/discovery/three-block-cascade-boundaries.py
+
+### internal-gain-ambiguity
+
+evidence: supported. Targets: AIMech:WienerHammersteinModel.
+
+Claim is supported with its explicit curator qualifications.
+
+For nonzero a and b in the zero-state deterministic formulation, replacing R by aR, f(v) by b*f(v/a), and S by S/b leaves the external response unchanged on the corresponding signal domains. The finite example with a=2,b=3 still gives (1,19,57). External data alone therefore cannot fix these two internal scale choices without normalization or other information; this is not a complete classification of all ambiguities. Locators: Direct curator reparameterization of Section 2.2, Equation 3, PDF/printed p. 3; exact check in research/discovery/three-block-cascade-boundaries.py
+
+### linear-approximation-boundary
+
+evidence: supported. Targets: AIMech:WienerHammersteinModel.
+
+Claim is supported with its explicit curator qualifications.
+
+The source’s Gaussian best-linear approximation exposes a scalar multiple of the product RS rather than uniquely assigning dynamics to R and S. An informative nonzero gain is an additional requirement: non-evenness of f alone does not suffice. For iid standard Gaussian input, R=(1,2) gives internal variance 5, and f(q)=q³-15q has zero first input/output correlations despite being a nonconstant odd function. The curator counterexample qualifies the source text after Theorem 1. Estimating or separating blocks is a distinct identification problem. Locators: Section 3.2, Equations 8–10 and text after Theorem 1, PDF/printed p. 4; Section 4.3, p. 7; curator exact Gaussian moments in research/discovery/three-block-cascade-boundaries.py
+
+### static-linear-static
+
+evidence: supported. Targets: AIMech:HammersteinWienerModel.
+
+Claim is supported with its explicit curator qualifications.
+
+Write the deterministic cascade as y=h(G(psi(u))), using h for the forward output function. The input function acts on each input sample, the linear block carries the dynamics, and h acts on its output. Equivalently, a finite-state linear block has x_next=A*x+B*psi(u) and y=h(C*x+D*psi(u)). With psi(v)=v², causal filter G=(1,2), h(v)=v+v³, inputs (1,2,-1) and zero prehistory, outputs are (2,222,738). Locators: Section 2, Figure 1 and Equation 1, PDF/printed p. 3, setting noise to zero and writing h=phi^(-1); curator finite example in research/discovery/three-block-cascade-boundaries.py
+
+### two-block-special-cases
+
+evidence: supported. Targets: AIMech:HammersteinWienerModel.
+
+Claim is supported with its explicit curator qualifications.
+
+An identity input function psi gives a Wiener model, and an identity output function h gives a Hammerstein model. If G is the identity, the model reduces to the static composition h(psi(u)); if both static functions are identities, it reduces to G. These inclusions do not make the ordered three-block family identical to either two-block family or to an identification algorithm. Locators: Introduction, Section 2 Equation 1 and Section 3.2 Remark 4, PDF/printed pp. 1,3,6; curator algebraic specializations in research/discovery/three-block-cascade-boundaries.py
+
+### internal-gain-and-printed-formula
+
+evidence: supported. Targets: AIMech:HammersteinWienerModel.
+
+Claim is supported with its explicit curator qualifications.
+
+For nonzero a,b in the zero-state deterministic formulation, psi_new=a*psi, G_new=(b/a)*G and h_new(v)=h(v/b) preserve the response. With a=2,b=3 the finite example still gives (2,222,738). By contrast, the source’s printed Remark 3 transformation (a*psi,G/(a*b),b*h) gives (10/9,30,90) for the same example and does not generally preserve a nonlinear output function. The counterexample and corrected coordinate rescaling are curator derivations, not an author-issued correction. Locators: Section 2 Equation 1, PDF/printed p. 3; Section 3.2 Remark 3, p. 6; exact source-formula and coordinate-rescaling checks in research/discovery/three-block-cascade-boundaries.py
+
+### noise-location-and-predictor-scope
+
+evidence: supported. Targets: AIMech:HammersteinWienerModel.
+
+Claim is supported with its explicit curator qualifications.
+
+The inspected GP predictor places noise between G and the output function, giving h(z+e), and assumes a stable G and a monotone invertible output map. These are conditions of that particular noisy predictor, not requirements for evaluating every forward deterministic cascade. Noise before h is generally not independent additive noise after h: for h(z)=z+z³ and independent standard Gaussian e, E[h(z+e)]-h(z)=3z. The predictor’s virtual derivative observations promote monotonicity but do not guarantee it globally. Locators: Section 2 Figure 1, Equation 1 and Assumption 1, PDF/printed p. 3; Section 3.3, pp. 6–7; curator exact noise moments in research/discovery/three-block-cascade-boundaries.py
+
+### Internal coordinate scaling versus output amplitude
+
+consistency: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+The corrected algebra and printed-source contradiction are explicit.
+
+The HW source transformation produces b*h(z/b), generally different from h(z); with increasing h=z+z³, stable causal FIR G, a=2,b=3 and no noise, the numeric contradiction is within the deterministic model scope. Correct rescaling acts on h’s argument. WH exchanges scale on both sides of f. Nonzero factors and corresponding signal domains are stated; nonzero initial-state rescaling is not silently claimed.
+
+### Gaussian gain and source structure-test limits
+
+scope: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+No unqualified identification guarantee is adopted.
+
+The odd polynomial q³−15q with variance5 has zero first Gaussian cross-moments; it directly rejects the cited non-evenness converse. The separate ACSE131 source-audit calculations concern zero second correlation, proportional correlations and a cubic coefficient. Those contextual findings do not add unaudited feedback/factorable identification algorithms to either record.
+
+### Optional stochastic extensions and inverse maps
+
+scope: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+Noise placement and algorithm restrictions remain explicit.
+
+The deterministic model does not require Gaussian noise, a GP prior or an inverse. The cited predictor uses a monotone output inverse and places noise before the forward output nonlinearity. The exact Gaussian mean shifts3 and6 for z1 and2 show signal-dependent effects; finite derivative points do not establish global monotonicity. No multivariable Jacobian or calibrated chance-control guarantee is imported.
+
+### Complete fields, versions and discovery mirrors
+
+provenance: supported. Targets: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel.
+
+All maintained fields and report mirrors inspected.
+
+Read stable IDs, names, absent redundant punctuation aliases, model_family kinds, definitions, precise locators, eight claims, source versions/hashes/access, snapshot and two related mappings, five limitations per record and actual DRAFT curation timestamps. 2015 publication/2016 post-print deposit and 2026 v2 revision/footer are distinguished. No priority, independent review, upstream acceptance or empirical replication claim is made.
+
+## Findings
+
+### source-type: Use supported primary-paper source types for three-block model records
+
+minor / resolved / confirmed; issue key: aimech-three-block-source-type-vocabulary.
+
+The new Wiener–Hammerstein record uses author_postprint and the Hammerstein–Wiener record uses preprint in evidence_sources[0].source_type. Neither value is permitted by the maintained schema. Both items are primary research papers; set primary_paper while preserving exact post-print/preprint versions, dates, locators, hashes and publication-status qualifications. The full gate fails on these two enum errors after 247 tests pass. No source-text or model-mechanism correction is implied.
+
+Disposition: Both sources use primary_paper; exact version/publication-status and source hashes are unchanged. Report mirrors, actual edit history and pages were updated. The final required gate passes. A subsequent ignored-inclusive original-checkout search also updates identity provenance after OS access returned; synchronization awaits explicit approval after automatic review rejection.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel. LNL and NLN place static nonlinearities and linear memory in different positions. Shared lower-complexity special cases do not establish family equivalence; neither is the existing two-block estimator or a GP prior.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261012T143420Z-three-block-cascades.json | supports | Compared all 442 pinned AIO IDs, labels and scoped synonyms and 536 native IDs, names and aliases against both cascade names, punctuation variants, expanded descriptions and IDs: no normalized identity match. Ignored- and hidden-inclusive searches of the accessible recovery and previous worktrees returned 746 and zero lines. All 22 distinct matched texts were inspected; they concern existing two-block records and their review/report paths, or the pending combined-cascade cohort. Original Documents files were inaccessible during the initial search. After access returned, a full ignored- and hidden-inclusive search there at 2026-10-12T14:36:27Z found no candidate-name, expanded-description or reference hits; all 11 user files matched their preserved hashes. Read all 41 semantic AIO rows, 65 native name/definition neighbors, nine complete annotated CLASS nodes with incident edges, nine generated records and eight complete native neighbors. The existing Wiener/Hammerstein families have two blocks, their correlation records specify estimators, and NARX/NARMAX specify observed-history recurrences. A linear state-space layer is a neural component; GPR conditions a process prior. None supplies the proposed three-block identity. AIO GLM specifies a statistical link/variance structure, ARDL lag structure and ETS smoothing/trend/seasonality; neural layer/network classes require different scope. Shared linear special cases do not make the families equivalent. This is bounded to the inspected pin and accessible records. |
+| mapping | sources/aio/aio.json | supports | Read 41 semantic AIO rows, 65 native name/definition neighbors, nine complete annotated CLASS nodes and incident edges, nine generated records and eight native neighbors. TimeSeriesAnalysis is a related task mapping; regression processes and neural components do not establish model identity. |
+| calculations | research/discovery/three-block-cascade-boundaries.py | supports | Exact rational finite compositions and Gaussian moments verify model equations, special cases, two internal coordinate rescalings, the printed HW scale counterexample, non-even zero BLA gain, source structure-test counterexamples, a cubic coefficient and signal-dependent mean effects of noise before a nonlinear output. No empirical estimator was run. |
+| schema | src/aimech/schema/curated_concept.yaml | supports | EvidenceSourceType permits primary_paper, official_documentation and author_technical_report. Publication status/version belongs in the source version field; primary_paper does not assert journal acceptance. |
+| wh | https://arxiv.org/pdf/1612.04568v1; arXiv:1612.04568v1, submitted December 14, 2016; author post-print of Automatica 60 (October 2015):201–209. All 11 PDF pages, including seven figures, references and Appendix A, visually read. PDF/printed page numbers coincide; final publisher layout was not compared. | supports | All 11 pages read; after initial category capture reread Figure1, Eq3–4, Theorem1 and assumptions on PDF3–4. The ordered model definition is distinguished from phase-coupled identification assumptions and the false non-even/nonzero-gain converse. Successor assessment rechecks unchanged source identity, hashes, locators, eight claim statements and corrected enum fields. |
+| hw | https://arxiv.org/pdf/2501.15849v2; arXiv:2501.15849v2, revised March 2, 2026. PDF footer dated March 3, 2026 says preprint submitted to Automatica; journal acceptance is not asserted. All 16 PDF pages, five figures, 47 references and Appendices A–B visually read. PDF/printed page numbers coincide. The earlier v1 title and content are not treated as this version. | supports | All 16 pages read; after initial category capture reread Figure1, Eq1, Assumption1 and Remarks3–5 on PDF3,6. Direct composition supports the model while the printed gain formula is explicitly refuted; noise and monotonicity scope is qualified. Successor assessment rechecks unchanged source identity, hashes, locators, eight claim statements and corrected enum fields. |
+| prior | reviews/structured/20261012T144202Z-three-block-open/review.yaml | supports | Initial immutable review retained both families, documented failed enum validation and requested a bounded source-classification fix. |
+
+## Limits And Additional Notes
+
+- Author self-review only; both records remain DRAFT.
+- Original checkout became readable after initial drafting. All11 user files match preserved hashes and an ignored-inclusive follow-up search found no candidate hits. Combined original synchronization/old-branch cleanup was rejected by automatic approval review and awaits explicit approval; the validated public recovery checkout remains active.
+- Two native DRAFT model families added: 538 curated and 442 unchanged generated records. Discovery continues with 473 pending and 51 partly addressed cohorts, plus other unresolved scopes. No saturation claim.
+- All 69 pages across ACSE131, the 2015 author post-print and the 2026 v2 preprint were visually read. Cited model records use the 27 modern-source pages; the broader report informs source audit and frontier accounting. Final publisher versions and parallel-method full text were not compared.
+- Definitions are scoped to real scalar discrete-time deterministic ordered cascades. Forward composition, internal gain choices, noise location and specific identification assumptions remain distinct. Exact finite examples are curator derivations, not author-issued corrections or empirical reproduction.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T145121Z-three-block-resolved
+kind: category
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of three-block dynamical cascade families
+started_at: '2026-10-12T14:43:13Z'
+finished_at: '2026-10-12T14:51:21Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Authoring agent inspected all fields and primary passages and
+    challenged scaling, special cases, nonzero gain, noise location and predictor
+    assumptions. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain both ordered model families; source-type defect resolved and final
+  checks pass.
+source:
+  git_revision: cdfcad102df115059d9d264307f37f4f29aa9637
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveDistributedLag.yaml
+    sha256: ec96eff60d187277db7e53193e2a91671c047127c75a493ff764bb362521458e
+    role: context
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/ExponentialSmoothingStateSpaceModel.yaml
+    sha256: e54f9504ddd176b6fc08542cdacb2ab5cdb5a25cec8501ccf071de34881ec79d
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/curated/CorrelationBasedHammersteinIdentification.yaml
+    sha256: 2d0a8d5cfb94238255a86d8f96ff3a40853c8fa92c39b3fd131ad276f41cd5e3
+    role: context
+  - path: data/curated/CorrelationBasedWienerIdentification.yaml
+    sha256: 42cb617ee6ecaae592441a4811cc31857ce6d6ea5d47d6327e9fbced01b5483d
+    role: context
+  - path: data/curated/GaussianProcessRegression.yaml
+    sha256: d83d0de4a152e7db689636928f41eb5d3663281285585d835f2a5535403d6a0d
+    role: context
+  - path: data/curated/HammersteinModel.yaml
+    sha256: 03e25ac3b355174c7011e2aec536286009102d3dac75be07ac041025861db56b
+    role: context
+  - path: data/curated/HammersteinWienerModel.yaml
+    sha256: 139a9cad0da453f4ae21426296c7084a56009b7c2edd7b6e2e0bb8c559f06016
+    role: target
+  - path: data/curated/LinearStateSpaceLayer.yaml
+    sha256: 05d7d834a8c0db4c33613384cde4a250838290cce6960fda10e7209da318c151
+    role: context
+  - path: data/curated/NonlinearAutoregressiveExogenousModel.yaml
+    sha256: 3157f6cbd735ef6792e7afbc5a0ff4e2be97305d9896e7e91452b674524fc0ec
+    role: context
+  - path: data/curated/NonlinearAutoregressiveMovingAverageExogenousModel.yaml
+    sha256: e25a5536febcea04ba4cb8b8240737f819572629e6bc3f213e84de13854b33ed
+    role: context
+  - path: data/curated/WienerHammersteinModel.yaml
+    sha256: b9c6bb6df563dc462d096cfb29d5549f331db3a0c6e587d0657bffbc91b8c84c
+    role: target
+  - path: data/curated/WienerModel.yaml
+    sha256: 3e327ccc2366267909e7c0bf3e31156a1b1461ffa5a2d8f79fc9a764555c5b01
+    role: context
+  - path: research/discovery/20261012T143420Z-three-block-cascades.json
+    sha256: af2f961c4033b9639b3d6a019c0a933d0eb010d9d99316eddb5ed18efc4de2b5
+    role: context
+  - path: research/discovery/three-block-cascade-boundaries.py
+    sha256: 94988a5bd66741bdbee15b40f1fd1913ad0eaeae3d6a60e694aa4ebeb81531b2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:WienerHammersteinModel
+  path: data/curated/WienerHammersteinModel.yaml
+  label: Wiener–Hammerstein model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WienerHammersteinModel.yaml
+    role: maintained
+- target_id: AIMech:HammersteinWienerModel
+  path: data/curated/HammersteinWienerModel.yaml
+  label: Hammerstein–Wiener model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HammersteinWienerModel.yaml
+    role: maintained
+scope:
+  description: All fields of the exact two-record three-block scalar deterministic
+    model-family cohort.
+  selection: 'Exact IDs: AIMech:WienerHammersteinModel, AIMech:HammersteinWienerModel'
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exclusions:
+  - target: Identification/prediction/control algorithms and broader model variants
+    reason: Separate pending identity and equation audits.
+  - target: Contextual neighboring records and ACSE131 estimator claims
+    reason: Identity/source context, not full record-level scientific review.
+  - target: Empirical replication or implementation audit
+    reason: Only exact curator calculations were executed.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 146.79s (0:02:26)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 538 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 185 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 183,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculations
+  name: Exact cascade and Gaussian boundary calculations
+  command: python3 research/discovery/three-block-cascade-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"wiener_hammerstein_output": ["1", "19", "57"], "wiener_hammerstein_rescaled":
+    ["1", "19", "57"], "hammerstein_wiener_output": ["2", "222", "738"], "hammerstein_wiener_rescaled":
+    ["2", "222", "738"], "printed_hw_scaling_output": ["10/9", "30", "90"], "non_even_zero_first_correlation":
+    ["0", "0"], "nonlinear_zero_second_correlation": {"first": ["15", "30"], "second":
+    ["0", "0"]}, "non_hammerstein_proportional_correlations": {"first": ["4", "4"],
+    "second": ["2", "2"], "mixed_difference": 2}, "cubic_second_centered_correlation":
+    "18", "pre_output_gaussian_noise_mean_shifts": ["3", "6"]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261012T143420Z-three-block-cascades.json
+  accessed_at: '2026-10-12T14:43:13Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO IDs, labels and scoped synonyms and 536 native
+    IDs, names and aliases against both cascade names, punctuation variants, expanded
+    descriptions and IDs: no normalized identity match. Ignored- and hidden-inclusive
+    searches of the accessible recovery and previous worktrees returned 746 and zero
+    lines. All 22 distinct matched texts were inspected; they concern existing two-block
+    records and their review/report paths, or the pending combined-cascade cohort.
+    Original Documents files were inaccessible during the initial search. After access
+    returned, a full ignored- and hidden-inclusive search there at 2026-10-12T14:36:27Z
+    found no candidate-name, expanded-description or reference hits; all 11 user files
+    matched their preserved hashes. Read all 41 semantic AIO rows, 65 native name/definition
+    neighbors, nine complete annotated CLASS nodes with incident edges, nine generated
+    records and eight complete native neighbors. The existing Wiener/Hammerstein families
+    have two blocks, their correlation records specify estimators, and NARX/NARMAX
+    specify observed-history recurrences. A linear state-space layer is a neural component;
+    GPR conditions a process prior. None supplies the proposed three-block identity.
+    AIO GLM specifies a statistical link/variance structure, ARDL lag structure and
+    ETS smoothing/trend/seasonality; neural layer/network classes require different
+    scope. Shared linear special cases do not make the families equivalent. This is
+    bounded to the inspected pin and accessible records.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. The original Documents checkout cannot be read because
+    of OS permissions, so its untracked files are not claimed re-audited in this round.
+    Original Documents access subsequently returned; the appended ignored-inclusive
+    follow-up covers its preserved user files and full readable checkout.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-12T14:43:13Z'
+  support: supports
+  summary: Read 41 semantic AIO rows, 65 native name/definition neighbors, nine complete
+    annotated CLASS nodes and incident edges, nine generated records and eight native
+    neighbors. TimeSeriesAnalysis is a related task mapping; regression processes
+    and neural components do not establish model identity.
+- evidence_id: calculations
+  kind: record_content
+  reference: research/discovery/three-block-cascade-boundaries.py
+  accessed_at: '2026-10-12T14:43:13Z'
+  snapshot_sha256: 94988a5bd66741bdbee15b40f1fd1913ad0eaeae3d6a60e694aa4ebeb81531b2
+  support: supports
+  summary: Exact rational finite compositions and Gaussian moments verify model equations,
+    special cases, two internal coordinate rescalings, the printed HW scale counterexample,
+    non-even zero BLA gain, source structure-test counterexamples, a cubic coefficient
+    and signal-dependent mean effects of noise before a nonlinear output. No empirical
+    estimator was run.
+- evidence_id: schema
+  kind: record_content
+  reference: src/aimech/schema/curated_concept.yaml
+  accessed_at: '2026-10-12T14:43:13Z'
+  support: supports
+  summary: EvidenceSourceType permits primary_paper, official_documentation and author_technical_report.
+    Publication status/version belongs in the source version field; primary_paper
+    does not assert journal acceptance.
+- evidence_id: wh
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1612.04568v1
+  locator: arXiv:1612.04568v1, submitted December 14, 2016; author post-print of Automatica
+    60 (October 2015):201–209. All 11 PDF pages, including seven figures, references
+    and Appendix A, visually read. PDF/printed page numbers coincide; final publisher
+    layout was not compared.
+  accessed_at: '2026-10-12T14:25:27Z'
+  snapshot_sha256: 3368b292c40e33e173a85898369ef22590ee6a3a0528d092c8469e111948b21e
+  support: supports
+  summary: All 11 pages read; after initial category capture reread Figure1, Eq3–4,
+    Theorem1 and assumptions on PDF3–4. The ordered model definition is distinguished
+    from phase-coupled identification assumptions and the false non-even/nonzero-gain
+    converse. Successor assessment rechecks unchanged source identity, hashes, locators,
+    eight claim statements and corrected enum fields.
+- evidence_id: hw
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2501.15849v2
+  locator: arXiv:2501.15849v2, revised March 2, 2026. PDF footer dated March 3, 2026
+    says preprint submitted to Automatica; journal acceptance is not asserted. All
+    16 PDF pages, five figures, 47 references and Appendices A–B visually read. PDF/printed
+    page numbers coincide. The earlier v1 title and content are not treated as this
+    version.
+  accessed_at: '2026-10-12T14:25:28Z'
+  snapshot_sha256: 0d0701623f76261782dfabba75fbeff09781914f1805091101251dcd4649b6f4
+  support: supports
+  summary: All 16 pages read; after initial category capture reread Figure1, Eq1,
+    Assumption1 and Remarks3–5 on PDF3,6. Direct composition supports the model while
+    the printed gain formula is explicitly refuted; noise and monotonicity scope is
+    qualified. Successor assessment rechecks unchanged source identity, hashes, locators,
+    eight claim statements and corrected enum fields.
+- evidence_id: prior
+  kind: prior_review
+  reference: reviews/structured/20261012T144202Z-three-block-open/review.yaml
+  accessed_at: '2026-10-12T14:43:13Z'
+  support: supports
+  summary: Initial immutable review retained both families, documented failed enum
+    validation and requested a bounded source-classification fix.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Three-block ordered model families
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - identity
+  - wh
+  - hw
+  summary: Retain both model identities.
+  details: LNL places one static function between two LTI blocks; NLN places static
+    functions around one LTI block. Shared Wiener/Hammerstein/linear special cases
+    imply overlap, not family equivalence. Neither identity denotes a fitted instance,
+    a GP prior, an observed-history recurrence or a particular estimator. Declared
+    scalar discrete-time deterministic scope is explicit in both definitions.
+- assessment_id: source-type
+  area: schema
+  topic: Schema-supported primary source classification
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - schema
+  - wh
+  - hw
+  summary: Both primary papers now use a permitted source category.
+  details: Use primary_paper for each research paper, retaining exact post-print/preprint
+    version, arXiv suffix, access time, SHA256 and publication-status description.
+    The correction does not transform the 2026 preprint into a peer-reviewed final
+    article.
+- assessment_id: mapping
+  area: grounding
+  topic: Model/task relationship
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - mapping
+  summary: Two related mappings are supported curator assessments.
+  details: This ordered dynamical model family represents temporal input-output relationships
+    for system identification and analysis. The inspected AIO target is an analysis
+    task, so the link is a model/task relationship rather than exact identity or an
+    asserted subclass. This ordered dynamical model family represents temporal input-output
+    relationships for system identification and analysis. The inspected AIO target
+    is an analysis task, so the link is a model/task relationship rather than exact
+    identity or an asserted subclass.
+- assessment_id: r0-linear-static-linear
+  area: evidence
+  topic: linear-static-linear
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  evidence_ids:
+  - wh
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'For zero-state linear operators R and S and a memoryless function f, the
+    response is y=S(f(Ru)). The first block mixes input history, f acts pointwise
+    on the resulting internal signal, and S filters that nonlinear signal. With causal
+    finite filters R=(1,2), S=(1,3), inputs (1,2,-1), zero prehistory and f(v)=v²,
+    the first three outputs are (1,19,57). This is an exact curator example of the
+    specified composition, not a fitted benchmark. Locators: Section 2.2, Figure 1
+    and Equations 3–4, PDF/printed pp. 2–3; curator calculation in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r0-two-block-special-cases
+  area: evidence
+  topic: two-block-special-cases
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  evidence_ids:
+  - wh
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'An identity input block R gives the Hammerstein order, and an identity
+    output block S gives the Wiener order. If f is the identity, the cascade reduces
+    to the linear composition SR. The families therefore overlap through degenerate
+    or linear special cases; their different ordered structures are not interchangeable
+    names, and a three-block representation need not be minimal. Locators: Introduction
+    and Figure 1, PDF/printed pp. 1–2; direct algebraic specializations of Equation
+    3 on p. 3, checked in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r0-internal-gain-ambiguity
+  area: evidence
+  topic: internal-gain-ambiguity
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  evidence_ids:
+  - wh
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'For nonzero a and b in the zero-state deterministic formulation, replacing
+    R by aR, f(v) by b*f(v/a), and S by S/b leaves the external response unchanged
+    on the corresponding signal domains. The finite example with a=2,b=3 still gives
+    (1,19,57). External data alone therefore cannot fix these two internal scale choices
+    without normalization or other information; this is not a complete classification
+    of all ambiguities. Locators: Direct curator reparameterization of Section 2.2,
+    Equation 3, PDF/printed p. 3; exact check in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r0-linear-approximation-boundary
+  area: evidence
+  topic: linear-approximation-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  evidence_ids:
+  - wh
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'The source’s Gaussian best-linear approximation exposes a scalar multiple
+    of the product RS rather than uniquely assigning dynamics to R and S. An informative
+    nonzero gain is an additional requirement: non-evenness of f alone does not suffice.
+    For iid standard Gaussian input, R=(1,2) gives internal variance 5, and f(q)=q³-15q
+    has zero first input/output correlations despite being a nonconstant odd function.
+    The curator counterexample qualifies the source text after Theorem 1. Estimating
+    or separating blocks is a distinct identification problem. Locators: Section 3.2,
+    Equations 8–10 and text after Theorem 1, PDF/printed p. 4; Section 4.3, p. 7;
+    curator exact Gaussian moments in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r1-static-linear-static
+  area: evidence
+  topic: static-linear-static
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'Write the deterministic cascade as y=h(G(psi(u))), using h for the forward
+    output function. The input function acts on each input sample, the linear block
+    carries the dynamics, and h acts on its output. Equivalently, a finite-state linear
+    block has x_next=A*x+B*psi(u) and y=h(C*x+D*psi(u)). With psi(v)=v², causal filter
+    G=(1,2), h(v)=v+v³, inputs (1,2,-1) and zero prehistory, outputs are (2,222,738).
+    Locators: Section 2, Figure 1 and Equation 1, PDF/printed p. 3, setting noise
+    to zero and writing h=phi^(-1); curator finite example in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r1-two-block-special-cases
+  area: evidence
+  topic: two-block-special-cases
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'An identity input function psi gives a Wiener model, and an identity output
+    function h gives a Hammerstein model. If G is the identity, the model reduces
+    to the static composition h(psi(u)); if both static functions are identities,
+    it reduces to G. These inclusions do not make the ordered three-block family identical
+    to either two-block family or to an identification algorithm. Locators: Introduction,
+    Section 2 Equation 1 and Section 3.2 Remark 4, PDF/printed pp. 1,3,6; curator
+    algebraic specializations in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r1-internal-gain-and-printed-formula
+  area: evidence
+  topic: internal-gain-and-printed-formula
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'For nonzero a,b in the zero-state deterministic formulation, psi_new=a*psi,
+    G_new=(b/a)*G and h_new(v)=h(v/b) preserve the response. With a=2,b=3 the finite
+    example still gives (2,222,738). By contrast, the source’s printed Remark 3 transformation
+    (a*psi,G/(a*b),b*h) gives (10/9,30,90) for the same example and does not generally
+    preserve a nonlinear output function. The counterexample and corrected coordinate
+    rescaling are curator derivations, not an author-issued correction. Locators:
+    Section 2 Equation 1, PDF/printed p. 3; Section 3.2 Remark 3, p. 6; exact source-formula
+    and coordinate-rescaling checks in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: r1-noise-location-and-predictor-scope
+  area: evidence
+  topic: noise-location-and-predictor-scope
+  outcome: supported
+  target_ids:
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - calculations
+  summary: Claim is supported with its explicit curator qualifications.
+  details: 'The inspected GP predictor places noise between G and the output function,
+    giving h(z+e), and assumes a stable G and a monotone invertible output map. These
+    are conditions of that particular noisy predictor, not requirements for evaluating
+    every forward deterministic cascade. Noise before h is generally not independent
+    additive noise after h: for h(z)=z+z³ and independent standard Gaussian e, E[h(z+e)]-h(z)=3z.
+    The predictor’s virtual derivative observations promote monotonicity but do not
+    guarantee it globally. Locators: Section 2 Figure 1, Equation 1 and Assumption
+    1, PDF/printed p. 3; Section 3.3, pp. 6–7; curator exact noise moments in research/discovery/three-block-cascade-boundaries.py'
+- assessment_id: gain
+  area: consistency
+  topic: Internal coordinate scaling versus output amplitude
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - wh
+  - calculations
+  summary: The corrected algebra and printed-source contradiction are explicit.
+  details: The HW source transformation produces b*h(z/b), generally different from
+    h(z); with increasing h=z+z³, stable causal FIR G, a=2,b=3 and no noise, the numeric
+    contradiction is within the deterministic model scope. Correct rescaling acts
+    on h’s argument. WH exchanges scale on both sides of f. Nonzero factors and corresponding
+    signal domains are stated; nonzero initial-state rescaling is not silently claimed.
+- assessment_id: correlation
+  area: scope
+  topic: Gaussian gain and source structure-test limits
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - wh
+  - calculations
+  summary: No unqualified identification guarantee is adopted.
+  details: The odd polynomial q³−15q with variance5 has zero first Gaussian cross-moments;
+    it directly rejects the cited non-evenness converse. The separate ACSE131 source-audit
+    calculations concern zero second correlation, proportional correlations and a
+    cubic coefficient. Those contextual findings do not add unaudited feedback/factorable
+    identification algorithms to either record.
+- assessment_id: noise
+  area: scope
+  topic: Optional stochastic extensions and inverse maps
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - hw
+  - calculations
+  summary: Noise placement and algorithm restrictions remain explicit.
+  details: The deterministic model does not require Gaussian noise, a GP prior or
+    an inverse. The cited predictor uses a monotone output inverse and places noise
+    before the forward output nonlinearity. The exact Gaussian mean shifts3 and6 for
+    z1 and2 show signal-dependent effects; finite derivative points do not establish
+    global monotonicity. No multivariable Jacobian or calibrated chance-control guarantee
+    is imported.
+- assessment_id: all-fields
+  area: provenance
+  topic: Complete fields, versions and discovery mirrors
+  outcome: supported
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - identity
+  - mapping
+  - wh
+  - hw
+  - schema
+  summary: All maintained fields and report mirrors inspected.
+  details: Read stable IDs, names, absent redundant punctuation aliases, model_family
+    kinds, definitions, precise locators, eight claims, source versions/hashes/access,
+    snapshot and two related mappings, five limitations per record and actual DRAFT
+    curation timestamps. 2015 publication/2016 post-print deposit and 2026 v2 revision/footer
+    are distinguished. No priority, independent review, upstream acceptance or empirical
+    replication claim is made.
+findings:
+- finding_id: source-type
+  issue_key: aimech-three-block-source-type-vocabulary
+  category: schema
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Use supported primary-paper source types for three-block model records
+  description: The new Wiener–Hammerstein record uses author_postprint and the Hammerstein–Wiener
+    record uses preprint in evidence_sources[0].source_type. Neither value is permitted
+    by the maintained schema. Both items are primary research papers; set primary_paper
+    while preserving exact post-print/preprint versions, dates, locators, hashes and
+    publication-status qualifications. The full gate fails on these two enum errors
+    after 247 tests pass. No source-text or model-mechanism correction is implied.
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  field_paths:
+  - evidence_sources[0].source_type
+  evidence_ids:
+  - prior
+  - schema
+  - wh
+  - hw
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/WienerHammersteinModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/HammersteinWienerModel.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261012T143420Z-three-block-cascades.json
+    role: discovery_report
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261012T144202Z-three-block-open
+    finding_id: source-type
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/194
+  disposition_reason: Both sources use primary_paper; exact version/publication-status
+    and source hashes are unchanged. Report mirrors, actual edit history and pages
+    were updated. The final required gate passes. A subsequent ignored-inclusive original-checkout
+    search also updates identity provenance after OS access returned; synchronization
+    awaits explicit approval after automatic review rejection.
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:WienerHammersteinModel
+  - AIMech:HammersteinWienerModel
+  evidence_ids:
+  - identity
+  - wh
+  - hw
+  - calculations
+  rationale: LNL and NLN place static nonlinearities and linear memory in different
+    positions. Shared lower-complexity special cases do not establish family equivalence;
+    neither is the existing two-block estimator or a GP prior.
+limitations:
+- Author self-review only; both records remain DRAFT.
+- Original checkout became readable after initial drafting. All11 user files match
+  preserved hashes and an ignored-inclusive follow-up search found no candidate hits.
+  Combined original synchronization/old-branch cleanup was rejected by automatic approval
+  review and awaits explicit approval; the validated public recovery checkout remains
+  active.
+- 'Two native DRAFT model families added: 538 curated and 442 unchanged generated
+  records. Discovery continues with 473 pending and 51 partly addressed cohorts, plus
+  other unresolved scopes. No saturation claim.'
+- All 69 pages across ACSE131, the 2015 author post-print and the 2026 v2 preprint
+  were visually read. Cited model records use the 27 modern-source pages; the broader
+  report informs source audit and frontier accounting. Final publisher versions and
+  parallel-method full text were not compared.
+- Definitions are scoped to real scalar discrete-time deterministic ordered cascades.
+  Forward composition, internal gain choices, noise location and specific identification
+  assumptions remain distinct. Exact finite examples are curator derivations, not
+  author-issued corrections or empirical reproduction.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261012T144202Z-three-block-open
+  relationship: Successor resolves the source-type enum defect while retaining both
+    scientifically assessed targets.
+links: []
+tags:
+- native-concepts
+- system-identification
+- self-review
+- discovery-ongoing
+```
