@@ -1,0 +1,121 @@
+name: Deterministic Annealing Expectation Maximization
+aliases:
+- Deterministic Annealing EM
+- DAEM
+concept_kind: algorithm
+definition: A latent-variable likelihood-fitting procedure that performs deterministic powered-posterior
+  EM updates along a warm-started cooling schedule from a small positive inverse temperature to one, including
+  an ordinary-likelihood fit at the endpoint.
+identity_notes: 'DAEM denotes the Ueda-Nakano outer cooling procedure, whose finite-state fixed-temperature
+  update overlaps the existing tempered-EM framework. It is retained as a named schedule-defined specialization,
+  not a disjoint update family. Hofmann’s held-out inverse-annealing realization starts at one and decreases
+  inverse temperature, whereas this procedure increases it to one for likelihood fitting. CAEM samples
+  hard assignments; DAEM uses fractional expectations. Neither deterministic procedure is Metropolis simulated
+  annealing. No normalized identity matches among 442 pinned and 476 maintained records, including acronym
+  probes. GEM is the exact-current-E/Q-improvement framework, IEM refreshes cached independent cases,
+  sparse EM preserves frozen outside mass, and DAEM is the warm-started cooling-to-beta1 procedure. Existing
+  TEM has the same finite-state fixed-beta update, but its broader update framework and held-out inverse-annealing
+  realization do not define that outer cooling procedure. ECM, AECM and SAGE specialize parameter/augmentation
+  updates, not these case or probability-subset operations. Structured factorial-HMM variational inference
+  imposes a different family restriction. Names and incidental frontier references do not establish identity;
+  qualified GEM/IEM aliases avoid unrelated uses. The absence assessment is bounded to this snapshot and
+  corpus. Identity-search counts: 253 matched lines in the worktree and 260 in main; all 98 distinct matching-text
+  windows were read, with ignored and hidden files included.'
+definition_evidence:
+- source_id: annealing-source
+  locator: Sections3.1-3.2 Eq7-14 and algorithm, pp547-549 / PDF3-5; endpoint discussion and stopping-test
+    qualification
+  relation: supports
+evidence_sources:
+- source_id: annealing-source
+  title: Deterministic Annealing Variant of the EM Algorithm
+  authors:
+  - Naonori Ueda
+  - Ryohei Nakano
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/1994/file/92262bf907af914b95a0fc33c3f33bf6-Paper.pdf
+  persistent_id: https://proceedings.neurips.cc/paper/1994/file/92262bf907af914b95a0fc33c3f33bf6-Paper.pdf
+  version: Official NIPS1994 proceedings PDF, Advances in Neural Information Processing Systems7, pp.545-552,
+    published1995. All eight pages, figures, captions and references visually read; printed page=PDFpage+544.
+    The distinct1998Neural Networks journal article was inspected at abstract level only, not used as
+    unseen full-method evidence.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:26:30Z'
+  sha256: 4506ebe1a61b28518c8c4d3fe54c7ffebdd8c0b320528ca7c5b0c770649bc151
+claims:
+- claim_id: powered-joint-stages
+  kind: mechanism
+  statement: At fixed beta>0 define f_beta(z|x,theta)=p(x,z|theta)^beta/Z_beta(x,theta), where Z is a
+    positive finite latent sum or integral. The power applies to the whole joint density, including mixing
+    weights. Compute expectations under f_beta at the current parameters, then maximize the expected complete
+    log likelihood with that distribution held fixed. Repeat the deterministic stage updates to the chosen
+    stopping condition, increase beta, and warm-start the next stage. Explicitly fit at beta=1 to recover
+    the ordinary EM endpoint.
+  evidence:
+  - source_id: annealing-source
+    locator: Sections3.1-3.2 Eq7-14, pp547-549 / PDF3-5
+    relation: supports
+- claim_id: stage-objective
+  kind: scope
+  statement: At fixed beta, the entropy-weighted variational objective profiles to (1/beta)*sum_i log
+    Z_beta(x_i,theta), the negative of the paper’s free energy. Exact admissible coordinate updates increase
+    that stage objective; beta=1 gives observed log likelihood. For beta different from one, stage improvement
+    need not increase ordinary likelihood. Changing beta changes the optimized objective, so a cooling
+    path is not ascent on a single unchanged likelihood surface.
+  evidence:
+  - source_id: annealing-source
+    locator: Eq11-13, p548 / PDF4; Eq15-17, p551 / PDF7
+    relation: supports
+- claim_id: normalization-and-global-claims
+  kind: limitation
+  statement: 'The source’s high-temperature uniqueness and global-tracking argument is conditional, not
+    a general convergence guarantee. On an unbounded continuous latent domain, the beta=0 uniform law
+    need not exist and positive powers of a heavy-tailed density can have infinite normalizers. Negative
+    log density also need not be nonnegative: normalized continuous densities can exceed one. Local warm-started
+    optimization need not follow the global optimum through temperature changes or bifurcations.'
+  evidence:
+  - source_id: annealing-source
+    locator: Section3.1 energy note, p548 / PDF4; Section3.2 global-minimum discussion, p549 / PDF5; curator
+      continuous-density counterexamples
+    relation: supports
+- claim_id: endpoint-rule
+  kind: limitation
+  statement: The printed pseudocode increases beta and repeats only while beta<beta_max, which can stop
+    before fitting at the desired beta_max=1. The endpoint solve is specified explicitly here; a literal
+    transcription of that test is not certified. The experimental multiplicative rule beta_new=1.4*beta
+    also requires an endpoint policy. The selected two-Gaussian demonstrations do not establish initialization
+    independence or a universally successful cooling schedule.
+  evidence:
+  - source_id: annealing-source
+    locator: Section3.2 steps4-5 and endpoint prose, p549 / PDF5; Section4 and footnote3, pp550-551 /
+      PDF6-7
+    relation: supports
+limitations:
+- The continuous extension requires a specified base measure, support and finite powered-density integrals
+  at every scheduled beta. Finite mixtures avoid some integrability issues but can still have singular
+  or inadmissible parameter fits.
+- At beta=1 the update is ordinary EM, not necessarily a global maximum. The beta-to-infinity hard-assignment
+  discussion is a different limit from this cooling-to-one likelihood procedure.
+- The fully inspected1994proceedings version is distinct from the1998journal article. No unseen journal
+  correction, proof or author implementation is claimed.
+- No author software or historical empirical study was reproduced. Finite curator calculations illustrate
+  stated objective and schedule boundaries; they are not a general convergence proof or an empirical speed
+  comparison.
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This procedure fits latent-model parameters from observed data. The inspected AIO target
+    denotes a learning process/task; this algorithm-to-task relationship asserts neither equivalence nor
+    an is-a relation.
+id: AIMech:DeterministicAnnealingExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:39:47Z'
+  updated_at: '2026-10-12T04:39:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

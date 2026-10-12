@@ -1,0 +1,368 @@
+# Incremental EM claim-source traceability finding
+
+- Review: 20261012T044708Z-incremental-em-claim-citations
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-12T04:42:05Z
+- Finished UTC: 2026-10-12T04:47:08Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+One minor claim-citation gap requires the already inspected Neal-Hinton locators.
+
+## Scope And Provenance
+
+Claim-source traceability of the new incremental EM record.
+
+Selection: Exact maintained ID AIMech:IncrementalExpectationMaximization.
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 0eb25890416d350ff2df9aa784fa2a5d5143175f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:IncrementalExpectationMaximization | data/curated/IncrementalExpectationMaximization.yaml | maintained | Incremental Expectation Maximization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:IncrementalExpectationMaximization | All checks passed!<br>........................................................................ [ 29%]<br>........................................................................ [ 59%]<br>........................................................................ [ 89%]<br>.......................sss                                               [100%]<br>239 passed, 3 skipped in 130.40s (0:02:10)<br>Checked 442 record(s); 0 failed.<br>Checked 480 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 140 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 137,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:IncrementalExpectationMaximization | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:IncrementalExpectationMaximization | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:IncrementalExpectationMaximization | Exited0. |
+
+## Scientific And Domain Assessments
+
+### Direct support for mixed source claims
+
+evidence: concern. Targets: AIMech:IncrementalExpectationMaximization.
+
+Add Neal-Hinton citations to the cached-bound claim and the convergence/cost claim. Retain the correction citations for nonmonotonicity and conditional convergence. Use observed-likelihood wording consistently. This is a claim-level traceability gap in the uncommitted new record, not evidence that the method claims are false.
+
+## Findings
+
+### incremental-em-claim-citations: Complete source locators for incremental EM mixed claims
+
+minor / open / confirmed; issue key: CultureBotAI-AIMech-IncrementalEM-claim-source-locators.
+
+Add Neal-Hinton citations to the cached-bound claim and the convergence/cost claim. Retain the correction citations for nonmonotonicity and conditional convergence. Use observed-likelihood wording consistently. This is a claim-level traceability gap in the uncommitted new record, not evidence that the method claims are false.
+
+## Recommended Actions And Acceptance Checks
+
+### complete-citations
+
+Add precise chapter citations, synchronize the discovery entry and append actual curation history, then revalidate and reinspect changed bytes.
+
+- The cached-bound claim cites Neal-Hinton Section2 and Section3.
+- The storage/roundoff and runtime discussion cites Neal-Hinton Sections3-4.
+- Curated collection and saved reviews validate; the original correction citations remain.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| claim-citations | data/curated/IncrementalExpectationMaximization.yaml; claims[claim_id=bound-not-likelihood].evidence and claims[claim_id=convergence-and-cost].evidence | refutes | Both mixed claims cite only the Byrne-Gunawardana correction. The correction supports the likelihood/convergence discussion, while the entropy-augmented cache objective and implementation storage/roundoff/pass-versus-runtime details are in the inspected Neal-Hinton chapter. |
+| chapter | https://www.cs.toronto.edu/~hinton/absps/emk.pdf; Section2 Eq1-5, PDF3-6; Section3 Eq6-10 and implementation discussion, PDF6-8; Section4, PDF9-11 | supports | All14manuscript pages were visually read. These sections supply the missing direct locators; the claims are substantively supported, but their claim-level citation lists are incomplete. |
+
+## Limits And Additional Notes
+
+- Bounded author self-review of a draft record; no independent approval or empirical reproduction.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261012T044708Z-incremental-em-claim-citations
+kind: record
+repository: CultureBotAI/AIMech
+title: Incremental EM claim-source traceability finding
+started_at: '2026-10-12T04:42:05Z'
+finished_at: '2026-10-12T04:47:08Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The authoring agent read the final draft and compared each claim
+    locator with inspected primary sources. This is an adversarial self-review, not
+    independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: needs_curation
+scientific_review: true
+summary: One minor claim-citation gap requires the already inspected Neal-Hinton locators.
+source:
+  git_revision: 0eb25890416d350ff2df9aa784fa2a5d5143175f
+  state: working_tree
+  inputs:
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AlternatingExpectationConditionalMaximization.yaml
+    sha256: 7e0e004ed49a7afc64621a394bd6828c25f6ba551357fd97aa54efd6487d74a4
+    role: context
+  - path: data/curated/ClassificationAnnealingExpectationMaximization.yaml
+    sha256: 501e8196a6d30c0b5d803eb776c9ee24c86c471a24f68097a4326644c1d5e42a
+    role: context
+  - path: data/curated/ClassificationExpectationMaximization.yaml
+    sha256: 11b75a28afb63acfee844f2ff9de5b402c86049d2507a9bbb687083a4526ddaf
+    role: context
+  - path: data/curated/DeterministicAnnealingExpectationMaximization.yaml
+    sha256: 55b477435b3c27f9061a649effe0be94b71f346127d6ab773f861cec8df5112d
+    role: target
+  - path: data/curated/ExpectationConditionalMaximization.yaml
+    sha256: 525c100f17166d92874cf2f44d4f622b376f86fca16e6716474d463632c53e44
+    role: context
+  - path: data/curated/ExpectationConditionalMaximizationEither.yaml
+    sha256: e9b94dc648b9453f958558e2d91af4c09bd7663380b1a5dd96d52d44f7d15074
+    role: context
+  - path: data/curated/ExpectationMaximization.yaml
+    sha256: eab2880f9e6db51aa49135ada0c3f6d1504e947e6f920d0a5913fd7ddbd069c4
+    role: context
+  - path: data/curated/GeneralizedExpectationMaximization.yaml
+    sha256: bb32fbb9d866e41d37c6c2f8335cef1ff8927302976c8d24563d53db0b6f844a
+    role: target
+  - path: data/curated/IncrementalExpectationMaximization.yaml
+    sha256: b6ba061b6ba6869e2ce267e84e921b66fdf29e42c1e5231df2de9289fe45f416
+    role: target
+  - path: data/curated/IterativeConditionalEstimation.yaml
+    sha256: 98813e020f43870f725a5c1e4ab0de9197f0dc2bc85f61e66e2044ab8d87e9cc
+    role: context
+  - path: data/curated/MonteCarloExpectationMaximization.yaml
+    sha256: 4fe2298310d7e8307af93dbab852485beb0ee210588ff7e8c94e7912b7416ffd
+    role: context
+  - path: data/curated/SimulatedAnnealing.yaml
+    sha256: 7e77f553c8b2afc4563dc7ef6cba2b53719f22b1fd02ed37d22de9821079d42c
+    role: context
+  - path: data/curated/SpaceAlternatingGeneralizedExpectationMaximization.yaml
+    sha256: 0a6ea8f561031c7c0adc8bd48aa2903410eaee7603da60bbc02fac240cc71464
+    role: context
+  - path: data/curated/SparseExpectationMaximization.yaml
+    sha256: 24736a34624da2d8375424f1f90d3b9ad0f0681ad0f4132b519f230ab12d7d2c
+    role: target
+  - path: data/curated/StochasticApproximationExpectationMaximization.yaml
+    sha256: f23a3d7e121b29106dcd2372a16e5af853ebedd6b6efdee9fab7f19284cbdefa
+    role: context
+  - path: data/curated/StochasticExpectationMaximization.yaml
+    sha256: 5a5b6cabf7480d86c56c26c8ddf9c49e22eb801cb6271f30f6ddd28079e15bd4
+    role: context
+  - path: data/curated/StructuredVariationalInferenceForFactorialHMMs.yaml
+    sha256: 236f080993e164f5768f1eb1a179ff3589b03344cf133091fea5d35cc3ce4918
+    role: context
+  - path: data/curated/TemperedExpectationMaximization.yaml
+    sha256: 792d43ce4f38f485002b9fadbb1e9d9ac32879069cb2ec6e42b3443b57441ca5
+    role: context
+  - path: data/curated/VariationalInformationMaximizationIMAlgorithm.yaml
+    sha256: 61783c7e57a0ce7b6b9201e1f29e7e3d603b7027b7ad541f9d26591f70222e6b
+    role: context
+  - path: research/discovery/20261012T044139Z-partial-and-annealed-em.json
+    sha256: 5c2b03a948260a96e206a6bc79f400ba0a61cc69fd6bc342421b137eac2fd3d7
+    role: context
+  - path: research/discovery/partial-and-annealed-em-boundaries.py
+    sha256: 662f57f5eb66c78102b8ee17949c51c4940e99e8c4bf5b287aee4c0656efbe15
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:IncrementalExpectationMaximization
+  path: data/curated/IncrementalExpectationMaximization.yaml
+  label: Incremental Expectation Maximization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IncrementalExpectationMaximization.yaml
+    role: maintained
+scope:
+  description: Claim-source traceability of the new incremental EM record.
+  selection: Exact maintained ID AIMech:IncrementalExpectationMaximization.
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  exclusions:
+  - target: Other new and contextual records
+    reason: A separate cohort review will record final scientific boundaries.
+checks:
+- check_id: check-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 29%]\n........................................................................\
+    \ [ 59%]\n........................................................................\
+    \ [ 89%]\n.......................sss                                         \
+    \      [100%]\n239 passed, 3 skipped in 130.40s (0:02:10)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 480 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 140 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 137,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: check-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: check-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: check-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0.
+evidence:
+- evidence_id: claim-citations
+  kind: record_content
+  reference: data/curated/IncrementalExpectationMaximization.yaml
+  locator: claims[claim_id=bound-not-likelihood].evidence and claims[claim_id=convergence-and-cost].evidence
+  accessed_at: '2026-10-12T04:47:08Z'
+  support: refutes
+  summary: Both mixed claims cite only the Byrne-Gunawardana correction. The correction
+    supports the likelihood/convergence discussion, while the entropy-augmented cache
+    objective and implementation storage/roundoff/pass-versus-runtime details are
+    in the inspected Neal-Hinton chapter.
+- evidence_id: chapter
+  kind: primary_source
+  reference: https://www.cs.toronto.edu/~hinton/absps/emk.pdf
+  locator: Section2 Eq1-5, PDF3-6; Section3 Eq6-10 and implementation discussion,
+    PDF6-8; Section4, PDF9-11
+  accessed_at: '2026-10-12T04:26:30Z'
+  snapshot_sha256: 6b07cbc3c578a2eaabcbb95008652cf40eeb9a7ca3cf7533a15fa2c9f4a19909
+  support: supports
+  summary: All14manuscript pages were visually read. These sections supply the missing
+    direct locators; the claims are substantively supported, but their claim-level
+    citation lists are incomplete.
+assessments:
+- assessment_id: citation-coverage
+  area: evidence
+  topic: Direct support for mixed source claims
+  outcome: concern
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  evidence_ids:
+  - claim-citations
+  - chapter
+  summary: Add Neal-Hinton citations to the cached-bound claim and the convergence/cost
+    claim. Retain the correction citations for nonmonotonicity and conditional convergence.
+    Use observed-likelihood wording consistently. This is a claim-level traceability
+    gap in the uncommitted new record, not evidence that the method claims are false.
+findings:
+- finding_id: incremental-em-claim-citations
+  issue_key: CultureBotAI-AIMech-IncrementalEM-claim-source-locators
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Complete source locators for incremental EM mixed claims
+  description: Add Neal-Hinton citations to the cached-bound claim and the convergence/cost
+    claim. Retain the correction citations for nonmonotonicity and conditional convergence.
+    Use observed-likelihood wording consistently. This is a claim-level traceability
+    gap in the uncommitted new record, not evidence that the method claims are false.
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  field_paths:
+  - claims[claim_id=bound-not-likelihood].evidence
+  - claims[claim_id=convergence-and-cost].evidence
+  evidence_ids:
+  - claim-citations
+  - chapter
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IncrementalExpectationMaximization.yaml
+    role: maintained
+actions:
+- action_id: complete-citations
+  description: Add precise chapter citations, synchronize the discovery entry and
+    append actual curation history, then revalidate and reinspect changed bytes.
+  finding_ids:
+  - incremental-em-claim-citations
+  target_ids:
+  - AIMech:IncrementalExpectationMaximization
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IncrementalExpectationMaximization.yaml
+    role: maintained
+  acceptance_checks:
+  - The cached-bound claim cites Neal-Hinton Section2 and Section3.
+  - The storage/roundoff and runtime discussion cites Neal-Hinton Sections3-4.
+  - Curated collection and saved reviews validate; the original correction citations
+    remain.
+limitations:
+- Bounded author self-review of a draft record; no independent approval or empirical
+  reproduction.
+```

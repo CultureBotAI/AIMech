@@ -1,0 +1,105 @@
+name: Sparse Expectation Maximization
+aliases:
+- Sparse EM
+concept_kind: algorithm
+definition: An EM variant that updates relative latent-state probabilities within selected plausible sets
+  while preserving their total mass and all outside probabilities, and fits parameters using the resulting
+  full distributions with occasional complete posterior refreshes.
+identity_notes: 'Sparse denotes selective posterior work in the Neal-Hinton construction, not sparse model
+  weights, pruning or setting excluded states to zero. It differs from incremental EM’s selection of observations
+  and can be combined with that method. It is also distinct from restricting a variational posterior to
+  independent chain factors or permanently imposing a truncated support. No normalized identity matches
+  among 442 pinned and 476 maintained records, including acronym probes. GEM is the exact-current-E/Q-improvement
+  framework, IEM refreshes cached independent cases, sparse EM preserves frozen outside mass, and DAEM
+  is the warm-started cooling-to-beta1 procedure. Existing TEM has the same finite-state fixed-beta update,
+  but its broader update framework and held-out inverse-annealing realization do not define that outer
+  cooling procedure. ECM, AECM and SAGE specialize parameter/augmentation updates, not these case or probability-subset
+  operations. Structured factorial-HMM variational inference imposes a different family restriction. Names
+  and incidental frontier references do not establish identity; qualified GEM/IEM aliases avoid unrelated
+  uses. The absence assessment is bounded to this snapshot and corpus. Identity-search counts: 253 matched
+  lines in the worktree and 260 in main; all 98 distinct matching-text windows were read, with ignored
+  and hidden files included.'
+definition_evidence:
+- source_id: neal-source
+  locator: Section5 Eq13-15, PDF11-12
+  relation: supports
+evidence_sources:
+- source_id: neal-source
+  title: A View of the EM Algorithm that Justifies Incremental, Sparse, and Other Variants
+  authors:
+  - Radford M. Neal
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://www.cs.toronto.edu/~hinton/absps/emk.pdf
+  persistent_id: https://www.cs.toronto.edu/~hinton/absps/emk.pdf
+  version: Fourteen-page author-hosted manuscript of the 1998 Learning in Graphical Models chapter, published
+    pp.355-368. Manuscript internal pages equal PDF pages; published offsets are not assumed. All14pages
+    visually read because extracted text has severe font-encoding corruption. The1993draft date is not
+    the publication date.
+  access_level: full_text
+  accessed_at: '2026-10-12T04:26:30Z'
+  sha256: 6b07cbc3c578a2eaabcbb95008652cf40eeb9a7ca3cf7533a15fa2c9f4a19909
+claims:
+- claim_id: frozen-mass-update
+  kind: mechanism
+  statement: For a case with cached q and plausible set S, freeze every q_z outside S and the total Q=sum_(z
+    in S)q_z. At the current theta compute r_z=p(z|x,theta)/sum_(u in S)p(u|x,theta) within S and set
+    q_z=Q*r_z there. The restricted normalizer must be positive and finite. The M-step uses the full expected
+    complete log likelihood, including outside contributions; cached sufficient statistics can avoid recomputing
+    unchanged terms.
+  evidence:
+  - source_id: neal-source
+    locator: Section5 Eq13-15 and implementation discussion, PDF11-12
+    relation: supports
+- claim_id: refresh-and-objectives
+  kind: scope
+  statement: Occasionally recompute the full posterior to refresh outside probabilities, plausible sets
+    and their total mass. The source suggests top-count or cumulative-mass sets as heuristics, without
+    one universal optimal threshold or refresh frequency. Exact restricted E and admissible M updates
+    make the entropy-augmented F nondecreasing, but the source explicitly permits observed likelihood
+    to decrease. Zeroing outside mass and renormalizing retained states to one implements a different
+    approximation.
+  evidence:
+  - source_id: neal-source
+    locator: Section5, PDF11-12, particularly discussion after Eq15
+    relation: supports
+- claim_id: conditional-efficiency
+  kind: limitation
+  statement: Savings require a posterior concentrated on a manageable plausible set and a model for which
+    unchanged contributions can be reused. Full refreshes and model-specific M-steps can dominate cost.
+    The source’s stability wording is not a general proof of bounded iterates, parameter convergence or
+    global optimization; admissible support, repeated refreshes and optimization conditions still need
+    analysis.
+  evidence:
+  - source_id: neal-source
+    locator: Section5, PDF11-12; Section2 Theorem2 and coordinate-optimization qualifications, PDF5-6
+    relation: supports
+limitations:
+- An outside probability may remain nonzero. The saved finite example preserves outside mass and increases
+  F while decreasing likelihood from an admissible cached state; reachability from a particular full-posterior
+  initialization is not claimed.
+- The finite-state exposition does not automatically establish an arbitrary continuous-latent or dependent-factor
+  sparse-update algorithm. A changing set requires explicit full-distribution bookkeeping.
+- This construction is not a guarantee of exact posterior recovery, a fixed truncation tolerance, universal
+  acceleration or neural-network sparsity.
+- No author software or historical empirical study was reproduced. Finite curator calculations illustrate
+  stated objective and schedule boundaries; they are not a general convergence proof or an empirical speed
+  comparison.
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: related_match
+  rationale: This procedure fits latent-model parameters from observed data. The inspected AIO target
+    denotes a learning process/task; this algorithm-to-task relationship asserts neither equivalence nor
+    an is-a relation.
+id: AIMech:SparseExpectationMaximization
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T04:39:47Z'
+  updated_at: '2026-10-12T04:39:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
