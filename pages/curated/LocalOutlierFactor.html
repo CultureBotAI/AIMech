@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local outlier factor · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Local outlier factor</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Local outlier factor</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LocalOutlierFactor</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LOF
+    </div>
+
+  <div class="detail-desc">
+    An unsupervised local outlier-scoring procedure that compares each observation&#39;s inverse mean reachability distance with those of its tie-inclusive nearest neighbors and returns their mean density ratio.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the original fixed-neighborhood LOF procedure, with optional scale aggregation and versioned implementation conventions explicitly separated. It is distinct from neighbor-label voting, raw kth-distance ranking, thresholded NNDD or PDD, DBSCAN noise labels and OPTICS reachability ordering. The earlier OPTICS-OF source remains a related unresolved identity comparison, not an alias. Compared all 442 pinned AIO IDs, labels and scoped synonyms with all 511 preceding native IDs, names and aliases. No normalized identity collision was found. Fixed-string whole-word searches of both checkouts included ignored and hidden files, LOF, expanded names and both publication DOIs: 16 worktree and 17 main matches, comprising 13 distinct context windows at 33 locations, were read. They are pending discovery context and an unrelated BASIC-language LOF token in an ignored Pygments lexer. Semantic searches inspected 99 AIO name/synonym/definition rows and 70 native name/definition matches, reusing 85 and 67 unchanged previously read rows respectively. Thirteen annotated AIO CLASS nodes with outgoing edges and twenty contextual YAMLs were inspected or reused after unchanged-byte checks. This is a bounded corpus assessment, not absence from all ontologies.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">8 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#tie-inclusive-locality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n reference observations and 1&lt;=k&lt;=n-1, k-distance(p) is the kth ordered distance to other observations, excluding p itself. N_k(p) contains every other observation whose distance is at most that boundary, including all ties, so its size can exceed k. The reference dataset and dissimilarity define locality; the procedure does not require labeled normal/outlier examples or an explicit clustering.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Definitions 3-4, printed/PDF p3; Section 1, p1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#reachability-density-ratio</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Define reach_k(p,o)=max(k-distance(o),d(p,o)), using the neighbor o&#39;s radius, not p&#39;s. Reachability is generally asymmetric. Local reachability density lrd_k(p) is the reciprocal of the mean reachability over o in N_k(p), and LOF_k(p) is the mean of lrd_k(o)/lrd_k(p) over that same neighborhood. These formulas require nonempty neighborhoods and positive finite mean reaches for the densities used. Reachability density has inverse-distance units; it is not a normalized probability density. LOF is a dimensionless relative score.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Definitions 5-7, printed/PDF pp3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#relative-score-not-probability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A large score indicates lower reachability density relative to neighbors; it is neither an outlier probability nor a universal decision threshold. The paper&#39;s near-one bound assumes a closed two-hop neighborhood and bounded positive reachability variation. Scores can be below one: for D={0,1,3} under absolute distance and k=2, the scores are {11/12,6/5,11/12}. At k=1 they are {1,1,2}, reversing the center-versus-endpoint ordering. Two arbitrarily separated observations both score one at k=1; absolute isolation alone is not enough. These examples are exact curator calculations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Definition 7 and Lemma 1, printed/PDF p4; Sections 5-6, pp4-8; research/discovery/local-outlier-factor-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ties-zeros-and-scale</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Boundary ties are part of the original definition: D={0,2,4,5}, k=1 gives point 2 score 3/2 when both equidistant neighbors are retained, but score 1 if an exact-k implementation chooses only neighbor 0. Coincident observations can give zero mean reachability and undefined density ratios; the paper assumes no duplicates and mentions a distinct-coordinate alternative without making an additive regularizer part of core LOF. Multiplying every distance by a positive constant leaves the unregularized core score unchanged when defined; feature-specific rescaling can change neighborhoods and scores. For D={0,1,3}, k=2, reach(0,1)=2 exceeds d(0,1)=1, so the paper&#39;s informal k=2 raw-distance reduction is not generally implied by its self-excluded definitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Definitions 3-7 and duplicate discussion, printed/PDF pp3-4; Section 6, p7; exact curator calculations in research/discovery/local-outlier-factor-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#neighborhood-scale-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Scores can vary nonmonotonically with k. The paper suggests choosing a lower and upper neighborhood size and ranking each point by its maximum LOF over that range; this is an optional multiscale ranking heuristic, distinct from a fixed-k score. Suggested lower bounds near 10 and common choices around 10-20 are empirical guidance, not mathematical validity constraints or universally optimal defaults. Small groups can appear ordinary relative to one another at some scales, so the chosen range affects which deviations are exposed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Section 6 and Figures 7-8, printed/PDF pp7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#versioned-implementation-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected scikit-learn 1.7.2-linked implementation uses a fixed neighbor count, excludes the indexed query for fitted training scores, and adds 1e-10 to mean reachability before inversion. It exposes negative LOF as negative_outlier_factor_; auto contamination chooses offset -1.5, while supplied contamination chooses a training-score percentile and labels scores strictly below it. These are implementation choices, not the paper&#39;s all-ties and unregularized definition or a universally validated 1.5 cutoff. Ties can prevent an exact requested outlier fraction. A fixed additive epsilon also prevents automatically transferring exact uniform-scale invariance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Definitions 3-7, printed/PDF pp3-4; soccer illustration and Table 3, p10; exact fixed-epsilon curator calculation</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sklearn-lof">scikit-learn LocalOutlierFactor implementation</a></span>
+        <span>· <strong>Locator:</strong> LocalOutlierFactor.fit, _predict and _local_reachability_density</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sklearn-neighbors">scikit-learn KNeighborsMixin implementation</a></span>
+        <span>· <strong>Locator:</strong> KNeighborsMixin._kneighbors_reduce_func and kneighbors, including query_is_train and final fixed-shape self-removal</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#novelty-query-distinction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With novelty=True, the inspected implementation scores new queries against stored training-neighbor radii and training densities; it does not insert the new query batch into reference neighborhoods. Supplying training points through score_samples can include each query itself as a neighbor, unlike the fitted training-score calculation. Novelty-query scores therefore need not equal negative_outlier_factor_ on the training set. This source-scoped extension does not redefine the original dataset-level score, and no library runtime or historical-code equivalence was tested.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Definitions 3-7, printed/PDF pp3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sklearn-lof">scikit-learn LocalOutlierFactor implementation</a></span>
+        <span>· <strong>Locator:</strong> LocalOutlierFactor.score_samples, decision_function and their novelty docstrings</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sklearn-neighbors">scikit-learn KNeighborsMixin implementation</a></span>
+        <span>· <strong>Locator:</strong> KNeighborsMixin.kneighbors: X is None training branch versus explicit-query branch</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#computation-and-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After neighborhoods are available, computing densities and scores visits the retained neighbor incidences for each chosen k. Original all-boundary-ties neighborhoods can contain n-1 observations even for small k, so O(n*k) storage or linear score work requires a bounded-neighborhood assumption. All-pairs search can require quadratic distance evaluations; index performance depends on data and dimension. The paper&#39;s synthetic, sports and color-histogram examples and historical wall-clock timings are conditional demonstrations, not universal accuracy or speed guarantees. The sports results use selected features and neighborhood ranges with domain interpretation, not held-out probability calibration. No numerical performance advantage is curated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-breunig2000">LOF: Identifying Density-Based Local Outliers</a></span>
+        <span>· <strong>Locator:</strong> Sections 7.1-7.3, Figures 9-11 and Table 3, printed/PDF pp9-11; Definition 4, p3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Reference population, feature scaling, dissimilarity and neighborhood size determine the meaning of local abnormality. A high score alone does not establish error, fraud, disease or any other domain conclusion.</li>
+      <li>Definitions 3-7 explicitly exclude self. Printed theorem endpoints allowing k=n and Theorem 2&#39;s inclusion of p in a neighborhood partition do not override those core definitions; this record uses 1&lt;=k&lt;=n-1. The informal k=2 simplification is qualified by a counterexample.</li>
+      <li>The mathematical core has no universal cutoff, duplicate regularizer or required novelty-query policy. The inspected library conventions are tied to exact source bytes and are not claimed for every version or backend.</li>
+      <li>All twelve primary PDF pages were visually read, including equations, figures, the sports table and references. The complete pinned _lof.py and relevant neighbor-search methods were read; exact rational boundary calculations were executed. No trained model, library runtime or historical benchmark was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedLearning.html" style="font-weight: 600;"><code>AIO:UnsupervisedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LOF infers neighborhood-relative outlier scores from unlabeled observations, giving a related algorithm-to-task association with AIO:UnsupervisedLearning. The target is a MachineLearningTask; this link is neither exact equivalence nor a subclass assertion. The core score does not itself assign two classes, so BinaryClassification and its supervised ancestry are not selected. Clustering and OPTICS/DBSCAN organize clusters or reachability orderings, whereas LOF does not require a partition. All three AIO KnearestNeighbor classes specify label voting or response averaging, not local reachability ratios; RegressionAnalysis requires dependent/independent-variable relationships. DimensionalityReduction, DataPreparation and SelectionAndSamplingBias do not identify this scoring procedure. Native neighbor-ratio and distance-norm domain descriptions, PDD, supervised metric learning and density clustering have different outputs or neighborhood rules.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-breunig2000">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">breunig2000</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://cse.hkust.edu.hk/~raywong/comp5331/References/LOFIdentifyingDensityBasedLocalOutliers.pdf" target="_blank" rel="noopener">LOF: Identifying Density-Based Local Outliers</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Markus M. Breunig, Hans-Peter Kriegel, Raymond T. Ng, Jörg Sander
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/342009.335388</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d6e378582bf7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sklearn-lof">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sklearn-lof</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/scikit-learn/scikit-learn/1eb422d6c5f46a98a318f341de3e4709f9521bfe/sklearn/neighbors/_lof.py" target="_blank" rel="noopener">scikit-learn LocalOutlierFactor implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            scikit-learn developers
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a05774d4db7d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-sklearn-neighbors">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sklearn-neighbors</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/scikit-learn/scikit-learn/1eb422d6c5f46a98a318f341de3e4709f9521bfe/sklearn/neighbors/_base.py" target="_blank" rel="noopener">scikit-learn KNeighborsMixin implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            scikit-learn developers
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6686ee9f3f36…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-12T08:52:07Z</div>
+    <div><strong>Updated:</strong> 2026-10-12T08:52:07Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LocalOutlierFactor.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LocalOutlierFactor.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
