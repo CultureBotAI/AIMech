@@ -1,0 +1,291 @@
+id: AIMech:OPTICSOutlierFactor
+name: OPTICS outlier factor
+aliases:
+- OPTICS-OF
+- OPTICS with outlier factors
+concept_kind: algorithm
+definition: An unsupervised local outlier-scoring procedure that uses self-inclusive, tie-inclusive nearest
+  neighborhoods to compute inverse mean neighbor-radius reachability and averages neighbor-to-query density
+  ratios.
+identity_notes: 'This record denotes OPTICS-OF with the self-inclusive convention corroborated by the
+  inspected ELKI implementation. It is distinct from OPTICS ordering, DBSCAN noise labels, original self-excluded
+  LOF, neighbor-label voting and raw distance ranking. Original 1999 parsed text is context; mechanism
+  claims are grounded in immutable official source and exact neighbor contracts. Compared all 442 pinned
+  AIO IDs, labels and scoped synonyms with all 512 preceding native IDs, names and aliases. No normalized
+  identity collision was found. Fixed-string whole-word searches of both checkouts included ignored and
+  hidden files, all aliases, the original title and DOI: 23 matches in each checkout were read in 19 distinct
+  context windows at 46 locations. These are LOF comparison notes, prior searches and unresolved discovery
+  context, not an existing OPTICS-OF record. All 99 semantic AIO rows, 13 annotated CLASS nodes with outgoing
+  edges, 71 native identity-field matches and 21 contextual YAMLs were inspected or reused after unchanged-content
+  checks. This is a bounded local corpus assessment.'
+definition_evidence:
+- source_id: elki-opticsof
+  locator: OPTICSOF.run, passes 1-3
+  relation: supports
+- source_id: elki-wrapper
+  locator: 'getKNN: retrieve query object without removing its database ID'
+  relation: supports
+- source_id: elki-linear-object
+  locator: 'getKNN: scan every relation ID'
+  relation: supports
+- source_id: elki-linear-id
+  locator: 'getKNN: scan every relation ID'
+  relation: supports
+- source_id: elki-heap
+  locator: 'insert, addToTies, toKNNList and toKNNListSqrt: retain boundary ties'
+  relation: supports
+- source_id: elki-list
+  locator: Interface size and getKNNDistance contracts
+  relation: supports
+claims:
+- claim_id: self-inclusive-locality
+  kind: mechanism
+  statement: For a finite reference dataset D of n observations, a finite metric and 2<=m<=n, core_m(p)
+    is the mth ordered distance to observations in D, including p itself. N_m(p) retains every observation
+    at distance at most that boundary, including all ties. The inspected exact linear scans and heap include
+    the indexed query and boundary ties; a fixed-count truncation is not the same convention. The m range
+    describes the well-defined distinct-point metric case, not a claim that every constructor enforces
+    it.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: elki-wrapper
+    locator: 'getKNN: retrieve query object without removing its database ID'
+    relation: supports
+  - source_id: elki-linear-object
+    locator: 'getKNN: scan every relation ID'
+    relation: supports
+  - source_id: elki-linear-id
+    locator: 'getKNN: scan every relation ID'
+    relation: supports
+  - source_id: elki-heap
+    locator: 'insert, addToTies, toKNNList and toKNNListSqrt: retain boundary ties'
+    relation: supports
+  - source_id: elki-list
+    locator: Interface size and getKNNDistance contracts
+    relation: supports
+- claim_id: reachability-and-density-ratios
+  kind: mechanism
+  statement: For o in N_m(p), reach_m(p,o)=max(core_m(o),d(p,o)), using the neighbor radius. Set lrd_m(p)=|N_m(p)|
+    divided by the sum of these reaches, and OF_m(p) to the mean of lrd_m(o)/lrd_m(p) over N_m(p). Thus
+    self reachability is core_m(p), not zero, and the self term contributes a ratio of one when defined.
+    The formulas require positive finite mean reaches for all densities used. These inverse-distance quantities
+    are not normalized probability densities, and the resulting relative score is not an outlier probability
+    or an automatic binary decision.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+- claim_id: standalone-three-pass-computation
+  kind: mechanism
+  statement: The inspected implementation first stores neighborhoods and core radii, then computes all
+    local reachability densities, then averages their neighbor-to-query ratios. It does not run an OPTICS
+    ordering or extract a clustering. Pairwise reachability in the score must not be replaced with a minimum
+    reachability accumulated during an OPTICS traversal.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: breunig1999-context
+    locator: Parsed Definitions 4-7 and computational discussion, PDF pp5-6 and8; not visually verified
+    relation: context
+- claim_id: distinct-from-self-excluded-lof
+  kind: scope
+  statement: OPTICS-OF and original LOF are retained separately because including the query changes both
+    density and score averaging. Under absolute distance, D={0,1,3} gives OPTICS-OF scores {1,1,3/2} at
+    m=2, whereas self-excluded LOF gives {1,1,2} at k=1, despite identical core radii. At m=3, OPTICS-OF
+    gives {1,1,1}, while LOF at k=2 gives {11/12,6/5,11/12}. These exact curator calculations rule out
+    identifying the two procedures merely by shifting the neighbor-count parameter.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: breunig2000
+    locator: Definitions 3-7, printed/PDF pp3-4; exact comparisons in research/discovery/optics-outlier-factor-boundaries.py
+    relation: supports
+- claim_id: ties-and-scale-boundaries
+  kind: limitation
+  statement: 'Boundary ties can change scores: for D={0,2,4,5} and m=2, point 2 has three retained neighbors
+    and score 4/3; selecting only itself and neighbor 0 instead gives score 1. Positive uniform scaling
+    of every distance cancels from defined density ratios, but feature-specific scaling can change neighborhoods.
+    When m=n, every neighborhood is D and reach_m(p,o)=core_m(o), so all densities are equal and all defined
+    scores are one. A score of one therefore does not by itself establish domain normality.'
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: elki-heap
+    locator: Boundary-tie retention; exact curator calculations in research/discovery/optics-outlier-factor-boundaries.py
+    relation: supports
+- claim_id: zero-distance-and-parameter-limits
+  kind: limitation
+  statement: With m=1 and a unique query location, the self-only neighborhood has zero mean reachability;
+    duplicates can also produce zero means at larger m. The mathematical ratios are then undefined. The
+    inspected parameterizer requires m>1 and defaults to Euclidean distance, but its constructor does
+    not enforce m<=n. KNNList may report an infinite boundary when fewer than m neighbors exist. The scoring
+    loop adds no epsilon; its lrd>0 guard does not resolve infinity/infinity from coincident neighborhoods.
+    A fallback zero or nonfinite output outside the stated finite domain is not evidence of normality.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: elki-opticsof
+    locator: Constructor and Par.configure
+    relation: supports
+  - source_id: elki-list
+    locator: 'getKNNDistance: infinite distance if fewer than k neighbors'
+    relation: supports
+- claim_id: implementation-and-computation-scope
+  kind: limitation
+  statement: The evidence establishes the inspected release source and exact linear-query/tie contracts,
+    not every index backend, historical implementation or runtime result. Stored all-ties neighborhoods
+    can contain every observation even for small m, requiring quadratic neighbor incidences. All-pairs
+    neighbor search can require quadratic distance evaluations, and selection/index costs need separate
+    analysis; no universal near-linear or n-log-n complexity follows. The historical paper text and versioned
+    test fixture provide context, but no figure-derived claim, numerical performance advantage, library
+    benchmark or probability calibration is curated.
+  evidence:
+  - source_id: elki-opticsof
+    locator: OPTICSOF.run, passes 1-3
+    relation: supports
+  - source_id: elki-heap
+    locator: Boundary-tie storage
+    relation: supports
+  - source_id: elki-linear-id
+    locator: Full relation scan per query
+    relation: supports
+  - source_id: breunig1999-context
+    locator: Parsed computational and experimental prose, PDF pp7-8; figures not visually verified
+    relation: context
+evidence_sources:
+- source_id: elki-opticsof
+  title: ELKI OPTICSOF-0.8.0.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki/src/main/java/elki/outlier/OPTICSOF.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:00:41Z'
+  sha256: 67331ab9311aa8dec9f5188fb0a7c1eae25a5196df41f28ca253cfcb6a43bffd
+- source_id: elki-wrapper
+  title: ELKI WrappedKNNDBIDByLookup.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki-core-api/src/main/java/elki/database/query/knn/WrappedKNNDBIDByLookup.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:01:48Z'
+  sha256: 9970de97961c2bd2ffc7a00059995acd4966c8dd08c4dd7412f0af3cd004c3f5
+- source_id: elki-heap
+  title: ELKI DoubleIntegerDBIDKNNHeap.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki-core-dbids-int/src/main/java/elki/database/ids/integer/DoubleIntegerDBIDKNNHeap.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:01:48Z'
+  sha256: f2f56eb3d72b3917bd4dce0b2bd77be576184ac7c7cc8655c110d277a3460882
+- source_id: elki-list
+  title: ELKI KNNList.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki-core-dbids/src/main/java/elki/database/ids/KNNList.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:01:48Z'
+  sha256: f7480775c25b335eb56ce9b54fc539a205864c04ced7f069fa3998d353774fbb
+- source_id: elki-linear-object
+  title: ELKI LinearScanEuclideanKNNByObject.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki-database/src/main/java/elki/database/query/knn/LinearScanEuclideanKNNByObject.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:01:48Z'
+  sha256: 9b40694372e8ab2dc4d881af12579d2214d4c5a70a652c7e20ee7c379a8d5044
+- source_id: elki-linear-id
+  title: ELKI LinearScanKNNByDBID.java
+  authors:
+  - ELKI developers
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/elki-project/elki/ff7ac7f3853b958a4a47486522bc7510210583c6/elki-database/src/main/java/elki/database/query/knn/LinearScanKNNByDBID.java
+  version: Release 0.8.0 immutable commit ff7ac7f3853b958a4a47486522bc7510210583c6. Entire file read;
+    no Java execution or complete alternative-index audit.
+  access_level: documentation
+  accessed_at: '2026-10-12T09:01:48Z'
+  sha256: 72bf3d5626ba5355f053360c38cfe318e52bb859884a666fc4c09dcec10a5e39
+- source_id: breunig2000
+  title: 'LOF: Identifying Density-Based Local Outliers'
+  authors:
+  - Markus M. Breunig
+  - Hans-Peter Kriegel
+  - Raymond T. Ng
+  - Jörg Sander
+  source_type: primary_paper
+  url: https://cse.hkust.edu.hk/~raywong/comp5331/References/LOFIdentifyingDensityBasedLocalOutliers.pdf
+  persistent_id: https://doi.org/10.1145/342009.335388
+  version: SIGMOD 2000 method; exact university-hosted 12-page author-layout PDF, all pages visually read.
+    Printed pages 1-12 coincide with PDF pages; no offset to proceedings pages 93-104 is inferred.
+  access_level: full_text
+  accessed_at: '2026-10-12T08:37:29Z'
+  sha256: d6e378582bf7a0f6f9e34e2b11b0b4e7bc9016b4f20e5bc041760f6bb57cb566
+- source_id: breunig1999-context
+  title: 'OPTICS-OF: Identifying Local Outliers'
+  authors:
+  - Markus M. Breunig
+  - Hans-Peter Kriegel
+  - Raymond T. Ng
+  - Jörg Sander
+  source_type: primary_paper
+  url: https://scispace.com/pdf/optics-of-identifying-local-outliers-3rszd792dd.pdf
+  persistent_id: https://doi.org/10.1007/978-3-540-48247-5_28
+  version: PKDD 1999, nine-page author-layout mirror. All parsed prose read, but equations and figures
+    not visually verified; context only. Direct PDF download failed; no PDF checksum or proceedings-page
+    offset asserted.
+  access_level: full_text
+  accessed_at: '2026-10-12T09:03:14Z'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedLearning
+  relation: related_match
+  rationale: OPTICS-OF computes relative local outlier scores from unlabeled observations, supporting
+    a related algorithm-to-task association with AIO:UnsupervisedLearning. The target is a MachineLearningTask,
+    so the link asserts neither equivalence nor subclassing. BinaryClassification and its supervised ancestry
+    do not describe the unthresholded core. Clustering, DBSCAN and OPTICS produce cluster structure or
+    a reachability ordering; this standalone score needs neither a partition nor an OPTICS traversal.
+    The three AIO KnearestNeighbor classes concern voting or response averaging, unlike these density
+    ratios. RegressionAnalysis, DimensionalityReduction, DataPreparation and SelectionAndSamplingBias
+    do not identify the procedure. Native LOF differs by explicit self exclusion; domain-description and
+    metric-learning methods have different rules or outputs.
+limitations:
+- Reference population, metric, feature scaling and m determine local contrast; scores alone do not establish
+  errors, fraud, disease or another domain conclusion.
+- The original nine-page paper was inspected as parsed text only. No successful PDF download, checksum,
+  figure reading or visual equation verification is claimed. The exact ELKI main class, test and six neighbor
+  files were fully read; other index backends and QueryBuilder internals were not fully audited.
+- The full twelve-page LOF source was visually read in the preceding round and reused for comparison.
+  Exact rational calculations were executed; no Java, library backend, trained model or historical benchmark
+  was executed.
+- This is a maintained native DRAFT concept with an explicit related AIO mapping, not an accepted upstream
+  class or an assertion that local-density discovery is complete.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-12T09:12:41Z'
+  updated_at: '2026-10-12T09:12:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
