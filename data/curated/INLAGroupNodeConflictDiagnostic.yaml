@@ -1,0 +1,282 @@
+id: AIMech:INLAGroupNodeConflictDiagnostic
+name: INLA group node conflict diagnostic
+aliases: []
+concept_kind: algorithm
+definition: A group-wise Bayesian model diagnostic for latent Gaussian models that uses two INLA fits
+  per selected group to compare remaining-data and within-group information about its latent linear predictor
+  vector. Fitted mean and covariance summaries yield a quadratic conflict score with a rank-based Gaussian
+  chi-square reference. Nuisance-parameter updating, replication dependence and numerical rank choices
+  determine the interpretation.
+identity_notes: 'No normalized identity match for the INLA group-conflict candidate among all 442 pinned
+  AIO and 560 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches include ignored
+  and hidden files in the recovery, older discovery and original Documents checkouts, returning 185, 0
+  and 0 lines. Hit paths were classified and canonical diagnostic records and the relevant pending INLA/source
+  notes inspected; generated mirrors and long metadata/search-index lines are not separate method definitions
+  and were not all read line by line. The semantic assessment covers 61 AIO rows and 214 native names/definitions:
+  61 and 213 prior rows were verified unchanged, and the one new multiple-testing definition was read.
+  Ten full AIO nodes with incident edges and generated records and eight native context records were read
+  or verified against prior full readings. This distinct procedure fixes the split to group-level latent
+  predictors and computes its summaries with INLA. It is not generic INLA fitting, arbitrary separator
+  diagnostics, Gaussian-message screening, simultaneous maxT inference or a software-package instance.'
+definition_evidence:
+- source_id: ferkingstad2017
+  locator: Sections 2.2–2.3 and implementation, PDF pp. 7–10
+  relation: supports
+claims:
+- claim_id: grouped-latent-predictors
+  kind: scope
+  statement: Partition the observed data indices into declared groups. For each group j, split the corresponding
+    vector of latent linear predictors eta_j into a copy informed by the remaining groups and a copy informed
+    by the selected group. This specialization uses latent Gaussian models and INLA approximations. It
+    assesses one group versus the rest on the latent predictor scale, rather than arbitrary separators,
+    all possible partitions, or pointwise predictive residuals.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Sections 2.1–2.3, PDF pp. 3–10; discussion, pp. 18–19
+    relation: supports
+- claim_id: two-fits-and-summaries
+  kind: mechanism
+  statement: Perform a remaining-data INLA fit with the selected group responses omitted, retaining predictions
+    at those indices, then a within-group fit. The fitted distributions must be proper and have the finite
+    moments required for the summaries. Obtain the predictor-vector means and covariance matrices through
+    linear combinations. Use remaining minus within for the mean difference. The inspected helper makes
+    two fits per group, supplies the remaining fit through control.update to the within fit, and adds
+    the two marginal covariance matrices. The within distribution therefore also depends on information
+    supplied by the remaining fit; its notation as conditioning only on group data is abbreviated.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Section 2.3 and implementation, PDF pp. 9–10
+    relation: supports
+  - source_id: cut2026
+    locator: inla.cut, lines 88–158
+    relation: supports
+- claim_id: replication-and-covariance
+  kind: mechanism
+  statement: The sum S=S_remaining+S_within is the covariance of a difference under independent draws
+    from the two fitted marginal laws, conditional on the observed data and chosen fits. If the intended
+    replication instead shares a nuisance draw, its cross-covariance C contributes S=S_remaining+S_within-C-C^T.
+    Cutting feedback does not by itself remove that dependence. Distinguish this posterior replication
+    choice from dependence of fitted summaries over repeated data; separate fits alone do not prove sampling
+    calibration.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Shared parameters and covariance construction, PDF pp. 8–10
+    relation: supports
+  - source_id: cut2026
+    locator: mu.diff and sigma.diff, lines 157–158
+    relation: supports
+- claim_id: quadratic-reference
+  kind: mechanism
+  statement: For mean difference m and a positive semidefinite covariance S, the reported discrepancy
+    is Q=m^T*S^+*m. With a justified centered Gaussian reference on the retained r-dimensional subspace,
+    use the upper chi-square_r tail. S^+ denotes the Moore–Penrose pseudoinverse; rank deficiency is allowed.
+    A null outside the affine support requires separate treatment because the pseudoinverse drops nullspace
+    displacement. A numerical cutoff must define the same retained subspace for both Q and r. Approximate
+    posterior normality is not by itself a theorem about repeated-data p-value calibration.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Section 2.3, PDF pp. 9–10; discussion, pp. 18–19
+    relation: supports
+  - source_id: cut2026
+    locator: Discrepancy and chi-square tail, lines 169–175
+    relation: supports
+- claim_id: posterior-as-prior-is-not-a-general-cut
+  kind: limitation
+  statement: The paper equates passing the remaining-data hyperparameter posterior as the within-fit prior
+    with a multiple-imputation cut. Static tracing of the pinned 2026 ordinary integration path instead
+    shows prior-density substitution followed by a new local-data marginal likelihood and new integration
+    weights. Generically, if q_minus(theta) is the supplied prior approximation and Z_j(theta) the local
+    evidence, an ordinary update weights theta proportionally to q_minus(theta)*Z_j(theta); a frozen-weight
+    cut retains q_minus(theta) while normalizing the conditional local distribution at each theta. These
+    coincide only under additional conditions, such as constant local evidence. The helper does not itself
+    configure the USER_EXPERT supplied-weight exception. This is a bounded source-code inference, not
+    a runtime result or a claim about the exact 2017 release.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Section 2.3, PDF pp. 9–10
+    relation: supports
+  - source_id: cut2026
+    locator: control.update assignment and within-fit call, lines 153–154
+    relation: supports
+  - source_id: sections2026
+    locator: inla.update.section, lines 1875–1895
+    relation: supports
+  - source_id: parse2026
+    locator: inla_parse_update, lines 20859–20939
+    relation: supports
+  - source_id: inlac2026
+    locator: inla_extra update branch, lines 1615–1623; inla_update_density, lines 7346–7388
+    relation: supports
+  - source_id: domin2026
+    locator: GMRFLib_opt_f_intern, lines 286–342
+    relation: supports
+  - source_id: integration2026
+    locator: GMRFLib_ai_marginal_hyperparam, lines 389–557; integration weights, lines 2140–2225 and 2510–2585
+    relation: supports
+- claim_id: implementation-rank-mismatch
+  kind: limitation
+  statement: 'In the pinned helper, degrees of freedom count covariance eigenvalues above the absolute
+    threshold 0.001, whereas inla.ginv with tol=0.001 retains singular values above 0.001 times the largest
+    singular value. These can select different ranks: for diagonal covariance (100, 0.01), the former
+    counts two directions and the latter retains one. Rescaling predictor units can change the absolute-rank
+    count. This discrepancy qualifies that implementation; it is not the mathematical rank convention
+    of the diagnostic and was not tested by running R-INLA.'
+  evidence:
+  - source_id: cut2026
+    locator: min.eigen.value, lin.pred.df and lin.pred.Delta, lines 170–174
+    relation: supports
+  - source_id: utils2026
+    locator: Complete inla.ginv helper, lines 816–846
+    relation: supports
+- claim_id: calibration-and-implementation-scope
+  kind: limitation
+  statement: The source leaves a systematic study of power and calibration for future work. A small score
+    flags incompatibility under the chosen model, grouping, priors, approximation and reference; it does
+    not identify which data source is wrong or establish a posterior probability of equality. Benjamini–Hochberg
+    adjustments in the examples do not establish general FDR control for dependent approximate conflict
+    scores. The inspected experimental helper requires data.frame input and a named response and rejects
+    a predictor A matrix. Its supported software interface is narrower than the broad latent Gaussian
+    model family.
+  evidence:
+  - source_id: ferkingstad2017
+    locator: Examples and discussion, PDF pp. 11–19
+    relation: supports
+  - source_id: cut2026
+    locator: Documentation experimental marker and input checks, lines 1–78; A-matrix check, lines 121–128
+    relation: supports
+evidence_sources:
+- source_id: ferkingstad2017
+  title: Fast and accurate Bayesian model criticism and conflict diagnostics using R-INLA
+  authors:
+  - Egil Ferkingstad
+  - Leonhard Held
+  - Håvard Rue
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1708.03272v4
+  persistent_id: https://doi.org/10.1002/sta4.163
+  version: arXiv:1708.03272v4, margin dated 2017-11-01 and title page dated 2017-11-02. Complete 22-page
+    PDF read, including Figures 1–5, Table 1 and references; PDF page numbers used.
+  access_level: full_text
+  accessed_at: '2026-10-13T00:56:46Z'
+  sha256: 4f6e83ce3665edb7bb6fc6bd8ce69a69f24ee2f36d0c9326fbe202016ebfb8a3
+- source_id: cut2026
+  title: 'R-INLA source: rinla/R/cut.R'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/cut.R
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/cut.R
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: Complete inla.cut,
+    lines 1–183. Other file regions and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:05:03Z'
+  sha256: f7a36f50ca94d0fde21057e698af8457ea9920568e1c943f23c15276f8bdfcd0
+- source_id: sections2026
+  title: 'R-INLA source: rinla/R/sections.R'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/sections.R
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/sections.R
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: inla.update.section,
+    lines 1875–1895. Other file regions and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:05:48Z'
+  sha256: 4e01dd8f3c94836f272abf83d4d92802b748c50135d1e2808940b071d3ebaf92
+- source_id: parse2026
+  title: 'R-INLA source: inlaprog/src/inla-parse.c'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/inlaprog/src/inla-parse.c
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/inlaprog/src/inla-parse.c
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: inla_parse_update,
+    lines 20859–20939. Other file regions and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:12:11Z'
+  sha256: f07f2defde065e3e4bd4daad2db15fe55e43e59a2f23744da21410b6a336265e
+- source_id: inlac2026
+  title: 'R-INLA source: inlaprog/src/inla.c'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/inlaprog/src/inla.c
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/inlaprog/src/inla.c
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: inla_extra
+    update branch 1615–1623, inference call 6713–6727, inla_update_density 7346–7388. Other file regions
+    and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:11:14Z'
+  sha256: 6bd722684049ab1a54bdd1d9e7574cbc250304e1d1f89c30e75c2ca05394f545
+- source_id: domin2026
+  title: 'R-INLA source: gmrflib/domin-interface.c'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/gmrflib/domin-interface.c
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/gmrflib/domin-interface.c
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: GMRFLib_opt_f_intern,
+    lines 286–390. Other file regions and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:14:45Z'
+  sha256: 8f9afb51e92d361f7e7a112f68c8cc9b162f3a3f627ed8a2a6c1328d93ff252b
+- source_id: integration2026
+  title: 'R-INLA source: gmrflib/approx-inference.c'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/gmrflib/approx-inference.c
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/gmrflib/approx-inference.c
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: GMRFLib_ai_marginal_hyperparam
+    389–557 and integration weights 2140–2225, 2510–2585. Other file regions and runtime behavior are
+    not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:13:06Z'
+  sha256: 56e71bd2e5d9760dfe0e62a08f172f6126b499c82c574333a5ddd2e71aa699e4
+- source_id: utils2026
+  title: 'R-INLA source: rinla/R/utils.R'
+  authors:
+  - R-INLA contributors
+  source_type: official_documentation
+  url: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/utils.R
+  persistent_id: https://github.com/hrue/r-inla/blob/5bc4c7f223c679bb4b99171aaca490d72e96494c/rinla/R/utils.R
+  version: 'hrue/r-inla revision 5bc4c7f223c679bb4b99171aaca490d72e96494c. Static reading: Complete inla.ginv,
+    lines 816–846. Other file regions and runtime behavior are not certified.'
+  access_level: documentation
+  accessed_at: '2026-10-13T01:13:52Z'
+  sha256: aba074dd4c42982c288f37776f72d3beb9b870d60dea6282380948d5e40e856e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The diagnostic splits information about latent quantities in Bayesian hierarchical graphical
+    models. BayesianNetwork provides representation context, not the INLA approximation or group-wise
+    diagnostic; this is a related mapping, not an asserted subclass or equivalence.
+limitations:
+- This is the INLA linear-predictor specialization of node-conflict assessment, not the general INLA fitting
+  algorithm, arbitrary separator splitting, or a simultaneous maxT adjustment.
+- The paper’s posterior-as-prior description is not accepted as a general frozen nuisance cut. The inspected
+  2026 ordinary integration path reweights hyperparameters using local data; historical releases, user-selected
+  exceptional paths and runtime behavior remain unverified.
+- Independent marginal replication and paired shared-nuisance replication have different covariances.
+  Neither a normal approximation nor a pseudoinverse alone establishes null support, calibration or error
+  control.
+- The pinned helper’s absolute rank and relative pseudoinverse cutoffs can disagree and depend differently
+  on scale. No correction to upstream R-INLA code or claim of a released fix is made.
+- All 22 pages of arXiv v4 were read, including Figures 1–5, Table 1 and references. Its margin date is
+  2017-11-01 and title-page date 2017-11-02. The one-dimensional introductory difference has inconsistent
+  sign labels; the record consistently uses remaining minus within. A prose/Table 1 discrepancy is retained
+  in the discovery notes without importing empirical values.
+- Official source inspection is limited to the named revision and cited functions. No R-INLA installation,
+  compilation, model fitting, MCMC, benchmark, biomedical inference or repeated-data calibration was performed.
+  Constructed algebraic examples illustrate weighting, covariance and rank boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T01:35:28Z'
+  updated_at: '2026-10-13T01:40:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
