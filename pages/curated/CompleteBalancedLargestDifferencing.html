@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Complete balanced largest differencing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Complete balanced largest differencing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Complete balanced largest differencing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CompleteBalancedLargestDifferencing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Complete BLDM
+    </div>
+
+  <div class="detail-desc">
+    A complete anytime two-way number-partitioning search that carries signed effective cardinalities through difference and sum branches, uses paired initialization before largest-residual branching, and prunes against a prescribed subset-size difference while retaining the best valid partition.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 594 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 67 AIO and 101 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Complete BLDM is the named Mertens two-phase search with signed effective-cardinality state and pruning. It explores same-side alternatives to initial adjacent pairs as well as later largest-residual pairs. Balanced targets obtain the BLDM first solution; the same source pseudocode handles other feasible absolute cardinality targets. This is distinct from the BLDM heuristic, PDM and unconstrained CKK. The pending lead and neighboring mentions are not prior maintained identities.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#signed-residual-state</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Represent each residual by its nonnegative value, a signed effective cardinality and reconstructible original-item groups. Original items start with effective cardinality 1. For ordered a&gt;=b, the opposite-side branch has value a-b and count ma-mb; the same-side branch has value a+b and count ma+mb. Effective counts must retain their sign until tested by absolute value. A zero residual can still carry nonzero effective cardinality or nonempty groups and cannot simply be discarded.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, p. 6, Equation 8; Figure 1 effective counts, p. 5; direct state interpretation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-phase-complete-branching</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The first floor(n/2) branching decisions use disjoint adjacent pairs from the sorted original list, appending each merged residual without reordering the still-unpaired originals. Thereafter the algorithm selects the two largest residuals at each step. Visit difference before sum in both phases. To remain complete, explore same-side alternatives to initial paired differences as well as alternatives in the later phase; irrevocably applying a paired round before starting CKK explores only a restricted set of partitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, pp. 6–7 and Figure 2; constructed restricted-first-round comparison</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#necessary-cardinality-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let q be the desired absolute subset-cardinality difference, M=sum(abs(mi)) over current residuals, and mmax=max(abs(mi)). Every descendant satisfies max(0,2*mmax-M)&lt;=q&lt;=M, so a target outside that interval permits pruning. The interval is necessary, not sufficient: effective-cardinality magnitudes 2,2,2 allow target 0 through the interval test, but their possible signed absolute totals are only 2 or 6. At the root, a valid target also satisfies 0&lt;=q&lt;=n and has the same parity as n; balanced targets use q=n mod 2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, p. 6, Equation 9 and Figure 2, p. 7; direct parity and signed-sum counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#load-bound-and-incumbent</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain an incumbent only from complete partitions satisfying the requested cardinality difference. For residual values with largest value xmax and total S, max(0,2*xmax-S) is a lower bound on final sum difference; a branch cannot improve an incumbent at or below that bound. This unconstrained load bound remains safe under the added cardinality restriction, but an unconstrained completion must not be assumed cardinality-feasible. Exact arithmetic or conservative bounds are needed for certification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, p. 5; Section 2.3 and Figure 2, pp. 6–7; direct restriction interpretation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#anytime-and-complete-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For balanced targets, the first preferred path gives the BLDM solution; other feasible cardinality targets need not obtain a valid BLDM first result. Full finite search with sound pruning certifies the best valid residue, whereas an interrupted run retains only its feasible incumbent unless it attains a proven lower bound. In a constructed balanced example 8,7,6,5,4, a one-node run retains residue 2 without certification, full search attains 0, and permanently fixed initial pairs cannot improve below 2. The search remains exponential in the worst case.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2–2.3, pp. 4–7; constructed complete, interrupted and restricted searches</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#reported-experiments</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source evaluates exact, heuristic and anytime behavior on uniformly sampled finite-precision integers. Its 25-bit experiment averages 100 instances per point, and the high-precision anytime experiment uses 100-item, 150-bit instances with variable improvement across runs. Node counts, arithmetic cost and historical hardware affect the comparisons. Practical claims about twelve-digit inputs are not adopted as universal guarantees, and the statement that finite random inputs have no perfect partitions with probability one is not used as a theorem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mertens1999">A complete anytime algorithm for balanced number partitioning</a></span>
+        <span>· <strong>Locator:</strong> Section 3, pp. 7–10, Figures 3 and 5; conclusions, p. 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source’s named Complete BLDM procedure handles feasible absolute cardinality targets; its fast BLDM first-solution guarantee is limited to balanced targets. Bins are interchangeable and the scope is two-way partitioning.</li>
+      <li>Necessary cardinality bounds do not certify a feasible completion. Signed effective counts, zero-valued residuals and original memberships must remain consistent.</li>
+      <li>The constructed implementation checks 23 valid targets on eight fixed instances, not all possible inputs. Its copying and sorting choices are not assertions about author-code memory or timing.</li>
+      <li>All 12 primary preprint pages were read. Author code, later journal versions and empirical performance were not inspected or replicated.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No inspected AIO target denotes this complete cardinality-constrained residual search; unconstrained partition search and learned-model categories are not equivalent identities.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Compared all 442 pinned AIO and 594 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 67 AIO and 101 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Complete BLDM is the named Mertens two-phase search with signed effective-cardinality state and pruning. It explores same-side alternatives to initial adjacent pairs as well as later largest-residual pairs. Balanced targets obtain the BLDM first solution; the same source pseudocode handles other feasible absolute cardinality targets. This is distinct from the BLDM heuristic, PDM and unconstrained CKK. The pending lead and neighboring mentions are not prior maintained identities.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A language model with explicit reasoning is not a number-partitioning algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/NeuroSymbolicLLM.html"><code>AIO:NeuroSymbolicLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A neural-symbolic language-model architecture is not this nonlearning search or heuristic.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Balancing a given multiset does not learn a method from data.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An algorithm evaluating differences and choosing a partition is distinct from the mathematical functions it uses.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            There is no reward-based learned policy or exploration/exploitation learning in the curated deterministic procedure.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mertens1999">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mertens1999</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/cs/9903011v1" target="_blank" rel="noopener">A complete anytime algorithm for balanced number partitioning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Stephan Mertens
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/cs/9903011v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fe0bcf132782…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T08:45:16Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T08:45:16Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CompleteBalancedLargestDifferencing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CompleteBalancedLargestDifferencing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
