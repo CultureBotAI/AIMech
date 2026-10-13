@@ -1,0 +1,170 @@
+id: AIMech:ScheduledSampling
+name: Scheduled sampling
+aliases: []
+concept_kind: algorithm
+definition: An autoregressive sequence-training procedure that chooses between reference and model-produced
+  previous outputs as feedback, using a schedule that progressively reduces the probability of reference
+  feedback.
+identity_notes: Compared all 442 pinned AIO and 583 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 56, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 77 AIO and 173 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records
+  were inspected. Matches are the teacher-forcing record, its source and review context, and a pending
+  nested lead. Scheduled sampling mixes supplied-reference and model-produced feedback under a changing
+  probability; full teacher forcing is its all-reference endpoint, not an alias for the mixed procedure.
+  BPTT computes derivatives and Mean Teacher averages model parameters for consistency, so neither supplies
+  this identity. The source calls the schedule a curriculum, while pinned CurriculumLearning emphasizes
+  simpler-to-harder example ordering; related_match preserves the association without asserting exact
+  equivalence or a broader-class identity under that narrower definition.
+definition_evidence:
+- source_id: bengio2015
+  locator: Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4
+  relation: supports
+claims:
+- claim_id: mixed-prefix-training
+  kind: mechanism
+  statement: At each training prediction, use the current mixed prefix to form the model conditional,
+    score the actual reference target, and choose whether the output fed to the next prediction is the
+    reference token or a model-produced token. The original experiments flip a coin for each token with
+    reference probability epsilon_i at training iteration i. The model alternative may be sampled from
+    the conditional or selected by argmax. The target in the loss remains the reference; this is not simply
+    training the model to imitate its own sampled target.
+  evidence:
+  - source_id: bengio2015
+    locator: Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4
+    relation: supports
+- claim_id: schedule-and-endpoints
+  kind: scope
+  statement: The all-reference choice epsilon=1 reproduces ordinary true-prefix training, whereas epsilon=0
+    uses generated feedback. The source proposes decreasing schedules, including a linear decay with a
+    floor, exponential decay and an inverse-sigmoid form. These are configurable curricula rather than
+    one mandatory formula or an assertion that every practical schedule starts exactly at one or reaches
+    zero. The paper reports poor results for some tasks when generated feedback is used from the start;
+    the all-generated endpoint is not an automatic optimization improvement.
+  evidence:
+  - source_id: bengio2015
+    locator: Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4
+    relation: supports
+  - source_id: bengio2015
+    locator: Always Sampling comparisons in Sections4.1–4.3, PDF pp.5–8
+    relation: supports
+- claim_id: decision-gradient-convention
+  kind: mechanism
+  statement: In the reported experiments, gradients pass through the recurrent computations and losses
+    but not through the discrete sampled-token decision. A model-dependent sampling distribution contributes
+    additional terms if one differentiates its full expected loss; those terms must not be silently attributed
+    to the reported update. The paper leaves differentiation through selection decisions to future work.
+    A differentiable relaxation or a score-function estimator therefore needs its own algorithm and objective
+    specification.
+  evidence:
+  - source_id: bengio2015
+    locator: Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4
+    relation: supports
+  - source_id: bengio2015
+    locator: Section5 Conclusion, PDF/printed p.8
+    relation: supports
+- claim_id: two-token-consistency-boundary
+  kind: limitation
+  statement: The primary critique analyzes an idealized two-token sampled-prefix criterion. For a fixed
+    first-token model equal to the true marginal P1, reference probability epsilon makes the conditional
+    target at a supplied prefix z equal to epsilon*P(y|z)+(1-epsilon)*P2(y). With separately adjustable
+    second-token conditionals, this mixture need not equal the true conditional when the tokens are dependent.
+    At epsilon=0 it becomes independent of z. This is a bounded consistency counterexample, not a claim
+    that every finite neural training run converges to that distribution.
+  evidence:
+  - source_id: huszar2015
+    locator: Sections4–4.1, especially the two-symbol formulation and Equation6, PDF/printed pp.3–5; curator
+      direct expected-loss calculation
+    relation: supports
+- claim_id: constructed-dependent-example
+  kind: scope
+  statement: In a constructed binary example with joint masses P(0,0)=P(1,1)=9/20 and P(0,1)=P(1,0)=1/20,
+    both marginals are uniform. Holding the first-token sampler at that marginal, epsilon=1/2 gives optimal
+    second-token probabilities P_model(1|0)=3/10 and P_model(1|1)=7/10 for the mixed-input conditional
+    loss, instead of the true 1/10 and 9/10. Its conditional cross-entropy is lower at the mixed target
+    than at the true conditional, and the partial gradients at the truth are nonzero. The calculation
+    fixes the sampler and does not equate a stopped-decision neural update with the full derivative through
+    a changing sampler.
+  evidence:
+  - source_id: huszar2015
+    locator: Section4.1 two-token criterion, Equation6, PDF/printed p.4; independently constructed finite
+      enumeration in the discovery calculation
+    relation: supports
+- claim_id: reported-experiment-scope
+  kind: scope
+  statement: The original paper reports selected image-captioning, parsing and speech comparisons under
+    particular capacities, schedules and evaluation settings. All-generated training fails to learn correct
+    tree structure in the reported parsing condition. Speech next-step frame error uses supplied previous
+    labels on validation data, while free-decoding frame error uses beam search on test data; these are
+    not interchangeable measurements or general word-recognition scores. Reported benefits and the idealized
+    consistency critique concern different questions and do not establish either universal superiority
+    or universal empirical failure.
+  evidence:
+  - source_id: bengio2015
+    locator: Sections4.1–4.3 and Tables1–3, PDF/printed pp.5–8; Section5, p.8
+    relation: supports
+  - source_id: huszar2015
+    locator: Discussion of finite-training empirical success after the consistency analysis, PDF/printed
+      p.5
+    relation: supports
+evidence_sources:
+- source_id: bengio2015
+  title: Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks
+  authors:
+  - Samy Bengio
+  - Oriol Vinyals
+  - Navdeep Jaitly
+  - Noam Shazeer
+  persistent_id: https://proceedings.neurips.cc/paper/2015/hash/e995f98d56967d946471af29d7bf99f1-Abstract.html
+  version: NIPS2015 proceedings, Advances in Neural Information Processing Systems28; nine-page conference-hosted
+    PDF with matching printed/PDF page numbers. All pages, equations, figures, tables and references visually
+    read. Method Section2.4 spans pp.3–4; Figures1–2 are on p.4; Table3 and Conclusion are on p.8.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:27:25Z'
+  sha256: ab71fd38a31df07e90e7ec019b19654de8f633484a76c0a68e36133f888454a0
+- source_id: huszar2015
+  title: 'How (not) to Train your Generative Model: Scheduled Sampling, Likelihood, Adversary?'
+  authors:
+  - Ferenc Huszár
+  persistent_id: https://arxiv.org/abs/1511.05101v1
+  version: arXiv1511.05101v1,16November2015; nine-page preprint marked Under review as a conference paper
+    at ICLR2016. All nine pages read. Acceptance at that conference is not asserted; the two-step critique
+    is assessed within its stated idealization.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.05101v1
+  access_level: full_text
+  accessed_at: '2026-10-13T06:52:06Z'
+  sha256: f6294aac1bac2805a9a146abd8dee2cec1c4db72cfd3bfe7509c69ee4daa3df4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CurriculumLearning
+  relation: related_match
+  rationale: The source explicitly presents a curriculum that changes reference-feedback probability during
+    training. The pinned class describes ordering examples from simple to complex, whereas this procedure
+    changes how feedback is selected. A related mapping preserves that training-strategy association without
+    asserting exact identity or an is-a edge under the narrower pinned wording.
+limitations:
+- The record describes Bengio et al2015 and the original omitted decision-gradient convention. Differentiable,
+  confidence-based or later sampling variants require separate evidence and identity assessment.
+- A sampled model prefix can be paired with an original reference continuation that is no longer appropriate
+  for that prefix. The procedure does not query a new expert target for every visited model state.
+- The conditional mixture result fixes the first-token sampler to the true marginal, uses positive-support
+  two-token data and separately adjustable conditionals. It does not certify the dynamics of a shared-parameter
+  neural optimizer, arbitrary schedules, argmax replacements or longer sequences.
+- The source critique’s broader perceptual-quality and generalized-adversarial proposals are not adopted
+  here. Its displayed reformulations are not needed beyond the directly checked expected two-token criterion.
+- All eighteen cited PDF pages were read. Constructed finite probability calculations were executed without
+  fitting; no author code, model training, paid service or benchmark replication was run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T07:10:46Z'
+  updated_at: '2026-10-13T07:10:46Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

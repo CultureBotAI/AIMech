@@ -1,0 +1,154 @@
+id: AIMech:GammaFilter
+name: Gamma filter
+aliases:
+- Adaptive gamma filter
+- ADALINE(μ)
+concept_kind: model_family
+definition: A linear adaptive filter family that combines a direct input tap with weighted cascaded first-order
+  gamma-memory traces, using one shared memory coefficient to control the restricted feedback.
+identity_notes: Compared all 442 pinned AIO and 584 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 5, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 110 AIO and 251 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full native records
+  were inspected. Matches point to the pending Gamma-filter lead and Gamma neural-model context. This
+  source-defined linear adaptive filter has a direct input tap and a weighted sum of cascaded gamma-memory
+  traces; the broader Gamma neural architecture allows nonlinear spatial maps and neural couplings. The
+  independently named ADALINE(mu) filter is a narrower model family, not a renamed generic ADALINE or
+  the entire Gamma neural family. LinearStateSpaceLayer concerns a layer based on discretized continuous
+  state-space systems; PseudoLinearRegressionEstimation is an estimation method and IteratedWienerFilter
+  is a particular iterative denoising procedure. None supplies this exact identity. Fixed-memory-coefficient
+  fitting is linear in tap weights, while joint memory-coefficient adaptation is not linear in all parameters,
+  motivating only a related LinearRegression mapping.
+definition_evidence:
+- source_id: principe1993
+  locator: SectionsII–III, Equations1–6, printed pp.649–650 / PDF pp.1–2; Discussion naming ADALINE(mu),
+    printed p.656 / PDF p.8
+  relation: supports
+claims:
+- claim_id: linear-filter-recurrence
+  kind: mechanism
+  statement: For order parameter K, input u[n] and shared coefficient mu, define x0[n]=u[n] and update
+    xk[n]=(1-mu)*xk[n-1]+mu*x(k-1)[n-1] simultaneously for k=1,...,K. Output y[n]=sum_(k=0..K) wk*xk[n]
+    includes the direct w0 input tap. The transfer between adjacent stages is G(z)=mu/(z-(1-mu)); the
+    output transfer is sum wk*G(z)^k. This parameterization has K+1 tap weights and one shared memory
+    coefficient, hence K+2 adjustable scalars. It is a linear input-output filter for fixed coefficients,
+    although its parameterization is not jointly linear in weights and mu.
+  evidence:
+  - source_id: principe1993
+    locator: SectionsII–III, Equations1–6, printed pp.649–650 / PDF pp.1–2; SectionIII.E parameter count,
+      printed p.652 / PDF p.4
+    relation: supports
+- claim_id: fixed-memory-stability
+  kind: limitation
+  statement: For fixed real mu the memory-stage pole is 1-mu, strictly inside the unit circle when 0<mu<2.
+    At mu=1 the stages form a tapped delay line and the filter becomes FIR. At mu=0 no new input enters
+    the memory stages and their initial values remain frozen; mu=2 permits resonance from a bounded alternating
+    input. Degenerate weights or cancellations can lower the output transfer order, so this stage condition
+    is not an unconditional characterization of every degenerate output transfer. It also does not guarantee
+    convergence or stability during unconstrained coefficient adaptation.
+  evidence:
+  - source_id: principe1993
+    locator: SectionIII.B, printed p.650 / PDF p.2; TableI, printed p.653 / PDF p.5; Discussion, printed
+      pp.655–656 / PDF pp.7–8; direct stage-pole reasoning
+    relation: supports
+- claim_id: dispersive-memory
+  kind: mechanism
+  statement: With zero initial state and 0<mu<1, the kth-stage impulse response is binomial(n-1,k-1)*mu^k*(1-mu)^(n-k)
+    for n>=k. It has unit sum and mean lag k/mu, so K/mu describes a mean depth for the last stage, not
+    a hard memory horizon or an exact delayed sample. For 1<mu<2 the response alternates in sign and is
+    not a probability distribution. The gamma-coordinate transformation makes the transfer polynomial
+    in an alternative delay variable; that does not make the ordinary-time impulse response finite for
+    general mu.
+  evidence:
+  - source_id: principe1993
+    locator: SectionsIII.A–C, Equations7–12 and Figures2–3, printed pp.650–652 / PDF pp.2–4; SectionV,
+      printed pp.654–655 / PDF pp.6–7
+    relation: supports
+- claim_id: block-and-online-adaptation
+  kind: mechanism
+  statement: For a fixed-parameter block with half-squared error and e[n]=d[n]-y[n], gradient descent
+    uses weight increments proportional to sum_n e[n]*xk[n] and a memory-coefficient increment proportional
+    to sum_n e[n]*sum_k wk*alpha_k[n]. For parameter-independent zero initial state, alpha0=0 and alpha_k[n]=(1-mu)*alpha_k[n-1]+mu*alpha_(k-1)[n-1]+x_(k-1)[n-1]-xk[n-1].
+    Other initial-state conventions require corresponding initial sensitivities. The paper labels its
+    samplewise updates a local-in-time approximation; fixed-parameter derivative identities do not establish
+    exact gradients under arbitrary parameter drift. The direct recurrence uses O(K) work per step, without
+    a universal training-time or convergence guarantee.
+  evidence:
+  - source_id: principe1993
+    locator: SectionIII.D, Equations13–20, printed pp.651–652 / PDF pp.3–4; curator fixed-parameter derivative
+      check
+    relation: supports
+- claim_id: normal-equations-and-nonconvexity
+  kind: limitation
+  statement: For fixed mu in a stationary finite-second-moment setting, the tap-weight MSE normal equation
+    is Rw=p with R=E[xx^T] and p=E[d*x]; uniqueness additionally needs suitable rank, such as positive-definite
+    R. Direct differentiation gives the memory-coefficient stationarity condition E[e*sum_k wk*alpha_k]=0.
+    A total derivative of R includes both E[alpha*x^T] and E[x*alpha^T], so a one-sided cross-moment must
+    not be used as that full derivative. Joint adaptation in mu and the tap weights is not generally convex;
+    the suggested mu=1 initialization is a heuristic, not a global optimum guarantee.
+  evidence:
+  - source_id: principe1993
+    locator: SectionIII.E, Equations21–25, printed pp.652–653 / PDF pp.4–5; Discussion, printed pp.655–656
+      / PDF pp.7–8; curator direct differentiation of the second moment
+    relation: supports
+- claim_id: system-identification-evidence
+  kind: scope
+  statement: The reported experiments concern identification of two third-order elliptic low-pass systems.
+    They compare analytic fixed-mu normal-equation solutions and samplewise tap-weight LMS results across
+    selected mu values and orders. Such comparisons do not demonstrate automatic convergence of learned
+    mu on arbitrary problems or universal superiority over FIR filters. Additional signal applications
+    mentioned at the end of SectionIV are deferred to later publication and are not detailed experiments
+    here.
+  evidence:
+  - source_id: principe1993
+    locator: SectionIV, Figures4–5 and deferred signal-application statement, printed pp.653–654 / PDF
+      pp.5–6; Discussion, printed pp.655–656 / PDF pp.7–8
+    relation: supports
+evidence_sources:
+- source_id: principe1993
+  title: The Gamma Filter—A New Class of Adaptive IIR Filters with Restricted Feedback
+  authors:
+  - Jose C. Principe
+  - Bert de Vries
+  - Pedro G. de Oliveira
+  persistent_id: https://doi.org/10.1109/78.193206
+  version: IEEE Transactions on Signal Processing41(2):649–656, February1993, as printed in the complete
+    eight-page primary PDF. Author institutional metadata lists1992; the primary printed issue determines
+    the cited year. All pages, equations, figures, TableI and references read.
+  source_type: primary_paper
+  url: https://www.cnel.ufl.edu/wp-content/uploads/courses/EEL6504/principe_gamma_1993.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:52:29Z'
+  sha256: 0c4cf590b91e07237a9975c08a4e4f35a8c153fcc7acec965c7e9019f61d584a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LinearRegression
+  relation: related_match
+  rationale: At fixed mu, fitting the linear combination of gamma-memory traces is a linear least-squares
+    problem. The record identifies an adaptive dynamical filter family, while the pinned AIO class identifies
+    regression analysis. Joint mu adaptation is nonlinear in the parameters, so neither exact identity
+    nor a broad is-a mapping is asserted.
+limitations:
+- This record covers the linear adaptive Gamma filter and its shared-coefficient parameterization, not
+  every nonlinear Gamma neural network or arbitrary restricted-feedback filter.
+- The fixed-stage stability interval is distinct from adaptation stability. Initial states, coefficient
+  constraints, loss, learning rate and block or online update convention affect the actual procedure.
+- The source notation beside Equation23 equates a total correlation-matrix derivative with a one-sided
+  cross-moment. The record uses direct differentiation instead; it does not infer a defect in uninspected
+  author code.
+- The experiments evaluate selected filters and coefficient settings. No universal statistical efficiency,
+  successful memory-order selection, adaptive global convergence or hardware speed claim follows.
+- All eight primary PDF pages were read. The printed issue gives February1993 although inspected institutional
+  metadata lists1992. Constructed recurrence and derivative checks involve no fitting; no author code,
+  model training or empirical replication was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T07:11:25Z'
+  updated_at: '2026-10-13T07:13:52Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
