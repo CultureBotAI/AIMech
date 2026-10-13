@@ -1,0 +1,211 @@
+schema_version: 1.0.0
+review_id: 20261013T062322Z-gamma-neural-claim-citations-open
+kind: record
+repository: CultureBotAI/AIMech
+title: Gamma neural model claim-source scope review
+started_at: '2026-10-13T06:20:31Z'
+finished_at: '2026-10-13T06:23:22Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author checked each claim against its attached primary sources
+    and detected a bounded citation-scope gap. This is not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One confirmed minor claim-citation gap requires a scoped edit before the
+  final review. The issue concerns the later-architecture comparison, not Gamma identity,
+  cascade equations or selected AIO mapping.
+source:
+  git_revision: cbcef8ab980d8f92922f715e9f3659e05b648f47
+  state: working_tree
+  inputs:
+  - path: data/aio/Convolution1DLayer.yaml
+    sha256: 4d7c7bef628e3b308ad22eb41f2959bb65e34edebfd9336c9d7c05dc9feb645c
+    role: context
+  - path: data/aio/FeedbackNetwork.yaml
+    sha256: 74d1e22e6d446bd06278d8503785333cd4ae97c00cb4831a0c482347965ef0ba
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/SimpleRNNLayer.yaml
+    sha256: 6e93e3bd5702eb0a1109a12526138ae8aed009f30cc7cb764b0c7db4fa3f0bbe
+    role: context
+  - path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+    sha256: 465373ea285a9c4102069b1cef3023c52328a10ccc526855aea218bcec3f41fa
+    role: context
+  - path: data/curated/GammaNeuralModel.yaml
+    sha256: b3137201df8eb15812ff56eb33b174974b65c8884421a70fb063cb890fcb2e05
+    role: target
+  - path: data/curated/NeuralNetworkPushdownAutomaton.yaml
+    sha256: 71b3ba6474d3a8fca545d1f33c4a46da156d419ffe82e21ca048114967663f2c
+    role: context
+  - path: data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml
+    sha256: 03df44109ede633bd0f41cf2b7b355ac0708ff53411e5ef1a9f69d131380f6bc
+    role: context
+  - path: data/curated/TemporalKernelRecurrentNeuralNetwork.yaml
+    sha256: fdb23e4953d5eb0d52410b7d7046ef95fca6c64ab677e439153f327443e441d4
+    role: context
+  - path: research/discovery/20261013T062004Z-gamma-neural-model.json
+    sha256: 39946416c4032c2eb502295fc3a4931375226e0000cafaba2e0860158a3ccc3b
+    role: context
+  - path: research/discovery/gamma-neural-boundaries.py
+    sha256: 807637564da45e4add8e727e7b328846eb6c2fe988cf8aeb2c65e13af9b1de53
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GammaNeuralModel
+  path: data/curated/GammaNeuralModel.yaml
+  label: Gamma neural model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GammaNeuralModel.yaml
+    role: maintained
+scope:
+  description: Claim-specific support for the focused-network configuration and its
+    appended cross-method comparison.
+  selection: Exact maintained target AIMech:GammaNeuralModel
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GammaNeuralModel
+  exclusions:
+  - target: Final corrected-input review and publication gates
+    reason: This observation preserves one confirmed finding; final corrected-input
+      review follows.
+checks:
+- check_id: curated
+  name: Native schema and identity validation
+  command: uv run --locked aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked581 curated concept records;0errors.
+- check_id: publication
+  name: Corrected-input publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  summary: Pending on corrected inputs; no final passing review claimed.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/GammaNeuralModel.yaml
+  accessed_at: '2026-10-13T06:23:22Z'
+  snapshot_sha256: b3137201df8eb15812ff56eb33b174974b65c8884421a70fb063cb890fcb2e05
+  support: supports
+  summary: The focused-network claim adds a comparison with later temporal-kernel
+    and Clockwork architectures, while its claim-specific citations name only the1990/1991
+    Gamma papers.
+- evidence_id: devries1990
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/1990/file/6c524f9d5d7027454a783c841250ba71-Paper.pdf
+  accessed_at: '2026-10-13T06:11:53Z'
+  snapshot_sha256: e5522677a922d9f1c0d50c51c9e8410828bc225f8201fa35fb8bcc585f580889
+  support: supports
+  locator: Complete primary paper read; defining method and focused-network passages
+    reread after capture.
+  summary: Supports Gamma cascades and source-defined configurations; does not describe
+    the later named comparison architectures.
+- evidence_id: principe1991
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/1991/file/e1e32e235eee1f970470a3a6658dfdd5-Paper.pdf
+  accessed_at: '2026-10-13T06:06:27Z'
+  snapshot_sha256: 696568f2a68f90bb60a22629ac4e62330384d809e63a84ac595b9837c7db24d0
+  support: supports
+  locator: Complete primary paper read; defining method and focused-network passages
+    reread after capture.
+  summary: Supports Gamma cascades and source-defined configurations; does not describe
+    the later named comparison architectures.
+assessments:
+- assessment_id: claim-citations
+  area: evidence
+  topic: Focused configuration and named later comparisons
+  outcome: concern
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - record
+  - devries1990
+  - principe1991
+  summary: The comparison clause exceeds the attached source scope.
+  details: Complete papers support the gamma configuration. Later architectures were
+    inspected as separate identity context, but their evidence is not attached to
+    this claim.
+findings:
+- finding_id: F1
+  issue_key: gamma-native-comparison-claim-citations
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Keep the focused-configuration claim within its cited source scope
+  description: The final sentence compares gamma cascades with single-exponential
+    context, parallel temporal-kernel components and Clockwork updates. The attached
+    sources are the1990/1991 Gamma papers and do not establish the later architectures.
+    Those neighbors were separately inspected for identity and remain documented in
+    identity_notes and the report mapping context. Remove the redundant cross-method
+    sentence from this claim, or attach the actual counterpart evidence; do not imply
+    the early Gamma papers support the later named comparison.
+  target_ids:
+  - AIMech:GammaNeuralModel
+  field_paths:
+  - claims[claim_id=focused-network-configuration].statement
+  - claims[claim_id=focused-network-configuration].evidence
+  evidence_ids:
+  - record
+  - devries1990
+  - principe1991
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GammaNeuralModel.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Remove the redundant comparative sentence from the claim while retaining
+    the separately documented identity assessment. Update its report mirror and actual
+    EDIT history, then freshly capture and review the corrected inputs.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:GammaNeuralModel
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GammaNeuralModel.yaml
+    role: maintained
+  acceptance_checks:
+  - The claim asserts only Gamma configuration details supported by its attached early
+    primary sources.
+  - Identity context remains documented; report mirror, updated_at, rendering and
+    append-only history agree.
+  - Corrected-input gates pass and a successor review explicitly resolves this issue
+    key.
+limitations:
+- Partial author self-review only; no final passing verdict or independent approval.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- claim-citations

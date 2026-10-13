@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Real-time recurrent learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Real-time recurrent learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Real-time recurrent learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RealTimeRecurrentLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RTRL
+    </div>
+
+  <div class="detail-desc">
+    A recurrent-network training algorithm that propagates state sensitivities to adjustable weights forward in time and contracts those sensitivities with current supervised output errors to form weight updates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 579 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 11, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 64 AIO and 155 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Matches concern prior RTRL discovery leads and NNPDA derivative context, not an exact record. RTRL propagates full recurrent state sensitivities; generic SGD describes sampled-gradient parameter updates, Rprop controls sign-based step sizes, and pseudo-linear regression substitutes a raw regressor for a total sensitivity. NNPDA is a recurrent controller architecture whose augmented stack-read derivative is approximate. TrainingStrategy is related because its preprocessing definition does not supply an algorithm superclass. RecurrentNeuralNetwork is a training subject, DifferentiableLLM is an LLM architecture and SupervisedLearning a task category. None establishes exact identity. Fixed-weight accumulated and online-update forms, including the teacher-forced configuration, remain within this source-defined algorithm family.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#forward-state-sensitivities</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the inspected synchronous network y_k(t+1)=f_k(sum_l w_kl*z_l(t)), z concatenates recurrent outputs and external inputs, including a constant bias input when needed. The sensitivity p_ij^k(t+1)=f_k&#39;(s_k(t))*(sum_l w_kl*p_ij^l(t)+delta_ik*z_j(t)) propagates through every recurrent unit. Initial sensitivities are zero when the initial state is independent of the weights. Weight-dependent initialization or externally supplied signals require their additional derivatives; zero initialization is not universally valid.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equations 1–3 and 10–14, PDF pp. 2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-trajectory-gradient</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With fixed weights and parameter-independent inputs, targets and initial state, contracting p with target-minus-output discrepancies gives the negative gradient of the current half-squared error. Summing these negative-gradient contributions gives the negative trajectory-loss gradient without storing the entire trajectory. Units lacking a target at a time contribute zero direct error, yet their sensitivities must generally still be propagated. Forward sensitivity propagation and reverse backpropagation through time agree for the same differentiable fixed-weight objective; they organize the derivative computation differently.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 1 and 2.1, Equations 4–15, PDF pp. 2–4; Section 2.4, p. 6; curator fixed-trajectory forward/reverse and finite-difference checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#online-weight-drift</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The real-time variant applies each update while the recurrent network continues running, avoiding a required epoch boundary. The source explicitly states that this no longer follows the exact negative gradient of the total error along a fixed-weight trajectory. Weight changes also change the generated trajectory; a sufficiently slow learning timescale is a heuristic control, not a general convergence guarantee. In a constructed linear recurrence with initial state 1 and successive weights 1/2 and 3/5, the propagated sensitivity is 11/10, whereas rerunning both steps at the current fixed weight gives derivative 6/5. Exactness of the fixed-parameter recursion must not be transferred unqualified to changing weights.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, PDF pp. 4–5; curator two-step changing-weight calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#teacher-forced-variant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Teacher forcing replaces a unit’s output by its supplied target in subsequent state computation whenever that target exists. Assuming those targets are independent of the weights, the sensitivity recurrence omits propagation through the forced outputs. Their sensitivities still contribute to the current weight update before being treated as zero for future propagation. This changes the training dynamics and derivative paths; it is an optional RTRL configuration, not the definition of all RTRL or an assurance of autonomous free-running performance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Equations 17–19 and implementation explanation, PDF pp. 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#storage-and-nonlocality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For n recurrent units and r adjustable weights the direct method retains n*r sensitivities, including sensitivities of units without immediate targets. A fully connected n-unit network with m external inputs has r=n*(n+m), hence n^2*(n+m) sensitivity values. Directly evaluating the displayed recurrent sums takes order n^2*r arithmetic per time step, or order n^3*(n+m) for that dense parameterization. Storage does not grow with elapsed sequence length at fixed network size; this is not constant cost in network size or a guaranteed wall-clock deadline. The method needs nonlocal weight and error information and is not established as a biologically local learning rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4, PDF p. 6; Discussion, p. 8; direct count from Equation 12, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#experimental-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Reported demonstrations use small fully interconnected networks on delayed XOR, sequence recognition, delayed nonmatch, finite-state-controller imitation and oscillation tasks. The Turing-machine example is described as imitation of finite-state-controller actions; it does not demonstrate that a finite recurrent state alone supplies an unbounded tape or arbitrary-program learning. The oscillation section reports that teacher forcing was needed for general success in the tested setting and discusses near-zero gradients around initially settling dynamics. These selected demonstrations do not establish universal convergence, arbitrary memory fidelity, computational efficiency or success without teacher forcing.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-williams1989">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.5 and Discussion, PDF pp. 6–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The mechanism is scoped to the inspected ten-page manuscript copy of Williams and Zipser (1989). It acknowledges earlier related work; no sole-inventor or historical-priority claim is made. Final publisher layout and later implementations were not inspected.</li>
+      <li>Fixed-weight derivative exactness assumes the stated differentiable dynamics and parameter-independent supplied signals and initialization. The source’s online weight updates are approximate with respect to the fixed-trajectory gradient; numerical floating-point exactness is not asserted.</li>
+      <li>The complete sensitivity tensor can be expensive even though its dimensions do not grow with sequence length. Restricted, approximate, sparse or low-rank algorithms require their own evidence and identity assessment.</li>
+      <li>Teacher forcing changes state evolution and cuts specified derivative paths. Reported training success does not establish matching free-running behavior or biologically local learning.</li>
+      <li>The small task demonstrations and qualitative results are source reports, not a reproduced benchmark or a guarantee of arbitrary-duration memory and convergence.</li>
+      <li>All ten manuscript PDF pages and references were read. Constructed differentiation and algebra checks use fixed small examples without fitting; no author code, model training, hardware benchmark or empirical replication was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RTRL computes sensitivities and parameter updates for recurrent-network training. The pinned TrainingStrategy definition uses a preprocessing genus and does not identify this derivative algorithm; a contextual training relationship is supported, without equivalence or a subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-williams1989">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">williams1989</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://gwern.net/doc/ai/nn/rnn/1989-williams-2.pdf" target="_blank" rel="noopener">A Learning Algorithm for Continually Running Fully Recurrent Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ronald J. Williams, David Zipser
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1162/neco.1989.1.2.270</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:348ca1d75163…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T06:19:04Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T06:19:04Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RealTimeRecurrentLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RealTimeRecurrentLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,180 @@
+id: AIMech:GammaNeuralModel
+name: Gamma neural model
+aliases:
+- Gamma neural network
+- Gamma net
+- Gamma neural net
+concept_kind: architecture
+definition: A neural architecture family that represents delayed inputs or neural outputs by weighted
+  gamma-kernel memory traces, realized through cascades of first-order leaky integrators.
+identity_notes: Compared all 442 pinned AIO and 580 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 65 AIO and 156 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full native records
+  were inspected. Prior matches carry the temporal-kernel report’s pending Gamma lead. Cascaded gamma
+  traces differ from SCRN’s separate exponential context, TKRNN’s factored parallel temporal kernels,
+  Clockwork’s module schedule and NNPDA’s external fractional-symbol stack. Focused gamma input-memory
+  placement is a source-defined configuration within the broader architecture. A gamma distribution in
+  a separate probabilistic method and the unrelated consistency-learning Gamma-model cohort do not imply
+  identity. Full recurrent-network scope supports the broader mapping; generic feedback, convolution and
+  simple recurrent-layer contexts do not supply an exact or more appropriate broader match.
+definition_evidence:
+- source_id: devries1990
+  locator: Section 2, Equations 3–11, PDF pp. 2–4 / printed pp. 163–165
+  relation: supports
+- source_id: principe1991
+  locator: Sections 1–2, Equations 1–2 and Figure 1, PDF pp. 1–3 / printed pp. 143–145
+  relation: supports
+claims:
+- claim_id: continuous-gamma-cascade
+  kind: mechanism
+  statement: For positive fixed decay rate mu, the continuous kernels are g_k(t)=mu^k*t^(k-1)*exp(-mu*t)/(k-1)!
+    for t>=0 and positive integer k. Convolutional traces with zero initial history obey d y_k/dt=mu*(y_(k-1)-y_k),
+    where y_0 is the driving neural output. Their weighted combination supplies delayed interactions in
+    the neural-state equation, alongside any direct term. Each basis kernel has unit integral, but arbitrary
+    signed weight matrices do not make the combined interaction a probability distribution. A finite kernel
+    expansion is not an exact representation of every possible temporal interaction; the source’s approximation
+    discussion has decay and increasing-order assumptions.
+  evidence:
+  - source_id: devries1990
+    locator: Section 2, Equations 2–11, PDF pp. 2–4 / printed pp. 163–165; curator kernel normalization
+    relation: supports
+- claim_id: discrete-memory-and-delay-boundaries
+  kind: mechanism
+  statement: The discrete memory uses x_0[n]=u[n] and simultaneous updates x_k[n]=(1-mu)*x_k[n-1]+mu*x_(k-1)[n-1].
+    For zero initial state and 0<mu<1, its k-stage impulse response is binomial(n-1,k-1)*mu^k*(1-mu)^(n-k)
+    for n>=k, a dispersed rather than exact delay. At mu=1 it becomes a tapped delay line; at mu=0 no
+    new input enters the stored traces and existing initial traces remain frozen. For the positive-kernel
+    regime the mean-depth parameter K/mu describes the last memory stage, not a hard cutoff, exact retrieval
+    horizon or proof of preserved information. Small mu trades temporal resolution for depth.
+  evidence:
+  - source_id: devries1990
+    locator: Section 4, Equations 15–16 and Figure 1, PDF pp. 6–7 / printed pp. 167–168
+    relation: supports
+  - source_id: principe1991
+    locator: Section 2, Equations 1–3, PDF pp. 2–3 / printed pp. 144–145; curator impulse-response expansion
+    relation: supports
+- claim_id: stability-scope
+  kind: limitation
+  statement: 'For fixed mu the discrete stage pole is 1-mu, giving asymptotic and bounded-input bounded-output
+    stability of the linear memory for 0<mu<2. The endpoint mu=2 is excluded: an alternating bounded input
+    gives a stage response whose magnitude grows linearly. Mu=0 does not forget a nonzero initial state.
+    These boundaries qualify the earlier paper’s inclusive endpoint wording; the focused-network paper
+    uses the strict interval. Values 1<mu<2 have alternating-sign memory weights, not positive averages.
+    Stability of a fixed linear memory does not establish stability of an arbitrary coupled nonlinear
+    network, an unconstrained adaptation trajectory or its optimizer.'
+  evidence:
+  - source_id: devries1990
+    locator: Section 4 stability discussion, PDF p. 6 / printed p. 167
+    relation: supports
+  - source_id: principe1991
+    locator: Section 2 and Conclusions, PDF pp. 3,7 / printed pp. 145,149; curator endpoint counterexample
+    relation: supports
+- claim_id: focused-network-configuration
+  kind: scope
+  statement: The focused gamma network places the gamma memory at the input and sends its traces to a
+    static nonlinear feedforward mapper. It is a source-defined configuration of the gamma family, not
+    the whole family or an independently averaged set of temporal models. Its spatial mapper is feedforward,
+    while the memory still has recurrent dynamics. The more general formulation can filter neural-state
+    outputs, and additional placements are discussed as extensions.
+  evidence:
+  - source_id: devries1990
+    locator: Sections 2 and 4, PDF pp. 2–6 / printed pp. 163–167
+    relation: supports
+  - source_id: principe1991
+    locator: Sections 1–2, Figure 1 and Conclusions, PDF pp. 1–3,7–8 / printed pp. 143–145,149–150
+    relation: supports
+- claim_id: learning-choices-and-optimality
+  kind: limitation
+  statement: The original formulation gives a temporal Hebbian weight rule using locally available gamma
+    traces. The focused configuration instead trains spatial weights with ordinary backpropagation and
+    gives a recursive sensitivity for the memory parameter, a_k[n]=(1-mu)*a_k[n-1]+mu*a_(k-1)[n-1]+x_(k-1)[n-1]-x_k[n-1],
+    with an appropriate initial sensitivity; backpropagation through time is also discussed. These are
+    learning choices, not one mandatory training algorithm. The displayed fixed-parameter sensitivity
+    does not by itself guarantee exact gradients under parameter drift, successful optimization, automatic
+    selection of integer order K or an always-optimal memory depth.
+  evidence:
+  - source_id: devries1990
+    locator: Section 3, Equation 13, PDF p. 5 / printed p. 166
+    relation: supports
+  - source_id: principe1991
+    locator: Section 2 derivative equations and Conclusions, PDF pp. 3–4,7 / printed pp. 145–146,149;
+      curator fixed-rate finite differences
+    relation: supports
+- claim_id: evaluation-boundaries
+  kind: scope
+  statement: The focused-network experiments concern five-step prediction on a selected EEG segment, a
+    specified Mackey–Glass series and identification of one linear low-pass system. EEG comparisons scan
+    discrete mu settings rather than demonstrate successful learned adaptation of mu in that experiment.
+    The Mackey–Glass example adapts mu online under selected capacity, sample and epoch choices; the conclusion
+    describes its performance as similar to TDNN in that short-memory setting. Benefits in the chosen
+    linear-identification example do not establish universal superiority, always fewer required parameters,
+    biological causality or unlimited long-term memory. These results are for focused configurations,
+    not a validation of every gamma architecture.
+  evidence:
+  - source_id: principe1991
+    locator: Section 3, Figures 2–5, Table I and Conclusions, PDF pp. 4–8 / printed pp. 146–150
+    relation: supports
+evidence_sources:
+- source_id: devries1990
+  title: A Theory for Neural Networks with Time Delays
+  authors:
+  - Bert de Vries
+  - Jose C. Principe
+  version: NeurIPS/NIPS1990 proceedings, Advances in Neural Information Processing Systems3, printed pp.162–168.
+    All seven PDF pages, Equations1–16, Figure1 and references visually read.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/1990/file/6c524f9d5d7027454a783c841250ba71-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:11:53Z'
+  sha256: e5522677a922d9f1c0d50c51c9e8410828bc225f8201fa35fb8bcc585f580889
+- source_id: principe1991
+  title: Modeling Applications with the Focused Gamma Net
+  authors:
+  - Jose C. Principe
+  - Bert de Vries
+  - Jyh-Ming Kuo
+  - Pedro Guedes de Oliveira
+  version: NeurIPS/NIPS1991 proceedings, Advances in Neural Information Processing Systems4, printed pp.143–150.
+    All eight PDF pages, equations, Figures1–5, TableI and references visually read.
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/1991/file/e1e32e235eee1f970470a3a6658dfdd5-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:06:27Z'
+  sha256: 696568f2a68f90bb60a22629ac4e62330384d809e63a84ac595b9837c7db24d0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The gamma family realizes temporal state through recursive memory dynamics. Even the focused
+    configuration has recurrent memory feeding a spatially feedforward mapper. The AIO recurrent-network
+    category is broader than this particular gamma-kernel architecture family.
+limitations:
+- The record covers the 1990 NeurIPS formulation and 1991 focused-network proceedings paper, both read
+  completely. The later 1992 journal article was identified but its full text was not available from the
+  attempted copy; it is not treated as inspected evidence.
+- Continuous-time rates and dimensionless discrete-time recurrence coefficients have distinct conventions.
+  No arbitrary discretization step, numerical integration scheme or executable implementation is supplied
+  here.
+- Finite order restricts the kernel family and memory is generally dispersive. Depth metrics and approximation
+  statements do not prove exact reconstruction of an arbitrary past or finite-order exactness for every
+  convolution.
+- The strict fixed-coefficient stability interval concerns the linear memory, not all parameter adaptation
+  or nonlinear feedback. Endpoint behavior and signed responses above mu=1 remain explicit.
+- Focused placement, temporal Hebbian learning and backpropagation/RTRL choices are scoped configurations.
+  Optimization claims in the source are not adopted as universal guarantees or evidence of automatic order
+  selection.
+- All seven theory-paper pages and all eight focused-paper pages, including figures and references, were
+  visually read. Constructed recurrence, kernel and derivative checks involve no fitting. No author code,
+  model training, runtime benchmark or empirical replication was run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T06:20:04Z'
+  updated_at: '2026-10-13T06:24:08Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
