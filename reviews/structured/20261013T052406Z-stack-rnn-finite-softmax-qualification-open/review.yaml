@@ -1,0 +1,208 @@
+schema_version: 1.0.0
+review_id: 20261013T052406Z-stack-rnn-finite-softmax-qualification-open
+kind: record
+repository: CultureBotAI/AIMech
+title: Stack-RNN finite-softmax qualification
+started_at: '2026-10-13T05:22:13Z'
+finished_at: '2026-10-13T05:24:06Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author challenged a numerical assertion against the pinned softmax
+    source and a constructed floating-point counterexample; this is not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One minor source-qualification finding requires correction before publication.
+  Final corpus gates and the successor review remain pending.
+source:
+  git_revision: 80fc2f8b95e90c0601a598d593dad73d2ecedb99
+  state: working_tree
+  inputs:
+  - path: data/aio/MemoryAugmentedLLM.yaml
+    sha256: 8727073cb355b965f54a2f0e58997f862f6b734c9143511008c26f9d31a965fd
+    role: context
+  - path: data/aio/NeuralTuringMachineNetwork.yaml
+    sha256: bb483a9f90d767bcae50856c6084f31fe855d510d352419a5130fa4fc036be79
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/BeamStackSearch.yaml
+    sha256: 161a74d1afbe844b276989df5e068268ffa239e62799523221b56a626b4f4861
+    role: context
+  - path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+    sha256: cfa1543605f0046f0c2bbbffc294d7cead0a444f1db5cb955bdf8971a7ae9d62
+    role: context
+  - path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    sha256: ac93a78d04c379d3533deb8106d49c5db552c08585389f2772915c99fc9fefcb
+    role: target
+  - path: data/curated/Stacking.yaml
+    sha256: 5271ce4094a5beec8dc87500e64d9c779ec4aec9bbcb20d0efcc22d26e62706b
+    role: context
+  - path: data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml
+    sha256: 03df44109ede633bd0f41cf2b7b355ac0708ff53411e5ef1a9f69d131380f6bc
+    role: context
+  - path: research/discovery/20261013T052159Z-stack-augmented-recurrent-neural-network.json
+    sha256: bb9c714ca9492c524dfba917230e764ff08fd3275b9ff89183f1719e4665285a
+    role: context
+  - path: research/discovery/stack-rnn-boundaries.py
+    sha256: 61deef69cb274979ca405b43ef3a941df2115c8b04346c6587b3c9300ccdd1f6
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:StackAugmentedRecurrentNeuralNetwork
+  path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+  label: Stack-augmented recurrent neural network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: Arithmetic-model qualification in the hard-actions-versus-rounding
+    claim.
+  selection: Exact maintained target AIMech:StackAugmentedRecurrentNeuralNetwork
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  exclusions:
+  - target: Final review of all fields and publication checks
+    reason: This observation preserves one identified source-qualification defect;
+      complete corrected-input review follows.
+checks:
+- check_id: curated
+  name: Native schema and identity validation
+  command: uv run --locked aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 574 curated concept record(s); 0 error(s).
+
+    '
+- check_id: publication
+  name: Post-correction publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  summary: Pending on corrected inputs; no final passing review is claimed.
+- check_id: underflow
+  name: Constructed finite-logit floating-point counterexample
+  command: python3 -c 'import math; assert math.exp(-1000.0) == 0.0; print([1.0, math.exp(-1000.0)])'
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Python binary64 gives max-shift softmax[0,-1000]=[1,0]. This is a constructed
+    arithmetic counterexample, not execution of the author C++ code.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+  accessed_at: '2026-10-13T05:24:06Z'
+  snapshot_sha256: ac93a78d04c379d3533deb8106d49c5db552c08585389f2772915c99fc9fefcb
+  support: supports
+  summary: Captured maintained statement says finite sharpening remains soft without
+    qualifying ideal real arithmetic.
+- evidence_id: nonlinearity
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/facebookarchive/Stack-RNN/95efe9031aa473e3b0b1750f5e055aac5a2b2599/Nonlinearity.h
+  locator: Nonlinearity.h Softmax::forward, lines22–33
+  accessed_at: '2026-10-13T04:44:29Z'
+  snapshot_sha256: b011fac8894a99a37cbeafcd21467ebaab00911e63acd7edf9a07f515f397cb7
+  support: supports
+  summary: The complete pinned file was read and reread after capture. It uses max-shift
+    exponentiation and normalization; the record must distinguish ideal real arithmetic
+    from finite-precision behavior. No author code executed.
+assessments:
+- assessment_id: finite-softmax
+  area: evidence
+  topic: Ideal versus floating-point softmax
+  outcome: concern
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - record
+  - nonlinearity
+  summary: State the ideal-real qualification and finite-precision limitation.
+  details: A finite real softmax has strictly positive weights, whereas representable
+    floating-point outputs can reach zero/one. This does not make gradual paper sharpening/refinement/pruning
+    identical to the code hard-action path.
+findings:
+- finding_id: F1
+  issue_key: stack-rnn-finite-softmax-qualification
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Qualify finite-softmax claims by arithmetic model
+  description: The hard-actions-versus-rounding claim says finite sharpening remains
+    soft without specifying ideal real arithmetic. Floating-point exponentiation can
+    underflow at finite logit gaps; the constructed binary64 example [0,-1000] yields
+    [1,0]. The pinned Softmax::forward uses max-shift exponentiation and normalization.
+    Preserve the mathematical distinction from hard argmax while allowing finite-precision
+    zero/one outputs; do not certify author-runtime behavior.
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  field_paths:
+  - claims[claim_id=hard-actions-versus-rounding].statement
+  evidence_ids:
+  - record
+  - nonlinearity
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Qualify the maintained claim, add the pinned nonlinearity source and
+    constructed counterexample, update the exact report mirror and EDIT history, then
+    freshly inspect and save a successor review.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:StackAugmentedRecurrentNeuralNetwork
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    role: maintained
+  acceptance_checks:
+  - Finite softmax positivity is explicitly an ideal-real statement; finite-precision
+    zero/one outputs are allowed without certifying the author runtime.
+  - Report mirror, updated_at, rendered pages and append-only history agree.
+  - Corrected-input gates pass and the saved successor explicitly resolves this issue
+    key.
+limitations:
+- Partial author self-review; no independent approval or final passing verdict.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- stack-rnn
+- self-review

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack-augmented recurrent neural network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Stack-augmented recurrent neural network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Stack-augmented recurrent neural network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:StackAugmentedRecurrentNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Stack RNN
+    </div>
+
+  <div class="detail-desc">
+    A recurrent sequence architecture whose neural controller reads the leading entries of one or more external stack states and learns continuous mixtures of push, pop and optional no-operation updates to those states.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 573 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 6, 0, 0 lines. All matches were inspected as source/candidate entries in the preceding SCRN discovery report, not an existing maintained Stack RNN record. Semantic matching inspected 54 AIO and134 native definitions, with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. StackedRNNCellsLayer describes layer composition, not external push/pop memory; MemoryAugmentedLLM requires large-language-model scope not inherent to this architecture; the pinned NeuralTuringMachineNetwork feedforward/spiking description does not identify stack addressing. None establishes an exact or broader match. RecurrentNeuralNetwork supplies the broader architecture mapping. Beam-stack search and ensemble stacking have different identity and operations. The paper list-memory topology remains a separate lead; stack count, read depth, no-op, recurrence and capacity configurations stay within this record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#controller-and-stack-transition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The controller forms h_t from the current input, optional previous hidden state and the top k entries of the previous stack. It computes softmax action weights and a sigmoid-valued push proposal v_t. For push weight p and pop weight q, the new top is p*v_t+q*s_prev[1]; a deeper entry i&gt;0 becomes p*s_prev[i-1]+q*s_prev[i+1]. An optional no-op weight n adds n*s_prev[i] at each depth. The paper and pinned code use -1 as the empty-slot sentinel. Read depth, number of stacks and boundary capacity are configuration choices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Section4.2, Equations3–6 and no-op paragraph, p.4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author Stack-RNN implementation: StackRNN.h</a></span>
+        <span>· <strong>Locator:</strong> StackRNN.h lines136–252, especially210–245</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#continuous-versus-discrete-state</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Soft action weights deterministically blend candidate memory updates rather than sample one discrete stack action. One-hot weights recover the corresponding push, pop or no-op operation when the chosen capacity and sentinel boundaries permit it. At nontrivial mixtures the state need not represent one symbolic stack. Although a single affine update is a weighted mean of candidate results, subsequent nonlinear controller evolution is not generally the exact expectation over discrete stack trajectories.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Section4.2 p.4 and optimization/rounding p.5; curator affine-versus-nonlinear consequence</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author Stack-RNN implementation: StackRNN.h</a></span>
+        <span>· <strong>Locator:</strong> StackRNN.h forward136–252</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#capacity-paper-and-code</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper describes stack depth that can grow on demand as an architectural possibility. The inspected historical StackRNN.h instead allocates a fixed stack_capacity. Its push shifts within that allocation and drops the bottom entry when full; a pop inserts the empty sentinel at the bottom. A push followed by a pop therefore need not restore a previously full stack. Neither the conceptual growing memory nor this finite implementation supplies infinite physical storage, exact arithmetic or unlimited generalization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Section4.2 depth/capacity paragraph, p.4; discussion/conclusion p.8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author Stack-RNN implementation: StackRNN.h</a></span>
+        <span>· <strong>Locator:</strong> StackRNN.h constructor41–84, push217–231 and pop233–238</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#hard-actions-versus-rounding</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned forward function has an ishard option that replaces softmax weights by one maximal action, choosing the first action index on a tie. The paper separately describes gradual controller-weight sharpening with further weight refinement and removal of unused stacks. Those procedures are not interchangeable: in ideal real arithmetic, finite sharpening remains soft, and equal maximal logits do not approach a unique one-hot decision solely through scaling. Floating-point exponentiation and rounding can nevertheless produce zero/one weights at finite logit gaps; a constructed Python binary64 example demonstrates that possibility without executing the author code. The record does not claim that every inspected code path implements the complete paper refinement/pruning procedure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Rounding paragraph, p.5; curator softmax tie limit</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author Stack-RNN implementation: StackRNN.h</a></span>
+        <span>· <strong>Locator:</strong> StackRNN.h forward193–208</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authornonlinearity">Author Stack-RNN implementation: Nonlinearity.h</a></span>
+        <span>· <strong>Locator:</strong> Nonlinearity.h Softmax::forward, lines22–33; curator binary64 counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#multiple-stacks-and-recurrence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Multiple stacks receive their action decisions through a shared hidden controller and can interact through that hidden representation. Stack push/pop topology is distinct from the paper List RNN with insert and directional movement operations. The general model allows a recurrent hidden-state matrix; the algorithmic toy experiments set it to zero to isolate memory behavior, whereas the language-model experiment uses it. Pinned code exposes separate recurrence modes, so a missing hidden-to-hidden connection is not a universal architecture requirement.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Section4.2 multiple stacks p.4; List RNN p.5; Sections5.1–5.2 pp.6–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author Stack-RNN implementation: StackRNN.h</a></span>
+        <span>· <strong>Locator:</strong> StackRNN.h modes64 and166–180</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#optimization-and-evaluation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Continuous updates allow the stated gradient-based training, but the source reports difficult controller optimization, restarts and numerical imprecision on long sequences. Counting and memorization evaluation focuses on deterministically predictable symbols; binary addition uses supervised output positions and reversed results. Published tests cover selected lengths and configurations, and the language-model comparison does not show universal superiority over LSTM or SCRN. No numerical benchmark, general algorithm-learning guarantee, full backward-code correctness or independent reproduction is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-joulin2015">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a></span>
+        <span>· <strong>Locator:</strong> Optimization and rounding p.5; Sections5–6, pp.5–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Continuous action mixtures are deterministic relaxed memory updates, not automatically discrete stack semantics or an exact ensemble of symbolic trajectories.</li>
+      <li>Historical pinned code fixes stack capacity; full pushes can irreversibly discard bottom entries. The paper growing-memory abstraction does not certify this implementation as dynamically unbounded.</li>
+      <li>Hard argmax action selection and gradual sharpening/refinement/pruning are different procedures. Ties, numerical precision and finite sharpening limit ideal discrete-operation interpretations. Strict softmax positivity at finite logits refers to ideal real arithmetic, not a promise of strictly interior floating-point results.</li>
+      <li>Stack count, read depth, no-op availability, sentinel boundaries and hidden recurrence vary by configuration; no single benchmark recipe defines all variants.</li>
+      <li>All nine conference-paper pages and complete pinned README.md, StackRNN.h and Nonlinearity.h were read. Supplement, task drivers and other dependencies were not audited; no source execution, training or empirical replication was performed.</li>
+      <li>Source tasks, sequence lengths, supervision and tuning constrain the reported generalization. No unlimited exact memory, universal LSTM replacement or independently verified performance claim is made.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The architecture is a recurrent sequence model with a particular external-memory topology; the target is the broader recurrent architecture category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-joulin2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">joulin2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2015/file/26657d5ff9020d2abefe558796b99584-Paper.pdf" target="_blank" rel="noopener">Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Armand Joulin, Tomas Mikolov
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c9bbbbf4e91…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authorcode">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authorcode</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/Stack-RNN/95efe9031aa473e3b0b1750f5e055aac5a2b2599/StackRNN.h" target="_blank" rel="noopener">Author Stack-RNN implementation: StackRNN.h</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Facebook, Inc. (Stack-RNN project)
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:409c1ac526dc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authornonlinearity">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authornonlinearity</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/Stack-RNN/95efe9031aa473e3b0b1750f5e055aac5a2b2599/Nonlinearity.h" target="_blank" rel="noopener">Author Stack-RNN implementation: Nonlinearity.h</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Facebook, Inc. (Stack-RNN project)
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b011fac8894a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T05:21:59Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T05:25:54Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StackAugmentedRecurrentNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StackAugmentedRecurrentNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
