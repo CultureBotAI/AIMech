@@ -1,0 +1,719 @@
+# Scientific author self-review of cross-validated prior-likelihood conflict diagnostic
+
+- Review: 20261013T005447Z-cross-validated-prior-likelihood-conflict
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T00:48:55Z
+- Finished UTC: 2026-10-13T00:54:47Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the unit-level cross-validated conflict diagnostic as a distinct DRAFT algorithm with related random-effects context. All seven claims and locators are supported with explicit replication and calibration limits. No actionable defect was found; source software and empirical calibration remain unverified.
+
+## Scope And Provenance
+
+All fields of the exact maintained unit-level cross-validated prior-likelihood conflict diagnostic and primary evidence.
+
+Selection: Exact maintained ID: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 431c51145b624c20a4501c7521eb78457b9bce07.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml | maintained | Cross-validated prior-likelihood conflict diagnostic |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 142.06s (0:02:22)<br>Checked 442 record(s); 0 failed.<br>Checked 558 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 209 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 207,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | Exited 0 without output. |
+| Analytic conflict replication boundaries | passed | True | AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic | {"calibration": {"fixed_parameter_upper_size": 0.2631904396720173, "fixed_population_mean": 2.0, "fixed_residual_mean": 1.3333333333333335, "fixed_residual_variance": 1.5555555555555554, "flat_actual_variance": 2.0, "flat_reference_variance": 2.0, "nominal_upper_size": 0.05, "preposterior_residual_variance": 1.6666666666666665, "preposterior_upper_size": 0.050000000000000155, "shrinkage_weight": 0.3333333333333333}, "gaussian_equivalence": {"conflict_lower": 0.9899316242248268, "difference_mean": -3.0, "difference_variance": 1.6666666666666667, "likelihood_rep_variance": 0.5, "posterior_mean": 0.0, "posterior_variance": 0.16666666666666666, "predictive_lower": 0.9899316242248268, "prior_rep_variance": 1.1666666666666667}, "limits": "Analytic finite normal and two-state-nuisance examples only. No empirical calibration experiment, MCMC, author implementation or global model fit.", "nuisance_dependence": {"covariance": -0.5, "difference_variance": 3.875, "exact_mixture_lower_tail": 0.5534485406181031, "incorrect_independent_sum": 2.875, "likelihood_rep_variance": 0.875, "prior_rep_variance": 2.0}, "nuisance_normalization": {"conditional_means": [2.0, 1.0], "conditional_variances": [1.0, 0.25], "cut_mean": 1.5, "cut_weights": [0.5, 0.5], "local_normalizers": [1.0, 0.5], "normalize_after_mixing_mean": 1.6666666666666665, "normalize_after_mixing_weights": [0.6666666666666666, 0.3333333333333333]}} |
+
+## Scientific And Domain Assessments
+
+### Unit-level replication diagnostic versus its neighbors
+
+identity: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Retain the bounded algorithm identity.
+
+Holding out an entire hierarchical unit and comparing predictive-prior and reference-prior likelihood replicates defines this procedure. It differs from fitting algorithms, full-data Gaussian-message screening, nearest-neighbor density scoring and arbitrary-separator evidence splitting. The descriptive name and empty aliases avoid an unqualified claim to every method called a conflict diagnostic.
+
+### Diagnostic-to-model relation
+
+grounding: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Related random-effects context is supported.
+
+The defining hierarchy models unit effects through a population distribution. This supports related_match to RandomEffectsModel without making the algorithm a model subclass. GLM and logistic regression are response-family subcases; fixed-effects fitting is only the local replication component; RegressionAnalysis is a task; PGM and BayesianNetwork are broader representation context. VAE, UnsupervisedLearning and EvaluationBias do not identify this procedure.
+
+### unit-level-split
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+For a hierarchical model with conditionally independent units y_i&#124;phi_i,gamma and random unit effects phi_i&#124;beta, leave the entire assessed unit y_i out when learning the population and nuisance parameters. Fit H_i(beta,gamma)=p(beta,gamma&#124;y_minus_i), then compare information about phi_i from this remaining-data predictive prior with information from the assessed unit likelihood and an explicit reference prior. The held-out unit can contain a vector of observations. Require a well-defined remaining-data posterior and proper replication distributions; omitting one observation from a multi-observation unit defines a different check.
+
+### replicate-construction
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+Without shared unknown nuisance parameters, draw phi_prior by first drawing beta from its remaining-data posterior and then drawing phi_prior~p(phi_i&#124;beta). Independently draw phi_lik from the normalized density proportional to p(y_i&#124;phi_i)*r_i(phi_i), where r_i is a stated reference prior rather than the fitted hierarchical prior being tested. The reference prior may be improper only when this local posterior is proper. A uniform prior is justified for the symmetric location construction in the source; Jeffreys priors are proposed for other likelihood parameters, with no general guarantee of posterior propriety, negligible prior influence or calibration.
+
+### nuisance-cut
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+When gamma is needed by the held-out likelihood, the source uses nuisance draws learned from the other units and prevents y_i from feeding back into them. An explicit conditional simulation construction draws (beta,gamma) from H_i, then phi_prior~p(phi_i&#124;beta) and phi_lik from the normalized conditional local density l_i(phi&#124;y_i,gamma) proportional to p(y_i&#124;phi,gamma)*r_i(phi&#124;gamma), with independent local random draws given that shared hyperparameter draw. The joint replication law and pairing must be stated: shared or correlated nuisance uncertainty can induce dependence, so Var(phi_prior-phi_lik) is not automatically the sum of marginal variances. A cut freezes the nuisance marginal against target-unit feedback; it does not by itself split all dependence. Normalizing the local density for each gamma before mixing generally differs from mixing unnormalized likelihood kernels and then normalizing, because the latter can change the nuisance weights. This normalization-order distinction is curator reasoning for the stated conditional construction.
+
+### signed-conflict-score
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+For continuous scalar replicates define delta=phi_prior-phi_lik and estimate the lower-tail probability P(delta&lt;=0) from the specified paired replication law. Its complementary upper tail is P(delta&gt;0); a declared two-sided equal-tail score is twice the smaller tail. Tail orientation is part of the diagnostic, and small lower versus small upper scores flag opposite directions. Monte Carlo proportions need adequate effective sampling and uncertainty assessment. The two-sided equal-tail score is not a posterior probability that the model is true and is not generally a density-level-set conflict score for skewed or multimodal differences. Discrete differences require an explicit treatment of ties; a predictive mid-p convention is not a theorem of exact continuous uniformity.
+
+### gaussian-equivalence
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+In the known-variance Gaussian hierarchy phi_i&#124;beta~N(beta,Omega), y_i&#124;phi_i~N(X_i*phi_i,sigma^2*I), require sigma^2&gt;0, full column rank X_i and positive-definite Omega. Let the remaining-data beta posterior be N(m_minus,Gamma_minus). A flat reference prior for phi_i gives phi_lik~N(phi_hat,R_i), where phi_hat=(X_i^T*X_i)^-1*X_i^T*y_i and R_i=sigma^2*(X_i^T*X_i)^-1. The predictive-prior replicate is N(m_minus,Omega+Gamma_minus). Their independent difference is N(m_minus-phi_hat,Omega+Gamma_minus+R_i); its mean Mahalanobis statistic gives the same Gaussian reference-tail comparison as predicting phi_hat directly. Observation-estimator noise R_i enters once. More generally, the source proves equality with the mixed-predictive scalar comparison for a sufficient-statistic-based location estimator with a symmetric pivotal sampling distribution and a flat reference prior. This equivalence is conditional on those constructions, not universal for hierarchical models.
+
+### calibration-boundary
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+For an exact continuous predictive comparison, the probability integral transform gives uniformity under the matching conditional predictive law; integrating a proper prior gives the corresponding preposterior statement. Neither statement alone gives uniformity for every fixed population parameter under repeated sampling. Transferring predictive calibration to this conflict score requires an applicable equivalence result or separate assessment. Pivotal known-variance location constructions with appropriate flat reference priors supply a special case. An informative proper population prior, posterior normality, a chi-square reference tail, leave-one-unit-out refitting or a Jeffreys local prior alone does not establish general frequentist calibration. Estimated variances, shared nuisance parameters and non-Gaussian differences require explicit qualification.
+
+### diagnostic-use-and-approximations
+
+evidence: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Supported with the stated construction and qualifications.
+
+The procedure tests compatibility of the assumed unit-effect distribution with unit-likelihood information and points to model or data follow-up; it does not identify which source is wrong or authorize removing a unit. Repeated refits can be costly. Reusing full-data hyperparameters and the later Gaussian variational-message diagnostic are distinct approximations, not exact implementations of this leave-one-unit-out construction. Scores across assessed units can be dependent and multiple-testing corrections need their own assumptions. The source application comparisons and normal-model examples do not establish a universal detection rate, automatic exclusion threshold or clinical decision rule.
+
+### Proper conditional local replication and its joint law
+
+consistency: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+The cut is not incorrectly treated as independence or post-mixture normalization.
+
+For nuisance values 1 and 2 with equal remaining-data weights, y=2 and a flat local reference prior give proper conditional N(2/gamma,1/gamma^2) replicates. Mixing these normalized distributions yields mean 1.5. Normalizing a mixture of raw kernels instead reweights by the integrals 1/gamma and gives mean 5/3. With shared correlated hyperparameter states (beta,gamma)=(0,1) or (2,2), prior/likelihood covariance is -0.5 and difference variance is 3.875, not the marginal variance sum 2.875. These supplied-module examples verify the stated distinctions, not a source implementation.
+
+### One observation-estimator variance and bounded uniformity
+
+consistency: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+Gaussian equivalence holds; general fixed-parameter calibration is not asserted.
+
+The finite Gaussian case gives prior-replicate variance 7/6, likelihood variance 1/2 and difference variance 5/3. The lower conflict and predictive probabilities both equal 0.9899316242. With proper population prior variance 1/4 and fixed true population mean 2, the nominal upper 0.05 test has exact repeated-data probability 0.2631904397. Integrating over that proper prior restores probability 0.05; the flat-prior limit is pivotal. Thus posterior Gaussianity and predictive equivalence alone do not prove parameterwise calibration. Delta orientation follows prior minus likelihood, and the estimator noise is counted once, avoiding the source display errors.
+
+### Complete maintained record and report mirror
+
+provenance: supported. Targets: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic.
+
+The full record and evidence provenance are consistent; retain DRAFT.
+
+Read ID, name, aliases, algorithm kind, definition evidence, identity notes, all seven claims and locators, titles/authors/versions/URLs/access dates/hashes, pinned AIO revision and related mapping, all five limitations and actual UTC curation provenance. Verified exact report mirror, capture hashes, source download hashes and rerun calculation output. No author code, fitting, MCMC, calibration simulation, clinical threshold or source benchmark reproduction is claimed. No actionable defect was found in this one-record author review.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T004846Z-cross-validated-prior-likelihood-conflict.json | supports | No normalized identity match for the proposed unit-level cross-validated and general separator-node conflict diagnostics across 442 pinned AIO records and 557 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches included ignored and hidden files in the recovery, older discovery and original Documents checkouts, returning 121, 0 and 0 lines. All 121 were assessed, including 19 long rows read in bounded groups after verifying three duplicate pairs. They contain prior fitting and Gaussian-message records and their mirrors, source metadata and pending comparator leads. Assessed 55 semantic AIO rows and 202 native names/definitions: 50 and 177 were verified equal to earlier complete readings, and all 5 and 25 additional rows were read. Ten complete AIO nodes, annotations, edges and generated records were verified against earlier readings; five native context records were read or verified unchanged. This procedure is defined by unit-level held-out hyperparameter fitting and prior/likelihood replication. It differs from fitting algorithms, Gaussian expected-log message screening, neighbor-density outlier scores and general arbitrary-separator evidence splitting. This is a descriptive AIMech algorithm identity, not a blanket alias for every prior-likelihood conflict method. |
+| mapping | sources/aio/aio.json | supports | Assessed 55 semantic AIO rows and 202 native definitions, reusing verified unchanged readings and reading all additional rows. Ten full AIO nodes, annotations, incident edges and generated records plus five native context records were read or verified unchanged. Context hashes still match. RandomEffectsModel supplies related model context rather than an algorithm superclass. |
+| calculation | research/discovery/cross-validated-conflict-boundaries.py | supports | Analytic scalar Gaussian predictive/conflict equality, proper-prior preposterior versus fixed-population repeated-data size, normalized conditional nuisance mixing versus post-mixture normalization, and covariance from a shared two-state nuisance draw. No MCMC, fitted source model or empirical calibration experiment. |
+| marshall2007 | https://projecteuclid.org/journals/bayesian-analysis/volume-2/issue-2/Identifying-outliers-in-Bayesian-hierarchical-models--a-simulation-based/10.1214/07-BA218.pdf; Sections 3–4, PDF pp. 7–12 / journal pp. 415–420; Appendices A1–A3, PDF pp. 21–24 / journal pp. 429–432; Figure 4, PDF p. 31 / journal p. 439 | supports | All 36 primary pages read in preparation. After capture, visually reread pp. 10–12, 21–24 and 31. Checked replication law, explicit reference prior, nuisance dependence, signed tails, Gaussian covariance and the distinction between conditional/preposterior and fixed-parameter repeated-data calibration. The displayed mean, Figure 4 inequality and Equation 13 latent-replicate reference errors are preserved as limitations. |
+| presanis2013 | https://arxiv.org/pdf/1310.0628v1; Sections 2.2 and 3, PDF pp. 3–4 and 7–10; rat example, p. 17; discussion, pp. 19–20 | supports | All 22 primary pages read in preparation. After capture, visually reread pp. 4, 9, 17 and 19–20. Checked cut versus full split, shared residual variance, equal-tail versus density-level-set scores, prior sensitivity and interpretation. General separator-node methods are separate pending concepts; the source discussion does not justify universal calibration. |
+| tan2014 | https://arxiv.org/pdf/1208.4949v4; Sections 5.1–5.2, PDF pp. 17–21; Appendix C, p. 39 | supports | All 42 primary pages read in preparation. After capture, visually reread Appendix C p. 39, which specifies drawing a nuisance parameter from the remaining-data posterior before generating the conditional local likelihood replicate. Conditional normalization and covariance consequences are explicit curator reasoning. The Gaussian-message approximation is a separate existing record. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- Added one DRAFT unit-level conflict diagnostic, yielding 558 native and 442 unchanged generated records. The 743-entry main frontier retains 484 pending and 57 partly addressed cohorts; seven new nested source leads remain.
+- All 36 Marshall–Spiegelhalter publisher pages, 22 Presanis et al. electronic-reprint pages and 42 Tan–Nott preprint pages were read. No author software, MCMC, model fitting or empirical calibration experiment was run. Independent analytic examples check Gaussian equivalence, fixed-parameter versus preposterior size, conditional normalization and nuisance-induced covariance; they do not reproduce source experiments.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection; only the isolated recovery checkout is changed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T005447Z-cross-validated-prior-likelihood-conflict
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of cross-validated prior-likelihood conflict
+  diagnostic
+started_at: '2026-10-13T00:48:55Z'
+finished_at: '2026-10-13T00:54:47Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged unit-level scope, reference-prior propriety,
+    conditional normalization, nuisance feedback and dependence, tail orientation,
+    Gaussian covariance, calibration, mapping and source attribution. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the unit-level cross-validated conflict diagnostic as a distinct DRAFT
+  algorithm with related random-effects context. All seven claims and locators are
+  supported with explicit replication and calibration limits. No actionable defect
+  was found; source software and empirical calibration remain unverified.
+source:
+  git_revision: 431c51145b624c20a4501c7521eb78457b9bce07
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/aio/FixedEffectsModel.yaml
+    sha256: ce9b21b60e99bf7abfd19b9b480d5c73777ba59f38af53c3fa2d6bfc50f71a86
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+    sha256: 92c4daf84d56e0ea6528ee512063fcf8d7fc8c69795bff9fe19fe5de8c65d119
+    role: target
+  - path: data/curated/GaussianMessageConflictDiagnostic.yaml
+    sha256: adc6c4f1c16288b59515f77401ff4d1c2a02f673a00a91963de6e3fa588c4cff
+    role: context
+  - path: data/curated/LocalOutlierFactor.yaml
+    sha256: b9293fde56804e7df6d3056e00b08240ca9dc8711a715bda54d064cfd9bc8812
+    role: context
+  - path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    sha256: 0d303d220e92ad009eb802ddee59c6ab74cfd1d7872f3a50ad939deed002ad23
+    role: context
+  - path: data/curated/PartiallyNoncenteredGLMMVariationalInference.yaml
+    sha256: 9c5bfdf2ad7cee069ecf1559d3df296ac7c7c0c807a49eee5644f984e7abc361
+    role: context
+  - path: data/curated/StochasticNonconjugateGLMMVariationalInference.yaml
+    sha256: 27235b4323710bcd53fb73d6dbe06f0eb115a3d6cbf52600345f9c7c68c45c99
+    role: context
+  - path: research/discovery/20261013T004846Z-cross-validated-prior-likelihood-conflict.json
+    sha256: f6f887395ab4d4e9371bec0db75a5351c04bd1ee3065df0eedf97aded4447546
+    role: context
+  - path: research/discovery/cross-validated-conflict-boundaries.py
+    sha256: 866a3565201bdbf2a7da40cb4e1b327a20b1239c5a9d1328402501e55bb5d744
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+  label: Cross-validated prior-likelihood conflict diagnostic
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained unit-level cross-validated prior-likelihood
+    conflict diagnostic and primary evidence.
+  selection: 'Exact maintained ID: AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exclusions:
+  - target: General separator-node and multiple-testing conflict methods
+    reason: Separate pending concepts, not certified by the unit-level construction.
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Source software and empirical calibration
+    reason: No author code, model fitting, MCMC or repeated-data simulation run.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 142.06s (0:02:22)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 558 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 209 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 207,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Analytic conflict replication boundaries
+  command: python3 research/discovery/cross-validated-conflict-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"calibration": {"fixed_parameter_upper_size": 0.2631904396720173, "fixed_population_mean":
+    2.0, "fixed_residual_mean": 1.3333333333333335, "fixed_residual_variance": 1.5555555555555554,
+    "flat_actual_variance": 2.0, "flat_reference_variance": 2.0, "nominal_upper_size":
+    0.05, "preposterior_residual_variance": 1.6666666666666665, "preposterior_upper_size":
+    0.050000000000000155, "shrinkage_weight": 0.3333333333333333}, "gaussian_equivalence":
+    {"conflict_lower": 0.9899316242248268, "difference_mean": -3.0, "difference_variance":
+    1.6666666666666667, "likelihood_rep_variance": 0.5, "posterior_mean": 0.0, "posterior_variance":
+    0.16666666666666666, "predictive_lower": 0.9899316242248268, "prior_rep_variance":
+    1.1666666666666667}, "limits": "Analytic finite normal and two-state-nuisance
+    examples only. No empirical calibration experiment, MCMC, author implementation
+    or global model fit.", "nuisance_dependence": {"covariance": -0.5, "difference_variance":
+    3.875, "exact_mixture_lower_tail": 0.5534485406181031, "incorrect_independent_sum":
+    2.875, "likelihood_rep_variance": 0.875, "prior_rep_variance": 2.0}, "nuisance_normalization":
+    {"conditional_means": [2.0, 1.0], "conditional_variances": [1.0, 0.25], "cut_mean":
+    1.5, "cut_weights": [0.5, 0.5], "local_normalizers": [1.0, 0.5], "normalize_after_mixing_mean":
+    1.6666666666666665, "normalize_after_mixing_weights": [0.6666666666666666, 0.3333333333333333]}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T004846Z-cross-validated-prior-likelihood-conflict.json
+  accessed_at: '2026-10-13T00:48:55Z'
+  support: supports
+  summary: 'No normalized identity match for the proposed unit-level cross-validated
+    and general separator-node conflict diagnostics across 442 pinned AIO records
+    and 557 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches
+    included ignored and hidden files in the recovery, older discovery and original
+    Documents checkouts, returning 121, 0 and 0 lines. All 121 were assessed, including
+    19 long rows read in bounded groups after verifying three duplicate pairs. They
+    contain prior fitting and Gaussian-message records and their mirrors, source metadata
+    and pending comparator leads. Assessed 55 semantic AIO rows and 202 native names/definitions:
+    50 and 177 were verified equal to earlier complete readings, and all 5 and 25
+    additional rows were read. Ten complete AIO nodes, annotations, edges and generated
+    records were verified against earlier readings; five native context records were
+    read or verified unchanged. This procedure is defined by unit-level held-out hyperparameter
+    fitting and prior/likelihood replication. It differs from fitting algorithms,
+    Gaussian expected-log message screening, neighbor-density outlier scores and general
+    arbitrary-separator evidence splitting. This is a descriptive AIMech algorithm
+    identity, not a blanket alias for every prior-likelihood conflict method.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T00:48:55Z'
+  support: supports
+  summary: Assessed 55 semantic AIO rows and 202 native definitions, reusing verified
+    unchanged readings and reading all additional rows. Ten full AIO nodes, annotations,
+    incident edges and generated records plus five native context records were read
+    or verified unchanged. Context hashes still match. RandomEffectsModel supplies
+    related model context rather than an algorithm superclass.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/cross-validated-conflict-boundaries.py
+  accessed_at: '2026-10-13T00:48:55Z'
+  snapshot_sha256: 866a3565201bdbf2a7da40cb4e1b327a20b1239c5a9d1328402501e55bb5d744
+  support: supports
+  summary: Analytic scalar Gaussian predictive/conflict equality, proper-prior preposterior
+    versus fixed-population repeated-data size, normalized conditional nuisance mixing
+    versus post-mixture normalization, and covariance from a shared two-state nuisance
+    draw. No MCMC, fitted source model or empirical calibration experiment.
+- evidence_id: marshall2007
+  kind: primary_source
+  reference: https://projecteuclid.org/journals/bayesian-analysis/volume-2/issue-2/Identifying-outliers-in-Bayesian-hierarchical-models--a-simulation-based/10.1214/07-BA218.pdf
+  locator: Sections 3–4, PDF pp. 7–12 / journal pp. 415–420; Appendices A1–A3, PDF
+    pp. 21–24 / journal pp. 429–432; Figure 4, PDF p. 31 / journal p. 439
+  accessed_at: '2026-10-13T00:08:57Z'
+  snapshot_sha256: 289815a344a25cce48f822228e8ed9d25a4e08daf22f241ca77526dc991374b1
+  support: supports
+  summary: All 36 primary pages read in preparation. After capture, visually reread
+    pp. 10–12, 21–24 and 31. Checked replication law, explicit reference prior, nuisance
+    dependence, signed tails, Gaussian covariance and the distinction between conditional/preposterior
+    and fixed-parameter repeated-data calibration. The displayed mean, Figure 4 inequality
+    and Equation 13 latent-replicate reference errors are preserved as limitations.
+- evidence_id: presanis2013
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1310.0628v1
+  locator: Sections 2.2 and 3, PDF pp. 3–4 and 7–10; rat example, p. 17; discussion,
+    pp. 19–20
+  accessed_at: '2026-10-13T00:33:39Z'
+  snapshot_sha256: 9cff5092b47d7ba20f9ae654b6ea63bd4fdf75ea8ccfdb663427ccab36f3d3a0
+  support: supports
+  summary: All 22 primary pages read in preparation. After capture, visually reread
+    pp. 4, 9, 17 and 19–20. Checked cut versus full split, shared residual variance,
+    equal-tail versus density-level-set scores, prior sensitivity and interpretation.
+    General separator-node methods are separate pending concepts; the source discussion
+    does not justify universal calibration.
+- evidence_id: tan2014
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1208.4949v4
+  locator: Sections 5.1–5.2, PDF pp. 17–21; Appendix C, p. 39
+  accessed_at: '2026-10-12T23:58:40Z'
+  snapshot_sha256: 276ebdc67a5f3d0a3453b1859bbc40458d77f83bd58b604c063972df6cf6de15
+  support: supports
+  summary: All 42 primary pages read in preparation. After capture, visually reread
+    Appendix C p. 39, which specifies drawing a nuisance parameter from the remaining-data
+    posterior before generating the conditional local likelihood replicate. Conditional
+    normalization and covariance consequences are explicit curator reasoning. The
+    Gaussian-message approximation is a separate existing record.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Unit-level replication diagnostic versus its neighbors
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - identity
+  - marshall2007
+  - presanis2013
+  - tan2014
+  summary: Retain the bounded algorithm identity.
+  details: Holding out an entire hierarchical unit and comparing predictive-prior
+    and reference-prior likelihood replicates defines this procedure. It differs from
+    fitting algorithms, full-data Gaussian-message screening, nearest-neighbor density
+    scoring and arbitrary-separator evidence splitting. The descriptive name and empty
+    aliases avoid an unqualified claim to every method called a conflict diagnostic.
+- assessment_id: mapping
+  area: grounding
+  topic: Diagnostic-to-model relation
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - mapping
+  - marshall2007
+  summary: Related random-effects context is supported.
+  details: The defining hierarchy models unit effects through a population distribution.
+    This supports related_match to RandomEffectsModel without making the algorithm
+    a model subclass. GLM and logistic regression are response-family subcases; fixed-effects
+    fitting is only the local replication component; RegressionAnalysis is a task;
+    PGM and BayesianNetwork are broader representation context. VAE, UnsupervisedLearning
+    and EvaluationBias do not identify this procedure.
+- assessment_id: unit-level-split
+  area: evidence
+  topic: unit-level-split
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  summary: Supported with the stated construction and qualifications.
+  details: For a hierarchical model with conditionally independent units y_i|phi_i,gamma
+    and random unit effects phi_i|beta, leave the entire assessed unit y_i out when
+    learning the population and nuisance parameters. Fit H_i(beta,gamma)=p(beta,gamma|y_minus_i),
+    then compare information about phi_i from this remaining-data predictive prior
+    with information from the assessed unit likelihood and an explicit reference prior.
+    The held-out unit can contain a vector of observations. Require a well-defined
+    remaining-data posterior and proper replication distributions; omitting one observation
+    from a multi-observation unit defines a different check.
+- assessment_id: replicate-construction
+  area: evidence
+  topic: replicate-construction
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  summary: Supported with the stated construction and qualifications.
+  details: Without shared unknown nuisance parameters, draw phi_prior by first drawing
+    beta from its remaining-data posterior and then drawing phi_prior~p(phi_i|beta).
+    Independently draw phi_lik from the normalized density proportional to p(y_i|phi_i)*r_i(phi_i),
+    where r_i is a stated reference prior rather than the fitted hierarchical prior
+    being tested. The reference prior may be improper only when this local posterior
+    is proper. A uniform prior is justified for the symmetric location construction
+    in the source; Jeffreys priors are proposed for other likelihood parameters, with
+    no general guarantee of posterior propriety, negligible prior influence or calibration.
+- assessment_id: nuisance-cut
+  area: evidence
+  topic: nuisance-cut
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  - tan2014
+  - calculation
+  summary: Supported with the stated construction and qualifications.
+  details: 'When gamma is needed by the held-out likelihood, the source uses nuisance
+    draws learned from the other units and prevents y_i from feeding back into them.
+    An explicit conditional simulation construction draws (beta,gamma) from H_i, then
+    phi_prior~p(phi_i|beta) and phi_lik from the normalized conditional local density
+    l_i(phi|y_i,gamma) proportional to p(y_i|phi,gamma)*r_i(phi|gamma), with independent
+    local random draws given that shared hyperparameter draw. The joint replication
+    law and pairing must be stated: shared or correlated nuisance uncertainty can
+    induce dependence, so Var(phi_prior-phi_lik) is not automatically the sum of marginal
+    variances. A cut freezes the nuisance marginal against target-unit feedback; it
+    does not by itself split all dependence. Normalizing the local density for each
+    gamma before mixing generally differs from mixing unnormalized likelihood kernels
+    and then normalizing, because the latter can change the nuisance weights. This
+    normalization-order distinction is curator reasoning for the stated conditional
+    construction.'
+- assessment_id: signed-conflict-score
+  area: evidence
+  topic: signed-conflict-score
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  summary: Supported with the stated construction and qualifications.
+  details: For continuous scalar replicates define delta=phi_prior-phi_lik and estimate
+    the lower-tail probability P(delta<=0) from the specified paired replication law.
+    Its complementary upper tail is P(delta>0); a declared two-sided equal-tail score
+    is twice the smaller tail. Tail orientation is part of the diagnostic, and small
+    lower versus small upper scores flag opposite directions. Monte Carlo proportions
+    need adequate effective sampling and uncertainty assessment. The two-sided equal-tail
+    score is not a posterior probability that the model is true and is not generally
+    a density-level-set conflict score for skewed or multimodal differences. Discrete
+    differences require an explicit treatment of ties; a predictive mid-p convention
+    is not a theorem of exact continuous uniformity.
+- assessment_id: gaussian-equivalence
+  area: evidence
+  topic: gaussian-equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - calculation
+  summary: Supported with the stated construction and qualifications.
+  details: In the known-variance Gaussian hierarchy phi_i|beta~N(beta,Omega), y_i|phi_i~N(X_i*phi_i,sigma^2*I),
+    require sigma^2>0, full column rank X_i and positive-definite Omega. Let the remaining-data
+    beta posterior be N(m_minus,Gamma_minus). A flat reference prior for phi_i gives
+    phi_lik~N(phi_hat,R_i), where phi_hat=(X_i^T*X_i)^-1*X_i^T*y_i and R_i=sigma^2*(X_i^T*X_i)^-1.
+    The predictive-prior replicate is N(m_minus,Omega+Gamma_minus). Their independent
+    difference is N(m_minus-phi_hat,Omega+Gamma_minus+R_i); its mean Mahalanobis statistic
+    gives the same Gaussian reference-tail comparison as predicting phi_hat directly.
+    Observation-estimator noise R_i enters once. More generally, the source proves
+    equality with the mixed-predictive scalar comparison for a sufficient-statistic-based
+    location estimator with a symmetric pivotal sampling distribution and a flat reference
+    prior. This equivalence is conditional on those constructions, not universal for
+    hierarchical models.
+- assessment_id: calibration-boundary
+  area: evidence
+  topic: calibration-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  - calculation
+  summary: Supported with the stated construction and qualifications.
+  details: For an exact continuous predictive comparison, the probability integral
+    transform gives uniformity under the matching conditional predictive law; integrating
+    a proper prior gives the corresponding preposterior statement. Neither statement
+    alone gives uniformity for every fixed population parameter under repeated sampling.
+    Transferring predictive calibration to this conflict score requires an applicable
+    equivalence result or separate assessment. Pivotal known-variance location constructions
+    with appropriate flat reference priors supply a special case. An informative proper
+    population prior, posterior normality, a chi-square reference tail, leave-one-unit-out
+    refitting or a Jeffreys local prior alone does not establish general frequentist
+    calibration. Estimated variances, shared nuisance parameters and non-Gaussian
+    differences require explicit qualification.
+- assessment_id: diagnostic-use-and-approximations
+  area: evidence
+  topic: diagnostic-use-and-approximations
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  - tan2014
+  summary: Supported with the stated construction and qualifications.
+  details: The procedure tests compatibility of the assumed unit-effect distribution
+    with unit-likelihood information and points to model or data follow-up; it does
+    not identify which source is wrong or authorize removing a unit. Repeated refits
+    can be costly. Reusing full-data hyperparameters and the later Gaussian variational-message
+    diagnostic are distinct approximations, not exact implementations of this leave-one-unit-out
+    construction. Scores across assessed units can be dependent and multiple-testing
+    corrections need their own assumptions. The source application comparisons and
+    normal-model examples do not establish a universal detection rate, automatic exclusion
+    threshold or clinical decision rule.
+- assessment_id: normalization-and-dependence
+  area: consistency
+  topic: Proper conditional local replication and its joint law
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  - tan2014
+  - calculation
+  summary: The cut is not incorrectly treated as independence or post-mixture normalization.
+  details: For nuisance values 1 and 2 with equal remaining-data weights, y=2 and
+    a flat local reference prior give proper conditional N(2/gamma,1/gamma^2) replicates.
+    Mixing these normalized distributions yields mean 1.5. Normalizing a mixture of
+    raw kernels instead reweights by the integrals 1/gamma and gives mean 5/3. With
+    shared correlated hyperparameter states (beta,gamma)=(0,1) or (2,2), prior/likelihood
+    covariance is -0.5 and difference variance is 3.875, not the marginal variance
+    sum 2.875. These supplied-module examples verify the stated distinctions, not
+    a source implementation.
+- assessment_id: equivalence-and-calibration
+  area: consistency
+  topic: One observation-estimator variance and bounded uniformity
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - marshall2007
+  - presanis2013
+  - calculation
+  summary: Gaussian equivalence holds; general fixed-parameter calibration is not
+    asserted.
+  details: The finite Gaussian case gives prior-replicate variance 7/6, likelihood
+    variance 1/2 and difference variance 5/3. The lower conflict and predictive probabilities
+    both equal 0.9899316242. With proper population prior variance 1/4 and fixed true
+    population mean 2, the nominal upper 0.05 test has exact repeated-data probability
+    0.2631904397. Integrating over that proper prior restores probability 0.05; the
+    flat-prior limit is pivotal. Thus posterior Gaussianity and predictive equivalence
+    alone do not prove parameterwise calibration. Delta orientation follows prior
+    minus likelihood, and the estimator noise is counted once, avoiding the source
+    display errors.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and report mirror
+  outcome: supported
+  target_ids:
+  - AIMech:CrossValidatedPriorLikelihoodConflictDiagnostic
+  evidence_ids:
+  - identity
+  - mapping
+  - marshall2007
+  - presanis2013
+  - tan2014
+  - calculation
+  summary: The full record and evidence provenance are consistent; retain DRAFT.
+  details: Read ID, name, aliases, algorithm kind, definition evidence, identity notes,
+    all seven claims and locators, titles/authors/versions/URLs/access dates/hashes,
+    pinned AIO revision and related mapping, all five limitations and actual UTC curation
+    provenance. Verified exact report mirror, capture hashes, source download hashes
+    and rerun calculation output. No author code, fitting, MCMC, calibration simulation,
+    clinical threshold or source benchmark reproduction is claimed. No actionable
+    defect was found in this one-record author review.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- Added one DRAFT unit-level conflict diagnostic, yielding 558 native and 442 unchanged
+  generated records. The 743-entry main frontier retains 484 pending and 57 partly
+  addressed cohorts; seven new nested source leads remain.
+- All 36 Marshall–Spiegelhalter publisher pages, 22 Presanis et al. electronic-reprint
+  pages and 42 Tan–Nott preprint pages were read. No author software, MCMC, model
+  fitting or empirical calibration experiment was run. Independent analytic examples
+  check Gaussian equivalence, fixed-parameter versus preposterior size, conditional
+  normalization and nuisance-induced covariance; they do not reproduce source experiments.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit
+  approval after automatic review rejection; only the isolated recovery checkout is
+  changed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- model-diagnostics
+- cross-validation
+- self-review
+- discovery-ongoing
+```
