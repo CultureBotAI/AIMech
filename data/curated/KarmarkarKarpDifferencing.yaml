@@ -1,0 +1,174 @@
+id: AIMech:KarmarkarKarpDifferencing
+name: Karmarkar–Karp differencing
+aliases:
+- Karmarkar–Karp heuristic
+concept_kind: algorithm
+definition: A two-way number-partitioning heuristic that repeatedly replaces the two largest remaining
+  nonnegative residuals by their difference, then reconstructs a partition whose absolute sum difference
+  is the final residual.
+identity_notes: Compared all 442 pinned AIO and 587 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 172, 120, 119 lines. All distinct match contents
+  were inspected. Semantic matching covered 67 AIO and 94 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The
+  repeated text matches are a pending combined KK/CKK frontier entry, not existing records. The identity
+  here is the two-way largest-pair differencing heuristic, AlgorithmA in the original report and KK in
+  Korf Section2.6. It is distinct from AlgorithmB, interval-based random differencing, complete Karmarkar–Karp
+  search, and generic DFS or discrepancy ordering. Multiway variants remain explicit separate leads. The
+  inspected AIO graph has no suitable counterpart; no forced related mapping is asserted.
+definition_evidence:
+- &id001
+  source_id: karmarkar-karp-report
+  locator: Section2.1 AlgorithmA and worked example, PDF/printed p.2
+  relation: supports
+- &id002
+  source_id: korf1997
+  locator: Section2.6 and Figure1, manuscript PDF/printed pp.8–10
+  relation: supports
+claims:
+- claim_id: largest-pair-reduction
+  kind: mechanism
+  statement: For a finite nonempty multiset of nonnegative weights, repeatedly remove two largest residuals
+    a>=b and insert a-b until one remains. The final value is the achieved absolute difference between
+    the two subset sums. Residuals include combinations formed at earlier steps, so this is not simply
+    assigning the next original weight to the currently lighter bin. Equal-valued input items retain distinct
+    identities.
+  evidence:
+  - *id001
+  - *id002
+- claim_id: relative-orientation-reconstruction
+  kind: mechanism
+  statement: A residual represents a partial signed sum of original weights. Combining a and b by a-b
+    preserves the orientation of one partial partition and reverses the other. Recording the combination
+    tree permits signs to be propagated back to all original item indices; the positive and negative groups
+    reconstruct a partition with the reported residue. A later reversal can flip an entire partial partition,
+    so a differencing step does not irrevocably name each raw item’s final bin.
+  evidence:
+  - *id001
+  - *id002
+- claim_id: heap-and-arithmetic-cost
+  kind: scope
+  statement: A max-priority queue performs n-1 pair reductions with O(n log n) comparison/arithmetic operations.
+    Retaining one binary combination node per reduction uses O(n) items, and a traversal reconstructs
+    the partition in O(n) operations. These are unit-cost operation and item-count statements, not bounds
+    independent of numeric bit length, precision or implementation overhead.
+  evidence:
+  - source_id: korf1997
+    locator: Section2.6, manuscript PDF/printed pp.8–10; curator explicit combination-tree construction
+    relation: supports
+- claim_id: heuristic-not-certificate
+  kind: limitation
+  statement: The heuristic is not an exact optimizer. On weights8,7,6,5,4, its residual sequence is(6,5,4,1),
+    (4,1,1), (3,1), then2, while subsets{8,7} and{6,5,4} have equal sum15 and residue0. Thus the achieved
+    residue is an upper bound on the minimum residue, not a lower bound or proof of optimality. The procedure
+    does not enforce equal subset cardinalities.
+  evidence:
+  - *id002
+  - source_id: korf1997
+    locator: Section3 and Figure4, manuscript PDF/printed pp.12–13; curator exhaustive sign enumeration
+    relation: supports
+- claim_id: distinct-randomized-theorem-algorithm
+  kind: scope
+  statement: AlgorithmA is distinct from the original report’s adjacent-pair AlgorithmB and the later
+    interval-based random differencing procedure with compaction. The report’s high-probability asymptotic
+    analysis uses that randomized procedure and assumptions on independent input values with a Lipschitz
+    density. Its opening linear-time and vanishing-residue claims are not adopted as unconditional guarantees
+    for the bare largest-pair heuristic. The k-way cyclic-differencing construction is also outside this
+    two-way record.
+  evidence:
+  - source_id: karmarkar-karp-report
+    locator: Sections1–2.4, PDF/printed pp.1–16, especially AlgorithmB p.3, random differencing/compaction
+      pp.4–6 and Theorems1–5 pp.6–7; Section3 pp.16–30
+    relation: supports
+- claim_id: reported-empirical-scope
+  kind: scope
+  statement: Korf’s Figure2 compares average residues from KK and sorted greedy partitioning on sampled
+    uniformly distributed ten-digit integers. The reported average advantage depends on that input distribution
+    and precision; it does not establish that KK beats greedy on every instance. CKK’s later improvements
+    arise from additional search, not an optimality guarantee of this heuristic. No historical runtime
+    or stochastic experiment was replicated here.
+  evidence:
+  - source_id: korf1997
+    locator: Section2.6 and Figure2, manuscript PDF/printed pp.9–11; Section3 pp.12–13
+    relation: supports
+evidence_sources:
+- source_id: karmarkar-karp-report
+  title: The Differencing Method of Set Partitioning
+  authors:
+  - Narendra Karmarkar
+  - Richard M. Karp
+  persistent_id: UCB/CSD-83-113
+  version: Complete30-page Berkeley archive PDF catalogued UCB/CSD-83-113(1983); all pages read. The PDF
+    opening has no printed year; Korf cites a1982 UCB/CSD82/113 report. No claim resolving first-publication
+    priority; author spelling follows printed PDF rather than landing-page typos.
+  source_type: primary_paper
+  url: https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/CSD-83-113.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: f6ca1d4198d45609dd6da8c24693c797b5a6244d4f6374aea94db96084d386de
+- source_id: korf1997
+  title: A Complete Anytime Algorithm for Number Partitioning
+  authors:
+  - Richard E. Korf
+  persistent_id: https://doi.org/10.1016/S0004-3702(98)00086-1
+  version: University-hosted31-page manuscript dated27June1997, read in full. DOI identifies the later1998
+    Artificial Intelligence106(2):181–203 publication; its final typeset text was not inspected. Locators
+    refer to manuscript PDF/printed pages1–31.
+  source_type: primary_paper
+  url: https://web.cecs.pdx.edu/bart/cs510cs/papers/korf-ckk.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: 00751dfacfb610eaca973274764704476ecef22865526b9528eb88e07dc09074
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 587 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 172, 120, 119 lines. All distinct match contents
+    were inspected. Semantic matching covered 67 AIO and 94 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 3 full native records were inspected.
+    The repeated text matches are a pending combined KK/CKK frontier entry, not existing records. The
+    identity here is the two-way largest-pair differencing heuristic, AlgorithmA in the original report
+    and KK in Korf Section2.6. It is distinct from AlgorithmB, interval-based random differencing, complete
+    Karmarkar–Karp search, and generic DFS or discrepancy ordering. Multiway variants remain explicit
+    separate leads. The inspected AIO graph has no suitable counterpart; no forced related mapping is
+    asserted.
+  rationale: No inspected AIO class denotes this nonlearning arithmetic partitioning heuristic. Graph
+    use, heuristic choice and evaluation of differences do not make it a language model, learned policy,
+    learning task or mathematical-function entity.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- Scope is two-way unconstrained partitioning of a finite nonempty nonnegative multiset. Multiway, cardinality-balanced,
+  randomized-compaction and complete-search variants have distinct identities.
+- The returned partition is feasible but can be suboptimal. Ties can change reconstructed item membership
+  even when the residue is unchanged.
+- Unit-cost complexity assumes exact comparisons and arithmetic; floating-point cancellation and very
+  large numeric representations require separate implementation analysis.
+- The Berkeley archive metadata and Korf’s1982 report citation differ. The inspected versions are identified
+  explicitly, without inferring publication priority.
+- All30 original-report pages and all31 Korf manuscript pages were read. Small constructed calculations
+  were run; author implementations and the final1998 journal full text were not inspected.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T07:51:19Z'
+  updated_at: '2026-10-13T07:51:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
