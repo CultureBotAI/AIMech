@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gated-feedback recurrent neural network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Gated-feedback recurrent neural network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gated-feedback recurrent neural network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:GatedFeedbackRecurrentNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GF-RNN
+    </div>
+
+  <div class="detail-desc">
+    A layered recurrent architecture in which learned input-dependent scalar gates modulate recurrent projections from every previous layer state to each destination layer, including delayed top-down feedback, alongside the current bottom-up computation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 575 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 4, 0, 0 lines. All matches were read and classified before curation. Semantic matching inspected 63 AIO and140 native definitions, with unchanged preceding rows verified and new matches read. Seven full annotated AIO node/edge/generated contexts and four full native records were inspected. The complete architecture is distinct from unit-wise GRU/LSTM gates, a generic RNN-cell stack, initialized identity recurrence and fixed decaying SCRN context. Full nodes for FeedbackNetwork, GRUCellLayer, LSTMCellLayer, LongShortTermMemory, GatedRecurrentUnit and StackedRNNCellsLayer do not supply exact identity. LSTM/GRU targets describe possible configurations or components, not the entire tanh/GRU/LSTM feedback family. Generic iterative-feedback wording alone does not resolve the required inter-layer temporal/gate scope; RecurrentNeuralNetwork is the selected broader architecture target. Top-down generative/recognition Helmholtz models and feedback-based augmentation/diagnostic procedures are different concepts. Unit-type variants remain within GF-RNN.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#global-layer-pair-gate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed gate for source layer i and destination j is g_t^(i-&gt;j)=sigmoid(w_g^(i-&gt;j)*h_t^(j-1)+u_g^(i-&gt;j)*h*_(t-1)), where h* concatenates all previous layer states and the current input x_t replaces h_t^(j-1) at the first layer. Each gate is a scalar controlling a whole source-to-destination recurrent projection, rather than a separate gate for each coordinate of the destination state. The tanh form adds sum_i g_t^(i-&gt;j)*U^(i-&gt;j)*h_(t-1)^i to the current bottom-up input before applying tanh.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3 global reset gate and Section 3.1 tanh update, PDF p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#delayed-feedback-and-order</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The top-down recurrent signals in the displayed architecture come from time t-1, while bottom-up input uses the already computed current lower-layer state. Thus the displayed update can be evaluated bottom-to-top within a timestep; it does not require solving an implicit same-timestep top-down cycle. The fully connected recurrent layer-pair form has L-squared possible projections for L layers. The paper figure omits skip connections for clarity, so the illustration is not treated as an exhaustive implementation specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3 and Figure 1 caption, PDF pp. 3–4; curator dependency/count consequence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#placement-in-lstm-and-gru</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For LSTM and GRU versions, the source applies global layer-pair gates when computing candidate new content. It explicitly leaves the ordinary LSTM input, forget and output gate equations and GRU reset and update gate equations unmodified. In its displayed GRU convention, the destination reset vector multiplies the sum of globally gated recurrent projections after projection and aggregation. Global pair gates therefore do not replace unit-wise gates or directly gate every cell-state carry path.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Long Short-Term Memory and Gated Recurrent Unit, PDF p. 4; referenced background Equations 2–10, pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#soft-connectivity-and-gradient-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Finite real sigmoid logits give independent pair weights strictly between zero and one; their weights need not sum to one and need not be exactly zero. This is adaptive weighting of recurrent signals, not a guaranteed discrete routing or clock schedule. Unlike the cited clockwork design, the proposed model does not assign explicit fixed rates to its modules. Gates bounded by one do not bound learned projection matrices or the full transition Jacobian, which also includes derivatives through the gates and current lower layers; no automatic contraction or permanent gradient preservation follows.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 3–4; curator gate and derivative consequences</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#unit-dependent-language-evidence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported character-language experiments improve the selected GRU and LSTM comparisons but deteriorate with tanh units. Experiments distinguish roughly matched parameter counts from larger variants matched by hidden-unit counts; these are different capacity comparisons. A fixed-global-gate ablation, validation learning-time curves and a larger language model provide conditional evidence rather than universal superiority or lower computational complexity. The paper explicitly notes that one earlier large-model comparator uses a different vocabulary and is not directly comparable.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2 and 5.1, Tables 1–4 and Figure 2, PDF pp. 5–7; conclusion, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#program-task-and-metric</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The program experiment trains an encoder-decoder on generated Python-script input/output sequences with specified nesting, output lengths, curriculum and capacities. Its stated accuracy is next-symbol prediction conditioned on correct preceding output symbols, rather than a guarantee of exact autonomous program execution. Figure 3 mostly favors gated feedback but includes a GRU test setting with lower accuracy. The record preserves those selected-task and metric boundaries and makes no numerical benchmark or independent reproduction claim.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-chung2015">Gated Feedback Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1.2, PDF p. 5; Section 4.2.2, p. 6; Section 5.2 and Figure 3, pp. 7–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Global layer-pair scalar gates and ordinary unit-wise LSTM/GRU gates have distinct placement and scope in the displayed formulation.</li>
+      <li>Data-dependent soft weighting does not imply hard routing, normalized attention, a fixed module clock, sparse execution or guaranteed separation of timescales.</li>
+      <li>Learned matrices and gate derivatives prevent a contraction or gradient-preservation guarantee based solely on gate values.</li>
+      <li>Tanh deterioration and the negative GRU program-test comparison are retained alongside the reported improvements; capacities, metrics and vocabulary affect comparisons.</li>
+      <li>All nine primary conference-paper pages were read. No author implementation, supplement, training, runtime audit or empirical replication was inspected.</li>
+      <li>Displayed equations and a figure that omits skip connections do not certify every implementation detail. Constructed scalar checks are not trained-model evidence.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a recurrent sequence architecture with gated inter-layer temporal connections; the target is the broader recurrent architecture category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-chung2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">chung2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v37/chung15.pdf" target="_blank" rel="noopener">Gated Feedback Recurrent Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Junyoung Chung, Caglar Gulcehre, Kyunghyun Cho, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fd5e0a4f6f3b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T05:42:33Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T05:42:33Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

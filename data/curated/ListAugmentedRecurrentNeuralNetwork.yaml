@@ -1,0 +1,139 @@
+id: AIMech:ListAugmentedRecurrentNeuralNetwork
+name: List-augmented recurrent neural network
+aliases:
+- List RNN
+concept_kind: architecture
+definition: A recurrent sequence architecture whose neural controller accesses an external list through
+  a movable read/write head, learning continuous mixtures of left movement, right movement, insertion
+  and optional no-operation updates.
+identity_notes: Compared all 442 pinned AIO and 574 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 30, 0, 0 lines. Matches were inspected as shared
+  paper citations, Stack RNN comparison text, prior review evidence and discovery leads rather than an
+  existing List RNN record. Semantic matching inspected 54 AIO and135 native definitions, with unchanged
+  preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and
+  four full native records were inspected. StackedRNNCellsLayer describes layer composition, not movable-head
+  memory; MemoryAugmentedLLM requires large-language-model scope not inherent to List RNN; the pinned
+  NeuralTuringMachineNetwork feedforward/spiking description does not establish this list topology. None
+  supplies exact equivalence or a suitable broader mapping. RecurrentNeuralNetwork supplies the broader
+  architecture mapping. Stack RNN defines top push/pop updates with a leading-entry readout, whereas List
+  RNN defines bidirectional adjacent movement and head insertion. These are explicitly named separate
+  source models. Ensemble stacking, beam-stack search and linear SCRN context have different identities.
+  Soft versus one-hot action configurations stay within List RNN.
+definition_evidence:
+- source_id: joulin2015
+  locator: Doubly-linked lists, printed/PDF p. 5; Figure 1(b), p. 4
+  relation: supports
+claims:
+- claim_id: head-centered-list-transition
+  kind: mechanism
+  statement: The paper expresses memory in coordinates with a fixed head index H. A RIGHT action contributes
+    the old value at i+1 and a LEFT action the old value at i-1 at every index i. INSERT contributes sigmoid(D*h_t)
+    at H, the old value at i+1 for i<H, and the old value at i for i>H. Action weights blend these branches,
+    and optional NO-OP adds its weight times the old value at i. Thus the fixed index is a coordinate
+    convention for head movement, not a claim that the controller can never move along the logical list.
+  evidence:
+  - source_id: joulin2015
+    locator: Doubly-linked lists, displayed piecewise update and no-op paragraph, p. 5
+    relation: supports
+- claim_id: insertion-topology
+  kind: scope
+  statement: In the ideal one-hot INSERT branch, a new value occupies the head; the former head and the
+    side with indices below H shift one position toward lower indices, while the side above H retains
+    its values. LEFT and RIGHT permit adjacent movement in both directions. This differs from updating
+    a stack through top push/pop operations and from treating a stored sequence as a fixed vector. These
+    symbolic descriptions assume the required neighboring memory positions exist.
+  evidence:
+  - source_id: joulin2015
+    locator: Figure 1, p. 4; Doubly-linked lists and piecewise update, p. 5; curator indexing consequence
+    relation: supports
+- claim_id: soft-state-is-not-discrete-history
+  kind: scope
+  statement: Continuous action weights produce deterministic weighted memory updates, not sampling of
+    one list operation. A nontrivial mixture need not encode one discrete head position and symbolic list.
+    A single affine update can be read as a weighted mean of candidate results, but feeding its values
+    through the nonlinear controller is not generally equivalent to averaging separate discrete trajectories.
+    One-hot operations describe a limiting or selected configuration, not an automatic consequence of
+    gradient-based training.
+  evidence:
+  - source_id: joulin2015
+    locator: Figure 1 and continuous stack controller, p. 4; list update and Optimization, p. 5; curator
+      affine/nonlinear consequence
+    relation: supports
+- claim_id: controller-and-memory-scope
+  kind: mechanism
+  statement: Figure 1(b) couples list memory to a neural hidden state that produces action weights and
+    inserted values; its caption includes optional NO-OP. The text says the recurrent hidden-state matrix
+    R is omitted from the figure for clarity. The absence of a drawn hidden-to-hidden arrow therefore
+    does not define List RNN as universally lacking hidden recurrence. The list controller and its local
+    access topology define this record, rather than a particular trained model or task-specific capacity
+    setting.
+  evidence:
+  - source_id: joulin2015
+    locator: Figure 1(b), p. 4; Doubly-linked lists, p. 5
+    relation: supports
+- claim_id: memory-and-implementation-boundaries
+  kind: limitation
+  statement: The source proposes the list as expandable external memory, but this does not supply infinite
+    physical capacity, exact numerical operations or unrestricted generalization. A finite window with
+    truncating boundaries can lose information during a shift; in that constructed setting, opposite movements
+    need not undo one another. No list implementation, allocator, boundary convention or backward routine
+    was inspected, so this record does not transfer the separately inspected Stack-RNN code behavior to
+    List RNN.
+  evidence:
+  - source_id: joulin2015
+    locator: Doubly-linked lists and Optimization, p. 5; discussion/conclusion, p. 8; curator finite-window
+      counterexample
+    relation: supports
+- claim_id: training-and-evaluation-scope
+  kind: limitation
+  statement: The source describes continuous Stack and List RNN training with stochastic gradient descent
+    and truncated backpropagation through time. It reports difficulty learning more complex memory controllers
+    and uses random restarts. List RNN appears in selected counting and memorization comparisons with
+    specified capacities, supervision and sequence-length ranges. Those results do not establish universal
+    algorithm learning, exact behavior at arbitrary lengths, or performance of an independently reproduced
+    implementation. No numerical benchmark is curated here.
+  evidence:
+  - source_id: joulin2015
+    locator: Optimization and implementation details, p. 5; Table 2, p. 5; Figure 2, p. 6; Section 5.1,
+      pp. 5–7
+    relation: supports
+evidence_sources:
+- source_id: joulin2015
+  title: Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets
+  authors:
+  - Armand Joulin
+  - Tomas Mikolov
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2015/file/26657d5ff9020d2abefe558796b99584-Paper.pdf
+  version: NeurIPS2015 proceedings, volume28. All nine printed/PDF pages, Figures1–3, Tables1–4, Equations1–6
+    and references visually inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T04:41:24Z'
+  sha256: 8c9bbbbf4e919d877a24b48b0859a13bcdc36ac8ecad3d8cd502c510a08a8f40
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The architecture is a recurrent sequence network with a particular external-list access topology;
+    the AIO target is the broader recurrent architecture category.
+limitations:
+- Soft action mixtures need not preserve a discrete list or head interpretation; exact nonlinear propagation
+  of an ensemble is not asserted.
+- The paper ideal memory and the curator finite-window example are distinguished. No particular list capacity,
+  sentinel, allocator or implementation is certified.
+- Stack-RNN historical code is evidence about a different memory topology, not an inspected List RNN implementation.
+- All nine primary conference-paper pages were read; no supplement, List RNN source execution, training,
+  backward audit or empirical replication was performed.
+- Published capacities, task settings, sequence lengths and tuning limit the evaluation claims. No universal
+  algorithm-learning or unlimited exact-memory guarantee follows.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:41:54Z'
+  updated_at: '2026-10-13T05:41:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
