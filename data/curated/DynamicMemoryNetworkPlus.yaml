@@ -1,0 +1,132 @@
+id: AIMech:DynamicMemoryNetworkPlus
+name: Dynamic Memory Network Plus
+aliases:
+- DMN+
+concept_kind: architecture
+definition: A recurrent question-answering architecture that fuses text or image facts, aggregates them
+  with question- and memory-conditioned attention gates in a GRU, and updates episodic memory through
+  pass-specific rectified affine transformations.
+identity_notes: Compared all 442 pinned AIO and 605 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 65 AIO and 89 native definitions, with every matched definition
+  read. 8 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. DMN+
+  is the named successor with bidirectional fact fusion, scalar attention replacing the GRU update gate,
+  and untied ReLU memory updates. It is not an alias of the original DMN, the intermediate DMN2/DMN3 ablations,
+  KV-MemNN or CommNet. Existing incidental DMN+ benchmark mentions are not a maintained identity.
+definition_evidence:
+- source_id: xiong2016
+  locator: Sections 3.1–3.3, PDF pp. 2–5; Section 6.1, p. 6
+  relation: supports
+claims:
+- claim_id: fused-text-and-image-facts
+  kind: mechanism
+  statement: DMN+ replaces the original word-stream input with sentence representations formed by position-weighted
+    word embeddings followed by bidirectional GRU input fusion; forward and backward states are added.
+    Its visual variant projects VGG-19 regional features into the question space and applies recurrent
+    fusion along a snake traversal of the image patches. These are contextual fact encoders, not independently
+    addressed raw tokens or exact object segmentation.
+  evidence:
+  - source_id: xiong2016
+    locator: Sections 3.1–3.2, PDF pp. 2–4, Figures 2–3
+    relation: supports
+- claim_id: normalized-attention-gru
+  kind: mechanism
+  statement: At each memory pass, an MLP scores elementwise products and absolute differences between
+    each fact, the question and previous memory. Softmax across facts produces scalar gates. The attention-based
+    GRU replaces its usual vector update gate with this scalar, mixing the candidate state with the previous
+    state and returning the final scan state as context. This differs from the original DMN gate multiplying
+    a complete GRU update. A softmax-weighted sum is an evaluated alternative, not the final recurrent
+    aggregation; any permutation-invariance statement for that sum holds only for fixed fact representations.
+  evidence:
+  - source_id: xiong2016
+    locator: Section 3.3, PDF pp. 4–5, Equations 8–11; Section 6.1, pp. 6–7
+    relation: supports
+- claim_id: untied-memory-and-printed-notation
+  kind: scope
+  statement: The final DMN+ memory update applies ReLU to an affine transformation of the concatenated
+    previous memory, context and question, with different parameters across passes. The printed square
+    matrix dimension next to Equation 13 conflicts with this three-vector concatenation; a dimensionally
+    consistent transformation from three n_H vectors requires an n_H by 3*n_H matrix. Equation 10 also
+    prints an inconsistent denominator bound rather than the declared fact count. These are explicit dimensional/notation
+    interpretations of the paper, not a claim that the displayed typos define a working implementation.
+  evidence:
+  - source_id: xiong2016
+    locator: Section 3.3, PDF pp. 4–5, Equations 10 and 13; Section 6.1, p. 6
+    relation: supports
+- claim_id: answer-supervised-finite-protocol
+  kind: scope
+  statement: The reported bAbI-10k experiments train from answers without supporting-fact labels. They
+    use selected finite configurations, including three memory passes, truncated recent-sentence inputs,
+    development-based early stopping and selection among multiple random restarts. Absence of gate labels
+    does not mean absence of answer supervision. DMN2 and DMN3 are intermediate ablations; the complete
+    DMN+ combines input fusion, attention-based recurrent aggregation and untied ReLU memory updates.
+  evidence:
+  - source_id: xiong2016
+    locator: Sections 5 and 6.1–6.2, PDF pp. 6–7, Table 1
+    relation: supports
+- claim_id: task-and-metric-boundaries
+  kind: limitation
+  statement: 'Text QA, DAQUAR model analysis and VQA are separate protocols. bAbI reports per-task error
+    and mean error; DAQUAR analysis restricts evaluation to single-word answers, and VQA scores agreement
+    with human answers. DMN+ improves selected aggregate results but not every task or answer type: induction
+    remains difficult, and its VQA number score of 36.8 is above SAN (36.6) but below D-NMN (37.4) in
+    Table 3. Ablation and cross-paper comparisons do not establish universal superiority or isolate every
+    architectural change as a causal effect.'
+  evidence:
+  - source_id: xiong2016
+    locator: Section 5, PDF p. 6; Sections 6.1–6.3, pp. 6–8, Tables 1–3
+    relation: supports
+- claim_id: order-and-visualization-limits
+  kind: limitation
+  statement: Sequential input fusion and the attention-based GRU can depend on fact or patch order. The
+    snake scan does not establish arbitrary patch-permutation or geometric invariance. Selected visual
+    attention heatmaps show model gates rather than a proof of faithful causal object grounding; the source
+    notes that patch-based representations make counting objects crossing patch boundaries difficult.
+    The mechanism is a specific DMN successor, not evidence that all memory networks share these properties.
+  evidence:
+  - source_id: xiong2016
+    locator: Sections 3.1–3.3, PDF pp. 2–5; Section 6.3, p. 8; Figure 6, p. 9
+    relation: supports
+evidence_sources:
+- source_id: xiong2016
+  title: Dynamic Memory Networks for Visual and Textual Question Answering
+  authors:
+  - Caiming Xiong
+  - Stephen Merity
+  - Richard Socher
+  persistent_id: arXiv:1603.01417v1
+  version: arXiv 1603.01417v1, 4 March 2016, ten PDF pages. All pages visually read, including equations,
+    diagrams, tables and references. Locators use PDF page order. Other versions and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1603.01417v1
+  access_level: full_text
+  accessed_at: '2026-10-13T10:22:19Z'
+  sha256: ce961743dc7bc5ebd00a86dd7209476d4dc0e4f24dcf2cb36054bb50bda0f2ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: Bidirectional input fusion and the attention-based recurrent fact scan define a specific
+    recurrent architecture; the target is broader.
+- target: AIO:GatedRecurrentUnit
+  relation: related_match
+  rationale: GRUs are components of input fusion and the modified attention scan; the complete DMN+ is
+    not equivalent to one GRU and its scalar attention gate replaces the usual update gate.
+limitations:
+- Original DMN, intermediate DMN2/DMN3 ablations and complete DMN+ are distinguished.
+- Source equation bounds and matrix dimensions contain inconsistencies; the record labels its dimensional
+  interpretation and does not claim an inspected implementation.
+- Benchmark protocols, finite memory, selected restarts and selected visualizations bound the evidence.
+  No author code, training, benchmark replication or hardware measurement was performed.
+- All ten pages of arXiv1603.01417v1 were visually read. Other versions were not inspected. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T10:44:20Z'
+  updated_at: '2026-10-13T10:52:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

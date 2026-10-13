@@ -1,0 +1,136 @@
+id: AIMech:AttentivePoolingNetwork
+name: Attentive Pooling Network
+aliases:
+- Attentive Pooling Networks
+concept_kind: architecture
+definition: A neural sentence-pair architecture that learns bilinear segment interactions, derives attention
+  by row and column maxima followed by separate softmax normalization, and compares the resulting pair-conditioned
+  pooled representations for answer selection.
+identity_notes: Compared all 442 pinned AIO and 606 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 8, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 104 AIO and 64 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This
+  is the named 2016 sentence-pair attentive pooling architecture, not every later method called attention
+  pooling. AP-CNN and AP-biLSTM are instantiations rather than equivalent aliases of each other. The bilinear
+  interaction/max/softmax construction differs from memory-key addressing, recurrent episodes and PointNet
+  independent max pooling.
+definition_evidence:
+- source_id: santos2016
+  locator: Sections 2–3, PDF pp. 2–5, Equations 13–18 and Figure 2
+  relation: supports
+claims:
+- claim_id: pair-conditioned-alignment
+  kind: mechanism
+  statement: For encoded question and answer segments Q and A, compute the interaction matrix G=tanh(Q-transpose*U*A),
+    with a learned bilinear matrix U. Row maxima over answer segments and column maxima over question
+    segments yield two score vectors, which are separately softmax-normalized. Each input is then pooled
+    as a weighted sum of its own segment vectors. These representations depend on the current pair; the
+    intermediate signed interaction scores are not probabilities or a one-to-one alignment.
+  evidence:
+  - source_id: santos2016
+    locator: Section 3, PDF pp. 4–5, Equations 13–18 and Figure 2
+    relation: supports
+- claim_id: notation-and-reduction-boundaries
+  kind: scope
+  statement: With Q having M columns and A having L columns, G has M rows and L columns. The intended
+    row/column reductions follow these dimensions and Figure 2; the printed bounds in Equations 14–15
+    swap M and L and use strict endpoint inequalities. This record uses the dimensionally consistent interpretation
+    rather than asserting those literal bounds. Max reductions are piecewise smooth, and tie-gradient
+    conventions are not established by an inspected implementation. For the displayed unscaled tanh scores,
+    any two resulting softmax weights have ratio at most exp(2), a direct formula consequence rather than
+    a learned-performance guarantee.
+  evidence:
+  - source_id: santos2016
+    locator: Section 3, PDF p. 4, Equations 13–17; Figure 2, p. 5; constructed mathematical checks
+    relation: supports
+- claim_id: encoder-and-ranking-variants
+  kind: scope
+  statement: AP-CNN and AP-biLSTM are distinct instantiations using convolutional or bidirectional recurrent
+    segment encoders. The question and answer encoder parameters are shared within each model. Cosine
+    similarity compares the pair-conditioned pooled vectors, and a margin ranking loss contrasts positive
+    and selected negative answers; the described training samples fifty negative answers and uses the
+    highest-scoring one. The architecture ranks supplied candidates rather than generating answers. A
+    symmetric final cosine does not by itself make the complete pair-conditioned scorer symmetric when
+    the learned interaction matrix is unconstrained.
+  evidence:
+  - source_id: santos2016
+    locator: Sections 2.1–2.3, PDF pp. 2–3; Section 3, pp. 4–5; constructed asymmetric-matrix example
+    relation: supports
+- claim_id: fixed-representation-pooling-limits
+  kind: limitation
+  statement: 'Permuting already encoded segment columns consistently leaves the corresponding pooled vectors
+    unchanged, but this does not establish invariance to reordering the original words: convolutional
+    and recurrent encoders can change their outputs. Duplicating a segment can change its side of the
+    weighted read even when the relevant maxima are unchanged. Pair-conditioned attention is not ordinary
+    independent global max pooling or a guarantee that candidate embeddings can be precomputed independently
+    of their question.'
+  evidence:
+  - source_id: santos2016
+    locator: Sections 2–3, PDF pp. 2–5, Equations 13–18; direct constructed examples
+    relation: supports
+- claim_id: filtered-answer-selection-evaluation
+  kind: limitation
+  statement: InsuranceQA uses candidate answer pools and top-answer accuracy, while TREC-QA and WikiQA
+    report MAP and MRR under specified filtering and splits. TREC excludes questions without both correct
+    and incorrect answers, and WikiQA retains questions with a correct answer; these experiments do not
+    establish unanswerable-question detection. Architecture configurations and tuning differ, including
+    many fewer filters in AP-CNN than in the QA-CNN baseline. Reported runtime belongs to the stated Theano/GPU
+    setup, not a universal efficiency guarantee.
+  evidence:
+  - source_id: santos2016
+    locator: Sections 5–6, PDF pp. 5–8, Tables 1–5
+    relation: supports
+- claim_id: comparison-and-explanation-boundaries
+  kind: limitation
+  statement: The performance comparisons do not establish one best model across all tasks and feature
+    regimes. AP-biLSTM has higher InsuranceQA test accuracy than AP-CNN, while the WikiQA footnote reports
+    a hand-feature comparator exceeding AP-CNN despite its advantage over the word-embedding-only comparison.
+    Length plots are cumulative accuracy for answers up to a threshold, not controlled length interventions.
+    The two attention heatmaps show selected correctly answered examples and do not prove faithful causal
+    explanations.
+  evidence:
+  - source_id: santos2016
+    locator: Section 6, PDF pp. 6–9, Tables 3–5, footnote 6 and Figures 3–6
+    relation: supports
+evidence_sources:
+- source_id: santos2016
+  title: Attentive Pooling Networks
+  authors:
+  - Cicero dos Santos
+  - Ming Tan
+  - Bing Xiang
+  - Bowen Zhou
+  persistent_id: arXiv:1602.03609v1
+  version: arXiv 1602.03609v1, 11 February 2016, ten PDF pages. All pages visually read, including equations,
+    tables, heatmaps and references. Locators use PDF page order. Other versions and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1602.03609v1
+  access_level: full_text
+  accessed_at: '2026-10-13T10:24:38Z'
+  sha256: 16f2cd4db2b02c261e27fa9fbff1fb666ebe09957bc0ae8deed4d1cd677d3e71
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned neural encoders and a trained bilinear interaction/pooling scorer define a particular
+    neural architecture; the target covers both convolutional and recurrent instantiations.
+limitations:
+- The named 2016 sentence-pair construction is narrower than generic attention pooling; AP-CNN and AP-biLSTM
+  are variants rather than interchangeable aliases.
+- Printed reduction bounds require an explicitly labelled dimensional interpretation. Empty sequences,
+  zero-norm cosine inputs and gradient choices at max ties were not established from author code.
+- Invariance of pooling over fixed encoded vectors does not imply word-order invariance, and attention
+  heatmaps do not certify causal explanations.
+- All ten pages of arXiv1602.03609v1 were visually read. Other versions, author code and training were
+  not inspected; no benchmark or hardware result was replicated. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T10:45:21Z'
+  updated_at: '2026-10-13T10:53:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
