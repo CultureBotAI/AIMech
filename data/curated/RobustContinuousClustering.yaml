@@ -1,0 +1,211 @@
+id: AIMech:RobustContinuousClustering
+name: Robust continuous clustering
+aliases:
+- RCC clustering
+concept_kind: algorithm
+definition: A clustering algorithm that optimizes one representative per observation using squared data
+  fidelity and robust attraction along a neighborhood graph, then extracts groups from thresholded connectivity
+  between the optimized representatives.
+identity_notes: Compared all 442 pinned AIO and 655 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 10, 0, 0 lines. All distinct match contents were
+  read, including pending discovery entries and source-reading observations. Recovery hits concern pending
+  RCC discovery notes and primary-source context; none identifies an existing standalone RCC record. Both
+  other checkouts returned no matches including ignored and hidden files. Semantic matching covered 45
+  AIO and 241 native definitions, all read; unchanged definitions were byte-compared with the preceding
+  full assessment. 10 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+  Retain robust graph-coupled optimization of moving observation representatives followed by connectivity
+  extraction. It differs from fixed exemplar mixture weights, mean-shift density modes, fixed-K centroid
+  reassignment and reciprocal-neighbor tree construction. RCC-DR adds sparse representation learning and
+  remains a distinct lead.
+definition_evidence:
+- source_id: rcc2017
+  locator: Formulation and Optimization, PDF pp.1–3; Algorithm1; SI Methods, PDF p.7
+  relation: supports
+claims:
+- claim_id: robust-representative-objective
+  kind: mechanism
+  statement: For observations x_i and representatives u_i initially equal to x_i, minimize one half of
+    the summed squared data residuals plus lambda/2 times the weighted graph-edge penalties rho(||u_p-u_q||).
+    The demonstrated Geman–McClure penalty is rho(y)=mu*y^2/(mu+y^2), with mu>0. Its influence decreases
+    for sufficiently large separations, allowing weak intergroup connections to contribute less than under
+    a quadratic attraction penalty.
+  evidence:
+  - source_id: rcc2017
+    locator: Formulation, PDF pp.1–2, Equations1–4
+    relation: supports
+- claim_id: neighborhood-and-degree-weights
+  kind: mechanism
+  statement: The paper constructs a mutual k-nearest-neighbor graph and augments it with a spanning tree
+    of the k-nearest-neighbor graph. Its reported setting uses k=10 and cosine similarity for neighbor
+    selection; an edge weight is average node degree divided by the geometric mean of its endpoint degrees.
+    These graph choices and weights are separate from Euclidean representative differences in the objective.
+    The pinned Python graph builder computes batched pair distances and partial neighbor sorting; it is
+    not the approximate-neighbor implementation described in the paper.
+  evidence:
+  - source_id: rcc2017
+    locator: SI Methods, Connectivity Structure and Implementation, PDF p.7, EquationS1
+    relation: supports
+  - source_id: rcc-graph
+    locator: Toolbox/edgeConstruction.py, lines91–139,142–180
+    relation: supports
+- claim_id: line-process-and-linear-solve
+  kind: mechanism
+  statement: 'Introduce a nonnegative line variable l for each edge. For fixed representatives, its minimizing
+    value is (mu/(mu+||u_p-u_q||^2))^2. For fixed line variables, representatives solve a weighted graph-Laplacian
+    linear system: using columns for observations, U(I+lambda*A)=X. With nonnegative edge weights and
+    lambda>=0, I+lambda*A is positive definite. These exact block subproblems do not establish a global
+    optimum of the nonconvex joint objective or certify approximate numerical solves.'
+  evidence:
+  - source_id: rcc2017
+    locator: Optimization, PDF pp.2–3, Equations2,4–8
+    relation: supports
+  - source_id: rcc-matlab
+    locator: RCC.m, lines70–84,116–128
+    relation: supports
+- claim_id: continuation-and-stopping
+  kind: scope
+  statement: 'The method uses graduated nonconvexity: reduce the robust scale mu during optimization and
+    update lambda using the ratio of data and graph spectral norms. Changing these parameters changes
+    the objective, so fixed-objective descent cannot be transferred silently to the whole schedule. The
+    printed loop condition combines small objective change with an iteration condition using OR; the pinned
+    MATLAB implementation instead uses a bounded for-loop and explicit continuation or break decisions.
+    The code initializes mu from the maximum retained edge length, whereas the supplementary description
+    uses the median.'
+  evidence:
+  - source_id: rcc2017
+    locator: Optimization and Algorithm1, PDF p.3; SI Methods, PDF p.7
+    relation: supports
+  - source_id: rcc-matlab
+    locator: RCC.m, lines37–56,68–103
+    relation: supports
+- claim_id: thresholded-component-extraction
+  kind: mechanism
+  statement: Final labels are connected components after comparing representative distances with an edge-derived
+    threshold; the number of clusters is not an input to the RCC objective. The supplement describes pairwise
+    threshold connectivity, while the pinned assignment routine tests only the supplied original graph
+    edges. The implementation also filters near-duplicate edges when deriving thresholds and distinguishes
+    a capped scale sample from the uncapped one-percent threshold sample. These conventions can change
+    the resulting partition and are not asserted to be equivalent.
+  evidence:
+  - source_id: rcc2017
+    locator: Algorithm1, PDF p.3; SI Methods, Initialization and Output, PDF p.7
+    relation: supports
+  - source_id: rcc-matlab
+    locator: RCC.m, lines37–48,108–111
+    relation: supports
+  - source_id: rcc-assignment
+    locator: assignment.m, lines1–13
+    relation: supports
+- claim_id: variant-and-implementation-scope
+  kind: scope
+  statement: RCC-DR jointly learns a sparse low-dimensional representation and clustering and is a distinct
+    extension, not an alias for the base RCC procedure. The author README distinguishes the released MATLAB
+    accuracy implementation from a faster C++ implementation used for reported runtime measurements. Those
+    measurements and the extension’s results are not transferred to this base record.
+  evidence:
+  - source_id: rcc2017
+    locator: Joint Clustering and Dimensionality Reduction, PDF pp.3–4; Experiments, PDF pp.4–5
+    relation: supports
+  - source_id: rcc-readme
+    locator: Introduction and MATLAB-versus-C++ implementation note
+    relation: supports
+evidence_sources:
+- source_id: rcc2017
+  title: Robust continuous clustering
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: primary_paper
+  access_level: full_text
+  version: Author-hosted PNAS2017 Early Edition main text, six pages, plus five-page Supporting Information.
+    All11 PDF pages visually read.
+  persistent_id: doi:10.1073/pnas.1700770114
+  url: https://vladlen.info/papers/RCC-with-supplement.pdf
+  accessed_at: '2026-10-13T21:57:17Z'
+  sha256: a88e7f8437d079bf8665ea40ea62d8fcd02bf46354deea9ed38d72dc0c5c1ec9
+- source_id: rcc-matlab
+  title: 'RCC author implementation: RCC.m'
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: official_documentation
+  access_level: documentation
+  version: Author Bitbucket repository commit8851679caab333dd6ccb22c973bb0b169caec1fb (2018-03-07); complete
+    file statically read, not executed.
+  url: https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/RCC.m
+  accessed_at: '2026-10-13T22:02:30Z'
+  sha256: a89a235118566ada4560648751d65d93b81b826f65dbe8506d18aad0ede91b3d
+- source_id: rcc-assignment
+  title: 'RCC author implementation: assignment.m'
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: official_documentation
+  access_level: documentation
+  version: Author Bitbucket repository commit8851679caab333dd6ccb22c973bb0b169caec1fb (2018-03-07); complete
+    file statically read, not executed.
+  url: https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/assignment.m
+  accessed_at: '2026-10-13T22:02:30Z'
+  sha256: 46379f0887d8e49683b0a018b2983a936fcc99690b72212ba821b515ce334038
+- source_id: rcc-graph
+  title: 'RCC author implementation: Toolbox/edgeConstruction.py'
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: official_documentation
+  access_level: documentation
+  version: Author Bitbucket repository commit8851679caab333dd6ccb22c973bb0b169caec1fb (2018-03-07); complete
+    file statically read, not executed.
+  url: https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/Toolbox/edgeConstruction.py
+  accessed_at: '2026-10-13T22:03:13Z'
+  sha256: da5dfd24b641342e1233572ba9ba407f19ce8aa4695e7fc719bbc18c60611b38
+- source_id: rcc-readme
+  title: 'RCC author implementation: README.md'
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: official_documentation
+  access_level: documentation
+  version: Author Bitbucket repository commit8851679caab333dd6ccb22c973bb0b169caec1fb (2018-03-07); complete
+    file statically read, not executed.
+  url: https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/README.md
+  accessed_at: '2026-10-13T22:02:31Z'
+  sha256: e76c264cc28f0151cc5b79db57eae71534fb2c0ad16a2107d566d3b234d25dd1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: RCC constructs groups from observation features and graph relationships. The AIO target denotes
+    the task; this relation does not equate the algorithm with a task or assert an upstream subclass.
+limitations:
+- The nonconvex objective, continuation, graph construction and threshold extraction each impose scope
+  boundaries. Neither an exact fixed-line solve nor a decreasing fixed-parameter block step proves a globally
+  optimal partition.
+- The released MATLAB solver uses PCG tolerance1e-2 and at most100 iterations per feature, and discards
+  its returned status. Static inspection does not certify numerical convergence or exact monotonicity.
+- Zero graph norms, too few retained nonduplicate edges, disconnected neighbor graphs and unexpected index
+  conventions require separate handling. The pinned MATLAB code initializes edge endpoint variables only
+  when the input edge list has minimum index zero; generic one-based input is not certified.
+- The paper and inspected implementation differ in robust-scale initialization, threshold sampling, output
+  edge scope and neighbor-search implementation. No single default configuration is silently attributed
+  to both.
+- Finite curator arithmetic checks20 line-process cases and81 two-point fixed-parameter updates, plus
+  a constructed difference between all-pair and original-edge extraction. The extraction example is not
+  claimed to arise during an author RCC run.
+- The published evaluations include dataset-specific preprocessing and parameter selection. In particular,
+  graph preprocessing for text datasets uses a PCA dimension equal to the number of ground-truth classes;
+  this does not establish a wholly label-independent benchmark pipeline.
+- All11 pages of the author-hosted main paper and supplement and the cited pinned source files were read.
+  No author code, data, training, MATLAB/C++ execution or benchmark replication was performed; external
+  solver internals and evaluation utilities were not audited.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T22:29:06Z'
+  updated_at: '2026-10-13T22:29:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
