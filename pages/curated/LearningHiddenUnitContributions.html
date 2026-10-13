@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning Hidden Unit Contributions · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Learning Hidden Unit Contributions</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Learning Hidden Unit Contributions</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LearningHiddenUnitContributions</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LHUC
+    </div>
+
+  <div class="detail-desc">
+    A neural acoustic-model adaptation method that learns speaker- or environment-specific multipliers on hidden-unit activations while keeping the pretrained network weights and biases fixed during test-time adaptation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 627 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 69, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 37 AIO and 87 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain test-time hidden-activation contribution adaptation. It differs from pool-shape parameter adaptation, input-dependent attention gates, low-rank weight updates and layer-wise learning-rate scaling. SAT-LHUC separately changes how the shared base and training-speaker transforms are learned. LHUC is a scoped method alias, not a trained speaker model.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hidden-activation-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each selected hidden unit, the adapted activation is h_j=xi(r_j)*psi(w_j^T*x+b_j). The adaptation parameters r are specific to a speaker or environment; the existing weights and biases remain fixed. Multipliers change the contribution of hidden units, including units after convolutional max pooling in the described configurations. Fixed network parameters do not imply fixed numerical activations in deeper layers when earlier activations are rescaled.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section III, PDF pp.2–3, Equation3 and Figure1; direct two-layer example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decoded-target-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The normal unsupervised adaptation workflow first decodes the target audio to obtain adaptation targets and then updates the amplitude parameters through backpropagation. Unsupervised denotes the absence of reference transcripts at this step, not label-free training of the base acoustic model. Reference-aligned oracle targets form a separate supervised comparison. The method does not require fitting all network weights to the target speaker.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections III–V, PDF pp.3–5; Section VI-D, p.8, Figure7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#parameterization-and-gradients</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source compares xi(r)=2*sigmoid(r), exp(r), max(0,r), and the identity. Only the sigmoid form is bounded between zero and two, and the identity permits negative multipliers. For a differentiable choice, the amplitude gradient is the incoming activation gradient times xi_prime(r) times the unscaled activation. Earlier-layer backpropagation is also multiplied by xi(r). The same definition therefore must not be restricted to one scaling range or confused with changing a learning-rate multiplier.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section III, PDF p.3, Equation3; Section IV, p.4, Equations7–9; Section VI-A, p.6, TableII; direct finite differences</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-capacity-and-training-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Adapting a fixed finite set of hidden-unit contributions cannot generally express an arbitrary target function; the universal-approximation discussion does not certify that capacity for an already trained finite network. The paper illustrates an unsuitable shared basis and introduces SAT-LHUC to learn a more adaptable base during training. SAT-LHUC is a separate training extension: its shared network weights are learned together with training-speaker and speaker-independent transforms, whereas ordinary test-time LHUC fixes the base weights.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections III–IV, PDF pp.2–4, Figures1–4; direct constant-basis counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#acoustic-scope-and-reuse</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates configured DNN/HMM and convolutional acoustic systems on TED, AMI, Switchboard and Aurora4, with corpus-specific features, language models and adaptation conditions. Its one-shot setting estimates a transform once and reuses it for a known speaker across meetings; one-shot does not mean exactly one example or one gradient step. The study includes sequence-trained base models adapted with a cross-entropy objective, but the observed results do not guarantee preservation of sequence information, harmless pseudo-label errors, or improvement for every speaker. Speaker clusters, headsets and conversation sides are not always identical to physical speaker identities.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections V–VII, PDF pp.5–11, TablesI–XIV and Figures5–11; one-shot definition p.9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The local identity covers LHUC adaptation, not all activation gates, generic scalar rescaling, speaker-dependent pooling-parameter adaptation, or SAT-LHUC training.</li>
+      <li>The primary source considers several multiplier functions. Positivity, boundedness and initialization must be tied to the selected parameterization; they are not universal properties of every listed variant.</li>
+      <li>A frozen base has limited adaptation capacity. Empirical resistance to overfitting and adaptation of sequence-trained models do not establish general guarantees.</li>
+      <li>All fourteen pages of arXiv1601.02828v2 were visually read, including fourteen tables and 84 references. No author code, speech data, training or empirical replication was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/KnowledgeTransfer.html" style="font-weight: 600;"><code>AIO:KnowledgeTransfer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Knowledge Transfer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LHUC transfers an existing learned acoustic representation to a target speaker or environment through restricted parameter fitting; the pinned strategy is related context, not an equivalent algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepTransferLearning.html" style="font-weight: 600;"><code>AIO:DeepTransferLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deep Transfer Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Adaptation of deep acoustic models is the method’s demonstrated context. The pinned class denotes a network category, so this is not an algorithm-to-network superclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-swietojanski2016lhuc">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">swietojanski2016lhuc</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1601.02828v2" target="_blank" rel="noopener">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pawel Swietojanski, Jinyu Li, Steve Renals
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1601.02828v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d9732801becd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T15:25:35Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T15:25:35Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LearningHiddenUnitContributions.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LearningHiddenUnitContributions.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

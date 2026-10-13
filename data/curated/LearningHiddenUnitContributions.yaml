@@ -1,0 +1,127 @@
+id: AIMech:LearningHiddenUnitContributions
+name: Learning Hidden Unit Contributions
+aliases:
+- LHUC
+concept_kind: algorithm
+definition: A neural acoustic-model adaptation method that learns speaker- or environment-specific multipliers
+  on hidden-unit activations while keeping the pretrained network weights and biases fixed during test-time
+  adaptation.
+identity_notes: Compared all 442 pinned AIO and 627 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 69, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 37 AIO and 87 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain
+  test-time hidden-activation contribution adaptation. It differs from pool-shape parameter adaptation,
+  input-dependent attention gates, low-rank weight updates and layer-wise learning-rate scaling. SAT-LHUC
+  separately changes how the shared base and training-speaker transforms are learned. LHUC is a scoped
+  method alias, not a trained speaker model.
+definition_evidence:
+- source_id: swietojanski2016lhuc
+  locator: Section III, PDF pp.2–3, Equation3; adaptation-target description, p.5
+  relation: supports
+claims:
+- claim_id: hidden-activation-scaling
+  kind: mechanism
+  statement: For each selected hidden unit, the adapted activation is h_j=xi(r_j)*psi(w_j^T*x+b_j). The
+    adaptation parameters r are specific to a speaker or environment; the existing weights and biases
+    remain fixed. Multipliers change the contribution of hidden units, including units after convolutional
+    max pooling in the described configurations. Fixed network parameters do not imply fixed numerical
+    activations in deeper layers when earlier activations are rescaled.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section III, PDF pp.2–3, Equation3 and Figure1; direct two-layer example
+    relation: supports
+- claim_id: decoded-target-adaptation
+  kind: mechanism
+  statement: The normal unsupervised adaptation workflow first decodes the target audio to obtain adaptation
+    targets and then updates the amplitude parameters through backpropagation. Unsupervised denotes the
+    absence of reference transcripts at this step, not label-free training of the base acoustic model.
+    Reference-aligned oracle targets form a separate supervised comparison. The method does not require
+    fitting all network weights to the target speaker.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Sections III–V, PDF pp.3–5; Section VI-D, p.8, Figure7
+    relation: supports
+- claim_id: parameterization-and-gradients
+  kind: mechanism
+  statement: The source compares xi(r)=2*sigmoid(r), exp(r), max(0,r), and the identity. Only the sigmoid
+    form is bounded between zero and two, and the identity permits negative multipliers. For a differentiable
+    choice, the amplitude gradient is the incoming activation gradient times xi_prime(r) times the unscaled
+    activation. Earlier-layer backpropagation is also multiplied by xi(r). The same definition therefore
+    must not be restricted to one scaling range or confused with changing a learning-rate multiplier.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section III, PDF p.3, Equation3; Section IV, p.4, Equations7–9; Section VI-A, p.6, TableII;
+      direct finite differences
+    relation: supports
+- claim_id: finite-capacity-and-training-boundary
+  kind: limitation
+  statement: 'Adapting a fixed finite set of hidden-unit contributions cannot generally express an arbitrary
+    target function; the universal-approximation discussion does not certify that capacity for an already
+    trained finite network. The paper illustrates an unsuitable shared basis and introduces SAT-LHUC to
+    learn a more adaptable base during training. SAT-LHUC is a separate training extension: its shared
+    network weights are learned together with training-speaker and speaker-independent transforms, whereas
+    ordinary test-time LHUC fixes the base weights.'
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Sections III–IV, PDF pp.2–4, Figures1–4; direct constant-basis counterexample
+    relation: supports
+- claim_id: acoustic-scope-and-reuse
+  kind: scope
+  statement: The paper evaluates configured DNN/HMM and convolutional acoustic systems on TED, AMI, Switchboard
+    and Aurora4, with corpus-specific features, language models and adaptation conditions. Its one-shot
+    setting estimates a transform once and reuses it for a known speaker across meetings; one-shot does
+    not mean exactly one example or one gradient step. The study includes sequence-trained base models
+    adapted with a cross-entropy objective, but the observed results do not guarantee preservation of
+    sequence information, harmless pseudo-label errors, or improvement for every speaker. Speaker clusters,
+    headsets and conversation sides are not always identical to physical speaker identities.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Sections V–VII, PDF pp.5–11, TablesI–XIV and Figures5–11; one-shot definition p.9
+    relation: supports
+evidence_sources:
+- source_id: swietojanski2016lhuc
+  title: Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation
+  authors:
+  - Pawel Swietojanski
+  - Jinyu Li
+  - Steve Renals
+  persistent_id: arXiv:1601.02828v2
+  version: arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534
+    agrees with primary metadata. All pages visually inspected, including Equations 1–10, Figures 1–11,
+    Tables I–XIV, footnotes, 84 references and biographies. Metadata says nine tables, but the inspected
+    PDF contains fourteen. Other versions and author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1601.02828v2
+  access_level: full_text
+  accessed_at: '2026-10-13T14:38:16Z'
+  sha256: d9732801becdcbfc57c96ac6f53e66869cdca819aa22a5aae941799dc63423b4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:KnowledgeTransfer
+  relation: related_match
+  rationale: LHUC transfers an existing learned acoustic representation to a target speaker or environment
+    through restricted parameter fitting; the pinned strategy is related context, not an equivalent algorithm.
+- target: AIO:DeepTransferLearning
+  relation: related_match
+  rationale: Adaptation of deep acoustic models is the method’s demonstrated context. The pinned class
+    denotes a network category, so this is not an algorithm-to-network superclass assertion.
+limitations:
+- The local identity covers LHUC adaptation, not all activation gates, generic scalar rescaling, speaker-dependent
+  pooling-parameter adaptation, or SAT-LHUC training.
+- The primary source considers several multiplier functions. Positivity, boundedness and initialization
+  must be tied to the selected parameterization; they are not universal properties of every listed variant.
+- A frozen base has limited adaptation capacity. Empirical resistance to overfitting and adaptation of
+  sequence-trained models do not establish general guarantees.
+- All fourteen pages of arXiv1601.02828v2 were visually read, including fourteen tables and 84 references.
+  No author code, speech data, training or empirical replication was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T15:25:35Z'
+  updated_at: '2026-10-13T15:25:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
