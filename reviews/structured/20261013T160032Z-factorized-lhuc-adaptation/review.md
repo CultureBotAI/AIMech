@@ -1,0 +1,524 @@
+# Scientific author self-review of Factorized LHUC Adaptation
+
+- Review: 20261013T160032Z-factorized-lhuc-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T15:51:59Z
+- Finished UTC: 2026-10-13T16:00:32Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Factorized LHUC Adaptation as a DRAFT native algorithm with explicit related AIO mappings. All maintained fields were assessed against full primary evidence and constructed amplitude checks. No actionable maintained-record defect identified; author self-review only.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:FactorizedLHUCAdaptation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f724104732de6a2adcb5df2c97e4d1629ec3c376.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:FactorizedLHUCAdaptation | data/curated/FactorizedLHUCAdaptation.yaml | maintained | Factorized LHUC Adaptation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:FactorizedLHUCAdaptation | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 156.15s (0:02:36)<br>Checked 442 record(s); 0 failed.<br>Checked 630 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 306 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 303,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:FactorizedLHUCAdaptation | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:FactorizedLHUCAdaptation | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:FactorizedLHUCAdaptation | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:FactorizedLHUCAdaptation | {"alpha_derivative": -3.0, "amplitude_interpolation": 2.5, "endpoints": [4.0, 1.0], "finite_difference": -2.9999999999974487, "inverse_representation_recovers_amplitude": 2.5, "latent_interpolation_then_exp": 2.0} |
+
+## Scientific And Domain Assessments
+
+### Factorized LHUC Adaptation
+
+identity: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the explicitly specified combination of separately estimated speaker and environment LHUC amplitudes. Ordinary LHUC, joint SAT-LHUC base training, pooling-parameter adaptation and LoRA differ in fitted parameters or training stages.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+The declared AIO mapping is supported.
+
+KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts, not algorithm superclasses or equivalent identities. Six full AIO node/edge/YAML contexts and four full native neighboring records were inspected; generic preprocessing and adaptive average-pooling scopes do not identify the combination procedure.
+
+### transformed-amplitude-interpolation
+
+evidence: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation 10 places alpha interpolation after xi. With exponential xi, the arithmetic amplitude mixture differs from exponentiating a latent mixture. Constructed endpoints, inverse representation and finite differences verify the distinction.
+
+### separate-estimation-protocol
+
+evidence: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+The inspected Aurora4 protocol estimates speaker transforms on clean speech and seven environment transforms across multiple speakers while excluding the target speaker. Unsupervised decoded targets do not remove the known-environment assumption.
+
+### known-environment-selection
+
+evidence: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source explicitly assumes a known test environment to choose its transform. Automatic environment identification and unseen-environment guarantees are not part of this procedure.
+
+### joint-versus-factorized-estimation
+
+evidence: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Joint speaker/environment estimation requires matching adaptation data. Interpolating separate amplitudes is a different procedure with different data requirements and does not guarantee a joint optimum or equality with latent vector addition.
+
+### finite-evaluation-boundary
+
+evidence: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Table XIII reports factorized AVG word-error rates 12.9% at alpha=0.5 and 12.7% at alpha=0.7, versus DNN 13.9%, speaker 13.1%, environment 13.3% and joint 12.4%. The structured evaluation identifies Aurora4 eval92 and the DNN row, distinct data conditions and absent reported uncertainty. It does not imply a universal alpha or per-condition superiority claim.
+
+### transformed-amplitude interpolation, known-environment selection and distinct joint-data requirements
+
+consistency: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Constructed calculations support the stated distinctions.
+
+An exponential-multiplier example distinguishes arithmetic amplitude interpolation from exponentiating interpolated latent parameters. Endpoint and direct amplitude checks assess the stated combination only; they do not reproduce acoustic adaptation or establish an optimal alpha.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:FactorizedLHUCAdaptation.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed every maintained field and claim-specific source locator, including the structured task/dataset/model/metric/result/baseline/conditions/uncertainty context for the performance claim. Challenged amplitude versus latent interpolation, inverse representability, known-environment selection, target-speaker exclusion, distinct joint-data requirements and finite evaluation scope.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T155157Z-factorized-lhuc-adaptation.json | supports | Compared all 442 pinned AIO and 629 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 65, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 37 AIO and 89 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain the explicitly described factorized speaker/environment LHUC combination procedure. It estimates two different transform families and interpolates their amplitudes for a known environment. This is neither ordinary single-target LHUC nor SAT-LHUC joint base training, pooling-parameter adaptation or additive low-rank weight adaptation. |
+| mapping | sources/aio/aio.json | supports | KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts, not algorithm superclasses or equivalent identities. Six full AIO node/edge/YAML contexts and four full native neighboring records were inspected; generic preprocessing and adaptive average-pooling scopes do not identify the combination procedure. |
+| swietojanski2016lhuc | https://arxiv.org/pdf/1601.02828v2; Complete fourteen-page arXiv 1601.02828v2 visually inspected, including fourteen tables, eleven figures, 84 references and biographies. Other versions, author software and acoustic replication excluded. FiLM and IA3/T-Few are separate future-lead readings. | supports | arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534 agrees with primary metadata. All pages visually inspected, including Equations 1–10, Figures 1–11, Tables I–XIV, footnotes, 84 references and biographies. Metadata says nine tables, but the inspected PDF contains fourteen. Other versions and author implementation not inspected. |
+| calculation | research/discovery/factorized-lhuc-boundaries.py | supports | An exponential-multiplier example distinguishes arithmetic amplitude interpolation from exponentiating interpolated latent parameters. Endpoint and direct amplitude checks assess the stated combination only; they do not reproduce acoustic adaptation or establish an optimal alpha. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 630 native and 442 unchanged generated records. The 815-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Complete14-pageversionedprimarypaper visually inspected; equations,figures,tables,footnotes,referencesandbiographies included. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T160032Z-factorized-lhuc-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Factorized LHUC Adaptation
+started_at: '2026-10-13T15:51:59Z'
+finished_at: '2026-10-13T16:00:32Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged transformed-amplitude interpolation, known-environment
+    selection and distinct joint-data requirements. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Factorized LHUC Adaptation as a DRAFT native algorithm with explicit
+  related AIO mappings. All maintained fields were assessed against full primary evidence
+  and constructed amplitude checks. No actionable maintained-record defect identified;
+  author self-review only.
+source:
+  git_revision: f724104732de6a2adcb5df2c97e4d1629ec3c376
+  state: working_tree
+  inputs:
+  - path: data/aio/AdaptiveAvgPool1DLayer.yaml
+    sha256: cc1c60e6772048410efe406b9dca4783d5c241eb337fe32bf8b5f4106975a3bc
+    role: context
+  - path: data/aio/DeepTransferLearning.yaml
+    sha256: 642bd64f7e13092ffc855f2d44afa5822aa2714996a000f21e092b697725dc08
+    role: context
+  - path: data/aio/KnowledgeTransfer.yaml
+    sha256: d9c3efd84c05da8efb7b8eb46e15d64a1ea18fd0816c96cba9bcad85619c57bb
+    role: context
+  - path: data/aio/RescalingLayer.yaml
+    sha256: d819303cefc3a220baf09d788a6d39505e53d21b63242e5874b7abd5084ea6d8
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/curated/FactorizedLHUCAdaptation.yaml
+    sha256: a0952c77a47f9f3d69a14c48d1946280ceaf9dc5ba1888a00b1b8020b9e55f5d
+    role: target
+  - path: data/curated/LearningHiddenUnitContributions.yaml
+    sha256: 6b1934004475e048e761316d27b4629080fec2e719154bca49dd7ab001f29f94
+    role: context
+  - path: data/curated/LoRA.yaml
+    sha256: 8642959e7dd4ca6630720e78771b6e7b825336c967f0663f125c1a23aee7ae49
+    role: context
+  - path: data/curated/SpeakerAdaptiveTrainingLHUC.yaml
+    sha256: 30eb1c1465d6d398a0989692b423ec4ed48a5341fec834f663923ba357fe8b27
+    role: context
+  - path: data/curated/SpeakerDependentPoolingAdaptation.yaml
+    sha256: 615e72953bfc57eadfa3268b782766f4c355ab8fbbe76af3e17fbc1b4a0585f2
+    role: context
+  - path: research/discovery/20261013T155157Z-factorized-lhuc-adaptation.json
+    sha256: d9e392766e1bebfaddf7b8081d37a55766521af1962216a58ce56eff65e9acc4
+    role: context
+  - path: research/discovery/factorized-lhuc-boundaries.py
+    sha256: db29006d314d862beb69fd513ab668ffa3bc29e30d3ed14d2c4ef763699914e2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:FactorizedLHUCAdaptation
+  path: data/curated/FactorizedLHUCAdaptation.yaml
+  label: Factorized LHUC Adaptation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FactorizedLHUCAdaptation.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:FactorizedLHUCAdaptation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete fourteen-page arXiv 1601.02828v2 visually inspected, including
+      fourteen tables, eleven figures, 84 references and biographies. Other versions,
+      author software and acoustic replication excluded. FiLM and IA3/T-Few are separate
+      future-lead readings.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 156.15s (0:02:36)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 630 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 306 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 303,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/factorized-lhuc-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"alpha_derivative": -3.0, "amplitude_interpolation": 2.5, "endpoints":
+    [4.0, 1.0], "finite_difference": -2.9999999999974487, "inverse_representation_recovers_amplitude":
+    2.5, "latent_interpolation_then_exp": 2.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T155157Z-factorized-lhuc-adaptation.json
+  accessed_at: '2026-10-13T15:51:59Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 629 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    65, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 37 AIO and 89 native definitions, with every matched definition read.
+    6 full annotated AIO node/edge/generated contexts and 4 full native records were
+    inspected. Retain the explicitly described factorized speaker/environment LHUC
+    combination procedure. It estimates two different transform families and interpolates
+    their amplitudes for a known environment. This is neither ordinary single-target
+    LHUC nor SAT-LHUC joint base training, pooling-parameter adaptation or additive
+    low-rank weight adaptation.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T15:51:59Z'
+  support: supports
+  summary: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts, not algorithm superclasses or equivalent identities. Six full AIO node/edge/YAML
+    contexts and four full native neighboring records were inspected; generic preprocessing
+    and adaptive average-pooling scopes do not identify the combination procedure.
+- evidence_id: swietojanski2016lhuc
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1601.02828v2
+  locator: Complete fourteen-page arXiv 1601.02828v2 visually inspected, including
+    fourteen tables, eleven figures, 84 references and biographies. Other versions,
+    author software and acoustic replication excluded. FiLM and IA3/T-Few are separate
+    future-lead readings.
+  accessed_at: '2026-10-13T14:38:16Z'
+  snapshot_sha256: d9732801becdcbfc57c96ac6f53e66869cdca819aa22a5aae941799dc63423b4
+  support: supports
+  summary: arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534
+    agrees with primary metadata. All pages visually inspected, including Equations
+    1–10, Figures 1–11, Tables I–XIV, footnotes, 84 references and biographies. Metadata
+    says nine tables, but the inspected PDF contains fourteen. Other versions and
+    author implementation not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/factorized-lhuc-boundaries.py
+  accessed_at: '2026-10-13T15:56:05Z'
+  snapshot_sha256: db29006d314d862beb69fd513ab668ffa3bc29e30d3ed14d2c4ef763699914e2
+  support: supports
+  summary: An exponential-multiplier example distinguishes arithmetic amplitude interpolation
+    from exponentiating interpolated latent parameters. Endpoint and direct amplitude
+    checks assess the stated combination only; they do not reproduce acoustic adaptation
+    or establish an optimal alpha.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Factorized LHUC Adaptation
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - identity
+  - swietojanski2016lhuc
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the explicitly specified combination of separately estimated speaker
+    and environment LHUC amplitudes. Ordinary LHUC, joint SAT-LHUC base training,
+    pooling-parameter adaptation and LoRA differ in fitted parameters or training
+    stages.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - mapping
+  - swietojanski2016lhuc
+  summary: The declared AIO mapping is supported.
+  details: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts, not algorithm superclasses or equivalent identities. Six full AIO node/edge/YAML
+    contexts and four full native neighboring records were inspected; generic preprocessing
+    and adaptive average-pooling scopes do not identify the combination procedure.
+- assessment_id: transformed-amplitude-interpolation
+  area: evidence
+  topic: transformed-amplitude-interpolation
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation 10 places alpha interpolation after xi. With exponential xi, the
+    arithmetic amplitude mixture differs from exponentiating a latent mixture. Constructed
+    endpoints, inverse representation and finite differences verify the distinction.
+- assessment_id: separate-estimation-protocol
+  area: evidence
+  topic: separate-estimation-protocol
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The inspected Aurora4 protocol estimates speaker transforms on clean speech
+    and seven environment transforms across multiple speakers while excluding the
+    target speaker. Unsupervised decoded targets do not remove the known-environment
+    assumption.
+- assessment_id: known-environment-selection
+  area: evidence
+  topic: known-environment-selection
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source explicitly assumes a known test environment to choose its transform.
+    Automatic environment identification and unseen-environment guarantees are not
+    part of this procedure.
+- assessment_id: joint-versus-factorized-estimation
+  area: evidence
+  topic: joint-versus-factorized-estimation
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Joint speaker/environment estimation requires matching adaptation data.
+    Interpolating separate amplitudes is a different procedure with different data
+    requirements and does not guarantee a joint optimum or equality with latent vector
+    addition.
+- assessment_id: finite-evaluation-boundary
+  area: evidence
+  topic: finite-evaluation-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Table XIII reports factorized AVG word-error rates 12.9% at alpha=0.5 and
+    12.7% at alpha=0.7, versus DNN 13.9%, speaker 13.1%, environment 13.3% and joint
+    12.4%. The structured evaluation identifies Aurora4 eval92 and the DNN row, distinct
+    data conditions and absent reported uncertainty. It does not imply a universal
+    alpha or per-condition superiority claim.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: transformed-amplitude interpolation, known-environment selection and distinct
+    joint-data requirements
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: An exponential-multiplier example distinguishes arithmetic amplitude interpolation
+    from exponentiating interpolated latent parameters. Endpoint and direct amplitude
+    checks assess the stated combination only; they do not reproduce acoustic adaptation
+    or establish an optimal alpha.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:FactorizedLHUCAdaptation
+  evidence_ids:
+  - identity
+  - mapping
+  - swietojanski2016lhuc
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed every maintained field and claim-specific
+    source locator, including the structured task/dataset/model/metric/result/baseline/conditions/uncertainty
+    context for the performance claim. Challenged amplitude versus latent interpolation,
+    inverse representability, known-environment selection, target-speaker exclusion,
+    distinct joint-data requirements and finite evaluation scope.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 630 native and 442 unchanged generated records.
+  The 815-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Complete14-pageversionedprimarypaper visually inspected; equations,figures,tables,footnotes,referencesandbiographies
+  included. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
