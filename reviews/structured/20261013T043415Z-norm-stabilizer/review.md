@@ -1,0 +1,551 @@
+# Scientific author self-review of norm-stabilizer
+
+- Review: 20261013T043415Z-norm-stabilizer
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T04:27:00Z
+- Finished UTC: 2026-10-13T04:34:15Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain norm-stabilizer as a distinct DRAFT algorithm related to recurrent networks and TrainingStrategy. All six claims and fields have support with explicit norm-difference, initial-state, scaling, derivative and conditional stability boundaries. No actionable record defect found; no training or author-code execution occurred.
+
+## Scope And Provenance
+
+All fields of the maintained norm-stabilizer and the complete primary v7 paper, including its figures, tables and references.
+
+Selection: Exact maintained ID: AIMech:NormStabilizer
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a0fbc009719ec5a7dee056f61ee4473b46139e88.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NormStabilizer | data/curated/NormStabilizer.yaml | maintained | Norm-stabilizer |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NormStabilizer | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 205.69s (0:03:25)<br>Checked 442 record(s); 0 failed.<br>Checked 571 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 225 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 225,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NormStabilizer | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:NormStabilizer | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:NormStabilizer | Exited 0 without output. |
+| Constructed activation norm penalty boundaries | passed | True | AIMech:NormStabilizer | {"turning_state_penalty": 0.0, "turning_state_coherence": 2.0, "constant_large_norm_penalty": 0.0, "zero_initial_boundary_penalty": 5000.0, "original_penalty": 25.0, "scaled_penalty": 0.25, "drift_penalty": 0.0001, "final_drift_norm": 10.0, "unconstrained_orthogonal_gain": 10.0, "interior_direct_gradient": [2.4, 3.2], "numerical_direct_gradient": [2.3999999978485675, 3.200000000092018]} |
+
+## Scientific And Domain Assessments
+
+### Successive activation-norm penalty
+
+identity: supported. Targets: AIMech:NormStabilizer.
+
+Retain the existing candidate as a distinct DRAFT algorithm.
+
+The full primary method supports a successive norm-difference cost. Ignored-inclusive searches returned only pending candidate and source/query references; all unique matching contents were read. No normalized maintained identity matched. Gradient clipping, backward-error norm regularization, state masks and predictor-selection algorithms differ in mechanism.
+
+### Architecture and qualified training context
+
+grounding: supported. Targets: AIMech:NormStabilizer.
+
+Both related mappings are supported.
+
+The penalty applies to recurrent state sequences and contributes a training cost. The record does not identify a regularization algorithm with the recurrent architecture or the pinned TrainingStrategy preprocessing genus; related_match expresses context. Layer abstractions were rejected as superclasses.
+
+### successive-norm-cost
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+The displayed penalty on page1 has beta/T and a sum over successive Euclidean norm differences squared. The record preserves h0 and averaging rather than silently substituting full-vector differences, direct division or hard clipping.
+
+### direction-and-radius-boundaries
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+Constant norm paths can rotate with zero penalty. A constant large radius has zero cost only when the included initial state shares it; a zero h0 changes the boundary term. Averaged small increments can accumulate. Constructed paths confirm these consequences without a universal radius/stability claim.
+
+### scaling-and-derivative-boundaries
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+Absolute squared norm differences scale by c squared. Page3 explicitly motivates a relative alternative by scale behavior. Differentiation for a nonzero interior state gives the stated local radial derivative; finite differences agree. The record separates that direct derivative from full recurrent dependencies and leaves zero-norm conventions unspecified.
+
+### boundary-from-gradient-and-orthogonal-methods
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+The source compares activation norms with the Pascanu backward-error-direction penalty. An input-free linear map preserving every vector norm must be orthogonal, but one trajectory is insufficient. A diagonal counterexample demonstrates the record qualification. Clipping, normalization and this empirical soft penalty are distinct.
+
+### state-selection-and-architecture
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+Section2.1 distinguishes LSTM hidden versus memory-cell vectors and removes output tanh for the PTB hidden-state tests. Section2.2 keeps the standard output tanh for TIMIT. The record retains those differences rather than declaring one universal architecture.
+
+### stability-and-evaluation-limits
+
+evidence: supported. Targets: AIMech:NormStabilizer.
+
+Supported with stated method and mathematical boundaries.
+
+The later visualization discussion and Figure5 say explosions were delayed rather than eradicated. Tanh-RNN and some combined weight-noise settings were unfavorable. These primary-source limitations qualify stronger introductory language. No numerical benchmark or universal convergence/generalization claim is imported.
+
+### Direction, initial state, scaling, drift and derivative
+
+consistency: supported. Targets: AIMech:NormStabilizer.
+
+Constructed examples confirm the distinctions.
+
+A turning unit-radius path has zero norm penalty but nonzero state-difference cost; a large constant radius costs zero only with the matching initial state. Scaling a path by .1 reduces cost from25 to.25. Small repeated increments allow a final norm10 at mean squared increment .0001. The interior derivative [2.4,3.2] matches finite differences. These are algebra, not recurrent training.
+
+### Complete maintained record and source scope
+
+provenance: supported. Targets: AIMech:NormStabilizer.
+
+All maintained fields were inspected; DRAFT remains.
+
+Read ID/name/aliases, architecture-independent algorithm kind, definition/citations, identity context, six claims/locators, source identity/version/access/hash, AIO pin, both mappings, six limitations and curation times. Source/context/capture hashes and report mirror agree. All nine source pages were visually read, with no author code or empirical execution. No actionable defect found.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T042645Z-norm-stabilizer.json | supports | Compared all 442 pinned AIO and 570 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 131, 91, 90 lines. The repeated historical main-frontier candidate Norm-stabilizer regularization and source references were identified as an existing uncurated lead, not an existing maintained record. Matching contents were deduplicated for inspection; current added query/lead occurrences were read separately. Semantic search covered 21 AIO rows and 111 native definitions, verifying the preceding 21 AIO and108 native rows unchanged and reading the new regularizer and two orthogonal-regression definitions. Orthogonal least-squares feature selection and matching pursuit concern selected predictor spans, not recurrent-state norms. Five full annotated AIO node/edge/generated contexts were read or hash-verified from prior inspection; the complete native Zoneout, vanishing-gradient regularizer and gradient norm clipping records provide adjacent identities. This activation-norm penalty differs from stochastic state retention, backward-error directional norm gain, gradient clipping, direct normalization, and temporal coherence based on full state-vector differences. RNN/TrainingStrategy are contextual related matches; layer classes are not asserted as algorithm superclasses. |
+| mapping | sources/aio/aio.json | supports | Twenty-one AIO and111 native semantic rows were read or verified unchanged. Five full annotated AIO node/edge/generated contexts and three full native records provide identity context. RNN and TrainingStrategy YAML reread after capture. Architecture and qualified training context support related mappings; activity/regularization layers do not establish algorithm superclass membership. |
+| krueger2016 | https://arxiv.org/pdf/1511.08400v7; Complete nine-page v7 paper visually read; defining penalty p1, alternatives p3 and Figure5 p6 reread after capture. | supports | April26,2016 v7; published-as-ICLR2016 header. All nine printed/PDF pages, including complete method, six figures, five tables and references, visually inspected. |
+| calculation | research/discovery/norm-stabilizer-boundaries.py | supports | Constructed paths distinguish norm change from full-state coherence, initial-state effects, scale dependence, cumulative drift and lack of an all-vector orthogonality constraint. A finite-difference check verifies the direct interior-state derivative away from zero. These are algebraic calculations, not recurrent training. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- One new DRAFT concept, yielding 571 native and 442 unchanged generated records. The 756-entry main frontier retains 482 pending and 57 partly addressed cohorts; discovery is incomplete.
+- Reported improvements and long-horizon behavior are conditional. The source also documents delayed rather than eliminated explosions and unfavorable regularizer combinations; no universal guarantee or independent approval is claimed.
+- All nine main printed/PDF pages, including the complete method, figures/tables and references, were visually read. No author code, dependency audit, training or empirical replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T043415Z-norm-stabilizer
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of norm-stabilizer
+started_at: '2026-10-13T04:27:00Z'
+finished_at: '2026-10-13T04:34:15Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity/mapping, norm versus vector differences,
+    initial-state and scaling behavior, direct derivatives, architecture choices and
+    conditional stability evidence. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain norm-stabilizer as a distinct DRAFT algorithm related to recurrent
+  networks and TrainingStrategy. All six claims and fields have support with explicit
+  norm-difference, initial-state, scaling, derivative and conditional stability boundaries.
+  No actionable record defect found; no training or author-code execution occurred.
+source:
+  git_revision: a0fbc009719ec5a7dee056f61ee4473b46139e88
+  state: working_tree
+  inputs:
+  - path: data/aio/ActivityRegularizationLayer.yaml
+    sha256: cfa728f34098132a63278a471d0e1632f34c9dbc60167f22936e8cd3059725c8
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/GradientNormClipping.yaml
+    sha256: f17c409240f4de8a4fc3a19847cb9eadd18bfc99113bfa2f39d976f01603654a
+    role: context
+  - path: data/curated/NormStabilizer.yaml
+    sha256: 534daa42c9584cefc836a8e5299b1b61e3e57957f153c3f5a0cd9d4c46202ecb
+    role: target
+  - path: data/curated/VanishingGradientRegularization.yaml
+    sha256: 3e02350f45248dfff36a96270f643522f75aabbaf5160e1aa834ce90a0afdd34
+    role: context
+  - path: data/curated/Zoneout.yaml
+    sha256: 25f1c0e8bfaa491a871c780730358be99aa37f44933aefc466b1ca0024563ae6
+    role: context
+  - path: research/discovery/20261013T042645Z-norm-stabilizer.json
+    sha256: 158e3e1f678aca23517371876870eb72582300d82d9b3e810319eb64a9b4a1ec
+    role: context
+  - path: research/discovery/norm-stabilizer-boundaries.py
+    sha256: f743afaa54e8d4928b08faf1d929032448977ee87fc59d839266a18f6ed267da
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NormStabilizer
+  path: data/curated/NormStabilizer.yaml
+  label: Norm-stabilizer
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NormStabilizer.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained norm-stabilizer and the complete primary
+    v7 paper, including its figures, tables and references.
+  selection: 'Exact maintained ID: AIMech:NormStabilizer'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NormStabilizer
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Author code and framework runtime
+    reason: The complete nine-page paper was read; no implementation or runtime audit
+      was conducted.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NormStabilizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 205.69s (0:03:25)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 571 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 225 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 225,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NormStabilizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NormStabilizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NormStabilizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed activation norm penalty boundaries
+  command: python3 research/discovery/norm-stabilizer-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NormStabilizer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"turning_state_penalty": 0.0, "turning_state_coherence": 2.0, "constant_large_norm_penalty":
+    0.0, "zero_initial_boundary_penalty": 5000.0, "original_penalty": 25.0, "scaled_penalty":
+    0.25, "drift_penalty": 0.0001, "final_drift_norm": 10.0, "unconstrained_orthogonal_gain":
+    10.0, "interior_direct_gradient": [2.4, 3.2], "numerical_direct_gradient": [2.3999999978485675,
+    3.200000000092018]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T042645Z-norm-stabilizer.json
+  accessed_at: '2026-10-13T04:27:00Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 570 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    131, 91, 90 lines. The repeated historical main-frontier candidate Norm-stabilizer
+    regularization and source references were identified as an existing uncurated
+    lead, not an existing maintained record. Matching contents were deduplicated for
+    inspection; current added query/lead occurrences were read separately. Semantic
+    search covered 21 AIO rows and 111 native definitions, verifying the preceding
+    21 AIO and108 native rows unchanged and reading the new regularizer and two orthogonal-regression
+    definitions. Orthogonal least-squares feature selection and matching pursuit concern
+    selected predictor spans, not recurrent-state norms. Five full annotated AIO node/edge/generated
+    contexts were read or hash-verified from prior inspection; the complete native
+    Zoneout, vanishing-gradient regularizer and gradient norm clipping records provide
+    adjacent identities. This activation-norm penalty differs from stochastic state
+    retention, backward-error directional norm gain, gradient clipping, direct normalization,
+    and temporal coherence based on full state-vector differences. RNN/TrainingStrategy
+    are contextual related matches; layer classes are not asserted as algorithm superclasses.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T04:27:00Z'
+  support: supports
+  summary: Twenty-one AIO and111 native semantic rows were read or verified unchanged.
+    Five full annotated AIO node/edge/generated contexts and three full native records
+    provide identity context. RNN and TrainingStrategy YAML reread after capture.
+    Architecture and qualified training context support related mappings; activity/regularization
+    layers do not establish algorithm superclass membership.
+- evidence_id: krueger2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1511.08400v7
+  locator: Complete nine-page v7 paper visually read; defining penalty p1, alternatives
+    p3 and Figure5 p6 reread after capture.
+  accessed_at: '2026-10-13T04:03:33Z'
+  snapshot_sha256: 17516c840f5bf1442acbfdd0910a9873da947a9b0529204e7ae6477d5b13e041
+  support: supports
+  summary: April26,2016 v7; published-as-ICLR2016 header. All nine printed/PDF pages,
+    including complete method, six figures, five tables and references, visually inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/norm-stabilizer-boundaries.py
+  accessed_at: '2026-10-13T04:27:39Z'
+  snapshot_sha256: f743afaa54e8d4928b08faf1d929032448977ee87fc59d839266a18f6ed267da
+  support: supports
+  summary: Constructed paths distinguish norm change from full-state coherence, initial-state
+    effects, scale dependence, cumulative drift and lack of an all-vector orthogonality
+    constraint. A finite-difference check verifies the direct interior-state derivative
+    away from zero. These are algebraic calculations, not recurrent training.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Successive activation-norm penalty
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - identity
+  - krueger2016
+  - calculation
+  summary: Retain the existing candidate as a distinct DRAFT algorithm.
+  details: The full primary method supports a successive norm-difference cost. Ignored-inclusive
+    searches returned only pending candidate and source/query references; all unique
+    matching contents were read. No normalized maintained identity matched. Gradient
+    clipping, backward-error norm regularization, state masks and predictor-selection
+    algorithms differ in mechanism.
+- assessment_id: mapping
+  area: grounding
+  topic: Architecture and qualified training context
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - mapping
+  - krueger2016
+  summary: Both related mappings are supported.
+  details: The penalty applies to recurrent state sequences and contributes a training
+    cost. The record does not identify a regularization algorithm with the recurrent
+    architecture or the pinned TrainingStrategy preprocessing genus; related_match
+    expresses context. Layer abstractions were rejected as superclasses.
+- assessment_id: successive-norm-cost
+  area: evidence
+  topic: successive-norm-cost
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: The displayed penalty on page1 has beta/T and a sum over successive Euclidean
+    norm differences squared. The record preserves h0 and averaging rather than silently
+    substituting full-vector differences, direct division or hard clipping.
+- assessment_id: direction-and-radius-boundaries
+  area: evidence
+  topic: direction-and-radius-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: Constant norm paths can rotate with zero penalty. A constant large radius
+    has zero cost only when the included initial state shares it; a zero h0 changes
+    the boundary term. Averaged small increments can accumulate. Constructed paths
+    confirm these consequences without a universal radius/stability claim.
+- assessment_id: scaling-and-derivative-boundaries
+  area: evidence
+  topic: scaling-and-derivative-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: Absolute squared norm differences scale by c squared. Page3 explicitly
+    motivates a relative alternative by scale behavior. Differentiation for a nonzero
+    interior state gives the stated local radial derivative; finite differences agree.
+    The record separates that direct derivative from full recurrent dependencies and
+    leaves zero-norm conventions unspecified.
+- assessment_id: boundary-from-gradient-and-orthogonal-methods
+  area: evidence
+  topic: boundary-from-gradient-and-orthogonal-methods
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: The source compares activation norms with the Pascanu backward-error-direction
+    penalty. An input-free linear map preserving every vector norm must be orthogonal,
+    but one trajectory is insufficient. A diagonal counterexample demonstrates the
+    record qualification. Clipping, normalization and this empirical soft penalty
+    are distinct.
+- assessment_id: state-selection-and-architecture
+  area: evidence
+  topic: state-selection-and-architecture
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: Section2.1 distinguishes LSTM hidden versus memory-cell vectors and removes
+    output tanh for the PTB hidden-state tests. Section2.2 keeps the standard output
+    tanh for TIMIT. The record retains those differences rather than declaring one
+    universal architecture.
+- assessment_id: stability-and-evaluation-limits
+  area: evidence
+  topic: stability-and-evaluation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Supported with stated method and mathematical boundaries.
+  details: The later visualization discussion and Figure5 say explosions were delayed
+    rather than eradicated. Tanh-RNN and some combined weight-noise settings were
+    unfavorable. These primary-source limitations qualify stronger introductory language.
+    No numerical benchmark or universal convergence/generalization claim is imported.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Direction, initial state, scaling, drift and derivative
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - krueger2016
+  - calculation
+  summary: Constructed examples confirm the distinctions.
+  details: A turning unit-radius path has zero norm penalty but nonzero state-difference
+    cost; a large constant radius costs zero only with the matching initial state.
+    Scaling a path by .1 reduces cost from25 to.25. Small repeated increments allow
+    a final norm10 at mean squared increment .0001. The interior derivative [2.4,3.2]
+    matches finite differences. These are algebra, not recurrent training.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and source scope
+  outcome: supported
+  target_ids:
+  - AIMech:NormStabilizer
+  evidence_ids:
+  - identity
+  - mapping
+  - krueger2016
+  - calculation
+  summary: All maintained fields were inspected; DRAFT remains.
+  details: Read ID/name/aliases, architecture-independent algorithm kind, definition/citations,
+    identity context, six claims/locators, source identity/version/access/hash, AIO
+    pin, both mappings, six limitations and curation times. Source/context/capture
+    hashes and report mirror agree. All nine source pages were visually read, with
+    no author code or empirical execution. No actionable defect found.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- One new DRAFT concept, yielding 571 native and 442 unchanged generated records.
+  The 756-entry main frontier retains 482 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- Reported improvements and long-horizon behavior are conditional. The source also
+  documents delayed rather than eliminated explosions and unfavorable regularizer
+  combinations; no universal guarantee or independent approval is claimed.
+- All nine main printed/PDF pages, including the complete method, figures/tables and
+  references, were visually read. No author code, dependency audit, training or empirical
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- activation-regularization
+- self-review
+- discovery-ongoing
+```
