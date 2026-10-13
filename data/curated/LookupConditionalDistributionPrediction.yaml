@@ -1,0 +1,128 @@
+id: AIMech:LookupConditionalDistributionPrediction
+name: Lookup Conditional Distribution Prediction
+aliases:
+- Lookup CDP
+concept_kind: algorithm
+definition: A computational variant of conditional distribution prediction that precomputes or memoizes
+  fixed-model subtree expansion-count estimates for type and remaining-cost contexts, then reuses those
+  estimates when predicting a complete IDA* iteration from a shallow search frontier.
+identity_notes: Compared all 442 pinned AIO and 640 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 27, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 66 AIO and 346 native definitions, with every matched definition
+  read. 9 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  the named lookup-based computational variant of CDP. It precomputes or memoizes fixed-model subtree-count
+  predictions for reuse, whereas epsilon-truncation modifies model probabilities and IDA*IM integrates
+  online prediction into threshold-controlled search. It is not a solution path cache, transposition table
+  or claim that all search trees sharing a compressed type have identical sizes.
+definition_evidence:
+- source_id: lelis2013prediction
+  locator: Section 7, PDF pp. 16–17 / printed pp. 67–68
+  relation: supports
+claims:
+- claim_id: cached-subproblem-predictions
+  kind: mechanism
+  statement: The method stores predicted subtree counts for type and remaining-bound subproblems. In the
+    source’s unit-cost formulation, smaller remaining bounds are computed before larger bounds using dynamic
+    programming. When requested bounds are not known beforehand, results can instead be cached as queries
+    arrive. Values are predictions from a specified CDP model, not necessarily exact subtree sizes for
+    all concrete states with the same type.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Section 7, PDF pp. 16–17 / printed pp. 67–68
+    relation: supports
+- claim_id: shallow-frontier-accounting
+  kind: mechanism
+  statement: For a query start and bound d, explicitly search a shallow region to radius r, collect its
+    surviving frontier and sum the cached predictions at remaining bound d−r for those frontier types.
+    Add the expanded nodes strictly before that frontier. Pruning, root inclusion and the count convention
+    must agree between the prefix search and cached recurrence; counting a frontier node in both terms
+    duplicates it. The prefix search remains part of prediction work.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Section 2 and Section 7, PDF pp. 5 and 16–17 / printed pp. 56 and 67–68
+    relation: supports
+- claim_id: fixed-model-equivalence
+  kind: scope
+  statement: With the same transition and branching tables, type contexts, threshold pruning and initialization,
+    lookup evaluation reorganizes the CDP recurrence and preserves its mathematical prediction. This equivalence
+    does not improve CDP’s statistical accuracy, eliminate aggregation error or make predictions equal
+    to true counts for every start. Floating-point evaluation order can also affect implementation-level
+    numerical equality.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Sections 2–4, PDF pp. 4–7 / printed pp. 55–58; Section 7.1, PDF p. 17 / printed p. 68
+    relation: supports
+- claim_id: cache-context-boundary
+  kind: limitation
+  statement: A reusable cache must identify every model feature that changes a subproblem result. If epsilon-truncation
+    varies with absolute prediction level, the level or an equivalent fixed schedule context is needed
+    in addition to type and remaining bound unless that context is uniquely recoverable. Cached values
+    must also remain tied to the same transition estimates and pruning conventions. The paper’s type/bound
+    description is not a guarantee that a cache remains valid across changed models or differently indexed
+    schedules.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Section 5.2, PDF pp. 10–11 / printed pp. 61–62; Section 7, PDF pp. 16–17 / printed pp. 67–68
+    relation: supports
+- claim_id: runtime-and-evaluation-boundaries
+  kind: limitation
+  statement: The source contrasts a dense CDP query cost of O(|T|²(d−r)+Q_r) with O(Q_r) lookup prediction
+    after preprocessing, where Q_r is the shallow-prefix work and lookups are treated as constant time.
+    Table size depends on the represented types and bounds, and additional contexts can enlarge it. Finite
+    puzzle experiments show large gains in some shallow-prefix regimes and much smaller gains when prefix
+    search dominates. Sampling and cache construction must be counted or amortized; the method does not
+    guarantee a faster first query or universal speedup.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Sections 7–7.1, PDF pp. 16–18 / printed pp. 67–69, Table 12; Sections 10–11, PDF pp. 20–23
+      / printed pp. 71–74
+    relation: supports
+evidence_sources:
+- source_id: lelis2013prediction
+  title: Predicting the size of IDA*’s search tree
+  authors:
+  - Levi H. S. Lelis
+  - Sandra Zilles
+  - Robert C. Holte
+  persistent_id: doi:10.1016/j.artint.2013.01.001
+  version: 'Author-hosted personal-copy PDF: one cover plus 24 journal pages, Artificial Intelligence
+    196 (2013), pages 53–76. PDF pages 2–25 correspond to printed pages 53–76. All 25 pages visually inspected:
+    Sections 1–13, Equations 1–6 and unnumbered formulas, Definitions 1–5, Algorithm 1, Figures 1–8, Tables
+    1–17 and all 28 references. Earlier conference papers and author code were not inspected.'
+  source_type: primary_paper
+  url: https://webdocs.cs.ualberta.ca/~santanad/papers/2013/ARTINT2694.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:23:34Z'
+  sha256: ee16910b3529eab60bc1527773d4d91d77d81778a153d33f7a8d6e80c09f6fba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The reused CDP recurrence contains conditional transition laws on type contexts. This is
+    a curator-inferred component relationship, not an assertion that count propagation with branching
+    and pruning is a probability-preserving Markov chain. Lookup reuse neither guarantees Markov sufficiency
+    of compressed search types nor changes the abstraction level of the pinned network class.
+limitations:
+- Lookup CDP is a computational reuse method for a count estimator, not IDA* itself, online threshold
+  selection, a concrete-state solution cache or probability-table truncation.
+- Same-model mathematical recurrence equality does not certify true node counts. Type aggregation, parameter
+  estimation, ancestor pruning and complete-iteration semantics retain their original limitations.
+- Absolute-level-dependent probability modifications require an adequate cache key or fixed recoverable
+  schedule context. Reusing stale values across changed models is outside the asserted equivalence.
+- The reported query complexity excludes offline sampling and cache construction and assumes suitable
+  lookup operations. Larger type/state spaces, many thresholds and detailed cache contexts consume memory;
+  shallow-prefix work can dominate.
+- All25 pages of the author-hosted journal copy were visually inspected. Author implementation, earlier
+  conference full texts and benchmark replication were not inspected or executed. Rational recurrence
+  and cost examples are constructed checks, not measured performance.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T18:56:53Z'
+  updated_at: '2026-10-13T19:02:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
