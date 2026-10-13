@@ -1,0 +1,256 @@
+id: AIMech:NearestNeighborChainClustering
+name: Nearest-neighbor-chain clustering
+aliases:
+- Nearest neighbor chain algorithm
+- NN-chain clustering
+concept_kind: algorithm
+definition: An agglomerative clustering algorithm that follows a chain of nearest clusters until its last
+  pair are reciprocal nearest neighbors, merges that pair, and reuses the remaining chain; for suitable
+  distance updates, sorting and relabeling the recorded merges produces a valid stepwise hierarchy.
+identity_notes: Compared all 442 pinned AIO and 651 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 21, 0, 0 lines. All distinct match contents were
+  read, including generated index rows repeating the fully read Ward record. Recovery hits concern Ward
+  implementation context, its saved review or pending discovery/source notes; none identifies an existing
+  standalone chain record. Both other checkouts returned no matches including ignored and hidden files.
+  Semantic matching covered 26 AIO and 168 native definitions, all read; unchanged definitions were byte-compared
+  with the preceding full assessment. 9 full annotated AIO node/edge/generated contexts and 4 full native
+  records were inspected. The chain is an agglomerative merge-search procedure parameterized by linkage.
+  It differs from the Ward ESS criterion, centroid reassignment in k-means, CURE representatives, BIRCH
+  compression, nearest-neighbor label voting and batch reciprocal-neighbor passes. Retain the conditional
+  stepwise-output identity rather than treating all nearest-neighbor algorithms or all fastcluster entrypoints
+  as aliases.
+definition_evidence:
+- source_id: benzecri1982
+  locator: Sections1 and2.4–2.5, printed pp.209–210,213–214 / PDF pp.2–3,6–7
+  relation: supports
+- source_id: mullner2011
+  locator: Section3.2, Theorem 1 and Figure 4, PDF pp.11–16
+  relation: supports
+claims:
+- claim_id: reciprocal-chain
+  kind: mechanism
+  statement: Begin with a current cluster and repeatedly find a nearest distinct cluster. Prefer the preceding
+    chain member when it is tied for nearest, so a reciprocal pair terminates the chain. Merge that pair,
+    update distances and cluster sizes, and continue from the retained prefix or restart when it is exhausted.
+    The chain avoids restarting a full global pair search after every merge.
+  evidence:
+  - source_id: benzecri1982
+    locator: Sections2.2–2.5 and3, printed pp.211–218 / PDF pp.4–11
+    relation: supports
+  - source_id: juan1982
+    locator: Sections1–2, printed pp.219–220 / PDF pp.2–3; CADENA listing, printed pp.223–224 / PDF pp.6–7
+    relation: supports
+  - source_id: mullner2011
+    locator: Section3.2 and Figure 4, PDF pp.11–16
+    relation: supports
+- claim_id: update-law-conditions
+  kind: scope
+  statement: The cited sufficient conditions require reducibility and invariance of the distance between
+    two disjoint merged pairs to their merge order. Reducibility means d(A,B)≤min(d(A,C),d(B,C)) implies
+    min(d(A,C),d(B,C))≤d(A∪B,C). Reducibility alone is insufficient for arbitrary history-dependent updates.
+    The paper establishes the conditions for single, complete, average, weighted and Ward linkage; centroid
+    and median updates are outside this guarantee.
+  evidence:
+  - source_id: mullner2011
+    locator: Section3.2, Equation1, Theorem 1, Proposition2 and footnote1, PDF pp.12–16
+    relation: supports
+- claim_id: stepwise-output-and-ties
+  kind: mechanism
+  statement: A reciprocal pair need not be the globally closest current pair, so discovery-order merge
+    heights can be unsorted. To obtain the stated stepwise dendrogram, stably sort the recorded merges
+    by height and relabel their cluster representatives while preserving the dependency order of tied
+    merges. Under the stated conditions, this yields a valid greedy stepwise hierarchy; it need not reproduce
+    one particular arbitrary global tie convention or a unique tree.
+  evidence:
+  - source_id: mullner2011
+    locator: Section2.2 and Section3.2, Figures4–5, PDF pp.4–5,11–16
+    relation: supports
+  - source_id: fastcluster-wrapper
+    locator: generate_SciPy_dendrogram, src/fastcluster_python.cpp lines108–145 at the pinned commit
+    relation: supports
+  - source_id: fastcluster-core
+    locator: node comparator, lines225–232; union_find, lines366–403 at the pinned commit
+    relation: supports
+- claim_id: matrix-complexity
+  kind: scope
+  statement: In the stored-dissimilarity setting with constant-time scalar distance updates, the chain
+    algorithm takes quadratic time in the number of observations and linear auxiliary space beyond the
+    writable quadratic-size distance matrix. This is not a linear-total-memory claim or a guarantee for
+    arbitrary high-dimensional distance evaluation; vector implementations require a separate analysis.
+  evidence:
+  - source_id: mullner2011
+    locator: Section4.1, PDF p.20
+    relation: supports
+  - source_id: benzecri1982
+    locator: Section2.5, printed p.214 / PDF p.7
+    relation: supports
+- claim_id: procedure-versus-linkage
+  kind: scope
+  statement: The chain specifies how merge candidates are found; the chosen linkage defines cluster dissimilarity.
+    It can implement the Ward ESS criterion but is not identical to Ward clustering, a nearest-neighbor
+    classifier, or the earlier procedure that repeatedly finds and merges batches of reciprocal pairs.
+    The cited correctness result establishes valid stepwise output; it does not assert globally optimal
+    fixed-count partitions.
+  evidence:
+  - source_id: mullner2011
+    locator: Sections2 and3.2, PDF pp.3–8,11–16
+    relation: supports
+  - source_id: benzecri1982
+    locator: Section1, printed pp.209–210 / PDF pp.2–3
+    relation: supports
+  - source_id: derham1980
+    locator: Introduction and Sections3.2 and4.2, printed pp.135–136,140–142 / PDF pp.2–3,7–9
+    relation: supports
+- claim_id: implementation-boundaries
+  kind: limitation
+  statement: Both Figure 4 of the 2011 paper and the later pinned fastcluster matrix implementation restart
+    at a chain length or tip count of at most three. The pinned code retains premerge cluster sizes, uses
+    explicit root handling and stable output sorting, and its Ward matrix wrapper squares inputs and square-roots
+    output heights. These inspected details clarify the implemented conventions without certifying every
+    printed listing or floating-point variant. The same repository uses a generic algorithm for vector
+    Ward input and documents removal of its earlier vector chain implementation.
+  evidence:
+  - source_id: mullner2011
+    locator: 'Figure4, NN-CHAIN-CORE line6, PDFp13: length(chain) ≤3'
+    relation: supports
+  - source_id: fastcluster-core
+    locator: NN_chain_core lines574–778; f_ward lines530–545; union_find lines366–403
+    relation: supports
+  - source_id: fastcluster-wrapper
+    locator: Matrix dispatch/preprocessing/postprocessing lines290–353; vector dispatch lines1164–1193;
+      dendrogram output lines108–145
+    relation: supports
+  - source_id: fastcluster-news
+    locator: Version1.1.2 entry dated 11 October 2011
+    relation: supports
+evidence_sources:
+- source_id: mullner2011
+  title: Modern hierarchical, agglomerative clustering algorithms
+  authors:
+  - Daniel Müllner
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv1109.2378v1,12September2011; all29 PDF pages visually read.
+  persistent_id: arXiv:1109.2378v1
+  url: https://arxiv.org/pdf/1109.2378v1
+  accessed_at: '2026-10-13T20:51:04Z'
+  sha256: 3d8ea802c328a9dfada44e1c7a4c4824086c1210b45a4b99b5b9801435934dae
+- source_id: benzecri1982
+  title: Construction d’une classification ascendante hiérarchique par la recherche en chaîne des voisins
+    réciproques
+  authors:
+  - J.-P. Benzécri
+  source_type: primary_paper
+  access_level: full_text
+  version: Les Cahiers de l’analyse des données7(2),1982,pp.209–218. Eleven scanned PDF pages including
+    cover, all visually read.
+  url: https://www.numdam.org/item/CAD_1982__7_2_209_0.pdf
+  accessed_at: '2026-10-13T20:51:05Z'
+  sha256: 2569b4b21a2e3ed5d20f7b50e5164fd37ba02be5ea90d683d711246adea98b58
+- source_id: juan1982
+  title: Programme de classification hiérarchique par l’algorithme de la recherche en chaîne des voisins
+    réciproques
+  authors:
+  - J. Juan
+  source_type: primary_paper
+  access_level: full_text
+  version: Les Cahiers de l’analyse des données7(2),1982,pp.219–225. Eight scanned PDF pages including
+    cover, all visually read.
+  url: https://www.numdam.org/article/CAD_1982__7_2_219_0.pdf
+  accessed_at: '2026-10-13T20:51:05Z'
+  sha256: 3710466686c46c0eee10119cc00d2c61145836bd6030ca61103bebada0e57140
+- source_id: derham1980
+  title: La classification hiérarchique ascendante selon la méthode des voisins réciproques
+  authors:
+  - C. de Rham
+  source_type: primary_paper
+  access_level: full_text
+  version: Les Cahiers de l’analyse des données5(2),1980,pp.135–144. Eleven scanned PDF pages including
+    cover, all visually read.
+  url: https://www.numdam.org/item/CAD_1980__5_2_135_0.pdf
+  accessed_at: '2026-10-13T20:51:05Z'
+  sha256: c62314df59e7eb3f64e36d7cf141711233493b241ac8939f272d708fa045d0b3
+- source_id: fastcluster-core
+  title: fastcluster src/fastcluster.cpp
+  authors:
+  - Daniel Müllner
+  - fastcluster contributors
+  source_type: official_documentation
+  access_level: documentation
+  persistent_id: 9d0e48609283edaae90593a6967d3f2217786d2d
+  version: Git commit 9d0e48609283edaae90593a6967d3f2217786d2d dated2026-09-15; Lines1–120,225–290,360–410,490–785
+    statically read, not compiled or executed. Later code is not assumed identical to the2011 benchmark
+    implementation.
+  url: https://raw.githubusercontent.com/fastcluster/fastcluster/9d0e48609283edaae90593a6967d3f2217786d2d/src/fastcluster.cpp
+  accessed_at: '2026-10-13T21:01:45Z'
+  sha256: 9ba52420e3732bb87cd3ee502323d2707bb6ce610c06c274a377b7b0ea195d4c
+- source_id: fastcluster-wrapper
+  title: fastcluster src/fastcluster_python.cpp
+  authors:
+  - Daniel Müllner
+  - fastcluster contributors
+  source_type: official_documentation
+  access_level: documentation
+  persistent_id: 9d0e48609283edaae90593a6967d3f2217786d2d
+  version: Git commit 9d0e48609283edaae90593a6967d3f2217786d2d dated2026-09-15; Lines105–150,290–355,1160–1195
+    statically read, not compiled or executed. Later code is not assumed identical to the2011 benchmark
+    implementation.
+  url: https://raw.githubusercontent.com/fastcluster/fastcluster/9d0e48609283edaae90593a6967d3f2217786d2d/src/fastcluster_python.cpp
+  accessed_at: '2026-10-13T21:01:45Z'
+  sha256: b7fc7d732572e77556c9a3eed52390971ba212b81d612b296820e3d13e4d5e89
+- source_id: fastcluster-news
+  title: fastcluster NEWS.txt
+  authors:
+  - Daniel Müllner
+  - fastcluster contributors
+  source_type: official_documentation
+  access_level: documentation
+  persistent_id: 9d0e48609283edaae90593a6967d3f2217786d2d
+  version: Git commit 9d0e48609283edaae90593a6967d3f2217786d2d dated2026-09-15; Complete file statically
+    read, not compiled or executed. Later code is not assumed identical to the2011 benchmark implementation.
+  url: https://raw.githubusercontent.com/fastcluster/fastcluster/9d0e48609283edaae90593a6967d3f2217786d2d/NEWS.txt
+  accessed_at: '2026-10-13T21:01:45Z'
+  sha256: 087eb9c9afaba169a5ef466a1e525efde4f9febb67c80217e5ec37792d5360d5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The procedure builds an agglomerative hierarchy. The pinned target denotes a clustering task;
+    this algorithm is related without asserting task/algorithm equivalence or subclass membership.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The selected setting groups unlabeled objects using dissimilarities. The AIO task does not
+    specify reciprocal chains, admissible update laws or stepwise output.
+limitations:
+- Scope is finite symmetric nonnegative dissimilarities and appropriate linkage updates. General dissimilarity
+  matrices need not be metric, while Ward’s Euclidean ESS interpretation requires its geometry and distance-scale
+  conventions. No automatic cluster-count selection or class-label prediction is implied.
+- Theorem 1 supplies sufficient update-law conditions; this record does not claim they are necessary or
+  certify every proof. A five-point sum-of-three-distances update satisfies reducibility but fails the
+  disjoint-merge condition and yields a different invalid stepwise result.
+- Figure 4 prints length(chain) ≤3, consistent with the pinned implementation; its three-entry restart
+  does not access chain[-4]. An earlier curator reading incorrectly substituted <3 and is explicitly rejected
+  in the discovery correction. Separate Figure 5 root/union notation and Figure 2 Ward/centroid/median
+  scaling still require care. No claim is made that the printed pseudocode was executed unchanged.
+- The original French batch and chain sources have different output and tie conventions. De Rham’s displayed
+  equality of nearest-distance minima is not itself a sufficient definition of reciprocity, and its all-pairs
+  batch instruction needs tie handling. These are retained as source boundaries, not adopted as chain
+  instructions.
+- All 29 pages of Müllner 2011 v1, 11 of Benzécri 1982, 8 of Juan 1982 and 11 of de Rham 1980 were visually
+  read. Only named ranges of the pinned C++ files and the complete README, NEWS and license were statically
+  inspected. No author program, package or historical benchmark was executed.
+- Finite curator calculations check 11,664 four-object matrix/start/linkage cases and 324 one-dimensional
+  Ward/start cases, predecessor tie handling, discovery-order sorting, the published reducibility counterexample
+  and the actual ≤3 restart guard and safe longer-chain indexing. They are not a universal proof, floating-point
+  audit or benchmark replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T21:17:01Z'
+  updated_at: '2026-10-13T21:24:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
