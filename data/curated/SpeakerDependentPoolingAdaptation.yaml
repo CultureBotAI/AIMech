@@ -1,0 +1,129 @@
+id: AIMech:SpeakerDependentPoolingAdaptation
+name: Speaker-Dependent Pooling Adaptation
+aliases: []
+concept_kind: algorithm
+definition: An acoustic-model adaptation procedure that updates a small set of pooling parameters for
+  a target speaker using decoded acoustic targets while retaining the shared feature projections and output
+  model in its pool-only form.
+identity_notes: Compared all 442 pinned AIO and 626 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 55, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 25 AIO and 46 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  the source’s task-specific parameter-adaptation algorithm. Base Lp and activation-value Gaussian units
+  are separate maintained concepts; this record specifies fitting selected parameters to decoded speaker
+  data while freezing the shared representation in its pool-only form. It is not generic adaptive spatial
+  pooling, low-rank weight adaptation, full acoustic-model training, a transfer-learning task or an LLM.
+definition_evidence:
+- source_id: swietojanski2016
+  locator: Sections III–V, PDF pp. 2–5; Section VI, p. 5, adaptation-target description
+  relation: supports
+claims:
+- claim_id: decoded-target-parameter-update
+  kind: mechanism
+  statement: Start from a speaker-independent DNN/HMM acoustic model with parameterized hidden pooling
+    units, decode the target speaker’s speech, and use the resulting tied-state targets to optimize selected
+    pooling parameters through the negative log posterior objective. In the main pool-only form, affine
+    feature projections and the output layer remain shared and fixed. Unsupervised refers to the absence
+    of reference transcripts during this adaptation; it does not mean that the speaker-independent acoustic
+    model was trained without labels.
+  evidence:
+  - source_id: swietojanski2016
+    locator: Sections II–VI, PDF pp. 1–5; Section VII-B, pp. 6–8, frozen-feature and oracle-target distinction
+    relation: supports
+- claim_id: lp-and-value-gaussian-variants
+  kind: mechanism
+  statement: The Lp variant adapts each group’s norm order, parameterized by p=max(1,rho), with an absolute-power
+    aggregation of affine responses. The Gaussian variant adapts means and precisions of normalized kernels
+    over transformed activation values; amplitudes may also be adapted. Reported Lp experiments use the
+    unnormalized norm, although the method section also defines an optional power mean. These variants
+    change pooling behavior rather than adding low-rank weight matrices or updating a whole acoustic network.
+  evidence:
+  - source_id: swietojanski2016
+    locator: Sections III–IV, PDF pp. 2–4, Equations 3–21; Section VII-A, pp. 5–6
+    relation: supports
+- claim_id: order-and-normalization-boundaries
+  kind: limitation
+  statement: At the Lp lower bound, the chosen max parameterization is nondifferentiable and the stated
+    implementation convention sets its order derivative to zero when p is not greater than one. For strictly
+    positive magnitudes, differentiating a normalized power mean requires log(sum_i |a_i|^p/K), while
+    the printed order-derivative expression uses log(sum_i |a_i|^p). Forward scaling alone cannot correct
+    that order derivative. This discrepancy concerns the optional normalized variant; the paper explicitly
+    uses unnormalized Lp units in its reported experiments. No behavior of uninspected code is inferred.
+  evidence:
+  - source_id: swietojanski2016
+    locator: Section IV-A, PDF pp. 3–4, Equation 9 and normalization discussion; Section VII-A, p. 5;
+      direct finite-difference check
+    relation: supports
+- claim_id: optional-updates-and-scaling
+  kind: scope
+  statement: Optional adaptations include affine biases, post-pooling hidden-unit contribution scaling,
+    and Gaussian input amplitudes, with different numbers of speaker-specific parameters. These are distinguishable
+    settings, not mandatory steps of pool-only adaptation. A Gaussian amplitude acts before the value-dependent
+    weights are computed, so its effect is not generally the same as multiplying the final pooled value.
+    The reported comparison of these choices is empirical rather than an equivalence theorem.
+  evidence:
+  - source_id: swietojanski2016
+    locator: Section V, PDF p. 5; Section VII-B, pp. 6–8, Tables III–IV and Figure 1; direct amplitude
+      example
+    relation: supports
+- claim_id: finite-adaptation-evidence
+  kind: limitation
+  statement: The experiments use configured six-hidden-layer acoustic systems on TED, AMI and Switchboard
+    with different features and language models. Adaptation settings were selected using TED development
+    data; limited-data experiments repeat random utterance selection, whereas the oracle comparison uses
+    reference-aligned targets and is supervised. Improvements under those conditions do not prove that
+    pseudo-label errors, mismatch or overfitting are harmless. Speaker-adaptive training and sequence-discriminative
+    pooling adaptation are proposed extensions in the conclusion, not demonstrated procedures in this
+    source.
+  evidence:
+  - source_id: swietojanski2016
+    locator: Sections VI–VIII, PDF pp. 5–9, Tables I–VII and Figures 4–7
+    relation: supports
+evidence_sources:
+- source_id: swietojanski2016
+  title: Differentiable Pooling for Unsupervised Acoustic Model Adaptation
+  authors:
+  - Pawel Swietojanski
+  - Steve Renals
+  persistent_id: arXiv:1603.09630v2
+  version: arXiv:1603.09630v2, 13 July 2016, eleven PDF pages; printed DOI10.1109/TASLP.2016.2584700 agrees
+    with primary metadata. All pages visually inspected including equations, seven tables, seven figures,
+    footnotes and87references. Other versions and author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1603.09630v2
+  access_level: full_text
+  accessed_at: '2026-10-13T14:20:35Z'
+  sha256: 9cbd9b822c6e709284e32b2b083ba3ffa86f8595fe6e34d1f7652f747f9e68dc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:KnowledgeTransfer
+  relation: related_match
+  rationale: The procedure reuses a speaker-independent learned representation while fitting a target-speaker
+    copy through a restricted parameter set. This is related to the pinned transfer/adaptation strategy,
+    without equating the algorithm to the generic strategy.
+- target: AIO:DeepTransferLearning
+  relation: related_match
+  rationale: The procedure adapts a deep acoustic model to speaker mismatch with limited target data.
+    The pinned target denotes a network category, so the relationship is contextual rather than an algorithm-to-network
+    subclass claim.
+limitations:
+- The stable identity denotes the Swietojanski–Renals test-time pooling-parameter adaptation procedure,
+  not every speaker-adaptation method, a base pooling unit, general unsupervised training or a trained
+  checkpoint.
+- Optional normalized Lp formulas require their own order derivative; the reported experiments use unnormalized
+  units. Numerical stabilization and implementation choices are not reconstructed from ambiguous prose.
+- Source precision-limit wording for value-kernel pooling must be qualified as nearest-value selection
+  for a fixed mean. Parameter adaptation does not turn it into unconditional maximum pooling.
+- Complete eleven-page primaryv2 inspected. Constructed calculations only; no author software, speech
+  data, model training or empirical replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T15:09:57Z'
+  updated_at: '2026-10-13T15:09:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

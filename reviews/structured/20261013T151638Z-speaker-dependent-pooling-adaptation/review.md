@@ -1,0 +1,528 @@
+# Scientific author self-review of Speaker-Dependent Pooling Adaptation
+
+- Review: 20261013T151638Z-speaker-dependent-pooling-adaptation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T15:10:00Z
+- Finished UTC: 2026-10-13T15:16:38Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Speaker-Dependent Pooling Adaptation as a DRAFT native algorithm with explicit related AIO mappings. All fields were assessed against primary evidence and constructed boundary calculations. Optional normalized-order mathematics is qualified without alleging an implementation defect. No actionable maintained-record defect identified; author self-review only.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:SpeakerDependentPoolingAdaptation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c17e1d05e9521bd6706a79051648acf26f139528.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SpeakerDependentPoolingAdaptation | data/curated/SpeakerDependentPoolingAdaptation.yaml | maintained | Speaker-Dependent Pooling Adaptation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SpeakerDependentPoolingAdaptation | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 155.17s (0:02:35)<br>Checked 442 record(s); 0 failed.<br>Checked 627 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 303 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 300,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SpeakerDependentPoolingAdaptation | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:SpeakerDependentPoolingAdaptation | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:SpeakerDependentPoolingAdaptation | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:SpeakerDependentPoolingAdaptation | {"finite_difference_power_order": 0.20575414680923385, "input_finite_difference": [0.9933071490724095, -0.05978771582784876], "input_gradient": [0.9933071490757153, -0.059787715783616704], "inside_vs_after_pool_scaling": [0.4029671477879618, 1.0], "maximum_value": 2, "mean_finite_difference": 0.06648056681442249, "mean_gradient": 0.06648056670790156, "nonlinear_without_tanh": [0.37754066879814546, 0.2384058440442351, 0.7550813375962909], "normalized_power_order_derivative": 0.2057541468283313, "precision_finite_difference": -0.003324028335265419, "precision_gradient": -0.003324028335395078, "printed_order_derivative_with_normalized_forward": -0.1817269067077585, "sharp_nearest_value": 1.3428368576423187e-78, "zero_precision_average": 4.0} |
+
+## Scientific And Domain Assessments
+
+### Speaker-Dependent Pooling Adaptation
+
+identity: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the Swietojanski–Renals test-time pooling-parameter adaptation algorithm. LearnedNormPoolingUnit and ActivationValueGaussianPooling denote base computations. LoRA modifies weight matrices through low-rank updates and is not equivalent to fitting pooling parameters.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+The declared AIO mapping is supported.
+
+KnowledgeTransfer is related through reuse of a shared representation for a target speaker; DeepTransferLearning is related network context. Neither is asserted as algorithm equivalence or direct superclass. TransferLearning is a task, TrainingStrategy has preprocessing scope, and AdaptiveAvgPool1D is a different layer. Five complete AIO contexts and three full native neighbors were inspected.
+
+### decoded-target-parameter-update
+
+evidence: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+The supervised SI acoustic model supplies first-pass decoded targets for unsupervised adaptation. The pool-only setting freezes feature projections and output parameters; this does not establish label-free initial training or frozen numerical hidden outputs.
+
+### lp-and-value-gaussian-variants
+
+evidence: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source adapts norm order or Gaussian mean/precision, with optional amplitudes. Its demonstrated Lp configuration is unnormalized. These are constrained parameter variants, not full model updates or low-rank weight factorization.
+
+### order-and-normalization-boundaries
+
+evidence: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Normalized power means require the K-dependent logarithm in the order derivative. Finite differences verify the correction and distinguish it from the correct unnormalized formula used in experiments. The max lower-bound convention and absence of code inspection are explicit.
+
+### optional-updates-and-scaling
+
+evidence: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Bias, post-pooling LHUC and Gaussian pre-kernel amplitude are optional settings with different scopes. The constructed example distinguishes amplitude placement; the record asserts no equivalence or necessary improvement.
+
+### finite-adaptation-evidence
+
+evidence: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Supported within the stated primary-source and mathematical scope.
+
+Evaluation remains within configured TED/AMI/SWB systems and development-selected settings. Limited-data repeats and supervised reference-target oracles are distinguished. The conclusion proposes pooling SAT and sequence adaptation as future work; the separate LHUC paper does not change that source-specific statement.
+
+### decoded-target provenance, restricted parameter updates, optional pooling variants, normalized-order derivative and adaptation scope
+
+consistency: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Constructed calculations support the stated distinctions.
+
+Constructed finite differences verify the normalized Lp order derivative and show why its forward scaling alone is insufficient; the source’s experiments use unnormalized units. Gaussian derivative, sharp-limit and amplitude examples clarify the adapted parameter variants. No speech/model fitting or author-code execution.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:SpeakerDependentPoolingAdaptation.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed identity/kind/definition, every claim and citation, source version/authors/access/hash, AIO snapshot/mappings, limitations and curation fields. Challenged pseudo-target provenance, frozen-model scope, optional variants, normalized-order calculus, oracle comparisons and empirical limits.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T150957Z-speaker-dependent-pooling-adaptation.json | supports | Compared all 442 pinned AIO and 626 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 55, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 25 AIO and 46 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the source’s task-specific parameter-adaptation algorithm. Base Lp and activation-value Gaussian units are separate maintained concepts; this record specifies fitting selected parameters to decoded speaker data while freezing the shared representation in its pool-only form. It is not generic adaptive spatial pooling, low-rank weight adaptation, full acoustic-model training, a transfer-learning task or an LLM. |
+| mapping | sources/aio/aio.json | supports | KnowledgeTransfer is related through reuse of a shared representation for a target speaker; DeepTransferLearning is related network context. Neither is asserted as algorithm equivalence or direct superclass. TransferLearning is a task, TrainingStrategy has preprocessing scope, and AdaptiveAvgPool1D is a different layer. Five complete AIO contexts and three full native neighbors were inspected. |
+| swietojanski2016 | https://arxiv.org/pdf/1603.09630v2; Complete eleven-page arXiv1603.09630v2 visually inspected; other versions, author code and empirical replication excluded. Separate LHUC/SAT-LHUC primary evidence supplies future-lead context, not a claim that pooling SAT was implemented in this source. | supports | arXiv:1603.09630v2, 13 July 2016, eleven PDF pages; printed DOI10.1109/TASLP.2016.2584700 agrees with primary metadata. All pages visually inspected including equations, seven tables, seven figures, footnotes and87references. Other versions and author implementation not inspected. |
+| calculation | research/discovery/pooling-adaptation-boundaries.py | supports | Constructed finite differences verify the normalized Lp order derivative and show why its forward scaling alone is insufficient; the source’s experiments use unnormalized units. Gaussian derivative, sharp-limit and amplitude examples clarify the adapted parameter variants. No speech/model fitting or author-code execution. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 627 native and 442 unchanged generated records. The 812-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All eleven PDF pages visually inspected, including every equation, seven tables, seven figures, footnotes and87references; author implementation not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T151638Z-speaker-dependent-pooling-adaptation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Speaker-Dependent Pooling Adaptation
+started_at: '2026-10-13T15:10:00Z'
+finished_at: '2026-10-13T15:16:38Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged decoded-target provenance, restricted
+    parameter updates, optional pooling variants, normalized-order derivative and
+    adaptation scope. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Speaker-Dependent Pooling Adaptation as a DRAFT native algorithm with
+  explicit related AIO mappings. All fields were assessed against primary evidence
+  and constructed boundary calculations. Optional normalized-order mathematics is
+  qualified without alleging an implementation defect. No actionable maintained-record
+  defect identified; author self-review only.
+source:
+  git_revision: c17e1d05e9521bd6706a79051648acf26f139528
+  state: working_tree
+  inputs:
+  - path: data/aio/AdaptiveAvgPool1DLayer.yaml
+    sha256: cc1c60e6772048410efe406b9dca4783d5c241eb337fe32bf8b5f4106975a3bc
+    role: context
+  - path: data/aio/DeepTransferLearning.yaml
+    sha256: 642bd64f7e13092ffc855f2d44afa5822aa2714996a000f21e092b697725dc08
+    role: context
+  - path: data/aio/KnowledgeTransfer.yaml
+    sha256: d9c3efd84c05da8efb7b8eb46e15d64a1ea18fd0816c96cba9bcad85619c57bb
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/curated/ActivationValueGaussianPooling.yaml
+    sha256: 9f3697e8f528b0cb3876015321a23cc2af8f3f3e574ffde01f6d6da44903d4fc
+    role: context
+  - path: data/curated/LearnedNormPoolingUnit.yaml
+    sha256: fb36da3270a145c8813181b645d14efff155cc08999e17f49a67e49a4d156337
+    role: context
+  - path: data/curated/LoRA.yaml
+    sha256: 8642959e7dd4ca6630720e78771b6e7b825336c967f0663f125c1a23aee7ae49
+    role: context
+  - path: data/curated/SpeakerDependentPoolingAdaptation.yaml
+    sha256: 615e72953bfc57eadfa3268b782766f4c355ab8fbbe76af3e17fbc1b4a0585f2
+    role: target
+  - path: research/discovery/20261013T150957Z-speaker-dependent-pooling-adaptation.json
+    sha256: 77eb25c1194cafd897111307b54b90493e940d010943e99e391fa0d01f5559ca
+    role: context
+  - path: research/discovery/pooling-adaptation-boundaries.py
+    sha256: c90721141dbc535fbd7f9bc740c393b277f474c6cd2bc6890a7ccca6527eac43
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SpeakerDependentPoolingAdaptation
+  path: data/curated/SpeakerDependentPoolingAdaptation.yaml
+  label: Speaker-Dependent Pooling Adaptation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SpeakerDependentPoolingAdaptation.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:SpeakerDependentPoolingAdaptation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete eleven-page arXiv1603.09630v2 visually inspected; other versions,
+      author code and empirical replication excluded. Separate LHUC/SAT-LHUC primary
+      evidence supplies future-lead context, not a claim that pooling SAT was implemented
+      in this source.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 155.17s (0:02:35)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 627 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 303 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 300,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/pooling-adaptation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"finite_difference_power_order": 0.20575414680923385, "input_finite_difference":
+    [0.9933071490724095, -0.05978771582784876], "input_gradient": [0.9933071490757153,
+    -0.059787715783616704], "inside_vs_after_pool_scaling": [0.4029671477879618, 1.0],
+    "maximum_value": 2, "mean_finite_difference": 0.06648056681442249, "mean_gradient":
+    0.06648056670790156, "nonlinear_without_tanh": [0.37754066879814546, 0.2384058440442351,
+    0.7550813375962909], "normalized_power_order_derivative": 0.2057541468283313,
+    "precision_finite_difference": -0.003324028335265419, "precision_gradient": -0.003324028335395078,
+    "printed_order_derivative_with_normalized_forward": -0.1817269067077585, "sharp_nearest_value":
+    1.3428368576423187e-78, "zero_precision_average": 4.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T150957Z-speaker-dependent-pooling-adaptation.json
+  accessed_at: '2026-10-13T15:10:00Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 626 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    55, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 25 AIO and 46 native definitions, with every matched definition read.
+    5 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Retain the source’s task-specific parameter-adaptation algorithm. Base
+    Lp and activation-value Gaussian units are separate maintained concepts; this
+    record specifies fitting selected parameters to decoded speaker data while freezing
+    the shared representation in its pool-only form. It is not generic adaptive spatial
+    pooling, low-rank weight adaptation, full acoustic-model training, a transfer-learning
+    task or an LLM.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T15:10:00Z'
+  support: supports
+  summary: KnowledgeTransfer is related through reuse of a shared representation for
+    a target speaker; DeepTransferLearning is related network context. Neither is
+    asserted as algorithm equivalence or direct superclass. TransferLearning is a
+    task, TrainingStrategy has preprocessing scope, and AdaptiveAvgPool1D is a different
+    layer. Five complete AIO contexts and three full native neighbors were inspected.
+- evidence_id: swietojanski2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1603.09630v2
+  locator: Complete eleven-page arXiv1603.09630v2 visually inspected; other versions,
+    author code and empirical replication excluded. Separate LHUC/SAT-LHUC primary
+    evidence supplies future-lead context, not a claim that pooling SAT was implemented
+    in this source.
+  accessed_at: '2026-10-13T14:20:35Z'
+  snapshot_sha256: 9cbd9b822c6e709284e32b2b083ba3ffa86f8595fe6e34d1f7652f747f9e68dc
+  support: supports
+  summary: arXiv:1603.09630v2, 13 July 2016, eleven PDF pages; printed DOI10.1109/TASLP.2016.2584700
+    agrees with primary metadata. All pages visually inspected including equations,
+    seven tables, seven figures, footnotes and87references. Other versions and author
+    implementation not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/pooling-adaptation-boundaries.py
+  accessed_at: '2026-10-13T15:10:44Z'
+  snapshot_sha256: c90721141dbc535fbd7f9bc740c393b277f474c6cd2bc6890a7ccca6527eac43
+  support: supports
+  summary: Constructed finite differences verify the normalized Lp order derivative
+    and show why its forward scaling alone is insufficient; the source’s experiments
+    use unnormalized units. Gaussian derivative, sharp-limit and amplitude examples
+    clarify the adapted parameter variants. No speech/model fitting or author-code
+    execution.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Speaker-Dependent Pooling Adaptation
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - identity
+  - swietojanski2016
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the Swietojanski–Renals test-time pooling-parameter adaptation algorithm.
+    LearnedNormPoolingUnit and ActivationValueGaussianPooling denote base computations.
+    LoRA modifies weight matrices through low-rank updates and is not equivalent to
+    fitting pooling parameters.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - mapping
+  - swietojanski2016
+  summary: The declared AIO mapping is supported.
+  details: KnowledgeTransfer is related through reuse of a shared representation for
+    a target speaker; DeepTransferLearning is related network context. Neither is
+    asserted as algorithm equivalence or direct superclass. TransferLearning is a
+    task, TrainingStrategy has preprocessing scope, and AdaptiveAvgPool1D is a different
+    layer. Five complete AIO contexts and three full native neighbors were inspected.
+- assessment_id: decoded-target-parameter-update
+  area: evidence
+  topic: decoded-target-parameter-update
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The supervised SI acoustic model supplies first-pass decoded targets for
+    unsupervised adaptation. The pool-only setting freezes feature projections and
+    output parameters; this does not establish label-free initial training or frozen
+    numerical hidden outputs.
+- assessment_id: lp-and-value-gaussian-variants
+  area: evidence
+  topic: lp-and-value-gaussian-variants
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source adapts norm order or Gaussian mean/precision, with optional
+    amplitudes. Its demonstrated Lp configuration is unnormalized. These are constrained
+    parameter variants, not full model updates or low-rank weight factorization.
+- assessment_id: order-and-normalization-boundaries
+  area: evidence
+  topic: order-and-normalization-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Normalized power means require the K-dependent logarithm in the order derivative.
+    Finite differences verify the correction and distinguish it from the correct unnormalized
+    formula used in experiments. The max lower-bound convention and absence of code
+    inspection are explicit.
+- assessment_id: optional-updates-and-scaling
+  area: evidence
+  topic: optional-updates-and-scaling
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Bias, post-pooling LHUC and Gaussian pre-kernel amplitude are optional
+    settings with different scopes. The constructed example distinguishes amplitude
+    placement; the record asserts no equivalence or necessary improvement.
+- assessment_id: finite-adaptation-evidence
+  area: evidence
+  topic: finite-adaptation-evidence
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Evaluation remains within configured TED/AMI/SWB systems and development-selected
+    settings. Limited-data repeats and supervised reference-target oracles are distinguished.
+    The conclusion proposes pooling SAT and sequence adaptation as future work; the
+    separate LHUC paper does not change that source-specific statement.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: decoded-target provenance, restricted parameter updates, optional pooling
+    variants, normalized-order derivative and adaptation scope
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Constructed finite differences verify the normalized Lp order derivative
+    and show why its forward scaling alone is insufficient; the source’s experiments
+    use unnormalized units. Gaussian derivative, sharp-limit and amplitude examples
+    clarify the adapted parameter variants. No speech/model fitting or author-code
+    execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:SpeakerDependentPoolingAdaptation
+  evidence_ids:
+  - identity
+  - mapping
+  - swietojanski2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed identity/kind/definition, every claim and
+    citation, source version/authors/access/hash, AIO snapshot/mappings, limitations
+    and curation fields. Challenged pseudo-target provenance, frozen-model scope,
+    optional variants, normalized-order calculus, oracle comparisons and empirical
+    limits.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 627 native and 442 unchanged generated records.
+  The 812-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All eleven PDF pages visually inspected, including every equation, seven tables,
+  seven figures, footnotes and87references; author implementation not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
