@@ -1,0 +1,190 @@
+id: AIMech:BatchReciprocalNearestNeighborClustering
+name: Batch reciprocal-nearest-neighbor agglomeration
+aliases:
+- Reciprocal-neighbor batch clustering
+- de Rham reciprocal-neighbor clustering
+concept_kind: algorithm
+definition: An agglomerative clustering procedure that alternates finding reciprocal nearest-neighbor
+  pairs across the current clusters with merging a batch of such pairs and updating cluster dissimilarities,
+  rather than choosing one globally closest pair or extending a reusable nearest-neighbor chain.
+identity_notes: Compared all 442 pinned AIO and 653 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 57, 0, 0 lines. All distinct match contents were
+  read, including generated index rows repeating the fully read corrected nearest-neighbor-chain record.
+  Recovery hits concern shared primary-source references, chain implementation context or pending batch-procedure
+  discovery notes; none identifies an existing standalone batch record. Both other checkouts returned
+  no matches including ignored and hidden files. Semantic matching covered 26 AIO and 170 native definitions,
+  all read; unchanged definitions were byte-compared with the preceding full assessment. 9 full annotated
+  AIO node/edge/generated contexts and 4 full native records were inspected. Retain the two-phase batch
+  reciprocal-pair search from deRham1980. It differs from a linkage criterion, a reusable nearest-neighbor
+  chain, globally certified cached-bound selection and nearest-neighbor label voting. The later RS pruning/representative
+  method has a different procedure and remains a separate lead.
+definition_evidence:
+- source_id: derham1980
+  locator: Introduction and Sections2.3,3.2, printedpp135,137,140 / PDFpp2,4,7
+  relation: supports
+- source_id: benzecri1982
+  locator: Section1, printedpp209–210 / PDFpp2–3
+  relation: supports
+claims:
+- claim_id: reciprocal-batch-passes
+  kind: mechanism
+  statement: For each current cluster, find the set of other clusters attaining its minimum dissimilarity.
+    A pair is reciprocal when each belongs to the other’s nearest-neighbor set, equivalently its pair
+    distance attains both minima. The method alternates finding reciprocal pairs, merging a batch, and
+    recomputing nearest-neighbor information until a single cluster remains. Simultaneous disjoint pair
+    merges are a logical batch, not a claim of parallel hardware execution.
+  evidence:
+  - source_id: derham1980
+    locator: Introduction and Sections2.3,3.2, printedpp135,137,140 / PDFpp2,4,7
+    relation: supports
+- claim_id: matrix-distance-updates
+  kind: mechanism
+  statement: The stored-distance realization updates dissimilarities between the new clusters and remaining
+    clusters. When both endpoints represent newly merged pairs, the paper extends the usual two-cluster
+    recurrence to four original clusters; the linkage coefficients and cluster weights determine that
+    update. This separates the merge-search procedure from the selected linkage criterion.
+  evidence:
+  - source_id: derham1980
+    locator: Sections2.1,3.1–3.3, printedpp136,139–140 / PDFpp3,6–7
+    relation: supports
+- claim_id: vector-realization
+  kind: mechanism
+  statement: For the cited centroid and variance strategies, a second realization retains the observation
+    coordinates, merged representative coordinates and cluster weights and recomputes distances from them.
+    It avoids retaining the full pairwise-distance matrix. The reported N(K+5) storage formula is accounting
+    for that specific implementation with N observations and K variables, not a universal memory bound
+    for every reciprocal-neighbor method.
+  evidence:
+  - source_id: derham1980
+    locator: Sections4.1–4.2 and5, printedpp141–143 / PDFpp8–10
+    relation: supports
+- claim_id: criterion-and-tie-scope
+  kind: scope
+  statement: The source presents exact hierarchical construction for the named monotone single-link, diameter,
+    average and variance strategies, while explicitly treating nonmonotone centroid strategies as heuristic.
+    This does not establish correctness for arbitrary history-dependent recurrences. With ties, reciprocal
+    pairs can overlap; a disjoint selection convention is needed to make a batch executable, and the printed
+    merge-all-pairs instruction does not specify one.
+  evidence:
+  - source_id: derham1980
+    locator: Introduction, Sections2.1,2.3,3.2 and4.1, printedpp135–137,140–141 / PDFpp2–4,7–8
+    relation: supports
+  - source_id: mullner2011
+    locator: 'Section3.2, Theorem1 and footnote1, PDFpp12–16: limits of general reciprocal-pair arguments'
+    relation: supports
+- claim_id: passes-and-output-boundaries
+  kind: limitation
+  statement: 'A pass need not merge many pairs: the batch procedure can find only one reciprocal pair
+    and therefore require repeated global scans. Few passes in examples do not imply the later nearest-neighbor-chain
+    algorithm’s quadratic bound. Merge heights within a batch need not be globally ordered; constructing
+    a stepwise sequence requires attention to linkage conditions, chronological dependencies and tie handling.'
+  evidence:
+  - source_id: benzecri1982
+    locator: Section1, printedpp209–210 / PDFpp2–3
+    relation: supports
+  - source_id: derham1980
+    locator: Section3.3, printedp140 / PDFp7
+    relation: supports
+  - source_id: mullner2011
+    locator: Sections2.2 and3.2, PDFpp4–5,11–16
+    relation: supports
+- claim_id: historical-evaluation-scope
+  kind: performance
+  statement: The reported comparison uses three constructed hierarchies with 32, 64 and 128 observations
+    and two variables on a CDC6500, with time in milliseconds and storage in words. BASE and DIST timings
+    average seven strategies, while DONN averages only the three coordinate-compatible strategies. These
+    differing workloads and small synthetic examples do not establish a universal speedup or a modern
+    hardware ranking.
+  evidence:
+  - source_id: derham1980
+    locator: Section5 and comparison table, printedp143 / PDFp10
+    relation: supports
+  evaluation:
+    task: Historical hierarchical-clustering timing and memory comparison.
+    dataset_and_split: Three constructed two-variable hierarchies with32,64 and128 observations; no train/test
+      split.
+    model_and_version: deRham1980 BASE,DIST and DONN implementations as described in Section5; no author
+      code executed.
+    metric_and_units: CPU time in milliseconds and storage in machine words.
+    result: The source reports comparison tables for these three constructed inputs; this record draws
+      no universal speedup or contemporary ranking from them.
+    baseline: BASE conventional implementation compared with DIST stored-distance and DONN coordinate
+      implementations.
+    conditions: CDC6500. BASE/DIST average seven strategies; DONN averages only three coordinate-compatible
+      strategies.
+    uncertainty: Different strategy workloads and small synthetic inputs limit comparability. No historical
+      hardware run, timing replication or uncertainty estimate was produced by the curator.
+evidence_sources:
+- source_id: derham1980
+  title: La classification hiérarchique ascendante selon la méthode des voisins réciproques
+  authors:
+  - C. de Rham
+  source_type: primary_paper
+  access_level: full_text
+  version: Les Cahiers de l’analyse des données5(2),1980,pp.135–144. Eleven scanned PDF pages including
+    cover, all visually read.
+  url: https://www.numdam.org/item/CAD_1980__5_2_135_0.pdf
+  accessed_at: '2026-10-13T20:51:05Z'
+  sha256: c62314df59e7eb3f64e36d7cf141711233493b241ac8939f272d708fa045d0b3
+- source_id: benzecri1982
+  title: Construction d’une classification ascendante hiérarchique par la recherche en chaîne des voisins
+    réciproques
+  authors:
+  - J.-P. Benzécri
+  source_type: primary_paper
+  access_level: full_text
+  version: Les Cahiers de l’analyse des données7(2),1982,pp.209–218. Eleven scanned PDF pages including
+    cover, all visually read.
+  url: https://www.numdam.org/item/CAD_1982__7_2_209_0.pdf
+  accessed_at: '2026-10-13T20:51:05Z'
+  sha256: 2569b4b21a2e3ed5d20f7b50e5164fd37ba02be5ea90d683d711246adea98b58
+- source_id: mullner2011
+  title: Modern hierarchical, agglomerative clustering algorithms
+  authors:
+  - Daniel Müllner
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv1109.2378v1,12September2011; all29 PDF pages visually read.
+  persistent_id: arXiv:1109.2378v1
+  url: https://arxiv.org/pdf/1109.2378v1
+  accessed_at: '2026-10-13T20:51:04Z'
+  sha256: 3d8ea802c328a9dfada44e1c7a4c4824086c1210b45a4b99b5b9801435934dae
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The batch procedure constructs a hierarchy; the AIO target denotes a clustering task, not
+    this algorithm or a task/algorithm is-a relation.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Clusters are formed from supplied dissimilarities without known class labels. The task target
+    does not specify reciprocal batches, linkages or tie conventions.
+limitations:
+- Section2.3 gives the correct mutual-membership definition, but its displayed M shortcuts include a self-membership
+  expression and equate equality of nearest-distance minima with reciprocity. The supported definition
+  requires the pair distance to attain both minima; equal minima alone are insufficient.
+- The finite curator implementation makes tied batches executable through an explicit lexicographic disjoint
+  matching. This is a curator extension, not a tie rule attributed to the source or a claim of identical
+  trees under arbitrary ties.
+- Curator checks cover2,880 four-object cases with distinct initial distances and2,916 cases allowing
+  ties across four linkages. Later merges may introduce ties even in the first set. Stable height ordering
+  is checked against greedy merge admissibility; this is finite evidence, not a universal proof.
+- The original six-point variance example is checked using exact ESS increments:125,212.5,250,1381.25
+  and19225/12. The source rounds displayed values, including212.5 to213; the rounded tables are not exact
+  recurrence identities.
+- This record does not conflate the batch scan, a reusable reciprocal chain, or cached-bound selection
+  of a globally closest pair. None implies a globally optimal fixed-count partition or automatic selection
+  of a unique cluster count.
+- Complete cited primary PDFs were visually inspected. No author software, CDC benchmark, modern implementation
+  or floating-point behavior was executed; only finite curator calculations were run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T21:53:58Z'
+  updated_at: '2026-10-13T21:53:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
