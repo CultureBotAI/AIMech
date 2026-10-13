@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robust continuous clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Robust continuous clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Robust continuous clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RobustContinuousClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RCC clustering
+    </div>
+
+  <div class="detail-desc">
+    A clustering algorithm that optimizes one representative per observation using squared data fidelity and robust attraction along a neighborhood graph, then extracts groups from thresholded connectivity between the optimized representatives.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 655 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 10, 0, 0 lines. All distinct match contents were read, including pending discovery entries and source-reading observations. Recovery hits concern pending RCC discovery notes and primary-source context; none identifies an existing standalone RCC record. Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered 45 AIO and 241 native definitions, all read; unchanged definitions were byte-compared with the preceding full assessment. 10 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain robust graph-coupled optimization of moving observation representatives followed by connectivity extraction. It differs from fixed exemplar mixture weights, mean-shift density modes, fixed-K centroid reassignment and reciprocal-neighbor tree construction. RCC-DR adds sparse representation learning and remains a distinct lead.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#robust-representative-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For observations x_i and representatives u_i initially equal to x_i, minimize one half of the summed squared data residuals plus lambda/2 times the weighted graph-edge penalties rho(||u_p-u_q||). The demonstrated Geman–McClure penalty is rho(y)=mu*y^2/(mu+y^2), with mu&gt;0. Its influence decreases for sufficiently large separations, allowing weak intergroup connections to contribute less than under a quadratic attraction penalty.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> Formulation, PDF pp.1–2, Equations1–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#neighborhood-and-degree-weights</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper constructs a mutual k-nearest-neighbor graph and augments it with a spanning tree of the k-nearest-neighbor graph. Its reported setting uses k=10 and cosine similarity for neighbor selection; an edge weight is average node degree divided by the geometric mean of its endpoint degrees. These graph choices and weights are separate from Euclidean representative differences in the objective. The pinned Python graph builder computes batched pair distances and partial neighbor sorting; it is not the approximate-neighbor implementation described in the paper.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> SI Methods, Connectivity Structure and Implementation, PDF p.7, EquationS1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-graph">RCC author implementation: Toolbox/edgeConstruction.py</a></span>
+        <span>· <strong>Locator:</strong> Toolbox/edgeConstruction.py, lines91–139,142–180</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#line-process-and-linear-solve</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Introduce a nonnegative line variable l for each edge. For fixed representatives, its minimizing value is (mu/(mu+||u_p-u_q||^2))^2. For fixed line variables, representatives solve a weighted graph-Laplacian linear system: using columns for observations, U(I+lambda*A)=X. With nonnegative edge weights and lambda&gt;=0, I+lambda*A is positive definite. These exact block subproblems do not establish a global optimum of the nonconvex joint objective or certify approximate numerical solves.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> Optimization, PDF pp.2–3, Equations2,4–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-matlab">RCC author implementation: RCC.m</a></span>
+        <span>· <strong>Locator:</strong> RCC.m, lines70–84,116–128</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#continuation-and-stopping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method uses graduated nonconvexity: reduce the robust scale mu during optimization and update lambda using the ratio of data and graph spectral norms. Changing these parameters changes the objective, so fixed-objective descent cannot be transferred silently to the whole schedule. The printed loop condition combines small objective change with an iteration condition using OR; the pinned MATLAB implementation instead uses a bounded for-loop and explicit continuation or break decisions. The code initializes mu from the maximum retained edge length, whereas the supplementary description uses the median.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> Optimization and Algorithm1, PDF p.3; SI Methods, PDF p.7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-matlab">RCC author implementation: RCC.m</a></span>
+        <span>· <strong>Locator:</strong> RCC.m, lines37–56,68–103</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#thresholded-component-extraction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Final labels are connected components after comparing representative distances with an edge-derived threshold; the number of clusters is not an input to the RCC objective. The supplement describes pairwise threshold connectivity, while the pinned assignment routine tests only the supplied original graph edges. The implementation also filters near-duplicate edges when deriving thresholds and distinguishes a capped scale sample from the uncapped one-percent threshold sample. These conventions can change the resulting partition and are not asserted to be equivalent.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> Algorithm1, PDF p.3; SI Methods, Initialization and Output, PDF p.7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-matlab">RCC author implementation: RCC.m</a></span>
+        <span>· <strong>Locator:</strong> RCC.m, lines37–48,108–111</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-assignment">RCC author implementation: assignment.m</a></span>
+        <span>· <strong>Locator:</strong> assignment.m, lines1–13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#variant-and-implementation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RCC-DR jointly learns a sparse low-dimensional representation and clustering and is a distinct extension, not an alias for the base RCC procedure. The author README distinguishes the released MATLAB accuracy implementation from a faster C++ implementation used for reported runtime measurements. Those measurements and the extension’s results are not transferred to this base record.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc2017">Robust continuous clustering</a></span>
+        <span>· <strong>Locator:</strong> Joint Clustering and Dimensionality Reduction, PDF pp.3–4; Experiments, PDF pp.4–5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-rcc-readme">RCC author implementation: README.md</a></span>
+        <span>· <strong>Locator:</strong> Introduction and MATLAB-versus-C++ implementation note</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The nonconvex objective, continuation, graph construction and threshold extraction each impose scope boundaries. Neither an exact fixed-line solve nor a decreasing fixed-parameter block step proves a globally optimal partition.</li>
+      <li>The released MATLAB solver uses PCG tolerance1e-2 and at most100 iterations per feature, and discards its returned status. Static inspection does not certify numerical convergence or exact monotonicity.</li>
+      <li>Zero graph norms, too few retained nonduplicate edges, disconnected neighbor graphs and unexpected index conventions require separate handling. The pinned MATLAB code initializes edge endpoint variables only when the input edge list has minimum index zero; generic one-based input is not certified.</li>
+      <li>The paper and inspected implementation differ in robust-scale initialization, threshold sampling, output edge scope and neighbor-search implementation. No single default configuration is silently attributed to both.</li>
+      <li>Finite curator arithmetic checks20 line-process cases and81 two-point fixed-parameter updates, plus a constructed difference between all-pair and original-edge extraction. The extraction example is not claimed to arise during an author RCC run.</li>
+      <li>The published evaluations include dataset-specific preprocessing and parameter selection. In particular, graph preprocessing for text datasets uses a PCA dimension equal to the number of ground-truth classes; this does not establish a wholly label-independent benchmark pipeline.</li>
+      <li>All11 pages of the author-hosted main paper and supplement and the cited pinned source files were read. No author code, data, training, MATLAB/C++ execution or benchmark replication was performed; external solver internals and evaluation utilities were not audited.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RCC constructs groups from observation features and graph relationships. The AIO target denotes the task; this relation does not equate the algorithm with a task or assert an upstream subclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-rcc2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rcc2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://vladlen.info/papers/RCC-with-supplement.pdf" target="_blank" rel="noopener">Robust continuous clustering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1073/pnas.1700770114</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a88e7f8437d0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-rcc-matlab">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rcc-matlab</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/RCC.m" target="_blank" rel="noopener">RCC author implementation: RCC.m</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a89a23511856…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-rcc-assignment">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rcc-assignment</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/assignment.m" target="_blank" rel="noopener">RCC author implementation: assignment.m</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46379f0887d8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-rcc-graph">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rcc-graph</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/Toolbox/edgeConstruction.py" target="_blank" rel="noopener">RCC author implementation: Toolbox/edgeConstruction.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:da5dfd24b641…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-rcc-readme">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">rcc-readme</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.bitbucket.org/2.0/repositories/sohilas/robust-continuous-clustering/src/8851679caab333dd6ccb22c973bb0b169caec1fb/README.md" target="_blank" rel="noopener">RCC author implementation: README.md</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e76c264cc28f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T22:29:06Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T22:29:06Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RobustContinuousClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RobustContinuousClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
