@@ -1,0 +1,564 @@
+# Scientific author self-review of Scheduled sampling
+
+- Review: 20261013T072202Z-scheduled-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T07:11:33Z
+- Finished UTC: 2026-10-13T07:22:02Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Scheduled sampling as a distinct DRAFT algorithm with a related curriculum mapping. Original gradients, target selection, schedule scope and bounded inconsistency counterexample are supported; no actionable defect remains in this author self-review.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:ScheduledSampling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 979c918cbf59603232be85a07bcec0fd0db95110.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ScheduledSampling | data/curated/ScheduledSampling.yaml | maintained | Scheduled sampling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ScheduledSampling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 226.75s (0:03:46)<br>Checked 442 record(s); 0 failed.<br>Checked 585 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 244 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 243,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ScheduledSampling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ScheduledSampling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ScheduledSampling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:ScheduledSampling | {"first_marginal": {"0": "1/2", "1": "1/2"}, "cases": [{"reference_probability": "1", "true_conditional": {"0": "1/10", "1": "9/10"}, "mixed_target_conditional": {"0": "1/10", "1": "9/10"}, "conditional_cross_entropy_at_truth": 0.3250829733914482, "conditional_cross_entropy_at_mixed_optimum": 0.3250829733914482, "partial_gradient_at_truth": {"0": "0", "1": "0"}}, {"reference_probability": "1/2", "true_conditional": {"0": "1/10", "1": "9/10"}, "mixed_target_conditional": {"0": "3/10", "1": "7/10"}, "conditional_cross_entropy_at_truth": 0.764527888858692, "conditional_cross_entropy_at_mixed_optimum": 0.6108643020548935, "partial_gradient_at_truth": {"0": "-10/9", "1": "10/9"}}, {"reference_probability": "0", "true_conditional": {"0": "1/10", "1": "9/10"}, "mixed_target_conditional": {"0": "1/2", "1": "1/2"}, "conditional_cross_entropy_at_truth": 1.203972804325936, "conditional_cross_entropy_at_mixed_optimum": 0.6931471805599453, "partial_gradient_at_truth": {"0": "-20/9", "1": "20/9"}}], "scope": "Idealized two-token sampled-prefix expected loss; fixed correct first-token marginal, independent conditional parameters and positive support. Original partial-gradient convention is not asserted to equal a full derivative through a parameter-dependent sampler. No fitting, empirical guarantee or claim about every schedule."} |
+
+## Scientific And Domain Assessments
+
+### Scheduled sampling
+
+identity: supported. Targets: AIMech:ScheduledSampling.
+
+Retain this distinct DRAFT algorithm.
+
+The mixed feedback-selection procedure is distinct from full teacher forcing, a derivative algorithm and teacher-parameter averaging. Its epsilon1 endpoint coincides with full teacher forcing without making the procedures synonyms.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:ScheduledSampling.
+
+Mapping direction and scope are supported.
+
+Pinned CurriculumLearning emphasizes simpler-to-harder example order. The source changes reference-feedback probability and calls it a curriculum, supporting related_match only.
+
+### mixed-prefix-training
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The true continuation remains the loss target even after a generated input is supplied. Per-token reference probability and sampled/argmax model choices match the original procedure; no on-policy expert relabeling is implied.
+
+### schedule-and-endpoints
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+All-reference and all-generated endpoints, the linear floor and other source schedules are scoped. Speech settings themselves need not start at epsilon1, and all-generated failures are conditional observations.
+
+### decision-gradient-convention
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The original source explicitly omits decision gradients on page4 and repeats future work on page8. Differentiating the full sampling expectation is a different calculation; no missing score term is silently treated as part of the implementation.
+
+### two-token-consistency-boundary
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+With Q1 fixed to P1, Bayes conditioning on the mixed prefix yields epsilon*P2given1+(1-epsilon)*P2. Independent second-step parameters and positive support make cross-entropy minimization explicit. The result is not generalized to a drifting shared-parameter sampler or arbitrary neural dynamics.
+
+### constructed-dependent-example
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The exact joint table sums to1 and both marginals equal1/2. At epsilon1/2 the conditional optima are3/10 and7/10; direct enumeration checks loss and gradients against the true1/10 and9/10. This is an original mathematical example, not an empirical replication.
+
+### reported-experiment-scope
+
+evidence: supported. Targets: AIMech:ScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Captioning/parsing/speech results retain task and evaluation boundaries. Table3 explicitly separates validation next-step and test beam-decoding frame errors. The idealized critique does not establish failure of every finite run.
+
+### mixed-prefix targets, omitted decision gradients and a fixed-sampler two-token counterexample
+
+consistency: supported. Targets: AIMech:ScheduledSampling.
+
+Constructed calculations support the stated distinctions.
+
+An original positive-support binary two-token model holds the first-token marginal fixed and enumerates the mixed prefix/target distribution. For reference probabilities1,1/2,0 it verifies conditional optima, cross-entropies and partial gradients without training; the all-generated limit loses dependence in this construction.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:ScheduledSampling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the entire captured maintained YAML and CurriculumLearning mapping after capture. Reread Bengio pages4,8 and Huszar pages3–5 visually; all18 primary pages had been read before curation. Checked mixture normalization, the fixed-sampler assumption, the stopped-decision update and distinction between likelihood consistency and finite experimental performance.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T071046Z-scheduled-sampling.json | supports | Compared all 442 pinned AIO and 583 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 56, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 77 AIO and 173 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Matches are the teacher-forcing record, its source and review context, and a pending nested lead. Scheduled sampling mixes supplied-reference and model-produced feedback under a changing probability; full teacher forcing is its all-reference endpoint, not an alias for the mixed procedure. BPTT computes derivatives and Mean Teacher averages model parameters for consistency, so neither supplies this identity. The source calls the schedule a curriculum, while pinned CurriculumLearning emphasizes simpler-to-harder example ordering; related_match preserves the association without asserting exact equivalence or a broader-class identity under that narrower definition. |
+| mapping | sources/aio/aio.json | supports | Pinned CurriculumLearning emphasizes simpler-to-harder example order. The source changes reference-feedback probability and calls it a curriculum, supporting related_match only. |
+| bengio2015 | https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf; All9 proceedings pages and all9 Huszar v1 pages read; selected critical pages reread after capture. Author implementation, later variants and empirical replication were not inspected or executed. | supports | NIPS2015 proceedings, Advances in Neural Information Processing Systems28; nine-page conference-hosted PDF with matching printed/PDF page numbers. All pages, equations, figures, tables and references visually read. Method Section2.4 spans pp.3–4; Figures1–2 are on p.4; Table3 and Conclusion are on p.8. |
+| huszar2015 | https://arxiv.org/pdf/1511.05101v1; All9 proceedings pages and all9 Huszar v1 pages read; selected critical pages reread after capture. Author implementation, later variants and empirical replication were not inspected or executed. | supports | arXiv1511.05101v1,16November2015; nine-page preprint marked Under review as a conference paper at ICLR2016. All nine pages read. Acceptance at that conference is not asserted; the two-step critique is assessed within its stated idealization. |
+| calculation | research/discovery/scheduled-sampling-boundaries.py | supports | An original positive-support binary two-token model holds the first-token marginal fixed and enumerates the mixed prefix/target distribution. For reference probabilities1,1/2,0 it verifies conditional optima, cross-entropies and partial gradients without training; the all-generated limit loses dependence in this construction. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 584 native and 442 unchanged generated records. The 768-entry main frontier retains 481 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All nine Bengio2015 proceedings pages and all nine Huszar arXiv1511.05101v1 pages visually read. The latter is a16November2015 preprint marked Under review as a conference paper at ICLR2016, not asserted an accepted conference paper. Exact scheduled-sampling method is BengioSection2.4 pp3–4; all experiments pp5–8 and references were read. No author implementation or training.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T072202Z-scheduled-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Scheduled sampling
+started_at: '2026-10-13T07:11:33Z'
+finished_at: '2026-10-13T07:22:02Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged mixed-prefix targets, omitted decision
+    gradients and a fixed-sampler two-token counterexample. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Scheduled sampling as a distinct DRAFT algorithm with a related curriculum
+  mapping. Original gradients, target selection, schedule scope and bounded inconsistency
+  counterexample are supported; no actionable defect remains in this author self-review.
+source:
+  git_revision: 979c918cbf59603232be85a07bcec0fd0db95110
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/CurriculumLearning.yaml
+    sha256: 3f1495ef4fd37c9798407dc03f233569c82914e93bfd5c6df518c6fc165f12e4
+    role: context
+  - path: data/aio/CurriculumLearningLLM.yaml
+    sha256: 04228394d496be057fe97e0c9352eb7655a441a6c515173a38d9ad71002b9f67
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/BackpropagationThroughTime.yaml
+    sha256: 1381e37d6edc44a7e4195cfd575643b65385824e0beb66cba02b3d82784fc3e8
+    role: context
+  - path: data/curated/MeanTeacher.yaml
+    sha256: 606e863163715f48b89fb35dc090bb32d5d2ca70c099d1fdfac563104ada27b7
+    role: context
+  - path: data/curated/ScheduledSampling.yaml
+    sha256: cac8d18966c4b7ad1e0432d98367decd2e2ae6a19373f30f4da368ec057b994d
+    role: target
+  - path: data/curated/TeacherForcing.yaml
+    sha256: 2fa0fc009f4cdaeee3e6c4b58cb1bb15ba0786f7a3cab9495ed2edd2df74cf3e
+    role: context
+  - path: research/discovery/20261013T071046Z-scheduled-sampling.json
+    sha256: 14339d1d53481a35ce03ed34176e8dc47c2b87b1e998e07ac0b35acdb355d0bb
+    role: context
+  - path: research/discovery/scheduled-sampling-boundaries.py
+    sha256: 9b128329d223d088ad3d38e9983a0287e392847835d884695801eee7586243a8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ScheduledSampling
+  path: data/curated/ScheduledSampling.yaml
+  label: Scheduled sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ScheduledSampling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:ScheduledSampling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ScheduledSampling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All9 proceedings pages and all9 Huszar v1 pages read; selected critical
+      pages reread after capture. Author implementation, later variants and empirical
+      replication were not inspected or executed.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 226.75s (0:03:46)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 585 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 244 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 243,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/scheduled-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"first_marginal": {"0": "1/2", "1": "1/2"}, "cases": [{"reference_probability":
+    "1", "true_conditional": {"0": "1/10", "1": "9/10"}, "mixed_target_conditional":
+    {"0": "1/10", "1": "9/10"}, "conditional_cross_entropy_at_truth": 0.3250829733914482,
+    "conditional_cross_entropy_at_mixed_optimum": 0.3250829733914482, "partial_gradient_at_truth":
+    {"0": "0", "1": "0"}}, {"reference_probability": "1/2", "true_conditional": {"0":
+    "1/10", "1": "9/10"}, "mixed_target_conditional": {"0": "3/10", "1": "7/10"},
+    "conditional_cross_entropy_at_truth": 0.764527888858692, "conditional_cross_entropy_at_mixed_optimum":
+    0.6108643020548935, "partial_gradient_at_truth": {"0": "-10/9", "1": "10/9"}},
+    {"reference_probability": "0", "true_conditional": {"0": "1/10", "1": "9/10"},
+    "mixed_target_conditional": {"0": "1/2", "1": "1/2"}, "conditional_cross_entropy_at_truth":
+    1.203972804325936, "conditional_cross_entropy_at_mixed_optimum": 0.6931471805599453,
+    "partial_gradient_at_truth": {"0": "-20/9", "1": "20/9"}}], "scope": "Idealized
+    two-token sampled-prefix expected loss; fixed correct first-token marginal, independent
+    conditional parameters and positive support. Original partial-gradient convention
+    is not asserted to equal a full derivative through a parameter-dependent sampler.
+    No fitting, empirical guarantee or claim about every schedule."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T071046Z-scheduled-sampling.json
+  accessed_at: '2026-10-13T07:11:33Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 583 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    56, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 77 AIO and 173 native definitions, with unchanged preceding rows verified
+    and new matches read. 4 full annotated AIO node/edge/generated contexts and 3
+    full native records were inspected. Matches are the teacher-forcing record, its
+    source and review context, and a pending nested lead. Scheduled sampling mixes
+    supplied-reference and model-produced feedback under a changing probability; full
+    teacher forcing is its all-reference endpoint, not an alias for the mixed procedure.
+    BPTT computes derivatives and Mean Teacher averages model parameters for consistency,
+    so neither supplies this identity. The source calls the schedule a curriculum,
+    while pinned CurriculumLearning emphasizes simpler-to-harder example ordering;
+    related_match preserves the association without asserting exact equivalence or
+    a broader-class identity under that narrower definition.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T07:11:33Z'
+  support: supports
+  summary: Pinned CurriculumLearning emphasizes simpler-to-harder example order. The
+    source changes reference-feedback probability and calls it a curriculum, supporting
+    related_match only.
+- evidence_id: bengio2015
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf
+  locator: All9 proceedings pages and all9 Huszar v1 pages read; selected critical
+    pages reread after capture. Author implementation, later variants and empirical
+    replication were not inspected or executed.
+  accessed_at: '2026-10-13T06:27:25Z'
+  snapshot_sha256: ab71fd38a31df07e90e7ec019b19654de8f633484a76c0a68e36133f888454a0
+  support: supports
+  summary: NIPS2015 proceedings, Advances in Neural Information Processing Systems28;
+    nine-page conference-hosted PDF with matching printed/PDF page numbers. All pages,
+    equations, figures, tables and references visually read. Method Section2.4 spans
+    pp.3–4; Figures1–2 are on p.4; Table3 and Conclusion are on p.8.
+- evidence_id: huszar2015
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1511.05101v1
+  locator: All9 proceedings pages and all9 Huszar v1 pages read; selected critical
+    pages reread after capture. Author implementation, later variants and empirical
+    replication were not inspected or executed.
+  accessed_at: '2026-10-13T06:52:06Z'
+  snapshot_sha256: f6294aac1bac2805a9a146abd8dee2cec1c4db72cfd3bfe7509c69ee4daa3df4
+  support: supports
+  summary: arXiv1511.05101v1,16November2015; nine-page preprint marked Under review
+    as a conference paper at ICLR2016. All nine pages read. Acceptance at that conference
+    is not asserted; the two-step critique is assessed within its stated idealization.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/scheduled-sampling-boundaries.py
+  accessed_at: '2026-10-13T07:15:23Z'
+  snapshot_sha256: 9b128329d223d088ad3d38e9983a0287e392847835d884695801eee7586243a8
+  support: supports
+  summary: An original positive-support binary two-token model holds the first-token
+    marginal fixed and enumerates the mixed prefix/target distribution. For reference
+    probabilities1,1/2,0 it verifies conditional optima, cross-entropies and partial
+    gradients without training; the all-generated limit loses dependence in this construction.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Scheduled sampling
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - identity
+  - bengio2015
+  - huszar2015
+  summary: Retain this distinct DRAFT algorithm.
+  details: The mixed feedback-selection procedure is distinct from full teacher forcing,
+    a derivative algorithm and teacher-parameter averaging. Its epsilon1 endpoint
+    coincides with full teacher forcing without making the procedures synonyms.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - mapping
+  - bengio2015
+  - huszar2015
+  summary: Mapping direction and scope are supported.
+  details: Pinned CurriculumLearning emphasizes simpler-to-harder example order. The
+    source changes reference-feedback probability and calls it a curriculum, supporting
+    related_match only.
+- assessment_id: mixed-prefix-training
+  area: evidence
+  topic: mixed-prefix-training
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - bengio2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The true continuation remains the loss target even after a generated input
+    is supplied. Per-token reference probability and sampled/argmax model choices
+    match the original procedure; no on-policy expert relabeling is implied.
+- assessment_id: schedule-and-endpoints
+  area: evidence
+  topic: schedule-and-endpoints
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - bengio2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: All-reference and all-generated endpoints, the linear floor and other source
+    schedules are scoped. Speech settings themselves need not start at epsilon1, and
+    all-generated failures are conditional observations.
+- assessment_id: decision-gradient-convention
+  area: evidence
+  topic: decision-gradient-convention
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - bengio2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The original source explicitly omits decision gradients on page4 and repeats
+    future work on page8. Differentiating the full sampling expectation is a different
+    calculation; no missing score term is silently treated as part of the implementation.
+- assessment_id: two-token-consistency-boundary
+  area: evidence
+  topic: two-token-consistency-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - huszar2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: With Q1 fixed to P1, Bayes conditioning on the mixed prefix yields epsilon*P2given1+(1-epsilon)*P2.
+    Independent second-step parameters and positive support make cross-entropy minimization
+    explicit. The result is not generalized to a drifting shared-parameter sampler
+    or arbitrary neural dynamics.
+- assessment_id: constructed-dependent-example
+  area: evidence
+  topic: constructed-dependent-example
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - huszar2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The exact joint table sums to1 and both marginals equal1/2. At epsilon1/2
+    the conditional optima are3/10 and7/10; direct enumeration checks loss and gradients
+    against the true1/10 and9/10. This is an original mathematical example, not an
+    empirical replication.
+- assessment_id: reported-experiment-scope
+  area: evidence
+  topic: reported-experiment-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - bengio2015
+  - huszar2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Captioning/parsing/speech results retain task and evaluation boundaries.
+    Table3 explicitly separates validation next-step and test beam-decoding frame
+    errors. The idealized critique does not establish failure of every finite run.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: mixed-prefix targets, omitted decision gradients and a fixed-sampler two-token
+    counterexample
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - bengio2015
+  - huszar2015
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: An original positive-support binary two-token model holds the first-token
+    marginal fixed and enumerates the mixed prefix/target distribution. For reference
+    probabilities1,1/2,0 it verifies conditional optima, cross-entropies and partial
+    gradients without training; the all-generated limit loses dependence in this construction.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:ScheduledSampling
+  evidence_ids:
+  - identity
+  - mapping
+  - bengio2015
+  - huszar2015
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the entire captured maintained YAML and CurriculumLearning
+    mapping after capture. Reread Bengio pages4,8 and Huszar pages3–5 visually; all18
+    primary pages had been read before curation. Checked mixture normalization, the
+    fixed-sampler assumption, the stopped-decision update and distinction between
+    likelihood consistency and finite experimental performance.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 584 native and 442 unchanged generated records.
+  The 768-entry main frontier retains 481 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All nine Bengio2015 proceedings pages and all nine Huszar arXiv1511.05101v1 pages
+  visually read. The latter is a16November2015 preprint marked Under review as a conference
+  paper at ICLR2016, not asserted an accepted conference paper. Exact scheduled-sampling
+  method is BengioSection2.4 pp3–4; all experiments pp5–8 and references were read.
+  No author implementation or training.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

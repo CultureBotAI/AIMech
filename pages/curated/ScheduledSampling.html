@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduled sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Scheduled sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Scheduled sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ScheduledSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An autoregressive sequence-training procedure that chooses between reference and model-produced previous outputs as feedback, using a schedule that progressively reduces the probability of reference feedback.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 583 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 56, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 77 AIO and 173 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Matches are the teacher-forcing record, its source and review context, and a pending nested lead. Scheduled sampling mixes supplied-reference and model-produced feedback under a changing probability; full teacher forcing is its all-reference endpoint, not an alias for the mixed procedure. BPTT computes derivatives and Mean Teacher averages model parameters for consistency, so neither supplies this identity. The source calls the schedule a curriculum, while pinned CurriculumLearning emphasizes simpler-to-harder example ordering; related_match preserves the association without asserting exact equivalence or a broader-class identity under that narrower definition.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mixed-prefix-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each training prediction, use the current mixed prefix to form the model conditional, score the actual reference target, and choose whether the output fed to the next prediction is the reference token or a model-produced token. The original experiments flip a coin for each token with reference probability epsilon_i at training iteration i. The model alternative may be sampled from the conditional or selected by argmax. The target in the loss remains the reference; this is not simply training the model to imitate its own sampled target.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#schedule-and-endpoints</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The all-reference choice epsilon=1 reproduces ordinary true-prefix training, whereas epsilon=0 uses generated feedback. The source proposes decreasing schedules, including a linear decay with a floor, exponential decay and an inverse-sigmoid form. These are configurable curricula rather than one mandatory formula or an assertion that every practical schedule starts exactly at one or reaches zero. The paper reports poor results for some tasks when generated feedback is used from the start; the all-generated endpoint is not an automatic optimization improvement.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Always Sampling comparisons in Sections4.1–4.3, PDF pp.5–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decision-gradient-convention</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the reported experiments, gradients pass through the recurrent computations and losses but not through the discrete sampled-token decision. A model-dependent sampling distribution contributes additional terms if one differentiates its full expected loss; those terms must not be silently attributed to the reported update. The paper leaves differentiation through selection decisions to future work. A differentiable relaxation or a score-function estimator therefore needs its own algorithm and objective specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section2.4, PDF/printed pp.3–4; Figures1–2 and decision-gradient convention, p.4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section5 Conclusion, PDF/printed p.8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#two-token-consistency-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The primary critique analyzes an idealized two-token sampled-prefix criterion. For a fixed first-token model equal to the true marginal P1, reference probability epsilon makes the conditional target at a supplied prefix z equal to epsilon*P(y|z)+(1-epsilon)*P2(y). With separately adjustable second-token conditionals, this mixture need not equal the true conditional when the tokens are dependent. At epsilon=0 it becomes independent of z. This is a bounded consistency counterexample, not a claim that every finite neural training run converges to that distribution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-huszar2015">How (not) to Train your Generative Model: Scheduled Sampling, Likelihood, Adversary?</a></span>
+        <span>· <strong>Locator:</strong> Sections4–4.1, especially the two-symbol formulation and Equation6, PDF/printed pp.3–5; curator direct expected-loss calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#constructed-dependent-example</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In a constructed binary example with joint masses P(0,0)=P(1,1)=9/20 and P(0,1)=P(1,0)=1/20, both marginals are uniform. Holding the first-token sampler at that marginal, epsilon=1/2 gives optimal second-token probabilities P_model(1|0)=3/10 and P_model(1|1)=7/10 for the mixed-input conditional loss, instead of the true 1/10 and 9/10. Its conditional cross-entropy is lower at the mixed target than at the true conditional, and the partial gradients at the truth are nonzero. The calculation fixes the sampler and does not equate a stopped-decision neural update with the full derivative through a changing sampler.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-huszar2015">How (not) to Train your Generative Model: Scheduled Sampling, Likelihood, Adversary?</a></span>
+        <span>· <strong>Locator:</strong> Section4.1 two-token criterion, Equation6, PDF/printed p.4; independently constructed finite enumeration in the discovery calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#reported-experiment-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The original paper reports selected image-captioning, parsing and speech comparisons under particular capacities, schedules and evaluation settings. All-generated training fails to learn correct tree structure in the reported parsing condition. Speech next-step frame error uses supplied previous labels on validation data, while free-decoding frame error uses beam search on test data; these are not interchangeable measurements or general word-recognition scores. Reported benefits and the idealized consistency critique concern different questions and do not establish either universal superiority or universal empirical failure.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-bengio2015">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections4.1–4.3 and Tables1–3, PDF/printed pp.5–8; Section5, p.8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-huszar2015">How (not) to Train your Generative Model: Scheduled Sampling, Likelihood, Adversary?</a></span>
+        <span>· <strong>Locator:</strong> Discussion of finite-training empirical success after the consistency analysis, PDF/printed p.5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record describes Bengio et al2015 and the original omitted decision-gradient convention. Differentiable, confidence-based or later sampling variants require separate evidence and identity assessment.</li>
+      <li>A sampled model prefix can be paired with an original reference continuation that is no longer appropriate for that prefix. The procedure does not query a new expert target for every visited model state.</li>
+      <li>The conditional mixture result fixes the first-token sampler to the true marginal, uses positive-support two-token data and separately adjustable conditionals. It does not certify the dynamics of a shared-parameter neural optimizer, arbitrary schedules, argmax replacements or longer sequences.</li>
+      <li>The source critique’s broader perceptual-quality and generalized-adversarial proposals are not adopted here. Its displayed reformulations are not needed beyond the directly checked expected two-token criterion.</li>
+      <li>All eighteen cited PDF pages were read. Constructed finite probability calculations were executed without fitting; no author code, model training, paid service or benchmark replication was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/CurriculumLearning.html" style="font-weight: 600;"><code>AIO:CurriculumLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Curriculum Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The source explicitly presents a curriculum that changes reference-feedback probability during training. The pinned class describes ordering examples from simple to complex, whereas this procedure changes how feedback is selected. A related mapping preserves that training-strategy association without asserting exact identity or an is-a edge under the narrower pinned wording.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-bengio2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">bengio2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf" target="_blank" rel="noopener">Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Samy Bengio, Oriol Vinyals, Navdeep Jaitly, Noam Shazeer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.neurips.cc/paper/2015/hash/e995f98d56967d946471af29d7bf99f1-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab71fd38a31d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-huszar2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">huszar2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1511.05101v1" target="_blank" rel="noopener">How (not) to Train your Generative Model: Scheduled Sampling, Likelihood, Adversary?</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ferenc Huszár
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1511.05101v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f6294aac1bac…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T07:10:46Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T07:10:46Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ScheduledSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ScheduledSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
