@@ -1,0 +1,184 @@
+id: AIMech:RandomizedLatentScoreConflictDiagnostic
+name: Randomized latent score conflict diagnostic
+aliases:
+- Randomised latent score conflict diagnostic
+concept_kind: algorithm
+definition: A Bayesian hierarchical-model diagnostic that freezes draws from a parent posterior excluding
+  selected child data, draws child latent parameters conditionally, and compares derivatives of an expanded
+  conditional log prior with scores of conditional-prior replicates. The resulting randomized tail values
+  are examined and optionally combined as a model-conflict summary, with calibration depending on the
+  actual sampling law, score direction and aggregation.
+identity_notes: 'No normalized identity match among all 442 pinned AIO and 561 maintained IDs, names,
+  aliases and scoped synonyms. Fixed-string searches include ignored and hidden files in the recovery,
+  older discovery and original Documents checkouts, returning 116, 61 and 61 lines. Hit paths were classified;
+  candidate source notes and canonical identities were inspected. Most contextual matches concern unrelated
+  latent-space models or their generated/report mirrors; long metadata and search-index lines were not
+  all read line by line. The corrected semantic search covers 61 AIO rows and 220 native names/definitions:
+  61 and 214 prior rows were verified unchanged, and six additional native definitions were read. An initial
+  scratch regex contained an empty alternative and overselected the entire corpus; that result was discarded
+  and rerun with the corrected expression, not certified as a full-corpus semantic reading. Ten full AIO
+  nodes with incident edges/generated YAML and nine native context records were read or verified against
+  prior readings. The fixed-parent randomized score and conditional-prior reference distinguish this procedure
+  from INLA summary contrasts, separator splitting, simultaneous maxT, Gaussian-message screening and
+  prior-to-posterior divergence checks. The local English label and its British spelling are descriptive,
+  not author-assigned acronyms.'
+definition_evidence:
+- source_id: yang2026
+  locator: Sections 3.1–3.4 and Algorithm 1, PDF pp. 14–18
+  relation: supports
+claims:
+- claim_id: latent-expansion-scope
+  kind: scope
+  statement: Select a child component and a parent/remaining-data component of a Bayesian hierarchical
+    model. Expand a specified conditional latent prior through a scalar parameter alpha, with the original
+    model at alpha0. The derivative of its log density supplies a discrepancy aimed at that expansion
+    direction. This checks a chosen latent relationship; it is not a generic observed-data residual, a
+    contrast between two independently fitted separator copies, or a method for learning a neural score
+    function.
+  evidence:
+  - source_id: yang2026
+    locator: Sections 2.5 and 3.1–3.3, PDF pp. 10–18; Algorithm 1, p. 16
+    relation: supports
+- claim_id: frozen-parent-conditional-sampling
+  kind: mechanism
+  statement: Algorithm 1 draws theta1 from the parent posterior q_parent(theta1) fitted without the selected
+    child data. For each such draw it fixes theta1 and draws theta2 from the normalized conditional child
+    posterior p(theta2|y_child,theta1). Thus its ideal sampling law is q_parent(theta1)*p(theta2|y_child,theta1),
+    retaining the parent weights. An ordinary full update would additionally weight theta1 by the child
+    marginal likelihood. The two laws generally differ; the algorithm is read by its fixed-parent steps
+    rather than treating sequential updating as automatic equivalence to the full posterior. Proper parent
+    and conditional distributions are required.
+  evidence:
+  - source_id: yang2026
+    locator: Sections 2.5 and 3.1, PDF pp. 13–15; Algorithm 1 steps 1–2, p. 16
+    relation: supports
+- claim_id: randomized-score-not-posterior-average
+  kind: mechanism
+  statement: For each sampled pair compute s(theta1,theta2)=d log p(theta2|theta1,alpha)/d alpha at alpha0,
+    including parameter-dependent normalizers. Under differentiation/integration regularity, the marginal-likelihood
+    score discussed in the background is a posterior expectation of a log-prior score. Algorithm 1 instead
+    retains randomized latent scores. A tail probability evaluated at one score, an average of such tails
+    and a tail evaluated at the mean score are different quantities and must not be substituted for one
+    another.
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.5, Equations 2–8, PDF pp. 11–14; Algorithm 1 step 4, p. 16; Appendix B, p. 37
+    relation: supports
+- claim_id: conditional-reference-and-monte-carlo
+  kind: mechanism
+  statement: For each fixed parent draw, sample G latent reference values from p(theta2|theta1,alpha0)
+    and compute their scores. The source estimates an upper score-tail probability by the fraction of
+    reference scores at least as large as the child-posterior score. These are latent-prior replicates,
+    not new observed datasets. The estimate can be zero and depends on G, ties and Monte Carlo dependence.
+    Exact Monte Carlo test validity requires an appropriate exchangeability/rank argument; modifying the
+    count with a finite-sample correction alone does not repair a miscalibrated underlying reference law.
+  evidence:
+  - source_id: yang2026
+    locator: Algorithm 1 steps 4–5, PDF p. 16; Section 3.3, p. 18
+    relation: supports
+- claim_id: score-direction-matters
+  kind: limitation
+  statement: Specify both the expansion parameterization and the tail used to flag conflict. A decreasing
+    reparameterization reverses the score sign and exchanges upper and lower ordering. For a normal conditional
+    prior, expanding variance gives a score increasing with squared standardized distance, whereas expanding
+    precision gives the opposite ordering. Appendix B uses a precision-style expansion whose deviance
+    contribution decreases with deviance. An upper raw-score tail therefore cannot be assumed to detect
+    large deviations for every expansion. A normalizing constant near one does not itself justify dropping
+    its derivative.
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.5, PDF pp. 11–14; Section 3.2, p. 17; Algorithm 1, p. 16; Appendix B, p. 37
+    relation: supports
+- claim_id: marginal-calibration-boundary
+  kind: limitation
+  statement: A draw from the full joint posterior, averaged over data from the matching proper prior predictive,
+    has the joint prior as its marginal law. This identity does not automatically apply to Algorithm 1
+    after parent feedback is cut. Uniform score-tail values additionally require the stated reference
+    law and continuous score, or a justified treatment of ties. Hierarchical conditioning, retained parent
+    uncertainty and the sampling ensemble matter. The accompanying constructed Gaussian calculation shows
+    a frozen-parent standardized latent residual X with variance greater than one even under a proper
+    model; its variance-expansion score s=(X^2-1)/2 therefore need not have uniform reference-tail values;
+    it is a mathematical boundary example, not a reproduction of the source experiments.
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.4, PDF pp. 8–9; Section 2.5, pp. 13–14; Algorithm 1, p. 16; Appendix A, p. 36;
+      Appendix D, pp. 38–44
+    relation: supports
+- claim_id: dependent-score-aggregation
+  kind: mechanism
+  statement: The source summarizes the dependent randomized tail values using either a minimum over order-statistic
+    upper bounds or a weighted half-Cauchy transformation sum w_m*cot(pi*p_m/2), with a Landau approximation
+    described for the latter. A valid bound at a fixed rank does not by itself validate minimizing across
+    ranks. Uniform marginals alone do not guarantee validity of that adaptive minimum under arbitrary
+    dependence. Likewise the half-Cauchy reference needs its own dependence, tail and approximation conditions,
+    and zero estimates require explicit handling. These summaries are not asserted here to provide general
+    finite-sample error control or a posterior probability that conflict is true.
+  evidence:
+  - source_id: yang2026
+    locator: Section 2.4, PDF pp. 9–10; Algorithm 1 step 6, p. 16; Section 3.4, p. 18; discussion, pp.
+      34–35
+    relation: supports
+- claim_id: interpretation-and-computation
+  kind: limitation
+  statement: The diagnostic depends on the selected split, latent parameterization, expansion direction,
+    prior, approximation and aggregation. It can suggest where to investigate model inconsistency, but
+    it does not establish which source is wrong. Repeated conditional child fits and nested reference
+    sampling can be costly; MCMC convergence and effective sample size matter. The paper recommends examining
+    the distribution of randomized tail values alongside a combined summary and warns that conventional
+    thresholds can be uninformative. Its examples do not establish universal power, calibration or superiority.
+  evidence:
+  - source_id: yang2026
+    locator: Sections 3–6, PDF pp. 15–35, especially discussion pp. 34–35
+    relation: supports
+evidence_sources:
+- source_id: yang2026
+  title: Detecting Conflicts in Evidence Synthesis Models Using Score Discrepancies
+  authors:
+  - Fuming Yang
+  - David J. Nott
+  - Anne M. Presanis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2511.02977v2
+  persistent_id: https://doi.org/10.48550/arXiv.2511.02977
+  version: arXiv:2511.02977v2, 2026-09-12; first version 2025-11-04. Full 52-page preprint read, including
+    all figures, tables, appendices and references. PDF page numbers used.
+  access_level: full_text
+  accessed_at: '2026-10-13T01:32:45Z'
+  sha256: 4829e0d63d562483aa6aab88a418c62e6d336cd63e9205ee175bf9e9c1bade2d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The method organizes Bayesian hierarchical information into parent and child components of
+    a directed graphical model. BayesianNetwork is its representation context; it does not denote the
+    latent score diagnostic, frozen-parent sampling or its calibration. This is a related mapping without
+    equivalence or subclass assertion.
+limitations:
+- This descriptive local identity denotes the randomized latent score procedure in Yang, Nott and Presanis
+  Algorithm 1, not all prior-expansion checks, pivotal diagnostics, node splitting, cut inference or half-Cauchy
+  combination tests.
+- The source is the 2026-09-12 arXiv v2 preprint. Its full 52-page PDF, all figures and tables and references
+  were inspected; this is not a claim of peer-review status or external empirical validation.
+- Fixed-parent conditional sampling differs from full posterior sampling. Neither the prior-posterior
+  marginal identity nor uniform marginal scores can be assumed after cutting feedback. Constructed calculations
+  qualify these claims without fitting the source models.
+- Score sign, normalizing derivatives, continuity/ties, Monte Carlo zeros and dependent aggregation must
+  be specified. The separate primary theory for half-Cauchy combination has not yet been fully inspected;
+  no general error-control guarantee is imported from a secondary description.
+- 'Source application inconsistencies are retained in the discovery report: a Table 2 threshold marker,
+  GP versus HOS interpretation around Table 3, and a beta-binomial marginalization that does not preserve
+  the latent probability joint law when replaced by a count ratio. No application outcome or joint-model
+  equivalence is imported.'
+- No MCMC fitting, source implementation execution, biomedical inference, benchmark or repeated-data empirical
+  calibration was performed. Constructed Gaussian and uniform-interval examples check mathematical limits
+  only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T01:52:40Z'
+  updated_at: '2026-10-13T01:58:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
