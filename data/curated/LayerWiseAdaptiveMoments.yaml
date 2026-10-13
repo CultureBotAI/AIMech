@@ -1,0 +1,199 @@
+id: AIMech:LayerWiseAdaptiveMoments
+name: Layer-wise adaptive moments
+aliases:
+- LAMB
+concept_kind: algorithm
+definition: A gradient optimizer that combines coordinate-wise Adam moment scaling with layer-wise normalization
+  of the resulting update direction, optionally including weight decay, and scales each block by a function
+  of its parameter norm and a global learning rate.
+identity_notes: 'Compared all 442 pinned AIO and 565 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 55, 13, 16 lines. Canonical data hits were read:
+  existing LARS/CLARS context or the author Alex Lamb in augmentation sources; original ignored dependencies
+  contain unrelated ontology prefixes and an author name. Historical report and rendered-mirror paths
+  were classified with bounded excerpts, not reread in full. A semantic search covered ten AIO rows and
+  88 native definitions: the preceding ten AIO and 87 native rows were verified unchanged, and the new
+  CLARS definition was read. Three complete AIO node/edge/generated contexts were verified unchanged;
+  six full native context records were read or verified against prior full readings. LAMB normalizes a
+  coordinate-wise moment-scaled direction within blocks; LARS, CLARS, ordinary SGD, Adam and RMSprop have
+  different update rules. The separately named NovoGrad paper shares layer-wise adaptive moments terminology
+  but its primary abstract identifies a distinct pending method, not an alias.'
+definition_evidence:
+- source_id: you2020
+  locator: Section 3.2 and Algorithm 2, PDF/printed p. 5
+  relation: supports
+- source_id: tfaddons
+  locator: Module and LAMB class documentation; _resource_apply_dense
+  relation: supports
+claims:
+- claim_id: raw-moments-and-bias-correction
+  kind: mechanism
+  statement: For the minibatch loss gradient g_t, maintain raw states m_t=beta1*m_(t-1)+(1-beta1)*g_t
+    and v_t=beta2*v_(t-1)+(1-beta2)*g_t^2 from zero initial states, with coordinate-wise squares. Form
+    mhat_t=m_t/(1-beta1^t), vhat_t=v_t/(1-beta2^t), and r_t=mhat_t/(sqrt(vhat_t)+epsilon), with epsilon>0.
+    Raw states, not the corrected views, feed the next recurrence. The paper reuses m_t and v_t symbols
+    on its correction lines; the inspected official implementation explicitly distinguishes stored states
+    from corrected values.
+  evidence:
+  - source_id: you2020
+    locator: Algorithm 2, PDF/printed p. 5; Appendix E, p. 15
+    relation: supports
+  - source_id: tfaddons
+    locator: _prepare_local and _resource_apply_dense, raw state assignments and m_t_hat/v_t_hat
+    relation: supports
+- claim_id: layer-normalized-direction
+  kind: mechanism
+  statement: For a chosen block i, form u_t^(i)=r_t^(i)+lambda*x_t^(i) and, when norm(u_t^(i))>0, update
+    x_(t+1)^(i)=x_t^(i)-eta_t*phi(norm(x_t^(i)))*u_t^(i)/norm(u_t^(i)), using L2 norms and nonnegative
+    global rate eta_t. Its displacement norm is eta_t*phi(norm(x_t^(i))). The paper discusses the identity
+    scaling function and a weight-norm function clipped between lower and upper thresholds. Normalization
+    acts on the moment-scaled combined direction, not the raw gradient norm, a mean of per-example gradient
+    norms, or the separate sum of gradient and decay norms.
+  evidence:
+  - source_id: you2020
+    locator: Section 3 general strategy, PDF/printed p. 4; Algorithm 2 and Section 3.2, p. 5
+    relation: supports
+- claim_id: decay-outside-moments-inside-normalization
+  kind: mechanism
+  statement: The stated lambda*x_t term is added after the loss-gradient moments are formed, so it does
+    not enter their first- or second-moment recurrences. It nevertheless changes the direction and norm
+    used by layer adaptation. Consequently this is not generally equivalent to either adding an L2-penalty
+    gradient before Adam moment estimation or taking an independently scaled AdamW shrinkage step after
+    the normalized gradient update. A concrete implementation may exclude selected parameters from decay
+    or layer adaptation.
+  evidence:
+  - source_id: you2020
+    locator: Algorithm 2, PDF/printed p. 5
+    relation: supports
+  - source_id: tfaddons
+    locator: _resource_apply_dense, _do_use_weight_decay, _do_layer_adaptation and exclusion arguments
+    relation: supports
+- claim_id: zero-norm-and-grouping-boundaries
+  kind: limitation
+  statement: 'A positive epsilon protects the coordinate-wise second-moment denominator but does not make
+    the final block norm nonzero: r_t and lambda*x_t can cancel. The displayed paper update supplies no
+    explicit zero-block fallback. The inspected TensorFlow Addons revision uses the identity parameter-norm
+    scaling and a ratio of one when either the parameter norm or the update norm is zero, and allows regex-based
+    exclusions. Its zero-weight behavior can therefore differ from directly applying identity phi to the
+    ideal formula. Parameter-block grouping, norm conventions and exclusions affect the method and must
+    be specified.'
+  evidence:
+  - source_id: you2020
+    locator: Section 3 and Algorithm 2, PDF/printed pp. 4–5; Appendix F, p. 16
+    relation: supports
+  - source_id: tfaddons
+    locator: __init__, _resource_apply_dense and _resource_apply_sparse, ratio fallback and exclusions
+    relation: supports
+- claim_id: bias-correction-and-sign-limit
+  kind: limitation
+  statement: Removing bias correction is not universally equivalent to a warm-up schedule. For the same
+    raw moment states, zero decay, zero epsilon and a defined nonzero normalized direction, the common
+    positive bias-correction scalar cancels in the block normalization; with decay or positive epsilon
+    that equivalence need not hold. Similarly the beta1=beta2=0 sign-gradient relation requires an ideal
+    zero-epsilon, zero-decay limit and appropriate treatment of zero coordinates. At positive epsilon
+    the coordinate ratio is g/(abs(g)+epsilon), not an exact sign. These qualifications concern algebraic
+    limits, not a recommendation to remove numerical safeguards.
+  evidence:
+  - source_id: you2020
+    locator: Algorithm 2 and sign-SGD discussion, PDF/printed p. 5; Appendix E and Figure 2, pp. 15–16;
+      algebraic consequences with the stated conditions
+    relation: supports
+- claim_id: convergence-scope
+  kind: limitation
+  statement: The primary theory assumes smoothness and bounded stochastic-gradient noise, and studies
+    a uniformly selected iterate under specified rates and batch scaling. The stated LAMB theorem focuses
+    on beta1=0 and lambda=0, uses a positive bounded scaling function and equal block dimensions, and
+    gives different stationarity bounds for zero versus positive beta2. These conditions do not automatically
+    cover every momentum, decay, scaling-function, numerical-offset or implementation configuration. The
+    comparison with SGD also uses different stationarity quantities; it is not a uniform guarantee that
+    LAMB converges faster or generalizes better.
+  evidence:
+  - source_id: you2020
+    locator: Preliminaries and Theorem 1, PDF/printed p. 3; Theorem 3 and discussion, p. 5; Appendix B
+      proof, pp. 12–14; comparison context, Appendix C, p. 14
+    relation: supports
+- claim_id: applications-variants-and-evidence
+  kind: scope
+  statement: The paper studies neural-network optimization including BERT pretraining and image classification,
+    with selected schedules, hardware, batch sizes and downstream evaluation. Its title training time
+    depends on that experimental configuration and does not define the algorithm or establish universal
+    speedup. Nesterov first-moment and two-moment variants, norm substitutions, bias-correction ablations
+    and later library implementations require explicit version choices. This record describes the basic
+    algorithm and a pinned implementation boundary without importing a numerical benchmark or claiming
+    training reproduction.
+  evidence:
+  - source_id: you2020
+    locator: Experiments, PDF/printed pp. 6–8; N-LAMB/NN-LAMB Algorithms 3–4 and Appendices D–F, pp. 14–16;
+      implementation and evaluation discussion, pp. 17–20
+    relation: supports
+evidence_sources:
+- source_id: you2020
+  title: 'Large Batch Optimization for Deep Learning: Training BERT in 76 minutes'
+  authors:
+  - Yang You
+  - Jing Li
+  - Sashank Reddi
+  - Jonathan Hseu
+  - Sanjiv Kumar
+  - Srinadh Bhojanapalli
+  - Xiaodan Song
+  - James Demmel
+  - Kurt Keutzer
+  - Cho-Jui Hsieh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.00962v5
+  persistent_id: arXiv:1904.00962v5
+  version: January 3, 2020 preprint, ICLR 2020 header; rendered PDF pp. 1–23 of 37 read, including full
+    method, theorem proofs and variants. Remaining baseline tuning tables on pp. 24–37 not read.
+  access_level: full_text
+  accessed_at: '2026-10-13T02:27:29Z'
+  sha256: f795038034407053ae887881bf5292e4b7ab0e977e7dca974ff6b13874cecce7
+- source_id: tfaddons
+  title: TensorFlow Addons LAMB optimizer implementation
+  authors:
+  - The TensorFlow Authors
+  - The TensorFlow Addons Authors
+  source_type: official_documentation
+  url: https://github.com/tensorflow/addons/blob/d208d752e98c310280938efa939117bf635a60a8/tensorflow_addons/optimizers/lamb.py
+  persistent_id: tensorflow/addons@d208d752e98c310280938efa939117bf635a60a8:tensorflow_addons/optimizers/lamb.py
+  version: Git commit d208d752e98c310280938efa939117bf635a60a8 (April 15, 2024), archived repository;
+    complete optimizer file read statically, dependencies and runtime not audited. This later revision
+    is not asserted to reproduce the paper experiments.
+  access_level: documentation
+  accessed_at: '2026-10-13T02:49:09Z'
+  sha256: dfd970faf26e9e126e08bdd0c7db4bd92eab707fb58a1ae60ea1600fe74229ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: The optimizer directly controls machine-learning parameter training, the central context
+    named by TrainingStrategy. The pinned target uses a preprocessing genus and learning-task examples,
+    so this contextual mapping does not assert algorithm equivalence, subclass membership or that LAMB
+    is preprocessing.
+limitations:
+- The record uses separate raw and bias-corrected moment symbols, corroborated by the pinned implementation;
+  the primary pseudocode reuses moment symbols on correction lines. Bias-correction ablations are explicitly
+  conditional.
+- Block normalization can remain undefined despite positive coordinate-wise epsilon. The inspected implementation
+  supplies a ratio-one zero-norm policy and exclusions that are implementation choices, not a universal
+  paper rule.
+- Weight decay is outside the gradient moments but inside the normalized direction. It is not interchangeable
+  with arbitrary L2 regularization or an independent unadapted shrinkage step.
+- The stated convergence theorem has restricted momentum, decay, batch, scaling-function and block assumptions.
+  An update-norm identity is not a universal convergence, stability or generalization theorem.
+- The January 3, 2020 preprint and the April 15, 2024 archived TensorFlow Addons revision are distinct
+  source versions. The latter was inspected statically, not treated as the exact historical training implementation;
+  helper dependencies and runtime behavior were not audited.
+- Rendered PDF pages 1–23 of 37 were inspected, including the full method, theorem proofs, variants and
+  selected experimental material. Remaining baseline tuning tables on pp. 24–37 were not read. No numerical
+  benchmark, independent proof certification, source-code execution or model training is claimed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T03:10:49Z'
+  updated_at: '2026-10-13T03:10:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
