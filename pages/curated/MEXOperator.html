@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEX Operator · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>MEX Operator</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MEX Operator</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:MEXOperator</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MEX (SimNets)
+    </div>
+
+  <div class="detail-desc">
+    A scalar aggregation operator that returns log(mean(exp(xi times input)))/xi for a nonzero real parameter xi, with its continuous zero-parameter extension equal to the arithmetic mean.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 618 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 125, 0, 80 lines. All distinct match contents were inspected. Semantic matching covered 43 AIO and 31 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. MEX denotes the scalar log-mean-exp operator used by Cohen and Shashua, separate from the complete SimNet architecture and a spatial MEX layer with offsets and sharing. The search also found MATLAB mex syntax and unrelated identifier-prefix registries in ignored dependencies; those are different meanings. The alias is qualified as MEX (SimNets). A softmax probability vector and the unnormalized log-sum-exp within lifted structured loss are related computations, not this operator identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#normalized-scalar-and-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a nonempty finite real input list, MEX uses the logarithm of the mean exponential divided by xi. It equals scaled log-sum-exp minus log(N)/xi, so dropping the mean normalization changes the finite value. The zero-parameter extension is the arithmetic mean, and the positive and negative infinite-parameter limits are maximum and minimum. Its output is a scalar, not a probability vector. Differentiating with respect to the inputs at fixed nonzero xi yields softmax weights of xi times those inputs; this derivative relationship does not equate the two outputs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cohen2014">SimNets: A Generalization of Convolutional Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2, Equation 1 and displayed limits; direct algebraic differentiation and constructed calculations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#nested-collapse-conditions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applying the operator within equal-sized groups and again across their outputs with the same parameter gives the same value as applying it to all entries at once. Equal-size groups preserve the common mean normalization. Unweighted nesting over unequal group sizes generally assigns different weights to flattened entries and need not collapse; using different parameters across stages also generally breaks this identity. The operator is invariant to permutation of its inputs and shifts by the same amount when a common constant is added to every input.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cohen2014">SimNets: A Generalization of Convolutional Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2, Equation 2, common group size m and common parameter xi; direct normalization algebra and constructed counterexamples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#relu-and-layer-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper builds MEX layers from the operator applied to local input blocks with additive learned offsets, optional constants and sharing choices. Ordinary max pooling is obtained as the positive infinite-parameter limit over the selected block. Recovering scalar ReLU additionally requires a zero input and zero offsets; finite MEX of an input and zero is a smooth aggregate and can be negative. The mathematical operator is therefore distinct from a particular layer layout and from the complete SimNet architecture, which also uses similarity operations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cohen2014">SimNets: A Generalization of Convolutional Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 2–4, Figure 1(b) on p. 4, MEX-layer definition and ReLU/max-pooling special cases</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#combined-network-evidence-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The evaluated shallow SimNet uses one MEX stage with parameter one and a final spatial mean stage, corresponding to a zero-parameter limit. These stages do not satisfy the common-parameter collapse condition. Reported accuracy and parameter counts concern the whole trained classifier with its similarity functions, initialization, preprocessing and optimization. They do not establish an isolated MEX-versus-other-operator accuracy, speed or memory advantage.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cohen2014">SimNets: A Generalization of Convolutional Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 4 and 6, PDF pp. 8–13, Figure 3(a), experimental setup and Figures 4–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>MEX here is the SimNets operator, not MATLAB mex tooling or similarly named identifier registries. The record describes a scalar operation, not every MEX layer or a complete network.</li>
+      <li>The direct exponential formula can overflow in finite-precision arithmetic; constructed examples use a shifted log-sum-exp calculation. Mathematical limits do not prescribe a numerically stable zero-parameter implementation.</li>
+      <li>Equal group size and a common parameter are material to the unweighted nested-collapse identity. Finite smoothing, derivative weights and exact limiting maxima remain distinct.</li>
+      <li>The complete original 19-page primary version is reused with its original access timestamp and hash. Author code, later Deep SimNets full text and model training were not inspected; DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MEX is a parameterized scalar rule on a finite nonempty list, within the broader pinned mathematical-function class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SoftmaxFunction.html" style="font-weight: 600;"><code>AIO:SoftmaxFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Softmax Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            At fixed nonzero xi the input gradient of MEX is softmax of xi-scaled inputs. This derivative relation is useful but does not make the scalar value a probability vector.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReLUFunction.html" style="font-weight: 600;"><code>AIO:ReLUFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">ReLU Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Adding a zero input and taking the positive infinite-parameter limit recovers scalar ReLU; finite MEX is not equivalent to the pinned function.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-cohen2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cohen2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1410.0781v3" target="_blank" rel="noopener">SimNets: A Generalization of Convolutional Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nadav Cohen, Amnon Shashua
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1410.0781v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:91119773f55d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T12:48:39Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T12:48:39Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MEXOperator.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MEXOperator.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

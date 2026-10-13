@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learned-Norm Pooling Unit · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Learned-Norm Pooling Unit</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Learned-Norm Pooling Unit</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:LearnedNormPoolingUnit</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Lp unit, Learned-norm pooling
+    </div>
+
+  <div class="detail-desc">
+    A parameterized neural unit that pools a group of learned linear projections by the power mean of their absolute deviations from learned centers, with a trainable norm order for each unit.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 617 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 11, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 67 AIO and 93 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. This record denotes the learned centered Lp pooling unit of Gulcehre and colleagues, including its trainable projection weights, centers and norm order. It is a parameterized neural computation, not the complete MLP or RNN using it, generic fixed-power spatial pooling, a normalization layer or deterministic signed maxout. The alias Lp unit is scoped to this primary construction.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#learned-centered-power-mean</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a group of N projections a_i=w_i^T x, the unit outputs (sum_i |a_i-c_i|^p / N)^(1/p). Projection weights, centers c_i and order p are learned. The implementation described in the paper uses p=1+log(1+exp(rho)), which is strictly greater than one for finite real rho and approaches one as rho tends to negative infinity. Within a layer, the described construction divides projections into equal-sized nonoverlapping groups, giving each unit its own filters. This grouping is over learned projections and need not be spatial pooling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gulcehre2014">Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF pp. 3–4, Equation 3, projection definition and order reparameterization</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#absolute-response-and-limit-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With zero centers, order one gives the mean absolute response, order two gives root-mean-square response, and the positive infinite-order limit gives the maximum absolute response. Signed mean or signed maximum is not generally recovered; nonnegative responses are a sufficient condition for those equalities. A finite learned order is not the exact maximum limit. One projection reduces to the absolute centered response independently of its order. These distinctions qualify the paper’s simplified mean/maxout comparisons.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gulcehre2014">Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, PDF p. 5, special-case formulas; Equation 3, pp. 3–4; direct constructed power-mean calculations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#geometry-and-differentiability-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed parameters and order at least one, sublevel sets of the norm applied to an affine projection are convex. This does not make every multilayer classifier boundary convex. Learned centers generally prevent the resulting function from being a norm of the original input, and rank-deficient projections can produce unbounded level sets. The absolute-value construction is continuous; it can be nondifferentiable at zero residual, as a scalar example demonstrates. The page-four footnote’s discontinuity wording is not adopted as a mathematical claim.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gulcehre2014">Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 and 4, PDF pp. 3–9, Figure 2 and page-four footnote; direct constructed centered-scalar and rank-deficient examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-network-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates networks containing these units on feedforward classification tasks and polyphonic music modeling. Learned orders vary by task and unit. The recurrent experiments combine Lp transition units with a bounding tanh stage, maxout output and dropout, so their results do not isolate learning the order as the sole cause. Bounded hidden values do not guarantee stable recurrent derivatives. Table 2 reports 31.85 percent Pentomino classification error while nearby prose gives 31.38 percent; the source discrepancy is retained rather than silently reconciled. No universal superiority or replicated performance is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gulcehre2014">Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 5–6, PDF pp. 10–15, Tables 1–4 and feedforward/recurrent experimental descriptions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source’s Lp unit terminology is scoped to this learned centered projection construction. A unit computation, its containing layer and a complete MLP or recurrent architecture are distinct.</li>
+      <li>Special cases require their stated centers, sign conditions and limits. Centered affine responses need not define a norm of the original input; continuity does not imply differentiability everywhere.</li>
+      <li>The Pentomino table/prose discrepancy is preserved. Experimental evidence concerns finite configured networks, not an isolated causal ablation of learned order.</li>
+      <li>One complete 17-page versioned paper was visually inspected. No author implementation or model training was executed; DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For fixed learned parameters this unit supplies a defined scalar function of its inputs; the pinned mathematical-function class is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LPPool1DLayer.html" style="font-weight: 600;"><code>AIO:LPPool1DLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">LPPool1D Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Both use a power-pooling computation. The local learned projection/center/order unit is not restricted to one-dimensional pooling and is not asserted equivalent to this layer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/LPPool2DLayer.html" style="font-weight: 600;"><code>AIO:LPPool2DLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">LPPool2D Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Both use a power-pooling computation, but the local unit learns its projections, centers and order and is not restricted to two-dimensional spatial pooling.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gulcehre2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gulcehre2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1311.1780v7" target="_blank" rel="noopener">Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Caglar Gulcehre, Kyunghyun Cho, Razvan Pascanu, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1311.1780v7</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:78be80b3efeb…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T12:48:10Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T12:53:53Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LearnedNormPoolingUnit.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LearnedNormPoolingUnit.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

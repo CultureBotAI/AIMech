@@ -1,0 +1,121 @@
+id: AIMech:MEXOperator
+name: MEX Operator
+aliases:
+- MEX (SimNets)
+concept_kind: mathematical_method
+definition: A scalar aggregation operator that returns log(mean(exp(xi times input)))/xi for a nonzero
+  real parameter xi, with its continuous zero-parameter extension equal to the arithmetic mean.
+identity_notes: Compared all 442 pinned AIO and 618 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 125, 0, 80 lines. All distinct match contents were
+  inspected. Semantic matching covered 43 AIO and 31 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. MEX
+  denotes the scalar log-mean-exp operator used by Cohen and Shashua, separate from the complete SimNet
+  architecture and a spatial MEX layer with offsets and sharing. The search also found MATLAB mex syntax
+  and unrelated identifier-prefix registries in ignored dependencies; those are different meanings. The
+  alias is qualified as MEX (SimNets). A softmax probability vector and the unnormalized log-sum-exp within
+  lifted structured loss are related computations, not this operator identity.
+definition_evidence:
+- source_id: cohen2014
+  locator: Section 2, PDF p. 2, Equation 1 and displayed parameter limits
+  relation: supports
+claims:
+- claim_id: normalized-scalar-and-limits
+  kind: mechanism
+  statement: For a nonempty finite real input list, MEX uses the logarithm of the mean exponential divided
+    by xi. It equals scaled log-sum-exp minus log(N)/xi, so dropping the mean normalization changes the
+    finite value. The zero-parameter extension is the arithmetic mean, and the positive and negative infinite-parameter
+    limits are maximum and minimum. Its output is a scalar, not a probability vector. Differentiating
+    with respect to the inputs at fixed nonzero xi yields softmax weights of xi times those inputs; this
+    derivative relationship does not equate the two outputs.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 2, PDF p. 2, Equation 1 and displayed limits; direct algebraic differentiation and
+      constructed calculations
+    relation: supports
+- claim_id: nested-collapse-conditions
+  kind: mechanism
+  statement: Applying the operator within equal-sized groups and again across their outputs with the same
+    parameter gives the same value as applying it to all entries at once. Equal-size groups preserve the
+    common mean normalization. Unweighted nesting over unequal group sizes generally assigns different
+    weights to flattened entries and need not collapse; using different parameters across stages also
+    generally breaks this identity. The operator is invariant to permutation of its inputs and shifts
+    by the same amount when a common constant is added to every input.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 2, PDF p. 2, Equation 2, common group size m and common parameter xi; direct normalization
+      algebra and constructed counterexamples
+    relation: supports
+- claim_id: relu-and-layer-scope
+  kind: scope
+  statement: The paper builds MEX layers from the operator applied to local input blocks with additive
+    learned offsets, optional constants and sharing choices. Ordinary max pooling is obtained as the positive
+    infinite-parameter limit over the selected block. Recovering scalar ReLU additionally requires a zero
+    input and zero offsets; finite MEX of an input and zero is a smooth aggregate and can be negative.
+    The mathematical operator is therefore distinct from a particular layer layout and from the complete
+    SimNet architecture, which also uses similarity operations.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 2, PDF pp. 2–4, Figure 1(b) on p. 4, MEX-layer definition and ReLU/max-pooling special
+      cases
+    relation: supports
+- claim_id: combined-network-evidence-boundary
+  kind: limitation
+  statement: The evaluated shallow SimNet uses one MEX stage with parameter one and a final spatial mean
+    stage, corresponding to a zero-parameter limit. These stages do not satisfy the common-parameter collapse
+    condition. Reported accuracy and parameter counts concern the whole trained classifier with its similarity
+    functions, initialization, preprocessing and optimization. They do not establish an isolated MEX-versus-other-operator
+    accuracy, speed or memory advantage.
+  evidence:
+  - source_id: cohen2014
+    locator: Sections 4 and 6, PDF pp. 8–13, Figure 3(a), experimental setup and Figures 4–5
+    relation: supports
+evidence_sources:
+- source_id: cohen2014
+  title: 'SimNets: A Generalization of Convolutional Networks'
+  authors:
+  - Nadav Cohen
+  - Amnon Shashua
+  persistent_id: arXiv:1410.0781v3
+  version: arXiv:1410.0781v3, 7 December 2014, 19 PDF pages. All pages visually read, including Appendices
+    A and B; original download timestamp and hash reused. PDF and printed page numbers agree. No publication
+    acceptance inferred; author implementation and later versions not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1410.0781v3
+  access_level: full_text
+  accessed_at: '2026-10-13T11:58:05Z'
+  sha256: 91119773f55d79557a02212c71a3c49d491223229b5354b24610eb0d3e89de26
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: MEX is a parameterized scalar rule on a finite nonempty list, within the broader pinned mathematical-function
+    class.
+- target: AIO:SoftmaxFunction
+  relation: related_match
+  rationale: At fixed nonzero xi the input gradient of MEX is softmax of xi-scaled inputs. This derivative
+    relation is useful but does not make the scalar value a probability vector.
+- target: AIO:ReLUFunction
+  relation: related_match
+  rationale: Adding a zero input and taking the positive infinite-parameter limit recovers scalar ReLU;
+    finite MEX is not equivalent to the pinned function.
+limitations:
+- MEX here is the SimNets operator, not MATLAB mex tooling or similarly named identifier registries. The
+  record describes a scalar operation, not every MEX layer or a complete network.
+- The direct exponential formula can overflow in finite-precision arithmetic; constructed examples use
+  a shifted log-sum-exp calculation. Mathematical limits do not prescribe a numerically stable zero-parameter
+  implementation.
+- Equal group size and a common parameter are material to the unweighted nested-collapse identity. Finite
+  smoothing, derivative weights and exact limiting maxima remain distinct.
+- The complete original 19-page primary version is reused with its original access timestamp and hash.
+  Author code, later Deep SimNets full text and model training were not inspected; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T12:48:39Z'
+  updated_at: '2026-10-13T12:48:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
