@@ -1,0 +1,199 @@
+id: AIMech:GradientNormClipping
+name: Gradient norm clipping
+aliases:
+- Global gradient norm clipping
+concept_kind: algorithm
+definition: A gradient transformation that bounds the Euclidean norm of a chosen joint parameter-gradient
+  vector by uniformly scaling it down to a positive threshold when its norm exceeds that threshold, while
+  retaining smaller gradients.
+identity_notes: 'Compared all 442 pinned AIO and 568 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 7, 0, 0 lines. All seven recovery matching lines
+  were read and identify the preceding LARC report query and pending lead, not a maintained clipping record.
+  The semantic search covered ten AIO rows and 93 native definitions: ten AIO and 91 native rows were
+  verified unchanged, and the new LARC and rejection-driven independence Metropolis definitions were read.
+  The latter uses a clipped proposal distribution rather than clipping a training gradient. Three complete
+  AIO node/edge/generated contexts were verified unchanged from earlier full reading; ten full native
+  optimization context records were read or verified unchanged. Joint Euclidean gradient clipping has
+  a fixed chosen gradient-norm threshold, unlike parameter-relative LARC/LARS, CLARS mean-individual-gradient
+  normalization, LAMB normalized adaptive directions and NovoGrad scalar second moments. Element-wise
+  value clipping and separate per-tensor clipping are distinct transformations, so the generic phrase
+  Gradient clipping is not asserted as an exact alias.'
+definition_evidence:
+- source_id: pascanu2013
+  locator: Section 3.2, Algorithm 1, PDF p. 6
+  relation: supports
+- source_id: authorcode
+  locator: jobman, norm_theta and clipstyle=rescale branch
+  relation: supports
+claims:
+- claim_id: finite-gradient-rule
+  kind: mechanism
+  statement: For a finite joint gradient vector g and threshold tau>0, the rule retains g when norm(g)<=tau
+    and otherwise returns tau*g/norm(g). Equivalently it multiplies a nonzero g by min(1,tau/norm(g)),
+    with zero explicitly retained. Algorithm 1 uses a >= comparison, which gives the same vector at a
+    positive equality threshold. The resulting norm is at most tau and the direction of every nonzero
+    input is preserved. These are finite-arithmetic identities; the formula does not itself repair a nonfinite
+    gradient or norm overflow.
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 3.2 Algorithm 1 and following discussion, PDF p. 6; algebraic consequence
+    relation: supports
+- claim_id: joint-norm-versus-value-clipping
+  kind: mechanism
+  statement: One common multiplier is computed for the chosen joint parameter-gradient vector. The pinned
+    author implementation sums squared gradients for the recurrent, input and output weight matrices and
+    both bias vectors before taking one square root, then applies the same factor to all five groups.
+    Independently clipping each coordinate to an interval, or independently clipping separate tensor norms,
+    generally changes the joint direction and has a different norm bound. The paper separately discusses
+    earlier element-wise temporal-component clipping; that is not made an exact alias of this joint rule.
+  evidence:
+  - source_id: pascanu2013
+    locator: Sections 3.1–3.2, PDF pp. 5–6
+    relation: supports
+  - source_id: authorcode
+    locator: jobman, norm_theta and five TT.switch rescaling assignments
+    relation: supports
+- claim_id: projection-and-update-bound
+  kind: mechanism
+  statement: As a curator algebraic interpretation, the Euclidean clipping map is the projection of the
+    gradient vector onto the closed radius-tau Euclidean ball centered at zero. This projects a gradient,
+    not model parameters onto a feasible parameter set. With vanilla SGD rate alpha>=0, the fresh displacement
+    norm is bounded by alpha*tau. That bound does not automatically constrain a final update after momentum
+    accumulation, adaptive coordinate rescaling, additional decay or other transformations.
+  evidence:
+  - source_id: pascanu2013
+    locator: Algorithm 1, PDF p. 6; algebraic interpretation
+    relation: supports
+  - source_id: authorcode
+    locator: train_step direct parameter updates after rescaling
+    relation: supports
+- claim_id: aggregation-and-stochastic-bias
+  kind: limitation
+  statement: 'Clipping is nonlinear: clipping an averaged gradient generally differs from averaging separately
+    clipped gradients. It preserves each selected nonzero vector direction, but the expectation of clipped
+    stochastic gradients need not preserve the direction of the expectation before clipping or remain
+    an unbiased gradient estimator. Threshold interpretation therefore depends on the loss scale and reduction,
+    selected parameter grouping and the point at which gradients are aggregated. These are algebraic consequences
+    of the rule, not empirical bias estimates or a claim about every stochastic distribution.'
+  evidence:
+  - source_id: pascanu2013
+    locator: Algorithm 1, PDF p. 6; curator aggregation counterexample
+    relation: supports
+  - source_id: supplement
+    locator: Section 2.1, printed/PDF pp. 2–3
+    relation: supports
+- claim_id: author-code-order-and-rescue
+  kind: limitation
+  statement: The pinned historical author code optionally adds the separate soft-regularizer contribution
+    to the recurrent-weight gradient before computing the joint norm. Its rescale branch uses norm_theta>cutoff.
+    After ordinary rescaling, a separate emergency branch replaces the recurrent-weight gradient by 0.02
+    times the recurrent matrix and sets the other four gradients to zero if the computed norm is NaN,
+    infinite, negative or above 1e10. This rescue rule need not preserve the original direction or the
+    clipping norm bound. It is a versioned implementation choice, not part of the ordinary finite-gradient
+    clipping identity, and the file was inspected without executing Theano.
+  evidence:
+  - source_id: authorcode
+    locator: jobman, alpha contribution, norm_theta, new_cond and subsequent assignments
+    relation: supports
+  - source_id: supplement
+    locator: Section 2.1, printed/PDF p. 3, numerical rescue discussion
+    relation: supports
+- claim_id: exploding-versus-vanishing-gradient
+  kind: scope
+  statement: The paper motivates gradient norm clipping as a response to exploding gradients and steep
+    regions of a recurrent-network objective. Its soft constraint for vanishing gradients is a separate
+    regularization method in Section 3.3, not an effect supplied by clipping alone. The geometric rationale
+    depends on assumptions about gradient/curvature alignment and a sufficiently wide low-error region;
+    it is not a universal convergence or long-term dependency guarantee.
+  evidence:
+  - source_id: pascanu2013
+    locator: Sections 2.3, 3.2–3.3 and conclusions, PDF pp. 4–6 and 8
+    relation: supports
+- claim_id: threshold-and-evaluation-scope
+  kind: limitation
+  statement: The threshold remains a chosen hyperparameter. The paper suggests inspecting historical gradient-norm
+    statistics and reports experiments under specified initialization, minibatch-SGD and regularization
+    settings. Those observations do not establish a universal threshold, eliminate all numerical instability,
+    or isolate a general accuracy advantage of clipping across tasks and optimizers. This record imports
+    no numerical benchmark and makes no claim of training or runtime reproduction.
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 3.2 threshold discussion and Section 4 experimental setup/results, PDF pp. 6–8
+    relation: supports
+  - source_id: supplement
+    locator: Section 2.1, printed/PDF pp. 2–3
+    relation: supports
+evidence_sources:
+- source_id: pascanu2013
+  title: On the difficulty of training recurrent neural networks
+  authors:
+  - Razvan Pascanu
+  - Tomas Mikolov
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/pascanu13.pdf
+  persistent_id: PMLR:28:pascanu13
+  version: ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually inspected; supplementary
+    pages 2–4 are separately sourced. PDF page locators used because printed page numbers are not visible.
+  access_level: full_text
+  accessed_at: '2026-10-13T03:34:10Z'
+  sha256: d786c18c0e1ed58aee30ce78b5163a9f771978c3146b68737528e1cda6ac1e74
+- source_id: authorcode
+  title: Author implementation of recurrent-network training and gradient norm clipping
+  authors:
+  - Razvan Pascanu
+  source_type: official_documentation
+  url: https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py
+  persistent_id: pascanur/trainingRNNs@3f5df3ffddccc42059cf9599dc75389f116aff85:RNN.py
+  version: Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z); complete RNN.py
+    and README read statically. Other task files and Theano dependencies not audited or executed.
+  access_level: documentation
+  accessed_at: '2026-10-13T03:44:15Z'
+  sha256: c47f98e0c31796fc39862e4c3fea467bef380e77c1d067b639eda45837f2723c
+- source_id: supplement
+  title: 'On the difficulty of training Recurrent Neural Networks: Additional material'
+  authors:
+  - Razvan Pascanu
+  - Tomas Mikolov
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/pascanu13-supp.pdf
+  persistent_id: PMLR:28:pascanu13:supplement
+  version: ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually inspected, covering
+    clipping thresholds, stochastic direction, numerical rescue and regularization details. Other supplementary
+    pages not visually read.
+  access_level: full_text
+  accessed_at: '2026-10-13T03:53:21Z'
+  sha256: 487c8a0b490d3c32e63e020a73de585c950c2dbfd5c529bc579d240993133fef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: Gradient norm clipping transforms gradients used in model-training updates. The pinned TrainingStrategy
+    class supplies that context but uses a preprocessing genus; related_match avoids an unsupported equivalence
+    or subclass assertion.
+limitations:
+- The identity is finite-vector joint Euclidean norm clipping with a positive threshold. Element-wise
+  value clipping, per-tensor clipping and nonfinite recovery require separate specifications.
+- A gradient norm bound becomes an alpha*tau fresh-step bound for vanilla SGD only under the stated update;
+  momentum, adaptive moments and later decay can change the final displacement.
+- Nonlinear clipping can change aggregation and stochastic expectation. Loss scaling, reduction and grouping
+  are part of a reproducible configuration.
+- The complete nine-page proceedings paper was visually read. Supplementary printed/PDF pages 2–4 of ten
+  were also read; other supplementary pages and full theoretical claims were not independently verified;
+  the record does not claim universal convergence.
+- Complete pinned author RNN.py and README were read statically; other task generators and Theano dependencies
+  were not audited or executed. The rescue branch is historical and distinct from ordinary clipping.
+- No training, benchmark reproduction, current framework compatibility or independent scientific approval
+  is claimed; constructed calculations check explicit algebraic boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T03:57:56Z'
+  updated_at: '2026-10-13T03:57:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

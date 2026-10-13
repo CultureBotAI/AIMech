@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient norm clipping · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Gradient norm clipping</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gradient norm clipping</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GradientNormClipping</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Global gradient norm clipping
+    </div>
+
+  <div class="detail-desc">
+    A gradient transformation that bounds the Euclidean norm of a chosen joint parameter-gradient vector by uniformly scaling it down to a positive threshold when its norm exceeds that threshold, while retaining smaller gradients.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 568 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 7, 0, 0 lines. All seven recovery matching lines were read and identify the preceding LARC report query and pending lead, not a maintained clipping record. The semantic search covered ten AIO rows and 93 native definitions: ten AIO and 91 native rows were verified unchanged, and the new LARC and rejection-driven independence Metropolis definitions were read. The latter uses a clipped proposal distribution rather than clipping a training gradient. Three complete AIO node/edge/generated contexts were verified unchanged from earlier full reading; ten full native optimization context records were read or verified unchanged. Joint Euclidean gradient clipping has a fixed chosen gradient-norm threshold, unlike parameter-relative LARC/LARS, CLARS mean-individual-gradient normalization, LAMB normalized adaptive directions and NovoGrad scalar second moments. Element-wise value clipping and separate per-tensor clipping are distinct transformations, so the generic phrase Gradient clipping is not asserted as an exact alias.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#finite-gradient-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite joint gradient vector g and threshold tau&gt;0, the rule retains g when norm(g)&lt;=tau and otherwise returns tau*g/norm(g). Equivalently it multiplies a nonzero g by min(1,tau/norm(g)), with zero explicitly retained. Algorithm 1 uses a &gt;= comparison, which gives the same vector at a positive equality threshold. The resulting norm is at most tau and the direction of every nonzero input is preserved. These are finite-arithmetic identities; the formula does not itself repair a nonfinite gradient or norm overflow.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Algorithm 1 and following discussion, PDF p. 6; algebraic consequence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-norm-versus-value-clipping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    One common multiplier is computed for the chosen joint parameter-gradient vector. The pinned author implementation sums squared gradients for the recurrent, input and output weight matrices and both bias vectors before taking one square root, then applies the same factor to all five groups. Independently clipping each coordinate to an interval, or independently clipping separate tensor norms, generally changes the joint direction and has a different norm bound. The paper separately discusses earlier element-wise temporal-component clipping; that is not made an exact alias of this joint rule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.2, PDF pp. 5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author implementation of recurrent-network training and gradient norm clipping</a></span>
+        <span>· <strong>Locator:</strong> jobman, norm_theta and five TT.switch rescaling assignments</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#projection-and-update-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    As a curator algebraic interpretation, the Euclidean clipping map is the projection of the gradient vector onto the closed radius-tau Euclidean ball centered at zero. This projects a gradient, not model parameters onto a feasible parameter set. With vanilla SGD rate alpha&gt;=0, the fresh displacement norm is bounded by alpha*tau. That bound does not automatically constrain a final update after momentum accumulation, adaptive coordinate rescaling, additional decay or other transformations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1, PDF p. 6; algebraic interpretation</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author implementation of recurrent-network training and gradient norm clipping</a></span>
+        <span>· <strong>Locator:</strong> train_step direct parameter updates after rescaling</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#aggregation-and-stochastic-bias</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Clipping is nonlinear: clipping an averaged gradient generally differs from averaging separately clipped gradients. It preserves each selected nonzero vector direction, but the expectation of clipped stochastic gradients need not preserve the direction of the expectation before clipping or remain an unbiased gradient estimator. Threshold interpretation therefore depends on the loss scale and reduction, selected parameter grouping and the point at which gradients are aggregated. These are algebraic consequences of the rule, not empirical bias estimates or a claim about every stochastic distribution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1, PDF p. 6; curator aggregation counterexample</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement">On the difficulty of training Recurrent Neural Networks: Additional material</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, printed/PDF pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#author-code-order-and-rescue</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The pinned historical author code optionally adds the separate soft-regularizer contribution to the recurrent-weight gradient before computing the joint norm. Its rescale branch uses norm_theta&gt;cutoff. After ordinary rescaling, a separate emergency branch replaces the recurrent-weight gradient by 0.02 times the recurrent matrix and sets the other four gradients to zero if the computed norm is NaN, infinite, negative or above 1e10. This rescue rule need not preserve the original direction or the clipping norm bound. It is a versioned implementation choice, not part of the ordinary finite-gradient clipping identity, and the file was inspected without executing Theano.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorcode">Author implementation of recurrent-network training and gradient norm clipping</a></span>
+        <span>· <strong>Locator:</strong> jobman, alpha contribution, norm_theta, new_cond and subsequent assignments</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement">On the difficulty of training Recurrent Neural Networks: Additional material</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, printed/PDF p. 3, numerical rescue discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#exploding-versus-vanishing-gradient</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper motivates gradient norm clipping as a response to exploding gradients and steep regions of a recurrent-network objective. Its soft constraint for vanishing gradients is a separate regularization method in Section 3.3, not an effect supplied by clipping alone. The geometric rationale depends on assumptions about gradient/curvature alignment and a sufficiently wide low-error region; it is not a universal convergence or long-term dependency guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.3, 3.2–3.3 and conclusions, PDF pp. 4–6 and 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#threshold-and-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The threshold remains a chosen hyperparameter. The paper suggests inspecting historical gradient-norm statistics and reports experiments under specified initialization, minibatch-SGD and regularization settings. Those observations do not establish a universal threshold, eliminate all numerical instability, or isolate a general accuracy advantage of clipping across tasks and optimizers. This record imports no numerical benchmark and makes no claim of training or runtime reproduction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-pascanu2013">On the difficulty of training recurrent neural networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 threshold discussion and Section 4 experimental setup/results, PDF pp. 6–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-supplement">On the difficulty of training Recurrent Neural Networks: Additional material</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, printed/PDF pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The identity is finite-vector joint Euclidean norm clipping with a positive threshold. Element-wise value clipping, per-tensor clipping and nonfinite recovery require separate specifications.</li>
+      <li>A gradient norm bound becomes an alpha*tau fresh-step bound for vanilla SGD only under the stated update; momentum, adaptive moments and later decay can change the final displacement.</li>
+      <li>Nonlinear clipping can change aggregation and stochastic expectation. Loss scaling, reduction and grouping are part of a reproducible configuration.</li>
+      <li>The complete nine-page proceedings paper was visually read. Supplementary printed/PDF pages 2–4 of ten were also read; other supplementary pages and full theoretical claims were not independently verified; the record does not claim universal convergence.</li>
+      <li>Complete pinned author RNN.py and README were read statically; other task generators and Theano dependencies were not audited or executed. The rescue branch is historical and distinct from ordinary clipping.</li>
+      <li>No training, benchmark reproduction, current framework compatibility or independent scientific approval is claimed; constructed calculations check explicit algebraic boundaries only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Gradient norm clipping transforms gradients used in model-training updates. The pinned TrainingStrategy class supplies that context but uses a preprocessing genus; related_match avoids an unsupported equivalence or subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-pascanu2013">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">pascanu2013</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v28/pascanu13.pdf" target="_blank" rel="noopener">On the difficulty of training recurrent neural networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Razvan Pascanu, Tomas Mikolov, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> PMLR:28:pascanu13</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d786c18c0e1e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authorcode">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authorcode</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py" target="_blank" rel="noopener">Author implementation of recurrent-network training and gradient norm clipping</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Razvan Pascanu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> pascanur/trainingRNNs@3f5df3ffddccc42059cf9599dc75389f116aff85:RNN.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c47f98e0c317…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v28/pascanu13-supp.pdf" target="_blank" rel="noopener">On the difficulty of training Recurrent Neural Networks: Additional material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Razvan Pascanu, Tomas Mikolov, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> PMLR:28:pascanu13:supplement</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:487c8a0b490d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T03:57:56Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T03:57:56Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GradientNormClipping.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GradientNormClipping.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
