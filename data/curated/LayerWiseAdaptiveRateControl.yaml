@@ -1,0 +1,178 @@
+id: AIMech:LayerWiseAdaptiveRateControl
+name: Layer-wise adaptive rate control
+aliases:
+- LARC
+concept_kind: algorithm
+definition: A parameter-block learning-rate control rule whose clipping form limits a vanilla stochastic-gradient
+  step by using the smaller of a global learning rate and a trust coefficient times the block parameter-norm
+  to gradient-norm ratio.
+identity_notes: 'Compared all 442 pinned AIO and 567 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 30, 0, 1 lines. All matching lines were read: recovery
+  hits are prior LARS comparisons and pending LARC leads or rendered/review mirrors, while the original
+  ignored environment contains an unrelated APDL lexer command. A semantic search covered ten AIO rows
+  and 91 native definitions: the preceding ten AIO and 90 native rows were verified unchanged, and the
+  new NovoGrad definition was read. Three complete AIO node/edge/generated contexts were verified unchanged
+  from the preceding full rereading; nine full native context records were read or verified against prior
+  full readings. The documented LARC clipping rule uses a minimum of global and norm-ratio rates, unlike
+  plain LARS multiplication. The named historical wrapper also supports a scaling mode, so the record
+  explicitly curates the clipped identity and distinguishes wrapper modes. This control rule differs from
+  CLARS individual-gradient normalization, LAMB final block normalization, NovoGrad scalar moment normalization
+  and coordinate-wise Adam/RMSprop.'
+definition_evidence:
+- source_id: nvidiadocs
+  locator: Layer-wise Adaptive Rate Control section, displayed local-rate equation
+  relation: supports
+- source_id: apexlarc
+  locator: LARC class docstring and step, clip=True branch
+  relation: supports
+claims:
+- claim_id: clipped-rate-rule
+  kind: mechanism
+  statement: For vanilla SGD on a block with nonzero gradient L2 norm, the documented clipping rule is
+    lambda_k=min(gamma,eta*norm(w_k)/norm(g_k)), followed by w_k_new=w_k-lambda_k*g_k. Here gamma>=0 is
+    the global rate and 0<=eta<1 is the trust coefficient. For this rule the fresh displacement norm is
+    min(gamma*norm(g_k),eta*norm(w_k)). The cap is on the effective local rate; the trust coefficient
+    is a chosen parameter, not a solved trust-region radius or an automatic batch-size schedule.
+  evidence:
+  - source_id: nvidiadocs
+    locator: Layer-wise Adaptive Rate Control section, SGD and clipped local-rate equations; algebraic
+      consequence
+    relation: supports
+- claim_id: clipping-versus-scaling
+  kind: mechanism
+  statement: The inspected historical Apex wrapper supports both clipping and scaling. On its nonzero-norm
+    path, it computes a=eta*norm(w)/(norm(g)+d*norm(w)+epsilon). For a positive base rate gamma, clipping
+    multiplies the supplied gradient direction by min(a/gamma,1), so vanilla SGD has effective rate min(a,gamma).
+    Scaling mode instead multiplies by a, giving vanilla SGD effective rate gamma*a. These are distinct
+    transformations; the scaling mode overlaps the LARS-style rule and is not evidence that every LARC
+    configuration has the clipping identity.
+  evidence:
+  - source_id: apexlarc
+    locator: LARC.__init__, class docstring and step, adaptive_lr and clip branch
+    relation: supports
+- claim_id: decay-and-fresh-bound
+  kind: mechanism
+  statement: In the historical wrapper nonzero-norm path, the direction becomes g+d*w before scaling,
+    while the denominator is norm(g)+d*norm(w)+epsilon rather than norm(g+d*w). The wrapper temporarily
+    sets the base optimizer weight-decay option to zero to avoid applying that option again. For d>=0,
+    epsilon>=0, positive gamma and a defined denominator, the triangle inequality bounds the fresh vanilla-SGD
+    displacement in clipping mode by eta*norm(w). This is coupled decay inside gradient preprocessing,
+    not generally independent AdamW-style shrinkage.
+  evidence:
+  - source_id: apexlarc
+    locator: step, weight_decays, adaptive_lr, gradient addition/scaling and base optimizer call
+    relation: supports
+- claim_id: wrapped-optimizer-boundary
+  kind: limitation
+  statement: The Apex implementation changes supplied gradients before invoking the wrapped optimizer.
+    The vanilla-SGD local-rate interpretation and fresh-step norm bound do not automatically apply to
+    the final displacement under accumulated momentum, adaptive coordinate moments or other stateful transformations.
+    Momentum can retain an earlier contribution, and in the ideal first Adam step a positive common gradient
+    multiplier can cancel in moment normalization. The wrapper therefore does not implement a universal
+    parameter-relative displacement cap for every optimizer accepted by its interface.
+  evidence:
+  - source_id: apexlarc
+    locator: Class docstring, Adam wrapper example and step calling self.optim.step after gradient rescaling
+    relation: supports
+- claim_id: zero-norm-and-grouping-policies
+  kind: limitation
+  statement: The historical wrapper skips adaptive scaling and its decay addition when either parameter
+    norm or gradient norm is zero, and skips parameters whose gradient is None. Because base weight decay
+    is disabled for the call, a zero-gradient parameter does not receive the wrapper decay contribution
+    on that branch; existing optimizer state may still move it. A zero-weight block with nonzero gradient
+    also passes an unscaled gradient to the base optimizer, differing from the zero rate of the ideal
+    clipped formula. Blocks are parameter tensors in this implementation, not necessarily architectural
+    layers. These are explicit versioned policies, not universal consequences of the LARC name.
+  evidence:
+  - source_id: apexlarc
+    locator: step, per-parameter loop, p.grad None and nonzero-norm condition
+    relation: supports
+- claim_id: configuration-and-source-version
+  kind: limitation
+  statement: The cited Apex class delegates state_dict and load_state_dict to its wrapped optimizer; its
+    trust coefficient, clipping flag and epsilon are not separately added by those methods. Reproducing
+    this wrapper therefore requires retaining those settings alongside the underlying optimizer state.
+    The selected implementation is a pinned April 2020 historical revision, while the method documentation
+    is pinned separately to September 2020. Static reading of these sources does not establish current
+    framework availability, dependency compatibility, exception behavior or training equivalence.
+  evidence:
+  - source_id: apexlarc
+    locator: LARC.__init__, state_dict and load_state_dict
+    relation: supports
+  - source_id: nvidiadocs
+    locator: Pinned method documentation and configuration example
+    relation: supports
+- claim_id: intended-use-and-evidence-scope
+  kind: scope
+  statement: The documentation motivates LARC for controlling large steps in neural-network training,
+    and the wrapper describes large-batch optimization. Those motivations and formula-level bounds do
+    not establish universal convergence, eliminate all initialization sensitivity, prove performance preservation
+    at arbitrary batch size, or replace a specified optimizer and schedule. This record describes the
+    clipping rule and explicit historical wrapper boundaries without importing a numerical benchmark or
+    claiming framework execution.
+  evidence:
+  - source_id: nvidiadocs
+    locator: Layer-wise Adaptive Rate Control motivation and Notes
+    relation: supports
+  - source_id: apexlarc
+    locator: LARC class docstring
+    relation: supports
+evidence_sources:
+- source_id: nvidiadocs
+  title: NVIDIA OpenSeq2Seq optimizer method documentation
+  authors:
+  - NVIDIA contributors
+  source_type: official_documentation
+  url: https://github.com/NVIDIA/OpenSeq2Seq/blob/8681d381ed404fde516e2c1b823de5a213c59aba/docs/sources/source/optimizers.rst
+  persistent_id: NVIDIA/OpenSeq2Seq@8681d381ed404fde516e2c1b823de5a213c59aba:docs/sources/source/optimizers.rst
+  version: Git commit 8681d381ed404fde516e2c1b823de5a213c59aba (2020-09-09T14:37:04Z); complete file inspected
+    statically. The Apex wrapper is explicitly historical; no current installation or runtime compatibility
+    claim.
+  access_level: documentation
+  accessed_at: '2026-10-13T03:22:05Z'
+  sha256: cc6d9da92b70200d20c2ebef34fbba105c3dabaa3675abd54ebd5b3d5e2fe138
+- source_id: apexlarc
+  title: NVIDIA Apex historical LARC wrapper
+  authors:
+  - NVIDIA contributors
+  source_type: official_documentation
+  url: https://github.com/NVIDIA/apex/blob/2ec84ebdca59278eaf15e8ddf32476d9d6d8b904/apex/parallel/LARC.py
+  persistent_id: NVIDIA/apex@2ec84ebdca59278eaf15e8ddf32476d9d6d8b904:apex/parallel/LARC.py
+  version: Git commit 2ec84ebdca59278eaf15e8ddf32476d9d6d8b904 (2020-04-22T10:19:38Z); complete file inspected
+    statically. The Apex wrapper is explicitly historical; no current installation or runtime compatibility
+    claim.
+  access_level: documentation
+  accessed_at: '2026-10-13T03:23:28Z'
+  sha256: 3d5c9836e4a794f8a9bfe216e7967536b097f01d0c70beb63e1f1b36c149a89e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: LARC controls parameter-update rates during machine-learning training. The pinned TrainingStrategy
+    target names this context but has a preprocessing genus, so this mapping expresses relatedness without
+    asserting equivalence, subclass membership or that LARC is preprocessing.
+limitations:
+- The identity here is the documented clipping form. The named historical wrapper also supports scaling
+  mode; clipping and global-rate multiplication must not be conflated.
+- The parameter-relative norm bound concerns the fresh vanilla-SGD increment with the stated signs and
+  nonzero/defined denominators, not every wrapped optimizer final displacement or a convergence guarantee.
+- Zero norms, missing gradients, tensor grouping and coupled decay have explicit historical implementation
+  policies that differ from a direct extension of the ideal equation.
+- The historical wrapper configuration is not fully represented by its delegated optimizer state serialization;
+  trust coefficient, clip mode and epsilon must be retained separately.
+- Both pinned NVIDIA method documentation and complete historical Apex wrapper were inspected statically.
+  No PyTorch execution, dependency audit, mixed-precision experiment or current installation compatibility
+  is claimed.
+- No empirical training speed, accuracy, stability advantage or universal batch-size scaling rule is imported;
+  constructed examples demonstrate algebraic boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T03:44:27Z'
+  updated_at: '2026-10-13T03:44:27Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layer-wise adaptive rate control · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Layer-wise adaptive rate control</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Layer-wise adaptive rate control</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LayerWiseAdaptiveRateControl</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LARC
+    </div>
+
+  <div class="detail-desc">
+    A parameter-block learning-rate control rule whose clipping form limits a vanilla stochastic-gradient step by using the smaller of a global learning rate and a trust coefficient times the block parameter-norm to gradient-norm ratio.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 567 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 30, 0, 1 lines. All matching lines were read: recovery hits are prior LARS comparisons and pending LARC leads or rendered/review mirrors, while the original ignored environment contains an unrelated APDL lexer command. A semantic search covered ten AIO rows and 91 native definitions: the preceding ten AIO and 90 native rows were verified unchanged, and the new NovoGrad definition was read. Three complete AIO node/edge/generated contexts were verified unchanged from the preceding full rereading; nine full native context records were read or verified against prior full readings. The documented LARC clipping rule uses a minimum of global and norm-ratio rates, unlike plain LARS multiplication. The named historical wrapper also supports a scaling mode, so the record explicitly curates the clipped identity and distinguishes wrapper modes. This control rule differs from CLARS individual-gradient normalization, LAMB final block normalization, NovoGrad scalar moment normalization and coordinate-wise Adam/RMSprop.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#clipped-rate-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For vanilla SGD on a block with nonzero gradient L2 norm, the documented clipping rule is lambda_k=min(gamma,eta*norm(w_k)/norm(g_k)), followed by w_k_new=w_k-lambda_k*g_k. Here gamma&gt;=0 is the global rate and 0&lt;=eta&lt;1 is the trust coefficient. For this rule the fresh displacement norm is min(gamma*norm(g_k),eta*norm(w_k)). The cap is on the effective local rate; the trust coefficient is a chosen parameter, not a solved trust-region radius or an automatic batch-size schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nvidiadocs">NVIDIA OpenSeq2Seq optimizer method documentation</a></span>
+        <span>· <strong>Locator:</strong> Layer-wise Adaptive Rate Control section, SGD and clipped local-rate equations; algebraic consequence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#clipping-versus-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected historical Apex wrapper supports both clipping and scaling. On its nonzero-norm path, it computes a=eta*norm(w)/(norm(g)+d*norm(w)+epsilon). For a positive base rate gamma, clipping multiplies the supplied gradient direction by min(a/gamma,1), so vanilla SGD has effective rate min(a,gamma). Scaling mode instead multiplies by a, giving vanilla SGD effective rate gamma*a. These are distinct transformations; the scaling mode overlaps the LARS-style rule and is not evidence that every LARC configuration has the clipping identity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> LARC.__init__, class docstring and step, adaptive_lr and clip branch</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decay-and-fresh-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the historical wrapper nonzero-norm path, the direction becomes g+d*w before scaling, while the denominator is norm(g)+d*norm(w)+epsilon rather than norm(g+d*w). The wrapper temporarily sets the base optimizer weight-decay option to zero to avoid applying that option again. For d&gt;=0, epsilon&gt;=0, positive gamma and a defined denominator, the triangle inequality bounds the fresh vanilla-SGD displacement in clipping mode by eta*norm(w). This is coupled decay inside gradient preprocessing, not generally independent AdamW-style shrinkage.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> step, weight_decays, adaptive_lr, gradient addition/scaling and base optimizer call</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#wrapped-optimizer-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Apex implementation changes supplied gradients before invoking the wrapped optimizer. The vanilla-SGD local-rate interpretation and fresh-step norm bound do not automatically apply to the final displacement under accumulated momentum, adaptive coordinate moments or other stateful transformations. Momentum can retain an earlier contribution, and in the ideal first Adam step a positive common gradient multiplier can cancel in moment normalization. The wrapper therefore does not implement a universal parameter-relative displacement cap for every optimizer accepted by its interface.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> Class docstring, Adam wrapper example and step calling self.optim.step after gradient rescaling</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#zero-norm-and-grouping-policies</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The historical wrapper skips adaptive scaling and its decay addition when either parameter norm or gradient norm is zero, and skips parameters whose gradient is None. Because base weight decay is disabled for the call, a zero-gradient parameter does not receive the wrapper decay contribution on that branch; existing optimizer state may still move it. A zero-weight block with nonzero gradient also passes an unscaled gradient to the base optimizer, differing from the zero rate of the ideal clipped formula. Blocks are parameter tensors in this implementation, not necessarily architectural layers. These are explicit versioned policies, not universal consequences of the LARC name.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> step, per-parameter loop, p.grad None and nonzero-norm condition</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#configuration-and-source-version</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The cited Apex class delegates state_dict and load_state_dict to its wrapped optimizer; its trust coefficient, clipping flag and epsilon are not separately added by those methods. Reproducing this wrapper therefore requires retaining those settings alongside the underlying optimizer state. The selected implementation is a pinned April 2020 historical revision, while the method documentation is pinned separately to September 2020. Static reading of these sources does not establish current framework availability, dependency compatibility, exception behavior or training equivalence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> LARC.__init__, state_dict and load_state_dict</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nvidiadocs">NVIDIA OpenSeq2Seq optimizer method documentation</a></span>
+        <span>· <strong>Locator:</strong> Pinned method documentation and configuration example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#intended-use-and-evidence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The documentation motivates LARC for controlling large steps in neural-network training, and the wrapper describes large-batch optimization. Those motivations and formula-level bounds do not establish universal convergence, eliminate all initialization sensitivity, prove performance preservation at arbitrary batch size, or replace a specified optimizer and schedule. This record describes the clipping rule and explicit historical wrapper boundaries without importing a numerical benchmark or claiming framework execution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-nvidiadocs">NVIDIA OpenSeq2Seq optimizer method documentation</a></span>
+        <span>· <strong>Locator:</strong> Layer-wise Adaptive Rate Control motivation and Notes</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-apexlarc">NVIDIA Apex historical LARC wrapper</a></span>
+        <span>· <strong>Locator:</strong> LARC class docstring</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The identity here is the documented clipping form. The named historical wrapper also supports scaling mode; clipping and global-rate multiplication must not be conflated.</li>
+      <li>The parameter-relative norm bound concerns the fresh vanilla-SGD increment with the stated signs and nonzero/defined denominators, not every wrapped optimizer final displacement or a convergence guarantee.</li>
+      <li>Zero norms, missing gradients, tensor grouping and coupled decay have explicit historical implementation policies that differ from a direct extension of the ideal equation.</li>
+      <li>The historical wrapper configuration is not fully represented by its delegated optimizer state serialization; trust coefficient, clip mode and epsilon must be retained separately.</li>
+      <li>Both pinned NVIDIA method documentation and complete historical Apex wrapper were inspected statically. No PyTorch execution, dependency audit, mixed-precision experiment or current installation compatibility is claimed.</li>
+      <li>No empirical training speed, accuracy, stability advantage or universal batch-size scaling rule is imported; constructed examples demonstrate algebraic boundaries only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LARC controls parameter-update rates during machine-learning training. The pinned TrainingStrategy target names this context but has a preprocessing genus, so this mapping expresses relatedness without asserting equivalence, subclass membership or that LARC is preprocessing.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-nvidiadocs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">nvidiadocs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/NVIDIA/OpenSeq2Seq/blob/8681d381ed404fde516e2c1b823de5a213c59aba/docs/sources/source/optimizers.rst" target="_blank" rel="noopener">NVIDIA OpenSeq2Seq optimizer method documentation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            NVIDIA contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> NVIDIA/OpenSeq2Seq@8681d381ed404fde516e2c1b823de5a213c59aba:docs/sources/source/optimizers.rst</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cc6d9da92b70…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-apexlarc">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">apexlarc</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/NVIDIA/apex/blob/2ec84ebdca59278eaf15e8ddf32476d9d6d8b904/apex/parallel/LARC.py" target="_blank" rel="noopener">NVIDIA Apex historical LARC wrapper</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            NVIDIA contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> NVIDIA/apex@2ec84ebdca59278eaf15e8ddf32476d9d6d8b904:apex/parallel/LARC.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3d5c9836e4a7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T03:44:27Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T03:44:27Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LayerWiseAdaptiveRateControl.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LayerWiseAdaptiveRateControl.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
