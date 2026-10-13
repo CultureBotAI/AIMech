@@ -1,0 +1,157 @@
+id: AIMech:IDAStarIncrementalModel
+name: IDA* with an Incremental Model
+aliases:
+- IDA*IM
+concept_kind: algorithm
+definition: An iterative-deepening heuristic search algorithm that learns a conditional model of search-tree
+  cost increments, predicts later cost thresholds to target increased expansion counts, and completes
+  the goal-finding iteration by branch-and-bound.
+identity_notes: Compared all 442 pinned AIO and 637 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 458, 252, 250 lines. All distinct match contents
+  were inspected. Semantic matching covered 8 AIO and 83 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  IDA*IM, which learns a conditional increment model to select cost bounds and uses final branch-and-bound.
+  Ordinary IDA* uses minimum-exceeded thresholds; RBFS controlled re-expansion changes backed-up subtree
+  values; BFIDA* changes the traversal to breadth first. The separately usable estimator and a learned
+  admissible heuristic have different scopes.
+definition_evidence:
+- source_id: burns2013im
+  locator: Sections 3–4.1, author-manuscript PDF pp. 5–11
+  relation: supports
+claims:
+- claim_id: incremental-search-model
+  kind: mechanism
+  statement: During cost-bounded depth-first search, the method records changes in f=g+h and an integer
+    distance-to-go estimate between parents and children, conditioned on selected node types, parent distance
+    and, online, search depth. Histograms represent real-valued cost increments. Backoff models omit conditioning
+    features when data are unavailable. The learned model predicts search effort; it does not replace
+    the admissible heuristic with an unconstrained learned estimate.
+  evidence:
+  - source_id: burns2013im
+    locator: Sections 3–3.1, PDF pp. 5–7; Section 4, p. 10
+    relation: supports
+- claim_id: histogram-extrapolation
+  kind: mechanism
+  statement: The predictor propagates f-value mass through conditional offspring-increment histograms
+    by additive convolution, accumulating estimated counts across depths. It can start from the root or
+    from a fully generated shallow layer. Estimated mass and a target count determine a simulated bound,
+    with pruning and a small-mass stopping criterion. The uniform-tree exactness result assumes an accurate
+    increment model and h=0; it does not certify predictions after approximate binning, backoff or unmodeled
+    dependencies in arbitrary trees.
+  evidence:
+  - source_id: burns2013im
+    locator: Section 3.2, PDF pp. 7–9, Equation 1; Section 4.1, p. 11; Theorem 4, pp. 12–13; Appendix
+      A, p. 24
+    relation: supports
+- claim_id: threshold-control-and-fallback
+  kind: mechanism
+  statement: 'After an iteration without a goal, the method predicts a threshold intended to yield twice
+    the preceding expansion count. The next threshold is bounded below by the smallest f value pruned
+    in the completed iteration, preventing a low prediction from repeating or reducing the cutoff. A single
+    model is updated from newly encountered search portions, and the configured ancestor-cycle check also
+    excludes cyclic successors from model learning. The target is an estimate: discrete f-contours can
+    make exact doubling impossible.'
+  evidence:
+  - source_id: burns2013im
+    locator: Sections 4–4.1, PDF pp. 10–11; Section 5.2 and Figure 6, p. 16
+    relation: supports
+- claim_id: final-iteration-and-correctness-scope
+  kind: limitation
+  statement: A predicted threshold can exceed the cheapest solution cost, so the first encountered goal
+    is not automatically optimal. The final iteration continues branch-and-bound below the incumbent cost
+    and replaces it when a cheaper goal is found. The correctness argument relies on admissible lower
+    bounds and completion of the required searches; finite relevant contours and the usual termination
+    conditions must be retained. Consistency or pathmax supplies the nondecreasing path evaluations used
+    by the model. Admissibility alone is not an unconditional termination guarantee for arbitrary infinite
+    search spaces.
+  evidence:
+  - source_id: burns2013im
+    locator: Section 4, PDF p. 10; Section 4.2, pp. 11–13
+    relation: supports
+- claim_id: prediction-versus-runtime
+  kind: limitation
+  statement: 'The reported studies cover configured sliding-tile, vacuum-maze, synthetic-tree and weighted-pancake
+    problems. Better expansion predictions do not guarantee lower CPU time: model and histogram maintenance
+    add overhead, and histogram capacity affects predictions. The record does not assert universal speedups,
+    an always-doubling expansion rate, constant memory for the complete learned model or equivalence to
+    graph search with global duplicate elimination.'
+  evidence:
+  - source_id: burns2013im
+    locator: Section 5, PDF pp. 13–21, Figures 4–10; Discussion, pp. 21–22; Appendix A, p. 24
+    relation: supports
+evidence_sources:
+- source_id: burns2013im
+  title: Iterative-Deepening Search with On-line Tree Size Prediction
+  authors:
+  - Ethan Burns
+  - Wheeler Ruml
+  persistent_id: doi:10.1007/s10472-013-9347-9
+  version: Author-hosted 24-page manuscript identified by the author bibliography as the 2013 Annals of
+    Mathematics and Artificial Intelligence article, volume 69, journal pages 183–205. All manuscript
+    pages visually inspected, including Sections 1–8, Equation 1, Figures 1–10, four theorems, two lemmas,
+    23 references and Appendix A. The publisher abstract and metadata were inspected; the journal PDF
+    layout, 2012 LION full text and author code were not inspected.
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/im-amai-13.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:44:38Z'
+  sha256: fd8b123fff9071db47b98df13362b1085dec51189ed2e20d5d12204efdc45d99
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 637 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 458, 252, 250 lines. All distinct match contents
+    were inspected. Semantic matching covered 8 AIO and 83 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 3 full native records were inspected.
+    Retain IDA*IM, which learns a conditional increment model to select cost bounds and uses final branch-and-bound.
+    Ordinary IDA* uses minimum-exceeded thresholds; RBFS controlled re-expansion changes backed-up subtree
+    values; BFIDA* changes the traversal to breadth first. The separately usable estimator and a learned
+    admissible heuristic have different scopes.
+  rationale: No suitable mapping for this complete adaptive state-space search algorithm was established
+    in the inspected AIO snapshot. A graph-based language model, a general learning task and the arithmetic
+    functions used by an estimator are different scopes.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model over graph-structured inputs is not an adaptive shortest-path search
+      procedure.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Language-model deduction does not identify cost-bounded depth-first search or histogram-based
+      threshold control.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: The algorithm does not require a neural language model or a hybrid neural-symbolic
+      architecture.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Learning a search-effort model is a component, but this record denotes a full search
+      algorithm rather than the general task of constructing learning methods.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Evaluation and convolution functions are components rather than the stateful search
+      procedure.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The source fits increment counts from traversed nodes; it does not define a reward-based
+      policy or value-learning procedure balancing exploration and exploitation.
+limitations:
+- The record is scoped to the IDA*IM search integration in the inspected 2013 author manuscript. The standalone
+  incremental estimator can also be trained offline; it is not equivalent to the complete search procedure.
+- 'The source contains shorthand or inconsistent details: the page 6 branching-factor prose reverses the
+  usual offspring-per-parent ratio, and Figure 3 is not certified here as executable pseudocode. The record
+  follows the prose mechanism and count-convolution analysis while retaining these interpretation limits.'
+- Consistency means nondecreasing f, not necessarily strictly increasing f. Goal-zero conventions, valid
+  lower bounds, finite relevant contours and terminating branch-and-bound remain part of any correctness
+  claim; unrestricted admissibility alone is insufficient.
+- The source’s ideal uniform-tree convolution argument does not prove model accuracy for general spaces.
+  A chosen distance estimate need not be zero only at goal states; the paper’s proposed solution-cost
+  extension remains outside this curated procedure.
+- All 24 author-manuscript pages were visually inspected. The publisher journal layout, earlier conference
+  full text and author implementation were not inspected. Constructed arithmetic checks are not search
+  benchmarks or empirical replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T18:06:02Z'
+  updated_at: '2026-10-13T18:07:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
