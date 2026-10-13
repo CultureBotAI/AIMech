@@ -1,0 +1,201 @@
+id: AIMech:StochasticNonconjugateGLMMVariationalInference
+name: Stochastic nonconjugate GLMM variational inference
+aliases: []
+concept_kind: algorithm
+definition: A finite-population Bayesian GLMM inference procedure that iterates selected cluster-local
+  Gaussian factors and uses expanded cluster minibatch contributions to damp global Gaussian and inverse-Wishart
+  natural parameters. This record follows the Tan–Nott natural-gradient derivation with its complete covariance
+  target and explicit sampling and local-solution qualifications.
+identity_notes: 'No normalized identity match across all 442 pinned AIO IDs, names and scoped synonyms
+  and 555 maintained IDs, names and aliases for the stochastic GLMM or proposed message-conflict diagnostic
+  identities. Fixed-string searches included ignored and hidden files in the recovery, older discovery
+  and original Documents checkouts, returning 4, 0 and 0 lines; all four are previously saved source links.
+  Assessed 31 semantic AIO rows and 130 native names/definitions: 28 and 99, respectively, were verified
+  identical to the preceding complete readings, with all 3 and 31 new rows read. Eight full AIO nodes
+  with incident edges/generated records were verified unchanged, and six full native context records were
+  read or verified against prior readings. This descriptive local name denotes the Tan–Nott stochastic
+  GLMM procedure derived in Equations 11, 13 and 20–21, with Algorithm 2 qualified by its appendix. Local
+  Gaussian iterations and cluster-minibatch natural updates of global Gaussian/inverse-Wishart factors
+  distinguish it from the existing full-data partially noncentered procedure, generic NCVMP, score-sampling
+  BBVI, generic SGD and stochastic spectral regression. The source mixed-message conflict diagnostic is
+  a separate pending identity. Absence is bounded to the inspected pin and corpus.'
+definition_evidence:
+- source_id: tan2014
+  locator: Sections 4.3–4.4, Equations 11–13 and Algorithm 2, PDF pp. 10–14; Appendix B, Equations 20–21,
+    PDF pp. 38–39
+  relation: supports
+claims:
+- claim_id: model-and-family
+  kind: scope
+  statement: 'For a fixed finite set of N clusters, use the partially noncentered Bernoulli-logit or Poisson-log
+    mixed model: beta~N(0,Sigma0), u_i|D~N(0,D), D~IW(nu,S), with positive-definite Sigma0,S and nu>r-1.
+    At fixed cluster maps B_i define a_i=u_i+B_i*beta and eta_i=V_i*beta+Z_i*a_i with V_i=X_i-Z_i*B_i;
+    the source uses B_i=[(I-W_i)*C_i,0] for its shared/cluster-constant design. Approximate the posterior
+    by q(beta)q(D)product_i q(a_i), using full Gaussian blocks q(beta)=N(m,Q), q(a_i)=N(m_i,Q_i) and q(D)=IW(nuq,Sq).
+    Set nuq=nu+N. The ELBO is expected log joint plus entropy for this proper model; the algorithm infers
+    global beta,D factors from cluster minibatches, not individual observation minibatches or an unspecified
+    unbounded stream.'
+  evidence:
+  - source_id: tan2014
+    locator: Sections 3–4.1, Equations 4 and 8, PDF pp. 4–8; Algorithm 2 initialization, PDF p. 14
+    relation: supports
+- claim_id: local-iterations
+  kind: mechanism
+  statement: At the current global Gaussian and inverse-Wishart factors, draw a nonempty cluster minibatch
+    and hold the globals and W_i fixed while iterating each selected local Gaussian. Let A=nuq*Sq^-1 and
+    let G_i and F_i be expected first and second observation-cumulant derivatives under the current predictor
+    distribution. With P_i=A+Z_i^T*diag(F_i)*Z_i and g_i=-A*(m_i-B_i*m)+Z_i^T*(y_i-G_i), propose Q_i_new=P_i^-1
+    and m_i_new=m_i+Q_i_new*g_i, evaluating both derivatives at the same old local state and recomputing
+    moments for another local iteration. The source uses a loose relative local-mean stopping criterion;
+    this is not a certificate of an exact stationary local solution or maximizer. Proper globals and exact
+    nonnegative Bernoulli/Poisson curvature yield positive local precision.
+  evidence:
+  - source_id: tan2014
+    locator: Sections 4.3–4.4, PDF pp. 10–14; Algorithm 2 step 2, PDF p. 14; Appendix B, PDF pp. 37–38
+    relation: supports
+- claim_id: expected-observation-curvature
+  kind: mechanism
+  statement: For a selected cluster the scalar predictor means and variances are t_i=V_i*m+Z_i*m_i and
+    v_i=diag(V_i*Q*V_i^T+Z_i*Q_i*Z_i^T). With positive Poisson exposures E_i, G_i=F_i=E_i*exp(t_i+v_i/2),
+    elementwise. For Bernoulli-logit, G_ij=E[sigmoid(t_ij+sqrt(v_ij)*Z0)] and F_ij=E[sigmoid(T)*(1-sigmoid(T))]
+    for the same T and Z0~N(0,1). These are one-dimensional normal expectations, approximated by quadrature
+    for logistic observations. The standard-normal density uses exp(-z^2/2)/sqrt(2*pi); the missing half
+    in the 2014 appendix display is qualified against the normalized construction and the 2013 source.
+  evidence:
+  - source_id: tan2014
+    locator: Appendix B definitions of g and F, PDF pp. 37–38; the printed logistic integral on PDF p.
+      37 has an exponent discrepancy
+    relation: supports
+  - source_id: tan2013
+    locator: Section 4.3 and Appendix B normalized Gaussian expectations, PDF pp. 8 and 19–20
+    relation: supports
+- claim_id: frozen-global-targets
+  kind: mechanism
+  statement: After selected local iterations, freeze the old global m,Q,Sq and the selected local factors
+    for both global proposals. For minibatch B of size b, define P_hat=Sigma0^-1+(N/b)*sum_{i in B}[B_i^T*A*B_i+V_i^T*diag(F_i)*V_i],
+    g_hat=-Sigma0^-1*m+(N/b)*sum_{i in B}[B_i^T*A*(m_i-B_i*m)+V_i^T*(y_i-G_i)], and h_hat=P_hat*m+g_hat.
+    The covariance-factor target is S_hat=S+(N/b)*sum_{i in B}[(m_i-B_i*m)*(m_i-B_i*m)^T+Q_i+B_i*Q*B_i^T],
+    with degrees nu+N. Global priors enter once; only cluster contributions are expanded. S_hat includes
+    the local covariance Q_i, present in Appendix B Equation 21 but omitted in printed Algorithm 2. Frozen
+    global targets implement the simultaneous natural-gradient construction rather than silently reusing
+    newly changed beta moments inside the other target.
+  evidence:
+  - source_id: tan2014
+    locator: Section 4.3, Equations 10–13, PDF pp. 12–13; Algorithm 2, PDF p. 14; Appendix B, Equations
+      20–21, PDF pp. 38–39
+    relation: supports
+- claim_id: natural-parameter-mixing
+  kind: mechanism
+  statement: Choose 0<rho<=1 and write P_old=Q^-1 and h_old=P_old*m. Mix the Gaussian natural coordinates
+    as P_new=(1-rho)*P_old+rho*P_hat and h_new=(1-rho)*h_old+rho*h_hat; then Q_new=P_new^-1 and m_new=Q_new*h_new=m+rho*Q_new*g_hat.
+    Mix the inverse-Wishart scale as Sq_new=(1-rho)*Sq+rho*S_hat, keeping nuq=nu+N. This is not ordinary
+    arithmetic averaging of Gaussian covariance matrices or means. Positive-definite old/target precisions
+    and scales make this convex natural step proper. The source derives it from stochastic natural-gradient
+    ascent; proper factors alone do not guarantee ELBO ascent or convergence.
+  evidence:
+  - source_id: tan2014
+    locator: Equations 11–13, PDF pp. 12–13; Appendix B Gaussian and inverse-Wishart natural vectors and
+      Equations 20–21, PDF pp. 38–39
+    relation: supports
+- claim_id: sampling-and-profile-boundary
+  kind: limitation
+  statement: 'At a frozen global state, assume each cluster contribution is evaluated by the same specified
+    local-solution rule. A fresh uniform subset of b clusters gives an unbiased N/b-scaled sum for the
+    corresponding full sum; independent uniform draws with replacement also do so when repeated draws
+    are counted with multiplicity. To identify that sum as the gradient of an optimized-local ELBO additionally
+    requires the envelope argument’s differentiable stationary local solution and regularity. Approximate
+    local solves, history-dependent warm starts or biased quadrature need separate error assessment. The
+    source implementation description instead shuffles clusters into a sweep and samples from those remaining:
+    its next-batch estimate is not generally conditionally unbiased at the changing current state under
+    the fresh-subset argument. This does not by itself prove reshuffling fails; it limits the unbiased-gradient/convergence
+    claim.'
+  evidence:
+  - source_id: tan2014
+    locator: Sections 4.3–4.4 local-solution/envelope and minibatch derivations, PDF pp. 10–14; curator
+      finite sampling comparison
+    relation: supports
+- claim_id: schedule-and-hybrid-scope
+  kind: scope
+  statement: The source discusses diminishing gains rho_t=a/(t+A)^alpha with 1/2<alpha<=1 and later uses
+    a sweep-count clock, and optionally switches to the full-data procedure when an attained-bound progress
+    criterion is small. The schedule must be defined at the initial index and respect the factor-domain
+    requirement; Robbins–Monro summability is only part of the regularity conditions needed for convergence.
+    A finite hybrid switching/stopping rule does not establish stationary or globally optimal inference,
+    and its reported runtime belongs to that hybrid experiment. This record does not certify a streaming
+    population-size rule, constant-memory implementation, author software or the separate prior-likelihood
+    conflict diagnostic.
+  evidence:
+  - source_id: tan2014
+    locator: Sections 4.3–4.5, PDF pp. 12–16; experimental context and conclusions, PDF pp. 21–33
+    relation: supports
+evidence_sources:
+- source_id: tan2014
+  title: A stochastic variational framework for fitting and diagnosing generalized linear mixed models
+  authors:
+  - Linda S. L. Tan
+  - David J. Nott
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1208.4949v4
+  persistent_id: https://doi.org/10.1214/14-BA885
+  version: 'arXiv:1208.4949v4, 2014-03-28; all 42 preprint pages visually read, including Algorithms 1–2,
+    Figures 1–13, Tables 1–9 and Appendices A–D. Journal reference: Bayesian Analysis 9:963–1004 (2014);
+    locators use this preprint.'
+  access_level: full_text
+  accessed_at: '2026-10-12T23:58:40Z'
+  sha256: 276ebdc67a5f3d0a3453b1859bbc40458d77f83bd58b604c063972df6cf6de15
+- source_id: tan2013
+  title: Variational Inference for Generalized Linear Mixed Models Using Partially Noncentered Parametrizations
+  authors:
+  - Linda S. L. Tan
+  - David J. Nott
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1205.3906v3
+  persistent_id: https://doi.org/10.1214/13-STS418
+  version: arXiv:1205.3906v3, 2013-06-11; complete 21-page electronic reprint of Statistical Science 28(2):168–188
+    read. PDF pagination 1–21 differs from journal pagination.
+  access_level: full_text
+  accessed_at: '2026-10-12T23:41:04Z'
+  sha256: 32f56daf18e03d20a6d50785d2370248b22599d2db67dca0cec0c9f5723e74f0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RandomEffectsModel
+  relation: related_match
+  rationale: The procedure infers clustered fixed/random coefficients and a shared random-effect covariance.
+    The AIO class denotes that model family, not the local-solve/minibatch natural-gradient algorithm.
+    This is method-to-model-context relatedness without equivalence or is-a.
+limitations:
+- 'The record follows the stochastic natural-parameter derivation with frozen global targets and the full
+  covariance moment in Appendix B. It does not certify Algorithm 2 as printed: that display omits Q_i
+  in the inverse-Wishart target, and the sequential-looking display can obscure the old-global evaluation
+  required by the simultaneous construction.'
+- 'Additional source discrepancies are explicit: the Gaussian motivating weight matrix on PDF p. 5 uses
+  an identity with the wrong dimension for a general design; Poisson curvature on p. 7 omits an exponential;
+  the logistic normal weight on p. 37 omits a half in its exponent. The normalized 2013 construction,
+  likelihood differentiation and the full Appendix B target delimit the supported reconstruction. No source
+  implementation is claimed corrected or executed.'
+- The source sweep sampler and loose local-mean convergence check do not by themselves meet the fresh-batch,
+  exact-local-envelope assumptions. Constant or diminishing gains cannot supply missing stability, smoothness,
+  moment or local-solution conditions. Neither every iterate nor a sampled estimate must improve the full
+  ELBO.
+- The factor family still omits dependence with D and across transformed Gaussian blocks. Partial noncentering
+  captures restricted dependence in original coordinates, not an arbitrary joint posterior. Priors, initialization,
+  numeric quadrature and conditioning affect results. A prior scale based on an estimated information
+  inverse requires invertibility.
+- All 42 primary 2014 preprint pages and the supporting 21-page 2013 reprint were read. The reported clinical-data
+  comparisons and simulated hybrid-fit timings are not curated as clinical conclusions or general accuracy/speed
+  guarantees. Source minibatch percentages contain decimal errors; finite-population weights here use
+  actual N and b. No fitting, author implementation, diagnostic calibration study or benchmark was run.
+- Independent arithmetic checks fixed supplied local Gaussian factors, all uniform subsets/iid draw multisets
+  in a tiny example and one simultaneous global step. Those local factors were not optimized, so this
+  is not a numerical test of the envelope theorem, a profiled-gradient reproduction or convergence. DRAFT
+  remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T00:11:17Z'
+  updated_at: '2026-10-13T00:11:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
