@@ -1,0 +1,152 @@
+id: AIMech:MaxoutUnit
+name: Maxout Unit
+aliases:
+- Maxout
+concept_kind: mathematical_method
+definition: A parameterized neural unit that outputs the maximum of a finite group of learned affine functions
+  of its input.
+identity_notes: Compared all 442 pinned AIO and 620 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 216, 90, 89 lines. All distinct match contents were
+  inspected. Semantic matching covered 52 AIO and 33 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This
+  record denotes the learned affine-maximum unit of Goodfellow and colleagues. Maxout is scoped as its
+  short name, while Maxout Networks names networks containing these units rather than a second fixed architecture.
+  A spatial max-pooling layer has different grouping and input scope. Learned-norm pooling uses centered
+  absolute power means, and finite MEX uses normalized log-mean-exp; neither is the same finite maximum
+  of learned signed affine responses.
+definition_evidence:
+- source_id: goodfellow2013
+  locator: Section 3, PDF p. 2, unnumbered unit definition
+  relation: supports
+claims:
+- claim_id: affine-maximum-and-grouping
+  kind: mechanism
+  statement: For input x, a unit computes h(x)=max_j(w_j^T*x+b_j) over its learned affine pieces. Convolutional
+    use shares affine filters across positions and takes the maximum across a group of channels; this
+    channel grouping does not itself perform spatial downsampling. The paper applies dropout to inputs
+    of the affine transformation, before the maximum. A unit, a layer of such units and a whole network
+    using them have different scopes.
+  evidence:
+  - source_id: goodfellow2013
+    locator: Section 3, PDF p. 2, unnumbered unit definition and convolution/dropout placement
+    relation: supports
+- claim_id: geometry-special-cases-and-gradients
+  kind: scope
+  statement: For fixed parameters the finite maximum is continuous, convex and piecewise affine. With
+    one piece it is affine; suitably chosen two-piece units represent scalar ReLU or absolute value. General
+    maxout outputs may be negative and need not be sparse. At a unique winning piece the input derivative
+    is that piece’s weight vector, but it can be zero; loss derivatives and dropped inputs can also prevent
+    parameter updates. Ties can be nondifferentiable and some pieces may never win. Convexity of one unit
+    does not make a multilayer classifier or a signed linear combination of units convex.
+  evidence:
+  - source_id: goodfellow2013
+    locator: Sections 3–4, PDF pp. 2–3, Figures 1–3; Sections 8.1–8.3, pp. 7–8; direct finite-maximum
+      reasoning
+    relation: supports
+- claim_id: two-unit-approximation-conditions
+  kind: scope
+  statement: The paper’s universal approximation construction uses the difference of two convex piecewise-affine
+    functions. Two hidden maxout units with a linear output can approximate a continuous scalar function
+    on a compact domain when the number of affine pieces is allowed to grow with the required approximation.
+    The result is not a fixed-parameter-budget guarantee, exact representation of every continuous function,
+    a uniform approximation over all of unbounded input space, or a guarantee that training finds the
+    construction.
+  evidence:
+  - source_id: goodfellow2013
+    locator: Section 4, PDF pp. 2–3, Propositions 4.1–4.2 and Figure 3
+    relation: supports
+- claim_id: dropout-geometric-averaging-boundary
+  kind: limitation
+  statement: The dropout prediction argument concerns a normalized geometric mean of predictive distributions,
+    not their arithmetic mean. With independent retention masks, affine computations and a softmax output,
+    averaging logits supports the appropriate weight-scaling identity. Extending this reasoning through
+    maxout requires the relevant masked computations to remain in compatible affine regions; local piecewise
+    linearity alone is insufficient because masks can cross region boundaries. The original sampled-network
+    comparisons and the later exact enumeration in small rectifier networks are finite empirical observations,
+    not proofs of exact averaging for every deep maxout network.
+  evidence:
+  - source_id: goodfellow2013
+    locator: Section 2, PDF pp. 1–2; Section 7, pp. 6–7, Figures 7–8
+    relation: supports
+  - source_id: wardefarley2014
+    locator: Sections 2.2–5, PDF pp. 3–5, seven binary-task setup and Figures 1–2; direct constructed
+      mask counterexample
+    relation: supports
+- claim_id: finite-network-evaluation-scope
+  kind: limitation
+  statement: Reported MNIST, CIFAR-10, CIFAR-100 and SVHN outcomes concern particular networks trained
+    with dropout, norm constraints, preprocessing and task-dependent tuning or retraining. Controlled
+    rectifier comparisons use best validation error and distinguish matching unit counts from matching
+    parameter counts. The CIFAR-10 augmentation result differs between prose (9.35 percent error) and
+    Table 3 (9.38 percent); this record leaves that discrepancy unresolved. Gradient-flow, optimization
+    and historical performance observations do not establish universal nonzero gradients, an isolated
+    causal benefit of maxout, measured deployment speed or current superiority.
+  evidence:
+  - source_id: goodfellow2013
+    locator: Sections 5–6, PDF pp. 3–6, Tables 1–5 and Figure 6; Section 8, pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: goodfellow2013
+  title: Maxout Networks
+  authors:
+  - Ian J. Goodfellow
+  - David Warde-Farley
+  - Mehdi Mirza
+  - Aaron Courville
+  - Yoshua Bengio
+  persistent_id: PMLR:goodfellow13
+  version: ICML2013, PMLR28(3):1319–1327, nine-page proceedings PDF. All pages visually read; locators
+    use PDFpages1–9. No author implementation or separate Wang2004 proof inspected.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/goodfellow13.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T13:13:42Z'
+  sha256: ba934741db3533218b691d4e7491d7dbe2f9fd506842cd9ec089ebcab890df70
+- source_id: wardefarley2014
+  title: An empirical analysis of dropout in piecewise linear networks
+  authors:
+  - David Warde-Farley
+  - Ian J. Goodfellow
+  - Aaron Courville
+  - Yoshua Bengio
+  persistent_id: arXiv:1312.6197v2
+  version: arXiv1312.6197v2,2January2014,tenPDFpages including acknowledgements/references. All pages
+    visually read. Earlier versions and author implementation not inspected; printed gradient-sign/normalization
+    caveats retained.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1312.6197v2
+  access_level: full_text
+  accessed_at: '2026-10-13T13:27:35Z'
+  sha256: 3abb59a2fbd09fb040702221a322865376ff1e27504b7855e04acbf4e9aec457
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: For fixed parameters the unit defines a scalar mathematical function of its input; the pinned
+    mathematical-function class is broader.
+- target: AIO:ReLUFunction
+  relation: related_match
+  rationale: Scalar ReLU is a particular two-piece construction, whereas general maxout has learned affine
+    pieces and may be negative. This is a special-case relationship, not equivalence or a claim that ReLU
+    is broader.
+limitations:
+- Maxout here denotes the learned affine-maximum unit. A complete architecture, a channel-grouping layer
+  and spatial max pooling are not interchangeable identities.
+- A fixed finite set of pieces has finite representational capacity. Almost-everywhere differentiability
+  does not guarantee nonzero derivatives or use of every piece.
+- The followup evaluates rectifier networks and informs the averaging boundary; its numerical outcomes
+  are not attributed to maxout networks. Weight and bias scaling must follow the chosen dropout convention.
+- Two complete primary papers were visually inspected, including figures and references. Constructed examples
+  only; no author implementation, training or empirical replication. The cited separate piecewise-linear
+  representation proof was not independently inspected.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T13:41:13Z'
+  updated_at: '2026-10-13T13:48:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

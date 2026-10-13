@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maxout Unit · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Maxout Unit</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Maxout Unit</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:MaxoutUnit</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Maxout
+    </div>
+
+  <div class="detail-desc">
+    A parameterized neural unit that outputs the maximum of a finite group of learned affine functions of its input.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 620 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 216, 90, 89 lines. All distinct match contents were inspected. Semantic matching covered 52 AIO and 33 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This record denotes the learned affine-maximum unit of Goodfellow and colleagues. Maxout is scoped as its short name, while Maxout Networks names networks containing these units rather than a second fixed architecture. A spatial max-pooling layer has different grouping and input scope. Learned-norm pooling uses centered absolute power means, and finite MEX uses normalized log-mean-exp; neither is the same finite maximum of learned signed affine responses.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#affine-maximum-and-grouping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For input x, a unit computes h(x)=max_j(w_j^T*x+b_j) over its learned affine pieces. Convolutional use shares affine filters across positions and takes the maximum across a group of channels; this channel grouping does not itself perform spatial downsampling. The paper applies dropout to inputs of the affine transformation, before the maximum. A unit, a layer of such units and a whole network using them have different scopes.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goodfellow2013">Maxout Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 2, unnumbered unit definition and convolution/dropout placement</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#geometry-special-cases-and-gradients</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed parameters the finite maximum is continuous, convex and piecewise affine. With one piece it is affine; suitably chosen two-piece units represent scalar ReLU or absolute value. General maxout outputs may be negative and need not be sparse. At a unique winning piece the input derivative is that piece’s weight vector, but it can be zero; loss derivatives and dropped inputs can also prevent parameter updates. Ties can be nondifferentiable and some pieces may never win. Convexity of one unit does not make a multilayer classifier or a signed linear combination of units convex.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goodfellow2013">Maxout Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–4, PDF pp. 2–3, Figures 1–3; Sections 8.1–8.3, pp. 7–8; direct finite-maximum reasoning</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#two-unit-approximation-conditions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper’s universal approximation construction uses the difference of two convex piecewise-affine functions. Two hidden maxout units with a linear output can approximate a continuous scalar function on a compact domain when the number of affine pieces is allowed to grow with the required approximation. The result is not a fixed-parameter-budget guarantee, exact representation of every continuous function, a uniform approximation over all of unbounded input space, or a guarantee that training finds the construction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goodfellow2013">Maxout Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 2–3, Propositions 4.1–4.2 and Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#dropout-geometric-averaging-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The dropout prediction argument concerns a normalized geometric mean of predictive distributions, not their arithmetic mean. With independent retention masks, affine computations and a softmax output, averaging logits supports the appropriate weight-scaling identity. Extending this reasoning through maxout requires the relevant masked computations to remain in compatible affine regions; local piecewise linearity alone is insufficient because masks can cross region boundaries. The original sampled-network comparisons and the later exact enumeration in small rectifier networks are finite empirical observations, not proofs of exact averaging for every deep maxout network.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goodfellow2013">Maxout Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 1–2; Section 7, pp. 6–7, Figures 7–8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.2–5, PDF pp. 3–5, seven binary-task setup and Figures 1–2; direct constructed mask counterexample</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-network-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Reported MNIST, CIFAR-10, CIFAR-100 and SVHN outcomes concern particular networks trained with dropout, norm constraints, preprocessing and task-dependent tuning or retraining. Controlled rectifier comparisons use best validation error and distinguish matching unit counts from matching parameter counts. The CIFAR-10 augmentation result differs between prose (9.35 percent error) and Table 3 (9.38 percent); this record leaves that discrepancy unresolved. Gradient-flow, optimization and historical performance observations do not establish universal nonzero gradients, an isolated causal benefit of maxout, measured deployment speed or current superiority.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goodfellow2013">Maxout Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 5–6, PDF pp. 3–6, Tables 1–5 and Figure 6; Section 8, pp. 7–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Maxout here denotes the learned affine-maximum unit. A complete architecture, a channel-grouping layer and spatial max pooling are not interchangeable identities.</li>
+      <li>A fixed finite set of pieces has finite representational capacity. Almost-everywhere differentiability does not guarantee nonzero derivatives or use of every piece.</li>
+      <li>The followup evaluates rectifier networks and informs the averaging boundary; its numerical outcomes are not attributed to maxout networks. Weight and bias scaling must follow the chosen dropout convention.</li>
+      <li>Two complete primary papers were visually inspected, including figures and references. Constructed examples only; no author implementation, training or empirical replication. The cited separate piecewise-linear representation proof was not independently inspected.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For fixed parameters the unit defines a scalar mathematical function of its input; the pinned mathematical-function class is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReLUFunction.html" style="font-weight: 600;"><code>AIO:ReLUFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">ReLU Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Scalar ReLU is a particular two-piece construction, whereas general maxout has learned affine pieces and may be negative. This is a special-case relationship, not equivalence or a claim that ReLU is broader.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-goodfellow2013">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">goodfellow2013</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v28/goodfellow13.pdf" target="_blank" rel="noopener">Maxout Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ian J. Goodfellow, David Warde-Farley, Mehdi Mirza, Aaron Courville, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> PMLR:goodfellow13</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ba934741db35…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-wardefarley2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">wardefarley2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1312.6197v2" target="_blank" rel="noopener">An empirical analysis of dropout in piecewise linear networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Warde-Farley, Ian J. Goodfellow, Aaron Courville, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1312.6197v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3abb59a2fbd0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T13:41:13Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T13:48:25Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MaxoutUnit.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MaxoutUnit.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

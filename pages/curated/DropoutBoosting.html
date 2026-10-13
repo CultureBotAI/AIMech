@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dropout Boosting · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Dropout Boosting</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Dropout Boosting</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DropoutBoosting</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A dropout-mask training procedure proposed to optimize the likelihood of a normalized geometric ensemble, updating through a selected shared-parameter subnetwork while approximating the ensemble prediction by weight scaling.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 621 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 23, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 8 AIO and 8 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 6 full native records were inspected. Dropout boosting is the specific ensemble-likelihood training proposal in Warde-Farley and colleagues’ Section7. Its shared-parameter masked-subnetwork update is distinct from adding separate weak learners, error-reweighted AdaBoost, gradient tree boosting, independent bagging and Gaussian-approximated fast dropout. LogarithmicOpinionPool describes its aggregation rule without specifying this training procedure. The source’s printed gradient error is retained explicitly rather than used to invent a new algorithm.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ensemble-likelihood-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a finite set of equally weighted masks with positive predictive probabilities, write s(y)=mean_m log p_m(y) and q(y)=exp(s(y))/sum_c exp(s(c)). The proposed objective for an observed label is log q(y), whereas ordinary dropout trains the average individual log likelihood. The two objectives generally have different gradients despite using the same mask noise. This is a normalized geometric ensemble, not an arithmetic mixture or a sequence of separately fitted weak learners.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2 and 7, PDF pp. 2–3 and 7; normalized geometric ensemble definition; direct algebra with explicitly defined mask averaging</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#selected-mask-and-proxy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The procedure selects a masked subnetwork and uses an ensemble-likelihood update that accounts for predictions from other subnetworks. Parameters are shared, so an update can affect other members containing those parameters. The exact ensemble prediction is generally intractable and the paper replaces it by the weight-scaled network prediction. This proxy can bias the resulting update; exact model averaging in special affine settings does not establish exactness for arbitrary nonlinear networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF p. 7, selected-subnetwork rule and final paragraph; Section 2.2, p. 3; direct constructed nonlinear proxy example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#normalizer-gradient-source-caveat</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Differentiating the normalized objective gives grad log q(y)=grad s(y)-sum_c q(c)*grad s(c). The paper’s displayed selected-member update instead prints a plus sign before the ensemble-weighted score term, inconsistent with differentiating its log normalization. This record uses the subtraction as direct curator algebra and preserves the printed discrepancy; it does not certify which sign an uninspected implementation used. With shared parameters, the full gradient includes contributions from all dependent masks. Sampling a suitably scaled contribution can be unbiased if the exact ensemble term is available; replacing that term by weight scaling generally loses that assurance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Section 7, PDF p. 7, ensemble normalization and displayed update; direct differentiation and finite-difference calculations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-mnist-comparison</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The dropout-boosting experiment reuses fifty hyperparameter configurations from dropout-trained two-hidden-layer rectifier networks on multiclass MNIST, then trains matched dropout-boosting and ordinary stochastic-gradient models. Dropout boosting shows no significant Wilcoxon difference from ordinary training in these trials, while ordinary dropout improves in the displayed comparisons. The nonsignificant result is not proof of equivalence or a universal absence of regularization, and transferring dropout-selected settings limits causal interpretation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 6–7, PDF pp. 6–8, hyperparameter selection and Figure 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#untied-ensemble-context</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The separate fixed-mask ensemble experiment trains independently parameterized bootstrap networks and combines their predictions geometrically. It is contextual evidence about shared parameters, not the dropout-boosting algorithm itself. The paper acknowledges fewer ensemble members and hyperparameters selected under dropout as confounds, so the comparison does not isolate weight sharing as the sole cause of performance differences.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wardefarley2014">An empirical analysis of dropout in piecewise linear networks</a></span>
+        <span>· <strong>Locator:</strong> Section 6, PDF pp. 6–7, Figure 3 and explicit comparison limitations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The name is scoped to Warde-Farley and colleagues’ proposal. It is not AdaBoost, gradient tree boosting, independent bagging, Gaussian fast dropout or the probability-pooling operator by itself.</li>
+      <li>The printed update sign and mask-count exponent notation require care. Explicit finite-mask mean notation is used here; corrected algebra is not attributed to author implementation.</li>
+      <li>Mask sampling and the weight-scaled ensemble proxy are separate approximations. Shared weights require accounting for every dependent path when deriving an exact full gradient.</li>
+      <li>One complete ten-page versioned primary paper was visually inspected. Constructed algebra examples do not reproduce the experiments, inspect author code or establish convergence.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DropoutLayer.html" style="font-weight: 600;"><code>AIO:DropoutLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dropout Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm uses dropout masks but changes the training objective and ensemble update. A masking layer alone does not specify this method.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EnsembleLearning.html" style="font-weight: 600;"><code>AIO:EnsembleLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Ensemble Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method optimizes a shared-parameter ensemble likelihood. The pinned target denotes a learning task and an improvement aim, not this algorithm or a performance guarantee.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-wardefarley2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">wardefarley2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1312.6197v2" target="_blank" rel="noopener">An empirical analysis of dropout in piecewise linear networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David Warde-Farley, Ian J. Goodfellow, Aaron Courville, Yoshua Bengio
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1312.6197v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3abb59a2fbd0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T13:41:42Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T13:41:42Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DropoutBoosting.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DropoutBoosting.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

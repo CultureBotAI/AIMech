@@ -1,0 +1,182 @@
+schema_version: 1.0.0
+review_id: 20261013T134317Z-maxout-unit-equation-locator
+kind: record
+repository: CultureBotAI/AIMech
+title: Maxout unit primary equation-locator finding
+started_at: '2026-10-13T13:41:45Z'
+finished_at: '2026-10-13T13:43:17Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author compared maintained evidence locators with primary-page
+    headings; not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One minor equation-number locator finding; the unit definition and qualified
+  mathematical claims remain supported.
+source:
+  git_revision: 864bb1adc18fd1a98cc9ce9040b9a350d3453fe7
+  state: working_tree
+  inputs:
+  - path: data/aio/ActivationLayer.yaml
+    sha256: 3b7d6dfd59e913373ceec1986f4210636d894f9ad3396d0d65284f5167bf2a1c
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MaxPooling2DLayer.yaml
+    sha256: c8304ee279ce389eeaab9502eb4673de7cc0a89931c199700714db09707d8937
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/aio/ReLUFunction.yaml
+    sha256: 815a5255ec7e87bb8bb123ea7121d024d46450ccfab164985e2014108b53d28c
+    role: context
+  - path: data/curated/LearnedNormPoolingUnit.yaml
+    sha256: fb36da3270a145c8813181b645d14efff155cc08999e17f49a67e49a4d156337
+    role: context
+  - path: data/curated/MEXOperator.yaml
+    sha256: 6615393af74d901896efd73e152a22e48294f791350ede59cfe6a8bfc4911c5b
+    role: context
+  - path: data/curated/MaxoutUnit.yaml
+    sha256: 2193efe4cd4a6acf598e675c7032024de1915c9f38d57daa463b5669af544f32
+    role: target
+  - path: data/curated/NoisyRectifier.yaml
+    sha256: fb65c10663835e61629f05d55866248e00aed07a28cc00eb444499d0f4936f28
+    role: context
+  - path: research/discovery/20261013T134113Z-maxout-unit.json
+    sha256: debdaf09c68bd609096bbe65e20bbd159e1a87fe6f9122943d756d6dee3bb1a8
+    role: context
+  - path: research/discovery/maxout-boundaries.py
+    sha256: 6553d7d6f1b3134aa625a6402b04b8e88cbac2ec29f9b241fb448749272458a0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MaxoutUnit
+  path: data/curated/MaxoutUnit.yaml
+  label: Maxout Unit
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MaxoutUnit.yaml
+    role: maintained
+scope:
+  description: Equation numbering in maxout definition and affine-maximum claim evidence.
+  selection: Exact maintained ID AIMech:MaxoutUnit
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MaxoutUnit
+  exclusions:
+  - target: Corrected-input complete scientific review
+    reason: Pending correction and final gates.
+checks:
+- check_id: corrected-publication
+  name: Corrected-input publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:MaxoutUnit
+  summary: Corrected inputs do not yet exist; pre-correction checks do not validate
+    them.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/MaxoutUnit.yaml
+  accessed_at: '2026-10-13T13:43:17Z'
+  snapshot_sha256: 2193efe4cd4a6acf598e675c7032024de1915c9f38d57daa463b5669af544f32
+  support: supports
+  summary: Complete maintained record read after capture; two locators incorrectly
+    number an unnumbered unit display.
+- evidence_id: paper
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/goodfellow13.pdf
+  accessed_at: '2026-10-13T13:13:42Z'
+  snapshot_sha256: ba934741db3533218b691d4e7491d7dbe2f9fd506842cd9ec089ebcab890df70
+  support: supports
+  locator: PDF p.2, Section3 unnumbered unit definition; compare numbered Equation1
+    in Section4 on PDFp.3.
+  summary: The full nine-page original paper was read before curation; pages2 and3
+    were visually reread after capture and the distinction between the unnumbered
+    unit display and numbered representation equation verified.
+assessments:
+- assessment_id: section-locators
+  area: evidence
+  topic: Primary source page reference
+  outcome: concern
+  target_ids:
+  - AIMech:MaxoutUnit
+  evidence_ids:
+  - record
+  - paper
+  summary: Remove the incorrect Equation1 labels for the unnumbered unit definition.
+  details: The definition evidence and affine-maximum-and-grouping claim identify
+    the unit formula as Equation1 on PDFpage2. That unit display in Section3 is unnumbered.
+    Equation1 on PDFpage3 instead states the difference-of-convex-functions representation
+    g(v)=h1(v)-h2(v). Remove the incorrect equation number while retaining the correct
+    Section3/page2 reference and supported formula.
+findings:
+- finding_id: F1
+  issue_key: maxout-unit-equation-number-locator
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Correct maxout unit equation-number locators
+  description: The definition evidence and affine-maximum-and-grouping claim identify
+    the unit formula as Equation1 on PDFpage2. That unit display in Section3 is unnumbered.
+    Equation1 on PDFpage3 instead states the difference-of-convex-functions representation
+    g(v)=h1(v)-h2(v). Remove the incorrect equation number while retaining the correct
+    Section3/page2 reference and supported formula.
+  target_ids:
+  - AIMech:MaxoutUnit
+  field_paths:
+  - definition_evidence[0].locator
+  - claims[claim_id=affine-maximum-and-grouping].evidence[0].locator
+  evidence_ids:
+  - record
+  - paper
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MaxoutUnit.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Correct locators, synchronize the discovery report, append history,
+    recapture and reassess.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:MaxoutUnit
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MaxoutUnit.yaml
+    role: maintained
+  acceptance_checks:
+  - Both unit locators cite the unnumbered Section3 display on PDFpage2, not Equation1.
+  - Corrected-input gates and successor review pass.
+limitations:
+- Partial author self-review; DRAFT remains.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- evidence-locators
