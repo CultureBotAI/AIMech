@@ -1,0 +1,546 @@
+# Scientific author self-review of Attention-Based Configurable Convolutional Neural Network
+
+- Review: 20261013T114453Z-attention-based-configurable-convolutional-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T11:31:19Z
+- Finished UTC: 2026-10-13T11:44:53Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Visual ABC-CNN is supported as a distinct DRAFT architecture. No unresolved findings in this author self-review; classifier notation and table discrepancies, fixed encoders and single-word evaluation remain explicit.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 71bbccf4c7fb500c713f24329252229ff5f4de7f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml | maintained | Attention-Based Configurable Convolutional Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 139.83s (0:02:19)<br>Checked 442 record(s); 0 failed.<br>Checked 611 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 280 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 276,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork | {"last_question_state": 2.0, "mean_question_state": 0.6666666666666666, "question_kernels": [0.5, 0.75], "scaled_tanh_values": [-0.9999972559224789, 1.4929388053842507], "softmax_values": [0.04742587317756679, 0.9525741268224334], "spatial_attention_maps": [[0.2689414213699951, 0.7310585786300049], [0.18242552380635632, 0.8175744761936437]], "table2_attention_minus_noattention_percentage_points": [3.8900000000000046, 3.310000000000002, 1.1099999999999999], "unchanged_bypass_output": 2.0} |
+
+## Scientific And Domain Assessments
+
+### Attention-Based Configurable Convolutional Neural Network
+
+identity: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Retain this distinct DRAFT architecture.
+
+The visual ABC-CNN name expands to Attention-Based Configurable Convolutional Neural Network in the paper. It is distinct from sentence-pair ABCNN distance affinities, CBAM feature refinement and DMN+ recurrent fact aggregation. Whole architectures, components and trained settings remain separate.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+The declared AIO mapping is supported.
+
+ANN is broader than the complete visual question-answering architecture. Convolutional layer and LSTM are related components. The pinned AttentionLayer denotes Luong dot-product attention, and the language-model targets do not establish identity with this answer-word classifier. The visual CNN encoder does not make its definition equivalent to the complete multimodal architecture.
+
+### question-configured-spatial-attention
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation1 maps the mean LSTM hidden representation through affine/sigmoid to a configurable kernel; Equation2 normalizes over both spatial indices. The source declares padding to preserve extent and matching channel depth, but does not fix an implementation kernel width from the cartoon.
+
+### weighted-and-unweighted-feature-fusion
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations4–5 use one map across channels, reduce weighted channels with1x1 convolution and retain both original and reduced features plus the question. Equation6/prose uses a separate answer dictionary. Section4.5 explicitly permits correct answers without attention to the queried object.
+
+### notation-and-training-boundaries
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.4 specifies softmax but reuses g from scaled tanh in Equation6; the record exposes the notation ambiguity. Section3.5 explicitly fixes image-extractor weights in experiments. The introductory no-region-label claim does not remove answer supervision.
+
+### feature-and-answer-vocabulary-variants
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.1 distinguishes VGG/HSV, segmentation/HSV and combined features. Table5 reports ATT1000=.4838 and ATTFull=.4651. These are bounded configurations, not evidence of one universal vocabulary or feature resolution.
+
+### filtered-evaluation-and-table-arithmetic
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4.2 limits evaluation to single-word answers. Table2 color IB=.5196 exceeds ATT=.4727; Table3 ensemble WUPS.9=.4815 exceeds ATT=.4762. Table2 differences are3.89/3.31/1.11 percentage points, contradicting the printed1.34/.85/.35 differences; the calculation reproduces the table arithmetic only.
+
+### attention-interpretation-and-identity
+
+evidence: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Figure5 supplies selected maps and Section4.5 explains the raw-feature bypass. No region-label supervision or causal faithfulness test supports interpreting these maps as certified object probabilities. Full-sentence generation is a proposed extension in the introduction/Section4, not the evaluated task.
+
+### question-dependent kernels, spatial normalization, raw-image bypass, classifier notation, answer restrictions and table-derived gains
+
+consistency: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Chosen examples check question-dependent spatial normalization, mean-versus-last question states, the possible original-feature bypass, scaled-tanh versus softmax notation and exact Table2 ablation differences. No author code, trained model or benchmark executed.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the complete maintained record and seven mapping YAMLs after capture. Challenged acronym identity, question pooling, configurable convolution, global spatial softmax, original-feature bypass, printed classifier notation, fixed encoders, feature/vocabulary variants and table arithmetic. No new record defect confirmed.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T113108Z-attention-based-configurable-convolutional-neural-network.json | supports | Compared all 442 pinned AIO and 610 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 23, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 166 AIO and 76 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Visual ABC-CNN derives configurable kernels from question semantics and predicts answer words from weighted/unweighted image features. Sentence-pair ABCNN instead compares sentence representations by distance affinities; CBAM is a feature-refinement component and DMN+ uses recurrent episodic fact aggregation. Shared attention language does not establish identity. |
+| mapping | sources/aio/aio.json | supports | ANN is broader than the complete visual question-answering architecture. Convolutional layer and LSTM are related components. The pinned AttentionLayer denotes Luong dot-product attention, and the language-model targets do not establish identity with this answer-word classifier. The visual CNN encoder does not make its definition equivalent to the complete multimodal architecture. |
+| chen2016 | https://arxiv.org/pdf/1511.05960v2; All ten pages of arXiv1511.05960v2 visually read; other versions, author code, training and benchmark replication not inspected or run. | supports | arXiv1511.05960v2,3 April2016, ten PDF pages. All pages visually read, including equations, tables, diagrams and references. Locators use PDF/printed page order; other versions and author code not inspected. |
+| calculation | research/discovery/abc-cnn-boundaries.py | supports | Chosen examples check question-dependent spatial normalization, mean-versus-last question states, the possible original-feature bypass, scaled-tanh versus softmax notation and exact Table2 ablation differences. No author code, trained model or benchmark executed. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 611 native and 442 unchanged generated records. The 795-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All ten primary PDF pages visually read. No author implementation, model training, other versions or benchmark replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T114453Z-attention-based-configurable-convolutional-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Attention-Based Configurable Convolutional
+  Neural Network
+started_at: '2026-10-13T11:31:19Z'
+finished_at: '2026-10-13T11:44:53Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged question-dependent kernels, spatial normalization,
+    raw-image bypass, classifier notation, answer restrictions and table-derived gains.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Visual ABC-CNN is supported as a distinct DRAFT architecture. No unresolved
+  findings in this author self-review; classifier notation and table discrepancies,
+  fixed encoders and single-word evaluation remain explicit.
+source:
+  git_revision: 71bbccf4c7fb500c713f24329252229ff5f4de7f
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AttentionLayer.yaml
+    sha256: ace47f724bab8a1aec9f963f7d8121f148134e5bbcce7c23a3a1f62c9c83619b
+    role: context
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/DeepConvolutionalNetwork.yaml
+    sha256: b2be73a895ae3890ca0ba464c1d0de55e41960f33ec53dcab4547abfe1159c62
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/MultimodalLLM.yaml
+    sha256: a8b6af1dba85dcd23f58ceae1a5a565797e4ca266f88e361ecd850d16cf30cbf
+    role: context
+  - path: data/aio/MultimodalLanguageModel.yaml
+    sha256: da9972da8d9ca9552bfe9fd98b11d2e5dc9a43c52c7acdd169d1f548096cfb7a
+    role: context
+  - path: data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml
+    sha256: 9023f81f517d8ab9656429a53a74f9fc57d1c23c29fb3286b9662cb2e20a5f46
+    role: target
+  - path: data/curated/AttentionBasedConvolutionalNeuralNetwork.yaml
+    sha256: 115dae9f922226484a13491b1428c066ae6e996c1dc1b1f16025d6438fcf4ebe
+    role: context
+  - path: data/curated/ConvolutionalBlockAttentionModule.yaml
+    sha256: ece8d0432112916c5f158b484b24e6f316a9c3edfe07233fefeae5b454a96b96
+    role: context
+  - path: data/curated/DynamicMemoryNetworkPlus.yaml
+    sha256: a7360c19312b2db3e79fdebcf74908537e3d1582488646b164c9a97a6c6568d6
+    role: context
+  - path: research/discovery/20261013T113108Z-attention-based-configurable-convolutional-neural-network.json
+    sha256: e75335ab47f218166d58e68892684936ccf3d4af7e3ba160b0b9ff5ee5ae476a
+    role: context
+  - path: research/discovery/abc-cnn-boundaries.py
+    sha256: 8f238b9be89cff22d5e7a7776461cdcaadb1a34c8068950eec8ee22a851b6d4b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  path: data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml
+  label: Attention-Based Configurable Convolutional Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All ten pages of arXiv1511.05960v2 visually read; other versions, author
+      code, training and benchmark replication not inspected or run.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 139.83s (0:02:19)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 611 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 280 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 276,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/abc-cnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"last_question_state": 2.0, "mean_question_state": 0.6666666666666666,
+    "question_kernels": [0.5, 0.75], "scaled_tanh_values": [-0.9999972559224789, 1.4929388053842507],
+    "softmax_values": [0.04742587317756679, 0.9525741268224334], "spatial_attention_maps":
+    [[0.2689414213699951, 0.7310585786300049], [0.18242552380635632, 0.8175744761936437]],
+    "table2_attention_minus_noattention_percentage_points": [3.8900000000000046, 3.310000000000002,
+    1.1099999999999999], "unchanged_bypass_output": 2.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T113108Z-attention-based-configurable-convolutional-neural-network.json
+  accessed_at: '2026-10-13T11:31:19Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 610 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    23, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 166 AIO and 76 native definitions, with every matched definition read.
+    7 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Visual ABC-CNN derives configurable kernels from question semantics
+    and predicts answer words from weighted/unweighted image features. Sentence-pair
+    ABCNN instead compares sentence representations by distance affinities; CBAM is
+    a feature-refinement component and DMN+ uses recurrent episodic fact aggregation.
+    Shared attention language does not establish identity.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T11:31:19Z'
+  support: supports
+  summary: ANN is broader than the complete visual question-answering architecture.
+    Convolutional layer and LSTM are related components. The pinned AttentionLayer
+    denotes Luong dot-product attention, and the language-model targets do not establish
+    identity with this answer-word classifier. The visual CNN encoder does not make
+    its definition equivalent to the complete multimodal architecture.
+- evidence_id: chen2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1511.05960v2
+  locator: All ten pages of arXiv1511.05960v2 visually read; other versions, author
+    code, training and benchmark replication not inspected or run.
+  accessed_at: '2026-10-13T11:06:17Z'
+  snapshot_sha256: 43d0fc2f07dd9dd40c74b3fdfb1c5ded0427d974fc98caa597b2ca07dc990249
+  support: supports
+  summary: arXiv1511.05960v2,3 April2016, ten PDF pages. All pages visually read,
+    including equations, tables, diagrams and references. Locators use PDF/printed
+    page order; other versions and author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/abc-cnn-boundaries.py
+  accessed_at: '2026-10-13T11:37:02Z'
+  snapshot_sha256: 8f238b9be89cff22d5e7a7776461cdcaadb1a34c8068950eec8ee22a851b6d4b
+  support: supports
+  summary: Chosen examples check question-dependent spatial normalization, mean-versus-last
+    question states, the possible original-feature bypass, scaled-tanh versus softmax
+    notation and exact Table2 ablation differences. No author code, trained model
+    or benchmark executed.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Attention-Based Configurable Convolutional Neural Network
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - identity
+  - chen2016
+  summary: Retain this distinct DRAFT architecture.
+  details: The visual ABC-CNN name expands to Attention-Based Configurable Convolutional
+    Neural Network in the paper. It is distinct from sentence-pair ABCNN distance
+    affinities, CBAM feature refinement and DMN+ recurrent fact aggregation. Whole
+    architectures, components and trained settings remain separate.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - mapping
+  - chen2016
+  summary: The declared AIO mapping is supported.
+  details: ANN is broader than the complete visual question-answering architecture.
+    Convolutional layer and LSTM are related components. The pinned AttentionLayer
+    denotes Luong dot-product attention, and the language-model targets do not establish
+    identity with this answer-word classifier. The visual CNN encoder does not make
+    its definition equivalent to the complete multimodal architecture.
+- assessment_id: question-configured-spatial-attention
+  area: evidence
+  topic: question-configured-spatial-attention
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation1 maps the mean LSTM hidden representation through affine/sigmoid
+    to a configurable kernel; Equation2 normalizes over both spatial indices. The
+    source declares padding to preserve extent and matching channel depth, but does
+    not fix an implementation kernel width from the cartoon.
+- assessment_id: weighted-and-unweighted-feature-fusion
+  area: evidence
+  topic: weighted-and-unweighted-feature-fusion
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations4–5 use one map across channels, reduce weighted channels with1x1
+    convolution and retain both original and reduced features plus the question. Equation6/prose
+    uses a separate answer dictionary. Section4.5 explicitly permits correct answers
+    without attention to the queried object.
+- assessment_id: notation-and-training-boundaries
+  area: evidence
+  topic: notation-and-training-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.4 specifies softmax but reuses g from scaled tanh in Equation6;
+    the record exposes the notation ambiguity. Section3.5 explicitly fixes image-extractor
+    weights in experiments. The introductory no-region-label claim does not remove
+    answer supervision.
+- assessment_id: feature-and-answer-vocabulary-variants
+  area: evidence
+  topic: feature-and-answer-vocabulary-variants
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.1 distinguishes VGG/HSV, segmentation/HSV and combined features.
+    Table5 reports ATT1000=.4838 and ATTFull=.4651. These are bounded configurations,
+    not evidence of one universal vocabulary or feature resolution.
+- assessment_id: filtered-evaluation-and-table-arithmetic
+  area: evidence
+  topic: filtered-evaluation-and-table-arithmetic
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4.2 limits evaluation to single-word answers. Table2 color IB=.5196
+    exceeds ATT=.4727; Table3 ensemble WUPS.9=.4815 exceeds ATT=.4762. Table2 differences
+    are3.89/3.31/1.11 percentage points, contradicting the printed1.34/.85/.35 differences;
+    the calculation reproduces the table arithmetic only.
+- assessment_id: attention-interpretation-and-identity
+  area: evidence
+  topic: attention-interpretation-and-identity
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Figure5 supplies selected maps and Section4.5 explains the raw-feature
+    bypass. No region-label supervision or causal faithfulness test supports interpreting
+    these maps as certified object probabilities. Full-sentence generation is a proposed
+    extension in the introduction/Section4, not the evaluated task.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: question-dependent kernels, spatial normalization, raw-image bypass, classifier
+    notation, answer restrictions and table-derived gains
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - chen2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen examples check question-dependent spatial normalization, mean-versus-last
+    question states, the possible original-feature bypass, scaled-tanh versus softmax
+    notation and exact Table2 ablation differences. No author code, trained model
+    or benchmark executed.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:AttentionBasedConfigurableConvolutionalNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - chen2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the complete maintained record and seven mapping
+    YAMLs after capture. Challenged acronym identity, question pooling, configurable
+    convolution, global spatial softmax, original-feature bypass, printed classifier
+    notation, fixed encoders, feature/vocabulary variants and table arithmetic. No
+    new record defect confirmed.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 611 native and 442 unchanged generated records.
+  The 795-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All ten primary PDF pages visually read. No author implementation, model training,
+  other versions or benchmark replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
