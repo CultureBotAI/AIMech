@@ -1,0 +1,495 @@
+# Scientific author self-review of Deep Transition Recurrent Neural Network
+
+- Review: 20261013T123809Z-deep-transition-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T12:31:40Z
+- Finished UTC: 2026-10-13T12:38:09Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Deep Transition RNN as a distinct DRAFT architecture criterion broader than the combined DOT construction. All four claims and mappings are supported within inspected evidence and mathematical scope. No actionable defect found in adversarial author self-review; implementation and empirical replication excluded.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:DeepTransitionRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 53026c8685946c7497822f400f4770dd7f0a21fc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DeepTransitionRecurrentNeuralNetwork | data/curated/DeepTransitionRecurrentNeuralNetwork.yaml | maintained | Deep Transition Recurrent Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DeepTransitionRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 181.46s (0:03:01)<br>Checked 442 record(s); 0 failed.<br>Checked 617 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 287 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 283,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DeepTransitionRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DeepTransitionRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DeepTransitionRecurrentNeuralNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:DeepTransitionRecurrentNeuralNetwork | {"deep_transition_jacobian": 0.6552983318197647, "muse_dt_minus_stacked": 0.034000000000000696, "music_dt_minus_shallow": [-0.019000000000000128, -0.05999999999999872, -0.0019999999999997797], "shallow_transition_jacobian": 0.5612002692556572, "shortcut_full_derivative": 8.343274530454858e-14, "word_dt_minus_dot": 4.5} |
+
+## Scientific And Domain Assessments
+
+### Deep Transition Recurrent Neural Network
+
+identity: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain the transition-depth criterion as broader than DOT, not a duplicate of its conjunction with deep output. DT(S) shortcuts are optional and stacked DT is a compatible untested combination. DGLSTM direct memory carry and generic recurrence differ from the stated intermediate MLP transition.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+The declared AIO mapping is supported.
+
+RecurrentNeuralNetwork is the supported broader architecture; DeepFeedForwardNetwork is related through the MLP transition component. ANN is redundant, LSTM gating is not defining, and StackedRNNCellsLayer is a different recurrent component construction. Five exact annotated node/edge/generated contexts were inspected; current bytes agree.
+
+### within-step-transition
+
+evidence: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.3.1 gives an MLP combining x_t and h_(t-1), with intermediate nonlinear transforms. Figure2b has one intermediate layer. Sections2–3 distinguish this within-step depth from temporal unfolding.
+
+### combinable-architecture-scope
+
+evidence: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Page4 names the DOT conjunction; page5 explicitly calls DT and stacking orthogonal and describes an unexplored stacked DT possibility. These positive construction criteria justify broader DT scope without equating DT, DO and DOT aliases.
+
+### shortcut-and-gradient-limits
+
+evidence: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.2.3 gives optional DT(S) shortcut connections and explains shorter backpropagation paths. The chosen scalar total derivative cancels despite a direct path; this is a mathematical boundary case rather than a result from trained author code.
+
+### reported-shortcut-variant-comparisons
+
+evidence: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section5.1 and Tables1–3 compare DT(S), not a bare-DT ablation. Table2 DT(S) is lower than the chosen shallow RNN on three tasks but stacked is lower on MuseData. Table3 has112.0 versus117.7 and107.5 word perplexity. Capacity and pretraining differ, so general or isolated causal performance claims are excluded.
+
+### broader design-choice identity, optional shortcuts, within-step versus recurrent-state depth and shortcut-variant evaluation
+
+consistency: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Chosen shallow/deep transition derivatives show that within-step composition changes the recurrent Jacobian. A shortcut cancellation example bounds gradient guarantees; source-table arithmetic preserves comparator-specific results. No training or implementation replication.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:DeepTransitionRecurrentNeuralNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all four claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Entire maintained YAML and selected mapping YAMLs read after capture. Formal defining criteria and their combination rechecked directly on pages4–5. The retained Tables1–3 comparison statements were assessed against the earlier complete paper/table reading, and the constructed examples and report notes were inspected. Exact source, mapping and report-mirror hashes agree.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T123114Z-deep-transition-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 615 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 51, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 22 AIO and 27 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. DT-RNN is defined by an MLP hidden-state transition. DOT additionally constrains the output map, whereas DO constrains that output map without requiring deep transition. DT(S) is an optional shortcut variant, and stacking is compatible. The record denotes the broader transition-depth architecture criterion, not an exclusive DT-only benchmark configuration. |
+| mapping | sources/aio/aio.json | supports | RecurrentNeuralNetwork is the supported broader architecture; DeepFeedForwardNetwork is related through the MLP transition component. ANN is redundant, LSTM gating is not defining, and StackedRNNCellsLayer is a different recurrent component construction. Five exact annotated node/edge/generated contexts were inspected; current bytes agree. |
+| pascanu2014 | https://arxiv.org/pdf/1312.6026v5; Reused exact complete13page versioned primary PDF with original download timestamp/hash. Author code, other versions, model fitting and benchmark replication excluded. | supports | arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed page numbers coincide; nested transition/output formulas on page 5 are unnumbered. Author implementation and other versions not inspected. |
+| calculation | research/discovery/deep-transition-rnn-boundaries.py | supports | Chosen shallow/deep transition derivatives show that within-step composition changes the recurrent Jacobian. A shortcut cancellation example bounds gradient guarantees; source-table arithmetic preserves comparator-specific results. No training or implementation replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 616 native and 442 unchanged generated records. The 800-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Complete 13-page primary PDF previously visually read for round220; reused with original hash/access time and refocused reading of pages3–5 and7–9. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T123809Z-deep-transition-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Deep Transition Recurrent Neural Network
+started_at: '2026-10-13T12:31:40Z'
+finished_at: '2026-10-13T12:38:09Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged broader design-choice identity, optional
+    shortcuts, within-step versus recurrent-state depth and shortcut-variant evaluation.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Deep Transition RNN as a distinct DRAFT architecture criterion broader
+  than the combined DOT construction. All four claims and mappings are supported within
+  inspected evidence and mathematical scope. No actionable defect found in adversarial
+  author self-review; implementation and empirical replication excluded.
+source:
+  git_revision: 53026c8685946c7497822f400f4770dd7f0a21fc
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    sha256: e5db3b375b27e78f1a02df4034024b07f1584d21bb945eb0c0e15c4ea9051d4e
+    role: context
+  - path: data/curated/DeepTransitionRecurrentNeuralNetwork.yaml
+    sha256: 2ca0fac111ab1a2af63b03782a9356f67531e635115b42e5f5064ccccab177c0
+    role: target
+  - path: data/curated/DepthGatedLSTM.yaml
+    sha256: 6491c6cd0be472f8ddc4f65ba6e3c699f63b04a7a199a93a3ab2c343fca929f9
+    role: context
+  - path: research/discovery/20261013T123114Z-deep-transition-recurrent-neural-network.json
+    sha256: 0622d1fa1da99a3c0924065d0ccf76f9d489cee42df21c4a9dc2074cf2ce187a
+    role: context
+  - path: research/discovery/deep-transition-rnn-boundaries.py
+    sha256: 6a3756d629efcd73c63433ddfc264d0a58050346459e73e47cb438245693cfee
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepTransitionRecurrentNeuralNetwork
+  path: data/curated/DeepTransitionRecurrentNeuralNetwork.yaml
+  label: Deep Transition Recurrent Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:DeepTransitionRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Reused exact complete13page versioned primary PDF with original download
+      timestamp/hash. Author code, other versions, model fitting and benchmark replication
+      excluded.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 181.46s (0:03:01)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 617 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 287 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 283,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/deep-transition-rnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"deep_transition_jacobian": 0.6552983318197647, "muse_dt_minus_stacked":
+    0.034000000000000696, "music_dt_minus_shallow": [-0.019000000000000128, -0.05999999999999872,
+    -0.0019999999999997797], "shallow_transition_jacobian": 0.5612002692556572, "shortcut_full_derivative":
+    8.343274530454858e-14, "word_dt_minus_dot": 4.5}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T123114Z-deep-transition-recurrent-neural-network.json
+  accessed_at: '2026-10-13T12:31:40Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 615 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    51, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 22 AIO and 27 native definitions, with every matched definition read.
+    5 full annotated AIO node/edge/generated contexts and 2 full native records were
+    inspected. DT-RNN is defined by an MLP hidden-state transition. DOT additionally
+    constrains the output map, whereas DO constrains that output map without requiring
+    deep transition. DT(S) is an optional shortcut variant, and stacking is compatible.
+    The record denotes the broader transition-depth architecture criterion, not an
+    exclusive DT-only benchmark configuration.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T12:31:40Z'
+  support: supports
+  summary: RecurrentNeuralNetwork is the supported broader architecture; DeepFeedForwardNetwork
+    is related through the MLP transition component. ANN is redundant, LSTM gating
+    is not defining, and StackedRNNCellsLayer is a different recurrent component construction.
+    Five exact annotated node/edge/generated contexts were inspected; current bytes
+    agree.
+- evidence_id: pascanu2014
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1312.6026v5
+  locator: Reused exact complete13page versioned primary PDF with original download
+    timestamp/hash. Author code, other versions, model fitting and benchmark replication
+    excluded.
+  accessed_at: '2026-10-13T11:58:05Z'
+  snapshot_sha256: 2d517627b4b6284f46939a99463c501d23c108513c8b39ca64cfe13408236cc4
+  support: supports
+  summary: arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports
+    ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed
+    page numbers coincide; nested transition/output formulas on page 5 are unnumbered.
+    Author implementation and other versions not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/deep-transition-rnn-boundaries.py
+  accessed_at: '2026-10-13T12:33:11Z'
+  snapshot_sha256: 6a3756d629efcd73c63433ddfc264d0a58050346459e73e47cb438245693cfee
+  support: supports
+  summary: Chosen shallow/deep transition derivatives show that within-step composition
+    changes the recurrent Jacobian. A shortcut cancellation example bounds gradient
+    guarantees; source-table arithmetic preserves comparator-specific results. No
+    training or implementation replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Deep Transition Recurrent Neural Network
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - pascanu2014
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain the transition-depth criterion as broader than DOT, not a duplicate
+    of its conjunction with deep output. DT(S) shortcuts are optional and stacked
+    DT is a compatible untested combination. DGLSTM direct memory carry and generic
+    recurrence differ from the stated intermediate MLP transition.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - pascanu2014
+  summary: The declared AIO mapping is supported.
+  details: RecurrentNeuralNetwork is the supported broader architecture; DeepFeedForwardNetwork
+    is related through the MLP transition component. ANN is redundant, LSTM gating
+    is not defining, and StackedRNNCellsLayer is a different recurrent component construction.
+    Five exact annotated node/edge/generated contexts were inspected; current bytes
+    agree.
+- assessment_id: within-step-transition
+  area: evidence
+  topic: within-step-transition
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.3.1 gives an MLP combining x_t and h_(t-1), with intermediate
+    nonlinear transforms. Figure2b has one intermediate layer. Sections2–3 distinguish
+    this within-step depth from temporal unfolding.
+- assessment_id: combinable-architecture-scope
+  area: evidence
+  topic: combinable-architecture-scope
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Page4 names the DOT conjunction; page5 explicitly calls DT and stacking
+    orthogonal and describes an unexplored stacked DT possibility. These positive
+    construction criteria justify broader DT scope without equating DT, DO and DOT
+    aliases.
+- assessment_id: shortcut-and-gradient-limits
+  area: evidence
+  topic: shortcut-and-gradient-limits
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.2.3 gives optional DT(S) shortcut connections and explains shorter
+    backpropagation paths. The chosen scalar total derivative cancels despite a direct
+    path; this is a mathematical boundary case rather than a result from trained author
+    code.
+- assessment_id: reported-shortcut-variant-comparisons
+  area: evidence
+  topic: reported-shortcut-variant-comparisons
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section5.1 and Tables1–3 compare DT(S), not a bare-DT ablation. Table2
+    DT(S) is lower than the chosen shallow RNN on three tasks but stacked is lower
+    on MuseData. Table3 has112.0 versus117.7 and107.5 word perplexity. Capacity and
+    pretraining differ, so general or isolated causal performance claims are excluded.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: broader design-choice identity, optional shortcuts, within-step versus recurrent-state
+    depth and shortcut-variant evaluation
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen shallow/deep transition derivatives show that within-step composition
+    changes the recurrent Jacobian. A shortcut cancellation example bounds gradient
+    guarantees; source-table arithmetic preserves comparator-specific results. No
+    training or implementation replication.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DeepTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - pascanu2014
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all four claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Entire maintained YAML and selected mapping YAMLs
+    read after capture. Formal defining criteria and their combination rechecked directly
+    on pages4–5. The retained Tables1–3 comparison statements were assessed against
+    the earlier complete paper/table reading, and the constructed examples and report
+    notes were inspected. Exact source, mapping and report-mirror hashes agree.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 616 native and 442 unchanged generated records.
+  The 800-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Complete 13-page primary PDF previously visually read for round220; reused with
+  original hash/access time and refocused reading of pages3–5 and7–9. No author code
+  or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

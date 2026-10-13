@@ -1,0 +1,496 @@
+# Scientific author self-review of Deep Output Recurrent Neural Network
+
+- Review: 20261013T123810Z-deep-output-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T12:31:42Z
+- Finished UTC: 2026-10-13T12:38:10Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Deep Output RNN as a DRAFT feedforward-readout architecture criterion with supported identity, AIO mappings and all four claims. No actionable finding identified in this adversarial author self-review. No independent approval, DO-only empirical result or model replication is asserted.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:DeepOutputRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 53026c8685946c7497822f400f4770dd7f0a21fc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DeepOutputRecurrentNeuralNetwork | data/curated/DeepOutputRecurrentNeuralNetwork.yaml | maintained | Deep Output Recurrent Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DeepOutputRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 181.46s (0:03:01)<br>Checked 442 record(s); 0 failed.<br>Checked 617 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 287 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 283,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DeepOutputRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DeepOutputRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DeepOutputRecurrentNeuralNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:DeepOutputRecurrentNeuralNetwork | {"colliding_state_1": 0.22602835227867096, "colliding_state_2": 0.226028352278671, "deep_output": 0.8540047072048493, "deep_output_jacobian": 0.6322862977081734, "shallow_output": 0.22602835227867096, "shallow_output_jacobian": 0.47445559196723774, "state": 0.22602835227867096, "state_jacobian": 0.47445559196723774} |
+
+## Scientific And Domain Assessments
+
+### Deep Output Recurrent Neural Network
+
+identity: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain the feedforward deep-output criterion as broader than DOT and distinct from transition depth. It is not restricted to shallow transitions; it excludes conditional generative output alternatives from this particular source-scoped definition. Shared source and overlapping applicability are not identity equivalence.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+The declared AIO mapping is supported.
+
+RNN is broader than this particular recurrent architecture. DeepFeedForwardNetwork is related as the MLP output component, not an is-a for the complete recurrent network. ANN is redundant; LSTM and StackedRNNCellsLayer require other properties or a component abstraction. Five complete annotated AIO contexts and complete DOT/DT neighboring records were inspected.
+
+### multilayer-output-map
+
+evidence: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.3.2 defines f_o as a feedforward MLP of h_t. Its intermediate activations do not introduce extra recurrent state variables. The generic output function does not impose probability normalization without additional final-function/task assumptions.
+
+### combinable-depth-scope
+
+evidence: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.2.3 and Figure2c combine deep output and deep transition as DOT. The transition criterion is therefore not an exclusion. The continuation of Section3.2.2 on page4 explicitly limits this paper to feedforward intermediate layers after mentioning conditional generative alternatives.
+
+### state-information-and-gradient-boundary
+
+evidence: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+With fixed f_h, changing deterministic f_o changes output and can change gradients from its loss without changing the recurrence. The constructed scalar readouts demonstrate different derivatives and the same output on two colliding states. The inability to distinguish identical states follows from function composition, not a reported experiment or a claim that jointly trained states never change.
+
+### combined-evaluation-limits
+
+evidence: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section5.1 and all Tables1–3 have RNN, DT(S), DOT(S) and stacked columns, not DO-only. The retained JSB counterexample and jointly changed starred configuration prevent an isolated output-depth performance claim. The record accurately keeps the combined-model evidence bounded.
+
+### output map versus recurrent state, compatible depth criteria, deterministic information limits and unisolated combined-model results
+
+consistency: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Constructed calculations support the stated distinctions.
+
+A chosen fixed recurrence with shallow versus deep readouts changes predictions and output derivatives without changing the state Jacobian. A collision example illustrates that a deterministic readout cannot undo information already lost in state. No training or performance evidence.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:DeepOutputRecurrentNeuralNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all four claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the complete maintained YAML after capture, including four claims, all locators, scope exclusions, mapping rationales and provenance. The output formula and DOT combination were visually reassessed on pages4–5; page3 motivation and the complete experimental tables had been revisited during curation. Selected mapping YAMLs, constructed example and source-reading notes were inspected; exact frozen hashes and report mirror agree.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T123138Z-deep-output-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 616 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 51, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 22 AIO and 28 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. DO-RNN is defined by a feedforward MLP hidden-to-output map in the inspected paper. DOT further requires a deep transition, while DT alone does not require deep output. DO is not an exclusive DO-only benchmark configuration, a conditional generative output model or a separate recurrent hidden stack. |
+| mapping | sources/aio/aio.json | supports | RNN is broader than this particular recurrent architecture. DeepFeedForwardNetwork is related as the MLP output component, not an is-a for the complete recurrent network. ANN is redundant; LSTM and StackedRNNCellsLayer require other properties or a component abstraction. Five complete annotated AIO contexts and complete DOT/DT neighboring records were inspected. |
+| pascanu2014 | https://arxiv.org/pdf/1312.6026v5; The shared complete13page source is reused with its original access time/hash. Other versions, author code, training and empirical replication excluded; no DO-only comparison exists in the inspected tables. | supports | arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed page numbers coincide; nested transition/output formulas on page 5 are unnumbered. Author implementation and other versions not inspected. |
+| calculation | research/discovery/deep-output-rnn-boundaries.py | supports | A chosen fixed recurrence with shallow versus deep readouts changes predictions and output derivatives without changing the state Jacobian. A collision example illustrates that a deterministic readout cannot undo information already lost in state. No training or performance evidence. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 617 native and 442 unchanged generated records. The 801-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Complete 13-page primary PDF previously visually read for round220; reused with original hash/access time and refocused reading of pages3–5 and7–9. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T123810Z-deep-output-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Deep Output Recurrent Neural Network
+started_at: '2026-10-13T12:31:42Z'
+finished_at: '2026-10-13T12:38:10Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged output map versus recurrent state, compatible
+    depth criteria, deterministic information limits and unisolated combined-model
+    results. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Deep Output RNN as a DRAFT feedforward-readout architecture criterion
+  with supported identity, AIO mappings and all four claims. No actionable finding
+  identified in this adversarial author self-review. No independent approval, DO-only
+  empirical result or model replication is asserted.
+source:
+  git_revision: 53026c8685946c7497822f400f4770dd7f0a21fc
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/DeepOutputRecurrentNeuralNetwork.yaml
+    sha256: b6ea462a90f99c478357eddf2dcb72d39b2c4e6600c9292421ff14e583868bf3
+    role: target
+  - path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    sha256: e5db3b375b27e78f1a02df4034024b07f1584d21bb945eb0c0e15c4ea9051d4e
+    role: context
+  - path: data/curated/DeepTransitionRecurrentNeuralNetwork.yaml
+    sha256: 2ca0fac111ab1a2af63b03782a9356f67531e635115b42e5f5064ccccab177c0
+    role: context
+  - path: research/discovery/20261013T123138Z-deep-output-recurrent-neural-network.json
+    sha256: 53abf1d9c23ed165bd6d0060dfee464af1e4ec7b9e657a4491b01177e0c1f5b6
+    role: context
+  - path: research/discovery/deep-output-rnn-boundaries.py
+    sha256: cbcbfa53a75b884ab8157385c65521ce7da7654bb58f66cc1dd18f5c02238eb0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepOutputRecurrentNeuralNetwork
+  path: data/curated/DeepOutputRecurrentNeuralNetwork.yaml
+  label: Deep Output Recurrent Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:DeepOutputRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: The shared complete13page source is reused with its original access time/hash.
+      Other versions, author code, training and empirical replication excluded; no
+      DO-only comparison exists in the inspected tables.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 181.46s (0:03:01)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 617 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 287 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 283,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/deep-output-rnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"colliding_state_1": 0.22602835227867096, "colliding_state_2": 0.226028352278671,
+    "deep_output": 0.8540047072048493, "deep_output_jacobian": 0.6322862977081734,
+    "shallow_output": 0.22602835227867096, "shallow_output_jacobian": 0.47445559196723774,
+    "state": 0.22602835227867096, "state_jacobian": 0.47445559196723774}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T123138Z-deep-output-recurrent-neural-network.json
+  accessed_at: '2026-10-13T12:31:42Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 616 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    51, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 22 AIO and 28 native definitions, with every matched definition read.
+    5 full annotated AIO node/edge/generated contexts and 2 full native records were
+    inspected. DO-RNN is defined by a feedforward MLP hidden-to-output map in the
+    inspected paper. DOT further requires a deep transition, while DT alone does not
+    require deep output. DO is not an exclusive DO-only benchmark configuration, a
+    conditional generative output model or a separate recurrent hidden stack.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T12:31:42Z'
+  support: supports
+  summary: RNN is broader than this particular recurrent architecture. DeepFeedForwardNetwork
+    is related as the MLP output component, not an is-a for the complete recurrent
+    network. ANN is redundant; LSTM and StackedRNNCellsLayer require other properties
+    or a component abstraction. Five complete annotated AIO contexts and complete
+    DOT/DT neighboring records were inspected.
+- evidence_id: pascanu2014
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1312.6026v5
+  locator: The shared complete13page source is reused with its original access time/hash.
+    Other versions, author code, training and empirical replication excluded; no DO-only
+    comparison exists in the inspected tables.
+  accessed_at: '2026-10-13T11:58:05Z'
+  snapshot_sha256: 2d517627b4b6284f46939a99463c501d23c108513c8b39ca64cfe13408236cc4
+  support: supports
+  summary: arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports
+    ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed
+    page numbers coincide; nested transition/output formulas on page 5 are unnumbered.
+    Author implementation and other versions not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/deep-output-rnn-boundaries.py
+  accessed_at: '2026-10-13T12:33:11Z'
+  snapshot_sha256: cbcbfa53a75b884ab8157385c65521ce7da7654bb58f66cc1dd18f5c02238eb0
+  support: supports
+  summary: A chosen fixed recurrence with shallow versus deep readouts changes predictions
+    and output derivatives without changing the state Jacobian. A collision example
+    illustrates that a deterministic readout cannot undo information already lost
+    in state. No training or performance evidence.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Deep Output Recurrent Neural Network
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - pascanu2014
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain the feedforward deep-output criterion as broader than DOT and distinct
+    from transition depth. It is not restricted to shallow transitions; it excludes
+    conditional generative output alternatives from this particular source-scoped
+    definition. Shared source and overlapping applicability are not identity equivalence.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - pascanu2014
+  summary: The declared AIO mapping is supported.
+  details: RNN is broader than this particular recurrent architecture. DeepFeedForwardNetwork
+    is related as the MLP output component, not an is-a for the complete recurrent
+    network. ANN is redundant; LSTM and StackedRNNCellsLayer require other properties
+    or a component abstraction. Five complete annotated AIO contexts and complete
+    DOT/DT neighboring records were inspected.
+- assessment_id: multilayer-output-map
+  area: evidence
+  topic: multilayer-output-map
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.3.2 defines f_o as a feedforward MLP of h_t. Its intermediate
+    activations do not introduce extra recurrent state variables. The generic output
+    function does not impose probability normalization without additional final-function/task
+    assumptions.
+- assessment_id: combinable-depth-scope
+  area: evidence
+  topic: combinable-depth-scope
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.2.3 and Figure2c combine deep output and deep transition as DOT.
+    The transition criterion is therefore not an exclusion. The continuation of Section3.2.2
+    on page4 explicitly limits this paper to feedforward intermediate layers after
+    mentioning conditional generative alternatives.
+- assessment_id: state-information-and-gradient-boundary
+  area: evidence
+  topic: state-information-and-gradient-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: With fixed f_h, changing deterministic f_o changes output and can change
+    gradients from its loss without changing the recurrence. The constructed scalar
+    readouts demonstrate different derivatives and the same output on two colliding
+    states. The inability to distinguish identical states follows from function composition,
+    not a reported experiment or a claim that jointly trained states never change.
+- assessment_id: combined-evaluation-limits
+  area: evidence
+  topic: combined-evaluation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section5.1 and all Tables1–3 have RNN, DT(S), DOT(S) and stacked columns,
+    not DO-only. The retained JSB counterexample and jointly changed starred configuration
+    prevent an isolated output-depth performance claim. The record accurately keeps
+    the combined-model evidence bounded.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: output map versus recurrent state, compatible depth criteria, deterministic
+    information limits and unisolated combined-model results
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: A chosen fixed recurrence with shallow versus deep readouts changes predictions
+    and output derivatives without changing the state Jacobian. A collision example
+    illustrates that a deterministic readout cannot undo information already lost
+    in state. No training or performance evidence.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - pascanu2014
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all four claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the complete maintained YAML after capture,
+    including four claims, all locators, scope exclusions, mapping rationales and
+    provenance. The output formula and DOT combination were visually reassessed on
+    pages4–5; page3 motivation and the complete experimental tables had been revisited
+    during curation. Selected mapping YAMLs, constructed example and source-reading
+    notes were inspected; exact frozen hashes and report mirror agree.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 617 native and 442 unchanged generated records.
+  The 801-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Complete 13-page primary PDF previously visually read for round220; reused with
+  original hash/access time and refocused reading of pages3–5 and7–9. No author code
+  or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
