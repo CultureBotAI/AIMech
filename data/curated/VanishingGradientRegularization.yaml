@@ -1,0 +1,198 @@
+id: AIMech:VanishingGradientRegularization
+name: Vanishing gradient regularization
+aliases: []
+concept_kind: algorithm
+definition: A recurrent-network training regularization procedure that softly penalizes deviations from
+  unit norm gain when a local recurrent Jacobian transports the current backpropagated error direction,
+  using an immediate derivative that holds the states and error vectors fixed.
+identity_notes: 'Compared all 442 pinned AIO and 569 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 68, 0, 0 lines. Canonical matching lines were read
+  as source references, neighboring gradient norm clipping scope statements and pending leads; generated
+  full-record search-index matches were classified against the already-read maintained record. No hit
+  supplied an existing maintained regularizer identity. A semantic search covered 21 AIO rows and 108
+  native definitions: ten AIO and 93 native rows were verified unchanged, and eleven new AIO and fifteen
+  new native rows were read. Five complete annotated AIO node/edge/generated contexts and twelve full
+  native records were read or verified unchanged. The method softly penalizes backward error norm gain
+  and uses an immediate recurrent-weight derivative. It differs from ordinary gradient clipping, coordinate
+  moments, parameter-relative rate control, Zoneout stochastic state preservation, activation penalties
+  and consistency or representation regularization. RegularizationLayer and ActivityRegularizationLayer
+  are layer abstractions, not this directional training algorithm; the RNN and TrainingStrategy mappings
+  are contextual only.'
+definition_evidence:
+- source_id: pascanu2013
+  locator: Section 3.3, Equations 9–10 and immediate-derivative discussion, PDF p. 6
+  relation: supports
+- source_id: supplement
+  locator: Section 2.2 Equation 5, printed/PDF p. 4
+  relation: supports
+claims:
+- claim_id: directional-soft-penalty
+  kind: mechanism
+  statement: For a nonzero backpropagated error row vector v at a recurrent step and local state Jacobian
+    J, the method encourages norm(v*J)/norm(v) to approach one. Main Equation 9 sums squared deviations
+    of this norm ratio from one over time. This is a soft penalty in the currently observed error directions,
+    not an orthogonality constraint on every Jacobian direction, a bound on every singular value, or a
+    guarantee that all long-range gradient components are preserved.
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 3.3 Equation 9 and following scope discussion, PDF p. 6
+    relation: supports
+- claim_id: norm-ratio-source-discrepancy
+  kind: limitation
+  statement: The main paper Equation 9 displays (norm(v*J)/norm(v)-1)^2, whereas main Equation 10, supplementary
+    Equation 5 and the pinned author implementation use the squared-norm ratio form (norm(v*J)^2/norm(v)^2-1)^2.
+    Both vanish at unit gain, but their values and derivatives differ away from it. The record preserves
+    these source formulations explicitly and follows the squared-norm ratio when discussing the inspected
+    implementation; it does not silently treat the two penalties as algebraically identical.
+  evidence:
+  - source_id: pascanu2013
+    locator: Equations 9–10, PDF p. 6
+    relation: supports
+  - source_id: supplement
+    locator: Equation 5, printed/PDF p. 4
+    relation: supports
+  - source_id: authorcode
+    locator: jobman, tmp_x, tmp_y and tmp_reg
+    relation: supports
+- claim_id: immediate-derivative
+  kind: mechanism
+  statement: 'The added recurrent-weight contribution uses an immediate partial derivative of the local
+    penalty: states and backpropagated error vectors are treated as fixed while differentiating the explicit
+    recurrent-weight dependence. The author code constructs the penalty with symbolic placeholder states/error
+    vectors, differentiates it with respect to W_hh, then substitutes values from backpropagation. This
+    is not the full derivative through all recurrent states and loss-gradient dependencies, and it does
+    not establish equivalence to optimizing the fully differentiated nested-gradient objective.'
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 3.3 immediate derivative discussion, PDF p. 6
+    relation: supports
+  - source_id: supplement
+    locator: Section 2.2 computational discussion, printed/PDF p. 4
+    relation: supports
+  - source_id: authorcode
+    locator: jobman, d_ht/ht placeholders, TT.grad(tmp_reg,W_hh), then theano.clone
+    relation: supports
+- claim_id: small-denominator-and-reduction
+  kind: limitation
+  statement: The supplementary method excludes local contributions whose squared error norm is too small,
+    using a reported threshold of 1e-20. The pinned code uses a greater-than-or-equal comparison to its
+    configurable bound, substitutes a unit ratio for excluded terms, and normalizes the summed penalties
+    by the count of included time/example contributions. If every contribution is excluded, the displayed
+    code has a zero numerator and zero normalization denominator without a separate all-masked guard.
+    Masking, equality and empty-selection handling are implementation policies, not a proof that the ideal
+    ratio is defined for zero error vectors.
+  evidence:
+  - source_id: supplement
+    locator: Section 2.2 small-denominator discussion, printed/PDF p. 4
+    relation: supports
+  - source_id: authorcode
+    locator: jobman, TT.ge(tmp_y,state[bound]), tmp_reg and n_elems reduction; bound default
+    relation: supports
+- claim_id: composition-with-clipping
+  kind: mechanism
+  statement: The inspected code adds alpha times the immediate regularizer derivative to the recurrent-weight
+    task gradient when enabled, then computes the joint parameter-gradient norm and may clip the combined
+    gradient before a vanilla-SGD step. The regularizer and norm clipping address different failure modes
+    and remain separate operations. A finite soft penalty does not enforce exact norm preservation, and
+    retaining relevant backward signals can still leave exploding gradients or conflict with reducing
+    the current task loss.
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 3.3 and Algorithm 1, PDF p. 6
+    relation: supports
+  - source_id: authorcode
+    locator: jobman, alpha contribution before norm_theta and clipstyle branch
+    relation: supports
+- claim_id: strength-and-evaluation-boundaries
+  kind: limitation
+  statement: The authors report that this regularizer can hurt learning on complex tasks such as polyphonic
+    music and suggest reducing its strength over training, including a 1/t schedule, while noting further
+    investigation is needed. The main comparisons combine initialization, minibatch SGD, clipping and
+    regularization choices. These are conditional observations, not a universal improvement, convergence
+    proof or rule that every recurrent model should use the same penalty strength. No numerical benchmark
+    or trained-model reproduction is imported.
+  evidence:
+  - source_id: pascanu2013
+    locator: Section 4 and conclusion, PDF pp. 6–8
+    relation: supports
+  - source_id: supplement
+    locator: Section 2.2 limitations and schedule discussion, printed/PDF p. 4
+    relation: supports
+evidence_sources:
+- source_id: pascanu2013
+  title: On the difficulty of training recurrent neural networks
+  authors:
+  - Razvan Pascanu
+  - Tomas Mikolov
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/pascanu13.pdf
+  persistent_id: PMLR:28:pascanu13
+  version: ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually inspected; supplementary
+    pages 2–4 are separately sourced. PDF page locators used because printed page numbers are not visible.
+  access_level: full_text
+  accessed_at: '2026-10-13T03:34:10Z'
+  sha256: d786c18c0e1ed58aee30ce78b5163a9f771978c3146b68737528e1cda6ac1e74
+- source_id: authorcode
+  title: Author implementation of recurrent-network training and gradient norm clipping
+  authors:
+  - Razvan Pascanu
+  source_type: official_documentation
+  url: https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py
+  persistent_id: pascanur/trainingRNNs@3f5df3ffddccc42059cf9599dc75389f116aff85:RNN.py
+  version: Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z); complete RNN.py
+    and README read statically. Other task files and Theano dependencies not audited or executed.
+  access_level: documentation
+  accessed_at: '2026-10-13T03:44:15Z'
+  sha256: c47f98e0c31796fc39862e4c3fea467bef380e77c1d067b639eda45837f2723c
+- source_id: supplement
+  title: 'On the difficulty of training Recurrent Neural Networks: Additional material'
+  authors:
+  - Razvan Pascanu
+  - Tomas Mikolov
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/pascanu13-supp.pdf
+  persistent_id: PMLR:28:pascanu13:supplement
+  version: ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually inspected, covering
+    clipping thresholds, stochastic direction, numerical rescue and regularization details. Other supplementary
+    pages not visually read.
+  access_level: full_text
+  accessed_at: '2026-10-13T03:53:21Z'
+  sha256: 487c8a0b490d3c32e63e020a73de585c950c2dbfd5c529bc579d240993133fef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: related_match
+  rationale: The procedure regularizes error transport through recurrent state transitions. The target
+    denotes the network architecture context, not the regularization algorithm itself.
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: The procedure changes model-training gradient contributions. The target supplies training
+    context but has a preprocessing genus, so the relation is contextual rather than equivalence or subclass
+    membership.
+limitations:
+- Main Equation 9 uses a norm ratio; Equation 10, supplementary Equation 5 and author code use a squared-norm
+  ratio. They share the unit-gain zero but differ elsewhere.
+- The immediate derivative freezes states and backward error vectors. No equivalence to a full nested-gradient
+  derivative is asserted.
+- A directional soft penalty neither constrains every Jacobian direction nor guarantees exact gradient
+  preservation, convergence or improved task loss.
+- Near-zero error masking and the all-masked normalization require explicit implementation policies; the
+  historical code does not show a separate all-masked guard.
+- All nine main PDF pages and supplementary printed/PDF pages 2–4 of ten were read, together with complete
+  pinned RNN.py and README. Other supplementary pages, task files and framework dependencies were not
+  audited.
+- No Theano execution, training, numerical benchmark reproduction, current compatibility or independent
+  approval is claimed; constructed calculations illustrate algebraic boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T04:10:42Z'
+  updated_at: '2026-10-13T04:10:42Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

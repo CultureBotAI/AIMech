@@ -1,0 +1,624 @@
+# Scientific author self-review of vanishing gradient regularization
+
+- Review: 20261013T041615Z-vanishing-gradient-regularization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T04:10:44Z
+- Finished UTC: 2026-10-13T04:16:15Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain vanishing gradient regularization as a distinct DRAFT algorithm related to recurrent networks and TrainingStrategy. All six claims and fields have support with explicit norm-power, immediate-derivative, directional, masking and composition boundaries. No actionable record defect found; no framework execution or training occurred.
+
+## Scope And Provenance
+
+All fields of the maintained vanishing-gradient regularizer, the complete primary main paper, supplementary pages2–4 and complete pinned author RNN.py/README.
+
+Selection: Exact maintained ID: AIMech:VanishingGradientRegularization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b43ecc8821ed27f6b9fb28255fa6790826982b1c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VanishingGradientRegularization | data/curated/VanishingGradientRegularization.yaml | maintained | Vanishing gradient regularization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:VanishingGradientRegularization | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 138.54s (0:02:18)<br>Checked 442 record(s); 0 failed.<br>Checked 570 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 224 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 224,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:VanishingGradientRegularization | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:VanishingGradientRegularization | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:VanishingGradientRegularization | Exited 0 without output. |
+| Constructed directional regularizer boundaries | passed | True | AIMech:VanishingGradientRegularization | {"half_gain_penalties": [0.25, 0.5625], "double_gain_penalties": [1.0, 9.0], "unit_gain_penalties": [0.0, 0.0], "unconstrained_orthogonal_gain": 10.0, "immediate_squared_gain_derivative": -1.0457289256834306, "full_state_dependent_derivative": -0.5624796472820396, "finite_soft_penalty_optimum": 0.75, "all_masked_count": 0} |
+
+## Scientific And Domain Assessments
+
+### Directional backward-error norm regularization
+
+identity: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Retain the regularizer as a distinct DRAFT algorithm.
+
+MainSection3.3 and the pinned implementation identify a directional penalty with an immediate recurrent-weight derivative. It is distinct from parameter-gradient clipping, activation penalties, moment optimizers and Zoneout state masks. Sixty-eight ignored-inclusive matches were source references, neighboring clipping scope or pending leads; canonical lines were read and rendered full-record indexes classified against their maintained owner. No normalized existing identity matched.
+
+### Recurrent architecture and qualified training context
+
+grounding: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Both related mappings are supported.
+
+The mechanism depends directly on recurrent-state error transport, supporting related RecurrentNeuralNetwork. It contributes to training updates, supporting contextual TrainingStrategy. Neither mapping asserts that a regularization procedure is itself a network, preprocessing object or layer.
+
+### directional-soft-penalty
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+Equation9 uses deviation of a local backward norm gain from one. The following prose explicitly restricts its intention to the relevant error direction and describes a soft constraint. A matrix can preserve one selected vector while amplifying an orthogonal one, so the record avoids an all-direction or all-singular-value guarantee.
+
+### norm-ratio-source-discrepancy
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+Visual rereading confirms no norm square inside Equation9, but squared numerator/denominator norms in Equation10 and supplementaryEquation5. RNN.py sums squares before taking their ratio. The two penalties agree at unit gain but differ elsewhere; the record preserves that discrepancy instead of silently resolving it.
+
+### immediate-derivative
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+The paper freezes state and error terms; the code differentiates a graph with placeholder states/error values before substituting backpropagation outputs. This is different from differentiating the full recurrent state and error-gradient dependencies. The constructed scalar example yields different immediate and full derivatives.
+
+### small-denominator-and-reduction
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+The supplement describes a small squared-error threshold. Code uses &gt;=bound, substitutes one for excluded ratios and divides mean/sum penalty terms by the corresponding included count. With all terms excluded the normalization has no separate guard. The record describes this static formula without asserting a tested Theano failure mode.
+
+### composition-with-clipping
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+Only the recurrent-weight task gradient receives the enabled alpha contribution before the joint norm and optional clipping. This keeps the regularizer separate from clipping and preserves the paper warning that a soft norm preference can conflict with task descent or leave explosion possible.
+
+### strength-and-evaluation-boundaries
+
+evidence: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Supported with explicit source and mathematical boundaries.
+
+SupplementSection2.2 explicitly reports possible harm on complex tasks and suggests a decreasing coefficient, including1/t, while requesting more investigation. Main experiments combine several choices. The record imports no numerical score or universal performance/convergence claim.
+
+### Norm powers, directions, derivatives and masking
+
+consistency: supported. Targets: AIMech:VanishingGradientRegularization.
+
+Constructed examples confirm the distinctions.
+
+At gain .5 the norm and squared-norm penalties are .25 and .5625; at gain2 they are1 and9. A diagonal map with gains1 and10 has zero penalty in the first direction. A constructed tanh-state example gives immediate derivative about -1.04573 versus full derivative about -.56248. A finite soft penalty can attain its combined optimum at gain .75 rather than1, and an all-excluded quotient has zero denominator. These are algebraic checks, not recurrent training or framework execution.
+
+### Complete maintained record and bounded inspected evidence
+
+provenance: supported. Targets: AIMech:VanishingGradientRegularization.
+
+All fields were inspected; DRAFT remains.
+
+Read ID/name, kind, definition/citations, full identity context, six claims/locators, three source identities/versions/access/hashes, AIO pin, two mappings, six limitations and actual curation times. Source/context/capture hashes and exact report mirror agree. Full main-paper reading is distinguished from selected supplementary pages and unexecuted code. No actionable record defect identified.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T041042Z-vanishing-gradient-regularization.json | supports | Compared all 442 pinned AIO and 569 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 68, 0, 0 lines. Canonical matching lines were read as source references, neighboring gradient norm clipping scope statements and pending leads; generated full-record search-index matches were classified against the already-read maintained record. No hit supplied an existing maintained regularizer identity. A semantic search covered 21 AIO rows and 108 native definitions: ten AIO and 93 native rows were verified unchanged, and eleven new AIO and fifteen new native rows were read. Five complete annotated AIO node/edge/generated contexts and twelve full native records were read or verified unchanged. The method softly penalizes backward error norm gain and uses an immediate recurrent-weight derivative. It differs from ordinary gradient clipping, coordinate moments, parameter-relative rate control, Zoneout stochastic state preservation, activation penalties and consistency or representation regularization. RegularizationLayer and ActivityRegularizationLayer are layer abstractions, not this directional training algorithm; the RNN and TrainingStrategy mappings are contextual only. |
+| mapping | sources/aio/aio.json | supports | Twenty-one AIO and108 native semantic rows were read or verified unchanged. Five complete annotated AIO node/edge/generated contexts and twelve full native records provide identity context. RNN and TrainingStrategy YAML reread after capture. The former denotes architecture context and the latter has a preprocessing genus; related_match avoids is-a/equivalence claims. RegularizationLayer and ActivityRegularizationLayer are not algorithm superclasses. |
+| pascanu2013 | https://proceedings.mlr.press/v28/pascanu13.pdf; Complete nine-page main paper visually read; Section3.3 Equations9–10 on PDFp6 reread after capture | supports | ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually inspected; supplementary pages 2–4 are separately sourced. PDF page locators used because printed page numbers are not visible. |
+| authorcode | https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py; Complete RNN.py/README read statically; RNN.py lines181–221 reread after capture | supports | Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z); complete RNN.py and README read statically. Other task files and Theano dependencies not audited or executed. |
+| supplement | https://proceedings.mlr.press/v28/pascanu13-supp.pdf; Printed/PDF pages2–4 of10 visually read; Section2.2 Equation5, masking and limitations on p4 reread after capture. Other pages not visually read. | supports | ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually inspected, covering clipping thresholds, stochastic direction, numerical rescue and regularization details. Other supplementary pages not visually read. |
+| calculation | research/discovery/vanishing-gradient-regularizer-boundaries.py | supports | Constructed examples distinguish norm versus squared-norm penalties, selected versus orthogonal directions, immediate versus full state-dependent derivatives, finite soft constraints and all-masked normalization. These are algebraic checks, not Theano execution or training. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- One new DRAFT concept, yielding 570 native and 442 unchanged generated records. The 755-entry main frontier retains 483 pending and 57 partly addressed cohorts; discovery is incomplete.
+- No Theano execution, training, numerical benchmark reproduction, current compatibility or independent approval is claimed; constructed calculations illustrate algebraic boundaries only.
+- All nine proceedings pages and complete pinned author RNN.py/README were read. Supplementary printed/PDF pages 2–4 of ten were also read; other supplementary pages, task files and Theano dependencies were not inspected; no code execution, training or empirical replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T041615Z-vanishing-gradient-regularization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of vanishing gradient regularization
+started_at: '2026-10-13T04:10:44Z'
+finished_at: '2026-10-13T04:16:15Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity/mapping, directional scope, norm-power
+    discrepancies, immediate versus full derivatives, masking, clipping composition
+    and conditional evaluation evidence. This is adversarial author self-review, not
+    independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain vanishing gradient regularization as a distinct DRAFT algorithm related
+  to recurrent networks and TrainingStrategy. All six claims and fields have support
+  with explicit norm-power, immediate-derivative, directional, masking and composition
+  boundaries. No actionable record defect found; no framework execution or training
+  occurred.
+source:
+  git_revision: b43ecc8821ed27f6b9fb28255fa6790826982b1c
+  state: working_tree
+  inputs:
+  - path: data/aio/ActivityRegularizationLayer.yaml
+    sha256: cfa728f34098132a63278a471d0e1632f34c9dbc60167f22936e8cd3059725c8
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AMSGrad.yaml
+    sha256: cea17d1eed28932058c4a0c194673d3500cff0344cc3ca4ee4b282386bce4d95
+    role: context
+  - path: data/curated/Adam.yaml
+    sha256: b28d5f93f73b80005b3ef7b98d306b5b548f3d2aa77362592c497404e0ea944a
+    role: context
+  - path: data/curated/AdamW.yaml
+    sha256: 5a851955d9435629b76cb28e95d84ab6c1db16aa35df9b485254c9c76c025948
+    role: context
+  - path: data/curated/CompleteLayerWiseAdaptiveRateScaling.yaml
+    sha256: d0d787a30b38bcf874ccd4f1cd3f4a7df9dab9169ff7b195bd705977529f92ed
+    role: context
+  - path: data/curated/GradientNormClipping.yaml
+    sha256: f17c409240f4de8a4fc3a19847cb9eadd18bfc99113bfa2f39d976f01603654a
+    role: context
+  - path: data/curated/LayerWiseAdaptiveMoments.yaml
+    sha256: 276830afda084c3fecd2b3c2628c22b07a32421ae2ee66aae75f8637ff6586e3
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateControl.yaml
+    sha256: d570107412be98e998c95ef4556f57af9fe21c6b92291a574ac01b427d581add
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: context
+  - path: data/curated/NovoGrad.yaml
+    sha256: fab7b24fc418d1044fae44ddf7dcc028c0b3a2088f286b31deec7b9927f9783f
+    role: context
+  - path: data/curated/RMSprop.yaml
+    sha256: 25fe81add637f0323634a0860a706a201a5927826afd6783738aca2c80a7c49d
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: data/curated/VanishingGradientRegularization.yaml
+    sha256: 3e02350f45248dfff36a96270f643522f75aabbaf5160e1aa834ce90a0afdd34
+    role: target
+  - path: data/curated/Zoneout.yaml
+    sha256: 25f1c0e8bfaa491a871c780730358be99aa37f44933aefc466b1ca0024563ae6
+    role: context
+  - path: research/discovery/20261013T041042Z-vanishing-gradient-regularization.json
+    sha256: 1a37520cea3cd3416e10f6ce3e51a148304ec485f9e411912544ebb49180ef7c
+    role: context
+  - path: research/discovery/vanishing-gradient-regularizer-boundaries.py
+    sha256: 33931d4cae3ac208bcd1fd96a9b300adfc619c3201f139e6a9aef572e1b11548
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VanishingGradientRegularization
+  path: data/curated/VanishingGradientRegularization.yaml
+  label: Vanishing gradient regularization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VanishingGradientRegularization.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained vanishing-gradient regularizer, the complete
+    primary main paper, supplementary pages2–4 and complete pinned author RNN.py/README.
+  selection: 'Exact maintained ID: AIMech:VanishingGradientRegularization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:VanishingGradientRegularization
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Other supplementary pages, task generators and framework runtime
+    reason: The complete main paper and declared supplementary pages and author files
+      were read; no full supplementary, task-generator or dependency/runtime audit.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 138.54s (0:02:18)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 570 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 224 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 224,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed directional regularizer boundaries
+  command: python3 research/discovery/vanishing-gradient-regularizer-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"half_gain_penalties": [0.25, 0.5625], "double_gain_penalties": [1.0,
+    9.0], "unit_gain_penalties": [0.0, 0.0], "unconstrained_orthogonal_gain": 10.0,
+    "immediate_squared_gain_derivative": -1.0457289256834306, "full_state_dependent_derivative":
+    -0.5624796472820396, "finite_soft_penalty_optimum": 0.75, "all_masked_count":
+    0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T041042Z-vanishing-gradient-regularization.json
+  accessed_at: '2026-10-13T04:10:44Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 569 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    68, 0, 0 lines. Canonical matching lines were read as source references, neighboring
+    gradient norm clipping scope statements and pending leads; generated full-record
+    search-index matches were classified against the already-read maintained record.
+    No hit supplied an existing maintained regularizer identity. A semantic search
+    covered 21 AIO rows and 108 native definitions: ten AIO and 93 native rows were
+    verified unchanged, and eleven new AIO and fifteen new native rows were read.
+    Five complete annotated AIO node/edge/generated contexts and twelve full native
+    records were read or verified unchanged. The method softly penalizes backward
+    error norm gain and uses an immediate recurrent-weight derivative. It differs
+    from ordinary gradient clipping, coordinate moments, parameter-relative rate control,
+    Zoneout stochastic state preservation, activation penalties and consistency or
+    representation regularization. RegularizationLayer and ActivityRegularizationLayer
+    are layer abstractions, not this directional training algorithm; the RNN and TrainingStrategy
+    mappings are contextual only.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T04:10:44Z'
+  support: supports
+  summary: Twenty-one AIO and108 native semantic rows were read or verified unchanged.
+    Five complete annotated AIO node/edge/generated contexts and twelve full native
+    records provide identity context. RNN and TrainingStrategy YAML reread after capture.
+    The former denotes architecture context and the latter has a preprocessing genus;
+    related_match avoids is-a/equivalence claims. RegularizationLayer and ActivityRegularizationLayer
+    are not algorithm superclasses.
+- evidence_id: pascanu2013
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/pascanu13.pdf
+  locator: Complete nine-page main paper visually read; Section3.3 Equations9–10 on
+    PDFp6 reread after capture
+  accessed_at: '2026-10-13T03:34:10Z'
+  snapshot_sha256: d786c18c0e1ed58aee30ce78b5163a9f771978c3146b68737528e1cda6ac1e74
+  support: supports
+  summary: ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually
+    inspected; supplementary pages 2–4 are separately sourced. PDF page locators used
+    because printed page numbers are not visible.
+- evidence_id: authorcode
+  kind: primary_source
+  reference: https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py
+  locator: Complete RNN.py/README read statically; RNN.py lines181–221 reread after
+    capture
+  accessed_at: '2026-10-13T03:44:15Z'
+  snapshot_sha256: c47f98e0c31796fc39862e4c3fea467bef380e77c1d067b639eda45837f2723c
+  support: supports
+  summary: Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z);
+    complete RNN.py and README read statically. Other task files and Theano dependencies
+    not audited or executed.
+- evidence_id: supplement
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/pascanu13-supp.pdf
+  locator: Printed/PDF pages2–4 of10 visually read; Section2.2 Equation5, masking
+    and limitations on p4 reread after capture. Other pages not visually read.
+  accessed_at: '2026-10-13T03:53:21Z'
+  snapshot_sha256: 487c8a0b490d3c32e63e020a73de585c950c2dbfd5c529bc579d240993133fef
+  support: supports
+  summary: ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually
+    inspected, covering clipping thresholds, stochastic direction, numerical rescue
+    and regularization details. Other supplementary pages not visually read.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/vanishing-gradient-regularizer-boundaries.py
+  accessed_at: '2026-10-13T04:12:40Z'
+  snapshot_sha256: 33931d4cae3ac208bcd1fd96a9b300adfc619c3201f139e6a9aef572e1b11548
+  support: supports
+  summary: Constructed examples distinguish norm versus squared-norm penalties, selected
+    versus orthogonal directions, immediate versus full state-dependent derivatives,
+    finite soft constraints and all-masked normalization. These are algebraic checks,
+    not Theano execution or training.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Directional backward-error norm regularization
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - identity
+  - pascanu2013
+  - authorcode
+  - supplement
+  - calculation
+  summary: Retain the regularizer as a distinct DRAFT algorithm.
+  details: MainSection3.3 and the pinned implementation identify a directional penalty
+    with an immediate recurrent-weight derivative. It is distinct from parameter-gradient
+    clipping, activation penalties, moment optimizers and Zoneout state masks. Sixty-eight
+    ignored-inclusive matches were source references, neighboring clipping scope or
+    pending leads; canonical lines were read and rendered full-record indexes classified
+    against their maintained owner. No normalized existing identity matched.
+- assessment_id: mapping
+  area: grounding
+  topic: Recurrent architecture and qualified training context
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - mapping
+  - pascanu2013
+  summary: Both related mappings are supported.
+  details: The mechanism depends directly on recurrent-state error transport, supporting
+    related RecurrentNeuralNetwork. It contributes to training updates, supporting
+    contextual TrainingStrategy. Neither mapping asserts that a regularization procedure
+    is itself a network, preprocessing object or layer.
+- assessment_id: directional-soft-penalty
+  area: evidence
+  topic: directional-soft-penalty
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: Equation9 uses deviation of a local backward norm gain from one. The following
+    prose explicitly restricts its intention to the relevant error direction and describes
+    a soft constraint. A matrix can preserve one selected vector while amplifying
+    an orthogonal one, so the record avoids an all-direction or all-singular-value
+    guarantee.
+- assessment_id: norm-ratio-source-discrepancy
+  area: evidence
+  topic: norm-ratio-source-discrepancy
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - supplement
+  - authorcode
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: Visual rereading confirms no norm square inside Equation9, but squared
+    numerator/denominator norms in Equation10 and supplementaryEquation5. RNN.py sums
+    squares before taking their ratio. The two penalties agree at unit gain but differ
+    elsewhere; the record preserves that discrepancy instead of silently resolving
+    it.
+- assessment_id: immediate-derivative
+  area: evidence
+  topic: immediate-derivative
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - supplement
+  - authorcode
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: The paper freezes state and error terms; the code differentiates a graph
+    with placeholder states/error values before substituting backpropagation outputs.
+    This is different from differentiating the full recurrent state and error-gradient
+    dependencies. The constructed scalar example yields different immediate and full
+    derivatives.
+- assessment_id: small-denominator-and-reduction
+  area: evidence
+  topic: small-denominator-and-reduction
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - supplement
+  - authorcode
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: The supplement describes a small squared-error threshold. Code uses >=bound,
+    substitutes one for excluded ratios and divides mean/sum penalty terms by the
+    corresponding included count. With all terms excluded the normalization has no
+    separate guard. The record describes this static formula without asserting a tested
+    Theano failure mode.
+- assessment_id: composition-with-clipping
+  area: evidence
+  topic: composition-with-clipping
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - authorcode
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: Only the recurrent-weight task gradient receives the enabled alpha contribution
+    before the joint norm and optional clipping. This keeps the regularizer separate
+    from clipping and preserves the paper warning that a soft norm preference can
+    conflict with task descent or leave explosion possible.
+- assessment_id: strength-and-evaluation-boundaries
+  area: evidence
+  topic: strength-and-evaluation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - supplement
+  - calculation
+  summary: Supported with explicit source and mathematical boundaries.
+  details: SupplementSection2.2 explicitly reports possible harm on complex tasks
+    and suggests a decreasing coefficient, including1/t, while requesting more investigation.
+    Main experiments combine several choices. The record imports no numerical score
+    or universal performance/convergence claim.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Norm powers, directions, derivatives and masking
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - pascanu2013
+  - authorcode
+  - supplement
+  - calculation
+  summary: Constructed examples confirm the distinctions.
+  details: At gain .5 the norm and squared-norm penalties are .25 and .5625; at gain2
+    they are1 and9. A diagonal map with gains1 and10 has zero penalty in the first
+    direction. A constructed tanh-state example gives immediate derivative about -1.04573
+    versus full derivative about -.56248. A finite soft penalty can attain its combined
+    optimum at gain .75 rather than1, and an all-excluded quotient has zero denominator.
+    These are algebraic checks, not recurrent training or framework execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and bounded inspected evidence
+  outcome: supported
+  target_ids:
+  - AIMech:VanishingGradientRegularization
+  evidence_ids:
+  - identity
+  - mapping
+  - pascanu2013
+  - authorcode
+  - supplement
+  - calculation
+  summary: All fields were inspected; DRAFT remains.
+  details: Read ID/name, kind, definition/citations, full identity context, six claims/locators,
+    three source identities/versions/access/hashes, AIO pin, two mappings, six limitations
+    and actual curation times. Source/context/capture hashes and exact report mirror
+    agree. Full main-paper reading is distinguished from selected supplementary pages
+    and unexecuted code. No actionable record defect identified.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- One new DRAFT concept, yielding 570 native and 442 unchanged generated records.
+  The 755-entry main frontier retains 483 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- No Theano execution, training, numerical benchmark reproduction, current compatibility
+  or independent approval is claimed; constructed calculations illustrate algebraic
+  boundaries only.
+- All nine proceedings pages and complete pinned author RNN.py/README were read. Supplementary
+  printed/PDF pages 2–4 of ten were also read; other supplementary pages, task files
+  and Theano dependencies were not inspected; no code execution, training or empirical
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- gradient-regularization
+- self-review
+- discovery-ongoing
+```
