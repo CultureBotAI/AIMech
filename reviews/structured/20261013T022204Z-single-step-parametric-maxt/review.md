@@ -1,0 +1,688 @@
+# Scientific author self-review of single-step parametric maxT inference
+
+- Review: 20261013T022204Z-single-step-parametric-maxt
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T02:13:20Z
+- Finished UTC: 2026-10-13T02:22:04Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the general single-step parametric maxT procedure as a distinct DRAFT algorithm related to AIO DataDredgingBias. All seven claims and full maintained fields are supported with explicit sampling, covariance, family-selection and numerical limits. No actionable defect was found; source software and empirical calibration remain unverified.
+
+## Scope And Provenance
+
+All fields of the exact maintained maxT record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:SingleStepParametricMaxTInference
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 3f3d11e18c3b9dd98bf6212e2e44e7e2f2224518.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SingleStepParametricMaxTInference | data/curated/SingleStepParametricMaxTInference.yaml | maintained | Single-step parametric maxT inference |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SingleStepParametricMaxTInference | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 273.41s (0:04:33)<br>Checked 442 record(s); 0 failed.<br>Checked 563 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 217 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 217,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:SingleStepParametricMaxTInference | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:SingleStepParametricMaxTInference | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:SingleStepParametricMaxTInference | Exited 0 without output. |
+| Constructed Gaussian multiplicity boundaries | passed | True | AIMech:SingleStepParametricMaxTInference | {"observed_statistics": [2.0, 1.0], "marginal_two_sided_tails": [0.04550026389635843, 0.3173105078629141], "independent_two_test_adjusted_tails": [0.08893025377807862, 0.5339350573256079], "independent_two_test_global_tail": 0.08893025377807862, "independent_two_test_critical_value": 2.2364766445577895, "simultaneous_coverage": 0.9499999999999996, "unadjusted_two_test_familywise_error": 0.09750000000000003, "duplicate_or_sign_reversed_global_tail": 0.04550026389635843, "duplicate_or_sign_reversed_critical_value": 1.9599639845400536, "wald_chisquare2_tail": 0.0820849986238988, "interpretation": "Exact distribution calculations for constructed known-covariance Gaussian laws; not empirical calibration or source data reproduction."} |
+
+## Scientific And Domain Assessments
+
+### General parametric procedure versus specialized conflict diagnostics
+
+identity: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Retain the general single-step procedure as a distinct DRAFT algorithm.
+
+A fixed family of linear parameter functions and a joint centered sampling reference define the method. It does not require Bayesian graph splitting, held-out nodes, INLA or latent-score randomization. The existing multiple-testing conflict diagnostic is an application construction with additional assumptions. Resampling maxT, closed testing, step-down algorithms and the multcomp package do not share this entire identity. Empty aliases avoid merging those methods by a common acronym.
+
+### Multiplicity procedure related to a specified interpretation risk
+
+grounding: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+The related DataDredgingBias mapping is supported within its stated scope.
+
+The inspected AIO definition expressly describes apparent significance after testing many hypotheses, the core risk controlled for the declared family. The record makes a related_match, not equivalence or an is-a relation, and explicitly excludes automatic validity after unaccounted adaptive selection. Individual regression families are optional applications; graphical models and generic bias nodes are not better identities.
+
+### fixed-linear-family
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+Choose a finite, fixed family of estimable linear functions v=K*theta and null values m, with K a fixed k-by-p matrix. Use a parameter estimator theta_hat and its joint sampling covariance estimate S_hat; the comparison estimates and covariance are v_hat=K*theta_hat and V_hat=K*S_hat*K^T. K need not be square or invertible, and rows need not be zero-sum contrasts. This procedure consumes joint estimates and covariance; it does not itself define the model-fitting algorithm.
+
+### standardization-and-redundancy
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+For positive finite diagonal comparison variances, define D=diag(V_hat), t=D^(-1/2)*(v_hat-m) and R_hat=D^(-1/2)*V_hat*D^(-1/2). Redundant comparisons can make R_hat singular without preventing a max-absolute statistic. Interpret its reference as a valid joint Gaussian or t probability law, including singular laws, rather than assuming an ordinary full-dimensional density exists. Zero-variance comparisons cannot be standardized and require separate deterministic/support handling.
+
+### exact-and-asymptotic-references
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+The general reference is a centered multivariate normal law with the consistently estimated correlation. Its asymptotic justification requires a multivariate sampling central limit theorem and consistent covariance estimation for the fixed comparison family. An exact normal reference is available for exact normal estimates with known covariance. An exact multivariate t reference additionally requires the appropriate common independent chi-square variance scaling, as in a correctly specified homoscedastic Gaussian linear model. Arbitrary estimated standard errors or a chosen degrees of freedom do not create an exact t law.
+
+### joint-rectangle-adjustment
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+For the chosen centered joint reference Z, define G(c)=P(max_j&#124;Z_j&#124;&lt;=c). The two-sided global maxT tail is 1-G(max_j&#124;t_j&#124;), and the single-step adjusted tail for comparison j is 1-G(&#124;t_j&#124;), using the same full declared family for every component. Under that same continuous reference each adjusted value is at least the corresponding marginal two-sided tail. The joint rectangle probability retains dependence; treating correlated comparisons as independent changes the procedure. A quadratic Wald statistic uses a different rejection region and is not interchangeable with the absolute maximum.
+
+### simultaneous-intervals-and-error-control
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+Choose c_alpha so G(c_alpha)=1-alpha. The simultaneous two-sided intervals are v_hat_j plus or minus c_alpha*sqrt(V_hat_jj); reject an individual equality when its null value falls outside its interval. A valid joint law of the centered estimation errors gives simultaneous coverage and bounds the probability of any true-null rejection by alpha for the declared family. The normal plug-in result is asymptotic under the stated conditions, not automatic finite-sample or uniform-in-parameter control. Pointwise normality of separate estimates without their valid joint covariance is insufficient.
+
+### procedure-boundaries
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+Single-step means a common joint critical value is used without successively removing rejected hypotheses. Closed-testing or stepwise improvements and resampling/permutation maxT need separate constructions and assumptions. One-sided tests require the corresponding one-sided joint region and quantile, rather than applying the two-sided absolute maximum unchanged. Data-dependent family selection, very large or growing families, weak identification and invalid covariance estimates require additional justification; this fixed-family procedure is not a general repair for adaptive data dredging.
+
+### implementation-and-interpretation
+
+evidence: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Supported with the stated construction and limitations.
+
+The framework applies to model classes whose estimators meet its joint-law conditions, including suitable regression, generalized linear, mixed and survival models. A software interface accepting coefficient and covariance outputs does not validate those conditions. Numerical normal/t rectangle integration introduces computational approximation. Adjusted tails concern testing errors, not posterior probabilities that hypotheses are true, effect sizes, causality or universal model quality. The source examples and package interface were read without executing multcomp or reproducing the applications.
+
+### Exactness, singularity and scope of familywise control
+
+consistency: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+The record preserves the needed joint-law qualifications.
+
+Separate marginal normality is insufficient without the joint covariance. Known-covariance Gaussian and common independent chi-square scaled t references are distinct. Redundant positive-variance coordinates have valid joint probability laws without an ordinary full-dimensional density; zero-variance coordinates require separate handling. Joint centered-error coverage bounds any true-null rejection for the fixed family. A pointwise asymptotic result is not a finite-sample, uniformly-in-parameter or growing-family guarantee. The corrected quantile convention gives 1-alpha coverage, despite the source displayed 1-2alpha label.
+
+### Dependence-sensitive maximum versus marginal and Wald tests
+
+consistency: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+Constructed normal calculations agree with the stated formulae.
+
+For independent standard-normal coordinates observed at [2,1], adjusted values are approximately [0.0889302538,0.5339350573] and the 0.05 common critical value is 2.2364766446. Two unadjusted 0.05 tests instead have familywise error 0.0975. Duplicate or sign-reversed rank-one coordinates give critical value 1.9599639845 and tail 0.0455002639, so independent counting would be wrong. The quadratic chi-square tail 0.0820849986 differs from the maxT tail. These exact distribution calculations are not a fitted source model, package audit or empirical calibration study.
+
+### Complete maintained record and primary source version
+
+provenance: supported. Targets: AIMech:SingleStepParametricMaxTInference.
+
+All maintained fields are consistent; DRAFT remains.
+
+Read the complete YAML after capture: stable ID, name, aliases, kind, definition and citation, identity notes, seven claims with locators, source title/authors/version/URL/DOI/access/hash, pinned mapping and rationale, six limitations and actual UTC curation. Source PDF, capture, context and report-mirror bytes verify unchanged; the calculation reruns identically. The archived technical report is not assumed byte-identical to the journal article or a current software vignette. No actionable record defect was found. Genz numerical-integration reading remains a separate, partially inspected lead with visual verification pending.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T021316Z-single-step-parametric-maxt.json | supports | No normalized identity match among all 442 pinned AIO and 562 maintained IDs, names, aliases and scoped synonyms. Fixed-string searches include ignored and hidden files in the recovery, older discovery and original Documents checkouts, returning 218, 0 and 0 lines. Candidate and diagnostic hits were inspected through canonical records and pending source notes; long report/search-index lines and generated mirrors were classified but not all reread in full. The semantic assessment covers 67 AIO rows and 233 native names/definitions: 61 and 220 prior rows were verified unchanged, with six new AIO rows and thirteen new native definitions read. Fifteen complete AIO nodes, incident edges and generated records and ten native context records were read or verified against prior readings. This general fixed-family normal/t maxT procedure is distinct from the existing Bayesian separator-conflict specialization, INLA computation, random latent score checks, quadratic Wald tests, resampling/permutation maxT and closed-testing stepwise procedures. The local label names the procedure, not the multcomp package or every multiple-testing algorithm. |
+| mapping | sources/aio/aio.json | supports | The bounded semantic assessment covers 67 AIO rows and 233 native definitions, with unchanged prior readings verified. Fifteen complete AIO nodes, annotations, incident edges and generated records plus ten native context records were inspected or verified against prior readings. After capture, reread full DataDredgingBias YAML. Its core many-hypothesis significance risk supports a related risk-to-procedure mapping; the algorithm is neither a bias subtype nor a remedy for all adaptive selection. |
+| primary | https://epub.ub.uni-muenchen.de/2120/1/tr019.pdf; Title/abstract PDF p. 2; Sections 2–3, pp. 4–7; closed-testing boundary and model/interface conditions, pp. 8–11; source examples, pp. 11–22 | supports | The complete 25-page archived primary technical report was read in preparation. After capture, visually reread pp. 2 and 4–11, checking the joint sampling limit, covariance scaling, rectangular K, positive comparison variances, singular Tukey example, maxT rectangle, adjusted values, common quantile, exact t assumptions and stepwise boundary. The 1-2alpha interval label and degrees-of-freedom notation are explicitly qualified rather than copied as guarantees. No source application was reproduced. |
+| calculation | research/discovery/parametric-maxt-boundaries.py | supports | For two independent known-covariance normal statistics [2,1], maxT yields adjusted tails [0.0889302538,0.5339350573] and a 0.05 critical value 2.2364766446. Duplicate or sign-reversed coordinates instead use 1.9599639845; unadjusted independent 0.05 tests have familywise error 0.0975. A quadratic Wald tail differs. These are exact constructed distribution calculations, not a source model or empirical calibration. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- One new DRAFT concept, yielding 563 native and 442 unchanged generated records. The 748-entry main frontier retains 484 pending and 57 partly addressed cohorts; discovery is incomplete.
+- No multcomp installation or implementation-source audit, fitted model, application outcome, benchmark or empirical calibration study was performed. Constructed known-covariance Gaussian examples illustrate the procedure and dependence boundaries only.
+- The full source is the archived 2008 technical report; publication metadata and package-vignette search results do not certify other source versions.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection; only the isolated recovery checkout is changed.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T022204Z-single-step-parametric-maxt
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of single-step parametric maxT inference
+started_at: '2026-10-13T02:13:20Z'
+finished_at: '2026-10-13T02:22:04Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged method distinctness, fixed-family selection,
+    covariance and singularity, normal/t exactness, strong versus pointwise asymptotic
+    error control, source notation, mapping and claim locators. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the general single-step parametric maxT procedure as a distinct DRAFT
+  algorithm related to AIO DataDredgingBias. All seven claims and full maintained
+  fields are supported with explicit sampling, covariance, family-selection and numerical
+  limits. No actionable defect was found; source software and empirical calibration
+  remain unverified.
+source:
+  git_revision: 3f3d11e18c3b9dd98bf6212e2e44e7e2f2224518
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/Bias.yaml
+    sha256: 0588f7b5b67fcf3dc5d442a20479b65222b63014aa9605430046debbf5249a8b
+    role: context
+  - path: data/aio/DataDredgingBias.yaml
+    sha256: 335067e88f1462e141ac5f35e697cd42f7d250ec4dde9250531babe0d96cc1d0
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/aio/FixedEffectsModel.yaml
+    sha256: ce9b21b60e99bf7abfd19b9b480d5c73777ba59f38af53c3fa2d6bfc50f71a86
+    role: context
+  - path: data/aio/GeneralizedLinearModel.yaml
+    sha256: 202002ec50c6e6207bc2fefba5baeab233514fd8f9118a623d1917b599ce2c7d
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/LogisticRegression.yaml
+    sha256: 67dd6e8ae1bb6bfc48598b41adccbf7d48d925db8b0ee3a71f59569913b8c968
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProportionalHazardsModel.yaml
+    sha256: 1869e9ca3c2fd499096d734674e1b865501ad621e925199d4067bd1d7fbd5ba6
+    role: context
+  - path: data/aio/RandomEffectsModel.yaml
+    sha256: 4e3f50ef012b217822c2b731cce1b07dff14e66826f26d7717a6dab42d482d4c
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/aio/VariationalAutoEncoder.yaml
+    sha256: f8f523c5f2cecf91f1510c5ab74bfd36d717f3e683a9a8384e44a3f855e4c45e
+    role: context
+  - path: data/curated/CrossValidatedPriorLikelihoodConflictDiagnostic.yaml
+    sha256: 92c4daf84d56e0ea6528ee512063fcf8d7fc8c69795bff9fe19fe5de8c65d119
+    role: context
+  - path: data/curated/GaussianMessageConflictDiagnostic.yaml
+    sha256: adc6c4f1c16288b59515f77401ff4d1c2a02f673a00a91963de6e3fa588c4cff
+    role: context
+  - path: data/curated/INLAGroupNodeConflictDiagnostic.yaml
+    sha256: c97bf3553a26f7bb84a4539bf0cfed7d6bbe5170c7df411deb77ca1cf868f0b1
+    role: context
+  - path: data/curated/LocalOutlierFactor.yaml
+    sha256: b9293fde56804e7df6d3056e00b08240ca9dc8711a715bda54d064cfd9bc8812
+    role: context
+  - path: data/curated/MultipleTestingNodeConflictDiagnostic.yaml
+    sha256: 1a21330e57dec49c7dd243afce713439382955663f979a1ec9df393d79798a0c
+    role: context
+  - path: data/curated/NonconjugateVariationalMessagePassing.yaml
+    sha256: 0d303d220e92ad009eb802ddee59c6ab74cfd1d7872f3a50ad939deed002ad23
+    role: context
+  - path: data/curated/PartiallyNoncenteredGLMMVariationalInference.yaml
+    sha256: 9c5bfdf2ad7cee069ecf1559d3df296ac7c7c0c807a49eee5644f984e7abc361
+    role: context
+  - path: data/curated/RandomizedLatentScoreConflictDiagnostic.yaml
+    sha256: f65918c12a8bdffec38d949d53cb33024293617a6376fc8905ed3c9fdabfd9c8
+    role: context
+  - path: data/curated/SeparatorNodeConflictDiagnostic.yaml
+    sha256: 302a2e72e9e2a174ee433925f4e2e0bcf02f3a2dbc860bcd71e92c97b948e429
+    role: context
+  - path: data/curated/SingleStepParametricMaxTInference.yaml
+    sha256: 2990f8d53ad317aed4263fe1034a0f6f793b87736205e8f8adba25e6ef77e317
+    role: target
+  - path: data/curated/StochasticNonconjugateGLMMVariationalInference.yaml
+    sha256: 27235b4323710bcd53fb73d6dbe06f0eb115a3d6cbf52600345f9c7c68c45c99
+    role: context
+  - path: research/discovery/20261013T021316Z-single-step-parametric-maxt.json
+    sha256: 8674e5e5aa66ecc4ef0d189721f36fd6d62e018ad8ce4f170b7e2d6c3c43dd65
+    role: context
+  - path: research/discovery/parametric-maxt-boundaries.py
+    sha256: 6b88bff91fd166b403f3e0e54a533fe92865080ef9c8efa60f597c5dadd8a745
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:SingleStepParametricMaxTInference
+  path: data/curated/SingleStepParametricMaxTInference.yaml
+  label: Single-step parametric maxT inference
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SingleStepParametricMaxTInference.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained maxT record and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:SingleStepParametricMaxTInference'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exclusions:
+  - target: Neighboring AIO and native concepts
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Closed-testing, resampling and numerical probability algorithms
+    reason: Separate methods; Genz primary text remains pending visual verification
+      and identity assessment.
+  - target: Source software, examples and empirical calibration
+    reason: No multcomp execution, model fitting, application reproduction or repeated-data
+      simulation.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 273.41s (0:04:33)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 563 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 217 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 217,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed Gaussian multiplicity boundaries
+  command: python3 research/discovery/parametric-maxt-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"observed_statistics": [2.0, 1.0], "marginal_two_sided_tails": [0.04550026389635843,
+    0.3173105078629141], "independent_two_test_adjusted_tails": [0.08893025377807862,
+    0.5339350573256079], "independent_two_test_global_tail": 0.08893025377807862,
+    "independent_two_test_critical_value": 2.2364766445577895, "simultaneous_coverage":
+    0.9499999999999996, "unadjusted_two_test_familywise_error": 0.09750000000000003,
+    "duplicate_or_sign_reversed_global_tail": 0.04550026389635843, "duplicate_or_sign_reversed_critical_value":
+    1.9599639845400536, "wald_chisquare2_tail": 0.0820849986238988, "interpretation":
+    "Exact distribution calculations for constructed known-covariance Gaussian laws;
+    not empirical calibration or source data reproduction."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T021316Z-single-step-parametric-maxt.json
+  accessed_at: '2026-10-13T02:13:20Z'
+  support: supports
+  summary: 'No normalized identity match among all 442 pinned AIO and 562 maintained
+    IDs, names, aliases and scoped synonyms. Fixed-string searches include ignored
+    and hidden files in the recovery, older discovery and original Documents checkouts,
+    returning 218, 0 and 0 lines. Candidate and diagnostic hits were inspected through
+    canonical records and pending source notes; long report/search-index lines and
+    generated mirrors were classified but not all reread in full. The semantic assessment
+    covers 67 AIO rows and 233 native names/definitions: 61 and 220 prior rows were
+    verified unchanged, with six new AIO rows and thirteen new native definitions
+    read. Fifteen complete AIO nodes, incident edges and generated records and ten
+    native context records were read or verified against prior readings. This general
+    fixed-family normal/t maxT procedure is distinct from the existing Bayesian separator-conflict
+    specialization, INLA computation, random latent score checks, quadratic Wald tests,
+    resampling/permutation maxT and closed-testing stepwise procedures. The local
+    label names the procedure, not the multcomp package or every multiple-testing
+    algorithm.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T02:13:20Z'
+  support: supports
+  summary: The bounded semantic assessment covers 67 AIO rows and 233 native definitions,
+    with unchanged prior readings verified. Fifteen complete AIO nodes, annotations,
+    incident edges and generated records plus ten native context records were inspected
+    or verified against prior readings. After capture, reread full DataDredgingBias
+    YAML. Its core many-hypothesis significance risk supports a related risk-to-procedure
+    mapping; the algorithm is neither a bias subtype nor a remedy for all adaptive
+    selection.
+- evidence_id: primary
+  kind: primary_source
+  reference: https://epub.ub.uni-muenchen.de/2120/1/tr019.pdf
+  locator: Title/abstract PDF p. 2; Sections 2–3, pp. 4–7; closed-testing boundary
+    and model/interface conditions, pp. 8–11; source examples, pp. 11–22
+  accessed_at: '2026-10-13T00:56:46Z'
+  snapshot_sha256: e5a1a1e1790b11db29fc18c435f83c9bdf69e1fd01eb504d16e61dedbf28f3f1
+  support: supports
+  summary: The complete 25-page archived primary technical report was read in preparation.
+    After capture, visually reread pp. 2 and 4–11, checking the joint sampling limit,
+    covariance scaling, rectangular K, positive comparison variances, singular Tukey
+    example, maxT rectangle, adjusted values, common quantile, exact t assumptions
+    and stepwise boundary. The 1-2alpha interval label and degrees-of-freedom notation
+    are explicitly qualified rather than copied as guarantees. No source application
+    was reproduced.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/parametric-maxt-boundaries.py
+  accessed_at: '2026-10-13T02:13:20Z'
+  snapshot_sha256: 6b88bff91fd166b403f3e0e54a533fe92865080ef9c8efa60f597c5dadd8a745
+  support: supports
+  summary: For two independent known-covariance normal statistics [2,1], maxT yields
+    adjusted tails [0.0889302538,0.5339350573] and a 0.05 critical value 2.2364766446.
+    Duplicate or sign-reversed coordinates instead use 1.9599639845; unadjusted independent
+    0.05 tests have familywise error 0.0975. A quadratic Wald tail differs. These
+    are exact constructed distribution calculations, not a source model or empirical
+    calibration.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: General parametric procedure versus specialized conflict diagnostics
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - identity
+  - primary
+  summary: Retain the general single-step procedure as a distinct DRAFT algorithm.
+  details: A fixed family of linear parameter functions and a joint centered sampling
+    reference define the method. It does not require Bayesian graph splitting, held-out
+    nodes, INLA or latent-score randomization. The existing multiple-testing conflict
+    diagnostic is an application construction with additional assumptions. Resampling
+    maxT, closed testing, step-down algorithms and the multcomp package do not share
+    this entire identity. Empty aliases avoid merging those methods by a common acronym.
+- assessment_id: mapping
+  area: grounding
+  topic: Multiplicity procedure related to a specified interpretation risk
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - mapping
+  - primary
+  summary: The related DataDredgingBias mapping is supported within its stated scope.
+  details: The inspected AIO definition expressly describes apparent significance
+    after testing many hypotheses, the core risk controlled for the declared family.
+    The record makes a related_match, not equivalence or an is-a relation, and explicitly
+    excludes automatic validity after unaccounted adaptive selection. Individual regression
+    families are optional applications; graphical models and generic bias nodes are
+    not better identities.
+- assessment_id: fixed-linear-family
+  area: evidence
+  topic: fixed-linear-family
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: Choose a finite, fixed family of estimable linear functions v=K*theta and
+    null values m, with K a fixed k-by-p matrix. Use a parameter estimator theta_hat
+    and its joint sampling covariance estimate S_hat; the comparison estimates and
+    covariance are v_hat=K*theta_hat and V_hat=K*S_hat*K^T. K need not be square or
+    invertible, and rows need not be zero-sum contrasts. This procedure consumes joint
+    estimates and covariance; it does not itself define the model-fitting algorithm.
+- assessment_id: standardization-and-redundancy
+  area: evidence
+  topic: standardization-and-redundancy
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: For positive finite diagonal comparison variances, define D=diag(V_hat),
+    t=D^(-1/2)*(v_hat-m) and R_hat=D^(-1/2)*V_hat*D^(-1/2). Redundant comparisons
+    can make R_hat singular without preventing a max-absolute statistic. Interpret
+    its reference as a valid joint Gaussian or t probability law, including singular
+    laws, rather than assuming an ordinary full-dimensional density exists. Zero-variance
+    comparisons cannot be standardized and require separate deterministic/support
+    handling.
+- assessment_id: exact-and-asymptotic-references
+  area: evidence
+  topic: exact-and-asymptotic-references
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: The general reference is a centered multivariate normal law with the consistently
+    estimated correlation. Its asymptotic justification requires a multivariate sampling
+    central limit theorem and consistent covariance estimation for the fixed comparison
+    family. An exact normal reference is available for exact normal estimates with
+    known covariance. An exact multivariate t reference additionally requires the
+    appropriate common independent chi-square variance scaling, as in a correctly
+    specified homoscedastic Gaussian linear model. Arbitrary estimated standard errors
+    or a chosen degrees of freedom do not create an exact t law.
+- assessment_id: joint-rectangle-adjustment
+  area: evidence
+  topic: joint-rectangle-adjustment
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: For the chosen centered joint reference Z, define G(c)=P(max_j|Z_j|<=c).
+    The two-sided global maxT tail is 1-G(max_j|t_j|), and the single-step adjusted
+    tail for comparison j is 1-G(|t_j|), using the same full declared family for every
+    component. Under that same continuous reference each adjusted value is at least
+    the corresponding marginal two-sided tail. The joint rectangle probability retains
+    dependence; treating correlated comparisons as independent changes the procedure.
+    A quadratic Wald statistic uses a different rejection region and is not interchangeable
+    with the absolute maximum.
+- assessment_id: simultaneous-intervals-and-error-control
+  area: evidence
+  topic: simultaneous-intervals-and-error-control
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: Choose c_alpha so G(c_alpha)=1-alpha. The simultaneous two-sided intervals
+    are v_hat_j plus or minus c_alpha*sqrt(V_hat_jj); reject an individual equality
+    when its null value falls outside its interval. A valid joint law of the centered
+    estimation errors gives simultaneous coverage and bounds the probability of any
+    true-null rejection by alpha for the declared family. The normal plug-in result
+    is asymptotic under the stated conditions, not automatic finite-sample or uniform-in-parameter
+    control. Pointwise normality of separate estimates without their valid joint covariance
+    is insufficient.
+- assessment_id: procedure-boundaries
+  area: evidence
+  topic: procedure-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: Single-step means a common joint critical value is used without successively
+    removing rejected hypotheses. Closed-testing or stepwise improvements and resampling/permutation
+    maxT need separate constructions and assumptions. One-sided tests require the
+    corresponding one-sided joint region and quantile, rather than applying the two-sided
+    absolute maximum unchanged. Data-dependent family selection, very large or growing
+    families, weak identification and invalid covariance estimates require additional
+    justification; this fixed-family procedure is not a general repair for adaptive
+    data dredging.
+- assessment_id: implementation-and-interpretation
+  area: evidence
+  topic: implementation-and-interpretation
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: The framework applies to model classes whose estimators meet its joint-law
+    conditions, including suitable regression, generalized linear, mixed and survival
+    models. A software interface accepting coefficient and covariance outputs does
+    not validate those conditions. Numerical normal/t rectangle integration introduces
+    computational approximation. Adjusted tails concern testing errors, not posterior
+    probabilities that hypotheses are true, effect sizes, causality or universal model
+    quality. The source examples and package interface were read without executing
+    multcomp or reproducing the applications.
+- assessment_id: sampling-and-support
+  area: consistency
+  topic: Exactness, singularity and scope of familywise control
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  - calculation
+  summary: The record preserves the needed joint-law qualifications.
+  details: Separate marginal normality is insufficient without the joint covariance.
+    Known-covariance Gaussian and common independent chi-square scaled t references
+    are distinct. Redundant positive-variance coordinates have valid joint probability
+    laws without an ordinary full-dimensional density; zero-variance coordinates require
+    separate handling. Joint centered-error coverage bounds any true-null rejection
+    for the fixed family. A pointwise asymptotic result is not a finite-sample, uniformly-in-parameter
+    or growing-family guarantee. The corrected quantile convention gives 1-alpha coverage,
+    despite the source displayed 1-2alpha label.
+- assessment_id: constructed-cases
+  area: consistency
+  topic: Dependence-sensitive maximum versus marginal and Wald tests
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Constructed normal calculations agree with the stated formulae.
+  details: For independent standard-normal coordinates observed at [2,1], adjusted
+    values are approximately [0.0889302538,0.5339350573] and the 0.05 common critical
+    value is 2.2364766446. Two unadjusted 0.05 tests instead have familywise error
+    0.0975. Duplicate or sign-reversed rank-one coordinates give critical value 1.9599639845
+    and tail 0.0455002639, so independent counting would be wrong. The quadratic chi-square
+    tail 0.0820849986 differs from the maxT tail. These exact distribution calculations
+    are not a fitted source model, package audit or empirical calibration study.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and primary source version
+  outcome: supported
+  target_ids:
+  - AIMech:SingleStepParametricMaxTInference
+  evidence_ids:
+  - identity
+  - mapping
+  - primary
+  - calculation
+  summary: All maintained fields are consistent; DRAFT remains.
+  details: 'Read the complete YAML after capture: stable ID, name, aliases, kind,
+    definition and citation, identity notes, seven claims with locators, source title/authors/version/URL/DOI/access/hash,
+    pinned mapping and rationale, six limitations and actual UTC curation. Source
+    PDF, capture, context and report-mirror bytes verify unchanged; the calculation
+    reruns identically. The archived technical report is not assumed byte-identical
+    to the journal article or a current software vignette. No actionable record defect
+    was found. Genz numerical-integration reading remains a separate, partially inspected
+    lead with visual verification pending.'
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- One new DRAFT concept, yielding 563 native and 442 unchanged generated records.
+  The 748-entry main frontier retains 484 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- No multcomp installation or implementation-source audit, fitted model, application
+  outcome, benchmark or empirical calibration study was performed. Constructed known-covariance
+  Gaussian examples illustrate the procedure and dependence boundaries only.
+- The full source is the archived 2008 technical report; publication metadata and
+  package-vignette search results do not certify other source versions.
+- Original-checkout synchronization and old round141 cleanup remain pending explicit
+  approval after automatic review rejection; only the isolated recovery checkout is
+  changed.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- simultaneous-inference
+- multiplicity
+- self-review
+- discovery-ongoing
+```
