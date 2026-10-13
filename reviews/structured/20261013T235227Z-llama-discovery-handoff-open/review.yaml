@@ -1,0 +1,137 @@
+schema_version: 1.0.0
+review_id: 20261013T235227Z-llama-discovery-handoff-open
+kind: record
+repository: CultureBotAI/AIMech
+title: Scoped author self-review of Llama discovery handoff
+started_at: '2026-10-13T23:51:24Z'
+finished_at: '2026-10-13T23:52:27Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author checks report provenance; this is not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: needs_curation
+scientific_review: false
+summary: Two pending handoffs contradict the embedded completed reading log.
+source:
+  git_revision: 062e91b5adf458f791c5288178ab5fd226c401df
+  state: working_tree
+  inputs:
+  - path: data/curated/DeepContinuousClustering.yaml
+    sha256: bdddb6822e32d02db132f4410bbac2cc7f821f5cadfd7e890e54e13f16b43076
+    role: context
+  - path: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+    sha256: 92528aea8dd41fefb9aea73b8f662a9aec4c10f642b58d637ceaff0d87ccb7e6
+    role: target
+targets:
+- target_id: AIMech:DiscoveryLlamaHandoff20261013
+  path: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+  label: Llama reading handoff in DCC discovery report
+  kind: maintained
+  record_class: DiscoveryReport
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+    role: maintained
+scope:
+  description: Two Llama follow-up handoff entries and their embedded reading-log
+    consistency only.
+  selection: Exact DCC discovery report and Llama candidate identity.
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DiscoveryLlamaHandoff20261013
+  exclusions:
+  - target: All concept scientific claims and other discovery entries
+    reason: Separate scientific reviews cover the new concepts; this observation assesses
+      only handoff provenance.
+checks:
+- check_id: bounded-provenance
+  name: Captured JSON, evidence and lineage comparison
+  command: /private/tmp/aimech-recovery-venv/bin/python /private/tmp/aimech-llama-handoff-review267.py
+    review open
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiscoveryLlamaHandoff20261013
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Parsed captured JSON; verified exact handoff texts, completed embedded
+    reading log and input hashes. Traversed every structured YAML path, including
+    ignored/hidden paths, for the same defect key. No prior same-key finding existed.
+evidence:
+- evidence_id: report
+  kind: record_content
+  reference: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+  locator: nested_lead_accounting/260; source_analysis/reading/next_leads/2; source_analysis/reading/followup_llama/reading
+  accessed_at: '2026-10-13T23:52:15Z'
+  snapshot_sha256: 92528aea8dd41fefb9aea73b8f662a9aec4c10f642b58d637ceaff0d87ccb7e6
+  support: supports
+  summary: Directly read both handoff entries and the completed primary/supplementary
+    reading log after capture.
+assessments:
+- assessment_id: handoff-consistency
+  area: provenance
+  topic: Completed reading versus pending work
+  outcome: concern
+  target_ids:
+  - AIMech:DiscoveryLlamaHandoff20261013
+  evidence_ids:
+  - report
+  summary: The old handoff wrongly requests unfinished primary reading.
+findings:
+- finding_id: stale-reading-handoff
+  issue_key: aimech-dcc-discovery-stale-llama-reading-handoff
+  category: provenance
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Synchronize Llama handoff with complete reading log
+  description: Two discovery handoff copies still describe partial Llama reading,
+    although the same report embeds the completed primary and supplementary reading
+    log. This sends future curation toward already completed reading.
+  target_ids:
+  - AIMech:DiscoveryLlamaHandoff20261013
+  field_paths:
+  - nested_lead_accounting/260/next_check
+  - source_analysis/reading/next_leads/2/next_check
+  evidence_ids:
+  - report
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/323
+actions:
+- action_id: synchronize-handoff
+  description: Update both matching pending handoff entries to acknowledge completed
+    reading and retain identity/mapping/record/review work as pending. Append EDIT
+    history and save a linked successor.
+  finding_ids:
+  - stale-reading-handoff
+  target_ids:
+  - AIMech:DiscoveryLlamaHandoff20261013
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T234601Z-deep-continuous-clustering.json
+    role: maintained
+  acceptance_checks:
+  - Only the two matching handoff entries and an actual report update timestamp change.
+  - Concept records, source-reading evidence, source hashes and completed discovery
+    dispositions remain unchanged.
+  - Validate JSON, history and canonical review bundles, and recheck the whole-corpus
+    publication result.
+limitations:
+- Partial provenance author self-review only; no scientific assessment or independent
+  approval.
+related_reviews: []
+links:
+- https://github.com/CultureBotAI/AIMech/issues/323
+tags:
+- self-review
+- discovery-provenance

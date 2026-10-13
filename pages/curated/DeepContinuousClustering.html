@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep continuous clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Deep continuous clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Deep continuous clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeepContinuousClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A clustering algorithm that jointly learns a nonlinear autoencoder and one latent representative per observation by combining reconstruction with robust observation-to-representative and graph-pair losses, then extracts groups from representative distances without a supplied cluster count.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 659 native IDs, names, aliases and scoped synonyms for the full concept name and local ID; no normalized full-name or local-ID match. The shared DCC acronym was separately inspected and disambiguated as documented below. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 22, 0, 0 lines. All distinct match contents were read, including pending discovery entries and source-reading observations. Recovery hits concern pending Deep Continuous Clustering discovery notes and primary-source context; none identifies an existing standalone Deep Continuous Clustering record. Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered 39 AIO and 219 native definitions, all read; unchanged definitions were byte-compared with the preceding full assessment. 9 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain joint nonlinear autoencoder and robust per-observation representative optimization, distinct from RCC fixed-feature optimization, RCC-DR sparse linear representation, DEC refreshed Student-t targets, DeepCluster pseudo-label classification and JULE agglomeration. The paper acronym DCC separately matches AIO:DynamicConditionalCorrelation, whose exact node describes a time-series covariance model. That acronym is not a native alias and does not establish identity.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#joint-continuous-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DCC jointly optimizes a nonlinear autoencoder and one free latent representative z_i per observation. With encoder outputs y_i, input dimension D and latent dimension d, Equation 3 combines reconstruction squared error divided by D with a robust data term and a weighted graph-pair term, both divided by d. The two robust penalties use rho(r;mu)=mu*r²/(mu+r²). Reconstruction remains active during clustering. A supplied number of clusters is not required; this does not make the method parameter-free.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3.1, Equations 1–5, PDF pp. 2–3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-loss">DCC author implementation: pytorch/DCCLoss.py</a></span>
+        <span>· <strong>Locator:</strong> DCCWeightedELoss.forward and DCCLoss.forward, complete 53-line file</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-input-graph</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper constructs a fixed graph on original input observations using mutual nearest neighbors augmented with a minimum spanning tree of the k-nearest-neighbor graph. Edge weights are average graph degree divided by the square root of the endpoint degree product. An MST within a disconnected kNN graph cannot itself connect separate components. The paper initializes lambda from the spectral norm of the latent data divided by that of the weighted Laplacian and keeps it fixed. The pinned compute_lambda instead includes the identity contribution in the spectral denominator; its formula is not identical to the paper ratio.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Equation 5 and lambda paragraph, PDF p. 3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-computation">DCC author implementation: pytorch/DCCComputation.py</a></span>
+        <span>· <strong>Locator:</strong> makeDCCinp and compute_lambda</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#edge-minibatch-optimization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Minibatches sample graph edges and contain their incident observations. The node weight is within-batch degree divided by full-graph degree, compensating for repeated node appearances. Adam updates network parameters and the free representatives. The pinned loss divides reconstruction by batch vertex count times input dimension and both robust terms by batch vertex count times latent dimension. Because the vertex count can vary across edge batches, these normalizations are not asserted to yield an unbiased gradient of one fixed global objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equation 6, PDF pp. 3–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-data">DCC author implementation: pytorch/custom_data.py</a></span>
+        <span>· <strong>Locator:</strong> DCCFT_data.__getitem__ and DCCSampler</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-loss">DCC author implementation: pytorch/DCCLoss.py</a></span>
+        <span>· <strong>Locator:</strong> Both forward methods and size_average normalization</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-driver">DCC author implementation: pytorch/DCC.py</a></span>
+        <span>· <strong>Locator:</strong> Optimizer construction and train</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#formula-and-gradient-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed minibatch Equation 6 omits the pairwise 1/d factor present in Equation 3. The robust terms in displayed gradients 7–8 also omit the factor 2 obtained by differentiating the displayed Geman–McClure penalty. The pinned implementation applies the 1/d factor to both robust terms and invokes automatic differentiation of its loss. The record therefore distinguishes those printed expressions from the inspected implementation instead of asserting literal formula-to-code equivalence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Equations 3–4 and 6–8, PDF pp. 3–4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-loss">DCC author implementation: pytorch/DCCLoss.py</a></span>
+        <span>· <strong>Locator:</strong> DCCLoss.forward</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-driver">DCC author implementation: pytorch/DCC.py</a></span>
+        <span>· <strong>Locator:</strong> train: loss.backward and optimizer.step</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#initialization-and-continuation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Layerwise denoising-autoencoder pretraining followed by reconstruction fine-tuning initializes the network. The paper initializes representatives to encoded observations and decreases robust parameters toward the printed delta_i/2 floors. Its delta_1 is a mean unsquared centered latent distance and delta_2 a mean of the shortest initial graph-edge distances. The pinned code perturbs representative initialization by small Gaussian noise, uses mean squared centered distance for the data floor, filters edge lengths, and caps the sample used for the pair floor. These are distinct conventions; small samples, zero-size slices and filtering edge cases are not certified by this record.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 and Algorithm 1, PDF p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-loss">DCC author implementation: pytorch/DCCLoss.py</a></span>
+        <span>· <strong>Locator:</strong> DCCLoss.__init__</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-computation">DCC author implementation: pytorch/DCCComputation.py</a></span>
+        <span>· <strong>Locator:</strong> computeHyperParams</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-config">DCC author implementation: pytorch/config.py</a></span>
+        <span>· <strong>Locator:</strong> RCC constants</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#extraction-and-stopping-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper extracts connected components by thresholding representative distances and, after continuation, stops when fewer than 0.1% of original graph edges change between intra- and intercluster status. The pinned computeObj thresholds only supplied original edges. Its driver begins monitoring when the pair continuation reaches its floor; it increments a flag on more-than-threshold changes and stops at flag 4, without resetting the flag after a below-threshold observation. Starting at flag 1, that means three above-threshold observations rather than the paper convergence condition. The finite default epoch cap is separate. These are static source observations, not measured convergence or quality failures.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 stopping criterion and Algorithm 1, PDF p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-computation">DCC author implementation: pytorch/DCCComputation.py</a></span>
+        <span>· <strong>Locator:</strong> computeObj</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-driver">DCC author implementation: pytorch/DCC.py</a></span>
+        <span>· <strong>Locator:</strong> main: stopping_threshold, flag updates, continuation and nepoch default</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates image and document clustering with architecture, feature, hyperparameter and metric choices specific to each experiment. The author README describes a pretraining training/validation split and subsequent joint clustering of all data, and notes that its default adjusted-mutual-information definition differs from the paper. Empirical tables do not establish universal superiority, held-out generalization or portable runtime ratios. The later pinned code snapshot is not assumed to reproduce the 2018 experiments.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc2018">Deep Continuous Clustering</a></span>
+        <span>· <strong>Locator:</strong> Sections 4–5, PDF pp. 4–6; Appendices A–C, pp. 10–11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-readme">DCC author implementation: README.md</a></span>
+        <span>· <strong>Locator:</strong> Pretraining SDAE, DCC Fine-tuning and evaluation notes</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-dcc-computation">DCC author implementation: pytorch/DCCComputation.py</a></span>
+        <span>· <strong>Locator:</strong> benchmarking and AMI TODO</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The nonconvex network and robust objective provide no general global-optimum or semantic-cluster-recovery guarantee. Graph, architecture, initialization, continuation and extraction choices affect results.</li>
+      <li>Not requiring K does not establish correct recovery of the true cluster count. Reconstruction discourages some representation distortions without certifying semantic fidelity.</li>
+      <li>Printed equations, continuation, threshold-graph scope and stopping rules differ from the pinned implementation. Static differences and standalone scalar checks are not end-to-end execution results.</li>
+      <li>All 11 versioned primary pages and the complete cited files were read. Other source revisions, graph-building code, complete architecture/feature-extraction code, datasets and checkpoints were not audited or executed.</li>
+      <li>No model fitting, author-code execution, empirical replication or formal convergence certification was performed. The record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DCC learns groups from unlabeled observations. The AIO target is the task, while this local record specifies the joint representation-and-clustering algorithm; no equivalence or subclass assertion is made.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Learning a lower-dimensional nonlinear representation is an explicit jointly optimized part of DCC. The AIO target describes that task, not this particular algorithm or an assertion that its learned representation always preserves semantics.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-dcc2018">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc2018</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1803.01449v1" target="_blank" rel="noopener">Deep Continuous Clustering</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sohil Atul Shah, Vladlen Koltun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1803.01449v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c2da1731647…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-driver">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-driver</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCC.py" target="_blank" rel="noopener">DCC author implementation: pytorch/DCC.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f9cd9d9fd7da…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-computation">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-computation</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCCComputation.py" target="_blank" rel="noopener">DCC author implementation: pytorch/DCCComputation.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8a3d881411a5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-loss">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-loss</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCCLoss.py" target="_blank" rel="noopener">DCC author implementation: pytorch/DCCLoss.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:17aa4b4bd064…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-data">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-data</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/custom_data.py" target="_blank" rel="noopener">DCC author implementation: pytorch/custom_data.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:659da86ffe38…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-config">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-config</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/config.py" target="_blank" rel="noopener">DCC author implementation: pytorch/config.py</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7504891bd2cc…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-dcc-readme">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">dcc-readme</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/README.md" target="_blank" rel="noopener">DCC author implementation: README.md</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            DCC repository contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f643b3d9c7fb…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T23:46:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T23:46:01Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepContinuousClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepContinuousClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
