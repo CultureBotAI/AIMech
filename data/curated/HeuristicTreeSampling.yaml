@@ -1,0 +1,181 @@
+id: AIMech:HeuristicTreeSampling
+name: Heuristic tree sampling
+aliases:
+- Chen heuristic sampling
+concept_kind: algorithm
+definition: A randomized estimator of additive properties of an implicit rooted tree that processes ordered
+  strata using one sampled representative and an accumulated weight per stratum.
+identity_notes: 'Compared all 442 pinned AIO and 641 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 29, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 85 AIO and 377 native definitions, with every matched definition
+  read. 12 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain
+  Chen’s ordered weighted-representative tree-functional estimator. The 2013 heuristic-informed IDA* method
+  applies this estimator with cost-aware types and ancestor-pruned search-tree generation; represent it
+  as a scoped variant within the general identity. Original CDP and LookupCDP extrapolate a domain model,
+  while this procedure samples the query tree. Gumbel configuration sampling and TreeSHAP attributions
+  have different sampling laws or target functionals. Bare HS/SS acronyms are not aliases: 1992 SS means
+  simple sampling, 2013 SS means stratified sampling.'
+definition_evidence:
+- source_id: chen1992hs
+  locator: Sections2–3, PDF pp.2–3 / printed296–297, Equations 1–2 and Algorithm HS
+  relation: supports
+claims:
+- claim_id: ordered-weighted-representatives
+  kind: mechanism
+  statement: Start with root weight one and process strata in parent-before-child order. A child inherits
+    its parent’s weight. Merge arrivals in the same pending stratum by adding weights, selecting the incoming
+    representative with probability equal to its weight divided by the new total. Report the sum of representative
+    weights times their node-function values.
+  evidence:
+  - source_id: chen1992hs
+    locator: Section3, PDF pp.2–3 / printed296–297; Algorithm HS
+    relation: supports
+- claim_id: expectation-and-tree-scope
+  kind: scope
+  statement: For a finite tree, fixed node functional and valid ordering and random choices, the weighted
+    estimator is unbiased. This expectation statement does not make each sample accurate. Repeated graph
+    states remain distinct tree-path occurrences unless a separately justified graph-counting method is
+    supplied.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections2–4.3, PDF pp.2–6 / printed296–300, Theorem 4
+    relation: supports
+- claim_id: strata-and-work-boundaries
+  kind: limitation
+  statement: Stratum homogeneity can reduce variance, but stratum labels alone do not guarantee accuracy.
+    The number of expanded representatives is bounded by the number of strata; generating children and
+    evaluating the stratifier still incur work. The source’s stronger variance bounds have additional
+    assumptions.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections3–4.7, PDF pp.3–13 / printed297–307; Section5, pp.14–15 / printed308–309
+    relation: supports
+- claim_id: ida-star-variant
+  kind: scope
+  statement: The later IDA* application uses heuristic-informed types and samples the actual bounded search
+    tree, including ancestor cutoffs. Its parent, child and grandchild contexts are variants of the weighted-stratum
+    estimator, not CDP’s domain-model extrapolation.
+  evidence:
+  - source_id: lelis2013prediction
+    locator: Sections8–10, PDF pp.17–23 / printed68–74
+    relation: supports
+- claim_id: finite-probe-limitations
+  kind: limitation
+  statement: An unbiased estimator can miss rare deep branches in every run of a small sample. The reported
+    knight-tour experiments include zero estimates at depths with nonzero actual counts. Such observations
+    do not establish absence of deep nodes or solutions, and examined-node counts alone do not certify
+    runtime gains.
+  evidence:
+  - source_id: chen1992hs
+    locator: Section5, PDF pp.13–17 / printed307–311, Tables 1–2
+    relation: supports
+evidence_sources:
+- source_id: chen1992hs
+  title: 'Heuristic Sampling: A Method for Predicting the Performance of Tree Searching Programs'
+  authors:
+  - Pang C. Chen
+  persistent_id: doi:10.1137/0221022
+  version: 'University-hosted copy of SIAM Journal on Computing 21(2), April 1992, pp.295–315;21 PDF pages.
+    All pages visually read: Sections 1–6, full Appendix, Equations 1–112, numbered formal results 1–19,
+    Algorithm HS/Figure 1, Figure 2, Tables 1–2 and all 10references. Original issue year 1992 differs
+    from publisher online date 2006. Dissertation and author implementation excluded.'
+  source_type: primary_paper
+  url: https://bpb-us-e2.wpmucdn.com/sites.uci.edu/dist/8/175/files/2015/10/Chen-Heuristic-Sampling-1992.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:40:29Z'
+  sha256: 17dffdd9c09fa4a1a75a77ba69500aeed12f376b0a43fcc9f6495410a2c5ef64
+- source_id: lelis2013prediction
+  title: Predicting the size of IDA*’s search tree
+  authors:
+  - Levi H. S. Lelis
+  - Sandra Zilles
+  - Robert C. Holte
+  persistent_id: doi:10.1016/j.artint.2013.01.001
+  version: 'Author-hosted personal-copy PDF: one cover plus 24 journal pages, Artificial Intelligence
+    196 (2013), pages 53–76. PDF pages 2–25 correspond to printed pages 53–76. All 25 pages visually inspected:
+    Sections 1–13, Equations 1–6 and unnumbered formulas, Definitions 1–5, Algorithm 1, Figures 1–8, Tables
+    1–17 and all 28 references. Earlier conference papers and author code were not inspected.'
+  source_type: primary_paper
+  url: https://webdocs.cs.ualberta.ca/~santanad/papers/2013/ARTINT2694.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:23:34Z'
+  sha256: ee16910b3529eab60bc1527773d4d91d77d81778a153d33f7a8d6e80c09f6fba
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Compared all 442 pinned AIO and 641 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 29, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 85 AIO and 377 native definitions, with every matched definition
+    read. 12 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    Retain Chen’s ordered weighted-representative tree-functional estimator. The 2013 heuristic-informed
+    IDA* method applies this estimator with cost-aware types and ancestor-pruned search-tree generation;
+    represent it as a scoped variant within the general identity. Original CDP and LookupCDP extrapolate
+    a domain model, while this procedure samples the query tree. Gumbel configuration sampling and TreeSHAP
+    attributions have different sampling laws or target functionals. Bare HS/SS acronyms are not aliases:
+    1992 SS means simple sampling, 2013 SS means stratified sampling.'
+  rationale: No suitable AIO counterpart was established for the inspected weighted-stratum tree-functional
+    estimator. Tree classifiers, language models, bias phenomena, general tasks and Markov-network terminology
+    do not identify this procedure; the no-match assessment is bounded to the pinned snapshot and inspected
+    contexts.
+  examined_targets:
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned class denotes a classification model; an implicit search tree and its
+      count estimator are not a trained decision-tree classifier.
+  - target: AIO:MarkovChain
+    rejection_reason: Random representative replacement alone does not identify the pinned network/process
+      class or a substantive conditional type-transition model. Treating the entire algorithmic state
+      as Markov would be an uninformative forced mapping.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: The record is a sampling algorithm with an expectation claim, not the computational
+      bias phenomenon defined by this class.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The additive tree functional is an input; the maintained identity is the randomized
+      estimation procedure.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The algorithm samples an existing implicit tree and need not learn a model or perform
+      a machine-learning task.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: No response-surface regression is required for the weighted tree estimate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Sampling tree nodes to estimate a sum does not learn a reward-maximizing policy
+      or define exploration–exploitation control.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The search tree is not asserted to factor a joint distribution of random variables;
+      no graphical-model learning task is required.
+  - target: AIO:BayesianNetwork
+    rejection_reason: An implicit rooted search tree is not by itself a Bayesian-network factorization
+      or a sampler from its joint law.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: No graph-based language model is required.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The procedure is not a language-model reasoning architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Tree-structured neural language composition is distinct from randomized additive
+      tree-functional estimation.
+limitations:
+- The ordering must keep every parent stratum before its child strata. Arbitrary heuristic values that
+  can repeat or reverse along edges are insufficient without a valid ordering component such as depth.
+- For incoming weight 3 and existing weight 1 with subtree values 5 and 1, weighted representative replacement
+  has expectation 16. Uniform replacement with the unchanged total weight instead gives 12. The source’s
+  importance-sampling variant changes the survivor weight as well as the selection probability.
+- A constructed rare-branch tree has 2001 nodes and an unbiased depth-only estimate, yet five independent
+  probes miss its deep nodes with probability greater than 0.99. Unbiasedness does not certify finite-probe
+  accuracy, confidence intervals or solution absence.
+- 'The fixed-tree unbiasedness result is distinct from nonnegative-functional variance bounds and random-graph
+  average results. Appendix Equation 99 prints an inequality in the wrong direction for k>r: k=4, r=3
+  gives 3 rather than at most 1.5. That printed asymptotic-proof step is qualified; the core sampling
+  algorithm and uninspected author implementation are not thereby declared incorrect.'
+- All 21 pages of the Chen journal copy and 25 pages of the 2013 journal copy were visually read. Dissertation,
+  earlier conference full texts, author software and benchmark replication were not inspected or executed.
+  Constructed checks are finite mathematical examples.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T19:20:27Z'
+  updated_at: '2026-10-13T19:20:27Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
