@@ -6,18 +6,22 @@ concept_kind: architecture
 definition: A neural architecture family built from learned template-similarity operations and MEX log-mean-exp
   operations that combine shifted similarity responses, with local sharing and pooling available in image-processing
   configurations.
-identity_notes: Compared all 442 pinned AIO and 614 native IDs, names, aliases and scoped synonyms; no
-  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
-  discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were
-  inspected. Semantic matching covered 30 AIO and 55 native definitions, with every matched definition
-  read. 6 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. SimNet
-  denotes Cohen and Shashua’s architecture family composed from similarity and MEX operators. It is not
-  SimSiam similarity-based representation learning, a dynamic generated-kernel layer, a generic Siamese
-  network or every network with a similarity score. The generic phrase similarity network was searched
-  for ambiguity but is not asserted as an unqualified exact alias.
+identity_notes: 'Compared all 442 pinned AIO and 620 native IDs, names, aliases and scoped synonyms; the
+  SimNet/SimNets identities match AIMech:SimNet and are reused.  Ignored- and hidden-inclusive fixed-string
+  searches of the recovery, older discovery and original Documents checkouts returned 1138, 0, 0 lines.
+  All distinct match contents were inspected. Semantic matching covered 22 AIO and 60 native definitions,
+  with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 2 full native
+  records were inspected. Reuse AIMech:SimNet: the2016 source explicitly extends the same similarity/MEX
+  architecture with stacked blocks. Deep configurations fall within the existing family definition, and
+  a new title or deeper evaluation alone does not justify a separate ID. Deep SimNets is a scoped configuration
+  designation, not added as an unqualified exact alias of every family member. MEXOperator is a scalar
+  component; FastICA is an estimation algorithm that may initialize a transform, not this complete architecture.'
 definition_evidence:
 - source_id: cohen2014
   locator: Section 2, PDF pp. 2–3, Equations 1–2; Figure 1, p. 4
+  relation: supports
+- source_id: cohen2016
+  locator: Sections 2–4, PDF pp. 2–5; Figure 1, p. 4
   relation: supports
 claims:
 - claim_id: similarity-and-template-sharing
@@ -95,6 +99,34 @@ claims:
     locator: Section 6 and Figure 3, PDF pp. 9–10; Figures 4–5 and Sections 6.1–6.3, pp. 11–13; Discussion,
       pp. 13–14
     relation: supports
+- claim_id: deep-stacking-and-whitening
+  kind: mechanism
+  statement: The later Deep SimNets construction stacks blocks consisting of a linear convolution followed
+    by a one-by-one weighted powered-distance similarity layer, optionally separated by spatial MEX pooling,
+    before offset-MEX classification and global MEX aggregation. Layerwise initialization can estimate
+    a whitening or independent-component transform and a generalized-Gaussian mixture on transformed patches.
+    This extends the same similarity/MEX family. Whitening by covariance alone does not guarantee independent
+    coordinates, and joint learning need not preserve the initial whitening. Intervening learned similarity
+    transforms prevent treating a deep stack as one nested MEX collapse.
+  evidence:
+  - source_id: cohen2016
+    locator: Sections 4.2–4.3 and 5, PDF pp. 4–5; Figure 1(b,d), p. 4; algebraic independence and composition
+      qualifications
+    relation: supports
+- claim_id: deep-evaluation-resource-boundary
+  kind: limitation
+  statement: The followup evaluates one-, two- and three-layer configurations on CIFAR and SVHN image
+    classification. Its compact two-layer comparison uses cross-validated SimNet settings versus stock
+    Caffe ConvNet settings; the reported accuracy ordering differs across datasets. Computational comparisons
+    use estimated floating-point operations and parameter counts, and the paper explicitly does not compare
+    actual runtimes. Approximate exponential/logarithm costs are part of that accounting. The larger configuration
+    additionally uses augmentation and multiplicative Gaussian noise, so these experiments do not isolate
+    the effect of MEX or prove universal expressivity, latency or accuracy superiority. Automatic architecture
+    selection from unlabeled statistics remains a proposed capability rather than an evaluated result.
+  evidence:
+  - source_id: cohen2016
+    locator: Sections 6.1–6.4, PDF pp. 6–8, Tables 1–2 and footnotes 4–6; Section 7, p. 8
+    relation: supports
 evidence_sources:
 - source_id: cohen2014
   title: 'SimNets: A Generalization of Convolutional Networks'
@@ -102,15 +134,29 @@ evidence_sources:
   - Nadav Cohen
   - Amnon Shashua
   persistent_id: arXiv:1410.0781v3
-  version: arXiv:1410.0781v3, 7 December 2014, 19 PDF pages including Appendices A–B; all pages visually
-    read. PDF/printed page numbers coincide. No journal acceptance, author implementation or empirical
-    replication inferred. The later Deep SimNets paper was encountered as an abstract-only followup, not
-    used as claim evidence.
+  version: arXiv:1410.0781v3,7December2014,19PDF pages including AppendicesA–B. All pages visually read;
+    original access timestamp/hash retained. Later followup is separately identified as cohen2016; no
+    author implementation or empirical replication.
   source_type: primary_paper
   url: https://arxiv.org/pdf/1410.0781v3
   access_level: full_text
   accessed_at: '2026-10-13T11:58:05Z'
   sha256: 91119773f55d79557a02212c71a3c49d491223229b5354b24610eb0d3e89de26
+- source_id: cohen2016
+  title: Deep SimNets
+  authors:
+  - Nadav Cohen
+  - Or Sharir
+  - Amnon Shashua
+  persistent_id: arXiv:1506.03059v2
+  version: arXiv1506.03059v2,29March2016,10PDF pages; primary metadata identifies CVPR2016pp4782–4791.
+    All10PDF pages visually read; locators use arXiv pages1–10. Author implementation and hardware timing
+    not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1506.03059v2
+  access_level: full_text
+  accessed_at: '2026-10-13T12:55:49Z'
+  sha256: 39685f78ea0dab8f12f3901b0631ae076eaffe3799ef231e9e26913631f6fbb7
 aio_snapshot:
   commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
   sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
@@ -125,21 +171,23 @@ aio_mappings:
     members need not use the pinned convolutional components or image-specific scope, so the relationship
     is recorded without equivalence or a forced subclass direction.
 limitations:
-- SimNet here denotes the original similarity/MEX architecture family; SimSiam and generic similarity-based
-  methods are different concepts. The later Deep SimNets full paper remains an uninspected followup.
+- SimNet denotes the similarity/MEX architecture family across the inspected 2014 and 2016 papers. The
+  deeper stacked configurations are retained within that stable identity; a separate DeepSimNet ID or
+  unqualified exact alias is not created.
 - MEX limits, nested-collapse conditions and optional constants matter. A powered distance and a weighted
   template response are not automatically kernels or posterior probabilities.
 - The specific kernel constructions do not establish identical training objectives, arbitrary learned-weight
   kernel equivalence or universal expressivity/performance dominance.
-- Original experiments use a shallow patch-labeling configuration and cross-validation comparisons; parameter
-  savings are not hardware-speed measurements, and initialization effects remain protocol-dependent.
-- All 19 primary PDF pages visually read, including mathematical appendices. Constructed calculations
-  illustrate boundaries; no independent formal-proof certification, author code, training or benchmark
-  replication. DRAFT remains.
+- The original paper evaluates shallow patch-labeling and cross-validation configurations; the followup
+  adds deeper image classifiers with different initialization and tuning settings. FLOP and parameter
+  savings are not measured latency, energy or deployment performance.
+- All 19 original and 10 followup PDF pages visually read, including the original mathematical appendices.
+  Constructed calculations illustrate boundaries; no independent formal-proof certification, author code,
+  training or benchmark replication. DRAFT remains.
 review_status: DRAFT
 curation:
   created_at: '2026-10-13T12:10:13Z'
-  updated_at: '2026-10-13T12:10:13Z'
+  updated_at: '2026-10-13T13:12:59Z'
   curator: Codex
   method: ai_assisted
   model: GPT-6
