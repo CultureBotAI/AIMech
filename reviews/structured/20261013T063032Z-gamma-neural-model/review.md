@@ -1,0 +1,635 @@
+# Scientific author self-review of Gamma neural model
+
+- Review: 20261013T063032Z-gamma-neural-model
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T06:24:26Z
+- Finished UTC: 2026-10-13T06:30:32Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the Gamma neural model as a distinct DRAFT architecture with a broader recurrent-network mapping. Six claims and all maintained fields are supported within the two inspected proceedings sources and mathematical qualifications. The confirmed minor citation-scope finding is resolved by a narrow claim edit; no further actionable findings or author-code/training execution.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:GammaNeuralModel
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base cbcef8ab980d8f92922f715e9f3659e05b648f47.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GammaNeuralModel | data/curated/GammaNeuralModel.yaml | maintained | Gamma neural model |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GammaNeuralModel | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 165.44s (0:02:45)<br>Checked 442 record(s); 0 failed.<br>Checked 581 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 238 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 237,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GammaNeuralModel | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GammaNeuralModel | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GammaNeuralModel | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:GammaNeuralModel | {"half_rate_impulse_first_five": [["0", "0", "0"], ["1/2", "0", "0"], ["1/4", "1/4", "0"], ["1/8", "1/4", "1/8"], ["1/16", "3/16", "3/16"], ["1/32", "1/8", "3/16"]], "unit_rate_delay_line": [["0", "0", "0"], ["1", "0", "0"], ["0", "1", "0"], ["0", "0", "1"], ["0", "0", "0"]], "zero_rate_nonzero_initial_states": [["2", "-1"], ["2", "-1"], ["2", "-1"], ["2", "-1"]], "two_rate_bounded_input_unbounded_output": ["0", "2", "-4", "6", "-8", "10", "-12", "14", "-16"], "continuous_order3_rate2": {"mass": "1", "mean": "3/2", "variance": "3/4"}, "fixed_rate_sensitivities": [-0.07199999999999995, 0.6399999999999999], "finite_difference_sensitivities": [-0.07200000000373574, 0.6399999999823214]} |
+
+## Scientific And Domain Assessments
+
+### Gamma neural model
+
+identity: supported. Targets: AIMech:GammaNeuralModel.
+
+Retain this distinct DRAFT architecture.
+
+Retain the Gamma cascade family; focused input-memory placement is a configuration, not an exact synonym for every Gamma topology. Gamma kernels in unrelated probability models or consistency-learning names do not match. Native SCRN, temporal-kernel, Clockwork and stack mechanisms are separately inspected identity context.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:GammaNeuralModel.
+
+Mapping direction and scope are supported.
+
+The general augmented neural state and focused recurrent memory support the broader RecurrentNeuralNetwork mapping. A spatially feedforward mapper does not remove memory recurrence. Generic feedback, convolution and simple RNN-layer contexts do not provide exact identity or a better broader match.
+
+### continuous-gamma-cascade
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations3–11 define normalized continuous basis kernels and the zero-history cascade. Weighted signed matrices are not a probability mixture. Increasing-order approximation under decay conditions is not arbitrary finite-order exactness.
+
+### discrete-memory-and-delay-boundaries
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+Both recurrences use previous lower-stage states; the exact impulse expansion matches simultaneous updates. Mu1 is a pure tapped delay; mu0 captures no new input and retains initial traces. Mean depth is not an exact retrieval horizon.
+
+### stability-scope
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+The fixed-stage pole1-mu gives the strict stable interval. At mu2 bounded alternating input produces unbounded magnitude; mu0 lacks initial-state forgetting. The later paper uses strict endpoints. Fixed linear memory stability cannot certify an arbitrary coupled/adapting network.
+
+### focused-network-configuration
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+Source Figures1 and the focused paper explicitly specify recurrent input memory feeding a static mapper and describe other placements as extensions. The corrected claim removes the later-architecture comparison beyond its attached evidence; the identity context is retained separately.
+
+### learning-choices-and-optimality
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+Temporal Hebbian and spatial-backprop/memory-sensitivity approaches are scoped learning options. The fixed-rate derivative agrees with finite differences. Neither the formulas nor the experiments prove automatic integer-order selection, online exactness under drift or always-optimal depth.
+
+### evaluation-boundaries
+
+evidence: supported. Targets: AIMech:GammaNeuralModel.
+
+Supported within the stated primary-source and mathematical scope.
+
+All EEG, Mackey–Glass and linear-identification figures, table and text read. EEG uses a mu grid; Mackey–Glass uses selected online adaptation and is described as similar to TDNN in the conclusion. Conditional identification benefits are not universal efficiency or biological causal findings.
+
+### continuous/discrete conventions, cascade indexing, strict stability endpoints, finite-order expressivity, training claims and citation scope
+
+consistency: supported. Targets: AIMech:GammaNeuralModel.
+
+Constructed calculations support the stated distinctions.
+
+Exact rational impulse-response expansion verifies synchronous cascades and the delay-line limit. Zero-rate initialization and a bounded alternating input at mu2 demonstrate endpoint caveats. Continuous kernel moments and fixed-rate sensitivity finite differences check declared meanings without model fitting or author-code execution.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:GammaNeuralModel.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. The corrected complete record and mapping were read after fresh capture. The claim now concerns only the Gamma configuration supported by its sources; native-neighbor comparisons remain in the separately documented identity assessment. One predecessor finding is resolved; no further actionable defect found.
+
+## Findings
+
+### F1: Keep the focused-configuration claim within its cited source scope
+
+minor / resolved / confirmed; issue key: gamma-native-comparison-claim-citations.
+
+The final sentence compares gamma cascades with single-exponential context, parallel temporal-kernel components and Clockwork updates. The attached sources are the1990/1991 Gamma papers and do not establish the later architectures. Those neighbors were separately inspected for identity and remain documented in identity_notes and the report mapping context. Remove the redundant cross-method sentence from this claim, or attach the actual counterpart evidence; do not imply the early Gamma papers support the later named comparison.
+
+Disposition: Removed the redundant later-architecture comparison from the claim, retaining the inspected native-neighbor identity assessment. The attached early Gamma sources support the remaining focused-configuration statements. Record/report mirror, actual EDIT history and rendered pages were updated; corrected inputs were freshly captured and read, and required post-edit gates passed.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T062004Z-gamma-neural-model.json | supports | Compared all 442 pinned AIO and 580 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 65 AIO and 156 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Prior matches carry the temporal-kernel report’s pending Gamma lead. Cascaded gamma traces differ from SCRN’s separate exponential context, TKRNN’s factored parallel temporal kernels, Clockwork’s module schedule and NNPDA’s external fractional-symbol stack. Focused gamma input-memory placement is a source-defined configuration within the broader architecture. A gamma distribution in a separate probabilistic method and the unrelated consistency-learning Gamma-model cohort do not imply identity. Full recurrent-network scope supports the broader mapping; generic feedback, convolution and simple recurrent-layer contexts do not supply an exact or more appropriate broader match. |
+| mapping | sources/aio/aio.json | supports | The general augmented neural state and focused recurrent memory support the broader RecurrentNeuralNetwork mapping. A spatially feedforward mapper does not remove memory recurrence. Generic feedback, convolution and simple RNN-layer contexts do not provide exact identity or a better broader match. |
+| devries1990 | https://proceedings.neurips.cc/paper_files/paper/1990/file/6c524f9d5d7027454a783c841250ba71-Paper.pdf; All seven theory and eight focused-paper pages read. Theory pp2,4,6 and focused pp3,4,7 reread during initial review; focused pp3,7 reread again after the scoped correction and fresh capture. The1992 journal full text and author implementation remain uninspected; no fitting or replication. | supports | NeurIPS/NIPS1990 proceedings, Advances in Neural Information Processing Systems3, printed pp.162–168. All seven PDF pages, Equations1–16, Figure1 and references visually read. |
+| principe1991 | https://papers.neurips.cc/paper_files/paper/1991/file/e1e32e235eee1f970470a3a6658dfdd5-Paper.pdf; All seven theory and eight focused-paper pages read. Theory pp2,4,6 and focused pp3,4,7 reread during initial review; focused pp3,7 reread again after the scoped correction and fresh capture. The1992 journal full text and author implementation remain uninspected; no fitting or replication. | supports | NeurIPS/NIPS1991 proceedings, Advances in Neural Information Processing Systems4, printed pp.143–150. All eight PDF pages, equations, Figures1–5, TableI and references visually read. |
+| calculation | research/discovery/gamma-neural-boundaries.py | supports | Exact rational impulse-response expansion verifies synchronous cascades and the delay-line limit. Zero-rate initialization and a bounded alternating input at mu2 demonstrate endpoint caveats. Continuous kernel moments and fixed-rate sensitivity finite differences check declared meanings without model fitting or author-code execution. |
+| predecessor | reviews/structured/20261013T062322Z-gamma-neural-claim-citations-open/review.yaml | supports | Initial partial review identified the claim-citation gap; the corrected claim drops the redundant later-architecture sentence while retaining separately documented identity context. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined corrected-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 581 native and 442 unchanged generated records. The 765-entry main frontier retains 481 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All seven theory and eight focused-configuration proceedings pages visually read, including all equations, figures, tables and references. The1992 journal article institutional abstract/metadata was inspected, but attempted CiteSeer PDF returned404; no journal full-text reading is asserted. Neither author implementation nor later adaptive-filter paper inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T063032Z-gamma-neural-model
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Gamma neural model
+started_at: '2026-10-13T06:24:26Z'
+finished_at: '2026-10-13T06:30:32Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged continuous/discrete conventions, cascade
+    indexing, strict stability endpoints, finite-order expressivity, training claims
+    and citation scope. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the Gamma neural model as a distinct DRAFT architecture with a broader
+  recurrent-network mapping. Six claims and all maintained fields are supported within
+  the two inspected proceedings sources and mathematical qualifications. The confirmed
+  minor citation-scope finding is resolved by a narrow claim edit; no further actionable
+  findings or author-code/training execution.
+source:
+  git_revision: cbcef8ab980d8f92922f715e9f3659e05b648f47
+  state: working_tree
+  inputs:
+  - path: data/aio/Convolution1DLayer.yaml
+    sha256: 4d7c7bef628e3b308ad22eb41f2959bb65e34edebfd9336c9d7c05dc9feb645c
+    role: context
+  - path: data/aio/FeedbackNetwork.yaml
+    sha256: 74d1e22e6d446bd06278d8503785333cd4ae97c00cb4831a0c482347965ef0ba
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/SimpleRNNLayer.yaml
+    sha256: 6e93e3bd5702eb0a1109a12526138ae8aed009f30cc7cb764b0c7db4fa3f0bbe
+    role: context
+  - path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+    sha256: 465373ea285a9c4102069b1cef3023c52328a10ccc526855aea218bcec3f41fa
+    role: context
+  - path: data/curated/GammaNeuralModel.yaml
+    sha256: 496ce0a31262d619eac9d487ca2ed3e5971abbd28c9dce1688a5be50430a6fb5
+    role: target
+  - path: data/curated/NeuralNetworkPushdownAutomaton.yaml
+    sha256: 71b3ba6474d3a8fca545d1f33c4a46da156d419ffe82e21ca048114967663f2c
+    role: context
+  - path: data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml
+    sha256: 03df44109ede633bd0f41cf2b7b355ac0708ff53411e5ef1a9f69d131380f6bc
+    role: context
+  - path: data/curated/TemporalKernelRecurrentNeuralNetwork.yaml
+    sha256: fdb23e4953d5eb0d52410b7d7046ef95fca6c64ab677e439153f327443e441d4
+    role: context
+  - path: research/discovery/20261013T062004Z-gamma-neural-model.json
+    sha256: 0062a9a5af0b634c25707ac900683e02ab470409b0b26316f77502749ce71e01
+    role: context
+  - path: research/discovery/gamma-neural-boundaries.py
+    sha256: 807637564da45e4add8e727e7b328846eb6c2fe988cf8aeb2c65e13af9b1de53
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GammaNeuralModel
+  path: data/curated/GammaNeuralModel.yaml
+  label: Gamma neural model
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GammaNeuralModel.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:GammaNeuralModel'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GammaNeuralModel
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All seven theory and eight focused-paper pages read. Theory pp2,4,6 and
+      focused pp3,4,7 reread during initial review; focused pp3,7 reread again after
+      the scoped correction and fresh capture. The1992 journal full text and author
+      implementation remain uninspected; no fitting or replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 165.44s (0:02:45)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 581 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 238 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 237,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/gamma-neural-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GammaNeuralModel
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"half_rate_impulse_first_five": [["0", "0", "0"], ["1/2", "0", "0"],
+    ["1/4", "1/4", "0"], ["1/8", "1/4", "1/8"], ["1/16", "3/16", "3/16"], ["1/32",
+    "1/8", "3/16"]], "unit_rate_delay_line": [["0", "0", "0"], ["1", "0", "0"], ["0",
+    "1", "0"], ["0", "0", "1"], ["0", "0", "0"]], "zero_rate_nonzero_initial_states":
+    [["2", "-1"], ["2", "-1"], ["2", "-1"], ["2", "-1"]], "two_rate_bounded_input_unbounded_output":
+    ["0", "2", "-4", "6", "-8", "10", "-12", "14", "-16"], "continuous_order3_rate2":
+    {"mass": "1", "mean": "3/2", "variance": "3/4"}, "fixed_rate_sensitivities": [-0.07199999999999995,
+    0.6399999999999999], "finite_difference_sensitivities": [-0.07200000000373574,
+    0.6399999999823214]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T062004Z-gamma-neural-model.json
+  accessed_at: '2026-10-13T06:24:26Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 580 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    65 AIO and 156 native definitions, with unchanged preceding rows verified and
+    new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full
+    native records were inspected. Prior matches carry the temporal-kernel report’s
+    pending Gamma lead. Cascaded gamma traces differ from SCRN’s separate exponential
+    context, TKRNN’s factored parallel temporal kernels, Clockwork’s module schedule
+    and NNPDA’s external fractional-symbol stack. Focused gamma input-memory placement
+    is a source-defined configuration within the broader architecture. A gamma distribution
+    in a separate probabilistic method and the unrelated consistency-learning Gamma-model
+    cohort do not imply identity. Full recurrent-network scope supports the broader
+    mapping; generic feedback, convolution and simple recurrent-layer contexts do
+    not supply an exact or more appropriate broader match.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T06:24:26Z'
+  support: supports
+  summary: The general augmented neural state and focused recurrent memory support
+    the broader RecurrentNeuralNetwork mapping. A spatially feedforward mapper does
+    not remove memory recurrence. Generic feedback, convolution and simple RNN-layer
+    contexts do not provide exact identity or a better broader match.
+- evidence_id: devries1990
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/1990/file/6c524f9d5d7027454a783c841250ba71-Paper.pdf
+  locator: All seven theory and eight focused-paper pages read. Theory pp2,4,6 and
+    focused pp3,4,7 reread during initial review; focused pp3,7 reread again after
+    the scoped correction and fresh capture. The1992 journal full text and author
+    implementation remain uninspected; no fitting or replication.
+  accessed_at: '2026-10-13T06:11:53Z'
+  snapshot_sha256: e5522677a922d9f1c0d50c51c9e8410828bc225f8201fa35fb8bcc585f580889
+  support: supports
+  summary: NeurIPS/NIPS1990 proceedings, Advances in Neural Information Processing
+    Systems3, printed pp.162–168. All seven PDF pages, Equations1–16, Figure1 and
+    references visually read.
+- evidence_id: principe1991
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/1991/file/e1e32e235eee1f970470a3a6658dfdd5-Paper.pdf
+  locator: All seven theory and eight focused-paper pages read. Theory pp2,4,6 and
+    focused pp3,4,7 reread during initial review; focused pp3,7 reread again after
+    the scoped correction and fresh capture. The1992 journal full text and author
+    implementation remain uninspected; no fitting or replication.
+  accessed_at: '2026-10-13T06:06:27Z'
+  snapshot_sha256: 696568f2a68f90bb60a22629ac4e62330384d809e63a84ac595b9837c7db24d0
+  support: supports
+  summary: NeurIPS/NIPS1991 proceedings, Advances in Neural Information Processing
+    Systems4, printed pp.143–150. All eight PDF pages, equations, Figures1–5, TableI
+    and references visually read.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/gamma-neural-boundaries.py
+  accessed_at: '2026-10-13T06:26:32Z'
+  snapshot_sha256: 807637564da45e4add8e727e7b328846eb6c2fe988cf8aeb2c65e13af9b1de53
+  support: supports
+  summary: Exact rational impulse-response expansion verifies synchronous cascades
+    and the delay-line limit. Zero-rate initialization and a bounded alternating input
+    at mu2 demonstrate endpoint caveats. Continuous kernel moments and fixed-rate
+    sensitivity finite differences check declared meanings without model fitting or
+    author-code execution.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T062322Z-gamma-neural-claim-citations-open/review.yaml
+  accessed_at: '2026-10-13T06:26:32Z'
+  snapshot_sha256: 44430ca486b37cccf06e5d96fca0585694a1b880b32bd0f0e06b236d094c2d10
+  support: supports
+  summary: Initial partial review identified the claim-citation gap; the corrected
+    claim drops the redundant later-architecture sentence while retaining separately
+    documented identity context.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Gamma neural model
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - identity
+  - devries1990
+  - principe1991
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain the Gamma cascade family; focused input-memory placement is a configuration,
+    not an exact synonym for every Gamma topology. Gamma kernels in unrelated probability
+    models or consistency-learning names do not match. Native SCRN, temporal-kernel,
+    Clockwork and stack mechanisms are separately inspected identity context.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - mapping
+  - devries1990
+  - principe1991
+  summary: Mapping direction and scope are supported.
+  details: The general augmented neural state and focused recurrent memory support
+    the broader RecurrentNeuralNetwork mapping. A spatially feedforward mapper does
+    not remove memory recurrence. Generic feedback, convolution and simple RNN-layer
+    contexts do not provide exact identity or a better broader match.
+- assessment_id: continuous-gamma-cascade
+  area: evidence
+  topic: continuous-gamma-cascade
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations3–11 define normalized continuous basis kernels and the zero-history
+    cascade. Weighted signed matrices are not a probability mixture. Increasing-order
+    approximation under decay conditions is not arbitrary finite-order exactness.
+- assessment_id: discrete-memory-and-delay-boundaries
+  area: evidence
+  topic: discrete-memory-and-delay-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - principe1991
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Both recurrences use previous lower-stage states; the exact impulse expansion
+    matches simultaneous updates. Mu1 is a pure tapped delay; mu0 captures no new
+    input and retains initial traces. Mean depth is not an exact retrieval horizon.
+- assessment_id: stability-scope
+  area: evidence
+  topic: stability-scope
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - principe1991
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The fixed-stage pole1-mu gives the strict stable interval. At mu2 bounded
+    alternating input produces unbounded magnitude; mu0 lacks initial-state forgetting.
+    The later paper uses strict endpoints. Fixed linear memory stability cannot certify
+    an arbitrary coupled/adapting network.
+- assessment_id: focused-network-configuration
+  area: evidence
+  topic: focused-network-configuration
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - principe1991
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Source Figures1 and the focused paper explicitly specify recurrent input
+    memory feeding a static mapper and describe other placements as extensions. The
+    corrected claim removes the later-architecture comparison beyond its attached
+    evidence; the identity context is retained separately.
+- assessment_id: learning-choices-and-optimality
+  area: evidence
+  topic: learning-choices-and-optimality
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - principe1991
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Temporal Hebbian and spatial-backprop/memory-sensitivity approaches are
+    scoped learning options. The fixed-rate derivative agrees with finite differences.
+    Neither the formulas nor the experiments prove automatic integer-order selection,
+    online exactness under drift or always-optimal depth.
+- assessment_id: evaluation-boundaries
+  area: evidence
+  topic: evaluation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - principe1991
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: All EEG, Mackey–Glass and linear-identification figures, table and text
+    read. EEG uses a mu grid; Mackey–Glass uses selected online adaptation and is
+    described as similar to TDNN in the conclusion. Conditional identification benefits
+    are not universal efficiency or biological causal findings.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: continuous/discrete conventions, cascade indexing, strict stability endpoints,
+    finite-order expressivity, training claims and citation scope
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - devries1990
+  - principe1991
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Exact rational impulse-response expansion verifies synchronous cascades
+    and the delay-line limit. Zero-rate initialization and a bounded alternating input
+    at mu2 demonstrate endpoint caveats. Continuous kernel moments and fixed-rate
+    sensitivity finite differences check declared meanings without model fitting or
+    author-code execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:GammaNeuralModel
+  evidence_ids:
+  - identity
+  - mapping
+  - devries1990
+  - principe1991
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. The corrected complete record and mapping were
+    read after fresh capture. The claim now concerns only the Gamma configuration
+    supported by its sources; native-neighbor comparisons remain in the separately
+    documented identity assessment. One predecessor finding is resolved; no further
+    actionable defect found.
+findings:
+- finding_id: F1
+  issue_key: gamma-native-comparison-claim-citations
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Keep the focused-configuration claim within its cited source scope
+  description: The final sentence compares gamma cascades with single-exponential
+    context, parallel temporal-kernel components and Clockwork updates. The attached
+    sources are the1990/1991 Gamma papers and do not establish the later architectures.
+    Those neighbors were separately inspected for identity and remain documented in
+    identity_notes and the report mapping context. Remove the redundant cross-method
+    sentence from this claim, or attach the actual counterpart evidence; do not imply
+    the early Gamma papers support the later named comparison.
+  target_ids:
+  - AIMech:GammaNeuralModel
+  field_paths:
+  - claims[claim_id=focused-network-configuration].statement
+  - claims[claim_id=focused-network-configuration].evidence
+  evidence_ids:
+  - predecessor
+  - devries1990
+  - principe1991
+  - identity
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GammaNeuralModel.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T062322Z-gamma-neural-claim-citations-open
+    finding_id: F1
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/246
+  disposition_reason: Removed the redundant later-architecture comparison from the
+    claim, retaining the inspected native-neighbor identity assessment. The attached
+    early Gamma sources support the remaining focused-configuration statements. Record/report
+    mirror, actual EDIT history and rendered pages were updated; corrected inputs
+    were freshly captured and read, and required post-edit gates passed.
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined corrected-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 581 native and 442 unchanged generated records.
+  The 765-entry main frontier retains 481 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All seven theory and eight focused-configuration proceedings pages visually read,
+  including all equations, figures, tables and references. The1992 journal article
+  institutional abstract/metadata was inspected, but attempted CiteSeer PDF returned404;
+  no journal full-text reading is asserted. Neither author implementation nor later
+  adaptive-filter paper inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T062322Z-gamma-neural-claim-citations-open
+  relationship: Resolves F1 after scoped claim edit, fresh capture, source reassessment
+    and passing publication gates.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
