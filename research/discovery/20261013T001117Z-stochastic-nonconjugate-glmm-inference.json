@@ -90,7 +90,7 @@
         {
           "claim_id": "expected-observation-curvature",
           "kind": "mechanism",
-          "statement": "For a selected cluster the scalar predictor means and variances are t_i=V_i*m+Z_i*m_i and v_i=diag(V_i*Q*V_i^T+Z_i*Q_i*Z_i^T). With positive Poisson exposures E_i, G_i=F_i=E_i*exp(t_i+v_i/2), elementwise. For Bernoulli-logit, G_ij=E[sigmoid(t_ij+sqrt(v_ij)*Z0)] and F_ij=E[sigmoid(T)*(1-sigmoid(T))] for the same T and Z0~N(0,1). These are one-dimensional normal expectations, approximated by quadrature for logistic observations. The standard-normal density uses exp(-z^2/2)/sqrt(2*pi); the missing half in the 2014 appendix display is qualified against the normalized construction and the 2013 source.",
+          "statement": "For a selected cluster the scalar predictor means and variances are t_i=V_i*m+Z_i*m_i and v_i=diag(V_i*Q*V_i^T+Z_i*Q_i*Z_i^T). With positive Poisson exposures E_i, G_i=F_i=E_i*exp(t_i+v_i/2), elementwise. For Bernoulli-logit, G_ij=E[sigmoid(t_ij+sqrt(v_ij)*Z0)] and F_ij=E[sigmoid(T)*(1-sigmoid(T))] for the same T and Z0~N(0,1). These are one-dimensional normal expectations, approximated by quadrature for logistic observations. The standard-normal density uses exp(-z^2/2)/sqrt(2*pi); the missing half occurs in both the 2014 Appendix B display (PDF p. 37) and the 2013 Section 4.3 display (PDF p. 8). The normalized construction in the 2013 Appendix B (PDF pp. 19–20) supports the expectation used here.",
           "evidence": [
             {
               "source_id": "tan2014",
@@ -99,7 +99,7 @@
             },
             {
               "source_id": "tan2013",
-              "locator": "Section 4.3 and Appendix B normalized Gaussian expectations, PDF pp. 8 and 19–20",
+              "locator": "Appendix B normalized standard-Gaussian expectations, PDF pp. 19–20; contrast the malformed Section 4.3 display on PDF p. 8",
               "relation": "supports"
             }
           ]
@@ -198,7 +198,7 @@
       ],
       "limitations": [
         "The record follows the stochastic natural-parameter derivation with frozen global targets and the full covariance moment in Appendix B. It does not certify Algorithm 2 as printed: that display omits Q_i in the inverse-Wishart target, and the sequential-looking display can obscure the old-global evaluation required by the simultaneous construction.",
-        "Additional source discrepancies are explicit: the Gaussian motivating weight matrix on PDF p. 5 uses an identity with the wrong dimension for a general design; Poisson curvature on p. 7 omits an exponential; the logistic normal weight on p. 37 omits a half in its exponent. The normalized 2013 construction, likelihood differentiation and the full Appendix B target delimit the supported reconstruction. No source implementation is claimed corrected or executed.",
+        "Additional source discrepancies are explicit: the Gaussian motivating weight matrix on PDF p. 5 uses an identity with the wrong dimension for a general design; Poisson curvature on p. 7 omits an exponential; the logistic normal weight on p. 37 omits a half in its exponent, as does the 2013 Section 4.3 display on PDF p. 8. The normalized 2013 Appendix B construction on PDF pp. 19–20, likelihood differentiation and the full Appendix B target delimit the supported reconstruction. No source implementation is claimed corrected or executed.",
         "The source sweep sampler and loose local-mean convergence check do not by themselves meet the fresh-batch, exact-local-envelope assumptions. Constant or diminishing gains cannot supply missing stability, smoothness, moment or local-solution conditions. Neither every iterate nor a sampled estimate must improve the full ELBO.",
         "The factor family still omits dependence with D and across transformed Gaussian blocks. Partial noncentering captures restricted dependence in original coordinates, not an arbitrary joint posterior. Priors, initialization, numeric quadrature and conditioning affect results. A prior scale based on an estimated information inverse requires invertibility.",
         "All 42 primary 2014 preprint pages and the supporting 21-page 2013 reprint were read. The reported clinical-data comparisons and simulated hybrid-fit timings are not curated as clinical conclusions or general accuracy/speed guarantees. Source minibatch percentages contain decimal errors; finite-population weights here use actual N and b. No fitting, author implementation, diagnostic calibration study or benchmark was run.",
@@ -207,7 +207,7 @@
       "review_status": "DRAFT",
       "curation": {
         "created_at": "2026-10-13T00:11:17Z",
-        "updated_at": "2026-10-13T00:11:17Z",
+        "updated_at": "2026-10-13T00:23:15Z",
         "curator": "Codex",
         "method": "ai_assisted",
         "model": "GPT-6",
@@ -7927,7 +7927,7 @@
   },
   "curator_calculation": {
     "path": "research/discovery/stochastic-glmm-boundaries.py",
-    "sha256": "a6f186de60597dc12cb5eb25f4f51a92e508b45e028c1bda8ac7edad912a392f",
+    "sha256": "670fbc128da6ecde7bf8d8b32488321b4b1bcaec0931e4463afe8151006429cb",
     "dependencies": [],
     "command": "python3 research/discovery/stochastic-glmm-boundaries.py",
     "exit_code": 0,
@@ -8006,5 +8006,44 @@
         "sha256": "19ed20596f0cb31138a15b2855ed27652e981acd7ccf90d3f0b38f4b7387d888"
       }
     ]
-  }
+  },
+  "review_corrections": [
+    {
+      "corrected_at": "2026-10-13T00:23:15Z",
+      "issue": "https://github.com/CultureBotAI/AIMech/issues/218",
+      "review_id": "20261013T001950Z-stochastic-glmm-inference-open",
+      "issue_key": "aimech-stochastic-glmm-normalization-source-attribution",
+      "changes": [
+        {
+          "path": "data/curated/StochasticNonconjugateGLMMVariationalInference.yaml",
+          "before_sha256": "19ed20596f0cb31138a15b2855ed27652e981acd7ccf90d3f0b38f4b7387d888",
+          "after_sha256": "27235b4323710bcd53fb73d6dbe06f0eb115a3d6cbf52600345f9c7c68c45c99",
+          "change": "Clarify that2013PDF8 repeats the2014PDF37 missing-half display error; identify2013AppendixB19–20 as the normalized construction. The mathematical expectation, identity and mapping are unchanged.",
+          "field_changes": [
+            {
+              "field_path": "claims[2].statement",
+              "before": "For a selected cluster the scalar predictor means and variances are t_i=V_i*m+Z_i*m_i and v_i=diag(V_i*Q*V_i^T+Z_i*Q_i*Z_i^T). With positive Poisson exposures E_i, G_i=F_i=E_i*exp(t_i+v_i/2), elementwise. For Bernoulli-logit, G_ij=E[sigmoid(t_ij+sqrt(v_ij)*Z0)] and F_ij=E[sigmoid(T)*(1-sigmoid(T))] for the same T and Z0~N(0,1). These are one-dimensional normal expectations, approximated by quadrature for logistic observations. The standard-normal density uses exp(-z^2/2)/sqrt(2*pi); the missing half in the 2014 appendix display is qualified against the normalized construction and the 2013 source.",
+              "after": "For a selected cluster the scalar predictor means and variances are t_i=V_i*m+Z_i*m_i and v_i=diag(V_i*Q*V_i^T+Z_i*Q_i*Z_i^T). With positive Poisson exposures E_i, G_i=F_i=E_i*exp(t_i+v_i/2), elementwise. For Bernoulli-logit, G_ij=E[sigmoid(t_ij+sqrt(v_ij)*Z0)] and F_ij=E[sigmoid(T)*(1-sigmoid(T))] for the same T and Z0~N(0,1). These are one-dimensional normal expectations, approximated by quadrature for logistic observations. The standard-normal density uses exp(-z^2/2)/sqrt(2*pi); the missing half occurs in both the 2014 Appendix B display (PDF p. 37) and the 2013 Section 4.3 display (PDF p. 8). The normalized construction in the 2013 Appendix B (PDF pp. 19–20) supports the expectation used here."
+            },
+            {
+              "field_path": "claims[2].evidence[1].locator",
+              "before": "Section 4.3 and Appendix B normalized Gaussian expectations, PDF pp. 8 and 19–20",
+              "after": "Appendix B normalized standard-Gaussian expectations, PDF pp. 19–20; contrast the malformed Section 4.3 display on PDF p. 8"
+            },
+            {
+              "field_path": "limitations[1]",
+              "before": "Additional source discrepancies are explicit: the Gaussian motivating weight matrix on PDF p. 5 uses an identity with the wrong dimension for a general design; Poisson curvature on p. 7 omits an exponential; the logistic normal weight on p. 37 omits a half in its exponent. The normalized 2013 construction, likelihood differentiation and the full Appendix B target delimit the supported reconstruction. No source implementation is claimed corrected or executed.",
+              "after": "Additional source discrepancies are explicit: the Gaussian motivating weight matrix on PDF p. 5 uses an identity with the wrong dimension for a general design; Poisson curvature on p. 7 omits an exponential; the logistic normal weight on p. 37 omits a half in its exponent, as does the 2013 Section 4.3 display on PDF p. 8. The normalized 2013 Appendix B construction on PDF pp. 19–20, likelihood differentiation and the full Appendix B target delimit the supported reconstruction. No source implementation is claimed corrected or executed."
+            }
+          ]
+        },
+        {
+          "path": "research/discovery/stochastic-glmm-boundaries.py",
+          "before_sha256": "a6f186de60597dc12cb5eb25f4f51a92e508b45e028c1bda8ac7edad912a392f",
+          "after_sha256": "670fbc128da6ecde7bf8d8b32488321b4b1bcaec0931e4463afe8151006429cb",
+          "change": "Remove two empty EOF lines reported as one staged whitespace finding at line151; numerical results are unchanged."
+        }
+      ]
+    }
+  ]
 }
