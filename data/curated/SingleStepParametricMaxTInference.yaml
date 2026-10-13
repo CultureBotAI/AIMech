@@ -1,0 +1,167 @@
+id: AIMech:SingleStepParametricMaxTInference
+name: Single-step parametric maxT inference
+aliases: []
+concept_kind: algorithm
+definition: A simultaneous-inference procedure for a declared family of linear functions of model parameters
+  that standardizes joint estimates and uses the maximum absolute statistic under a centered multivariate
+  normal or t reference to compute multiplicity-adjusted tests and a common critical value for simultaneous
+  intervals. Exact or asymptotic validity depends on the joint sampling law and covariance estimation.
+identity_notes: 'No normalized identity match among all 442 pinned AIO and 562 maintained IDs, names,
+  aliases and scoped synonyms. Fixed-string searches include ignored and hidden files in the recovery,
+  older discovery and original Documents checkouts, returning 218, 0 and 0 lines. Candidate and diagnostic
+  hits were inspected through canonical records and pending source notes; long report/search-index lines
+  and generated mirrors were classified but not all reread in full. The semantic assessment covers 67
+  AIO rows and 233 native names/definitions: 61 and 220 prior rows were verified unchanged, with six new
+  AIO rows and thirteen new native definitions read. Fifteen complete AIO nodes, incident edges and generated
+  records and ten native context records were read or verified against prior readings. This general fixed-family
+  normal/t maxT procedure is distinct from the existing Bayesian separator-conflict specialization, INLA
+  computation, random latent score checks, quadratic Wald tests, resampling/permutation maxT and closed-testing
+  stepwise procedures. The local label names the procedure, not the multcomp package or every multiple-testing
+  algorithm.'
+definition_evidence:
+- source_id: hothorn2008
+  locator: Sections 2–3, PDF pp. 4–7 / printed pp. 2–5
+  relation: supports
+claims:
+- claim_id: fixed-linear-family
+  kind: scope
+  statement: Choose a finite, fixed family of estimable linear functions v=K*theta and null values m,
+    with K a fixed k-by-p matrix. Use a parameter estimator theta_hat and its joint sampling covariance
+    estimate S_hat; the comparison estimates and covariance are v_hat=K*theta_hat and V_hat=K*S_hat*K^T.
+    K need not be square or invertible, and rows need not be zero-sum contrasts. This procedure consumes
+    joint estimates and covariance; it does not itself define the model-fitting algorithm.
+  evidence:
+  - source_id: hothorn2008
+    locator: Section 2, Equations 1–3, PDF pp. 4–5 / printed pp. 2–3; Section 4, PDF pp. 8–10 / printed
+      pp. 6–8
+    relation: supports
+- claim_id: standardization-and-redundancy
+  kind: mechanism
+  statement: For positive finite diagonal comparison variances, define D=diag(V_hat), t=D^(-1/2)*(v_hat-m)
+    and R_hat=D^(-1/2)*V_hat*D^(-1/2). Redundant comparisons can make R_hat singular without preventing
+    a max-absolute statistic. Interpret its reference as a valid joint Gaussian or t probability law,
+    including singular laws, rather than assuming an ordinary full-dimensional density exists. Zero-variance
+    comparisons cannot be standardized and require separate deterministic/support handling.
+  evidence:
+  - source_id: hothorn2008
+    locator: Section 2, Equation 4, PDF pp. 4–5 / printed pp. 2–3; Section 3, Equation 5, PDF p. 6 / printed
+      p. 4; redundant Tukey matrix, PDF p. 9 / printed p. 7
+    relation: supports
+- claim_id: exact-and-asymptotic-references
+  kind: mechanism
+  statement: The general reference is a centered multivariate normal law with the consistently estimated
+    correlation. Its asymptotic justification requires a multivariate sampling central limit theorem and
+    consistent covariance estimation for the fixed comparison family. An exact normal reference is available
+    for exact normal estimates with known covariance. An exact multivariate t reference additionally requires
+    the appropriate common independent chi-square variance scaling, as in a correctly specified homoscedastic
+    Gaussian linear model. Arbitrary estimated standard errors or a chosen degrees of freedom do not create
+    an exact t law.
+  evidence:
+  - source_id: hothorn2008
+    locator: Section 2, Equations 1–4, PDF pp. 4–5 / printed pp. 2–3; exact cases in Section 3, PDF p.
+      6 / printed p. 4; linear-model example, PDF pp. 8–9 / printed pp. 6–7
+    relation: supports
+- claim_id: joint-rectangle-adjustment
+  kind: mechanism
+  statement: For the chosen centered joint reference Z, define G(c)=P(max_j|Z_j|<=c). The two-sided global
+    maxT tail is 1-G(max_j|t_j|), and the single-step adjusted tail for comparison j is 1-G(|t_j|), using
+    the same full declared family for every component. Under that same continuous reference each adjusted
+    value is at least the corresponding marginal two-sided tail. The joint rectangle probability retains
+    dependence; treating correlated comparisons as independent changes the procedure. A quadratic Wald
+    statistic uses a different rejection region and is not interchangeable with the absolute maximum.
+  evidence:
+  - source_id: hothorn2008
+    locator: Sections 3.1–3.2, Equation 5 and adjusted p-values, PDF pp. 6–7 / printed pp. 4–5
+    relation: supports
+- claim_id: simultaneous-intervals-and-error-control
+  kind: mechanism
+  statement: Choose c_alpha so G(c_alpha)=1-alpha. The simultaneous two-sided intervals are v_hat_j plus
+    or minus c_alpha*sqrt(V_hat_jj); reject an individual equality when its null value falls outside its
+    interval. A valid joint law of the centered estimation errors gives simultaneous coverage and bounds
+    the probability of any true-null rejection by alpha for the declared family. The normal plug-in result
+    is asymptotic under the stated conditions, not automatic finite-sample or uniform-in-parameter control.
+    Pointwise normality of separate estimates without their valid joint covariance is insufficient.
+  evidence:
+  - source_id: hothorn2008
+    locator: Section 2 sampling limit, PDF pp. 4–5 / printed pp. 2–3; Section 3.2, PDF p. 7 / printed
+      p. 5
+    relation: supports
+- claim_id: procedure-boundaries
+  kind: limitation
+  statement: Single-step means a common joint critical value is used without successively removing rejected
+    hypotheses. Closed-testing or stepwise improvements and resampling/permutation maxT need separate
+    constructions and assumptions. One-sided tests require the corresponding one-sided joint region and
+    quantile, rather than applying the two-sided absolute maximum unchanged. Data-dependent family selection,
+    very large or growing families, weak identification and invalid covariance estimates require additional
+    justification; this fixed-family procedure is not a general repair for adaptive data dredging.
+  evidence:
+  - source_id: hothorn2008
+    locator: Section 3.2 and stepwise discussion, PDF pp. 7–8 / printed pp. 5–6; fixed K and sampling
+      conditions, Section 2, PDF pp. 4–5 / printed pp. 2–3
+    relation: supports
+- claim_id: implementation-and-interpretation
+  kind: limitation
+  statement: The framework applies to model classes whose estimators meet its joint-law conditions, including
+    suitable regression, generalized linear, mixed and survival models. A software interface accepting
+    coefficient and covariance outputs does not validate those conditions. Numerical normal/t rectangle
+    integration introduces computational approximation. Adjusted tails concern testing errors, not posterior
+    probabilities that hypotheses are true, effect sizes, causality or universal model quality. The source
+    examples and package interface were read without executing multcomp or reproducing the applications.
+  evidence:
+  - source_id: hothorn2008
+    locator: Sections 4–6, PDF pp. 8–22 / printed pp. 6–20; numerical integration discussion, Section
+      3, PDF pp. 6–7 / printed pp. 4–5
+    relation: supports
+evidence_sources:
+- source_id: hothorn2008
+  title: Simultaneous Inference in General Parametric Models
+  authors:
+  - Torsten Hothorn
+  - Frank Bretz
+  - Peter Westfall
+  source_type: primary_paper
+  url: https://epub.ub.uni-muenchen.de/2120/1/tr019.pdf
+  persistent_id: https://doi.org/10.5282/ubm/epub.2120
+  version: LMU Technical Report 019, title page dated February 15, 2008. Complete 25-page PDF read, including
+    all examples, Figures 1–4 and references. Printed page n is PDF page n+2. Not assumed byte-identical
+    to the journal article or a later package vignette.
+  access_level: full_text
+  accessed_at: '2026-10-13T00:56:46Z'
+  sha256: e5a1a1e1790b11db29fc18c435f83c9bdf69e1fd01eb504d16e61dedbf28f3f1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DataDredgingBias
+  relation: related_match
+  rationale: The pinned AIO bias node names apparent significance from testing many hypotheses. This procedure
+    addresses that multiplicity risk for a declared comparison family under a valid joint reference. The
+    algorithm is related to the risk it addresses, not a subtype or equivalent of the bias, and it does
+    not automatically correct unaccounted adaptive selection or every form of data dredging.
+limitations:
+- This is the general parametric single-step maxT procedure, not the narrower Bayesian separator-conflict
+  construction, every maxT resampling method, an omnibus Wald test, step-down testing or a software-package
+  instance.
+- The asymptotic result uses fixed family dimension and a fixed contrast matrix with estimable positive-variance
+  comparisons and a consistent joint covariance. It does not establish high-dimensional, adaptive-selection
+  or uniformly valid inference without further theory.
+- Multivariate t exactness needs the model-specific common variance-scaling law and correct residual degrees
+  of freedom. The report has ambiguous n-p-1 notation alongside a p counting all coefficients; use the
+  actual model rank rather than copying that notation.
+- 'The archived report labels a displayed interval as 1-2alpha while specifying the joint critical probability
+  as 1-alpha. This record uses the coherent latter convention: G(c_alpha)=1-alpha gives joint coverage
+  1-alpha under the valid reference.'
+- The evidence is the complete 25-page February 15, 2008 LMU Technical Report 019, with PDF page n+2 matching
+  printed page n. Journal metadata is identity context; this PDF is not assumed byte-identical to the
+  journal article or a later package vignette.
+- No multcomp installation or implementation-source audit, fitted model, application outcome, benchmark
+  or empirical calibration study was performed. Constructed known-covariance Gaussian examples illustrate
+  the procedure and dependence boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T02:13:16Z'
+  updated_at: '2026-10-13T02:13:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
