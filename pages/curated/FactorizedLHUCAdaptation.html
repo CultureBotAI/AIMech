@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factorized LHUC Adaptation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Factorized LHUC Adaptation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Factorized LHUC Adaptation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FactorizedLHUCAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An acoustic-model adaptation procedure that combines separately estimated speaker and environment LHUC transforms by interpolating their transformed hidden-unit amplitudes for a known target environment.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 629 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 65, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 37 AIO and 89 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain the explicitly described factorized speaker/environment LHUC combination procedure. It estimates two different transform families and interpolates their amplitudes for a known environment. This is neither ordinary single-target LHUC nor SAT-LHUC joint base training, pooling-parameter adaptation or additive low-rank weight adaptation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#transformed-amplitude-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given separate speaker and environment parameters r_S and r_E, the combined hidden-unit amplitude is alpha*xi(r_S)+(1-alpha)*xi(r_E). The interpolation acts on transformed amplitudes, not generally on the latent parameters before applying xi. With exponential xi, averaging latent log amplitudes gives a geometric combination rather than the stated arithmetic combination.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section VII, PDF p.10, Equation 10; direct exponential-parameter example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#separate-estimation-protocol</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the described Aurora4 experiment, speaker transforms are estimated from clean speech. Environment transforms are estimated separately for seven scenarios using multiple speakers while excluding the target speaker’s data. The baseline network is trained on multiple conditions. Both transform estimates use unsupervised acoustic adaptation targets; the procedure does not identify the environment without supplied knowledge.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section V, PDF p.5, Aurora4 setup; Section VII, p.10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#known-environment-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method assumes that the test environment is known so the appropriate environment transform can be selected. It does not learn an automatic environment classifier, guarantee successful adaptation to an unseen environment, or remove the need for data used to estimate the separate transforms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section VII, PDF p.10, assumptions following Equation 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#joint-versus-factorized-estimation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source compares separately estimated speaker-only and environment-only transforms, a single transform estimated jointly from matching speaker-environment data, and interpolation of the separate transformed amplitudes. These have different available-data requirements. Interpolation is an alternative when joint matching adaptation data are unavailable; it is not asserted to recover the joint optimum or to equal summing parameter vectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section VII, PDF pp.10–11, Equation 10 and Table XIII</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Performance</span>
+      <code style="font-size: 0.8rem;">#finite-evaluation-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the configured Aurora4 evaluation, the source reports that interpolation improves on the separate transforms but remains worse in aggregate than the jointly estimated speaker-environment transform. The reported alpha choice and word-error rates do not imply a universally optimal interpolation weight or superiority for every condition. The calculation checks amplitude placement only and does not reproduce acoustic results.
+  </div>
+
+  <div style="background: var(--card-muted); border-radius: 6px; padding: 0.75rem 1rem; margin: 0.75rem 0; font-size: 0.85rem;">
+    <div style="font-weight: 600; margin-bottom: 0.25rem;">Evaluation Context:</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem;">
+      <div><strong>Task:</strong> Automatic speech recognition under speaker, noise and channel variation.</div>
+      <div><strong>Dataset:</strong> Aurora4 eval92 test: 330 utterances evaluated under fourteen conditions, grouped A–D, with eight test speakers; Section V and Table I.</div>
+      <div><strong>Model:</strong> Multi-condition trained DNN acoustic system reported in Table XIII of arXiv 1601.02828v2; this is not the separate Maxout-CNN experiment in Table XIV.</div>
+      <div><strong>Metric:</strong> Word error rate, percent; lower is better. Values are the source table’s AVG column.</div>
+      <div><strong>Result:</strong> Factorized interpolation: 12.9% at alpha=0.5 and 12.7% at alpha=0.7. (Baseline: Unadapted DNN 13.9%; speaker-only LHUC 13.1%; environment-only LHUC 13.3%; joint speaker-environment LHUC 12.4%.)</div>
+    </div>
+  </div>
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016lhuc">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section VII, PDF pp.10–11, Table XIII</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The local identity denotes the source’s factorized LHUC interpolation procedure, not every factorized neural model, ordinary test-only LHUC or SAT-LHUC training.</li>
+      <li>Interpolation is performed after xi. A latent parameter representing the combined amplitude requires a compatible inverse or representation; the method must not silently replace amplitude interpolation with latent interpolation.</li>
+      <li>Known environment identity and separately estimated transforms are required in the demonstrated protocol. Factorization does not establish statistical independence or a causal decomposition of speaker and environment effects.</li>
+      <li>Complete fourteen-page primary v2 inspected. Constructed amplitude calculations only; no author software, speech data, training or empirical replication.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/KnowledgeTransfer.html" style="font-weight: 600;"><code>AIO:KnowledgeTransfer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Knowledge Transfer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Separately learned adaptation transforms are reused for a combined target speaker and known environment. The pinned transfer strategy is related context rather than an equivalent algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepTransferLearning.html" style="font-weight: 600;"><code>AIO:DeepTransferLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deep Transfer Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure adapts a deep acoustic representation across speaker and environment conditions. The pinned class denotes a network category rather than this combination algorithm.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-swietojanski2016lhuc">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">swietojanski2016lhuc</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1601.02828v2" target="_blank" rel="noopener">Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pawel Swietojanski, Jinyu Li, Steve Renals
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1601.02828v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d9732801becd…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T15:51:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T15:51:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FactorizedLHUCAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FactorizedLHUCAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
