@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Differentiable scheduled sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Differentiable scheduled sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Differentiable scheduled sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DifferentiableScheduledSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A scheduled-sampling training procedure that replaces discrete model-feedback embeddings with differentiable soft mixtures, allowing later sequence losses to propagate credit through earlier relaxed decoding choices.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 585 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 85 AIO and 200 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The search hits are pending source leads. The new identity is the named scheduled-sampling training procedure with relaxed feedback and downstream credit assignment. Original ScheduledSampling stops gradients through its discrete choices; GumbelSoftmaxRelaxation is a reusable distributional construction used in one variant, not the full curriculum and sequence-loss procedure. TeacherForcing supplies reference feedback. Relaxed greedy and relaxed sample-based training are source-defined variants within this record; their generic descriptive names are not asserted as globally exact aliases. CurriculumLearning and SoftmaxFunction receive related mappings for schedule context and essential operator, without equating this algorithm with either.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#relaxed-greedy-feedback</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given preceding-step scores s(y), embeddings e(y) and finite positive sharpening coefficient alpha, form q(y)=softmax(alpha*s)(y) and supply the mixture sum_y q(y)*e(y) to the next recurrent step. With differentiable surrounding computations, later losses have a smooth feedback path through those scores. The partial derivative of the mixture with respect to score s(j), holding embeddings fixed, is alpha*q(j)*(e(j)-sum_y q(y)*e(y)). This is a relaxed decoding input, not a discrete selected token or a change of the reference target itself.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Section3.1 unnumbered soft-argmax equation and Section3.3, printed p.368 / PDF p.3; Figure2, printed p.367 / PDF p.2; curator direct derivative and finite differences</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sharp-limit-and-ties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Alpha multiplies scores and acts as an inverse temperature. For a unique maximum, increasing alpha sends the mixture toward that token embedding; the source explicitly assumes no ties in its hard-argmax expression. At tied maxima the limiting mixture averages their embeddings rather than selecting a specified tie-break. Greater sharpness does not guarantee better credit assignment: derivatives may vanish away from decision boundaries and grow near ties. Equal embeddings or insensitive downstream losses can also make the choice path uninformative.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Section3.1 and footnote2, printed p.368 / PDF p.3; Figure1, printed p.367 / PDF p.2; curator tied-score and unique-maximum calculations</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#relaxed-sampled-feedback</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The sample-based variant adds independent standard Gumbel noise G(y)=-log(-log U(y)) to scores, with U(y) uniform on(0,1), then uses softmax(alpha*(s+G)) to mix embeddings. Holding the noise fixed makes the relaxed feedback map differentiable, while fresh draws still make training stochastic. At finite alpha this is a continuous surrogate, not a one-hot categorical draw or an automatically unbiased gradient of the original discrete objective. It also differs from simply feeding the deterministic expected embedding under the unperturbed model softmax.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Section3.2, unnumbered perturbed-score equation and footnote3, printed p.368 / PDF p.3; Section3.3, printed p.369 / PDF p.4; curator fixed-noise derivative calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#reference-and-sharpness-schedules</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Training retains reference-target cross-entropy and mixes reference embeddings with relaxed model feedback. The reference-selection probability and alpha are separate hyperparameters that may each vary with training. The reported protocol uses reference sequences for the first epoch, then an inverse-sigmoid reference-probability schedule, while comparing fixed and exponentially annealed alpha. At prediction time the decoder can still output a hard argmax. Relaxation improves the available credit path but does not prove that the original continuation is valid for every changed prefix or that the resulting objective is statistically consistent.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Section3.3 and Section5 Hyperparameter tuning, printed pp.368–369 / PDF pp.3–4; Section2 credit-assignment example, printed p.367 / PDF p.2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#constructed-credit-path</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In a constructed two-token embedding example with e0=-1, e1=2, scores(theta,0), alpha=2 and later loss(one-half)*(mixed_embedding-1)^2, theta=0.2 yields a nonzero relaxed choice-path gradient of approximately1.147576, agreeing with finite differences. The hard greedy embedding stays at e0 in a neighborhood of that parameter and has zero local choice-path derivative. This calculation isolates the feedback path; it does not claim that all parameter derivatives of a complete hard-decoding recurrent model vanish or that the relaxed gradient always improves training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Sections2–3 credit assignment and soft-argmax construction, printed pp.367–369 / PDF pp.2–4; independently constructed finite calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#reported-evaluation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source evaluates specified LSTM systems on IWSLT2014 German-English translation and CoNLL2003 German named entity recognition, with hyperparameters and the random restart selected by validation performance. Best reported relaxed configurations improve the selected test metrics, but not every variant improves its matching scheduled-sampling baseline: annealed sampled NER gives54.20 versus54.60 F1, while fixed sampled translation ties at19.69 BLEU. Always-generated relaxed greedy training works in the reported NER setting but is unstable for translation. These selected-run results and similar reported GPU speeds are not universal accuracy, variance or runtime guarantees.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-goyal2017">Differentiable Scheduled Sampling for Credit Assignment</a></span>
+        <span>· <strong>Locator:</strong> Sections5–6, Tables1–2, printed pp.369–370 / PDF pp.4–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record covers the source-defined relaxed greedy and relaxed sample-based variants of the named training method; it does not rename the reusable Gumbel-Softmax distribution or every differentiable decoder.</li>
+      <li>Finite positive alpha smooths the feedback operator under differentiable surrounding computations. Numerical policies, ties, embedding degeneracy and limiting sharpness can affect gradients.</li>
+      <li>The sampled variant remains stochastic. A derivative of its relaxed objective is not automatically an unbiased derivative of the discrete objective, and no universal variance-reduction bound is asserted.</li>
+      <li>Reference-target compatibility and the relaxation-to-hard-decoding gap remain potential limitations. Smooth credit assignment is not a proof of a correct generative distribution or successful optimization.</li>
+      <li>All six primary pages were read. Constructed score/embedding calculations were executed without fitting; no author code, model training or empirical replication was performed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/CurriculumLearning.html" style="font-weight: 600;"><code>AIO:CurriculumLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Curriculum Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Reference feedback and relaxation sharpness can be scheduled during training. This associates the algorithm with curricula, while the pinned target emphasizes example ordering rather than this feedback procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SoftmaxFunction.html" style="font-weight: 600;"><code>AIO:SoftmaxFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Softmax Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Softmax on sharpened scores or Gumbel-perturbed scores is an essential relaxed-feedback operator. The training procedure is neither the mathematical function itself nor a subclass of functions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-goyal2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">goyal2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://aclanthology.org/P17-2058.pdf" target="_blank" rel="noopener">Differentiable Scheduled Sampling for Credit Assignment</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kartik Goyal, Chris Dyer, Taylor Berg-Kirkpatrick
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.18653/v1/P17-2058</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4a88f6d184c9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T07:32:17Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T07:32:17Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DifferentiableScheduledSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DifferentiableScheduledSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

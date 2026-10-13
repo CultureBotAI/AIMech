@@ -1,0 +1,155 @@
+id: AIMech:ProfessorForcing
+name: Professor forcing
+aliases: []
+concept_kind: algorithm
+definition: An adversarial recurrent-network training procedure that retains teacher-forced likelihood
+  learning while training an auxiliary discriminator and the generator to reduce differences between teacher-forced
+  and free-running behavior sequences.
+identity_notes: Compared all 442 pinned AIO and 586 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 2, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 88 AIO and 202 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records
+  were inspected. No normalized identity match was found. Initially the ignored-inclusive full-text search
+  had no matches; the refreshed search includes the new pending lead in the preceding discovery report.
+  The source-defined algorithm adds adversarial alignment of teacher-forced and free-running behavior
+  while retaining teacher-forced likelihood. It is not ordinary reference feedback, mixed-prefix scheduled
+  sampling or parameter-averaged Mean Teacher. AdaMixUp uses a discriminator to separate mixtures from
+  original examples with a different cooperative objective, not to confuse execution-mode labels. The
+  AIO GAN framework is mechanistically related, but the algorithm distinguishes generator behavior in
+  two modes rather than simply discriminating raw data and generated outputs; related_match avoids false
+  exact or broad identity.
+definition_evidence:
+- source_id: goyal2016
+  locator: Section2, PDF/printed pp.2–3; Equations1–4, p.3; Figure1, p.4
+  relation: supports
+claims:
+- claim_id: two-mode-behavior-alignment
+  kind: mechanism
+  statement: Run the same parameterized recurrent generator with observed previous outputs and with its
+    own generated outputs. A behavior function B selects a sequence of hidden activations and optionally
+    output information from each mode. Train a discriminator to identify which mode produced that behavior,
+    and train the generator to confuse it while continuing to fit the observed sequence likelihood. The
+    modes share generator parameters; this is neither a second independently learned teacher model nor
+    a requirement to replace the likelihood targets with model-generated targets.
+  evidence:
+  - source_id: goyal2016
+    locator: Sections2.1–2.2, PDF/printed p.3; Figure1 and comparison with GANs, p.4
+    relation: supports
+- claim_id: discriminator-and-generator-objectives
+  kind: mechanism
+  statement: 'Let D(B) estimate the probability that behavior came from teacher forcing, with balanced
+    mode examples. The discriminator minimizes the sum of teacher-side negative log D and free-side negative
+    log(1-D). The generator minimizes teacher-forced NLL plus free-running confusion C_f=-E_free log D(B),
+    optionally also adding teacher-side confusion C_t=-E_teacher log(1-D(B)). The source reports both
+    NLL+C_f and NLL+C_f+C_t variants. Omitting C_t removes that teacher-side adversarial loss, but does
+    not make teacher behavior permanently fixed: later generator updates change both modes through shared
+    parameters.'
+  evidence:
+  - source_id: goyal2016
+    locator: Section2.2, Equations1–4 and update paragraph, PDF/printed p.3
+    relation: supports
+- claim_id: discriminator-matching-boundary
+  kind: limitation
+  statement: For frozen finite behavior distributions p and q and an unrestricted balanced classifier,
+    the discriminator cross-entropy optimum is D*(b)=p(b)/(p(b)+q(b)) where the denominator is positive.
+    This idealized result concerns the selected behavior representation and an optimized classifier. A
+    limited discriminator failing to distinguish modes does not establish equality of full output-sequence
+    distributions, faithful long-horizon generation or global likelihood optimality. A constant behavior
+    map can make distinct output laws indistinguishable. The practical nonsaturating generator losses
+    and moving teacher behavior are not simply a guarantee of minimizing one fixed-data divergence.
+  evidence:
+  - source_id: goyal2016
+    locator: Sections2.1–2.2, PDF/printed p.3; Section3 GAN comparison, pp.3–4; curator finite-distribution
+      and feature-collapse calculations
+    relation: supports
+- claim_id: discrete-sampling-gradient-scope
+  kind: limitation
+  statement: The discriminator can send gradients through differentiable hidden-state behavior without
+    differentiating a realized discrete token choice. That supplies a continuous path for training with
+    discrete outputs, but a fixed-realization path derivative alone need not equal the full derivative
+    of an expectation whose sampling law depends on generator parameters. A constructed Bernoulli example
+    separates those path and sampling-distribution terms. The inspected paper does not establish an unbiased
+    full-expectation gradient theorem; no assertion about an uninspected implementation or a particular
+    omitted estimator is made here.
+  evidence:
+  - source_id: goyal2016
+    locator: Section2.2 sampled behavior objectives, PDF/printed p.3; Section3 discussion of discrete
+      variables, p.4; independently constructed expectation derivative
+    relation: supports
+- claim_id: reported-training-configuration
+  kind: scope
+  statement: The main experimental setup uses a GRU generator and a bidirectional recurrent discriminator
+    over behavior, with an MLP classifier; the behavior includes pre-tanh generator activations and can
+    include prediction outputs. It enables adversarial generator backpropagation only when discriminator
+    accuracy exceeds75percent, and stops discriminator updates above99percent. These are reported heuristics
+    rather than universal stability thresholds. Sequential MNIST instead uses a convolutional discriminator,
+    and the handwriting experiment compares nonoverlapping50-step behavior segments from longer generated
+    sequences.
+  evidence:
+  - source_id: goyal2016
+    locator: Section4.1, PDF/printed pp.4–5; Sections4.3–4.4, pp.6–7
+    relation: supports
+- claim_id: reported-evaluation-boundaries
+  kind: scope
+  statement: The reported character-level Penn Treebank setup improves validation bits per character from1.50
+    to1.48, while reporting no observed word-level improvement and about three times the training time
+    despite faster progress per update. Sequential MNIST test NLL79.58 does not beat the listed PixelRNN79.2.
+    The paper also reports blinded volunteer preferences for selected handwriting and vocal-synthesis
+    samples, using48 handwriting evaluators and29 vocal evaluators with repeated ratings. Those task-specific
+    protocols and T-SNE illustrations do not certify universal quality gains, independent-trial significance,
+    equality of behavior distributions or reliable generation at arbitrary lengths.
+  evidence:
+  - source_id: goyal2016
+    locator: Sections4.2–4.5, PDF/printed pp.5–8; Figures2–3,6–7 and Tables1–2
+    relation: supports
+evidence_sources:
+- source_id: goyal2016
+  title: 'Professor Forcing: A New Algorithm for Training Recurrent Networks'
+  authors:
+  - Anirudh Goyal
+  - Alex Lamb
+  - Ying Zhang
+  - Saizheng Zhang
+  - Aaron Courville
+  - Yoshua Bengio
+  persistent_id: https://proceedings.neurips.cc/paper/2016/hash/16026d60ff9b54410b3435b403afd226-Abstract.html
+  version: 'NIPS2016 conference-hosted nine-page PDF; all pages, Equations1–4, figures, tables and references
+    read. Printed author order is used: Goyal and Lamb are marked equal first authors with order determined
+    by coin flip; website metadata reverses those first two names.'
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2016/file/16026d60ff9b54410b3435b403afd226-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:16:11Z'
+  sha256: f057ed68c624acd8eb0c648e397d892e6e97055559d25a91008fa7a571a1d341
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:GenerativeAdversarialNetwork
+  relation: related_match
+  rationale: The method uses adversarial discriminator/generator training and explicitly relates its behavior-matching
+    objective to GANs. It is a training algorithm for recurrent models, with mode-conditioned behavior
+    rather than only real-versus-generated outputs; the pinned network framework is therefore related
+    rather than an exact identity or asserted is-a parent.
+limitations:
+- The source-defined procedure includes optional teacher-side confusion and multiple task-specific discriminator
+  choices; a single fixed architecture or one universal loss weighting is not asserted.
+- Both behavior distributions can change as the shared generator changes. Capacity, feature selection,
+  sequence segmentation, optimization and classifier balance affect what matching means.
+- Matching selected hidden/output behavior is not an automatic certificate for the complete generated
+  distribution or arbitrary extrapolation lengths. A visualization is not a distributional equality proof.
+- Gradients through continuous behavior do not by themselves resolve every parameter-dependent discrete
+  sampling-gradient term. This mathematical boundary does not identify a defect in author code that was
+  not inspected.
+- All nine primary pages were read. Constructed probability and derivative examples were executed without
+  fitting; author code, supplementary audio, model training and empirical replication were not inspected
+  or run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T07:32:46Z'
+  updated_at: '2026-10-13T07:32:46Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
