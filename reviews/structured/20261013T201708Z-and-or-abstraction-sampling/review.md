@@ -1,0 +1,683 @@
+# Scientific author self-review of AND/OR abstraction sampling
+
+- Review: 20261013T201708Z-and-or-abstraction-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T20:11:01Z
+- Finished UTC: 2026-10-13T20:17:08Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the 2020 AND/OR abstraction sampling algorithm as DRAFT with a related AIO graphical-model mapping. Adversarial author self-review supports its mechanism and stated finite boundaries, with source-proof, implementation and empirical limitations preserved.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:ANDORAbstractionSampling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base dc741a357641a560541437a5d62b485d101ad23b.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ANDORAbstractionSampling | data/curated/ANDORAbstractionSampling.yaml | maintained | AND/OR abstraction sampling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ANDORAbstractionSampling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 153.27s (0:02:33)<br>Checked 442 record(s); 0 failed.<br>Checked 648 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 328 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 325,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ANDORAbstractionSampling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ANDORAbstractionSampling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ANDORAbstractionSampling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:ANDORAbstractionSampling | {"factorized_model_truth": 2478, "approximate_sibling_bound_mean_variance": ["2478", "54432"], "exact_sibling_bound_mean_variance": ["2478", "0"], "two_left_strata_approximate_mean_variance": ["2478", "29808"], "two_left_strata_exact_mean_variance": ["2478", "0"], "relative_weight_estimate": "8", "wrong_absolute_weight_estimate": "32", "naive_invalid_probe_probability": "1/2", "naive_mean_variance": ["8", "64"], "sequential_pruning_mean_variance": ["8", "0"], "compact_probe": {"real_and_nodes": 9, "configurations": 16}, "generated_vs_retained": [{"domain": 2, "generated": 2, "retained": 1}, {"domain": 10, "generated": 10, "retained": 1}, {"domain": 100, "generated": 100, "retained": 1}], "unsupported_root_context": {"retained_contribution": 210, "omitted_contribution": 2268, "target": 2478}, "separate_2018_notation_check": {"true_partition": 4, "printed_or_parent_interpretation": 8, "alternative_local_weight_product": 4}, "separate_2018_winning_v_expected_contribution": {"correct": "16", "printed": "6"}, "scope": "Finite rational examples of the 2020 mechanism and separately labeled 2018 notation. No general proof, literal pseudocode certification, author-code execution or benchmark replication."} |
+
+## Scientific And Domain Assessments
+
+### AND/OR abstraction sampling
+
+identity: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Retain this distinct DRAFT algorithm.
+
+The 2020 unrestricted AOAS procedure is structurally distinct from the earlier proper variant and the maintained ordinary-tree GS/HS estimators. It uses sibling products, context-sensitive pruning and relative backup. Neither the graphical model itself nor conditional MCMC is this algorithm. Bare AOAS is not an asserted alias.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+The declared AIO mapping is supported.
+
+The algorithm necessarily uses a factorized graphical model and its pseudo-tree decomposition. A related match to the pinned ProbabilisticGraphicalModel class preserves the algorithm versus model/task distinction. No subclass or equivalence assertion is made. Twelve full AIO contexts and five native neighbors were inspected.
+
+### sibling-aware-proposal
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Algorithm1 specifies w*g*h*r and inverse winner probability. Exact enumeration of a positive factor model gives mean2478 with approximate sibling bounds and with exact values; variances differ. This tests stated finite instances, not every adaptive proposal.
+
+### pruning-and-relative-backup
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Algorithm1 lines29–35 and the supplementary traces justify pruning before later siblings. Parent weight2 and sibling weights4 require relative factors2, giving8 rather than32. A naive cross-context toy is unbiased but has no complete solution half the time, so invalidity is not equated with universal bias.
+
+### finite-supported-expectation
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The record attributes the unbiasedness theorem and proof sketch, bounds the domain to finite nonnegative models with support, and distinguishes equivalent OR traces from the same original fixed abstraction. It avoids the earlier over-specific reading that a new abstraction must be selected after each trace.
+
+### probe-size-and-cutsets
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source bounds retained probe size, not all generation or heuristic cost. A one-variable domain can generate100 candidates and retain1. A compact factorized toy represents16 configurations with9 real AND nodes. Exact-subtree termination requires proven exact h, not merely a strong upper bound.
+
+### reported-evaluation-scope
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Full main and supplementary results were read. Five families and480-plus cases, i-bound10, one-hour limits and estimated references are stated with configuration-dependent solved counts. No universal win, independent ground truth for unknown Z, or confidence guarantee is inferred.
+
+### sibling-aware proposals, cross-context pruning, inherited-weight correction, finite expectation, retained-node cost and empirical reference limits
+
+consistency: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Constructed calculations support the stated distinctions.
+
+Exact enumeration of a positive three-variable factor model gives true partition2478, with mean2478 under either approximate or exact sibling estimates. The approximate example has variance54432; the oracle example has zero variance. A separate unit model distinguishes relative weights8 from erroneous absolute weights32, and valid sequential probes from a naive scheme that is unbiased but invalid half the time. Additional checks separate retained nodes from generated work. The 2018 notation checks are labeled separately and do not certify that pseudocode or the later author code.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed identity, positive mapping direction, all maintained fields, claim-specific source locators, source versions/hashes, conditional proposal support, ancestral sibling estimates, immediate pruning, relative backup, finite expectation claim, retained versus generated nodes, exact-cutset condition and evaluation denominators. Kept2018 notation ambiguity and partial2024 static code reading separate from the2020 mechanism.
+
+### Empirical Evaluation source heading
+
+evidence: supported. Targets: AIMech:ANDORAbstractionSampling.
+
+The maintained locator now matches the primary heading.
+
+Checked the corrected locator, report mirror and rendered page against proceedingsPDFp6 / printedp4271. Only the heading and curation timestamp changed; edit history preserves the correction.
+
+## Findings
+
+### F1: Correct the evaluation section heading in the AOAS citation
+
+minor / resolved / confirmed; issue key: aoas-empirical-evaluation-section-heading.
+
+The reported-evaluation-scope locator calls Section4 Experimental Evaluation, while the actual heading on PDFp6 / printedp4271 is Empirical Evaluation. The section number, page range and substantive claim are correct; the citation should use the source heading accurately.
+
+Disposition: The source heading is corrected to Empirical Evaluation in the record and exact report mirror. The primary page, complete corrected record and AIO mapping were reread after successor capture; corrected-input gates and rendered-content checks pass. Section number, page range and scientific scope are unchanged.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T200822Z-and-or-abstraction-sampling.json | supports | Compared all 442 pinned AIO and 647 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 5, 1, 1 lines. All candidate-relevant passages and the windows around ambiguous acronym hits were inspected; the older-checkout AOAS hits are statistics-journal URLs, not algorithm identities. Semantic matching covered 56 AIO and 316 native definitions, with every matched definition read. 12 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain the 2020 AOAS algorithm, which permits abstractions across different closest branching-ancestor assignments by interleaving variable-level sampling with pruning and relative-weight backup. The 2018 proper AND/OR variant restricts those merges; it is not an alias for this method. Chen GS and HS estimate additive functionals of ordinary trees; this algorithm operates on a decomposed graphical-model AND/OR space with products over independent sibling subproblems. Knuth follows single paths, Gibbs constructs conditional Markov transitions, and MRF denotes a model family. Bare AOAS is not an alias because the acronym also denotes a statistics journal. |
+| mapping | sources/aio/aio.json | supports | The algorithm necessarily uses a factorized graphical model and its pseudo-tree decomposition. A related match to the pinned ProbabilisticGraphicalModel class preserves the algorithm versus model/task distinction. No subclass or equivalence assertion is made. Twelve full AIO contexts and five native neighbors were inspected. |
+| kask2020aoas | https://www.ijcai.org/proceedings/2020/0589.pdf; All9 proceedings and18 author-supplement pages visually read.2018 main/supplement and2017 synopsis were inspected as historical context.2024 paper has received only preliminary reading and its versioned code was partially read statically; no implementation correspondence, software execution or empirical replication is certified. | supports | IJCAI 2020 proceedings, pp.4266–4274, nine PDF pages. All pages visually inspected, including Sections1–5, Lemma1, Equations1–4, Algorithm1, Theorems1–2 and proof sketches, Figures1–6, Table1 and17 references. No implementation execution or empirical replication. |
+| kask2020supplement | https://ics.uci.edu/~dechter/publications/r261-supplemental.pdf; All9 proceedings and18 author-supplement pages visually read.2018 main/supplement and2017 synopsis were inspected as historical context.2024 paper has received only preliminary reading and its versioned code was partially read statically; no implementation correspondence, software execution or empirical replication is certified. | supports | Author-hosted18-page version linked as R261 Supplemental. All pages visually inspected; pages1–9 repeat the main method, while Section6 on pages10–18 adds Figures7–18 and Tables2–3. It adds traces and empirical results, not a detailed new proof. |
+| calculation | research/discovery/and-or-abstraction-sampling-boundaries.py | supports | Exact enumeration of a positive three-variable factor model gives true partition2478, with mean2478 under either approximate or exact sibling estimates. The approximate example has variance54432; the oracle example has zero variance. A separate unit model distinguishes relative weights8 from erroneous absolute weights32, and valid sequential probes from a naive scheme that is unbiased but invalid half the time. Additional checks separate retained nodes from generated work. The 2018 notation checks are labeled separately and do not certify that pseudocode or the later author code. |
+| corrected-record | data/curated/ANDORAbstractionSampling.yaml | supports | Complete corrected record read; evaluation locator now matches Section4 Empirical Evaluation. Correct section number, page range and substantive claims are preserved. |
+| predecessor | reviews/structured/20261013T200943Z-aoas-section-heading/review.yaml | supports | Immutable initial review records minor source-heading finding F1. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 648 native and 442 unchanged generated records. The 833-entry main frontier retains 473 pending and 58 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All9 proceedings and18 author-supplement pages visually read. Candidate-specific proceedings pages2–5 reread before curation.2018 main/supplement and2017synopsis fully read as historical context; later2024 code only partially read statically. No author software executed.
+- No author-code execution, training, paid service, hardware measurement or empirical replication; later versioned code was read only in the explicitly recorded partial scope. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T201708Z-and-or-abstraction-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of AND/OR abstraction sampling
+started_at: '2026-10-13T20:11:01Z'
+finished_at: '2026-10-13T20:17:08Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged sibling-aware proposals, cross-context
+    pruning, inherited-weight correction, finite expectation, retained-node cost and
+    empirical reference limits. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the 2020 AND/OR abstraction sampling algorithm as DRAFT with a related
+  AIO graphical-model mapping. Adversarial author self-review supports its mechanism
+  and stated finite boundaries, with source-proof, implementation and empirical limitations
+  preserved.
+source:
+  git_revision: dc741a357641a560541437a5d62b485d101ad23b
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/DecisionTree.yaml
+    sha256: 4c2a5ed08c585f8912d66e3629aaa20e93c46ab49cfb2d128001fcd019c81bfc
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/RecursiveLanguageModel.yaml
+    sha256: 617d0f86964cea89a7259598acad60a111f6044fb10db598f060d42aaaecff02
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/curated/ANDORAbstractionSampling.yaml
+    sha256: 556f32f65f14c2e5525ec84aa2d40977a03a70353d7ea9982e12b9d509aaccfd
+    role: target
+  - path: data/curated/GenericTreeSampling.yaml
+    sha256: c67305da11be269a32a696759643640d93cd7b2f46d148a73180edea8bff45e6
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/HeuristicTreeSampling.yaml
+    sha256: a011848779d73ba8f15c0f5d1a12a911a0b3db30c0a9c378d1f2e74c3b9f9e76
+    role: context
+  - path: data/curated/KnuthBacktrackTreeEstimation.yaml
+    sha256: 7230cf708f8e51b2094a37d7e4bc14c29ac63b8b1421ed41d529b08146564cc6
+    role: context
+  - path: data/curated/MarkovRandomField.yaml
+    sha256: 03b1f2a66b2183a5bf5943bee7ec0619b9e07947d6c9187263e279ee475f9149
+    role: context
+  - path: research/discovery/20261013T200822Z-and-or-abstraction-sampling.json
+    sha256: c6506e47aa7facf538ce6565b9d98911d1bfff3923aa12902ce834430795827e
+    role: context
+  - path: research/discovery/and-or-abstraction-sampling-boundaries.py
+    sha256: b03cb72f49a79df22adb11480e7de61a5b0837772bc5d7bf7fe0aef41087a33f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ANDORAbstractionSampling
+  path: data/curated/ANDORAbstractionSampling.yaml
+  label: AND/OR abstraction sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ANDORAbstractionSampling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:ANDORAbstractionSampling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All9 proceedings and18 author-supplement pages visually read.2018 main/supplement
+      and2017 synopsis were inspected as historical context.2024 paper has received
+      only preliminary reading and its versioned code was partially read statically;
+      no implementation correspondence, software execution or empirical replication
+      is certified.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 153.27s (0:02:33)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 648 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 328 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 325,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/and-or-abstraction-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"factorized_model_truth": 2478, "approximate_sibling_bound_mean_variance":
+    ["2478", "54432"], "exact_sibling_bound_mean_variance": ["2478", "0"], "two_left_strata_approximate_mean_variance":
+    ["2478", "29808"], "two_left_strata_exact_mean_variance": ["2478", "0"], "relative_weight_estimate":
+    "8", "wrong_absolute_weight_estimate": "32", "naive_invalid_probe_probability":
+    "1/2", "naive_mean_variance": ["8", "64"], "sequential_pruning_mean_variance":
+    ["8", "0"], "compact_probe": {"real_and_nodes": 9, "configurations": 16}, "generated_vs_retained":
+    [{"domain": 2, "generated": 2, "retained": 1}, {"domain": 10, "generated": 10,
+    "retained": 1}, {"domain": 100, "generated": 100, "retained": 1}], "unsupported_root_context":
+    {"retained_contribution": 210, "omitted_contribution": 2268, "target": 2478},
+    "separate_2018_notation_check": {"true_partition": 4, "printed_or_parent_interpretation":
+    8, "alternative_local_weight_product": 4}, "separate_2018_winning_v_expected_contribution":
+    {"correct": "16", "printed": "6"}, "scope": "Finite rational examples of the 2020
+    mechanism and separately labeled 2018 notation. No general proof, literal pseudocode
+    certification, author-code execution or benchmark replication."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T200822Z-and-or-abstraction-sampling.json
+  accessed_at: '2026-10-13T20:11:01Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 647 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    5, 1, 1 lines. All candidate-relevant passages and the windows around ambiguous
+    acronym hits were inspected; the older-checkout AOAS hits are statistics-journal
+    URLs, not algorithm identities. Semantic matching covered 56 AIO and 316 native
+    definitions, with every matched definition read. 12 full annotated AIO node/edge/generated
+    contexts and 5 full native records were inspected. Retain the 2020 AOAS algorithm,
+    which permits abstractions across different closest branching-ancestor assignments
+    by interleaving variable-level sampling with pruning and relative-weight backup.
+    The 2018 proper AND/OR variant restricts those merges; it is not an alias for
+    this method. Chen GS and HS estimate additive functionals of ordinary trees; this
+    algorithm operates on a decomposed graphical-model AND/OR space with products
+    over independent sibling subproblems. Knuth follows single paths, Gibbs constructs
+    conditional Markov transitions, and MRF denotes a model family. Bare AOAS is not
+    an alias because the acronym also denotes a statistics journal.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T20:11:01Z'
+  support: supports
+  summary: The algorithm necessarily uses a factorized graphical model and its pseudo-tree
+    decomposition. A related match to the pinned ProbabilisticGraphicalModel class
+    preserves the algorithm versus model/task distinction. No subclass or equivalence
+    assertion is made. Twelve full AIO contexts and five native neighbors were inspected.
+- evidence_id: kask2020aoas
+  kind: primary_source
+  reference: https://www.ijcai.org/proceedings/2020/0589.pdf
+  locator: All9 proceedings and18 author-supplement pages visually read.2018 main/supplement
+    and2017 synopsis were inspected as historical context.2024 paper has received
+    only preliminary reading and its versioned code was partially read statically;
+    no implementation correspondence, software execution or empirical replication
+    is certified.
+  accessed_at: '2026-10-13T19:31:53Z'
+  snapshot_sha256: 5ad89392088b4b257dd654b4f1078ea232271c72913246cd1340de1dc510955e
+  support: supports
+  summary: IJCAI 2020 proceedings, pp.4266–4274, nine PDF pages. All pages visually
+    inspected, including Sections1–5, Lemma1, Equations1–4, Algorithm1, Theorems1–2
+    and proof sketches, Figures1–6, Table1 and17 references. No implementation execution
+    or empirical replication.
+- evidence_id: kask2020supplement
+  kind: primary_source
+  reference: https://ics.uci.edu/~dechter/publications/r261-supplemental.pdf
+  locator: All9 proceedings and18 author-supplement pages visually read.2018 main/supplement
+    and2017 synopsis were inspected as historical context.2024 paper has received
+    only preliminary reading and its versioned code was partially read statically;
+    no implementation correspondence, software execution or empirical replication
+    is certified.
+  accessed_at: '2026-10-13T19:42:02Z'
+  snapshot_sha256: 4ebfc30073158a9237f89f9001e22cd4783e2266cbc0075cc2ba521ffcc8187a
+  support: supports
+  summary: Author-hosted18-page version linked as R261 Supplemental. All pages visually
+    inspected; pages1–9 repeat the main method, while Section6 on pages10–18 adds
+    Figures7–18 and Tables2–3. It adds traces and empirical results, not a detailed
+    new proof.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/and-or-abstraction-sampling-boundaries.py
+  accessed_at: '2026-10-13T20:11:43Z'
+  snapshot_sha256: b03cb72f49a79df22adb11480e7de61a5b0837772bc5d7bf7fe0aef41087a33f
+  support: supports
+  summary: Exact enumeration of a positive three-variable factor model gives true
+    partition2478, with mean2478 under either approximate or exact sibling estimates.
+    The approximate example has variance54432; the oracle example has zero variance.
+    A separate unit model distinguishes relative weights8 from erroneous absolute
+    weights32, and valid sequential probes from a naive scheme that is unbiased but
+    invalid half the time. Additional checks separate retained nodes from generated
+    work. The 2018 notation checks are labeled separately and do not certify that
+    pseudocode or the later author code.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/ANDORAbstractionSampling.yaml
+  accessed_at: '2026-10-13T20:11:43Z'
+  snapshot_sha256: 556f32f65f14c2e5525ec84aa2d40977a03a70353d7ea9982e12b9d509aaccfd
+  support: supports
+  summary: Complete corrected record read; evaluation locator now matches Section4
+    Empirical Evaluation. Correct section number, page range and substantive claims
+    are preserved.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T200943Z-aoas-section-heading/review.yaml
+  accessed_at: '2026-10-13T20:11:43Z'
+  snapshot_sha256: 57efba17de560e2efd6ad7079e1b4986a932705e9431a98782f35c6a49418385
+  support: supports
+  summary: Immutable initial review records minor source-heading finding F1.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: AND/OR abstraction sampling
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - identity
+  - kask2020aoas
+  - kask2020supplement
+  summary: Retain this distinct DRAFT algorithm.
+  details: The 2020 unrestricted AOAS procedure is structurally distinct from the
+    earlier proper variant and the maintained ordinary-tree GS/HS estimators. It uses
+    sibling products, context-sensitive pruning and relative backup. Neither the graphical
+    model itself nor conditional MCMC is this algorithm. Bare AOAS is not an asserted
+    alias.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - mapping
+  - kask2020aoas
+  - kask2020supplement
+  summary: The declared AIO mapping is supported.
+  details: The algorithm necessarily uses a factorized graphical model and its pseudo-tree
+    decomposition. A related match to the pinned ProbabilisticGraphicalModel class
+    preserves the algorithm versus model/task distinction. No subclass or equivalence
+    assertion is made. Twelve full AIO contexts and five native neighbors were inspected.
+- assessment_id: sibling-aware-proposal
+  area: evidence
+  topic: sibling-aware-proposal
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Algorithm1 specifies w*g*h*r and inverse winner probability. Exact enumeration
+    of a positive factor model gives mean2478 with approximate sibling bounds and
+    with exact values; variances differ. This tests stated finite instances, not every
+    adaptive proposal.
+- assessment_id: pruning-and-relative-backup
+  area: evidence
+  topic: pruning-and-relative-backup
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - kask2020supplement
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Algorithm1 lines29–35 and the supplementary traces justify pruning before
+    later siblings. Parent weight2 and sibling weights4 require relative factors2,
+    giving8 rather than32. A naive cross-context toy is unbiased but has no complete
+    solution half the time, so invalidity is not equated with universal bias.
+- assessment_id: finite-supported-expectation
+  area: evidence
+  topic: finite-supported-expectation
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The record attributes the unbiasedness theorem and proof sketch, bounds
+    the domain to finite nonnegative models with support, and distinguishes equivalent
+    OR traces from the same original fixed abstraction. It avoids the earlier over-specific
+    reading that a new abstraction must be selected after each trace.
+- assessment_id: probe-size-and-cutsets
+  area: evidence
+  topic: probe-size-and-cutsets
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source bounds retained probe size, not all generation or heuristic
+    cost. A one-variable domain can generate100 candidates and retain1. A compact
+    factorized toy represents16 configurations with9 real AND nodes. Exact-subtree
+    termination requires proven exact h, not merely a strong upper bound.
+- assessment_id: reported-evaluation-scope
+  area: evidence
+  topic: reported-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - kask2020supplement
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Full main and supplementary results were read. Five families and480-plus
+    cases, i-bound10, one-hour limits and estimated references are stated with configuration-dependent
+    solved counts. No universal win, independent ground truth for unknown Z, or confidence
+    guarantee is inferred.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: sibling-aware proposals, cross-context pruning, inherited-weight correction,
+    finite expectation, retained-node cost and empirical reference limits
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - kask2020aoas
+  - kask2020supplement
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Exact enumeration of a positive three-variable factor model gives true
+    partition2478, with mean2478 under either approximate or exact sibling estimates.
+    The approximate example has variance54432; the oracle example has zero variance.
+    A separate unit model distinguishes relative weights8 from erroneous absolute
+    weights32, and valid sequential probes from a naive scheme that is unbiased but
+    invalid half the time. Additional checks separate retained nodes from generated
+    work. The 2018 notation checks are labeled separately and do not certify that
+    pseudocode or the later author code.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - identity
+  - mapping
+  - kask2020aoas
+  - kask2020supplement
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed identity, positive mapping direction, all
+    maintained fields, claim-specific source locators, source versions/hashes, conditional
+    proposal support, ancestral sibling estimates, immediate pruning, relative backup,
+    finite expectation claim, retained versus generated nodes, exact-cutset condition
+    and evaluation denominators. Kept2018 notation ambiguity and partial2024 static
+    code reading separate from the2020 mechanism.
+- assessment_id: corrected-heading
+  area: evidence
+  topic: Empirical Evaluation source heading
+  outcome: supported
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  evidence_ids:
+  - corrected-record
+  - predecessor
+  - kask2020aoas
+  summary: The maintained locator now matches the primary heading.
+  details: Checked the corrected locator, report mirror and rendered page against
+    proceedingsPDFp6 / printedp4271. Only the heading and curation timestamp changed;
+    edit history preserves the correction.
+findings:
+- finding_id: F1
+  issue_key: aoas-empirical-evaluation-section-heading
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct the evaluation section heading in the AOAS citation
+  description: The reported-evaluation-scope locator calls Section4 Experimental Evaluation,
+    while the actual heading on PDFp6 / printedp4271 is Empirical Evaluation. The
+    section number, page range and substantive claim are correct; the citation should
+    use the source heading accurately.
+  target_ids:
+  - AIMech:ANDORAbstractionSampling
+  field_paths:
+  - claims[reported-evaluation-scope].evidence[0].locator
+  evidence_ids:
+  - corrected-record
+  - predecessor
+  - kask2020aoas
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ANDORAbstractionSampling.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/307
+  disposition_reason: The source heading is corrected to Empirical Evaluation in the
+    record and exact report mirror. The primary page, complete corrected record and
+    AIO mapping were reread after successor capture; corrected-input gates and rendered-content
+    checks pass. Section number, page range and scientific scope are unchanged.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T200943Z-aoas-section-heading
+    finding_id: F1
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 648 native and 442 unchanged generated records.
+  The 833-entry main frontier retains 473 pending and 58 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All9 proceedings and18 author-supplement pages visually read. Candidate-specific
+  proceedings pages2–5 reread before curation.2018 main/supplement and2017synopsis
+  fully read as historical context; later2024 code only partially read statically.
+  No author software executed.
+- No author-code execution, training, paid service, hardware measurement or empirical
+  replication; later versioned code was read only in the explicitly recorded partial
+  scope. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T200943Z-aoas-section-heading
+  relationship: Resolves the explicitly linked minor evaluation-heading finding.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
