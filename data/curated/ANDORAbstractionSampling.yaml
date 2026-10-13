@@ -1,0 +1,158 @@
+id: AIMech:ANDORAbstractionSampling
+name: AND/OR abstraction sampling
+aliases:
+- Unrestricted AND/OR abstraction sampling
+concept_kind: algorithm
+definition: An importance-sampling algorithm for partition functions of discrete graphical models that
+  samples representatives in a pseudo-tree-guided AND/OR search space, allowing abstractions across branching-ancestor
+  contexts through interleaved ancestor pruning and relative-weight value backup.
+identity_notes: Compared all 442 pinned AIO and 647 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 5, 1, 1 lines. All candidate-relevant passages and
+  the windows around ambiguous acronym hits were inspected; the older-checkout AOAS hits are statistics-journal
+  URLs, not algorithm identities. Semantic matching covered 56 AIO and 316 native definitions, with every
+  matched definition read. 12 full annotated AIO node/edge/generated contexts and 5 full native records
+  were inspected. Retain the 2020 AOAS algorithm, which permits abstractions across different closest
+  branching-ancestor assignments by interleaving variable-level sampling with pruning and relative-weight
+  backup. The 2018 proper AND/OR variant restricts those merges; it is not an alias for this method. Chen
+  GS and HS estimate additive functionals of ordinary trees; this algorithm operates on a decomposed graphical-model
+  AND/OR space with products over independent sibling subproblems. Knuth follows single paths, Gibbs constructs
+  conditional Markov transitions, and MRF denotes a model family. Bare AOAS is not an alias because the
+  acronym also denotes a statistics journal.
+definition_evidence:
+- source_id: kask2020aoas
+  locator: Section 3, AOAS, Algorithm 1 and Properties of AOAS, PDF pp.3–5 / printed pp.4268–4270
+  relation: supports
+claims:
+- claim_id: sibling-aware-proposal
+  kind: mechanism
+  statement: 'Traverse pseudo-tree variables depth first and expand the current AND-node frontier to the
+    next variable. Partition its generated nodes into abstract states and retain one representative per
+    state. In the stated heuristic proposal, its probability is proportional to w*g*h*r: inherited importance
+    weight, accumulated path cost, a heuristic for the remaining subtree, and estimates of off-path sibling
+    subproblem values. Update the selected weight to w/p using its actual selection probability; initialize
+    its backed-up subtree value to one.'
+  evidence:
+  - source_id: kask2020aoas
+    locator: Section 2, Lemma 1 and Equations 3–4; Section 3, Algorithm 1 lines8–28 and explanatory text;
+      PDF pp.2–4 / printed pp.4267–4269
+    relation: supports
+- claim_id: pruning-and-relative-backup
+  kind: mechanism
+  statement: After completing a child-variable subtree, remove ancestor assignments without retained descendants
+    in that subtree before processing later siblings. For each surviving parent AND node, multiply its
+    accumulated value by the sum over retained child AND nodes of child value times arc cost times child
+    weight divided by parent weight. The relative weights avoid repeatedly applying the same inherited
+    ancestral sampling correction. This traversal maintains complete solution subtrees even when an abstract
+    state crosses the closest branching-ancestor contexts that the earlier proper variant kept separate.
+  evidence:
+  - source_id: kask2020aoas
+    locator: Section 3, pAOAS, Algorithm 1 lines29–35, AOAS Trace and Figure 3; PDF pp.3–5 / printed pp.4268–4270
+    relation: supports
+  - source_id: kask2020supplement
+    locator: Section 6.1, Figures 7–8 and explanatory traces, PDF pp.10–11
+    relation: supports
+- claim_id: finite-supported-expectation
+  kind: scope
+  statement: The source states unbiased partition-function estimation for AOAS and sketches a correspondence
+    to equivalent OR abstraction-sampling traces. Curated scope is a finite discrete model with nonnegative
+    finite factors, valid pseudo-tree decomposition and actual proposal support for all potentially positive
+    contributions, together with the stated inverse-probability updates and pruning. Correspondence to
+    an equivalent OR construction does not mean that the same fixed abstraction on a depth-first OR tree
+    generates the same probes. Unbiasedness does not provide a finite-run error guarantee.
+  evidence:
+  - source_id: kask2020aoas
+    locator: Section 2, graphical-model and search-space definitions; Section 3, Properties of AOAS, Theorems
+      1–2 and Complexity, PDF pp.1–2,5 / printed pp.4266–4267,4270
+    relation: supports
+- claim_id: probe-size-and-cutsets
+  kind: scope
+  statement: With n variables and at most m abstract states per variable, the source bounds retained AOAS
+    probe size by O(n*m). This is a retained-node bound, not a bound on all generated children, heuristic
+    preprocessing or runtime. AND/OR factorization can compactly represent multiple complete configurations
+    within one probe. The cutset option stops below a node only when its heuristic is known to equal the
+    exact subtree value; a stronger approximate bound alone does not establish that condition.
+  evidence:
+  - source_id: kask2020aoas
+    locator: Section 3, Complexity, Contrasting Scalability, Figure 4 and Cutset Sampling, PDF pp.5–6
+      / printed pp.4270–4271
+    relation: supports
+- claim_id: reported-evaluation-scope
+  kind: limitation
+  statement: The reported comparison uses five benchmark families, over 480 graphical-model problems,
+    weighted mini-bucket heuristics with i-bound 10, and runs up to one hour. For problems without exact
+    partition functions, error uses an empirical reference obtained from repeated long abstraction-sampling
+    runs. Outcomes depend on family, abstraction and parameters; solved-instance counts also differ between
+    settings. The tables and selected convergence curves do not establish a universal accuracy or runtime
+    advantage over proper AND/OR sampling, OR sampling or dynamic importance sampling.
+  evidence:
+  - source_id: kask2020aoas
+    locator: Section 4, Empirical Evaluation, Table 1 and Figures 5–6; PDF pp.6–8 / printed pp.4271–4273
+    relation: supports
+  - source_id: kask2020supplement
+    locator: Section 6.2, Tables 2–3 and Figures 9–18, PDF pp.12–18
+    relation: supports
+evidence_sources:
+- source_id: kask2020aoas
+  title: Scaling Up AND/OR Abstraction Sampling
+  authors: &id001
+  - Kalev Kask
+  - Bobak Pezeshki
+  - Filjor Broka
+  - Alexander Ihler
+  - Rina Dechter
+  persistent_id: doi:10.24963/ijcai.2020/589
+  version: IJCAI 2020 proceedings, pp.4266–4274, nine PDF pages. All pages visually inspected, including
+    Sections1–5, Lemma1, Equations1–4, Algorithm1, Theorems1–2 and proof sketches, Figures1–6, Table1
+    and17 references. No implementation execution or empirical replication.
+  source_type: primary_paper
+  url: https://www.ijcai.org/proceedings/2020/0589.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T19:31:53Z'
+  sha256: 5ad89392088b4b257dd654b4f1078ea232271c72913246cd1340de1dc510955e
+- source_id: kask2020supplement
+  title: 'Scaling Up AND/OR Abstraction Sampling: author version with supplementary material'
+  authors: *id001
+  version: Author-hosted18-page version linked as R261 Supplemental. All pages visually inspected; pages1–9
+    repeat the main method, while Section6 on pages10–18 adds Figures7–18 and Tables2–3. It adds traces
+    and empirical results, not a detailed new proof.
+  source_type: primary_paper
+  url: https://ics.uci.edu/~dechter/publications/r261-supplemental.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T19:42:02Z'
+  sha256: 4ebfc30073158a9237f89f9001e22cd4783e2266cbc0075cc2ba521ffcc8187a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The algorithm estimates the partition function of a factorized discrete graphical model and
+    uses that model’s conditional-independence structure. The pinned AIO target denotes graphical-model
+    terminology and is exported as a machine-learning task. This is an algorithm-to-model/task related
+    match, not equivalence or an is-a assertion.
+limitations:
+- This record denotes the 2020 AOAS procedure, not every algorithm that samples an AND/OR tree. The separately
+  described 2018 proper variant and the later 2024 abstraction-function catalog are not asserted aliases.
+- Zero proposal mass must not discard a positive contribution. All-zero states, division by zero and termination
+  at the dummy root require implementation conventions. Algorithm 1’s terminal pop/top sequence is not
+  certified as literal executable pseudocode; the prose specifies return of the backed-up dummy-root value.
+- In a constructed three-variable model the exact partition is 2478. Approximate sibling bounds give mean
+  2478 and variance 54432; exact sibling values give variance 0 in that example. These are finite checks,
+  not a general proof or an available exact heuristic for hard instances.
+- With inherited parent weight 2 and child weights 4 on two sibling branches, relative backup gives the
+  correct unit-model partition 8; applying both absolute child weights gives 32. A different naive unrestricted
+  scheme has invalid probes with probability 1/2 yet is unbiased in the constructed case. Invalidity is
+  therefore not claimed to prove bias in every possible variant.
+- The proceedings proof is a sketch and the inspected supplement supplies additional traces and results.
+  No full general proof certification, author-code execution, confidence guarantee or benchmark replication
+  is claimed. A separate partial reading of later author code informs the discovery ledger, not an asserted
+  implementation identity for the 2020 paper.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T20:08:22Z'
+  updated_at: '2026-10-13T20:10:58Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

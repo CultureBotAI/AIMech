@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AND/OR abstraction sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AND/OR abstraction sampling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AND/OR abstraction sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ANDORAbstractionSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Unrestricted AND/OR abstraction sampling
+    </div>
+
+  <div class="detail-desc">
+    An importance-sampling algorithm for partition functions of discrete graphical models that samples representatives in a pseudo-tree-guided AND/OR search space, allowing abstractions across branching-ancestor contexts through interleaved ancestor pruning and relative-weight value backup.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 647 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 5, 1, 1 lines. All candidate-relevant passages and the windows around ambiguous acronym hits were inspected; the older-checkout AOAS hits are statistics-journal URLs, not algorithm identities. Semantic matching covered 56 AIO and 316 native definitions, with every matched definition read. 12 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain the 2020 AOAS algorithm, which permits abstractions across different closest branching-ancestor assignments by interleaving variable-level sampling with pruning and relative-weight backup. The 2018 proper AND/OR variant restricts those merges; it is not an alias for this method. Chen GS and HS estimate additive functionals of ordinary trees; this algorithm operates on a decomposed graphical-model AND/OR space with products over independent sibling subproblems. Knuth follows single paths, Gibbs constructs conditional Markov transitions, and MRF denotes a model family. Bare AOAS is not an alias because the acronym also denotes a statistics journal.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sibling-aware-proposal</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Traverse pseudo-tree variables depth first and expand the current AND-node frontier to the next variable. Partition its generated nodes into abstract states and retain one representative per state. In the stated heuristic proposal, its probability is proportional to w*g*h*r: inherited importance weight, accumulated path cost, a heuristic for the remaining subtree, and estimates of off-path sibling subproblem values. Update the selected weight to w/p using its actual selection probability; initialize its backed-up subtree value to one.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020aoas">Scaling Up AND/OR Abstraction Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Lemma 1 and Equations 3–4; Section 3, Algorithm 1 lines8–28 and explanatory text; PDF pp.2–4 / printed pp.4267–4269</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pruning-and-relative-backup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After completing a child-variable subtree, remove ancestor assignments without retained descendants in that subtree before processing later siblings. For each surviving parent AND node, multiply its accumulated value by the sum over retained child AND nodes of child value times arc cost times child weight divided by parent weight. The relative weights avoid repeatedly applying the same inherited ancestral sampling correction. This traversal maintains complete solution subtrees even when an abstract state crosses the closest branching-ancestor contexts that the earlier proper variant kept separate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020aoas">Scaling Up AND/OR Abstraction Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 3, pAOAS, Algorithm 1 lines29–35, AOAS Trace and Figure 3; PDF pp.3–5 / printed pp.4268–4270</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020supplement">Scaling Up AND/OR Abstraction Sampling: author version with supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1, Figures 7–8 and explanatory traces, PDF pp.10–11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-supported-expectation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source states unbiased partition-function estimation for AOAS and sketches a correspondence to equivalent OR abstraction-sampling traces. Curated scope is a finite discrete model with nonnegative finite factors, valid pseudo-tree decomposition and actual proposal support for all potentially positive contributions, together with the stated inverse-probability updates and pruning. Correspondence to an equivalent OR construction does not mean that the same fixed abstraction on a depth-first OR tree generates the same probes. Unbiasedness does not provide a finite-run error guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020aoas">Scaling Up AND/OR Abstraction Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 2, graphical-model and search-space definitions; Section 3, Properties of AOAS, Theorems 1–2 and Complexity, PDF pp.1–2,5 / printed pp.4266–4267,4270</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#probe-size-and-cutsets</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With n variables and at most m abstract states per variable, the source bounds retained AOAS probe size by O(n*m). This is a retained-node bound, not a bound on all generated children, heuristic preprocessing or runtime. AND/OR factorization can compactly represent multiple complete configurations within one probe. The cutset option stops below a node only when its heuristic is known to equal the exact subtree value; a stronger approximate bound alone does not establish that condition.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020aoas">Scaling Up AND/OR Abstraction Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Complexity, Contrasting Scalability, Figure 4 and Cutset Sampling, PDF pp.5–6 / printed pp.4270–4271</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#reported-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported comparison uses five benchmark families, over 480 graphical-model problems, weighted mini-bucket heuristics with i-bound 10, and runs up to one hour. For problems without exact partition functions, error uses an empirical reference obtained from repeated long abstraction-sampling runs. Outcomes depend on family, abstraction and parameters; solved-instance counts also differ between settings. The tables and selected convergence curves do not establish a universal accuracy or runtime advantage over proper AND/OR sampling, OR sampling or dynamic importance sampling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020aoas">Scaling Up AND/OR Abstraction Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Empirical Evaluation, Table 1 and Figures 5–6; PDF pp.6–8 / printed pp.4271–4273</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kask2020supplement">Scaling Up AND/OR Abstraction Sampling: author version with supplementary material</a></span>
+        <span>· <strong>Locator:</strong> Section 6.2, Tables 2–3 and Figures 9–18, PDF pp.12–18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record denotes the 2020 AOAS procedure, not every algorithm that samples an AND/OR tree. The separately described 2018 proper variant and the later 2024 abstraction-function catalog are not asserted aliases.</li>
+      <li>Zero proposal mass must not discard a positive contribution. All-zero states, division by zero and termination at the dummy root require implementation conventions. Algorithm 1’s terminal pop/top sequence is not certified as literal executable pseudocode; the prose specifies return of the backed-up dummy-root value.</li>
+      <li>In a constructed three-variable model the exact partition is 2478. Approximate sibling bounds give mean 2478 and variance 54432; exact sibling values give variance 0 in that example. These are finite checks, not a general proof or an available exact heuristic for hard instances.</li>
+      <li>With inherited parent weight 2 and child weights 4 on two sibling branches, relative backup gives the correct unit-model partition 8; applying both absolute child weights gives 32. A different naive unrestricted scheme has invalid probes with probability 1/2 yet is unbiased in the constructed case. Invalidity is therefore not claimed to prove bias in every possible variant.</li>
+      <li>The proceedings proof is a sketch and the inspected supplement supplies additional traces and results. No full general proof certification, author-code execution, confidence guarantee or benchmark replication is claimed. A separate partial reading of later author code informs the discovery ledger, not an asserted implementation identity for the 2020 paper.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html" style="font-weight: 600;"><code>AIO:ProbabilisticGraphicalModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Probabilistic Graphical Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm estimates the partition function of a factorized discrete graphical model and uses that model’s conditional-independence structure. The pinned AIO target denotes graphical-model terminology and is exported as a machine-learning task. This is an algorithm-to-model/task related match, not equivalence or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-kask2020aoas">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">kask2020aoas</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ijcai.org/proceedings/2020/0589.pdf" target="_blank" rel="noopener">Scaling Up AND/OR Abstraction Sampling</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kalev Kask, Bobak Pezeshki, Filjor Broka, Alexander Ihler, Rina Dechter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.24963/ijcai.2020/589</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5ad89392088b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-kask2020supplement">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">kask2020supplement</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://ics.uci.edu/~dechter/publications/r261-supplemental.pdf" target="_blank" rel="noopener">Scaling Up AND/OR Abstraction Sampling: author version with supplementary material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kalev Kask, Bobak Pezeshki, Filjor Broka, Alexander Ihler, Rina Dechter
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4ebfc3007315…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T20:08:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T20:10:58Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ANDORAbstractionSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ANDORAbstractionSampling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
