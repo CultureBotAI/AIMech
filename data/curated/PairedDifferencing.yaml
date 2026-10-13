@@ -1,0 +1,176 @@
+id: AIMech:PairedDifferencing
+name: Paired differencing method
+aliases:
+- PDM
+concept_kind: algorithm
+definition: A two-way number-partitioning heuristic that sorts residuals and differences disjoint adjacent
+  pairs in whole rounds, carries an unpaired residual forward, and repeats until one residual remains,
+  producing a partition whose subset cardinalities differ by at most one.
+identity_notes: Compared all 442 pinned AIO and 592 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 9, 0, 4 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 99 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Paired
+  differencing performs whole rounds of adjacent sorted pairs before reordering. The first round enforces
+  two-bin cardinality balance; LDM/KK instead reorders after each largest-pair operation and need not
+  balance cardinalities. The frontier phrase pairwise differencing in rounds is resolved here; package-manager
+  PDM and license-string hits are unrelated. BLDM switches after only the first paired round and remains
+  a separate lead. No matching AIO identity or justified mapping was found.
+definition_evidence:
+- source_id: mertens1999
+  locator: Section 2.1, PDF/printed pp. 3–4; cardinality explanation in Section 2.3, p. 6
+  relation: supports
+claims:
+- claim_id: whole-round-selection
+  kind: mechanism
+  statement: For a finite nonempty multiset of nonnegative weights, sort the current residual list. In
+    one round, replace the largest and second largest by their nonnegative difference, the third and fourth
+    largest by theirs, and so on. Carry the smallest unpaired residual unchanged if the list length is
+    odd. Sort the resulting ceil(n/2) residuals and repeat, using the current list length at each round.
+    Reordering occurs between complete rounds, unlike largest differencing after every pair.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.1, pp. 3–4
+    relation: supports
+- claim_id: indexed-reconstruction
+  kind: mechanism
+  statement: Each residual represents a signed difference of sums over disjoint original item groups.
+    When a>=b is replaced by a-b, keep a’s positive group with b’s negative group, and a’s negative group
+    with b’s positive group. Retain the merge tree or original-index bookkeeping to reconstruct the two
+    final subsets; the residual alone does not identify them. Duplicate values and zero residuals still
+    represent distinct original indices.
+  evidence:
+  - source_id: mertens1999
+    locator: 'Section 2.1, p. 3: differencing as opposite-subset commitment; Section 2.3, p. 6: effective
+      cardinality interpretation; direct indexed reconstruction'
+    relation: supports
+- claim_id: cardinality-balance
+  kind: scope
+  statement: The first paired round puts each paired original item on opposite sides of its partial partition,
+    giving every such residual effective cardinality difference 0. For odd input size there is one unpaired
+    original item with difference 1. Subsequent differencing can only add or subtract these signed differences,
+    so the final absolute cardinality difference is0 for even size and1 for odd size. This guarantees
+    balanced subset sizes, not equal subset sums. Zero-valued items still count toward cardinality.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1 and 2.3, pp. 4 and 6; direct invariant and constructed zero/odd-item examples
+    relation: supports
+- claim_id: feasible-not-optimal
+  kind: limitation
+  statement: The method retains one paired-differencing path and does not certify a minimum sum difference
+    among balanced partitions. In a constructed run on 8,7,6,5,4 it returns loads 16 and 14, residue 2,
+    while a balanced 2-versus3 partition can have 15 on both sides. More arithmetic after the final residual
+    does not explore discarded pairing or orientation choices. Complete balanced search is a separate
+    procedure.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1–2.3, pp. 3–7; constructed balanced exhaustive-assignment counterexample
+    relation: supports
+- claim_id: resource-scope
+  kind: scope
+  statement: There are n-1 differencing operations. Sorting geometrically shrinking lists gives O(n log
+    n) comparison/arithmetic work; a merge-tree implementation can retain O(n) nodes for reconstruction.
+    These are unit-cost bounds and do not make arbitrary-precision integer arithmetic free. The supplied
+    small indexed calculation illustrates memberships and scaling, not these implementation resource bounds.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.1 complexity statement, p. 4; direct sum of per-round sorting costs and merge-tree
+      bookkeeping
+    relation: supports
+- claim_id: method-boundaries
+  kind: scope
+  statement: 'PDM repeats paired rounds throughout. The original report’s Algorithm B describes this round-based
+    idea for power-of-two input size; Mertens gives the paired-method description with odd-item carry.
+    BLDM instead performs only the first paired round and then switches to largest differencing. Largest
+    differencing alone need not balance cardinalities: on 100,10,9,8 the constructed largest-first result
+    has sizes 1 and 3 with residue 73, while PDM has sizes 2 and 2 with residue 89. The original randomized
+    compaction algorithm and cited average-case proofs are separate evidence; their guarantees are not
+    inherited here.'
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1–2.3, pp. 3–7; constructed largest-versus-paired comparison; original report
+      separately inspected
+    relation: supports
+  - source_id: karmarkar-karp-report
+    locator: 'Section 2.1, PDF/printed pp. 2–3: Algorithm B for a power-of-two input size; Section 2.2,
+      pp. 4–6: separate randomized algorithm'
+    relation: supports
+evidence_sources:
+- source_id: mertens1999
+  title: A complete anytime algorithm for balanced number partitioning
+  authors:
+  - Stephan Mertens
+  persistent_id: https://arxiv.org/abs/cs/9903011v1
+  version: All 12 pages of the arXiv cs/9903011v1 PDF read. The margin and primary abstract identify submission
+    on 11 March 1999; the downloaded PDF footer says 26 November 2024. The footer is not treated as the
+    original publication date. Locators are PDF/printed pages 1–12; no later journal version or author
+    implementation inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/cs/9903011v1
+  access_level: full_text
+  accessed_at: '2026-10-13T08:05:53Z'
+  sha256: fe0bcf132782ff8d59c7888b6ea0a7aae195bc3df69dddc728cc842a8258ecd3
+- source_id: karmarkar-karp-report
+  title: The Differencing Method of Set Partitioning
+  authors:
+  - Narendra Karmarkar
+  - Richard M. Karp
+  persistent_id: UCB/CSD-83-113
+  version: Complete30-page Berkeley archive PDF catalogued UCB/CSD-83-113(1983); all pages read. The PDF
+    opening has no printed year; Korf cites a1982 UCB/CSD82/113 report. No claim resolving first-publication
+    priority; author spelling follows printed PDF rather than landing-page typos.
+  source_type: primary_paper
+  url: https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/CSD-83-113.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: f6ca1d4198d45609dd6da8c24693c797b5a6244d4f6374aea94db96084d386de
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 592 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 9, 0, 4 lines. All distinct match contents were
+    inspected. Semantic matching covered 67 AIO and 99 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    Paired differencing performs whole rounds of adjacent sorted pairs before reordering. The first round
+    enforces two-bin cardinality balance; LDM/KK instead reorders after each largest-pair operation and
+    need not balance cardinalities. The frontier phrase pairwise differencing in rounds is resolved here;
+    package-manager PDM and license-string hits are unrelated. BLDM switches after only the first paired
+    round and remains a separate lead. No matching AIO identity or justified mapping was found.
+  rationale: No inspected AIO target identifies this deterministic paired residual procedure or its cardinality
+    invariant.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- The objective is two-bin sum difference with cardinalities differing by at most one. This does not cover
+  arbitrary prescribed cardinality differences or multiway balance.
+- Tie choices may change reconstructed memberships. The indexed examples specify stable sorting and do
+  not reproduce an uninspected author implementation.
+- The complete 12-page Mertens preprint and 30-page original report were read. Lueker and Yakir publication
+  metadata/abstracts were located, but their full proofs were not inspected and no asymptotic residue
+  claim is adopted.
+- A heuristic result is a feasible balanced partition, not an optimality certificate. No runtime or average-case
+  experiment was replicated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T08:26:29Z'
+  updated_at: '2026-10-13T08:26:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,159 @@
+id: AIMech:CompleteMultiwayKarmarkarKarp
+name: Complete multiway Karmarkar–Karp
+aliases:
+- Multiway CKK
+concept_kind: algorithm
+definition: A complete anytime multiway number-partitioning search that combines partial bin assignments
+  in alternative relative permutations, explores low-range compositions first, and uses normalized load
+  bounds and symmetry to retain and certify a minimum-range partition.
+identity_notes: Compared all 442 pinned AIO and 591 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 88, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 98 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. This
+  k>=3 complete vector-subpartition search explores relative bin permutations. It extends the maintained
+  multiway heuristic with exhaustive alternatives and bounds; the scalar two-way CKK and raw-item CGA
+  remain distinct. Text matches are neighboring records and the partly addressed combined multiway discovery
+  lead. No suitable pinned AIO counterpart was identified.
+definition_evidence:
+- source_id: korf1997
+  locator: Sections 7.3–7.4, manuscript PDF/printed pp. 20–24
+  relation: supports
+claims:
+- claim_id: permutation-search
+  kind: mechanism
+  statement: For fixed k>=3 and finite nonempty nonnegative weights, represent each original item as a
+    k-bin subpartition with one occupied bin. Select the two subpartitions with largest normalized maximum
+    loads. Explore all relevant relative bin permutations, add aligned loads and merge their original
+    memberships, normalize by subtracting the minimum, and reinsert the result. Search children in increasing
+    new normalized maximum; the preferred composition pairs opposing ranks. Unlike CGA, a step combines
+    already formed subpartitions rather than assigning one raw item.
+  evidence:
+  - source_id: korf1997
+    locator: Sections 7.3–7.4, pp. 20–23
+    relation: supports
+- claim_id: coverage-and-symmetry
+  kind: scope
+  statement: A subpartition commits its represented items to relative bins; later composition can permute
+    its bins but does not reunite bins that were kept apart. Exploring relative permutations covers all
+    assignments up to interchangeable-bin symmetry before additional pruning. Equal normalized load states
+    can have the same objective-search future even when their memberships differ. Such symmetry reduction
+    preserves the optimal objective value, not enumeration of every distinct membership partition. Normalized
+    zero can represent a nonempty minimum-load bin, so it cannot be used alone as an emptiness flag.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.4, pp. 21–23; Section 7.3 reconstruction, p. 21
+    relation: supports
+- claim_id: admissible-load-bound
+  kind: mechanism
+  statement: Across current normalized subpartitions, let M be the largest bin component and S the sum
+    of all components. A lower bound on final range is max(0, M-(S-M)/(k-1)); a branch whose bound is
+    at least the incumbent range cannot improve it. Subtracting a common offset from every bin of a subpartition
+    preserves final range under any subsequent alignment. The average bound need not be attainable with
+    indivisible item groups, and a small bound is not a feasible completion. Exact or conservative arithmetic
+    is needed for sound pruning.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.4 pruning, pp. 23–24; Section 7.2, p. 20; direct interpretation of the average
+      lower bound
+    relation: supports
+- claim_id: anytime-certification
+  kind: limitation
+  statement: The preferred path provides the multiway KK heuristic result, after which alternate compositions
+    can improve it. A finite complete search with sound pruning certifies minimum range, while a limited
+    run can retain an uncertified feasible incumbent. For integer inputs, attaining range 0 when the total
+    is divisible by k, or range 1 otherwise, certifies a global lower bound; such balance need not exist.
+    In a constructed three-bin example with weights 2,2,2,3,3,5, a one-node run retains range 2 without
+    certification and complete search finds range 1. Worst-case search remains exponential.
+  evidence:
+  - source_id: korf1997
+    locator: Sections 7.4–7.5, pp. 21–25; integer lower-bound statement in Section 7.2, p. 20; constructed
+      indexed search and exhaustive comparison
+    relation: supports
+- claim_id: range-objective
+  kind: limitation
+  statement: The optimized objective is largest load minus smallest load. For k>=3, a minimum-range solution
+    need not minimize the absolute largest load. Weights4,4,4,6,6,9 permit range-optimal loads (10,10,13)
+    with range 3, while minimum makespan 12 is attained by (9,12,12). A complete range search may retain
+    the former tie, so the source’s introductory objective-equivalence assertion is not adopted as a guarantee.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7 opening, p. 19; Sections 7.3–7.4 normalized objective; constructed exhaustive load-state
+      counterexample
+    relation: supports
+  - source_id: korf1997
+    locator: 'Section 7 opening, p. 19: statement that minimizing range also minimizes the largest subset
+      sum; contradicted by the constructed tie example'
+    relation: contradicts
+- claim_id: reported-evaluation-scope
+  kind: scope
+  statement: The source’s three-way CKK/CGA comparison uses 100 random trials per point with integer values
+    uniformly drawn from 0 through 100000. The implementations differ in per-node cost; CKK’s smaller
+    search need not imply universally cheaper node generation. The reported difficulty peak and practical
+    speedups depend on bin count, precision, distribution and implementation. No universal runtime ordering
+    or arbitrary-instance practical bound follows.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.5 and Figure 8, pp. 24–25
+    relation: supports
+evidence_sources:
+- source_id: korf1997
+  title: A Complete Anytime Algorithm for Number Partitioning
+  authors:
+  - Richard E. Korf
+  persistent_id: https://doi.org/10.1016/S0004-3702(98)00086-1
+  version: University-hosted31-page manuscript dated27June1997, read in full. DOI identifies the later1998
+    Artificial Intelligence106(2):181–203 publication; its final typeset text was not inspected. Locators
+    refer to manuscript PDF/printed pages1–31.
+  source_type: primary_paper
+  url: https://web.cecs.pdx.edu/bart/cs510cs/papers/korf-ckk.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: 00751dfacfb610eaca973274764704476ecef22865526b9528eb88e07dc09074
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 591 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 88, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 67 AIO and 98 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    This k>=3 complete vector-subpartition search explores relative bin permutations. It extends the maintained
+    multiway heuristic with exhaustive alternatives and bounds; the scalar two-way CKK and raw-item CGA
+    remain distinct. Text matches are neighboring records and the partly addressed combined multiway discovery
+    lead. No suitable pinned AIO counterpart was identified.
+  rationale: No inspected AIO class denotes complete arithmetic permutation search over partial bin assignments.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- This identity concerns unconstrained range minimization for k>=3 interchangeable bins; empty bins are
+  allowed. Cardinality and bin-specific constraints require additional state and proofs.
+- Optimal objective coverage and unique enumeration of item memberships are different guarantees. Equal-load
+  pruning preserves only the former scope here.
+- Normalization needs separate membership or offset bookkeeping to reconstruct absolute loads. A normalized
+  zero is not necessarily empty.
+- Constructed fixed examples validate stated distinctions only. The complete 31-page primary manuscript
+  was read; final journal full text, author code and empirical replication were not inspected or run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T08:25:39Z'
+  updated_at: '2026-10-13T08:25:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
