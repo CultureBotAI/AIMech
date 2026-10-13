@@ -1,0 +1,146 @@
+id: AIMech:IdentityInitializedRecurrentNeuralNetwork
+name: Identity-initialized rectified recurrent neural network
+aliases:
+- IRNN
+concept_kind: architecture
+definition: A recurrent neural sequence architecture using rectified linear hidden units, zero initial
+  recurrent biases, and a trainable recurrent matrix initialized to the identity, with a scaled-identity
+  initialization variant for shorter memory.
+identity_notes: Compared all 442 pinned AIO and 571 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 9, 0, 0 lines. All current matches are the preceding
+  norm-stabilizer discovery report’s IRNN candidate, source URL and follow-up note, read in full. No existing
+  maintained record matched. The semantic search covers 44 AIO rows and 118 native definitions; preceding
+  21 AIO and111 native rows were verified unchanged, and 23 additional AIO plus seven additional native
+  definitions were read. The extra native definitions include norm-stabilizer and other recurrent/output/transport
+  architectures, not this initialization-defined rectified network. Four full annotated AIO node/edge/generated
+  contexts and four full native regularizer/clipping records were inspected. RecurrentNeuralNetwork is
+  broader than the local architecture; ReLUFunction is a related component. SimpleRNNLayer does not by
+  itself specify the initial parameters and denotes a layer rather than the complete architecture. TrainingStrategy
+  is not an architecture superclass. IRNN includes the separately described scaled-identity initialization
+  variant, while preserving the difference from a fixed identity or permanent diagonal recurrent constraint.
+definition_evidence:
+- source_id: le2015
+  locator: Section 2, printed/PDF p. 2; scaled-identity speech configuration in Section 4.4, p. 6
+  relation: supports
+claims:
+- claim_id: initialization-and-transition
+  kind: mechanism
+  statement: A hidden transition can be written h_t=ReLU(W_hh*h_(t-1)+W_xh*x_t+b). In the unscaled IRNN
+    initialization W_hh=I and b=0, so the transition initially rectifies the previous state plus the input
+    contribution. The recurrent parameters are subsequently trained by backpropagation through time. Identity
+    is an initial value, not a constraint that holds at every training step. The source also studies a
+    scaled-identity variant.
+  evidence:
+  - source_id: le2015
+    locator: Section 2, p. 2; experimental initialization and training in Section 4, p. 3
+    relation: supports
+- claim_id: active-path-gradient-boundaries
+  kind: limitation
+  statement: Under the unscaled initial parameters with zero input contribution, a nonnegative hidden
+    state is preserved. Strictly positive preactivations have unit rectifier derivative, so an active
+    direct recurrent path preserves its incoming derivative when no additional error contribution is added.
+    If an input makes a preactivation negative, that component has zero local derivative; a zero preactivation
+    requires a chosen derivative convention. Thus the source motivation of constant error propagation
+    is conditional, not a guarantee for every state, input or trained parameter setting.
+  evidence:
+  - source_id: le2015
+    locator: Section 2, p. 2; curator differentiation of the stated rectified transition
+    relation: supports
+- claim_id: scaled-identity-variant
+  kind: mechanism
+  statement: The paper permits a scaled identity and uses 0.01*I for the TIMIT speech experiments, calling
+    this configuration iRNN. With fixed initial W_hh=c*I, zero input and bias, and 0<c<1, a nonnegative
+    state decays by c per step; an always-active direct derivative path decays by c^k across k steps.
+    Inputs, activation gates and subsequent parameter updates change this simple calculation. The case-sensitive
+    iRNN designation is treated here as a scoped initialization variant, not a second synonym that erases
+    its distinction from the unscaled setup.
+  evidence:
+  - source_id: le2015
+    locator: Section 2, p. 2; Section 4.4, pp. 6–7; curator algebra
+    relation: supports
+- claim_id: trainable-versus-fixed-structure
+  kind: scope
+  statement: Because W_hh is trained, initially zero off-diagonal entries can become nonzero. The architecture
+    does not require permanent diagonal recurrence, independent hidden units, fixed identity weights or
+    orthogonality throughout optimization. The paper contrasts its trainable initialization with an earlier
+    approach that retains a matrix fixed to identity or approximate identity for a subset of slower context
+    units. An initialization convention and a persistent recurrent structural constraint are different
+    identities.
+  evidence:
+  - source_id: le2015
+    locator: Section 2, p. 2; curator parameter-update consequence
+    relation: supports
+- claim_id: state-magnitude-and-forgetting
+  kind: limitation
+  statement: 'Identity initialization does not bound state magnitudes: a positive repeated input contribution
+    can accumulate over time while rectifier units remain active. In the reported speech experiments full
+    identity caused slow convergence, worse results and sometimes divergence, and the authors used a smaller
+    identity scale to favor forgetting. This does not establish a universal scale, a bound on optimizer
+    steps or immunity to vanishing and exploding gradients. Gradient clipping and other training settings
+    remain separate choices.'
+  evidence:
+  - source_id: le2015
+    locator: Section 4 setup, p. 3; Section 4.4, p. 6; curator input-accumulation example
+    relation: supports
+- claim_id: evaluation-context
+  kind: scope
+  statement: The paper evaluates adding tasks, sequential and permuted-pixel MNIST, billion-word language
+    modeling and TIMIT frame prediction. Layer counts, parameter budgets, directionality and identity
+    scale vary across comparisons; the speech results concern the scaled variant. The authors explicitly
+    allow that different hyperparameter tuning could change comparisons with LSTM. The record makes no
+    numerical benchmark, unconditional superiority or equivalence claim and does not prescribe one universal
+    nonrecurrent-weight initialization or optimizer recipe.
+  evidence:
+  - source_id: le2015
+    locator: Section 4 and Figures 1–3, Tables 1–4, pp. 3–7
+    relation: supports
+evidence_sources:
+- source_id: le2015
+  title: A Simple Way to Initialize Recurrent Networks of Rectified Linear Units
+  authors:
+  - Quoc V. Le
+  - Navdeep Jaitly
+  - Geoffrey E. Hinton
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1504.00941v2
+  persistent_id: arXiv:1504.00941v2
+  version: April7,2015 v2. All nine printed/PDF pages, including complete method, three figures, four
+    tables and references, visually inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T04:15:22Z'
+  sha256: 99d916f3d8815437dc22c6385b187a00ab789ced829bafc39680904818344a89
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: IRNN is a recurrent sequence network with a specific activation and initial-parameter convention.
+    The AIO target denotes the broader recurrent architecture category.
+- target: AIO:ReLUFunction
+  relation: related_match
+  rationale: The rectified linear function supplies the hidden transition nonlinearity. The complete recurrent
+    architecture is related to, rather than a subclass of, its component activation function.
+limitations:
+- Identity and zero recurrent bias are initialization conditions. Recurrent weights and biases may change
+  during training; no permanent diagonal or orthogonal constraint is asserted.
+- Memory and derivative preservation require the stated initial parameters and activation/input conditions.
+  Inactive units and a zero-activation derivative convention limit unconditional claims.
+- The scaled-identity iRNN configuration is retained as a documented variant. Its forgetting calculation
+  assumes a fixed positive scalar, active paths and no input contribution, rather than arbitrary trained
+  dynamics.
+- Unit initial recurrent gain does not cap state magnitudes or update sizes. Positive input can accumulate,
+  and the paper reports unfavorable full-identity speech behavior.
+- Complete nine-page arXiv v2 paper, figures, tables and references were visually inspected; no author
+  implementation, training, model evaluation or independent replication was performed.
+- Published comparisons depend on task, tuning, capacity and configuration. No current best performance,
+  numerical benchmark or universal LSTM replacement is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T04:44:06Z'
+  updated_at: '2026-10-13T04:48:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
