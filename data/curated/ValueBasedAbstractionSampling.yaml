@@ -1,0 +1,162 @@
+id: AIMech:ValueBasedAbstractionSampling
+name: Value-based abstraction functions for abstraction sampling
+aliases:
+- Value-based abstraction sampling
+concept_kind: mathematical_method
+definition: A family of graphical-model sampling abstractions that assigns a positive scalar value to
+  each current search node and partitions nodes in value order into abstract states used by the surrounding
+  importance-weighted representative sampler.
+identity_notes: Compared all 442 pinned AIO and 648 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 8, 0, 0 lines. All eight matched lines were read
+  and are earlier discovery-lead metadata, not existing record identities. The older and original checkout
+  searches returned no matches, including ignored and hidden files. Semantic matching covered 65 AIO and
+  346 native definitions, with every matched definition read. 15 full annotated AIO node/edge/generated
+  contexts and 4 full native records were inspected. Retain one parameterized family of ordered value-based
+  abstraction functions. HB, HRB and QB choose different scalar node values, while seven schemes determine
+  groups. These are components used by AOAS, not an alias for its traversal/weight-backup estimator. Generic
+  tree sampling describes weighted representative estimation rather than this partition catalog. K-means
+  uses iterative centroid assignment, CURE uses scattered representatives and agglomeration, and neither
+  identifies this sampling-abstraction family. The separate simpleRand method, fixed-context RandCB and
+  trained GNN abstractions are not aliases. Bare HB, QB and VBA are not claimed aliases.
+definition_evidence:
+- source_id: pezeshki2024value
+  locator: Main Section 4 and Section 4.1, PDF pp.4–5 / printed pp.2864–2865; appended supplement Section
+    5, Algorithm 2, PDF p.23 / printed p.2883
+  relation: supports
+claims:
+- claim_id: three-node-value-classes
+  kind: mechanism
+  statement: 'The three specified value functions are HB: mu=h, HRB: mu=h*r, and QB: mu=w*g*h*r. Here
+    h estimates the remaining subtree value, r estimates ancestral off-path branching mass, g is accumulated
+    path cost, and w is the current inherited importance weight. The abstraction groups nodes; representative
+    selection and inverse-probability correction remain operations of the surrounding AS algorithm. QB
+    is the unnormalized proposal mass, not a learned reinforcement-learning action value.'
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Sections 2–4.1, Equations 1–5 and Figures 1–3, PDF pp.2–5 / printed pp.2862–2865
+    relation: supports
+- claim_id: ordered-partition-catalog
+  kind: mechanism
+  statement: The paper combines each value class with seven partition schemes. simpleVB sorts and makes
+    groups whose cardinalities differ by at most one. minVarVB uses greedy Ward agglomeration. equalDistVB
+    greedily fills ascending-value groups against cumulative total-mass thresholds; equalDistVB2 reverses
+    the sort; equalDistVB3 also forces one node into each new group; equalDistVB4 recomputes a threshold
+    from remaining mass and remaining groups. randVB selects distinct cut positions uniformly in the value-sorted
+    node sequence. The supplement first returns singletons when the node count does not exceed the positive
+    integer state cap. The seven schemes and three value functions specify 21 configurations of this family.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 4.2, Algorithms 2–5 and Equations 6–8, PDF pp.5–6 / printed pp.2865–2866; appended
+      supplement Sections 5–6, Algorithms 2–10, PDF pp.23–29 / printed pp.2883–2889
+    relation: supports
+- claim_id: exactness-versus-proxy-similarity
+  kind: scope
+  statement: 'Theorem 4.1 gives a sufficient exactness condition for AOAS: within each state h*r is a
+    common positive multiple of the true Z*R for positive contributions, with zero estimated product for
+    zero true product. This uses unknown subtree and ancestral-branching masses. Grouping similar h, h*r
+    or proposal values is an implementable heuristic inspired by that condition, and does not establish
+    that the unknown ratios agree. Actual representative probabilities must retain support for positive
+    contributions.'
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 4.1, Theorem 4.1, PDF p.5 / printed p.2865; appended supplement Section 3, Definitions
+      3.0.1–3.0.3 and Theorems 3.1.0.1 and 3.2.0.1 with proofs, PDF pp.18–20 / printed pp.2878–2880
+    relation: supports
+- claim_id: partition-boundaries
+  kind: limitation
+  statement: Mass-threshold groups need not have exactly equal mass or use all available states. The paper’s
+    skewed eight-node example leaves three empty groups for equalDistVB and two for equalDistVB2. Greedy
+    Ward merging is not a general certificate of the globally best fixed-count partition, and minimizing
+    within-group proxy dispersion does not certify minimum variance of the final estimator. randVB preserves
+    value order; the separate simpleRand procedure shuffles nodes before balanced grouping and belongs
+    to a different random-only family.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Sections 4.2–5, running examples and Algorithms 3–6, PDF pp.5–7 / printed pp.2865–2867;
+      appended supplement Section 6, PDF pp.24–29 / printed pp.2884–2889
+    relation: supports
+- claim_id: partition-cost-scope
+  kind: scope
+  statement: For N current nodes and constant-cost value evaluation, the paper states O(N log N) time
+    and O(N) space for the sorting-based schemes, and O(N squared) time and space for its described accelerated
+    minVarVB approach. These are abstraction-step costs under the stated implementation assumptions. They
+    exclude heuristic construction, child generation and the full cost of producing enough probes; fixed
+    state cap or sample count does not equal fixed runtime.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Complexity paragraph, PDF p.7 / printed p.2867; appended supplement Sections 6.0.1–6.0.7
+      and 8.2, PDF pp.24–29,40 / printed pp.2884–2889,2900
+    relation: supports
+- claim_id: evaluation-and-source-limits
+  kind: limitation
+  statement: The empirical study compares these configurations within AOAS on five graphical-model benchmark
+    families, using weighted mini-bucket heuristics. For large problems without exact Z, it uses an estimated
+    reference from long RAND runs. Tables select abstraction granularity by benchmark error, and a weighted
+    mini-bucket value substitutes for runs without a positive estimate. Main text describes a 10-hour
+    reference, while appended time-series legends label it 100 hours; an exact-DBN supplementary table
+    also labels a different time budget from the main exact-problem setting. These inconsistencies and
+    the estimated reference prevent treating the results as a uniform independently verified accuracy
+    guarantee. No universal winning configuration or fresh direct comparison against all historical external
+    samplers is asserted.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 6, Tables 1–5 and Figures 4–8, PDF pp.7–10 / printed pp.2867–2870; appended
+      supplement Section 7.1.1 Table 1 and Section 7.3 Plots 1–4, PDF pp.30,35–38 / printed pp.2890,2895–2898
+    relation: supports
+evidence_sources:
+- source_id: pezeshki2024value
+  title: Value-Based Abstraction Functions for Abstraction Sampling
+  authors:
+  - Bobak Pezeshki
+  - Kalev Kask
+  - Alexander Ihler
+  - Rina Dechter
+  persistent_id: https://proceedings.mlr.press/v244/pezeshki24a.html
+  version: 'PMLR 244, UAI 2024, pp.2861–2901: 41 PDF pages comprising the 11-page main paper and 30-page
+    appended supplement. All pages visually read, including main Sections 1–7, Algorithms 1–6, Tables
+    1–5, Figures 1–8, 21 references, and supplement Sections 1–8, Algorithms 1–10, proof derivations,
+    Tables 1–10, Plots 1–6 and 8 references. The separate extended-background PDF is not included in this
+    full-reading claim.'
+  source_type: primary_paper
+  url: https://raw.githubusercontent.com/mlresearch/v244/main/assets/pezeshki24a/pezeshki24a.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T20:06:33Z'
+  sha256: 349e887f31bf40f81b2c191aceaf805edc62153fa0ebea2e0be16010835ab911
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The abstraction family is defined for partition-function sampling in factorized graphical-model
+    search spaces. The pinned AIO target supplies that model/task context. This relates an inference-method
+    component to graphical-model terminology without equivalence or subclass membership.
+limitations:
+- The maintained identity is the parameterized abstraction-function family, not the complete AOAS estimator,
+  all clustering methods, or a trained model. HB, HRB and QB are value choices; their 21 combinations
+  are not asserted as aliases or 21 separate additions.
+- The record uses finite positive value inputs and a positive integer state cap. Ties require a consistent
+  sorting convention; zero/all-zero values and numerical overflow need implementation treatment. The literal
+  iff in Definition 4.1 does not handle equal state indices or tied values as written. The maintained
+  description follows the ordered grouping procedures and does not certify that biconditional.
+- A finite pair with true contributions 1 and 9 and equal proposal masses has mean 10 and variance 64,
+  despite zero dispersion of the proxy. Proposals proportional to 1 and 9 give constant estimate 10. These
+  examples illustrate the difference between proxy similarity and the source’s exact proportionality condition.
+- For values 1, 2, 3, 4, 6, a specified greedy Ward tie order yields groups {1,2,3,4}/{6} with squared-deviation
+  sum 5, while {1,2,3}/{4,6} gives 4. This refutes a universal global-optimum interpretation of greedy
+  merging; it is not a run of the authors’ minVar implementation or a claim about its tie policy. The
+  source’s use of Var does not fully specify normalization.
+- All 41 pages of the proceedings file, including the 30-page appended supplement, were visually read.
+  Author-hosted main/supplement text was compared after ignoring page-number lines; only the first-page
+  proceedings footer differed. The separate 19-page extended background and OpenReview revisions were
+  not fully read. Partial earlier static code reading is documented separately; no author program, training
+  run or benchmark was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T20:26:35Z'
+  updated_at: '2026-10-13T20:26:35Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
