@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1007</strong> artificial intelligence concepts, comprising <strong>565</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1008</strong> artificial intelligence concepts, comprising <strong>566</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1007)</option>
-        <option value="curated">Curated AIMech (565)</option>
+        <option value="all">All Origins (1008)</option>
+        <option value="curated">Curated AIMech (566)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (380)</option>
+          <option value="algorithm">Algorithms (381)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
           <option value="mathematical_method">Mathematical Methods (36)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1007</span> of <span id="totalCount">1007</span>
+      Showing <span id="matchCount">1008</span> of <span id="totalCount">1008</span>
     </div>
   </div>
 </div>
@@ -12475,6 +12475,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="layer-wise adaptive moments layerwiseadaptivemoments aimech:layerwiseadaptivemoments algorithms algorithm a gradient optimizer that combines coordinate-wise adam moment scaling with layer-wise normalization of the resulting update direction, optionally including weight decay, and scales each block by a function of its parameter norm and a global learning rate. compared all 442 pinned aio and 565 native ids, names, aliases and scoped synonyms; no normalized identity match. ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original documents checkouts returned 55, 13, 16 lines. canonical data hits were read: existing lars/clars context or the author alex lamb in augmentation sources; original ignored dependencies contain unrelated ontology prefixes and an author name. historical report and rendered-mirror paths were classified with bounded excerpts, not reread in full. a semantic search covered ten aio rows and 88 native definitions: the preceding ten aio and 87 native rows were verified unchanged, and the new clars definition was read. three complete aio node/edge/generated contexts were verified unchanged; six full native context records were read or verified against prior full readings. lamb normalizes a coordinate-wise moment-scaled direction within blocks; lars, clars, ordinary sgd, adam and rmsprop have different update rules. the separately named novograd paper shares layer-wise adaptive moments terminology but its primary abstract identifies a distinct pending method, not an alias. lamb for the minibatch loss gradient g_t, maintain raw states m_t=beta1*m_(t-1)+(1-beta1)*g_t and v_t=beta2*v_(t-1)+(1-beta2)*g_t^2 from zero initial states, with coordinate-wise squares. form mhat_t=m_t/(1-beta1^t), vhat_t=v_t/(1-beta2^t), and r_t=mhat_t/(sqrt(vhat_t)+epsilon), with epsilon&gt;0. raw states, not the corrected views, feed the next recurrence. the paper reuses m_t and v_t symbols on its correction lines; the inspected official implementation explicitly distinguishes stored states from corrected values. for a chosen block i, form u_t^(i)=r_t^(i)+lambda*x_t^(i) and, when norm(u_t^(i))&gt;0, update x_(t+1)^(i)=x_t^(i)-eta_t*phi(norm(x_t^(i)))*u_t^(i)/norm(u_t^(i)), using l2 norms and nonnegative global rate eta_t. its displacement norm is eta_t*phi(norm(x_t^(i))). the paper discusses the identity scaling function and a weight-norm function clipped between lower and upper thresholds. normalization acts on the moment-scaled combined direction, not the raw gradient norm, a mean of per-example gradient norms, or the separate sum of gradient and decay norms. the stated lambda*x_t term is added after the loss-gradient moments are formed, so it does not enter their first- or second-moment recurrences. it nevertheless changes the direction and norm used by layer adaptation. consequently this is not generally equivalent to either adding an l2-penalty gradient before adam moment estimation or taking an independently scaled adamw shrinkage step after the normalized gradient update. a concrete implementation may exclude selected parameters from decay or layer adaptation. a positive epsilon protects the coordinate-wise second-moment denominator but does not make the final block norm nonzero: r_t and lambda*x_t can cancel. the displayed paper update supplies no explicit zero-block fallback. the inspected tensorflow addons revision uses the identity parameter-norm scaling and a ratio of one when either the parameter norm or the update norm is zero, and allows regex-based exclusions. its zero-weight behavior can therefore differ from directly applying identity phi to the ideal formula. parameter-block grouping, norm conventions and exclusions affect the method and must be specified. removing bias correction is not universally equivalent to a warm-up schedule. for the same raw moment states, zero decay, zero epsilon and a defined nonzero normalized direction, the common positive bias-correction scalar cancels in the block normalization; with decay or positive epsilon that equivalence need not hold. similarly the beta1=beta2=0 sign-gradient relation requires an ideal zero-epsilon, zero-decay limit and appropriate treatment of zero coordinates. at positive epsilon the coordinate ratio is g/(abs(g)+epsilon), not an exact sign. these qualifications concern algebraic limits, not a recommendation to remove numerical safeguards. the primary theory assumes smoothness and bounded stochastic-gradient noise, and studies a uniformly selected iterate under specified rates and batch scaling. the stated lamb theorem focuses on beta1=0 and lambda=0, uses a positive bounded scaling function and equal block dimensions, and gives different stationarity bounds for zero versus positive beta2. these conditions do not automatically cover every momentum, decay, scaling-function, numerical-offset or implementation configuration. the comparison with sgd also uses different stationarity quantities; it is not a uniform guarantee that lamb converges faster or generalizes better. the paper studies neural-network optimization including bert pretraining and image classification, with selected schedules, hardware, batch sizes and downstream evaluation. its title training time depends on that experimental configuration and does not define the algorithm or establish universal speedup. nesterov first-moment and two-moment variants, norm substitutions, bias-correction ablations and later library implementations require explicit version choices. this record describes the basic algorithm and a pinned implementation boundary without importing a numerical benchmark or claiming training reproduction. large batch optimization for deep learning: training bert in 76 minutes tensorflow addons lamb optimizer implementation yang you jing li sashank reddi jonathan hseu sanjiv kumar srinadh bhojanapalli xiaodan song james demmel kurt keutzer cho-jui hsieh the tensorflow authors the tensorflow addons authors">
+        <td>
+          <a href="curated/LayerWiseAdaptiveMoments.html" style="font-weight: 600; font-size: 1rem;">Layer-wise adaptive moments</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> LAMB            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A gradient optimizer that combines coordinate-wise Adam moment scaling with layer-wise normalization of the resulting update direction, opti…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LayerWiseAdaptiveMoments</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="7 claims curated">7 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

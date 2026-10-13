@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layer-wise adaptive moments · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Layer-wise adaptive moments</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Layer-wise adaptive moments</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LayerWiseAdaptiveMoments</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LAMB
+    </div>
+
+  <div class="detail-desc">
+    A gradient optimizer that combines coordinate-wise Adam moment scaling with layer-wise normalization of the resulting update direction, optionally including weight decay, and scales each block by a function of its parameter norm and a global learning rate.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 565 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 55, 13, 16 lines. Canonical data hits were read: existing LARS/CLARS context or the author Alex Lamb in augmentation sources; original ignored dependencies contain unrelated ontology prefixes and an author name. Historical report and rendered-mirror paths were classified with bounded excerpts, not reread in full. A semantic search covered ten AIO rows and 88 native definitions: the preceding ten AIO and 87 native rows were verified unchanged, and the new CLARS definition was read. Three complete AIO node/edge/generated contexts were verified unchanged; six full native context records were read or verified against prior full readings. LAMB normalizes a coordinate-wise moment-scaled direction within blocks; LARS, CLARS, ordinary SGD, Adam and RMSprop have different update rules. The separately named NovoGrad paper shares layer-wise adaptive moments terminology but its primary abstract identifies a distinct pending method, not an alias.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#raw-moments-and-bias-correction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the minibatch loss gradient g_t, maintain raw states m_t=beta1*m_(t-1)+(1-beta1)*g_t and v_t=beta2*v_(t-1)+(1-beta2)*g_t^2 from zero initial states, with coordinate-wise squares. Form mhat_t=m_t/(1-beta1^t), vhat_t=v_t/(1-beta2^t), and r_t=mhat_t/(sqrt(vhat_t)+epsilon), with epsilon&gt;0. Raw states, not the corrected views, feed the next recurrence. The paper reuses m_t and v_t symbols on its correction lines; the inspected official implementation explicitly distinguishes stored states from corrected values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 2, PDF/printed p. 5; Appendix E, p. 15</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tfaddons">TensorFlow Addons LAMB optimizer implementation</a></span>
+        <span>· <strong>Locator:</strong> _prepare_local and _resource_apply_dense, raw state assignments and m_t_hat/v_t_hat</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#layer-normalized-direction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a chosen block i, form u_t^(i)=r_t^(i)+lambda*x_t^(i) and, when norm(u_t^(i))&gt;0, update x_(t+1)^(i)=x_t^(i)-eta_t*phi(norm(x_t^(i)))*u_t^(i)/norm(u_t^(i)), using L2 norms and nonnegative global rate eta_t. Its displacement norm is eta_t*phi(norm(x_t^(i))). The paper discusses the identity scaling function and a weight-norm function clipped between lower and upper thresholds. Normalization acts on the moment-scaled combined direction, not the raw gradient norm, a mean of per-example gradient norms, or the separate sum of gradient and decay norms.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Section 3 general strategy, PDF/printed p. 4; Algorithm 2 and Section 3.2, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decay-outside-moments-inside-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The stated lambda*x_t term is added after the loss-gradient moments are formed, so it does not enter their first- or second-moment recurrences. It nevertheless changes the direction and norm used by layer adaptation. Consequently this is not generally equivalent to either adding an L2-penalty gradient before Adam moment estimation or taking an independently scaled AdamW shrinkage step after the normalized gradient update. A concrete implementation may exclude selected parameters from decay or layer adaptation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 2, PDF/printed p. 5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tfaddons">TensorFlow Addons LAMB optimizer implementation</a></span>
+        <span>· <strong>Locator:</strong> _resource_apply_dense, _do_use_weight_decay, _do_layer_adaptation and exclusion arguments</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#zero-norm-and-grouping-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A positive epsilon protects the coordinate-wise second-moment denominator but does not make the final block norm nonzero: r_t and lambda*x_t can cancel. The displayed paper update supplies no explicit zero-block fallback. The inspected TensorFlow Addons revision uses the identity parameter-norm scaling and a ratio of one when either the parameter norm or the update norm is zero, and allows regex-based exclusions. Its zero-weight behavior can therefore differ from directly applying identity phi to the ideal formula. Parameter-block grouping, norm conventions and exclusions affect the method and must be specified.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Section 3 and Algorithm 2, PDF/printed pp. 4–5; Appendix F, p. 16</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tfaddons">TensorFlow Addons LAMB optimizer implementation</a></span>
+        <span>· <strong>Locator:</strong> __init__, _resource_apply_dense and _resource_apply_sparse, ratio fallback and exclusions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#bias-correction-and-sign-limit</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Removing bias correction is not universally equivalent to a warm-up schedule. For the same raw moment states, zero decay, zero epsilon and a defined nonzero normalized direction, the common positive bias-correction scalar cancels in the block normalization; with decay or positive epsilon that equivalence need not hold. Similarly the beta1=beta2=0 sign-gradient relation requires an ideal zero-epsilon, zero-decay limit and appropriate treatment of zero coordinates. At positive epsilon the coordinate ratio is g/(abs(g)+epsilon), not an exact sign. These qualifications concern algebraic limits, not a recommendation to remove numerical safeguards.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 2 and sign-SGD discussion, PDF/printed p. 5; Appendix E and Figure 2, pp. 15–16; algebraic consequences with the stated conditions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The primary theory assumes smoothness and bounded stochastic-gradient noise, and studies a uniformly selected iterate under specified rates and batch scaling. The stated LAMB theorem focuses on beta1=0 and lambda=0, uses a positive bounded scaling function and equal block dimensions, and gives different stationarity bounds for zero versus positive beta2. These conditions do not automatically cover every momentum, decay, scaling-function, numerical-offset or implementation configuration. The comparison with SGD also uses different stationarity quantities; it is not a uniform guarantee that LAMB converges faster or generalizes better.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Preliminaries and Theorem 1, PDF/printed p. 3; Theorem 3 and discussion, p. 5; Appendix B proof, pp. 12–14; comparison context, Appendix C, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#applications-variants-and-evidence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper studies neural-network optimization including BERT pretraining and image classification, with selected schedules, hardware, batch sizes and downstream evaluation. Its title training time depends on that experimental configuration and does not define the algorithm or establish universal speedup. Nesterov first-moment and two-moment variants, norm substitutions, bias-correction ablations and later library implementations require explicit version choices. This record describes the basic algorithm and a pinned implementation boundary without importing a numerical benchmark or claiming training reproduction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-you2020">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a></span>
+        <span>· <strong>Locator:</strong> Experiments, PDF/printed pp. 6–8; N-LAMB/NN-LAMB Algorithms 3–4 and Appendices D–F, pp. 14–16; implementation and evaluation discussion, pp. 17–20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record uses separate raw and bias-corrected moment symbols, corroborated by the pinned implementation; the primary pseudocode reuses moment symbols on correction lines. Bias-correction ablations are explicitly conditional.</li>
+      <li>Block normalization can remain undefined despite positive coordinate-wise epsilon. The inspected implementation supplies a ratio-one zero-norm policy and exclusions that are implementation choices, not a universal paper rule.</li>
+      <li>Weight decay is outside the gradient moments but inside the normalized direction. It is not interchangeable with arbitrary L2 regularization or an independent unadapted shrinkage step.</li>
+      <li>The stated convergence theorem has restricted momentum, decay, batch, scaling-function and block assumptions. An update-norm identity is not a universal convergence, stability or generalization theorem.</li>
+      <li>The January 3, 2020 preprint and the April 15, 2024 archived TensorFlow Addons revision are distinct source versions. The latter was inspected statically, not treated as the exact historical training implementation; helper dependencies and runtime behavior were not audited.</li>
+      <li>Rendered PDF pages 1–23 of 37 were inspected, including the full method, theorem proofs, variants and selected experimental material. Remaining baseline tuning tables on pp. 24–37 were not read. No numerical benchmark, independent proof certification, source-code execution or model training is claimed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The optimizer directly controls machine-learning parameter training, the central context named by TrainingStrategy. The pinned target uses a preprocessing genus and learning-task examples, so this contextual mapping does not assert algorithm equivalence, subclass membership or that LAMB is preprocessing.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-you2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">you2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1904.00962v5" target="_blank" rel="noopener">Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yang You, Jing Li, Sashank Reddi, Jonathan Hseu, Sanjiv Kumar, Srinadh Bhojanapalli, Xiaodan Song, James Demmel, Kurt Keutzer, Cho-Jui Hsieh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1904.00962v5</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f79503803440…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-tfaddons">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tfaddons</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/tensorflow/addons/blob/d208d752e98c310280938efa939117bf635a60a8/tensorflow_addons/optimizers/lamb.py" target="_blank" rel="noopener">TensorFlow Addons LAMB optimizer implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            The TensorFlow Authors, The TensorFlow Addons Authors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> tensorflow/addons@d208d752e98c310280938efa939117bf635a60a8:tensorflow_addons/optimizers/lamb.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dfd970faf26e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T03:10:49Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T03:10:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LayerWiseAdaptiveMoments.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LayerWiseAdaptiveMoments.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
