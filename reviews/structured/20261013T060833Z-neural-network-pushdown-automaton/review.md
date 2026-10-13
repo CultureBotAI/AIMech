@@ -1,0 +1,548 @@
+# Scientific author self-review of Neural network pushdown automaton
+
+- Review: 20261013T060833Z-neural-network-pushdown-automaton
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T05:59:46Z
+- Finished UTC: 2026-10-13T06:08:33Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Neural network pushdown automaton as a distinct DRAFT architecture with an explicit broader recurrent-network mapping. All fields and six claims have support within the declared manuscript and mathematical boundaries. No actionable record defect found; no author implementation or training executed.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary manuscript.
+
+Selection: Exact maintained ID: AIMech:NeuralNetworkPushdownAutomaton
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 96d5f25a9f8a9aea084e21f2b424e55c6680ae19.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NeuralNetworkPushdownAutomaton | data/curated/NeuralNetworkPushdownAutomaton.yaml | maintained | Neural network pushdown automaton |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NeuralNetworkPushdownAutomaton | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 197.36s (0:03:17)<br>Checked 442 record(s); 0 failed.<br>Checked 579 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 235 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 234,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NeuralNetworkPushdownAutomaton | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:NeuralNetworkPushdownAutomaton | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:NeuralNetworkPushdownAutomaton | Exited 0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:NeuralNetworkPushdownAutomaton | {"after_push": [["c", "3/5"], ["a", "2/5"], ["b", "1/2"], ["c", "4/5"]], "after_pop": [["a", "1/10"], ["b", "1/2"], ["c", "4/5"]], "read": {"a": "1/10", "b": "1/2", "c": "2/5"}, "same_read_different_order": true, "zero_illegal_loss_example": {"output": "3/5", "length": "7/10", "loss": "0"}, "interpretation": "Specified nonempty fractional stack and read aggregation; no unspecified endpoint, underflow, training or gradient implementation is certified."} |
+
+## Scientific And Domain Assessments
+
+### Neural network pushdown automaton
+
+identity: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Retain the distinct DRAFT architecture.
+
+The signed action, input-symbol fractional quantities and top-depth read distinguish this NNPDA from the 2015 softmax-mixture Stack RNN and movable-head List RNN. Parameter order and hint choices remain configurations. Ignored-inclusive matches were inspected as prior leads, not exact existing records.
+
+### Broader recurrent architecture
+
+grounding: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+The broader mapping is supported.
+
+The complete recurrent architecture fits RecurrentNeuralNetwork. The pinned NTM feedforward/spiking description, LLM-scoped external memory and stacked-cell layer do not supply exact identity or a suitable alternative broader target.
+
+### fractional-symbol-stack
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+Tables1–3 and p2 text specify signed push/pop quantities and a unit-depth symbol read. The exact example removes .9 across two top items and produces read(.1,.5,.4). Simulation thresholds are strictly stated; unspecified equality/empty/underflow behavior remains a limitation. This is not a convex push/pop mixture.
+
+### controller-and-network-order
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+State recurrence receives input and read vectors; the action neuron is nonrecurrent. Equations4–6 separate concatenated first-order, bilinear second-order and trilinear third-order terms. Figure1 and end-marker text support the controller family and final-classification scope without adding distinct memory structures.
+
+### joint-loss-and-rejection-boundary
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+The positive loss combines accepting output and empty length. Equation2 is a rectified difference, so zero loss is the inequality L&gt;=S_out; S_out=.6,L=.7 refutes an inference that zero loss forces a categorical output or length above1. The draft preserves this direct consequence rather than stronger prose.
+
+### approximate-sensitivities-and-implementation-scope
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+The source explicitly says the stack-read derivative depends on full history and uses a first-order approximation under large-action/training assumptions. Recursive notation does not establish an exact global gradient. Signed-output transformation and threshold/underflow cases are not supplied by the inspected general formulas; no executable implementation is certified.
+
+### dead-state-hints
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+A teacher identifies irreversibly rejecting prefixes, training stops there, and the dead-state update drops the stack-length penalty. Incomplete prefixes that could become legal are different. This is added grammar knowledge, not a matched label-only comparison.
+
+### extraction-and-evaluation-limits
+
+evidence: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Supported with source and mathematical qualifications.
+
+The simulations use incremental length, selected small languages, orders and hints. Tables retain nonconvergence and conditional generalization; third-order superiority is not universal. Quantizing states/actions is a separate extraction step whose success does not follow for arbitrary grammars.
+
+### Fractional symbol operations, surrogate-loss rejection, approximate sensitivities, extra supervision and quantized extraction
+
+consistency: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+Constructed calculations support the explicit boundaries.
+
+Exact rational, nonempty fractional-stack push/pop and top-depth reading; different orderings can share one read vector; positive fractional state/length can give zero illegal surrogate loss. No unreported underflow, action endpoint, derivative or training behavior is certified.
+
+### Complete maintained record and inspected-source scope
+
+provenance: supported. Targets: AIMech:NeuralNetworkPushdownAutomaton.
+
+All maintained fields inspected; DRAFT remains.
+
+Read ID/name/alias, kind, definition/citation, identity search context, six claims/locators, source identity/version/access/hash, AIO pin and mapping, six limitations and actual curation times. Capture/source/context hashes and exact report mirror agree. Source limitations remain explicit; no actionable record defect found.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T055913Z-neural-network-pushdown-automaton.json | supports | Compared all 442 pinned AIO and 577 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 4, 0, 0 lines. All distinct match contents were read and concern discovery leads and reviewed context, not an existing exact record. Semantic matching inspected 63 AIO and 146 native definitions, with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. NNPDA stores input-symbol quantities and uses one signed action and a top-unit-depth symbol read, unlike the 2015 Stack RNN learned-value/softmax-mixture updates. List RNN uses movable-head insertion and bidirectional movement; GF-RNN pair gates and Clockwork module schedules define different recurrent mechanisms. The source first/second/third-order controllers and hinted settings remain configurations of one inspected NNPDA family. RecurrentNeuralNetwork is the selected broader architecture mapping; none of the three other full AIO contexts establishes exact identity or a better broader target. |
+| mapping | sources/aio/aio.json | supports | The complete recurrent architecture fits RecurrentNeuralNetwork. The pinned NTM feedforward/spiking description, LLM-scoped external memory and stacked-cell layer do not supply exact identity or a suitable alternative broader target. |
+| das1992 | https://clgiles.ist.psu.edu/papers/cogsci-nnpda-1992.pdf; All six author-manuscript pages read before capture; method, hints and tables on pp2–4,6 reread after capture. No later version, code, training, runtime audit or independent review. | supports | Author-hosted manuscript for the Fourteenth Annual Conference of the Cognitive Science Society, 1992. All six PDF pages, Figure 1, Tables 1–6, Equations 1–11 and references visually read; manuscript PDF page locators are used rather than final proceedings pagination. |
+| calculation | research/discovery/nnpda-boundaries.py | supports | Exact rational, nonempty fractional-stack push/pop and top-depth reading; different orderings can share one read vector; positive fractional state/length can give zero illegal surrogate loss. No unreported underflow, action endpoint, derivative or training behavior is certified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- The two-record batch shares one complete repository gate run; this does not represent independent gate executions.
+- One new DRAFT concept, yielding 578 native and 442 unchanged generated records. The 762-entry main frontier retains 481 pending and 57 partly addressed cohorts; discovery is incomplete.
+- All six pages of the author-hosted1992 conference manuscript visually read, including Figure1, Tables1–6, Equations1–11 and references. No later1993/1998 variants, implementation or training inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T060833Z-neural-network-pushdown-automaton
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Neural network pushdown automaton
+started_at: '2026-10-13T05:59:46Z'
+finished_at: '2026-10-13T06:08:33Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged Fractional symbol operations, surrogate-loss
+    rejection, approximate sensitivities, extra supervision and quantized extraction.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Neural network pushdown automaton as a distinct DRAFT architecture
+  with an explicit broader recurrent-network mapping. All fields and six claims have
+  support within the declared manuscript and mathematical boundaries. No actionable
+  record defect found; no author implementation or training executed.
+source:
+  git_revision: 96d5f25a9f8a9aea084e21f2b424e55c6680ae19
+  state: working_tree
+  inputs:
+  - path: data/aio/MemoryAugmentedLLM.yaml
+    sha256: 8727073cb355b965f54a2f0e58997f862f6b734c9143511008c26f9d31a965fd
+    role: context
+  - path: data/aio/NeuralTuringMachineNetwork.yaml
+    sha256: bb483a9f90d767bcae50856c6084f31fe855d510d352419a5130fa4fc036be79
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+    sha256: 465373ea285a9c4102069b1cef3023c52328a10ccc526855aea218bcec3f41fa
+    role: context
+  - path: data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml
+    sha256: 7b26adbe3234f94c69012c3be72a9d3ca0e63ee1652caf7f2030e47566fc943b
+    role: context
+  - path: data/curated/ListAugmentedRecurrentNeuralNetwork.yaml
+    sha256: d0ae4afbb09ca9e76259fc4d75d1025b2233f06ac529acb401d198deede309b8
+    role: context
+  - path: data/curated/NeuralNetworkPushdownAutomaton.yaml
+    sha256: 71b3ba6474d3a8fca545d1f33c4a46da156d419ffe82e21ca048114967663f2c
+    role: target
+  - path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    sha256: f544aaabf56c79e2d2a66c37c3e357854ee751d00e05f890a4324f366e52055d
+    role: context
+  - path: research/discovery/20261013T055913Z-neural-network-pushdown-automaton.json
+    sha256: 3cde9cc5643da3725ee89cec5a46745a9e5c0b63b42237f7516eb6c96a0bdc65
+    role: context
+  - path: research/discovery/nnpda-boundaries.py
+    sha256: 0f282163d8141a0dbe64f9c7d71f2240f3c4543eac71ca48bf03cbd5e666722b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NeuralNetworkPushdownAutomaton
+  path: data/curated/NeuralNetworkPushdownAutomaton.yaml
+  label: Neural network pushdown automaton
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NeuralNetworkPushdownAutomaton.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary manuscript.
+  selection: 'Exact maintained ID: AIMech:NeuralNetworkPushdownAutomaton'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All six author-manuscript pages read before capture; method, hints and
+      tables on pp2–4,6 reread after capture. No later version, code, training, runtime
+      audit or independent review.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No model execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 197.36s (0:03:17)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 579 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 235 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 234,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/nnpda-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"after_push": [["c", "3/5"], ["a", "2/5"], ["b", "1/2"], ["c", "4/5"]],
+    "after_pop": [["a", "1/10"], ["b", "1/2"], ["c", "4/5"]], "read": {"a": "1/10",
+    "b": "1/2", "c": "2/5"}, "same_read_different_order": true, "zero_illegal_loss_example":
+    {"output": "3/5", "length": "7/10", "loss": "0"}, "interpretation": "Specified
+    nonempty fractional stack and read aggregation; no unspecified endpoint, underflow,
+    training or gradient implementation is certified."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T055913Z-neural-network-pushdown-automaton.json
+  accessed_at: '2026-10-13T05:59:46Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 577 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    4, 0, 0 lines. All distinct match contents were read and concern discovery leads
+    and reviewed context, not an existing exact record. Semantic matching inspected
+    63 AIO and 146 native definitions, with unchanged preceding rows verified and
+    new matches read. Four full annotated AIO node/edge/generated contexts and four
+    full native records were inspected. NNPDA stores input-symbol quantities and uses
+    one signed action and a top-unit-depth symbol read, unlike the 2015 Stack RNN
+    learned-value/softmax-mixture updates. List RNN uses movable-head insertion and
+    bidirectional movement; GF-RNN pair gates and Clockwork module schedules define
+    different recurrent mechanisms. The source first/second/third-order controllers
+    and hinted settings remain configurations of one inspected NNPDA family. RecurrentNeuralNetwork
+    is the selected broader architecture mapping; none of the three other full AIO
+    contexts establishes exact identity or a better broader target.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T05:59:46Z'
+  support: supports
+  summary: The complete recurrent architecture fits RecurrentNeuralNetwork. The pinned
+    NTM feedforward/spiking description, LLM-scoped external memory and stacked-cell
+    layer do not supply exact identity or a suitable alternative broader target.
+- evidence_id: das1992
+  kind: primary_source
+  reference: https://clgiles.ist.psu.edu/papers/cogsci-nnpda-1992.pdf
+  locator: All six author-manuscript pages read before capture; method, hints and
+    tables on pp2–4,6 reread after capture. No later version, code, training, runtime
+    audit or independent review.
+  accessed_at: '2026-10-13T05:49:30Z'
+  snapshot_sha256: f9a7fe849cbc41a254054011c77d48e49b97583d7ea80323d76e8b85c0ae745f
+  support: supports
+  summary: Author-hosted manuscript for the Fourteenth Annual Conference of the Cognitive
+    Science Society, 1992. All six PDF pages, Figure 1, Tables 1–6, Equations 1–11
+    and references visually read; manuscript PDF page locators are used rather than
+    final proceedings pagination.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/nnpda-boundaries.py
+  accessed_at: '2026-10-13T06:00:36Z'
+  snapshot_sha256: 0f282163d8141a0dbe64f9c7d71f2240f3c4543eac71ca48bf03cbd5e666722b
+  support: supports
+  summary: Exact rational, nonempty fractional-stack push/pop and top-depth reading;
+    different orderings can share one read vector; positive fractional state/length
+    can give zero illegal surrogate loss. No unreported underflow, action endpoint,
+    derivative or training behavior is certified.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Neural network pushdown automaton
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - identity
+  - das1992
+  summary: Retain the distinct DRAFT architecture.
+  details: The signed action, input-symbol fractional quantities and top-depth read
+    distinguish this NNPDA from the 2015 softmax-mixture Stack RNN and movable-head
+    List RNN. Parameter order and hint choices remain configurations. Ignored-inclusive
+    matches were inspected as prior leads, not exact existing records.
+- assessment_id: mapping
+  area: grounding
+  topic: Broader recurrent architecture
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - mapping
+  - das1992
+  summary: The broader mapping is supported.
+  details: The complete recurrent architecture fits RecurrentNeuralNetwork. The pinned
+    NTM feedforward/spiking description, LLM-scoped external memory and stacked-cell
+    layer do not supply exact identity or a suitable alternative broader target.
+- assessment_id: fractional-symbol-stack
+  area: evidence
+  topic: fractional-symbol-stack
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: Tables1–3 and p2 text specify signed push/pop quantities and a unit-depth
+    symbol read. The exact example removes .9 across two top items and produces read(.1,.5,.4).
+    Simulation thresholds are strictly stated; unspecified equality/empty/underflow
+    behavior remains a limitation. This is not a convex push/pop mixture.
+- assessment_id: controller-and-network-order
+  area: evidence
+  topic: controller-and-network-order
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: State recurrence receives input and read vectors; the action neuron is
+    nonrecurrent. Equations4–6 separate concatenated first-order, bilinear second-order
+    and trilinear third-order terms. Figure1 and end-marker text support the controller
+    family and final-classification scope without adding distinct memory structures.
+- assessment_id: joint-loss-and-rejection-boundary
+  area: evidence
+  topic: joint-loss-and-rejection-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: The positive loss combines accepting output and empty length. Equation2
+    is a rectified difference, so zero loss is the inequality L>=S_out; S_out=.6,L=.7
+    refutes an inference that zero loss forces a categorical output or length above1.
+    The draft preserves this direct consequence rather than stronger prose.
+- assessment_id: approximate-sensitivities-and-implementation-scope
+  area: evidence
+  topic: approximate-sensitivities-and-implementation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: The source explicitly says the stack-read derivative depends on full history
+    and uses a first-order approximation under large-action/training assumptions.
+    Recursive notation does not establish an exact global gradient. Signed-output
+    transformation and threshold/underflow cases are not supplied by the inspected
+    general formulas; no executable implementation is certified.
+- assessment_id: dead-state-hints
+  area: evidence
+  topic: dead-state-hints
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: A teacher identifies irreversibly rejecting prefixes, training stops there,
+    and the dead-state update drops the stack-length penalty. Incomplete prefixes
+    that could become legal are different. This is added grammar knowledge, not a
+    matched label-only comparison.
+- assessment_id: extraction-and-evaluation-limits
+  area: evidence
+  topic: extraction-and-evaluation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Supported with source and mathematical qualifications.
+  details: The simulations use incremental length, selected small languages, orders
+    and hints. Tables retain nonconvergence and conditional generalization; third-order
+    superiority is not universal. Quantizing states/actions is a separate extraction
+    step whose success does not follow for arbitrary grammars.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Fractional symbol operations, surrogate-loss rejection, approximate sensitivities,
+    extra supervision and quantized extraction
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - das1992
+  - calculation
+  summary: Constructed calculations support the explicit boundaries.
+  details: Exact rational, nonempty fractional-stack push/pop and top-depth reading;
+    different orderings can share one read vector; positive fractional state/length
+    can give zero illegal surrogate loss. No unreported underflow, action endpoint,
+    derivative or training behavior is certified.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and inspected-source scope
+  outcome: supported
+  target_ids:
+  - AIMech:NeuralNetworkPushdownAutomaton
+  evidence_ids:
+  - identity
+  - mapping
+  - das1992
+  - calculation
+  summary: All maintained fields inspected; DRAFT remains.
+  details: Read ID/name/alias, kind, definition/citation, identity search context,
+    six claims/locators, source identity/version/access/hash, AIO pin and mapping,
+    six limitations and actual curation times. Capture/source/context hashes and exact
+    report mirror agree. Source limitations remain explicit; no actionable record
+    defect found.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- The two-record batch shares one complete repository gate run; this does not represent
+  independent gate executions.
+- One new DRAFT concept, yielding 578 native and 442 unchanged generated records.
+  The 762-entry main frontier retains 481 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- All six pages of the author-hosted1992 conference manuscript visually read, including
+  Figure1, Tables1–6, Equations1–11 and references. No later1993/1998 variants, implementation
+  or training inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- recurrent-architectures
+- self-review
+- discovery-ongoing
+```
