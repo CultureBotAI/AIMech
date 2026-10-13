@@ -1,0 +1,141 @@
+id: AIMech:GatedGraphSequenceNeuralNetwork
+name: Gated Graph Sequence Neural Network
+aliases:
+- GGS-NN
+- Gated Graph Sequence Neural Networks
+concept_kind: architecture
+definition: A graph-to-sequence neural architecture that repeatedly runs gated graph propagation to predict
+  an output and update node annotations, using those predicted annotations to initialize graph computation
+  for the next output position.
+identity_notes: Compared all 442 pinned AIO and 600 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 27, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 49 AIO and 107 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. The
+  Section4 GGS-NN extension adds learned output and annotation transitions across sequence positions;
+  the Section3 GG-NN alone has a different identity. Supplied symbolic graphs, annotation-state recurrence
+  and graph-to-sequence heads distinguish it from general language models, CommNet and gated-feedback
+  RNNs. Node-level GRUs are components, not the entire architecture.
+definition_evidence:
+- source_id: li2016
+  locator: Section 4, PDF pp. 4–5, Equation 8 and Figure 2
+  relation: supports
+claims:
+- claim_id: output-and-annotation-recurrence
+  kind: mechanism
+  statement: For output position k, initialize gated graph propagation from current node annotations X^(k),
+    run a fixed propagation depth, and use an output model F_o to predict o^(k). A second model F_X predicts
+    next annotations X^(k+1), which initialize the following output position. The displayed per-node annotation
+    head is a sigmoid function of final hidden states and current annotations. Propagation iterations
+    within a position and annotation transitions between output positions are separate computational axes.
+  evidence:
+  - source_id: li2016
+    locator: Section 4, PDF pp. 4–5, Equation 8 and Figure 2
+    relation: supports
+- claim_id: shared-and-separate-variants
+  kind: scope
+  statement: The paper distinguishes full models with separate propagation networks for output and annotation
+    prediction from a simpler variant sharing propagation while retaining distinct heads. The simpler
+    variant is not asserted to match the full model on every task. Node selection and graph-level decisions
+    use different readouts; the sequence architecture is not limited to generating natural-language tokens
+    or to changing the supplied graph topology.
+  evidence:
+  - source_id: li2016
+    locator: Section 4, PDF pp. 4–5; Section 6.3, pp. 10–11
+    relation: supports
+- claim_id: annotation-supervision-boundary
+  kind: scope
+  statement: When intermediate node annotations are observed and sufficiently summarize preceding outputs,
+    training can be decomposed into output and annotation prediction problems. With unobserved intermediate
+    annotations, the complete sequence computation is trained jointly by backpropagation through the sequence.
+    Observed annotations during program-verification training do not imply that correct intermediate annotations
+    are available at test time, when predictions are carried forward.
+  evidence:
+  - source_id: li2016
+    locator: Section 4, PDF pp. 4–5; Section 6.3, pp. 10–11
+    relation: supports
+- claim_id: output-feedback-and-path-evidence
+  kind: limitation
+  statement: In the reported sequence experiments, previous output symbols are not explicitly fed into
+    the next step; predicted node annotations carry the evolving computation. The shortest-path and Eulerian-cycle
+    tasks use supplied symbolic graphs and scoped synthetic generators. Appendix B explains that the Eulerian
+    example contains a connected 2-regular target component plus a disconnected distractor, so the full
+    input graph need not itself be Eulerian. Reported sequence accuracy therefore does not certify a general
+    exact graph algorithm.
+  evidence:
+  - source_id: li2016
+    locator: Sections 5.1–5.2 and Table 3, PDF pp. 5–8; Appendix B, pp. 18–19
+    relation: supports
+- claim_id: verification-proposals-and-proof
+  kind: limitation
+  statement: The program-verification system predicts candidate separation-logic formulas from supplied
+    heap graphs, using restricted predicates and learned annotation updates within a larger procedure.
+    A static verifier checks candidates; the neural prediction itself is not a proof. The source separates
+    graph-formula prediction accuracy from verification success, uses a formula-level train/validation/test
+    split, and treats canonicalized formula equality as a proxy for logical equivalence. Some formula
+    components are supplied by deterministic processing outside the neural model.
+  evidence:
+  - source_id: li2016
+    locator: Section 6, PDF pp. 8–12, Algorithm 1 and Table 4; Appendix C, pp. 19–20
+    relation: supports
+- claim_id: multi-graph-logit-normalization
+  kind: scope
+  statement: For a shared decision from a batch of heap graphs, Section 6.4 sums the corresponding decision
+    logits across graphs and then applies softmax. This equals a normalized product of the per-graph softmax
+    probabilities; a raw product generally does not sum to one. The displayed equality to an unnormalized
+    product omits that normalization. This record follows the explicit summed-logit softmax construction
+    and preserves the notation discrepancy without claiming author-code verification.
+  evidence:
+  - source_id: li2016
+    locator: Section 6.4, PDF p. 11, unnumbered batch-graph softmax equation; direct constructed normalized-product
+      example
+    relation: supports
+evidence_sources:
+- source_id: li2016
+  title: Gated Graph Sequence Neural Networks
+  authors:
+  - Yujia Li
+  - Daniel Tarlow
+  - Marc Brockschmidt
+  - Richard Zemel
+  persistent_id: arXiv:1511.05493v4
+  version: arXiv1511.05493v4,22September2017, with ICLR2016 publication header. All20PDFpages visually
+    read, including AppendicesA–C. Author names verified against primary arXiv metadata; PDF groups the
+    same authors by affiliation. Locators use PDF/printed page order. Other versions and author code not
+    inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.05493v4
+  access_level: full_text
+  accessed_at: '2026-10-13T09:21:48Z'
+  sha256: 7053a744926ad065e516d7cbd0d135cb0301fde01276e52fbe53c1d8e4158d0b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Gated graph propagation, learned output heads and annotation-update networks make this a
+    particular artificial neural architecture; the target is broader.
+- target: AIO:GatedRecurrentUnit
+  relation: related_match
+  rationale: The propagation subnetworks use GRU-style node updates. This component relation is not equivalence
+    to a GRU unit or a specific software layer and does not adopt the pinned target’s LSTM parentage as
+    scientific evidence.
+limitations:
+- This is the named Section4 extension, not an alias of the Section3 base GG-NN. Annotation-state feedback
+  is distinguished from explicit previous-output token feedback.
+- Observed intermediate supervision, latent annotation training, shared propagation and separate propagation
+  are different supported configurations.
+- The program-analysis application assumes supplied symbolic heap graphs and a restricted formula vocabulary;
+  a separate verifier provides proof checking.
+- All20pages of arXiv1511.05493v4 were read, including appendices. Other source versions and author code
+  were not inspected. Constructed state/normalization examples do not train models or replicate sequence
+  and verification benchmarks. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T09:48:43Z'
+  updated_at: '2026-10-13T09:53:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
