@@ -1,0 +1,140 @@
+id: AIMech:MemoryNetwork
+name: Memory Network
+aliases:
+- Memory Networks
+concept_kind: model_family
+definition: A family of learning models that combines an addressable memory with input conversion, memory
+  updating, output inference and response components, allowing predictions to use stored information through
+  learned or otherwise specified component implementations.
+identity_notes: Compared all 442 pinned AIO and 602 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 108, 12, 12 lines. All distinct match contents were
+  inspected. Semantic matching covered 65 AIO and 86 native definitions, with every matched definition
+  read. 8 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The
+  Section2 I/G/O/R framework explicitly permits non-neural components, while Section3 MemNN is a particular
+  strongly supervised hard-retrieval neural implementation. The record denotes the original general family
+  and carefully scopes that implementation. MemNN is searched as context, not asserted as an exact family-wide
+  alias. MemN2N, external stack/list controllers and LLM memory systems have distinct identities.
+definition_evidence:
+- source_id: weston2015
+  locator: Section 2, PDF pp. 1–2
+  relation: supports
+claims:
+- claim_id: memory-and-four-components
+  kind: mechanism
+  statement: 'The original framework combines an addressable memory array with four components: I converts
+    an input into an internal representation, G updates stored memories, O computes an output representation
+    using the new input and memory, and R produces a response. The displayed processing order is input
+    conversion, memory update, output inference and response. These components may be learned and are
+    not required to be neural networks; the source explicitly permits other machine-learning methods.'
+  evidence:
+  - source_id: weston2015
+    locator: Section 2, PDF pp. 1–2, component definitions and four-step procedure
+    relation: supports
+- claim_id: state-update-versus-parameter-learning
+  kind: scope
+  statement: The memory state can change both during training and at test time while learned model parameters
+    remain fixed at test time. Equation 1 illustrates a simple G that writes an input representation to
+    one selected memory slot and leaves other slots unchanged. More complex updates and forgetting are
+    framework possibilities, but the source says it does not explore forgetting experimentally. Writable
+    memory does not establish unlimited physical storage or automatic online parameter learning.
+  evidence:
+  - source_id: weston2015
+    locator: Section 2, PDF pp. 1–2, Equation 1 and test-time/forgetting discussion
+    relation: supports
+- claim_id: neural-instantiation-is-specific
+  kind: scope
+  statement: Section 3 instantiates the framework as a neural MemNN for text question answering. Its basic
+    memory update appends the raw input to the next empty slot; hard maximization retrieves a first support
+    and then a second support conditioned on the question and first support. A response scorer selects
+    an answer word, with an RNN response alternative also described. Learned embedding scores use distinct
+    query/support roles and separate output and response parameters. A shared positive-semidefinite embedding
+    metric does not make the full role-conditioned question-to-memory score symmetric. These choices describe
+    this instantiation, not every permissible Memory Network.
+  evidence:
+  - source_id: weston2015
+    locator: Section 3.1, PDF pp. 3–4, Equations 2–5 and response alternatives; direct role-specific scoring
+      example
+    relation: supports
+- claim_id: support-supervision-boundary
+  kind: limitation
+  statement: The reported basic MemNN training uses questions, answers and annotated supporting sentences.
+    Margin losses compare correct choices with sampled wrong choices, and training knows the support-selection
+    decisions. This does not establish gradient propagation through an unknown hard argmax or answer-only
+    end-to-end training. The stream-input extension learns a segmentation decision using supervision derived
+    from supporting sentences. Other supervision regimes remain distinct variants or later work.
+  evidence:
+  - source_id: weston2015
+    locator: Sections 3.1–3.2, PDF p. 4, Equations 6–9; Appendix B, p. 13, Equation 12; Conclusions, p.
+      10
+    relation: supports
+- claim_id: retrieval-extensions-and-order
+  kind: limitation
+  statement: Optional word or learned-cluster hashing restricts the candidate memories scored during retrieval
+    and can exclude the globally highest-scoring item. The temporal extension adds relative memory-write-order
+    features to pairwise support comparisons and selects a winner through the Appendix C loop. Its equivalence
+    to scalar-score maximization is stated for the case without those time features; unrestricted pairwise
+    preferences need not be transitive or independent of candidate order. Memory write order is not a
+    general semantic interpretation of tense or event time.
+  evidence:
+  - source_id: weston2015
+    locator: Sections 3.3–3.4, PDF pp. 4–5; Appendix C, pp. 13–14, Equation 13 and Algorithm 1; direct
+      restricted-candidate and tournament examples
+    relation: supports
+- claim_id: evaluation-is-instantiation-specific
+  kind: limitation
+  statement: The experiments evaluate particular neural variants on a large extracted-triple question-answering
+    task and a restricted simulated world with supplied support supervision. The large task reranks candidate
+    answers and uses a different feature/retrieval configuration from the simulation. The simulated language
+    omits phenomena such as coreference and complex noun phrases, and answer-only recurrent baselines
+    receive less support supervision. Multiword response results use the Appendix F semantic correctness
+    rule rather than exact output-string identity. These results do not validate every allowed framework
+    instantiation, general language understanding or arbitrary reasoning depth.
+  evidence:
+  - source_id: weston2015
+    locator: Section 5, PDF pp. 6–10, Tables 1–4; Appendix A, p. 12; Appendices E–F, pp. 14–15, Tables
+      5–6
+    relation: supports
+evidence_sources:
+- source_id: weston2015
+  title: Memory Networks
+  authors:
+  - Jason Weston
+  - Sumit Chopra
+  - Antoine Bordes
+  persistent_id: arXiv:1410.3916v11
+  version: arXiv1410.3916v11,29November2015, with ICLR2015 publication header. All15PDFpages visually
+    read, including AppendicesA–F. Locators use PDF/printed page order. Other versions and author code
+    not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1410.3916v11
+  access_level: full_text
+  accessed_at: '2026-10-13T09:41:47Z'
+  sha256: 978ecaac3081beb72db3a4c40ca6264eb542008d2ab6dfb7766e1456e2312e99
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Network
+  relation: broad_match
+  rationale: The original framework is a connected computational system of memory and interacting input,
+    update, inference and response components. The pinned Network target broadly includes interconnected
+    entities for computation and data exchange; it does not require neural implementation.
+limitations:
+- The record denotes the original general framework. MemNN names its specific neural instantiation here
+  and is not asserted as an exact alias for all permissible implementations.
+- Memory-state updates differ from learning model parameters; test-time writable storage is not an automatic
+  online-learning guarantee.
+- Full supporting-fact supervision and restricted experiments apply to the reported neural instantiations.
+  The later soft-read MemN2N architecture has a distinct identity and supervision protocol.
+- All 15 pages of arXiv1410.3916v11 were visually read, including Appendices A–F. Other versions and author
+  code were not inspected; chosen calculations illustrate boundaries, not trained-model behavior or benchmark
+  reproduction. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T10:10:28Z'
+  updated_at: '2026-10-13T10:15:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,142 @@
+id: AIMech:EndToEndMemoryNetwork
+name: End-to-End Memory Network
+aliases:
+- MemN2N
+- End-to-End Memory Networks
+concept_kind: architecture
+definition: A neural architecture that answers a query through one or more differentiable soft-attention
+  reads over separately embedded input and output memories, updating a query state between reads and learning
+  from the final prediction loss.
+identity_notes: Compared all 442 pinned AIO and 601 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 17, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 60 AIO and 65 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. MemN2N
+  uses differentiable soft reads and answer supervision, unlike the original Memory Network framework
+  and hard-retrieval MemNN instantiation. External stack/list operations and CommNet mean communication
+  have distinct mechanisms. Generic external-memory wording is not LLM identity or a Neural Turing Machine
+  equivalence.
+definition_evidence:
+- source_id: sukhbaatar2015
+  locator: Sections 2.1–2.2, PDF pp. 1–3, Equations 1–4 and Figure 1
+  relation: supports
+claims:
+- claim_id: soft-memory-read
+  kind: mechanism
+  statement: For a supplied finite buffer of memories x_i and a query q, form input-memory embeddings
+    m_i=A*x_i, a query embedding u=B*q and output-memory embeddings c_i=C*x_i. Normalize the dot products
+    u^T*m_i with softmax, read o=sum_i p_i*c_i, and predict an answer through softmax(W*(o+u)). The memory
+    read is a weighted combination rather than a hard selection of one supporting fact. The input and
+    output embedding matrices have distinct roles.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Section 2.1, PDF pp. 1–2, Equations 1–3 and Figure 1
+    relation: supports
+- claim_id: hops-and-tying
+  kind: scope
+  statement: Multiple hops update the query state and reread memory before producing an answer. The displayed
+    update is u^(k+1)=u^k+o^k. Adjacent tying sets A^(k+1)=C^k, B=A^1 and W^T=C^K, whereas layer-wise
+    tying shares A and C across hops and uses a learned linear query transform H in u^(k+1)=H*u^k+o^k.
+    These are distinct configurations; a computational hop is not necessarily a new observed input time
+    step.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Section 2.2, PDF pp. 2–3, Equation 4 and tying descriptions
+    relation: supports
+- claim_id: word-and-memory-order
+  kind: scope
+  statement: Bag-of-words sentence embeddings lose word order. The position-encoding variant instead weights
+    word-embedding coordinates by a deterministic function of word position and sentence length. Separate
+    learned temporal embeddings encode memory position, with sentences indexed from the most recent backward.
+    Permuting complete key/value pairs leaves a single soft read unchanged, but moving a sentence while
+    retaining position-dependent temporal embeddings generally changes its key and value.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Section 4.1, PDF pp. 4–5, sentence representation and temporal encoding; direct permutation
+      consequence
+    relation: supports
+- claim_id: supervision-and-training
+  kind: scope
+  statement: Cross-entropy training backpropagates through soft memory reads and does not require the
+    supporting-fact labels used by the compared strongly supervised Memory Network. This remains supervised
+    answer prediction, not unsupervised learning or a guarantee of a correct reasoning chain. The QA experiments
+    use validation data, random restarts and a linear-start option that initially removes memory softmax
+    operations before restoring them; the ordinary soft-read equations do not describe that initial phase.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Sections 2.1 and 3, PDF pp. 2–3; Section 4.2, p. 5, training and linear-start descriptions
+    relation: supports
+- claim_id: finite-buffer-and-slot-boundaries
+  kind: limitation
+  statement: The QA implementation described in the paper keeps the latest 50 sentences in memory even
+    when a problem contains more sentences. Learned embeddings and multiple reads do not supply unlimited
+    context or the arbitrary dynamic write-head operations of a Neural Turing Machine. Adding or duplicating
+    an unmasked memory slot can change the softmax denominator and readout. A zero-valued padding embedding
+    alone does not imply that its attention slot is excluded, especially when temporal embeddings are
+    added.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Section 2.1, PDF p. 2; Sections 4.1–4.2, pp. 4–5, temporal encoding, memory limit and null-word
+      constraint; Section 6, p. 8; direct constructed slot examples
+    relation: supports
+- claim_id: evaluation-and-output-scope
+  kind: limitation
+  statement: The paper evaluates synthetic bAbI question answering and separately configured word-level
+    language models. QA variants differ in sentence encoding, initialization, training set size and joint
+    training; multiple-word answers are encoded as one output-vocabulary entry. The language model instead
+    reads previous words with a constant query, uses layer-wise tying and a partly rectified hidden state,
+    and predicts the next word. Selected task errors and perplexities do not demonstrate universal reasoning,
+    monotonic gains from more hops or superiority across all compared configurations. Visualization heatmaps
+    are not causal explanations; Figure 3 rescales each row to a maximum of one.
+  evidence:
+  - source_id: sukhbaatar2015
+    locator: Sections 4–5, PDF pp. 4–8, Tables 1–2 and Figures 2–3; Section 6, p. 8
+    relation: supports
+evidence_sources:
+- source_id: sukhbaatar2015
+  title: End-To-End Memory Networks
+  authors:
+  - Sainbayar Sukhbaatar
+  - Arthur Szlam
+  - Jason Weston
+  - Rob Fergus
+  persistent_id: arXiv:1503.08895
+  version: NIPS 2015 proceedings paper, volume 28, nine PDF pages. All pages, equations, figures, tables
+    and references visually read; locators use PDF/printed page order. The arXiv identifier resolves the
+    work; this evidence file is the primary proceedings PDF, not an asserted arXiv version. Supplement
+    and author code not inspected.
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/5846-end-to-end-memory-networks.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T09:21:47Z'
+  sha256: b518b8b0bd13f6ba48f11a9d98f831bac2c69ea5aec808e1eadd469b38e9970b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned memory and query embeddings, differentiable attention and a neural prediction head
+    form a particular artificial neural architecture; the target is broader.
+- target: AIO:AttentionLayer
+  relation: related_match
+  rationale: The architecture uses dot-product soft-attention reads, a component-level relation to the
+    pinned attention-layer concept. This does not identify the whole model with one software layer or
+    claim a verified API implementation.
+limitations:
+- This is the named end-to-end soft-read architecture, distinct from the original Memory Network framework
+  and its hard-retrieval MemNN instantiation.
+- External memory here is a supplied finite buffer with learned embeddings; no unlimited storage, general
+  dynamic write controller or exact reasoning algorithm is established.
+- QA and language-model configurations have different queries, tying, encodings, nonlinearities and output
+  protocols.
+- All nine primary proceedings pages were visually read. Supplement, other versions and author code were
+  not inspected. Constructed algebraic examples do not train or replicate a model. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T10:09:55Z'
+  updated_at: '2026-10-13T10:15:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
