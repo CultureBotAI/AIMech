@@ -1,0 +1,175 @@
+id: AIMech:GenericTreeSampling
+name: Generic tree sampling
+aliases:
+- Chen generic sampling
+- Generic importance-weighted tree sampling
+concept_kind: algorithm
+definition: An importance-sampling generalization of Chen heuristic tree sampling that merges representatives
+  of ordered tree strata using specified positive selection probabilities and inverse-probability survivor
+  weights to estimate an additive tree functional.
+identity_notes: 'Compared all 442 pinned AIO and 646 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 85 AIO and 382 native definitions, with every matched definition
+  read. 12 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain
+  Chen’s explicitly named generic sampling algorithm GS: it generalizes the maintained HS method by allowing
+  arbitrary supported collision probabilities and changing the surviving weight by the corresponding inverse
+  probability. The HS record specifies weight-proportional replacement and a summed survivor weight. GS
+  is a broader algorithm family, not an alternative name for that particular rule. Knuth’s estimator follows
+  one path; Purdom samples successor subsets; Gumbel top-k sampling and TreeSHAP have different sampling
+  laws or targets. Bare generic sampling and GS are not aliases because the terms have unrelated uses.'
+definition_evidence:
+- source_id: chen1992hs
+  locator: Section 3.2, PDF p.4 / printed p.298; Section 4.3, PDF pp.5–6 / printed pp.299–300
+  relation: supports
+claims:
+- claim_id: inverse-probability-collision
+  kind: mechanism
+  statement: Start with root weight one, process parent strata before their descendants and let a newly
+    generated child inherit its parent’s weight. When an incoming child of weight w collides with an existing
+    representative of weight W, choose the child with a specified conditional probability p strictly between
+    zero and one. Its surviving weight is w/p; if the existing representative survives, its weight is
+    W/(1-p). Sum each expanded representative’s weight times its node-functional value.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections 2–3.2, PDF pp.2–4 / printed pp.296–298; Algorithm HS and its GS replacement clause
+    relation: supports
+- claim_id: finite-tree-expectation
+  kind: scope
+  statement: For a finite fixed tree, finite node-functional values, valid stratum order and supported
+    random choices with the stated weight corrections, the estimator preserves the additive total in expectation.
+    The conditional expectation argument applies to each collision; it does not require p to equal the
+    weight-proportional HS choice. This counts tree-path occurrences and does not establish a distinct-vertex
+    estimator for a graph.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections 2 and 4.1–4.3, PDF pp.2,4–6 / printed pp.296,298–300; Theorem 4, Equations 14–17
+    relation: supports
+- claim_id: hs-and-path-specializations
+  kind: scope
+  statement: Choosing p=w/(W+w) makes either survivor’s weight W+w and recovers the HS collision rule.
+    With strata determined only by depth, the sampled tree has one path, connecting the construction to
+    simple backtracking-tree sampling. GS also permits choices with a different distribution of weights
+    and estimates.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections 3.2–4.3, PDF pp.4–6 / printed pp.298–300; Theorem 1, Corollaries 2–3
+    relation: supports
+- claim_id: oracle-and-variance-conditions
+  kind: limitation
+  statement: For nonnegative subtree totals, the source’s zero-variance choice is proportional to the
+    true incoming and existing weighted subtree totals. Those unknown totals are generally unavailable.
+    Zero totals require separate support and division conventions; signed totals do not justify using
+    this nonnegative formula unchanged. The later average-variance argument adds assumptions about the
+    distribution of subtrees within strata.
+  evidence:
+  - source_id: chen1992hs
+    locator: Section 3.2 and Section 4.4, PDF pp.4,6–7 / printed pp.298,300–301; Equation 18 and Theorem
+      5
+    relation: supports
+- claim_id: ordering-and-cost-scope
+  kind: limitation
+  statement: A valid ordering is required even though the tree total is estimated without enumerating
+    it. The source states order invariance for HS; that result does not establish order invariance for
+    arbitrary GS proposals. At most one representative is expanded per stratum, while generating children,
+    computing strata and evaluating proposals still cost work. Unbiasedness alone provides no finite-probe
+    accuracy or runtime guarantee.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections 3–4.4, PDF pp.2–7 / printed pp.296–301; Corollary 2 and Theorem 4
+    relation: supports
+evidence_sources:
+- source_id: chen1992hs
+  title: 'Heuristic Sampling: A Method for Predicting the Performance of Tree Searching Programs'
+  authors:
+  - Pang C. Chen
+  persistent_id: doi:10.1137/0221022
+  version: 'University-hosted copy of SIAM Journal on Computing 21(2), April 1992, pp.295–315;21 PDF pages.
+    All pages visually read: Sections 1–6, full Appendix, Equations 1–112, numbered formal results 1–19,
+    Algorithm HS/Figure 1, Figure 2, Tables 1–2 and all 10references. Original issue year 1992 differs
+    from publisher online date 2006. Dissertation and author implementation excluded.'
+  source_type: primary_paper
+  url: https://bpb-us-e2.wpmucdn.com/sites.uci.edu/dist/8/175/files/2015/10/Chen-Heuristic-Sampling-1992.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:40:29Z'
+  sha256: 17dffdd9c09fa4a1a75a77ba69500aeed12f376b0a43fcc9f6495410a2c5ef64
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Compared all 442 pinned AIO and 646 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 85 AIO and 382 native definitions, with every matched definition
+    read. 12 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+    Retain Chen’s explicitly named generic sampling algorithm GS: it generalizes the maintained HS method
+    by allowing arbitrary supported collision probabilities and changing the surviving weight by the corresponding
+    inverse probability. The HS record specifies weight-proportional replacement and a summed survivor
+    weight. GS is a broader algorithm family, not an alternative name for that particular rule. Knuth’s
+    estimator follows one path; Purdom samples successor subsets; Gumbel top-k sampling and TreeSHAP have
+    different sampling laws or targets. Bare generic sampling and GS are not aliases because the terms
+    have unrelated uses.'
+  rationale: No suitable AIO counterpart was established for this conditional importance-weighted tree-functional
+    estimator. Classification models, learning tasks, language architectures, bias phenomena and graphical-model
+    terminology do not identify the algorithm merely because they share tree or sampling language. This
+    assessment is bounded to the inspected pin.
+  examined_targets:
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned class denotes a classification model; an implicit search tree and its
+      count estimator are not a trained decision-tree classifier.
+  - target: AIO:MarkovChain
+    rejection_reason: Random representative replacement alone does not identify the pinned network/process
+      class or a substantive conditional type-transition model. Treating the entire algorithmic state
+      as Markov would be an uninformative forced mapping.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: The record is a sampling algorithm with an expectation claim, not the computational
+      bias phenomenon defined by this class.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The additive tree functional is an input; the maintained identity is the randomized
+      estimation procedure.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The algorithm samples an existing implicit tree and need not learn a model or perform
+      a machine-learning task.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: No response-surface regression is required for the weighted tree estimate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Sampling tree nodes to estimate a sum does not learn a reward-maximizing policy
+      or define exploration–exploitation control.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The search tree is not asserted to factor a joint distribution of random variables;
+      no graphical-model learning task is required.
+  - target: AIO:BayesianNetwork
+    rejection_reason: An implicit rooted search tree is not by itself a Bayesian-network factorization
+      or a sampler from its joint law.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: No graph-based language model is required.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The procedure is not a language-model reasoning architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Tree-structured neural language composition is distinct from randomized additive
+      tree-functional estimation.
+limitations:
+- The native name is disambiguated by tree and the Chen alias. Bare GS and generic sampling are not asserted
+  aliases; a generalization relationship does not make all GS instances identical to the fixed HS rule.
+- For old weight1/value1 and incoming weight3/value5, corrected p=1/2 replacement has mean16 and variance196;
+  HS has mean16 and variance48. Retaining the total weight4 with uncorrected uniform choice instead has
+  mean12. Better or worse proposal variance does not change the required weight correction.
+- A constructed tree with incomparable parent strata A and B sends leaf values2,5 from A and11 from B
+  into a common later stratum. Constant incoming p=1/2 gives mean18 under either valid parent order but
+  variance34 for A then B and226 for B then A. Thus the HS-specific order-invariance result cannot be
+  transferred to arbitrary GS choices.
+- Strict support excludes p=0 or1 in a collision with potentially contributing alternatives. A proposal
+  based on exact positive subtree totals is an oracle illustration; no inexpensive perfect heuristic,
+  general confidence bound or infinite-tree result is asserted.
+- 'All21 pages of the cited journal copy were visually read. The definition and expectation claims use
+  Sections2–4.4, not a certification of every later variance proof: the previously identified printed
+  Appendix Equation99 inequality remains qualified. Dissertation, author software and empirical replication
+  were not inspected or executed.'
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T19:50:15Z'
+  updated_at: '2026-10-13T19:50:15Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
