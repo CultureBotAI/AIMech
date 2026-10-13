@@ -1,0 +1,179 @@
+id: AIMech:KnuthBacktrackTreeEstimation
+name: Knuth backtrack-tree estimation
+aliases:
+- Knuth tree-size estimator
+concept_kind: algorithm
+definition: A randomized estimator of additive properties of a fixed backtracking tree that follows a
+  sampled root-to-terminal path and weights each visited node contribution by the inverse probability
+  of reaching it.
+identity_notes: Compared all 442 pinned AIO and 642 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 66 AIO and 346 native definitions, with every matched definition
+  read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain
+  the fixed-tree path estimator using degree or inverse-selection-probability weights. Chen’s weighted-stratum
+  estimator generalizes its depth-only uniform form but adds merging across strata. CDP extrapolates a
+  conditional domain model; IDA*IM controls an actual search; Gumbel top-k draws configurations without
+  replacement and TreeSHAP computes feature attributions.
+definition_evidence:
+- source_id: knuth1975backtrack
+  locator: Sections 2–3, PDF pp. 4–7 / printed pp. 124–127, Algorithms B and E
+  relation: supports
+claims:
+- claim_id: uniform-path-weights
+  kind: mechanism
+  statement: In the uniform form, start at the root with weight one, choose one eligible child uniformly
+    at each step, and multiply the path weight by the number of eligible children. Accumulate the current
+    weight times the node contribution, including the root, until the path terminates. The target backtracking
+    program traverses the feasible tree, while a sampling trial follows only one path.
+  evidence:
+  - source_id: knuth1975backtrack
+    locator: Sections 2–3, PDF pp. 4–7 / printed pp. 124–127, Algorithm E1–E4 and Theorem 1
+    relation: supports
+- claim_id: positive-probability-variant
+  kind: mechanism
+  statement: The importance-sampling variant selects a child using specified positive probabilities and
+    divides the path weight by the actual probability of the selected child. Retaining ordinary degree
+    weights after a nonuniform choice generally changes the expectation. The zero-variance characterization
+    uses probabilities proportional to true nonnegative subtree costs; it requires information normally
+    unknown to the estimator and appropriate treatment of zero-cost branches.
+  evidence:
+  - source_id: knuth1975backtrack
+    locator: Section 5, PDF pp. 9–11 / printed pp. 129–131, E4-prime and Theorem 2
+    relation: supports
+- claim_id: fixed-tree-additive-scope
+  kind: scope
+  statement: For a finite fixed tree and defined node contributions with the required sampling support,
+    the expectation equals the additive tree total. Constant-one contributions estimate node count, and
+    terminal or level indicators estimate corresponding profiles. Node count does not by itself determine
+    runtime when work varies across nodes. The paper explicitly excludes direct application to branch-and-bound
+    with changing bounds, while allowing work estimates for testing a specified bound.
+  evidence:
+  - source_id: knuth1975backtrack
+    locator: Sections 3 and 7, PDF pp. 6–7 and 15 / printed pp. 126–127 and 135
+    relation: supports
+- claim_id: relationship-to-stratified-estimation
+  kind: scope
+  statement: Chen’s later weighted-stratum estimator includes uniform single-path tree sampling as its
+    depth-only specialization. Grouping additional nodes into ordered strata and merging weighted representatives
+    extends that mechanism. This record retains the earlier path estimator and its positive-probability
+    variant; arbitrary stratum-merging rules belong to the later method.
+  evidence:
+  - source_id: chen1992hs
+    locator: Sections 2–3.2, PDF pp. 2–4 / printed pp. 296–298
+    relation: supports
+- claim_id: finite-trial-and-cost-limits
+  kind: limitation
+  statement: Unbiasedness is an expectation statement, not a guarantee that a finite set of probes finds
+    rare deep nodes or produces a precise estimate. The reported knight-tour table includes zero estimated
+    counts at deep levels with nonzero actual counts. Generating eligible children, evaluating costs and
+    choosing probabilities require work, so a path-length bound is not a universal runtime bound. Contracting
+    nodes preserves an additive target only if absorbed contributions remain included.
+  evidence:
+  - source_id: knuth1975backtrack
+    locator: Sections 4–7, PDF pp. 8–15 / printed pp. 128–135, Table 1 and node-contraction discussion
+    relation: supports
+evidence_sources:
+- source_id: knuth1975backtrack
+  title: Estimating the Efficiency of Backtrack Programs
+  authors:
+  - Donald E. Knuth
+  persistent_id: doi:10.1090/S0025-5718-1975-0373371-6
+  version: University-hosted scanned journal copy, Mathematics of Computation 29(129), January 1975, pages
+    121–136. All 16 PDF pages visually inspected, including Sections 1–7, Algorithms B and E/E4-prime,
+    Equations 1–14, three theorems, two corollaries, Figures 1–5, Table 1 and all 23 references. Earlier
+    technical report, later reprints and author code excluded.
+  source_type: primary_paper
+  url: https://www.cs.brandeis.edu/~storer/JimPuzzles/MATCH/InstantInsanity/InstantInsanityKnuthArticle.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:56:39Z'
+  sha256: 4b0b29ae92eb6526670fa91675b307d46af0f42a67648bd6d75af8599c072ef8
+- source_id: chen1992hs
+  title: 'Heuristic Sampling: A Method for Predicting the Performance of Tree Searching Programs'
+  authors:
+  - Pang C. Chen
+  persistent_id: doi:10.1137/0221022
+  version: 'University-hosted copy of SIAM Journal on Computing 21(2), April 1992, pp.295–315;21 PDF pages.
+    All pages visually read: Sections 1–6, full Appendix, Equations 1–112, numbered formal results 1–19,
+    Algorithm HS/Figure 1, Figure 2, Tables 1–2 and all 10references. Original issue year 1992 differs
+    from publisher online date 2006. Dissertation and author implementation excluded.'
+  source_type: primary_paper
+  url: https://bpb-us-e2.wpmucdn.com/sites.uci.edu/dist/8/175/files/2015/10/Chen-Heuristic-Sampling-1992.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T17:40:29Z'
+  sha256: 17dffdd9c09fa4a1a75a77ba69500aeed12f376b0a43fcc9f6495410a2c5ef64
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 642 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 66 AIO and 346 native definitions, with every matched definition
+    read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+    Retain the fixed-tree path estimator using degree or inverse-selection-probability weights. Chen’s
+    weighted-stratum estimator generalizes its depth-only uniform form but adds merging across strata.
+    CDP extrapolates a conditional domain model; IDA*IM controls an actual search; Gumbel top-k draws
+    configurations without replacement and TreeSHAP computes feature attributions.
+  rationale: No suitable AIO counterpart was established for the inspected path-weighted backtracking-tree
+    estimator. Classifiers, bias phenomena, broad learning tasks and stochastic-network models have different
+    identities; this no-match assessment is bounded to the pinned snapshot and inspected contexts.
+  examined_targets:
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned class is a classification task. This method estimates additive properties
+      of a backtracking search tree rather than fitting a classifier.
+  - target: AIO:MarkovChain
+    rejection_reason: A sampled path can be modeled stochastically, but the full method is an inverse-probability
+      additive-cost estimator over an actual implicit tree. A generic stochastic-network model does not
+      identify this estimator; no direct counterpart was established.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: The record is a sampling algorithm with an expectation claim, not the computational
+      bias phenomenon defined by this class.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The additive tree functional is an input; the maintained identity is the randomized
+      estimation procedure.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The algorithm samples an existing implicit tree and need not learn a model or perform
+      a machine-learning task.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: No response-surface regression is required for the weighted tree estimate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Sampling tree nodes to estimate a sum does not learn a reward-maximizing policy
+      or define exploration–exploitation control.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The search tree is not asserted to factor a joint distribution of random variables;
+      no graphical-model learning task is required.
+  - target: AIO:BayesianNetwork
+    rejection_reason: An implicit rooted search tree is not by itself a Bayesian-network factorization
+      or a sampler from its joint law.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: No graph-based language model is required.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The procedure is not a language-model reasoning architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Tree-structured neural language composition is distinct from randomized additive
+      tree-functional estimation.
+  - target: AIO:ComputationalBias
+    rejection_reason: Statistical bias is a property discussed when assessing estimators, not the identity
+      of this sampling procedure.
+limitations:
+- A node in an implicit search tree denotes its path occurrence. Repeated graph states are not automatically
+  deduplicated, and adaptive pruning can change the target tree.
+- Sampling probabilities must preserve support for contributions to the target and must be used in the
+  actual weight update. Oracle subtree-cost probabilities are a characterization, not a practical exact-counting
+  procedure for an unknown tree.
+- The source variance bound has nonnegative-cost, bounded-ratio and finite-depth assumptions. No universal
+  finite-sample relative-error or confidence guarantee is asserted.
+- Constructed examples distinguish a five-node tree from an additive cost total of fifteen, and show that
+  biased child selection with unchanged degree weights estimates six rather than five. These are finite
+  boundary checks, not author-code execution.
+- All sixteen Knuth journal pages and twenty-one Chen journal pages were visually inspected. Other versions,
+  source implementations and modern benchmark replication were not inspected or executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T19:21:30Z'
+  updated_at: '2026-10-13T19:21:30Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
