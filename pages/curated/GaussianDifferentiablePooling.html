@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaussian Differentiable Pooling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Gaussian Differentiable Pooling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gaussian Differentiable Pooling</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:GaussianDifferentiablePooling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A spatial pooling and unpooling component whose nonnegative, unit-L2 weights are square-root normalized axis-aligned Gaussian samples, with each region’s location and precision inferred jointly with image-specific features under a reconstruction objective.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 624 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 10, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 32 AIO and 54 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the specific Zeiler–Fergus2012 spatial Gaussian pooling component. Its inferred location/precision and unit-L2 weights distinguish it from power-mean channel units, activation-proportional random location selection, saved discrete switches, fixed average/max pooling and complete deconvolutional architectures. Generic differentiable pooling and Gaussian pooling search terms are not asserted as unrestricted aliases. Acoustic adaptation and visual Gaussian-readout search leads require separate identity/primary evidence assessment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-weights-and-spatial-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For positive Gaussian samples a_i in a region, w_i=sqrt(a_i/sum_j a_j), so squared weights sum to one; the weights themselves are not generally probabilities. Gaussian means and precisions parameterize spatial locations and spread. Zero precision gives w_i=1/sqrt(n), making pooling a scaled sum rather than an arithmetic mean. High precision can select a unique nearest spatial location to the mean; this is not inherently an activation-maximum rule, and equal-distance ties need not collapse to one location.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2012">Differentiable Pooling for Hierarchical Feature Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.5, PDF pp. 3–4, Equations 8–9 and stated precision limits; direct normalization and limiting examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#conditional-unpooling-and-projection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With fixed region weights, unpooling maps a scalar p to z_i=w_i*p and weighted pooling applies the transpose. For the paper’s nonoverlapping regions, unit-norm columns ensure pooling recovers a scalar from its own unpooling. Unpooling an arbitrary pooled region generally yields a projection, not the original region. Unit column norms alone do not establish the same inverse property for overlapping regions. Equation 3 prints a repeated z_b(j) index; its accompanying footnote supports the dimensionally consistent weighted sum over z_b(i).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2012">Differentiable Pooling for Hierarchical Feature Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p. 2, Equations 2–3 and footnote 2; direct scalar recovery, projection and overlapping-column examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#image-specific-inference-and-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the demonstrated deconvolutional architecture, pooling parameters and top-layer features are inferred for each image while convolution filters are shared. The reconstruction chain uses all layers, with a squared-error term and a sparsity penalty on top features; Gaussian parameters are updated through reconstruction gradients. The preferred experimental schedule pretrains the first layer and then keeps its filters fixed while adapting lower pooling variables and higher features. Joint inference therefore does not imply simultaneous optimization of every filter or a single feedforward evaluation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2012">Differentiable Pooling for Hierarchical Feature Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.3–2.7 and 3–5, PDF pp. 3–6, Equations 5–7, Algorithm 1 and Section 4.1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#normalization-gradient-discrepancy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Differentiating Equation 8 for positive samples gives dw_i/da_j=(w_i/2)*(delta_ij/a_i-1/sum_k a_k). The off-diagonal derivative is negative. The printed off-diagonal Equation 19 has a positive value, and Equation 20 also does not equal the diagonal derivative of Equation 8. Algebra and finite differences expose this discrepancy in the inspected version. The general chain-rule approach is retained, but the printed normalization derivatives are not endorsed as correct; this finding does not establish what the authors implemented.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2012">Differentiable Pooling for Hierarchical Feature Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.5, PDF p. 3, Equation 8; Section 3.2, PDF p. 5, Equations 17–20; direct derivative and finite-difference checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#optimization-and-empirical-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The demonstrated sparse reconstruction model uses nonnegative features and filters, finite iterative updates, and different training and inference sparsity settings. Parameter changes and sublinear sparsity penalties make the full optimization nonconvex; finite updates and resets do not certify a global optimum or unique representation. The MNIST example uses raw 28x28 inputs, two layers with 16 and 48 maps, 5x5 filters and 2x2 nonoverlapping pooling, followed by a separately trained linear SVM on processed feature maps. Results and visualizations concern this configured architecture; they do not establish universal gains, exact image recovery, semantic disentanglement, or unconditional translation and scale invariance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2012">Differentiable Pooling for Hierarchical Feature Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.6–2.7 and 3–7, PDF pp. 4–12, Algorithm 1, Tables 1–5 and Figures 2–9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The local name specifies the 2012 Zeiler–Fergus Gaussian spatial method. It is not a blanket identity for graph differentiable pooling, Gaussian receptive-field readouts or all differentiable aggregation methods.</li>
+      <li>The inverse relation is conditional on fixed nonoverlapping unit-norm unpooling columns and applies to generated unpoolings. It does not invert an arbitrary image or convolutional network.</li>
+      <li>The inspected source has normalization-derivative and indexing discrepancies. No implementation, precision-domain safeguards, optimizer edge-case handling, other source version or empirical replication was inspected.</li>
+      <li>The complete twelve-page arXiv1207.0151v1 paper was visually inspected; constructed calculations test stated mathematical boundaries without training a model.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PoolingLayer.html" style="font-weight: 600;"><code>AIO:PoolingLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Pooling Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The component reduces spatial regions through weighted aggregation, with a paired conditional unpooling operation. The pinned generic pooling layer has broader scope.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeconvolutionalNetwork.html" style="font-weight: 600;"><code>AIO:DeconvolutionalNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deconvolutional Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The complete deconvolutional sparse-reconstruction architecture is the demonstrated context for this pooling component, not an equivalent layer identity or a superclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-zeiler2012">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">zeiler2012</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1207.0151v1" target="_blank" rel="noopener">Differentiable Pooling for Hierarchical Feature Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew D. Zeiler, Rob Fergus
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1207.0151v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ab91fb2534c3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T14:36:56Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T14:36:56Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GaussianDifferentiablePooling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GaussianDifferentiablePooling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
