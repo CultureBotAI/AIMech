@@ -1,0 +1,543 @@
+# Scientific author self-review of Differentiable scheduled sampling
+
+- Review: 20261013T074225Z-differentiable-scheduled-sampling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T07:32:49Z
+- Finished UTC: 2026-10-13T07:42:25Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Differentiable scheduled sampling as a DRAFT training algorithm with related curriculum and softmax mappings. All six claims are supported within their explicit derivative, surrogate and empirical limits; this author self-review found no actionable defect.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:DifferentiableScheduledSampling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 15c00d75af2e8f1973432eaff73d17a17812bbfb.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DifferentiableScheduledSampling | data/curated/DifferentiableScheduledSampling.yaml | maintained | Differentiable scheduled sampling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DifferentiableScheduledSampling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 240.33s (0:04:00)<br>Checked 442 record(s); 0 failed.<br>Checked 587 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 246 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 245,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DifferentiableScheduledSampling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DifferentiableScheduledSampling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DifferentiableScheduledSampling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:DifferentiableScheduledSampling | {"cases": [{"fixed_noise": [0.0, 0.0], "relaxed_embedding": 0.203937019662644, "embedding_derivative": -1.441564474449175, "loss": 0.3168581343317968, "loss_gradient": 1.1475761118784644, "finite_difference": 1.1475761118595607}, {"fixed_noise": [0.3, -0.2], "relaxed_embedding": -0.4065516656757452, "embedding_derivative": -0.9521093849736879, "loss": 0.9891937941076064, "loss_gradient": 1.33919104134025, "finite_difference": 1.3391910413385055}], "hard_greedy_local_choice_gradient": 0, "tied_maxima": [{"alpha": 1.0, "embedding": 0.5, "embedding_derivative": -0.75}, {"alpha": 10.0, "embedding": 0.5, "embedding_derivative": -7.5}, {"alpha": 100.0, "embedding": 0.5, "embedding_derivative": -75.0}], "unique_maximum_at_alpha1000": {"embedding": -1.0, "derivative": 0.0}, "scope": "Finite deterministic score/embedding example, plus one fixed perturbed-score realization. No sampling-variance estimate, universal gradient guarantee, model fitting or accuracy replication."} |
+
+## Scientific And Domain Assessments
+
+### Differentiable scheduled sampling
+
+identity: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Retain this distinct DRAFT algorithm.
+
+The named relaxed-feedback sequence-training algorithm differs from stopped-decision ScheduledSampling, reference-input TeacherForcing and the reusable GumbelSoftmaxRelaxation distribution. Two source variants share the named procedure; generic descriptive variant names are not asserted as global aliases.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Mapping direction and scope are supported.
+
+CurriculumLearning has narrower example-order wording, and SoftmaxFunction denotes a component. Related mappings accurately preserve the schedule and operator associations without exact identity or an is-a assertion.
+
+### relaxed-greedy-feedback
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source supplies an embedding mixture using softmax(alpha*s). Direct partial differentiation gives alpha*qj*(ej-mean), with embeddings fixed; this is not a selected discrete token. Smoothness is conditional on surrounding computations.
+
+### sharp-limit-and-ties
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Source footnote2 excludes ties for its hard expression. The constructed tie limit retains an average and the derivative scales with alpha; unique-maximum sharp limits behave differently. No universal informative-gradient assertion remains.
+
+### relaxed-sampled-feedback
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Independent Gumbels are added before softmax sharpening. Fixed-noise differentiation is separated from stochastic draws and from the original discrete objective, consistent with the inspected distributional neighbor and source equations.
+
+### reference-and-sharpness-schedules
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The original reference target, first reference-only epoch and two separately tuned schedules are retained. Hard prediction remains possible; this does not establish objective consistency or target compatibility after altered prefixes.
+
+### constructed-credit-path
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Finite differences agree for the isolated choice-path gradient. The hard choice is constant locally in this constructed example, but complete recurrent-model gradients are explicitly not declared zero.
+
+### reported-evaluation-boundaries
+
+evidence: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Tables1–2 contain mixed configuration results. The record correctly retains sampled annealed NER54.20 below54.60, a19.69 MT tie, best-validation restart selection and MT instability for always-generated feedback. No universal gain or runtime promise.
+
+### smooth feedback credit paths, tie limits, stochastic surrogates and configuration-specific evaluation
+
+consistency: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Constructed calculations support the stated distinctions.
+
+A fixed two-embedding example checks downstream gradients against finite differences for unperturbed and fixed perturbed scores, contrasts hard greedy choice paths, and demonstrates tied-score averaging and sharp-limit derivative behavior. No parameters are fitted or sampling variance estimated.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:DifferentiableScheduledSampling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read all maintained fields and both mapping YAMLs after capture. Reread primary pages3–5 visually, covering both relaxation formulas, no-tie assumption, mixing and alpha schedules, restart selection and both tables. All six primary pages were read before curation. Checked score-path derivatives, the fixed-noise interpretation and the relaxation-to-hard boundary.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T073217Z-differentiable-scheduled-sampling.json | supports | Compared all 442 pinned AIO and 585 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 85 AIO and 200 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The search hits are pending source leads. The new identity is the named scheduled-sampling training procedure with relaxed feedback and downstream credit assignment. Original ScheduledSampling stops gradients through its discrete choices; GumbelSoftmaxRelaxation is a reusable distributional construction used in one variant, not the full curriculum and sequence-loss procedure. TeacherForcing supplies reference feedback. Relaxed greedy and relaxed sample-based training are source-defined variants within this record; their generic descriptive names are not asserted as globally exact aliases. CurriculumLearning and SoftmaxFunction receive related mappings for schedule context and essential operator, without equating this algorithm with either. |
+| mapping | sources/aio/aio.json | supports | CurriculumLearning has narrower example-order wording, and SoftmaxFunction denotes a component. Related mappings accurately preserve the schedule and operator associations without exact identity or an is-a assertion. |
+| goyal2017 | https://aclanthology.org/P17-2058.pdf; Complete six-page ACL2017 proceedings PDF read. Selected mechanism and evaluation pages reread after capture. No author implementation, training or empirical replication. | supports | ACL2017 Short Papers, pp.366–371; complete six-page ACL Anthology PDF. All pages, unnumbered equations, Figures1–2, Tables1–2 and references read. Source covers relaxed greedy and Gumbel-perturbed sample-based variants. |
+| calculation | research/discovery/differentiable-scheduled-sampling-boundaries.py | supports | A fixed two-embedding example checks downstream gradients against finite differences for unperturbed and fixed perturbed scores, contrasts hard greedy choice paths, and demonstrates tied-score averaging and sharp-limit derivative behavior. No parameters are fitted or sampling variance estimated. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 586 native and 442 unchanged generated records. The 770-entry main frontier retains 481 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All six ACL2017 primary pages366–371 visually read, including the unnumbered relaxation equations, Figures1–2, Tables1–2 and references. Bibliographic title/authors/DOI corroborated on the ACL Anthology landing page. No author implementation or training.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T074225Z-differentiable-scheduled-sampling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Differentiable scheduled sampling
+started_at: '2026-10-13T07:32:49Z'
+finished_at: '2026-10-13T07:42:25Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged smooth feedback credit paths, tie limits,
+    stochastic surrogates and configuration-specific evaluation. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Differentiable scheduled sampling as a DRAFT training algorithm with
+  related curriculum and softmax mappings. All six claims are supported within their
+  explicit derivative, surrogate and empirical limits; this author self-review found
+  no actionable defect.
+source:
+  git_revision: 15c00d75af2e8f1973432eaff73d17a17812bbfb
+  state: working_tree
+  inputs:
+  - path: data/aio/CurriculumLearning.yaml
+    sha256: 3f1495ef4fd37c9798407dc03f233569c82914e93bfd5c6df518c6fc165f12e4
+    role: context
+  - path: data/aio/DifferentiableLLM.yaml
+    sha256: b8a40c81f74e60c62abed98282803859d0f00ad7e3b9c3d161d63002575f50a3
+    role: context
+  - path: data/aio/SoftmaxFunction.yaml
+    sha256: 150cf1f70d0a49c2515fc4569b451c6b835050346797db01b0536751b867e69f
+    role: context
+  - path: data/aio/SoftmaxLayer.yaml
+    sha256: 9e95a3f0fc849fc08a3bd4165cd53b9e03d1a74f921a533e9159c053a3b2d193
+    role: context
+  - path: data/curated/DifferentiableScheduledSampling.yaml
+    sha256: d7df8628af90348e1ad552b18abb69a11b76d047083a7883839f10770e43c086
+    role: target
+  - path: data/curated/GumbelSoftmaxRelaxation.yaml
+    sha256: 330a1911c594beade01b4f613034a41aef5a4783cf41667a468415b4b6ad6420
+    role: context
+  - path: data/curated/ScheduledSampling.yaml
+    sha256: cac8d18966c4b7ad1e0432d98367decd2e2ae6a19373f30f4da368ec057b994d
+    role: context
+  - path: data/curated/TeacherForcing.yaml
+    sha256: 2fa0fc009f4cdaeee3e6c4b58cb1bb15ba0786f7a3cab9495ed2edd2df74cf3e
+    role: context
+  - path: research/discovery/20261013T073217Z-differentiable-scheduled-sampling.json
+    sha256: f8eb52f19de73114ec4a1aa3eeb95f32b41877bcecf624a2bc46a8e20cf2c4d0
+    role: context
+  - path: research/discovery/differentiable-scheduled-sampling-boundaries.py
+    sha256: ccac8d281388b4bbd78b424579b70988ec03681a1b4090f46252ff8781120425
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DifferentiableScheduledSampling
+  path: data/curated/DifferentiableScheduledSampling.yaml
+  label: Differentiable scheduled sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DifferentiableScheduledSampling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:DifferentiableScheduledSampling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete six-page ACL2017 proceedings PDF read. Selected mechanism and
+      evaluation pages reread after capture. No author implementation, training or
+      empirical replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 240.33s (0:04:00)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 587 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 246 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 245,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/differentiable-scheduled-sampling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"cases": [{"fixed_noise": [0.0, 0.0], "relaxed_embedding": 0.203937019662644,
+    "embedding_derivative": -1.441564474449175, "loss": 0.3168581343317968, "loss_gradient":
+    1.1475761118784644, "finite_difference": 1.1475761118595607}, {"fixed_noise":
+    [0.3, -0.2], "relaxed_embedding": -0.4065516656757452, "embedding_derivative":
+    -0.9521093849736879, "loss": 0.9891937941076064, "loss_gradient": 1.33919104134025,
+    "finite_difference": 1.3391910413385055}], "hard_greedy_local_choice_gradient":
+    0, "tied_maxima": [{"alpha": 1.0, "embedding": 0.5, "embedding_derivative": -0.75},
+    {"alpha": 10.0, "embedding": 0.5, "embedding_derivative": -7.5}, {"alpha": 100.0,
+    "embedding": 0.5, "embedding_derivative": -75.0}], "unique_maximum_at_alpha1000":
+    {"embedding": -1.0, "derivative": 0.0}, "scope": "Finite deterministic score/embedding
+    example, plus one fixed perturbed-score realization. No sampling-variance estimate,
+    universal gradient guarantee, model fitting or accuracy replication."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T073217Z-differentiable-scheduled-sampling.json
+  accessed_at: '2026-10-13T07:32:49Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 585 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    85 AIO and 200 native definitions, with unchanged preceding rows verified and
+    new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full
+    native records were inspected. The search hits are pending source leads. The new
+    identity is the named scheduled-sampling training procedure with relaxed feedback
+    and downstream credit assignment. Original ScheduledSampling stops gradients through
+    its discrete choices; GumbelSoftmaxRelaxation is a reusable distributional construction
+    used in one variant, not the full curriculum and sequence-loss procedure. TeacherForcing
+    supplies reference feedback. Relaxed greedy and relaxed sample-based training
+    are source-defined variants within this record; their generic descriptive names
+    are not asserted as globally exact aliases. CurriculumLearning and SoftmaxFunction
+    receive related mappings for schedule context and essential operator, without
+    equating this algorithm with either.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T07:32:49Z'
+  support: supports
+  summary: CurriculumLearning has narrower example-order wording, and SoftmaxFunction
+    denotes a component. Related mappings accurately preserve the schedule and operator
+    associations without exact identity or an is-a assertion.
+- evidence_id: goyal2017
+  kind: primary_source
+  reference: https://aclanthology.org/P17-2058.pdf
+  locator: Complete six-page ACL2017 proceedings PDF read. Selected mechanism and
+    evaluation pages reread after capture. No author implementation, training or empirical
+    replication.
+  accessed_at: '2026-10-13T07:16:11Z'
+  snapshot_sha256: 4a88f6d184c98f3e79252c75b54dd0cf0401fc0d15d84fb19420ac2fd2ed92db
+  support: supports
+  summary: ACL2017 Short Papers, pp.366–371; complete six-page ACL Anthology PDF.
+    All pages, unnumbered equations, Figures1–2, Tables1–2 and references read. Source
+    covers relaxed greedy and Gumbel-perturbed sample-based variants.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/differentiable-scheduled-sampling-boundaries.py
+  accessed_at: '2026-10-13T07:34:20Z'
+  snapshot_sha256: ccac8d281388b4bbd78b424579b70988ec03681a1b4090f46252ff8781120425
+  support: supports
+  summary: A fixed two-embedding example checks downstream gradients against finite
+    differences for unperturbed and fixed perturbed scores, contrasts hard greedy
+    choice paths, and demonstrates tied-score averaging and sharp-limit derivative
+    behavior. No parameters are fitted or sampling variance estimated.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Differentiable scheduled sampling
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - identity
+  - goyal2017
+  summary: Retain this distinct DRAFT algorithm.
+  details: The named relaxed-feedback sequence-training algorithm differs from stopped-decision
+    ScheduledSampling, reference-input TeacherForcing and the reusable GumbelSoftmaxRelaxation
+    distribution. Two source variants share the named procedure; generic descriptive
+    variant names are not asserted as global aliases.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - mapping
+  - goyal2017
+  summary: Mapping direction and scope are supported.
+  details: CurriculumLearning has narrower example-order wording, and SoftmaxFunction
+    denotes a component. Related mappings accurately preserve the schedule and operator
+    associations without exact identity or an is-a assertion.
+- assessment_id: relaxed-greedy-feedback
+  area: evidence
+  topic: relaxed-greedy-feedback
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source supplies an embedding mixture using softmax(alpha*s). Direct
+    partial differentiation gives alpha*qj*(ej-mean), with embeddings fixed; this
+    is not a selected discrete token. Smoothness is conditional on surrounding computations.
+- assessment_id: sharp-limit-and-ties
+  area: evidence
+  topic: sharp-limit-and-ties
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Source footnote2 excludes ties for its hard expression. The constructed
+    tie limit retains an average and the derivative scales with alpha; unique-maximum
+    sharp limits behave differently. No universal informative-gradient assertion remains.
+- assessment_id: relaxed-sampled-feedback
+  area: evidence
+  topic: relaxed-sampled-feedback
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Independent Gumbels are added before softmax sharpening. Fixed-noise differentiation
+    is separated from stochastic draws and from the original discrete objective, consistent
+    with the inspected distributional neighbor and source equations.
+- assessment_id: reference-and-sharpness-schedules
+  area: evidence
+  topic: reference-and-sharpness-schedules
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The original reference target, first reference-only epoch and two separately
+    tuned schedules are retained. Hard prediction remains possible; this does not
+    establish objective consistency or target compatibility after altered prefixes.
+- assessment_id: constructed-credit-path
+  area: evidence
+  topic: constructed-credit-path
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Finite differences agree for the isolated choice-path gradient. The hard
+    choice is constant locally in this constructed example, but complete recurrent-model
+    gradients are explicitly not declared zero.
+- assessment_id: reported-evaluation-boundaries
+  area: evidence
+  topic: reported-evaluation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Tables1–2 contain mixed configuration results. The record correctly retains
+    sampled annealed NER54.20 below54.60, a19.69 MT tie, best-validation restart selection
+    and MT instability for always-generated feedback. No universal gain or runtime
+    promise.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: smooth feedback credit paths, tie limits, stochastic surrogates and configuration-specific
+    evaluation
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - goyal2017
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: A fixed two-embedding example checks downstream gradients against finite
+    differences for unperturbed and fixed perturbed scores, contrasts hard greedy
+    choice paths, and demonstrates tied-score averaging and sharp-limit derivative
+    behavior. No parameters are fitted or sampling variance estimated.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DifferentiableScheduledSampling
+  evidence_ids:
+  - identity
+  - mapping
+  - goyal2017
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read all maintained fields and both mapping YAMLs
+    after capture. Reread primary pages3–5 visually, covering both relaxation formulas,
+    no-tie assumption, mixing and alpha schedules, restart selection and both tables.
+    All six primary pages were read before curation. Checked score-path derivatives,
+    the fixed-noise interpretation and the relaxation-to-hard boundary.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 586 native and 442 unchanged generated records.
+  The 770-entry main frontier retains 481 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All six ACL2017 primary pages366–371 visually read, including the unnumbered relaxation
+  equations, Figures1–2, Tables1–2 and references. Bibliographic title/authors/DOI
+  corroborated on the ACL Anthology landing page. No author implementation or training.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

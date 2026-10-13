@@ -1,0 +1,152 @@
+id: AIMech:DifferentiableScheduledSampling
+name: Differentiable scheduled sampling
+aliases: []
+concept_kind: algorithm
+definition: A scheduled-sampling training procedure that replaces discrete model-feedback embeddings with
+  differentiable soft mixtures, allowing later sequence losses to propagate credit through earlier relaxed
+  decoding choices.
+identity_notes: Compared all 442 pinned AIO and 585 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 85 AIO and 200 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records
+  were inspected. The search hits are pending source leads. The new identity is the named scheduled-sampling
+  training procedure with relaxed feedback and downstream credit assignment. Original ScheduledSampling
+  stops gradients through its discrete choices; GumbelSoftmaxRelaxation is a reusable distributional construction
+  used in one variant, not the full curriculum and sequence-loss procedure. TeacherForcing supplies reference
+  feedback. Relaxed greedy and relaxed sample-based training are source-defined variants within this record;
+  their generic descriptive names are not asserted as globally exact aliases. CurriculumLearning and SoftmaxFunction
+  receive related mappings for schedule context and essential operator, without equating this algorithm
+  with either.
+definition_evidence:
+- source_id: goyal2017
+  locator: Sections3.1–3.3, printed pp.368–369 / PDF pp.3–4; Figure2, printed p.367 / PDF p.2
+  relation: supports
+claims:
+- claim_id: relaxed-greedy-feedback
+  kind: mechanism
+  statement: Given preceding-step scores s(y), embeddings e(y) and finite positive sharpening coefficient
+    alpha, form q(y)=softmax(alpha*s)(y) and supply the mixture sum_y q(y)*e(y) to the next recurrent
+    step. With differentiable surrounding computations, later losses have a smooth feedback path through
+    those scores. The partial derivative of the mixture with respect to score s(j), holding embeddings
+    fixed, is alpha*q(j)*(e(j)-sum_y q(y)*e(y)). This is a relaxed decoding input, not a discrete selected
+    token or a change of the reference target itself.
+  evidence:
+  - source_id: goyal2017
+    locator: Section3.1 unnumbered soft-argmax equation and Section3.3, printed p.368 / PDF p.3; Figure2,
+      printed p.367 / PDF p.2; curator direct derivative and finite differences
+    relation: supports
+- claim_id: sharp-limit-and-ties
+  kind: limitation
+  statement: 'Alpha multiplies scores and acts as an inverse temperature. For a unique maximum, increasing
+    alpha sends the mixture toward that token embedding; the source explicitly assumes no ties in its
+    hard-argmax expression. At tied maxima the limiting mixture averages their embeddings rather than
+    selecting a specified tie-break. Greater sharpness does not guarantee better credit assignment: derivatives
+    may vanish away from decision boundaries and grow near ties. Equal embeddings or insensitive downstream
+    losses can also make the choice path uninformative.'
+  evidence:
+  - source_id: goyal2017
+    locator: Section3.1 and footnote2, printed p.368 / PDF p.3; Figure1, printed p.367 / PDF p.2; curator
+      tied-score and unique-maximum calculations
+    relation: supports
+- claim_id: relaxed-sampled-feedback
+  kind: mechanism
+  statement: The sample-based variant adds independent standard Gumbel noise G(y)=-log(-log U(y)) to scores,
+    with U(y) uniform on(0,1), then uses softmax(alpha*(s+G)) to mix embeddings. Holding the noise fixed
+    makes the relaxed feedback map differentiable, while fresh draws still make training stochastic. At
+    finite alpha this is a continuous surrogate, not a one-hot categorical draw or an automatically unbiased
+    gradient of the original discrete objective. It also differs from simply feeding the deterministic
+    expected embedding under the unperturbed model softmax.
+  evidence:
+  - source_id: goyal2017
+    locator: Section3.2, unnumbered perturbed-score equation and footnote3, printed p.368 / PDF p.3; Section3.3,
+      printed p.369 / PDF p.4; curator fixed-noise derivative calculation
+    relation: supports
+- claim_id: reference-and-sharpness-schedules
+  kind: scope
+  statement: Training retains reference-target cross-entropy and mixes reference embeddings with relaxed
+    model feedback. The reference-selection probability and alpha are separate hyperparameters that may
+    each vary with training. The reported protocol uses reference sequences for the first epoch, then
+    an inverse-sigmoid reference-probability schedule, while comparing fixed and exponentially annealed
+    alpha. At prediction time the decoder can still output a hard argmax. Relaxation improves the available
+    credit path but does not prove that the original continuation is valid for every changed prefix or
+    that the resulting objective is statistically consistent.
+  evidence:
+  - source_id: goyal2017
+    locator: Section3.3 and Section5 Hyperparameter tuning, printed pp.368–369 / PDF pp.3–4; Section2
+      credit-assignment example, printed p.367 / PDF p.2
+    relation: supports
+- claim_id: constructed-credit-path
+  kind: scope
+  statement: In a constructed two-token embedding example with e0=-1, e1=2, scores(theta,0), alpha=2 and
+    later loss(one-half)*(mixed_embedding-1)^2, theta=0.2 yields a nonzero relaxed choice-path gradient
+    of approximately1.147576, agreeing with finite differences. The hard greedy embedding stays at e0
+    in a neighborhood of that parameter and has zero local choice-path derivative. This calculation isolates
+    the feedback path; it does not claim that all parameter derivatives of a complete hard-decoding recurrent
+    model vanish or that the relaxed gradient always improves training.
+  evidence:
+  - source_id: goyal2017
+    locator: Sections2–3 credit assignment and soft-argmax construction, printed pp.367–369 / PDF pp.2–4;
+      independently constructed finite calculation
+    relation: supports
+- claim_id: reported-evaluation-boundaries
+  kind: scope
+  statement: 'The source evaluates specified LSTM systems on IWSLT2014 German-English translation and
+    CoNLL2003 German named entity recognition, with hyperparameters and the random restart selected by
+    validation performance. Best reported relaxed configurations improve the selected test metrics, but
+    not every variant improves its matching scheduled-sampling baseline: annealed sampled NER gives54.20
+    versus54.60 F1, while fixed sampled translation ties at19.69 BLEU. Always-generated relaxed greedy
+    training works in the reported NER setting but is unstable for translation. These selected-run results
+    and similar reported GPU speeds are not universal accuracy, variance or runtime guarantees.'
+  evidence:
+  - source_id: goyal2017
+    locator: Sections5–6, Tables1–2, printed pp.369–370 / PDF pp.4–5
+    relation: supports
+evidence_sources:
+- source_id: goyal2017
+  title: Differentiable Scheduled Sampling for Credit Assignment
+  authors:
+  - Kartik Goyal
+  - Chris Dyer
+  - Taylor Berg-Kirkpatrick
+  persistent_id: https://doi.org/10.18653/v1/P17-2058
+  version: ACL2017 Short Papers, pp.366–371; complete six-page ACL Anthology PDF. All pages, unnumbered
+    equations, Figures1–2, Tables1–2 and references read. Source covers relaxed greedy and Gumbel-perturbed
+    sample-based variants.
+  source_type: primary_paper
+  url: https://aclanthology.org/P17-2058.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:16:11Z'
+  sha256: 4a88f6d184c98f3e79252c75b54dd0cf0401fc0d15d84fb19420ac2fd2ed92db
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CurriculumLearning
+  relation: related_match
+  rationale: Reference feedback and relaxation sharpness can be scheduled during training. This associates
+    the algorithm with curricula, while the pinned target emphasizes example ordering rather than this
+    feedback procedure.
+- target: AIO:SoftmaxFunction
+  relation: related_match
+  rationale: Softmax on sharpened scores or Gumbel-perturbed scores is an essential relaxed-feedback operator.
+    The training procedure is neither the mathematical function itself nor a subclass of functions.
+limitations:
+- The record covers the source-defined relaxed greedy and relaxed sample-based variants of the named training
+  method; it does not rename the reusable Gumbel-Softmax distribution or every differentiable decoder.
+- Finite positive alpha smooths the feedback operator under differentiable surrounding computations. Numerical
+  policies, ties, embedding degeneracy and limiting sharpness can affect gradients.
+- The sampled variant remains stochastic. A derivative of its relaxed objective is not automatically an
+  unbiased derivative of the discrete objective, and no universal variance-reduction bound is asserted.
+- Reference-target compatibility and the relaxation-to-hard-decoding gap remain potential limitations.
+  Smooth credit assignment is not a proof of a correct generative distribution or successful optimization.
+- All six primary pages were read. Constructed score/embedding calculations were executed without fitting;
+  no author code, model training or empirical replication was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T07:32:17Z'
+  updated_at: '2026-10-13T07:32:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
