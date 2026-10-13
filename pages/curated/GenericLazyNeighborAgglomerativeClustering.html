@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generic lazy-neighbor agglomerative clustering · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Generic lazy-neighbor agglomerative clustering</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Generic lazy-neighbor agglomerative clustering</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GenericLazyNeighborAgglomerativeClustering</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Generic linkage algorithm (Müllner), GENERIC_LINKAGE
+    </div>
+
+  <div class="detail-desc">
+    An agglomerative clustering algorithm that caches candidate nearest neighbors and lower bounds on row-minimum dissimilarities in a priority queue, rescanning a stale row only when necessary to certify the next globally closest pair before merging it.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 652 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 38, 0, 0 lines. All distinct match contents were read, including generated index rows repeating the fully read corrected nearest-neighbor-chain record. Recovery hits concern shared primary-source references, chain implementation context or pending generic-procedure discovery notes; none identifies an existing standalone cached-bound record. Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered 26 AIO and 169 native definitions, all read; unchanged definitions were byte-compared with the preceding full assessment. 9 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain Mullner’s stored-matrix generic linkage with deferred candidate-neighbor rescans and a lower-bound priority queue. It is not a generic label for every agglomerative algorithm, a linkage criterion, reciprocal-chain search or neighbor-voting classification. The Section6 alternative and vector implementations are not silently asserted as identical interfaces.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#candidate-lower-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each active row except the largest index, keep a candidate neighbor among higher-index clusters and a lower bound on that row’s minimum dissimilarity. Initialize the bounds by row scans and index them in a minimum-priority queue. Symmetry ensures these upper-triangular rows collectively contain a globally closest pair.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, Figure3 lines5–9, PDF pp.8–10</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-core">fastcluster src/fastcluster.cpp</a></span>
+        <span>· <strong>Locator:</strong> generic_linkage initialization, src/fastcluster.cpp lines940–1000 at the pinned commit</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deferred-rescan-and-certification</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Take a row with smallest queued bound. If its bound equals the actual distance to its candidate, the pair attains a global minimum. Otherwise rescan that row, raise its bound to the true row minimum, update the queue and reconsider the smallest entry. Candidate invalidation can therefore remain unresolved while its lower bound is larger than the current global minimum.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, Figure3 lines11–20 and explanation, PDF pp.9–11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-core">fastcluster src/fastcluster.cpp</a></span>
+        <span>· <strong>Locator:</strong> generic_linkage invariant comments and stale-minimum loop, src/fastcluster.cpp lines1000–1060</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#merge-and-cache-maintenance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After accepting a pair, record the merge, remove its smaller row index and reuse the larger index for the union. Update distances under the selected linkage using the premerge cluster sizes. Redirect references to the removed representative, lower bounds when a new distance is smaller, and recompute the merged row’s higher-index minimum when such a row exists. These updates preserve the lower-bound and attained-bound invariants.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, Figure3 lines21–40 and explanation, PDF pp.9–11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-core">fastcluster src/fastcluster.cpp</a></span>
+        <span>· <strong>Locator:</strong> generic_linkage merge and per-method updates, src/fastcluster.cpp lines1060–1348</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#inversions-and-linkage-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method certifies a globally closest pair at each step without the nearest-neighbor-chain reducibility condition. It accommodates the paper’s centroid and median linkages, whose merge heights can decrease. Preserve their chronological merge dependencies rather than sorting those heights. Ties may select any valid closest pair; agreement with one fixed arbitrary tie convention is not required.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section2.2 and Section3.1, PDF pp.4–5,8–11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-wrapper">fastcluster src/fastcluster_python.cpp</a></span>
+        <span>· <strong>Locator:</strong> Matrix dispatch and generate_SciPy_dendrogram&lt;true&gt; for centroid/median, src/fastcluster_python.cpp lines313–353</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#time-and-memory-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the stored-matrix setting and constant-time scalar distance updates, the paper gives quadratic best-case time and a cubic worst-case upper bound because stale row minima may require repeated scans. The algorithm retains a writable quadratic-size distance matrix plus linear auxiliary storage for candidates, bounds and the indexed queue. Empirically near-quadratic timing does not establish a universal quadratic guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section3.1 and Section4.1, PDF pp.10–11,20–21</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-core">fastcluster src/fastcluster.cpp</a></span>
+        <span>· <strong>Locator:</strong> binary_min_heap and generic_linkage storage, src/fastcluster.cpp lines779–1000</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#literal-source-and-implementation-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed Figure3 updates the retained cluster size before passing sizes to its update formula and requests a higher-index minimum even at the terminal boundary. The later pinned matrix implementation saves both old sizes and guards that row update. Its lower-bound prose and operations imply bound≤true minimum despite a reversed sign in a comment. This record uses the supported invariant and those explicit boundaries rather than treating every printed line or code comment as an executable specification.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mullner2011">Modern hierarchical, agglomerative clustering algorithms</a></span>
+        <span>· <strong>Locator:</strong> Section3.1, Figure3 lines23–26,39–40 and invariant explanation, PDF pp.9–11</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-fastcluster-core">fastcluster src/fastcluster.cpp</a></span>
+        <span>· <strong>Locator:</strong> generic_linkage comments, saved sizes and idx2&lt;N_1 guards, src/fastcluster.cpp lines1000–1348</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record covers the stored-matrix generic procedure of Section3.1. Section6’s fresh-lowest-label variant and vector-data implementations require separate implementation assessments; they are not asserted as interchangeable APIs.</li>
+      <li>A valid greedy hierarchy is the output contract. The method does not infer a cluster count or establish globally optimal fixed-count partitions. Linkage geometry and admissible dissimilarities remain requirements of the chosen criterion.</li>
+      <li>The paper’s generic applicability concerns distance-update formulas in its symmetric-dissimilarity setting. The inspected fastcluster implementation dispatches a fixed set of linkage rules; no arbitrary callback API is claimed.</li>
+      <li>A finite centroid/median example merges points (−1,0) and (1,0) at squared height 4, then merges (0,9/5) at height 81/25. Sorting those heights would violate the dependency on the earlier union.</li>
+      <li>All 29 pages of the primary paper were visually read. The complete matrix generic_linkage and indexed heap, relevant distance updates and specified wrapper passages were statically inspected at the pinned commit; no author code, empirical timing or floating-point behavior was executed.</li>
+      <li>Curator calculations verify the lower-bound/equality invariant and global merge admissibility for 3,645 four-object matrix/linkage cases and 243 Euclidean cases, plus inversion, history-dependent-update and one/two-object boundaries. Their reference implementation uses linear queue selection and does not measure the paper’s time or memory bounds.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html" style="font-weight: 600;"><code>AIO:HierarchicalClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Hierarchical Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm constructs an agglomerative hierarchy. The target is a clustering task, so this is a related task context without algorithm/task equivalence or subclass assertion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method groups unlabeled observations under supplied dissimilarities and a linkage update. The task target does not specify cached row bounds or deferred rescans.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mullner2011">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mullner2011</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1109.2378v1" target="_blank" rel="noopener">Modern hierarchical, agglomerative clustering algorithms</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Müllner
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1109.2378v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3d8ea802c328…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fastcluster-core">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fastcluster-core</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/fastcluster/fastcluster/9d0e48609283edaae90593a6967d3f2217786d2d/src/fastcluster.cpp" target="_blank" rel="noopener">fastcluster src/fastcluster.cpp</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Müllner, fastcluster contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> 9d0e48609283edaae90593a6967d3f2217786d2d</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9ba52420e373…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-fastcluster-wrapper">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">fastcluster-wrapper</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/fastcluster/fastcluster/9d0e48609283edaae90593a6967d3f2217786d2d/src/fastcluster_python.cpp" target="_blank" rel="noopener">fastcluster src/fastcluster_python.cpp</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Daniel Müllner, fastcluster contributors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> 9d0e48609283edaae90593a6967d3f2217786d2d</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b7fc7d732572…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T21:38:38Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T21:38:38Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GenericLazyNeighborAgglomerativeClustering.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GenericLazyNeighborAgglomerativeClustering.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
