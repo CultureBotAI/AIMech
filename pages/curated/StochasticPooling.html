@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stochastic Pooling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Stochastic Pooling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Stochastic Pooling</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:StochasticPooling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A spatial neural pooling layer that samples one activation per region with probability proportional to its nonnegative value during training and uses an activation-weighted regional mean during deterministic inference.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 622 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 15, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 44 AIO and 60 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. This record denotes the spatial convolutional pooling layer introduced by Zeiler and Fergus. Its activation-proportional location sampling differs from uniform sampling, deterministic max or average pooling, learned-norm channel pooling, learned affine maxout, Bernoulli connection masking and stochastic residual-block depth. Other uses of the phrase stochastic pooling, including sensor-network and compositional-optimization search leads, are not asserted equivalent.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#activation-proportional-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For regional activations a_i&gt;=0 with positive total, compute p_i=a_i/sum_j a_j, draw one categorical location, and output the selected activation. Positive nonmaximal entries can be selected; zero-probability entries cannot. The displayed rule is undefined when every activation is zero, and the paper does not specify a sampling fallback. Setting a zero output in that case would not by itself determine the routing convention. The source uses rectified activations and spatial regions, not a maximum over learned affine channels.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2013">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–3, PDF pp. 2–3, Equations 4–5 and Figure 1; direct probability-domain assessment</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#routed-gradient-and-conditional-draws</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The described backward pass routes the gradient through the same location sampled in the forward pass. Treating that location as fixed omits the derivative of the activation-dependent sampling probabilities; it is not automatically an unbiased gradient of the expected sampled objective. Independent random draws conditional on current activations also do not imply unconditional independence across layers, because earlier selections change deeper activations and their probabilities. Finite training does not guarantee use of every positive entry.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2013">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF p. 3, sampling and backpropagation paragraphs; direct finite-difference and two-stage conditional examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#local-moment-versus-network-ensemble</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Deterministic inference replaces a regional sample by sum_i p_i*a_i=sum_i a_i^2/sum_i a_i. For nonnegative positive-total inputs this is the exact conditional local first moment and lies between the ordinary arithmetic mean and the maximum. It is generally neither ordinary mean pooling nor the maximum. Substituting local means through nonlinear downstream computations or subsequent activation-dependent pooling generally differs from averaging complete stochastic network predictions. The n^d count for d regions of n locations is a count of possible routing settings, not independently trained models or a guarantee that all settings have positive probability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2013">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, PDF p. 3, Equation 6 and model-averaging discussion; direct finite examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-inference-comparison</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source uses three convolutional layers with 5x5 filters and 64 maps each, rectifiers, 3x3 pooling at stride 2, response normalization and a softmax classifier, trained for 280 epochs. CIFAR-10 has 50,000 training images; 5,000 are used for cross-validation of learning rates and weight decay, with the latter set to 0.001. Pixels are scaled to [0,1] and the per-pixel mean is subtracted. Table 5 does not state the final validation/refit membership, test-set size, repeated-run variability or error bars. The CIFAR-10 inference comparison averages output probabilities across stochastic forward passes, which is arithmetic predictive averaging. Table 5 reports 15.20 percent test error for stochastic training with deterministic probability weighting and 15.12 percent for 100 sampled passes, despite its caption describing probability weighting as best. Those finite classification errors do not establish identical predictions or exact full-network expectation. Training with deterministic probability weighting is a different procedure and reports 19.40 percent error with the same inference choice. The small numerical difference is not a demonstrated statistically significant advantage.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2013">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1–4.2, PDF pp. 4–5, architecture and CIFAR-10 setup; Section 4.7, pp. 7–8, and Table 5, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#network-and-visualization-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The experiments evaluate configured convolutional classifiers on MNIST, CIFAR-10, CIFAR-100 and SVHN, with rectifiers, response normalization, weight decay and specified training schedules. Region size, stride, architecture and optimization remain choices even though the probability rule adds no learned parameter. Different widths and training durations in the SVHN configurations prevent a width-independent performance conclusion. Saved-switch deconvolutional pictures are qualitative visualizations, not an exact inverse or information-preservation proof. The results do not establish universal regularization benefit, negligible cost on every implementation or current superiority.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-zeiler2013">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1–4.6, PDF pp. 4–7, Tables 1–4 and Figures 2–5; Section 4.8, pp. 8–9, Figure 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record denotes the Zeiler–Fergus convolutional pooling construction, not every method called stochastic pooling, a complete convolutional classifier, channel maxout or random connection masking.</li>
+      <li>The probability formula requires nonnegative activations and positive total. No undocumented all-zero sampling fallback or author implementation behavior is asserted.</li>
+      <li>Local conditional expectations and fixed-routing derivatives have narrower scope than complete-network predictive expectations and expected-objective gradients.</li>
+      <li>One complete nine-page versioned primary paper was visually inspected. Constructed calculations only; no author code, supplementary video, training, timing or benchmark replication.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/PoolingLayer.html" style="font-weight: 600;"><code>AIO:PoolingLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Pooling Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The original construction aggregates spatial regions into smaller feature maps, placing this particular stochastic layer within the broader spatial-pooling scope.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MaxPooling2DLayer.html" style="font-weight: 600;"><code>AIO:MaxPooling2DLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">MaxPooling2D Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Both select a regional activation and route a gradient through a selected location, but stochastic pooling samples from activation-dependent probabilities rather than always selecting the largest value.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-zeiler2013">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">zeiler2013</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1301.3557v1" target="_blank" rel="noopener">Stochastic Pooling for Regularization of Deep Convolutional Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Matthew D. Zeiler, Rob Fergus
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1301.3557v1</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:59ec8bbf080d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T14:01:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T14:08:11Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StochasticPooling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StochasticPooling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
