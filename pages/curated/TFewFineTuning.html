@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-Few Fine-Tuning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>T-Few Fine-Tuning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">T-Few Fine-Tuning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TFewFineTuning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> T-Few
+    </div>
+
+  <div class="detail-desc">
+    A few-shot classification fine-tuning recipe that adapts a pretrained T0 model through IA3 activation vectors, multitask pretraining of those vectors and combined language-modeling, unlikelihood and length-normalized candidate objectives, with documented task-specific exceptions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 632 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 153, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 40 AIO and 92 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the composite T-Few recipe, separately from IA3 activation scaling, Adafactor optimization, generic few-shot fine-tuning, gradient-free in-context learning and a trained T0 checkpoint.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adaptation-stages</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The recipe begins with a pretrained T0 backbone, adds IA3 key/value/feedforward scaling vectors and pretrains the added vectors on the T0 multitask mixture for 100,000 steps with batch size 16. Downstream task adaptation trains the added parameters for 1000 steps with batch size 8 using Adafactor, a learning-rate setting of 3e-3, linear decay and 60 warmup steps. The base weights are frozen during this parameter-efficient adaptation; the pretrained backbone itself required earlier training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3–3.5, main PDF pp. 6–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#token-level-unlikelihood</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The unlikelihood term averages negative log(1-p) over tokens of all incorrect candidate strings, with each conditional token probability evaluated under that incorrect string’s preceding tokens and the input. It is not negative log of one minus the probability of an entire incorrect sequence. A token shared by a correct and an incorrect candidate can receive opposing language-model and unlikelihood contributions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, main PDF p. 5, Equation 1; constructed token/sequence example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#length-normalized-candidate-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each candidate string, beta is its mean conditional token log probability. A softmax over beta scores produces a candidate classification loss for the correct string. Exponentiating beta gives a geometric mean of token probabilities, not a normalized whole-sequence probability. The ordinary correct-string language-model loss, token unlikelihood loss and length-normalized candidate loss are summed with unit coefficients in the stated general recipe.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, main PDF p. 5, Equation 2 and following paragraph; constructed ranking and derivative example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#banking77-exception</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The supplemental RAFT protocol turns off the unlikelihood term on Banking77 because its 77 classes cause memory issues. It also includes all labels in that task’s input and replaces periods in labels with commas. These documented changes qualify the main paper’s broad description of a recipe used without task-specific modifications; an unchanged three-loss recipe for every reported task is not supported.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3supp">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Appendix G, supplemental PDF p. 2/printed 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#evaluation-and-cost-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The recipe was designed using T0-3B and evaluated with a larger T0 backbone on configured few-shot classification and RAFT tasks. Comparisons use sampled subsets and prompts; imported GPT-3 results do not use the same known training examples or the same backbone. Reported aggregate accuracy, adaptation FLOPs and historical hardware costs do not imply superiority on every task, universal latency savings or current service prices. Generative tasks are identified as future work.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 and 4–5, main PDF pp. 4–5 and 8–10</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3supp">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Appendices E–G and Tables 8–11, supplemental PDF pp. 2 and 7–8/printed 18 and 23–24</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>T-Few is a composite training and prediction recipe. IA3 parameterization, Adafactor optimization, the T0 checkpoint and gradient-free in-context learning are distinct identities.</li>
+      <li>The documented Banking77 exception must be retained alongside the default objective. The source’s broad unchanged-recipe wording does not override its detailed protocol.</li>
+      <li>Candidate length normalization alters rankings and training gradients; it does not remove all prompt, tokenization, class-count or label-string effects.</li>
+      <li>Complete sixteen-page main paper and eight-page supplement visually inspected. All empirical results are source reports; no author code, model fitting, paid provider, hardware timing or benchmark replication was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/KnowledgeTransfer.html" style="font-weight: 600;"><code>AIO:KnowledgeTransfer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Knowledge Transfer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The recipe reuses a pretrained multitask representation and adaptation initialization for a new task; the generic transfer strategy is related context rather than an equivalent recipe.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepTransferLearning.html" style="font-weight: 600;"><code>AIO:DeepTransferLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deep Transfer Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            T-Few adapts a deep language-model representation. The pinned target denotes a network category, so it is not asserted to be an algorithm superclass.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-liu2022ia3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">liu2022ia3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf" target="_blank" rel="noopener">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.52202/068431-0142</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9c107aa36f12…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-liu2022ia3supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">liu2022ia3supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf" target="_blank" rel="noopener">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.52202/068431-0142</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0da202641e40…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T16:41:55Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T16:41:55Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TFewFineTuning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TFewFineTuning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
