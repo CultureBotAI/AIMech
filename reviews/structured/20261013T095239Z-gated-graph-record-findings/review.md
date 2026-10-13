@@ -1,0 +1,446 @@
+# Gated graph record alias and source-locator findings
+
+- Review: 20261013T095239Z-gated-graph-record-findings
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T09:49:04Z
+- Finished UTC: 2026-10-13T09:52:39Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+Three confirmed minor findings: duplicate normalized acronyms in each record and a nonexistent section endpoint in GGS-NN.
+
+## Scope And Provenance
+
+Both records, limited to alias uniqueness and source-locator accuracy.
+
+Selection: Exact maintained IDs AIMech:GatedGraphNeuralNetwork, AIMech:GatedGraphSequenceNeuralNetwork
+Coverage: partial; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 5bb7316c5ac473995273fe47fe048db13e0eb8a9.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GatedGraphNeuralNetwork | data/curated/GatedGraphNeuralNetwork.yaml | maintained | Gated Graph Neural Network |
+| AIMech:GatedGraphSequenceNeuralNetwork | data/curated/GatedGraphSequenceNeuralNetwork.yaml | maintained | Gated Graph Sequence Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Repository publication checks on original draft | failed | True | AIMech:GatedGraphNeuralNetwork, AIMech:GatedGraphSequenceNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 128.04s (0:02:08)<br>Checked 442 record(s); 0 failed.<br>ERROR data/curated/GatedGraphNeuralNetwork.yaml: name/aliases: duplicate normalized identity<br>ERROR data/curated/GatedGraphSequenceNeuralNetwork.yaml: name/aliases: duplicate normalized identity<br>Checked 601 curated concept record(s); 2 error(s).<br>uv run --locked --extra dev python scripts/check.py<br>error: recipe &#96;check&#96; failed on line 10 with exit code 1<br> |
+
+## Scientific And Domain Assessments
+
+### Normalized alias uniqueness
+
+identity: concern. Targets: AIMech:GatedGraphNeuralNetwork.
+
+Remove the redundant acronym spelling.
+
+### Normalized alias uniqueness
+
+identity: concern. Targets: AIMech:GatedGraphSequenceNeuralNetwork.
+
+Remove the redundant acronym spelling.
+
+### Source section endpoint
+
+evidence: concern. Targets: AIMech:GatedGraphSequenceNeuralNetwork.
+
+Change Section5.3 endpoint to5.2.
+
+## Findings
+
+### F1: Remove duplicate normalized acronym alias
+
+minor / open / confirmed; issue key: ggnn-normalized-alias-duplicate.
+
+The hyphenated and unhyphenated acronym aliases normalize identically within this record. The curated validator rejects this redundancy. Retain the source hyphenated acronym and remove its redundant unhyphenated spelling; the concept identity remains unchanged.
+
+### F2: Remove duplicate normalized acronym alias
+
+minor / open / confirmed; issue key: ggsnn-normalized-alias-duplicate.
+
+The hyphenated and unhyphenated acronym aliases normalize identically within this record. The curated validator rejects this redundancy. Retain the source hyphenated acronym and remove its redundant unhyphenated spelling; the concept identity remains unchanged.
+
+### F3: Correct GGS-NN graph-task section locator
+
+minor / open / confirmed; issue key: gated-graph-sequence-section-locator.
+
+The output-feedback-and-path-evidence claim cites Sections5.1–5.3, but the inspected manuscript has Sections5.1 and5.2 followed directly by Section6 on PDFp8. Correct the nonexistent section endpoint to5.2; Table3 and AppendixB support the scoped claim.
+
+## Recommended Actions And Acceptance Checks
+
+### A1
+
+Remove redundant acronym aliases and correct the source section endpoint, synchronize report mirrors, append EDIT history and repeat required checks.
+
+- Retain GG-NN and GGS-NN without normalized duplicates.
+- GGS-NN cites Sections5.1–5.2 and Table3 plus AppendixB.
+- Fresh corrected-input review, rendered pages and required checks pass.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| record1 | data/curated/GatedGraphNeuralNetwork.yaml | supports | Full maintained record reread after capture; offending aliases and locator present. |
+| record2 | data/curated/GatedGraphSequenceNeuralNetwork.yaml | supports | Full maintained record reread after capture; offending aliases and locator present. |
+| gate | src/aimech/curated.py | supports | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 128.04s (0:02:08)<br>Checked 442 record(s); 0 failed.<br>ERROR data/curated/GatedGraphNeuralNetwork.yaml: name/aliases: duplicate normalized identity<br>ERROR data/curated/GatedGraphSequenceNeuralNetwork.yaml: name/aliases: duplicate normalized identity<br>Checked 601 curated concept record(s); 2 error(s).<br>uv run --locked --extra dev python scripts/check.py<br>error: recipe &#96;check&#96; failed on line 10 with exit code 1<br> |
+| li2016 | https://arxiv.org/pdf/1511.05493v4; All20pages read; pages3–13 and17–20 reread after capture. Section5.2 and Table3 on p8 are followed directly by Section6. | supports | Primary section layout confirms the invalid section endpoint. The scientific content remains supported. |
+
+## Limits And Additional Notes
+
+- Partial author self-review; no independent approval or DRAFT status promotion.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T095239Z-gated-graph-record-findings
+kind: batch
+repository: CultureBotAI/AIMech
+title: Gated graph record alias and source-locator findings
+started_at: '2026-10-13T09:49:04Z'
+finished_at: '2026-10-13T09:52:39Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author checked full records and primary source; validator caught
+    alias redundancy. Not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: 'Three confirmed minor findings: duplicate normalized acronyms in each record
+  and a nonexistent section endpoint in GGS-NN.'
+source:
+  git_revision: 5bb7316c5ac473995273fe47fe048db13e0eb8a9
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/GRUCellLayer.yaml
+    sha256: e64b73e626933d3f94b8920401b7ee037fe7d6469a296978a0ddb2eefd751b9c
+    role: context
+  - path: data/aio/GRULayer.yaml
+    sha256: 6ba029d8bebbbd7f2e24a8a0f495c4a51688a0ef889efd443f3831f8e971929a
+    role: context
+  - path: data/aio/GatedRecurrentUnit.yaml
+    sha256: 16e73da5012ad3e1d3de23bb30db0a0e18464b02b038acddd1c0f07f4fe82940
+    role: context
+  - path: data/aio/GraphConvolutionalNetwork.yaml
+    sha256: 644b6187436c10693cb547dbaa809b8c00c97ad198db201342e5bc0780c78d44
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/curated/CommunicationNeuralNetwork.yaml
+    sha256: 6da13aca3d17822181f43ddfb796a62170d2cdbb28a2e01a5d541c9a1ff8d813
+    role: context
+  - path: data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml
+    sha256: 7b26adbe3234f94c69012c3be72a9d3ca0e63ee1652caf7f2030e47566fc943b
+    role: context
+  - path: data/curated/GatedGraphNeuralNetwork.yaml
+    sha256: 2296a567c1666394b80b898aba9d8f6f965156ba82e6fdba05e6e239bb7c1f51
+    role: context
+  - path: data/curated/GraphAttentionNetwork.yaml
+    sha256: d0c81e5f4484619861b11d40a48c4ddd2a1b677b6ad8f01b2e92ba80648af860
+    role: context
+  - path: data/curated/InteractionNetwork.yaml
+    sha256: 4d20b7990c1854c6d10b0a35d95d81095b2842c94af14b3cee7fe3c198e7b3d0
+    role: context
+  - path: research/discovery/20261013T094422Z-gated-graph-neural-network.json
+    sha256: 6a5a57f0d5e7f6bef6227a5def89a206156fbc7eff1bba4d8da5f0ef1f9d3469
+    role: context
+  - path: research/discovery/gated-graph-network-boundaries.py
+    sha256: 96a1c953ad65654b4a904f2c6f46a11d4a9c213f28624cc51f1a55e7bcefb580
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+    sha256: 8666d0a4055ca89f5a738a7361cd70f88b2bf6397e4d52d5c47182358365bbaa
+    role: target
+  - path: research/discovery/20261013T094843Z-gated-graph-sequence-neural-network.json
+    sha256: a9d3e976c2a9704de443c4d3ba8a84ff3bba646054fb559748ba1a8c3ea2ad0f
+    role: context
+  - path: research/discovery/gated-graph-sequence-boundaries.py
+    sha256: f189486580c7c96a1198f71363e31f98623addecd67d95da38aea134fd6864bc
+    role: context
+targets:
+- target_id: AIMech:GatedGraphNeuralNetwork
+  path: data/curated/GatedGraphNeuralNetwork.yaml
+  label: Gated Graph Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphNeuralNetwork.yaml
+    role: maintained
+- target_id: AIMech:GatedGraphSequenceNeuralNetwork
+  path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+  label: Gated Graph Sequence Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: Both records, limited to alias uniqueness and source-locator accuracy.
+  selection: Exact maintained IDs AIMech:GatedGraphNeuralNetwork, AIMech:GatedGraphSequenceNeuralNetwork
+  coverage: partial
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:GatedGraphNeuralNetwork
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  exclusions:
+  - target: Corrected-input complete scientific review
+    reason: Pending remediation and corrected-input gates.
+checks:
+- check_id: gate
+  name: Repository publication checks on original draft
+  command: just check
+  status: failed
+  required: true
+  target_ids:
+  - AIMech:GatedGraphNeuralNetwork
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  exit_code: 1
+  expected_exit_code: 0
+  summary: 'All checks passed!
+
+    ........................................................................ [ 28%]
+
+    ........................................................................ [ 57%]
+
+    ........................................................................ [ 86%]
+
+    ...............................sss                                       [100%]
+
+    247 passed, 3 skipped in 128.04s (0:02:08)
+
+    Checked 442 record(s); 0 failed.
+
+    ERROR data/curated/GatedGraphNeuralNetwork.yaml: name/aliases: duplicate normalized
+    identity
+
+    ERROR data/curated/GatedGraphSequenceNeuralNetwork.yaml: name/aliases: duplicate
+    normalized identity
+
+    Checked 601 curated concept record(s); 2 error(s).
+
+    uv run --locked --extra dev python scripts/check.py
+
+    error: recipe `check` failed on line 10 with exit code 1
+
+    '
+evidence:
+- evidence_id: record1
+  kind: record_content
+  reference: data/curated/GatedGraphNeuralNetwork.yaml
+  accessed_at: '2026-10-13T09:52:39Z'
+  snapshot_sha256: 2296a567c1666394b80b898aba9d8f6f965156ba82e6fdba05e6e239bb7c1f51
+  support: supports
+  summary: Full maintained record reread after capture; offending aliases and locator
+    present.
+- evidence_id: record2
+  kind: record_content
+  reference: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+  accessed_at: '2026-10-13T09:52:39Z'
+  snapshot_sha256: 8666d0a4055ca89f5a738a7361cd70f88b2bf6397e4d52d5c47182358365bbaa
+  support: supports
+  summary: Full maintained record reread after capture; offending aliases and locator
+    present.
+- evidence_id: gate
+  kind: record_content
+  reference: src/aimech/curated.py
+  accessed_at: '2026-10-13T09:52:39Z'
+  support: supports
+  summary: 'All checks passed!
+
+    ........................................................................ [ 28%]
+
+    ........................................................................ [ 57%]
+
+    ........................................................................ [ 86%]
+
+    ...............................sss                                       [100%]
+
+    247 passed, 3 skipped in 128.04s (0:02:08)
+
+    Checked 442 record(s); 0 failed.
+
+    ERROR data/curated/GatedGraphNeuralNetwork.yaml: name/aliases: duplicate normalized
+    identity
+
+    ERROR data/curated/GatedGraphSequenceNeuralNetwork.yaml: name/aliases: duplicate
+    normalized identity
+
+    Checked 601 curated concept record(s); 2 error(s).
+
+    uv run --locked --extra dev python scripts/check.py
+
+    error: recipe `check` failed on line 10 with exit code 1
+
+    '
+- evidence_id: li2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1511.05493v4
+  accessed_at: '2026-10-13T09:21:48Z'
+  snapshot_sha256: 7053a744926ad065e516d7cbd0d135cb0301fde01276e52fbe53c1d8e4158d0b
+  support: supports
+  locator: All20pages read; pages3–13 and17–20 reread after capture. Section5.2 and
+    Table3 on p8 are followed directly by Section6.
+  summary: Primary section layout confirms the invalid section endpoint. The scientific
+    content remains supported.
+assessments:
+- assessment_id: aliases1
+  area: identity
+  topic: Normalized alias uniqueness
+  outcome: concern
+  target_ids:
+  - AIMech:GatedGraphNeuralNetwork
+  evidence_ids:
+  - record1
+  - gate
+  summary: Remove the redundant acronym spelling.
+- assessment_id: aliases2
+  area: identity
+  topic: Normalized alias uniqueness
+  outcome: concern
+  target_ids:
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  evidence_ids:
+  - record2
+  - gate
+  summary: Remove the redundant acronym spelling.
+- assessment_id: locator
+  area: evidence
+  topic: Source section endpoint
+  outcome: concern
+  target_ids:
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  evidence_ids:
+  - record2
+  - li2016
+  summary: Change Section5.3 endpoint to5.2.
+findings:
+- finding_id: F1
+  issue_key: ggnn-normalized-alias-duplicate
+  category: identity
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Remove duplicate normalized acronym alias
+  description: The hyphenated and unhyphenated acronym aliases normalize identically
+    within this record. The curated validator rejects this redundancy. Retain the
+    source hyphenated acronym and remove its redundant unhyphenated spelling; the
+    concept identity remains unchanged.
+  target_ids:
+  - AIMech:GatedGraphNeuralNetwork
+  field_paths:
+  - aliases
+  evidence_ids:
+  - record1
+  - gate
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphNeuralNetwork.yaml
+    role: maintained
+- finding_id: F2
+  issue_key: ggsnn-normalized-alias-duplicate
+  category: identity
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Remove duplicate normalized acronym alias
+  description: The hyphenated and unhyphenated acronym aliases normalize identically
+    within this record. The curated validator rejects this redundancy. Retain the
+    source hyphenated acronym and remove its redundant unhyphenated spelling; the
+    concept identity remains unchanged.
+  target_ids:
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  field_paths:
+  - aliases
+  evidence_ids:
+  - record2
+  - gate
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+    role: maintained
+- finding_id: F3
+  issue_key: gated-graph-sequence-section-locator
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Correct GGS-NN graph-task section locator
+  description: The output-feedback-and-path-evidence claim cites Sections5.1–5.3,
+    but the inspected manuscript has Sections5.1 and5.2 followed directly by Section6
+    on PDFp8. Correct the nonexistent section endpoint to5.2; Table3 and AppendixB
+    support the scoped claim.
+  target_ids:
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  field_paths:
+  - claims[claim_id=output-feedback-and-path-evidence].evidence
+  evidence_ids:
+  - record2
+  - li2016
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Remove redundant acronym aliases and correct the source section endpoint,
+    synchronize report mirrors, append EDIT history and repeat required checks.
+  finding_ids:
+  - F1
+  - F2
+  - F3
+  target_ids:
+  - AIMech:GatedGraphNeuralNetwork
+  - AIMech:GatedGraphSequenceNeuralNetwork
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphNeuralNetwork.yaml
+    role: maintained
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GatedGraphSequenceNeuralNetwork.yaml
+    role: maintained
+  acceptance_checks:
+  - Retain GG-NN and GGS-NN without normalized duplicates.
+  - GGS-NN cites Sections5.1–5.2 and Table3 plus AppendixB.
+  - Fresh corrected-input review, rendered pages and required checks pass.
+limitations:
+- Partial author self-review; no independent approval or DRAFT status promotion.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- source-locators
+```

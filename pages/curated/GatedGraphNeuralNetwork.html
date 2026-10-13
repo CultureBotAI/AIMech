@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gated Graph Neural Network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Gated Graph Neural Network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gated Graph Neural Network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:GatedGraphNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GG-NN, Gated Graph Neural Networks
+    </div>
+
+  <div class="detail-desc">
+    A graph neural architecture that initializes node states from annotations, repeatedly combines edge-type- and direction-specific neighbor messages with shared gated recurrent updates for a fixed propagation depth, and reads out node or graph predictions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 599 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 4, 1, 1 lines. All distinct match contents were inspected. Semantic matching covered 49 AIO and 106 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. The named Section3 GG-NN combines typed directed graph propagation with fixed-depth gated recurrence and node/graph readouts. It is distinct from the Section4 GGS-NN extension, contraction-based original GNN, generic GRU units, CommNet, Interaction Network and GAT. An earlier discovery lead exists but no curated identity does; recover its addressed disposition explicitly.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#typed-directed-gated-propagation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Initialize each node hidden vector by placing its supplied annotation in a prefix and padding the remaining coordinates with zero. At each of a fixed number of propagation steps, sum transformed neighboring hidden states using learned matrices shared by edge type and direction, concatenate incoming and outgoing aggregates, and update each node through a shared gated recurrent unit. Opposite directions may use different matrices; the graph and edge types are supplied inputs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3 and Equations 1–6, PDF pp. 3–4; Figure 1, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gate-and-reset-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed update is h_new=(1-z)*h_previous+z*h_candidate, so z weights the candidate in this paper. The candidate uses U*(r*h_previous), applying the reset vector before the recurrent matrix. Applying reset after projection, (r*(U*h_previous)), is generally different for a nondiagonal matrix. These source-specific conventions are not a claim that every software GRU API has identical parameterization or semantics.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equations 3–6, PDF p. 3; direct constructed gate and matrix examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#node-and-graph-readouts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    After propagation, a node-selection head scores each node from its final hidden state and original annotation, then normalizes scores across nodes. A separate whole-graph head sums elementwise products of sigmoid gates and transformed node states before an outer tanh; the paper permits replacing that outer tanh by the identity. Its sigmoid gates are not a softmax distribution over nodes. Shared functions and commutative sums give equivariant node representations and invariant graph readouts under consistent relabeling, rather than an unchanged ordered array of node outputs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Equation 7, PDF p. 4; direct constructed permutation and gate-weight examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-propagation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A propagation update exchanges information across adjacent graph nodes, with incoming and outgoing channels both available. With local annotations and fixed propagation depth, a node cannot depend through this propagation path on arbitrarily distant annotations; a final global readout can separately aggregate all nodes. Sum pooling can map different message multisets to the same aggregate. The paper does not establish universal graph discrimination, guaranteed long-range gradient preservation or convergence merely from using gates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Equations 2–6 and Figure 1, PDF pp. 3–4; Section 3.3, p. 4; direct locality and sum consequences</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#unrolled-training-not-fixed-point</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GG-NN unrolls a fixed number of gated propagation steps and trains by backpropagation through time. This differs from the prior fixed-point GNN training discussed in Section 2, which relies on contraction for convergence. Removing that requirement permits different learned dynamics but does not certify that repeated GG-NN updates converge. The named Gated Graph Sequence Neural Network extension adds output-sequence and annotation-update machinery beyond this base architecture.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Sections 2–4, PDF pp. 2–5; Appendix A, pp. 17–18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#symbolic-task-evidence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The bAbI experiments use the symbolic data format to construct entity/relation graphs and mark question arguments; they do not establish end-to-end natural-language parsing. Separate question-type models and task-specific dimensions are used, with five propagation steps and varying training-set sizes. Table 1 reports results on selected tasks, including four separate models for task 4. Graph conversion loses temporal order and does not represent arbitrary higher-arity facts. Sequence path and program-verification results use the additional GGS-NN machinery and are not attributed to the base GG-NN alone.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-li2016">Gated Graph Sequence Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, PDF pp. 5–8, Tables 1–3; Discussion, pp. 12–13; Appendix B, pp. 18–19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The base GG-NN is distinct from the same paper’s GGS-NN sequence extension, the prior contraction-based GNN, named GCN, and generic GRU components.</li>
+      <li>The supplied graph may be static while its hidden-state computation is recurrent; this does not require an observed temporal input sequence.</li>
+      <li>The inspected version is arXiv1511.05493v4, dated 22September2017, bearing an ICLR2016 header. All20pages, including appendices, were read. Author code and other versions were not inspected.</li>
+      <li>Tiny chosen calculations inspect algebraic boundaries only. No model training, benchmark reproduction, convergence proof or empirical performance certification was performed. DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Learned graph message transformations, gated hidden updates and neural readouts form a particular artificial neural architecture; this target is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GatedRecurrentUnit.html" style="font-weight: 600;"><code>AIO:GatedRecurrentUnit</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Gated Recurrent Unit</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GRU-style updates are components of the graph architecture, not an equivalent whole-model identity. The mapping does not adopt the pinned target’s LSTM parentage as a scientific assertion or equate framework-specific GRU variants.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-li2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">li2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1511.05493v4" target="_blank" rel="noopener">Gated Graph Sequence Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yujia Li, Daniel Tarlow, Marc Brockschmidt, Richard Zemel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1511.05493v4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7053a744926a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T09:44:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T09:53:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GatedGraphNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GatedGraphNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
