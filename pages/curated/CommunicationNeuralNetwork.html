@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communication Neural Network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Communication Neural Network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Communication Neural Network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:CommunicationNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CommNet, Communication Neural Net, CommNets
+    </div>
+
+  <div class="detail-desc">
+    A neural architecture for cooperative multi-agent tasks that alternates shared per-agent hidden-state updates with continuous communication formed by averaging other agents’ hidden states, allowing task losses to train communication and agent computation together.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 598 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 8, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 24 AIO and 51 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. CommNet is the named Communication Neural Net with shared agent modules and exclude-self mean communication. It differs from VAIN learned-distance weights, Interaction Network pair-specific learned effects, and the maintained GAT, GIN and GraphSAGE constructions. The neural architecture maps broadly to ANN; recurrence and local connectivity are extensions, not essential identity conditions.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#continuous-exclude-self-communication</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Encode each agent state-view into an initial hidden vector. At communication step i, a module shared across agents updates each hidden state from its own previous state and communication vector; the next communication vector is the arithmetic mean of the other agents’ updated hidden states. The default initial communication is zero. After K steps, the base controller decodes per-agent action distributions and samples actions. Parameters may differ between communication steps; sharing across agents does not require sharing across steps.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, PDF p. 2, Equations 1–2 and encoder/decoder description; Figure 1, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mean-and-empty-neighborhood-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The broadcast mean excludes self and divides by J-1. It differs from a sum and from a mean including self; different multisets can produce the same mean. The displayed formula is undefined for J=1 without an additional convention. The local-connectivity extension averages only over N(j) and is likewise undefined for an empty neighborhood as written. No author implementation was inspected to establish its handling of these cases.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equation 2, PDF p. 2; Section 2.2, Equation 3, p. 3; exact constructed mean examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#permutation-and-computation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With shared agent modules, a consistent permutation of agent inputs permutes the corresponding per-agent output distributions. This is equivariance, not an unchanged ordered output array; the paper describes its block-structured communication matrix as permutation invariant. All broadcast means can be computed by one shared total followed by a per-agent subtraction and division, using linear aggregation arithmetic for fixed feature width. This algebra does not establish physical communication cost, total distributed-system latency or implementation behavior.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1, Equation 2 and block matrix T, PDF p. 2; Figure 1, p. 3; direct permutation and arithmetic-count examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#extensions-and-training-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Local connectivity replaces the broadcast mean with a neighborhood mean; skip connections supply the initial agent encoding to later modules. A temporal variant shares the module across time and may use recurrent or LSTM modules, but the basic finite-step feedforward construction need not reach a recurrent fixed point. Continuous inter-agent vectors allow backpropagation through communication; supervised losses or an outer reinforcement-learning procedure supply training signals. Discrete environment-action sampling is not thereby made directly differentiable, and the discrete-symbol baseline is a separate construction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–2.2, PDF pp. 1–3, Equations 3–4; Related Work and discrete baseline, p. 4, Equations 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#cooperative-task-evaluation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper assumes fully cooperating agents with a shared reward. It evaluates lever assignment, simulated traffic and combat, and a sentence-agent question-answering variant. The lever experiment selects five agents from a pool of five hundred and reports distinct-lever coverage, while traffic reports failure rates and combat reports win rates for specified MLP/RNN/LSTM variants. These task-specific metrics and selected seeds do not demonstrate general coordination, safety or superiority in arbitrary environments.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Introduction, PDF p. 1; Sections 4.2–4.3, pp. 4–7, Tables 1–3; Section 4.4, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#global-answer-variant-and-evidence-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The bAbI variant treats story sentences as agents, sums final hidden states after two communication steps and uses a global answer decoder instead of the base per-agent action heads. On the reported 10K tasks, Table 4 gives CommNet mean error 7.1%, compared with 4.2% for MemN2N and 2.8% for DMN+, so the results do not support universal superiority. Communication-vector PCA and braking associations are illustrative observations, not general causal explanations. Very large populations and heterogeneous agent types are left for further work.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-sukhbaatar2016">Learning Multiagent Communication with Backpropagation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3.2 and Figure 3, PDF pp. 6–7; Sections 4.4–5 and Table 4, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The named identity is Sukhbaatar, Szlam and Fergus’s Communication Neural Net (CommNet), not every communication network or language-model agent system.</li>
+      <li>The broadcast equations assume at least two agents; the local formula requires a nonempty chosen neighborhood. No author-code audit supplies omitted edge-case conventions.</li>
+      <li>Per-agent output distributions are permutation equivariant under consistent relabeling. The global question-answering variant has a different final readout; the two are not interchangeable.</li>
+      <li>All nine main-paper pages were read. Supplementary material, author code and other versions were not inspected. Tiny exact calculations check pooling identities only; no training, hardware experiment or benchmark replication was performed. DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Shared learned per-agent modules, continuous hidden communication and output decoders form a particular artificial neural architecture. The target is broader; the basic architecture does not require temporal recurrence, the named GCN operator, a probabilistic graphical-model task or learned attention weights.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-sukhbaatar2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">sukhbaatar2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.neurips.cc/paper/6398-learning-multiagent-communication-with-backpropagation.pdf" target="_blank" rel="noopener">Learning Multiagent Communication with Backpropagation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Sainbayar Sukhbaatar, Arthur Szlam, Rob Fergus
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://papers.neurips.cc/paper_files/paper/2016/hash/55b1927fdafef39c48e5b73b5d61ea60-Abstract.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:db09430a0aeb…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T09:30:19Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T09:30:19Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CommunicationNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CommunicationNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
