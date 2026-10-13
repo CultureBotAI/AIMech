@@ -1,0 +1,147 @@
+id: AIMech:FiLMParameterArithmeticInference
+name: FiLM Parameter-Arithmetic Inference
+aliases: []
+concept_kind: algorithm
+definition: A post-training visual-question-answering procedure that uses a parser to construct related
+  questions and combines their generated FiLM scale/shift vectors by addition and subtraction before running
+  the conditioned visual network.
+identity_notes: Compared all 442 pinned AIO and 633 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 52, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 39 AIO and 41 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The
+  local descriptive name denotes the parser-assisted FiLM parameter-combination inference procedure in
+  Section 4.5, not a claimed verbatim author method name. It differs from the FiLM layer, an entire question-answering
+  architecture, answer ensembling and model-weight arithmetic.
+definition_evidence:
+- source_id: perez2017film
+  locator: Section 4.5, PDF pp. 8–9, Zero-Shot Generalization and Figure 10
+  relation: supports
+claims:
+- claim_id: generated-parameter-combination
+  kind: mechanism
+  statement: The method obtains FiLM gamma/beta vectors from three related questions and forms theta(q1)+theta(q2)-theta(q3)
+    to supply the target question’s conditioning parameters. In the described analogy, q1 changes one
+    attribute, q2 changes the other and q3 changes both. Arithmetic acts on generated conditioning values,
+    not on question tokens, answer logits or the learned weights of separate complete models.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 4.5, PDF pp. 8–9, worked analogy and Figure 10
+    relation: supports
+- claim_id: parser-dependency
+  kind: scope
+  statement: The reported evaluation uses a parser to automatically generate the appropriate question
+    combination. It therefore assumes a supported question structure and suitable related questions. Replacing
+    that parser with a learned model and training the conditioned network explicitly for analogies are
+    proposed extensions, not demonstrated parts of this procedure.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 4.5, PDF p. 9, evaluation and final paragraph
+    relation: supports
+- claim_id: post-training-inference-stage
+  kind: scope
+  statement: The arithmetic procedure is applied after the FiLM visual-reasoning model has been trained.
+    It does not update the learned generator or visual-network weights for each analogy. The paper evaluates
+    it on models before and after a separate Condition B fine-tuning phase; those are different model
+    states. Post-training parameter manipulation does not imply that the underlying model needed no supervised
+    training.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 4.5, PDF pp. 8–9, Figure 9 and training discussion
+    relation: supports
+- claim_id: linear-parameter-nonlinear-output
+  kind: limitation
+  statement: A linear combination of generated FiLM parameters does not generally imply the same combination
+    of final network outputs or correct semantic composition. For one affine layer with a fixed incoming
+    feature, the corresponding parameter/output arithmetic identity holds. In a network with several modulated
+    layers, interactions and nonlinearities can break that identity; deeper incoming features can themselves
+    depend on the conditioning.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 4.5, PDF p. 9, qualified parameter-interpolation observations; Sections 2.1–2.2,
+      pp. 2–3; direct two-layer counterexample
+    relation: supports
+- claim_id: restricted-generalization-evaluation
+  kind: limitation
+  statement: The source evaluates the procedure on CLEVR-CoGenT, whose conditions change color-shape combinations,
+    and reports that its parser-based construction applies to only one third of Condition B questions.
+    In Figure 9, the Condition B validation-accuracy curve excludes the 30000 examples used for Condition
+    B fine-tuning. This does not establish general zero-shot prediction of unseen answer classes, universal
+    compositional reasoning, or applicability to arbitrary questions and images.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 4.5, PDF pp. 8–9, Figure 9 caption and applicability paragraph
+    relation: supports
+evidence_sources:
+- source_id: perez2017film
+  title: 'FiLM: Visual Reasoning with a General Conditioning Layer'
+  authors:
+  - Ethan Perez
+  - Florian Strub
+  - Harm de Vries
+  - Vincent Dumoulin
+  - Aaron Courville
+  persistent_id: arXiv:1709.07871v2
+  version: arXiv:1709.07871v2, 18 December 2017, thirteen PDF pages with AAAI 2018 copyright. All pages
+    visually read, including Equations 1–3, Tables 1–4, Figures 1–18, references and Appendix Sections
+    7.1–7.3. Other versions and author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1709.07871v2
+  access_level: full_text
+  accessed_at: '2026-10-13T14:50:22Z'
+  sha256: 765acea6f2a78b1d76961392099cd0af49cb2e7d6f06d0b3d82f1dbe9cdcd363
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 633 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 52, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 39 AIO and 41 native definitions, with every matched definition
+    read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected.
+    The local descriptive name denotes the parser-assisted FiLM parameter-combination inference procedure
+    in Section 4.5, not a claimed verbatim author method name. It differs from the FiLM layer, an entire
+    question-answering architecture, answer ensembling and model-weight arithmetic.
+  rationale: No suitable mapping was established in the inspected pinned AIO snapshot for this specific
+    parser-assisted inference algorithm. Candidate matches concern unseen-class networks, LLM categories,
+    training strategies or the arithmetic component at a different scope; shared zero-shot or reasoning
+    words are insufficient.
+  examined_targets:
+  - target: AIO:ZeroshotLearning
+    rejection_reason: The pinned network predicts classes absent during training; this procedure recombines
+      familiar attributes for visual questions and does not establish unseen answer-class prediction.
+  - target: AIO:ZeroShotLearningLLM
+    rejection_reason: This is a large-language-model category; the inspected FiLM visual-reasoning procedure
+      does not require an LLM.
+  - target: AIO:CompositionalGeneralizationLLM
+    rejection_reason: Shared generalization goals do not make a parser-assisted FiLM inference procedure
+      an LLM or an equivalent method.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The pinned class describes explicit deductive reasoning in an LLM; parameter analogies
+      do not establish that model or logical-rule mechanism.
+  - target: AIO:KnowledgeTransfer
+    rejection_reason: The pinned training strategy is too indirect for this post-training inference procedure;
+      it does not fit a new representation or adaptation transform.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned preprocessing/training genus does not describe inference with fixed learned
+      weights.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Arithmetic is one component, but the record denotes a parser-assisted neural inference
+      procedure, not only the vector-valued arithmetic function.
+limitations:
+- The local name is descriptive and is scoped to the Section 4.5 procedure, not every use of FiLM, neural
+  parameter arithmetic or analogy-based reasoning.
+- The method depends on a parser and related-question construction. A learned parser replacement and explicit
+  analogy training remain future work in the inspected source.
+- Constructed algebra does not certify semantic analogies or replicate the reported visual-question-answering
+  results. The AIO no-match finding is limited to the inspected snapshot and targets.
+- All thirteen primary PDF pages were visually inspected, including appendices, references, figures and
+  tables. No author implementation, model fitting or benchmark replication was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T16:55:29Z'
+  updated_at: '2026-10-13T17:01:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
