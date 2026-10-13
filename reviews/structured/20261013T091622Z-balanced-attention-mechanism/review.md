@@ -1,0 +1,635 @@
+# Scientific author self-review of Balanced Attention Mechanism
+
+- Review: 20261013T091622Z-balanced-attention-mechanism
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T09:11:15Z
+- Finished UTC: 2026-10-13T09:16:22Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Balanced Attention Mechanism as a DRAFT layer broadly mapped to AIO Layer. Six scoped claims preserve parallel gating, algebraic constraints and mixed empirical evidence; adversarial author self-review found and resolved the minor source-locator defect in issue #257.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:BalancedAttentionMechanism
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 60c68a75f948fe44ff8d479de146f5fa3fe4d97d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BalancedAttentionMechanism | data/curated/BalancedAttentionMechanism.yaml | maintained | Balanced Attention Mechanism |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:BalancedAttentionMechanism | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 128.00s (0:02:07)<br>Checked 442 record(s); 0 failed.<br>Checked 597 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 257 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 256,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:BalancedAttentionMechanism | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:BalancedAttentionMechanism | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:BalancedAttentionMechanism | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:BalancedAttentionMechanism | {"scope": "Chosen exact gates demonstrate pooling axes, separability and attenuation; no learned branch execution or empirical validation.", "channel_means": ["3", "1"], "spatial_maxima": [3, 0, 2, 9, 8, 10], "gate": [["1/6", "1/8", "1/20", "1/5", "3/20", "1/12"], ["1/2", "3/8", "3/20", "3/5", "9/20", "1/4"]], "output": [["-1", "0", "1/10", "4/5", "6/5", "5/6"], ["3/2", "-3/4", "3/20", "27/5", "0", "-5/4"]], "all_two_by_two_gate_minors_zero": true, "nonrepresentable_gate_determinant": "3/16", "zero_logits": {"product_of_sigmoids": "1/4", "sigmoid_of_sum": "1/2"}} |
+
+## Scientific And Domain Assessments
+
+### Balanced Attention Mechanism
+
+identity: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Retain this distinct DRAFT layer.
+
+The 2021 balanced gate differs from the 2018 bottleneck BAM, sequential CBAM and channel-only SE. A qualified BAM alias avoids treating the acronym as concept identity. ACAM and MSAM are represented within the named composite layer.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+The declared broad AIO mapping is supported.
+
+The full annotated Layer class and its generated record describe a broader input-to-output neural component. The narrow dot-product definition of AttentionLayer excludes it as a generic parent. Convolution, pooling and activation classes describe constituents, not the whole gate.
+
+### average-channel-branch
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations1 and3 and Figure2 on PDFp3 spatially average each channel and use reduction/PReLU/expansion/sigmoid. The record preserves channel-shared spatial weighting and treats ratio16 as a setting, with unsupported small-channel rounding left unresolved.
+
+### maximum-spatial-branch
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation2 on PDFp3 and Equation4 on PDFp4 maximize over channels at each spatial point, then use a7-by-7 convolution and sigmoid. Both branches receive the original tensor. The constructed pooling example confirms the distinct reduction axes without running learned branches.
+
+### product-gate-boundary
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation5 multiplies two separately sigmoid-normalized branch outputs and F, without a core residual term. Outer-product separability and finite-logit attenuation follow directly. Exact rational fixtures show zero2-by-2 minors and distinguish product-of-sigmoids from sigmoid-of-sum.
+
+### gradient-and-ablation-limits
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation6 is a product-rule coupling argument, not a convergence proof. Table2 compares complete modules; it does not isolate the proposed noise/texture roles of the two branches. The limitation avoids transferring motivation into established causal mechanism.
+
+### evaluation-protocol
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Training and metrics are read from p4, including DIV2K,64-by-64LRpatches,batch16,L1/Adam and1000epochs. Y-channel metrics and factors2/3/4 remain explicit, as does the source’s statement about additional original-baseline datasets.
+
+### mixed-results-and-runtime
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Supported within the stated primary-source and mathematical scope.
+
+Table1 PAN3x Manga109 PSNR33.61-&gt;33.19 with SSIM.9448-&gt;.9453 and RCAN4x PSNR31.22-&gt;31.09 refute universal gains. Figure6 timing uses700images perinputscale on2080Ti and does not isolate a sole cause or universal speedup.
+
+### pooling axes, parallel sigmoid product, separable gating, metadata and architecture-specific evaluation limits
+
+consistency: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Constructed calculations support the stated distinctions.
+
+Chosen rational gates check pooling axes, pointwise attenuation and rank-one channel/spatial separability, including a nonrepresentable two-by-two gate and product-versus-sum-sigmoid distinction. This is algebraic illustration, not learned ACAM/MSAM execution or image evaluation.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the complete maintained record and seven mapping-context YAMLs after capture. Reread both branch definitions, parallel product fusion, gradient argument, evaluation protocol and mixed table results. Checked rational illustrative gates and explicit source metadata.
+
+### Resolution of issue #257
+
+evidence: supported. Targets: AIMech:BalancedAttentionMechanism.
+
+Confirmed minor locator defect resolved.
+
+Corrected ACAM to Equations1/3 on p3 and MSAM to Equation2 on p3 and Equation4 on p4, plus printed evaluation and runtime headings. Exact report mirror and EDIT history agree. Fresh capture, complete record and mapping rereading, primary-page reassessment and required corrected-input gates pass.
+
+## Findings
+
+### F1: Correct balanced attention source locators
+
+minor / resolved / confirmed; issue key: balanced-attention-primary-locators.
+
+The ACAM locator names Equations1–2, but its average pooling and learned branch are Equations1 and3 on PDFp3. The MSAM locator names Equations3–4 on p3, but its channel maximum is Equation2 on p3 and learned branch Equation4 on p4. Evaluation and runtime locators also use section labels not printed in this PDF. Correct the locator descriptions to actual equations, pages and headings; the mechanisms and scoped empirical claims remain supported.
+
+Disposition: Corrected ACAM to Equations1/3 on p3 and MSAM to Equation2 on p3 and Equation4 on p4, plus printed evaluation and runtime headings. Exact report mirror and EDIT history agree. Fresh capture, complete record and mapping rereading, primary-page reassessment and required corrected-input gates pass.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T090246Z-balanced-attention-mechanism.json | supports | Compared all 442 pinned AIO and 595 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 166, 106, 105 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 27 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The selected identity is Wang and colleagues’ 2021 parallel average-channel/max-spatial product gate, not Park and colleagues’ 2018 Bottleneck Attention Module. BAM is qualified in the alias. The ACAM/MSAM branches are described within this composite layer, not asserted to be equivalent to existing pooling or activation classes. CBAM is sequential and SE has only channel recalibration. The inspected generic AIO Layer is broader; no exact counterpart was found. |
+| mapping | sources/aio/aio.json | supports | The full annotated Layer class and its generated record describe a broader input-to-output neural component. The narrow dot-product definition of AttentionLayer excludes it as a generic parent. Convolution, pooling and activation classes describe constituents, not the whole gate. |
+| wang2021 | https://arxiv.org/pdf/2104.07566v3; All eight v3 paper pages read before curation. Selected method/evaluation pages reread after capture. Author code, trained checkpoints and other versions not inspected; no training or benchmark replication. | supports | All eight pages of arXiv2104.07566v3 read. Primary arXiv metadata identifies the authors and revision on 10 September 2021, following first submission on 15 April 2021. The PDF retains template author/affiliation placeholders and a 2022 copyright footer; neither supplies authorship or acceptance evidence. Locators are PDF pages 1–8. Author code not inspected. |
+| calculation | research/discovery/balanced-attention-boundaries.py | supports | Chosen rational gates check pooling axes, pointwise attenuation and rank-one channel/spatial separability, including a nonrepresentable two-by-two gate and product-versus-sum-sigmoid distinction. This is algebraic illustration, not learned ACAM/MSAM execution or image evaluation. |
+| predecessor | reviews/structured/20261013T090634Z-balanced-attention-locators-open/review.yaml | supports | Immutable original partial review records the inaccurate equation/page and heading locators. |
+| corrected-record | data/curated/BalancedAttentionMechanism.yaml | supports | Freshly captured and reread record contains corrected branch equations/pages and printed evaluation/runtime headings; report mirror matches. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 596 native and 442 unchanged generated records. The 780-entry main frontier retains 479 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All eight PDF pages visually read, including six figures, both detailed result tables, equations and references. Author code not read or run.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T091622Z-balanced-attention-mechanism
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Balanced Attention Mechanism
+started_at: '2026-10-13T09:11:15Z'
+finished_at: '2026-10-13T09:16:22Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged pooling axes, parallel sigmoid product,
+    separable gating, metadata and architecture-specific evaluation limits. This is
+    adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'Retain Balanced Attention Mechanism as a DRAFT layer broadly mapped to AIO
+  Layer. Six scoped claims preserve parallel gating, algebraic constraints and mixed
+  empirical evidence; adversarial author self-review found and resolved the minor
+  source-locator defect in issue #257.'
+source:
+  git_revision: 60c68a75f948fe44ff8d479de146f5fa3fe4d97d
+  state: working_tree
+  inputs:
+  - path: data/aio/AttentionLayer.yaml
+    sha256: ace47f724bab8a1aec9f963f7d8121f148134e5bbcce7c23a3a1f62c9c83619b
+    role: context
+  - path: data/aio/Convolution2DLayer.yaml
+    sha256: c8aa862ad114729498e9ff7c689d37fc58d286d8240e8f5d9afcb90dff26d5b0
+    role: context
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/GlobalAveragePooling2DLayer.yaml
+    sha256: 092db3c9424ae2796082e850845716356673a157d37fbdf1cf8656a957b1c110
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/PReLULayer.yaml
+    sha256: 3ced4948a6e188220efb364544cf6adfb418e8ff9df8912655eaf605d78d7d33
+    role: context
+  - path: data/aio/SigmoidFunction.yaml
+    sha256: e112ec27a5b6fc9de17cc2d3354b836968b6693c6902cf004b71f05a0aedb193
+    role: context
+  - path: data/curated/BalancedAttentionMechanism.yaml
+    sha256: 81a15c5f706655cd3a88a47b7a3b5a592b638350205f8db0d336669ffda4f513
+    role: target
+  - path: data/curated/BottleneckAttentionModule.yaml
+    sha256: 465518e5c03eba3a2922b8e5494ebfd5ad945e4dfdfb159f997dc120786500b9
+    role: context
+  - path: data/curated/ConvolutionalBlockAttentionModule.yaml
+    sha256: ece8d0432112916c5f158b484b24e6f316a9c3edfe07233fefeae5b454a96b96
+    role: context
+  - path: data/curated/SqueezeAndExcitationBlock.yaml
+    sha256: e91da402137dfbda2cc38257b36587771d8a9b924488690dfeeb5bf70625fac8
+    role: context
+  - path: research/discovery/20261013T090246Z-balanced-attention-mechanism.json
+    sha256: 035aed2829f32c24b56b559c7f74dc6c8a6f3e6bf19ca3d7a3ea2d33748caaab
+    role: context
+  - path: research/discovery/balanced-attention-boundaries.py
+    sha256: d2d412f9c5f64d8810565ab909d19f8ff707fab79d533bc85f9798a4f5daee7c
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BalancedAttentionMechanism
+  path: data/curated/BalancedAttentionMechanism.yaml
+  label: Balanced Attention Mechanism
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BalancedAttentionMechanism.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:BalancedAttentionMechanism'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All eight v3 paper pages read before curation. Selected method/evaluation
+      pages reread after capture. Author code, trained checkpoints and other versions
+      not inspected; no training or benchmark replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 128.00s (0:02:07)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 597 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 257 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 256,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/balanced-attention-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Chosen exact gates demonstrate pooling axes, separability and
+    attenuation; no learned branch execution or empirical validation.", "channel_means":
+    ["3", "1"], "spatial_maxima": [3, 0, 2, 9, 8, 10], "gate": [["1/6", "1/8", "1/20",
+    "1/5", "3/20", "1/12"], ["1/2", "3/8", "3/20", "3/5", "9/20", "1/4"]], "output":
+    [["-1", "0", "1/10", "4/5", "6/5", "5/6"], ["3/2", "-3/4", "3/20", "27/5", "0",
+    "-5/4"]], "all_two_by_two_gate_minors_zero": true, "nonrepresentable_gate_determinant":
+    "3/16", "zero_logits": {"product_of_sigmoids": "1/4", "sigmoid_of_sum": "1/2"}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T090246Z-balanced-attention-mechanism.json
+  accessed_at: '2026-10-13T09:11:15Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 595 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    166, 106, 105 lines. All distinct match contents were inspected. Semantic matching
+    covered 66 AIO and 27 native definitions, with every matched definition read.
+    7 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. The selected identity is Wang and colleagues’ 2021 parallel average-channel/max-spatial
+    product gate, not Park and colleagues’ 2018 Bottleneck Attention Module. BAM is
+    qualified in the alias. The ACAM/MSAM branches are described within this composite
+    layer, not asserted to be equivalent to existing pooling or activation classes.
+    CBAM is sequential and SE has only channel recalibration. The inspected generic
+    AIO Layer is broader; no exact counterpart was found.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T09:11:15Z'
+  support: supports
+  summary: The full annotated Layer class and its generated record describe a broader
+    input-to-output neural component. The narrow dot-product definition of AttentionLayer
+    excludes it as a generic parent. Convolution, pooling and activation classes describe
+    constituents, not the whole gate.
+- evidence_id: wang2021
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2104.07566v3
+  locator: All eight v3 paper pages read before curation. Selected method/evaluation
+    pages reread after capture. Author code, trained checkpoints and other versions
+    not inspected; no training or benchmark replication.
+  accessed_at: '2026-10-13T08:37:17Z'
+  snapshot_sha256: dcd27007bcb038d79cb625e2a8a35ca4b6a19814b137173ba786dd83c328ab79
+  support: supports
+  summary: All eight pages of arXiv2104.07566v3 read. Primary arXiv metadata identifies
+    the authors and revision on 10 September 2021, following first submission on 15
+    April 2021. The PDF retains template author/affiliation placeholders and a 2022
+    copyright footer; neither supplies authorship or acceptance evidence. Locators
+    are PDF pages 1–8. Author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/balanced-attention-boundaries.py
+  accessed_at: '2026-10-13T09:12:36Z'
+  snapshot_sha256: d2d412f9c5f64d8810565ab909d19f8ff707fab79d533bc85f9798a4f5daee7c
+  support: supports
+  summary: Chosen rational gates check pooling axes, pointwise attenuation and rank-one
+    channel/spatial separability, including a nonrepresentable two-by-two gate and
+    product-versus-sum-sigmoid distinction. This is algebraic illustration, not learned
+    ACAM/MSAM execution or image evaluation.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T090634Z-balanced-attention-locators-open/review.yaml
+  accessed_at: '2026-10-13T09:12:36Z'
+  snapshot_sha256: be22dba1ec0a7187773251e99b56e5d6d0f26e9097f08033c5450868a9a6b62c
+  support: supports
+  summary: Immutable original partial review records the inaccurate equation/page
+    and heading locators.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/BalancedAttentionMechanism.yaml
+  accessed_at: '2026-10-13T09:12:36Z'
+  snapshot_sha256: 81a15c5f706655cd3a88a47b7a3b5a592b638350205f8db0d336669ffda4f513
+  support: supports
+  summary: Freshly captured and reread record contains corrected branch equations/pages
+    and printed evaluation/runtime headings; report mirror matches.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Balanced Attention Mechanism
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - identity
+  - wang2021
+  summary: Retain this distinct DRAFT layer.
+  details: The 2021 balanced gate differs from the 2018 bottleneck BAM, sequential
+    CBAM and channel-only SE. A qualified BAM alias avoids treating the acronym as
+    concept identity. ACAM and MSAM are represented within the named composite layer.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - mapping
+  - wang2021
+  summary: The declared broad AIO mapping is supported.
+  details: The full annotated Layer class and its generated record describe a broader
+    input-to-output neural component. The narrow dot-product definition of AttentionLayer
+    excludes it as a generic parent. Convolution, pooling and activation classes describe
+    constituents, not the whole gate.
+- assessment_id: average-channel-branch
+  area: evidence
+  topic: average-channel-branch
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations1 and3 and Figure2 on PDFp3 spatially average each channel and
+    use reduction/PReLU/expansion/sigmoid. The record preserves channel-shared spatial
+    weighting and treats ratio16 as a setting, with unsupported small-channel rounding
+    left unresolved.
+- assessment_id: maximum-spatial-branch
+  area: evidence
+  topic: maximum-spatial-branch
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation2 on PDFp3 and Equation4 on PDFp4 maximize over channels at each
+    spatial point, then use a7-by-7 convolution and sigmoid. Both branches receive
+    the original tensor. The constructed pooling example confirms the distinct reduction
+    axes without running learned branches.
+- assessment_id: product-gate-boundary
+  area: evidence
+  topic: product-gate-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation5 multiplies two separately sigmoid-normalized branch outputs and
+    F, without a core residual term. Outer-product separability and finite-logit attenuation
+    follow directly. Exact rational fixtures show zero2-by-2 minors and distinguish
+    product-of-sigmoids from sigmoid-of-sum.
+- assessment_id: gradient-and-ablation-limits
+  area: evidence
+  topic: gradient-and-ablation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation6 is a product-rule coupling argument, not a convergence proof.
+    Table2 compares complete modules; it does not isolate the proposed noise/texture
+    roles of the two branches. The limitation avoids transferring motivation into
+    established causal mechanism.
+- assessment_id: evaluation-protocol
+  area: evidence
+  topic: evaluation-protocol
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Training and metrics are read from p4, including DIV2K,64-by-64LRpatches,batch16,L1/Adam
+    and1000epochs. Y-channel metrics and factors2/3/4 remain explicit, as does the
+    source’s statement about additional original-baseline datasets.
+- assessment_id: mixed-results-and-runtime
+  area: evidence
+  topic: mixed-results-and-runtime
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Table1 PAN3x Manga109 PSNR33.61->33.19 with SSIM.9448->.9453 and RCAN4x
+    PSNR31.22->31.09 refute universal gains. Figure6 timing uses700images perinputscale
+    on2080Ti and does not isolate a sole cause or universal speedup.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: pooling axes, parallel sigmoid product, separable gating, metadata and architecture-specific
+    evaluation limits
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - wang2021
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen rational gates check pooling axes, pointwise attenuation and rank-one
+    channel/spatial separability, including a nonrepresentable two-by-two gate and
+    product-versus-sum-sigmoid distinction. This is algebraic illustration, not learned
+    ACAM/MSAM execution or image evaluation.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - identity
+  - mapping
+  - wang2021
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the complete maintained record and seven mapping-context
+    YAMLs after capture. Reread both branch definitions, parallel product fusion,
+    gradient argument, evaluation protocol and mixed table results. Checked rational
+    illustrative gates and explicit source metadata.
+- assessment_id: locator-remediation
+  area: evidence
+  topic: 'Resolution of issue #257'
+  outcome: supported
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  evidence_ids:
+  - predecessor
+  - corrected-record
+  - wang2021
+  summary: Confirmed minor locator defect resolved.
+  details: Corrected ACAM to Equations1/3 on p3 and MSAM to Equation2 on p3 and Equation4
+    on p4, plus printed evaluation and runtime headings. Exact report mirror and EDIT
+    history agree. Fresh capture, complete record and mapping rereading, primary-page
+    reassessment and required corrected-input gates pass.
+findings:
+- finding_id: F1
+  issue_key: balanced-attention-primary-locators
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct balanced attention source locators
+  description: The ACAM locator names Equations1–2, but its average pooling and learned
+    branch are Equations1 and3 on PDFp3. The MSAM locator names Equations3–4 on p3,
+    but its channel maximum is Equation2 on p3 and learned branch Equation4 on p4.
+    Evaluation and runtime locators also use section labels not printed in this PDF.
+    Correct the locator descriptions to actual equations, pages and headings; the
+    mechanisms and scoped empirical claims remain supported.
+  target_ids:
+  - AIMech:BalancedAttentionMechanism
+  field_paths:
+  - claims[claim_id=average-channel-branch].evidence
+  - claims[claim_id=maximum-spatial-branch].evidence
+  - claims[claim_id=evaluation-protocol].evidence
+  - claims[claim_id=mixed-results-and-runtime].evidence
+  evidence_ids:
+  - predecessor
+  - corrected-record
+  - wang2021
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BalancedAttentionMechanism.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T090634Z-balanced-attention-locators-open
+    finding_id: F1
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/257
+  disposition_reason: Corrected ACAM to Equations1/3 on p3 and MSAM to Equation2 on
+    p3 and Equation4 on p4, plus printed evaluation and runtime headings. Exact report
+    mirror and EDIT history agree. Fresh capture, complete record and mapping rereading,
+    primary-page reassessment and required corrected-input gates pass.
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 596 native and 442 unchanged generated records.
+  The 780-entry main frontier retains 479 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All eight PDF pages visually read, including six figures, both detailed result tables,
+  equations and references. Author code not read or run.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T090634Z-balanced-attention-locators-open
+  relationship: Resolves F1 after source-locator correction and fresh corrected-input
+    scientific review.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

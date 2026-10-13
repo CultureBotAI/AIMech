@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balanced Attention Mechanism · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Balanced Attention Mechanism</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Balanced Attention Mechanism</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:BalancedAttentionMechanism</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BAM (balanced attention)
+    </div>
+
+  <div class="detail-desc">
+    A convolutional feature-gating component for single-image super-resolution that computes average-pooled channel attention and maximum-pooled spatial attention in parallel, multiplies their sigmoid gates by broadcasting, and scales the input feature tensor.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 595 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 166, 106, 105 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 27 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The selected identity is Wang and colleagues’ 2021 parallel average-channel/max-spatial product gate, not Park and colleagues’ 2018 Bottleneck Attention Module. BAM is qualified in the alias. The ACAM/MSAM branches are described within this composite layer, not asserted to be equivalent to existing pooling or activation classes. CBAM is sequential and SE has only channel recalibration. The inspected generic AIO Layer is broader; no exact counterpart was found.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#average-channel-branch</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For input F with batch, channel, height and width axes, the ACAM branch averages over spatial positions separately for each channel. It applies a learned 1-by-1 channel reduction, PReLU, a 1-by-1 expansion to the original channel count, and sigmoid. Its channel weights are shared over spatial positions. The text uses reduction ratio 16 depending on the channel count; this is a configuration choice, not a universal identity requirement.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Proposed method: Avgpool Channel Attention Module, PDF pp. 2–3; Equations 1 and 3 and Figure 2, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#maximum-spatial-branch</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The MSAM branch starts from the same unmodified F, takes the maximum across channels at every spatial position, and applies a learned 7-by-7 convolution followed by sigmoid to produce one spatial gate shared across channels. This maximum is over the channel axis, whereas ACAM averages over spatial axes. Neither branch consumes the output of the other in the paper’s parallel construction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Proposed method: Maxpool Spatial Attention Module, PDF pp. 3–4; Equation 2 and Figure 2, p. 3; Equation 4, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#product-gate-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Broadcast the channel and spatial sigmoid outputs, multiply them together, and multiply the resulting gate into F. The core equation contains no residual addition or softmax normalization. For finite real logits the factor lies strictly between zero and one, so it attenuates immediate nonzero feature magnitudes; numerical sigmoid saturation can reach endpoints. For each batch item, the channel-by-flattened-spatial gate is an outer product of rank at most one, not an arbitrary gate at every channel-position pair. These are direct consequences of the formula, not guarantees of image denoising.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Figure 2, p. 3; Balanced Attention Mechanism, p. 4, Equation 5; direct algebra and constructed rational gate examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#gradient-and-ablation-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper motivates its parallel branches as balancing noise suppression and texture preservation and writes a product-rule gradient expansion. Shared gradient paths alone do not prove convergence, optimal balance or separate causal contributions of each branch. Table 2 compares complete attention modules inside IMDN; it does not provide an isolated ACAM-versus-MSAM ablation that establishes those individual effects.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Balanced Attention Mechanism, p. 4, Equation 6; Ablation Study and Table 2, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#evaluation-protocol</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported training uses DIV2K training images with augmentation, 64-by-64 low-resolution patches, batch size 16, L1 loss and Adam for 1000 epochs. Evaluation uses PSNR and SSIM on the Y channel with bicubic downsampling at factors 2, 3 and 4. The paper compares several surrounding super-resolution architectures and notes that some original baselines use extra training data, so the table is not evidence of uniformly matched retraining or architecture-independent gains.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Experiments: Datasets and metrics, Implementation details and Comparison experiments, PDF p. 4; Table 1, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mixed-results-and-runtime</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported results are metric-, scale-, dataset- and architecture-specific. Table 1 shows PAN on Manga109 at factor 3 with PSNR decreasing from 33.61 to 33.19 while SSIM increases from 0.9448 to 0.9453; RCAN at factor 4 on Manga109 also has lower PSNR after replacement. The speed comparison in Figure 6 uses 700 images per input scale on an RTX 2080 Ti for IMDN and DRLN variants. It does not isolate parallelism as the sole cause or establish universal accuracy or runtime improvements.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-wang2021">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a></span>
+        <span>· <strong>Locator:</strong> Table 1, PDF p. 5; Speed comparison and Figure 6, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The canonical identity is the 2021 balanced attention component, not Park and colleagues’ 2018 Bottleneck Attention Module or a complete super-resolution network. The shared acronym BAM is qualified in the alias.</li>
+      <li>This record follows the eight-page arXiv v3 paper. The author code was not inspected or executed, so padding, bias, small-channel rounding, trained checkpoints and implementation fidelity are not certified.</li>
+      <li>The paper PDF retains template author and affiliation placeholders and a 2022 copyright footer. Authors and the 2021 version date come from the primary arXiv metadata; no conference acceptance is inferred.</li>
+      <li>Chosen exact gates illustrate algebraic limits only. No model was trained, no image or hardware benchmark was replicated, and the record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Layer.html" style="font-weight: 600;"><code>AIO:Layer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned Layer class is broader than this learned input-to-output feature-map component. The pinned AttentionLayer denotes dot-product attention, which is not the channel/spatial gating procedure here; pooling, convolution and activation targets describe constituent operations rather than equivalent whole-module identities.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-wang2021">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">wang2021</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.07566v3" target="_blank" rel="noopener">BAM: A Balanced Attention Mechanism for Single Image Super Resolution</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Fanyi Wang, Haotian Hu, Cheng Shen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.07566v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dcd27007bcb0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T09:02:46Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T09:11:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BalancedAttentionMechanism.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BalancedAttentionMechanism.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
