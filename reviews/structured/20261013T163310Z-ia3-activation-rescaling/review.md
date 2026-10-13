@@ -1,0 +1,554 @@
+# Scientific author self-review of IA3 Activation Rescaling
+
+- Review: 20261013T163310Z-ia3-activation-rescaling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T16:27:16Z
+- Finished UTC: 2026-10-13T16:33:10Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain IA3 Activation Rescaling as a DRAFT native algorithm with explicit related AIO mappings. Every maintained field was assessed against complete main/supplement evidence and constructed algebra checks. No actionable maintained-record defect identified; author self-review only.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:IA3ActivationRescaling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c54837eeed7f5cee26a3a7db01b31a6188fbbe8d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:IA3ActivationRescaling | data/curated/IA3ActivationRescaling.yaml | maintained | IA3 Activation Rescaling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:IA3ActivationRescaling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 146.43s (0:02:26)<br>Checked 442 record(s); 0 failed.<br>Checked 632 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 308 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 305,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:IA3ActivationRescaling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:IA3ActivationRescaling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:IA3ActivationRescaling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:IA3ActivationRescaling | {"affine_bias_example": {"correct_fold": 26.0, "direct": 26.0, "omitted_bias_scale": 24.5}, "encoder_decoder_parameter_example": {"L": 2, "decoder": 38, "dff": 7, "dk": 3, "dv": 3, "encoder": 26}, "finite_differences": [[0.06810900795017893, 0.02169381742578302], [0.9208983136610448, 0.10036101784072214]], "key_scale_gradient": [0.06810900794760806, 0.0216938174227404], "nonlinearity_placement": {"scale_after": 1.4621171572600098, "scale_before": 0.8807970779778823}, "task_specific_fold_matches": true, "value_scale_gradient": [0.9208983136603799, 0.10036101783742098]} |
+
+## Scientific And Domain Assessments
+
+### IA3 Activation Rescaling
+
+identity: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the transformer-specific IA3 adaptation parameterization and its method alias. LoRA modifies weights additively, LHUC fits acoustic contribution transforms, and FiLM generates conditional affine coefficients. T-Few additionally specifies objectives and training stages. A redundant typeset IA3 alias is omitted after normalization while retained in the search.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:IA3ActivationRescaling.
+
+The declared AIO mapping is supported.
+
+KnowledgeTransfer and DeepTransferLearning provide related strategy/network contexts, not algorithm equivalence or direct superclasses. Seven complete AIO node/edge/YAML contexts and three full native neighbors were inspected. Image preprocessing, sparse-model compression and broad fine-tuning model categories do not identify this adaptation parameterization.
+
+### attention-channel-rescaling
+
+evidence: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The method learns task-specific key/value channel vectors in each applicable attention module. The row-activation formula is dimensionally consistent and broadcast over tokens. Finite differences verify the constructed key/value gradients; no input-generated per-token gates are asserted.
+
+### feedforward-placement
+
+evidence: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Supported within the stated primary-source and mathematical scope.
+
+The vector multiplies post-nonlinearity intermediate activations before output projection. The paper’s encoder/decoder counts reflect the extra decoder attention module. A nonlinear counterexample rules out moving the scale arbitrarily across the activation.
+
+### initialization-and-frozen-base
+
+evidence: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Supported within the stated primary-source and mathematical scope.
+
+All-one insertion preserves the initial function; it is not a persistent positivity or magnitude restriction. The pretrained base remains fixed during adaptation but participates in the computation. Additional-vector pretraining is a separate stage.
+
+### task-batching-and-absorption
+
+evidence: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Per-example task vectors permit mixed-task activations with shared base matrices. Fixed-task linear adjacency permits scale absorption; bias must also be transformed when applicable. Constructed examples verify equivalent folding and show a missing bias scale is incorrect. No single folded model for arbitrary task vectors or universal speed claim follows.
+
+### finite-comparison-context
+
+evidence: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Primary main and supplement describe finite prompted few-shot comparisons with differing optimization choices and additional objectives. The record preserves those limits and separates the T-Few recipe from the IA3 parameterization.
+
+### transformer channel scaling, initialization, task-specific matrix absorption and finite comparison context
+
+consistency: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Constructed calculations support the stated distinctions.
+
+Finite differences verify key/value scaling gradients. Constructed algebra checks show equivalent fixed-task folding, required bias scaling and the failure of moving a multiplier across a nonlinear activation. These are mathematical examples, not author software, training or hardware measurements.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:IA3ActivationRescaling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed all maintained fields, source versions/hashes and claim-specific locators. Challenged tensor orientation, key/value and post-nonlinearity placement, initialization versus bounds, fixed-task absorption with bias, mixed-task semantics and the limits of configured PEFT comparisons.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T162707Z-ia3-activation-rescaling.json | supports | Compared all 442 pinned AIO and 631 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 180, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 40 AIO and 91 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain IA3 as the specific transformer activation-vector adaptation method. The typeset (IA)^3 is the same method spelling and is included in the identity search; a redundant normalized alias is omitted. Its frozen base with task-specific key/value/feedforward scales differs from additive LoRA updates, speaker-specific LHUC and condition-generated FiLM scale/shift. T-Few combines IA3 with further objectives and a training recipe and is a distinct algorithm scope. Generic fine-tuning model categories do not identify this parameterization. |
+| mapping | sources/aio/aio.json | supports | KnowledgeTransfer and DeepTransferLearning provide related strategy/network contexts, not algorithm equivalence or direct superclasses. Seven complete AIO node/edge/YAML contexts and three full native neighbors were inspected. Image preprocessing, sparse-model compression and broad fine-tuning model categories do not identify this adaptation parameterization. |
+| liu2022ia3 | https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf; Complete NeurIPS 2022 main paper of sixteen pages and supplement of eight pages, printed 17–24, visually inspected, including Equations 1–2, Figures 1–3, Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author code, model fitting and empirical replication excluded. | supports | NeurIPS 2022 proceedings main paper, sixteen PDF pages. Complete paper visually read, including Equations 1–2, three figures, Tables 1–3, 81 references and checklist. Proceedings metadata and arXiv 2205.05638 abstract identity verified; the arXiv full text and author implementation were not inspected. |
+| liu2022ia3supp | https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf; Complete NeurIPS 2022 main paper of sixteen pages and supplement of eight pages, printed 17–24, visually inspected, including Equations 1–2, Figures 1–3, Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author code, model fitting and empirical replication excluded. | supports | NeurIPS 2022 proceedings supplemental PDF, eight pages numbered17–24. All pages visually read, including Appendices A–G and Tables 4–11. The main-paper checklist mentions Appendix H, which is not present in this downloaded supplement; no unseen appendix is claimed inspected. |
+| calculation | research/discovery/ia3-boundaries.py | supports | Finite differences verify key/value scaling gradients. Constructed algebra checks show equivalent fixed-task folding, required bias scaling and the failure of moving a multiplier across a nonlinear activation. These are mathematical examples, not author software, training or hardware measurements. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 632 native and 442 unchanged generated records. The 817-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All16 pages of the NeurIPS2022 main paper and all8 supplemental PDF pages (printed17–24) visually read, including equations, all3figures, Tables1–11,81references and author checklist. No code inspected or executed; no training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T163310Z-ia3-activation-rescaling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of IA3 Activation Rescaling
+started_at: '2026-10-13T16:27:16Z'
+finished_at: '2026-10-13T16:33:10Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged transformer channel scaling, initialization,
+    task-specific matrix absorption and finite comparison context. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain IA3 Activation Rescaling as a DRAFT native algorithm with explicit
+  related AIO mappings. Every maintained field was assessed against complete main/supplement
+  evidence and constructed algebra checks. No actionable maintained-record defect
+  identified; author self-review only.
+source:
+  git_revision: c54837eeed7f5cee26a3a7db01b31a6188fbbe8d
+  state: working_tree
+  inputs:
+  - path: data/aio/DeepTransferLearning.yaml
+    sha256: 642bd64f7e13092ffc855f2d44afa5822aa2714996a000f21e092b697725dc08
+    role: context
+  - path: data/aio/KnowledgeTransfer.yaml
+    sha256: d9c3efd84c05da8efb7b8eb46e15d64a1ea18fd0816c96cba9bcad85619c57bb
+    role: context
+  - path: data/aio/PromptbasedFineTuningLLM.yaml
+    sha256: 4ffa2464ddadfb694c14539ad80e63df7c8c76a2e44fca99d7d7dfb4e19e7bb4
+    role: context
+  - path: data/aio/RescalingLayer.yaml
+    sha256: d819303cefc3a220baf09d788a6d39505e53d21b63242e5874b7abd5084ea6d8
+    role: context
+  - path: data/aio/SparseLLM.yaml
+    sha256: e6f5067b109d2353bba40a3f9d66b2f66c54e30b36f53ba4ff4140848fe8a7b2
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/aio/TransferLearningLLM.yaml
+    sha256: 2394d2f50f424d43bbbfd4d707af25c1f4ecdd2d1b3d54cd893a2de8b0baa099
+    role: context
+  - path: data/curated/FeatureWiseLinearModulation.yaml
+    sha256: 04cdbed7b9a44ec4fc4c98b2dd6971a1fb6e4fc2c133926febe9411423836b63
+    role: context
+  - path: data/curated/IA3ActivationRescaling.yaml
+    sha256: cfcae527209b4bca9ac7b705ad23405ecd52f07850684cd5c90b474f0baeae7d
+    role: target
+  - path: data/curated/LearningHiddenUnitContributions.yaml
+    sha256: 6b1934004475e048e761316d27b4629080fec2e719154bca49dd7ab001f29f94
+    role: context
+  - path: data/curated/LoRA.yaml
+    sha256: 8642959e7dd4ca6630720e78771b6e7b825336c967f0663f125c1a23aee7ae49
+    role: context
+  - path: research/discovery/20261013T162707Z-ia3-activation-rescaling.json
+    sha256: 304065adc0cb4f124d639e3be1b7d5a331bf76df65f76ec3f34d4382a66d8f67
+    role: context
+  - path: research/discovery/ia3-boundaries.py
+    sha256: 63f4b5716da753803e4e232d44bcb8b4ee1d9d1ceddba55d4fa42e3f22feaa90
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:IA3ActivationRescaling
+  path: data/curated/IA3ActivationRescaling.yaml
+  label: IA3 Activation Rescaling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IA3ActivationRescaling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:IA3ActivationRescaling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:IA3ActivationRescaling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete NeurIPS 2022 main paper of sixteen pages and supplement of eight
+      pages, printed 17–24, visually inspected, including Equations 1–2, Figures 1–3,
+      Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H,
+      author code, model fitting and empirical replication excluded.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 146.43s (0:02:26)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 632 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 308 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 305,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/ia3-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"affine_bias_example": {"correct_fold": 26.0, "direct": 26.0, "omitted_bias_scale":
+    24.5}, "encoder_decoder_parameter_example": {"L": 2, "decoder": 38, "dff": 7,
+    "dk": 3, "dv": 3, "encoder": 26}, "finite_differences": [[0.06810900795017893,
+    0.02169381742578302], [0.9208983136610448, 0.10036101784072214]], "key_scale_gradient":
+    [0.06810900794760806, 0.0216938174227404], "nonlinearity_placement": {"scale_after":
+    1.4621171572600098, "scale_before": 0.8807970779778823}, "task_specific_fold_matches":
+    true, "value_scale_gradient": [0.9208983136603799, 0.10036101783742098]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T162707Z-ia3-activation-rescaling.json
+  accessed_at: '2026-10-13T16:27:16Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 631 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    180, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 40 AIO and 91 native definitions, with every matched definition read.
+    7 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Retain IA3 as the specific transformer activation-vector adaptation
+    method. The typeset (IA)^3 is the same method spelling and is included in the
+    identity search; a redundant normalized alias is omitted. Its frozen base with
+    task-specific key/value/feedforward scales differs from additive LoRA updates,
+    speaker-specific LHUC and condition-generated FiLM scale/shift. T-Few combines
+    IA3 with further objectives and a training recipe and is a distinct algorithm
+    scope. Generic fine-tuning model categories do not identify this parameterization.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T16:27:16Z'
+  support: supports
+  summary: KnowledgeTransfer and DeepTransferLearning provide related strategy/network
+    contexts, not algorithm equivalence or direct superclasses. Seven complete AIO
+    node/edge/YAML contexts and three full native neighbors were inspected. Image
+    preprocessing, sparse-model compression and broad fine-tuning model categories
+    do not identify this adaptation parameterization.
+- evidence_id: liu2022ia3
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf
+  locator: Complete NeurIPS 2022 main paper of sixteen pages and supplement of eight
+    pages, printed 17–24, visually inspected, including Equations 1–2, Figures 1–3,
+    Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author
+    code, model fitting and empirical replication excluded.
+  accessed_at: '2026-10-13T15:02:01Z'
+  snapshot_sha256: 9c107aa36f127ca0eabb6fd139a3b4e050601a0f1e4c14783cdfa8525a9af3ed
+  support: supports
+  summary: NeurIPS 2022 proceedings main paper, sixteen PDF pages. Complete paper
+    visually read, including Equations 1–2, three figures, Tables 1–3, 81 references
+    and checklist. Proceedings metadata and arXiv 2205.05638 abstract identity verified;
+    the arXiv full text and author implementation were not inspected.
+- evidence_id: liu2022ia3supp
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf
+  locator: Complete NeurIPS 2022 main paper of sixteen pages and supplement of eight
+    pages, printed 17–24, visually inspected, including Equations 1–2, Figures 1–3,
+    Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author
+    code, model fitting and empirical replication excluded.
+  accessed_at: '2026-10-13T15:03:59Z'
+  snapshot_sha256: 0da202641e4028e8ac62a65d0538438bb921af6b0d86bf6e0190cc55c7648d92
+  support: supports
+  summary: NeurIPS 2022 proceedings supplemental PDF, eight pages numbered17–24. All
+    pages visually read, including Appendices A–G and Tables 4–11. The main-paper
+    checklist mentions Appendix H, which is not present in this downloaded supplement;
+    no unseen appendix is claimed inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/ia3-boundaries.py
+  accessed_at: '2026-10-13T16:28:14Z'
+  snapshot_sha256: 63f4b5716da753803e4e232d44bcb8b4ee1d9d1ceddba55d4fa42e3f22feaa90
+  support: supports
+  summary: Finite differences verify key/value scaling gradients. Constructed algebra
+    checks show equivalent fixed-task folding, required bias scaling and the failure
+    of moving a multiplier across a nonlinear activation. These are mathematical examples,
+    not author software, training or hardware measurements.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: IA3 Activation Rescaling
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - identity
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the transformer-specific IA3 adaptation parameterization and its
+    method alias. LoRA modifies weights additively, LHUC fits acoustic contribution
+    transforms, and FiLM generates conditional affine coefficients. T-Few additionally
+    specifies objectives and training stages. A redundant typeset IA3 alias is omitted
+    after normalization while retained in the search.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - mapping
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: The declared AIO mapping is supported.
+  details: KnowledgeTransfer and DeepTransferLearning provide related strategy/network
+    contexts, not algorithm equivalence or direct superclasses. Seven complete AIO
+    node/edge/YAML contexts and three full native neighbors were inspected. Image
+    preprocessing, sparse-model compression and broad fine-tuning model categories
+    do not identify this adaptation parameterization.
+- assessment_id: attention-channel-rescaling
+  area: evidence
+  topic: attention-channel-rescaling
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The method learns task-specific key/value channel vectors in each applicable
+    attention module. The row-activation formula is dimensionally consistent and broadcast
+    over tokens. Finite differences verify the constructed key/value gradients; no
+    input-generated per-token gates are asserted.
+- assessment_id: feedforward-placement
+  area: evidence
+  topic: feedforward-placement
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The vector multiplies post-nonlinearity intermediate activations before
+    output projection. The paper’s encoder/decoder counts reflect the extra decoder
+    attention module. A nonlinear counterexample rules out moving the scale arbitrarily
+    across the activation.
+- assessment_id: initialization-and-frozen-base
+  area: evidence
+  topic: initialization-and-frozen-base
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: All-one insertion preserves the initial function; it is not a persistent
+    positivity or magnitude restriction. The pretrained base remains fixed during
+    adaptation but participates in the computation. Additional-vector pretraining
+    is a separate stage.
+- assessment_id: task-batching-and-absorption
+  area: evidence
+  topic: task-batching-and-absorption
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Per-example task vectors permit mixed-task activations with shared base
+    matrices. Fixed-task linear adjacency permits scale absorption; bias must also
+    be transformed when applicable. Constructed examples verify equivalent folding
+    and show a missing bias scale is incorrect. No single folded model for arbitrary
+    task vectors or universal speed claim follows.
+- assessment_id: finite-comparison-context
+  area: evidence
+  topic: finite-comparison-context
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Primary main and supplement describe finite prompted few-shot comparisons
+    with differing optimization choices and additional objectives. The record preserves
+    those limits and separates the T-Few recipe from the IA3 parameterization.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: transformer channel scaling, initialization, task-specific matrix absorption
+    and finite comparison context
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - liu2022ia3
+  - liu2022ia3supp
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Finite differences verify key/value scaling gradients. Constructed algebra
+    checks show equivalent fixed-task folding, required bias scaling and the failure
+    of moving a multiplier across a nonlinear activation. These are mathematical examples,
+    not author software, training or hardware measurements.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:IA3ActivationRescaling
+  evidence_ids:
+  - identity
+  - mapping
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed all maintained fields, source versions/hashes
+    and claim-specific locators. Challenged tensor orientation, key/value and post-nonlinearity
+    placement, initialization versus bounds, fixed-task absorption with bias, mixed-task
+    semantics and the limits of configured PEFT comparisons.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 632 native and 442 unchanged generated records.
+  The 817-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All16 pages of the NeurIPS2022 main paper and all8 supplemental PDF pages (printed17–24)
+  visually read, including equations, all3figures, Tables1–11,81references and author
+  checklist. No code inspected or executed; no training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
