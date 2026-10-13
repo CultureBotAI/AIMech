@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Activation-Value Gaussian Pooling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/mathematical_method.html">Mathematical Methods</a>
+  <span>/</span>
+  <strong>Activation-Value Gaussian Pooling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Activation-Value Gaussian Pooling</h1>
+    <span class="badge badge-curated">Mathematical Methods</span>
+    <span class="detail-id">AIMech:ActivationValueGaussianPooling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Diff-Gauss pooling
+    </div>
+
+  <div class="detail-desc">
+    A parameterized neural pooling unit that averages a group of transformed activations using normalized Gaussian-kernel weights determined by each activation’s distance from a learned pool mean.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 625 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 9, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 32 AIO and 55 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the source’s activation-value Gaussian pooling unit, with Diff-Gauss pooling scoped to that unit. It differs from the2012spatial Gaussian pooling/unpooling component, stochastic spatial selection, learned absolute-power units and the speaker-adaptation procedure. Similar names used for Gaussian rasterization are not aliases. This is a scalar parameterized mathematical computation over a group, not the entire acoustic network.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#value-dependent-kernel-aggregation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The demonstrated unit forms z_i=eta*tanh(w_i^T*x+b_i), assigns u_i proportional to exp[-beta*(z_i-mu)^2/2] within the group, and outputs sum_i u_i*z_i. The pool has its own mean, precision and shared amplitude. For finite real values the normalized weights are positive and sum to one, so the output lies in the input-value convex hull. These kernels compare activation values with a mean, not spatial coordinates, and use probability normalization rather than the square-root normalization of spatial Gaussian unpooling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, PDF p. 3, Equations 5–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#precision-limits-and-nonlinearity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Zero precision gives the ordinary arithmetic mean. As positive precision tends to infinity with a fixed mean, weight concentrates on activation values nearest that mean, which need not be the largest values. Equal-distance ties retain their equal limiting weights. The source’s unconditional maximum-limit wording therefore needs qualification. Because the weights depend on input values, the pooling operation is generally nonlinear even if its preceding tanh transformation is removed; treating the weighted average as a fixed linear combination would miss that dependence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, PDF p. 3, discussion following Equations 5 and 8; direct sharp-limit and scaling counterexamples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#coupled-input-and-parameter-gradients</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Backpropagation differentiates both the explicit weighted values and their input-dependent weights. Writing f=sum_i u_i*z_i gives df/dz_j=u_j*[1-beta*(z_j-mu)*(z_j-f)]. Also df/dmu=beta*Var_u(z), and df/dbeta=-Cov_u(z,(z-mu)^2)/2. The input derivative can be negative even though the output is a positive-weight average. These identities hold for the finite normalized kernel rule and do not specify numerical underflow handling in an implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section IV-B, PDF p. 4, Equations 12–21; direct algebra and finite-difference checks</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#amplitude-and-adaptation-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Scaling eta changes the values entering the Gaussian kernel and can therefore change the normalized weights as well as the output amplitude. It is not generally identical to multiplying the final pooled value by a hidden-unit contribution factor. The source compares speaker-dependent updates to means, precisions and amplitudes, alongside optional post-pooling contribution scaling. A pooling unit and a procedure that adapts its parameters are separate concepts.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections III-B and V, PDF pp. 3–5; Section VII-B, pp. 6–8, Table IV and Figure 1; direct inside-versus-after-pooling scaling example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-acoustic-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The unit is evaluated within supervised speaker-independent DNN/HMM acoustic models and subsequent adaptation on TED, AMI and Switchboard. The reported Gaussian configuration uses groups of three activations and 1,175 pooled units per hidden layer, with corpus-specific input features and decoding pipelines. Word-error rates and historical GPU training times concern those configured systems; they do not establish universal superiority, negligible cost or a guarantee that adapting the pooling parameters improves unseen speech. The paper’s normal precision initialization and gradient updates do not document a general positivity constraint or every numerical edge-case safeguard.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections VI–VII, PDF pp. 5–9, Tables I–VII and Gaussian initialization paragraph on p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Diff-Gauss pooling here denotes the Swietojanski–Renals activation-value unit, not spatial Gaussian pooling, Gaussian rasterization, a complete acoustic DNN, or the speaker-adaptation algorithm that changes its parameters.</li>
+      <li>The positive-precision sharp limit is nearest-value selection. Bounded output does not imply monotonicity in every input. Input-dependent weights generally make aggregation nonlinear even with fixed learned parameters; zero precision gives a linear arithmetic mean.</li>
+      <li>Constructed derivatives and counterexamples assess the stated mathematical rule, not author software or numerical stability. No implementation, training or benchmark replication was performed.</li>
+      <li>The complete eleven-page arXiv1603.09630v2 paper was visually inspected. Other paper versions and the author thesis were search context only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html" style="font-weight: 600;"><code>AIO:MathematicalFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Mathematical Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            For fixed parameters the unit defines a scalar mathematical function of a group of activations; the pinned mathematical-function class has broader scope.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-swietojanski2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">swietojanski2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1603.09630v2" target="_blank" rel="noopener">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pawel Swietojanski, Steve Renals
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1603.09630v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9cbd9b822c6e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T14:50:54Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T14:53:49Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ActivationValueGaussianPooling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ActivationValueGaussianPooling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
