@@ -1,0 +1,159 @@
+id: AIMech:CurriculumDropout
+name: Curriculum Dropout
+aliases: []
+concept_kind: algorithm
+definition: A neural-network training procedure that starts without unit suppression and gradually increases
+  Bernoulli dropout by decreasing the probability of retaining each unit toward a specified layer-dependent
+  limit.
+identity_notes: Compared all 442 pinned AIO and 634 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 16, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 13 AIO and 21 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  the explicit increasing-suppression curriculum schedule. Its time-dependent Bernoulli mask distribution
+  differs from Gaussian fast-dropout approximation, geometric-ensemble dropout boosting and confidence-filtered
+  training-signal annealing. The opposite annealed-dropout direction remains a separate source-access
+  lead, not another asserted record.
+definition_evidence:
+- source_id: morerio2017
+  locator: Section 3, main PDF pp.3–4, Definition 1 and Equation 1
+  relation: supports
+claims:
+- claim_id: retention-schedule
+  kind: mechanism
+  statement: The demonstrated schedule is theta(t)=(1-theta_bar)*exp(-gamma*t)+theta_bar, where theta
+    is retention probability, t counts gradient updates and gamma is positive. It starts at one and approaches
+    theta_bar; suppression probability is 1-theta(t). The paper uses terminal retention values between
+    0.5 and 0.9. Its heuristic gamma=10/T depends on an anticipated training length T and approaches,
+    rather than exactly reaches, the limit at finite T.
+  evidence:
+  - source_id: morerio2017
+    locator: Section 3, main PDF pp.3–4, Equations 1–2; direct schedule calculation
+    relation: supports
+- claim_id: mask-and-scaling-scope
+  kind: scope
+  statement: Independent Bernoulli masks suppress individual units during training; D units have expected
+    retained count D*theta(t). This schedules noise rather than sorting the observed examples or learning
+    a separate data-dependent gate. The paper’s mathematical analysis uses unscaled binary masks, with
+    prediction scaling described separately. An inverted-dropout implementation rescales retained values
+    during training and requires reconciling the convention before transferring the formulas.
+  evidence:
+  - source_id: morerio2017
+    locator: Sections 1–3, main PDF pp.1–4; Section 4, pp.5–6
+    relation: supports
+  - source_id: morerio2017supp
+    locator: Section 1.1, supplemental PDF pp.2–4
+    relation: supports
+- claim_id: linear-loss-regularization-boundary
+  kind: limitation
+  statement: For a linear predictor with squared loss and independent unscaled Bernoulli masks, the exact
+    expected loss equals the squared loss of the theta-scaled mean prediction plus theta*(1-theta)*sum_j(w_j^2*sum_i
+    X_ij^2). Thus the data-fit term also changes. The scalar factor grows along the stated retention path
+    above one half; this identity does not establish a fixed additive penalty for every nonlinear deep
+    network or guarantee better generalization.
+  evidence:
+  - source_id: morerio2017
+    locator: Section 3, main PDF pp.4–5, Equation 3
+    relation: supports
+  - source_id: morerio2017supp
+    locator: Section 1.1, supplemental PDF pp.2–4, Theorem 1 and Equations 3–19; direct finite-mask enumeration
+    relation: supports
+- claim_id: curriculum-proof-caveats
+  kind: limitation
+  statement: The source’s formal curriculum argument needs qualifications. Its binomial coefficient aggregates
+    masks with the same zero count, rather than giving the probability of a specific corrupted image.
+    The supplement multiplies entropies for an independent product distribution, whose joint entropy instead
+    adds. Its proposed ratio Q_lambda/P can exceed the stated unit bound, and zero-valued inputs can make
+    different masks yield the same image. These direct counterexamples prevent adopting a general bounded-weight
+    or strictly increasing observed-image-entropy theorem; they do not invalidate the explicitly defined
+    dropout schedule.
+  evidence:
+  - source_id: morerio2017
+    locator: Section 4, main PDF pp.5–6, Equations 4–9
+    relation: supports
+  - source_id: morerio2017supp
+    locator: Section 1.2, supplemental PDF pp.4–6, Equations 20–27; constructed probability, ratio and
+      entropy counterexamples
+    relation: supports
+- claim_id: evaluation-and-protocol-boundary
+  kind: limitation
+  statement: The reported evaluation uses selected image-classification datasets, architectures and subsets.
+    Results summarize each run’s ten highest observed accuracies and then aggregate ten runs, so they
+    are selected trajectory summaries rather than fixed final-checkpoint estimates. Universal improvement
+    is not established. The supplement specifies a different CIFAR learning rate from the main text’s
+    fixed-rate description; exact reproduction must resolve that discrepancy. Recurrent-network and connection-drop
+    extensions remain future work in the inspected paper.
+  evidence:
+  - source_id: morerio2017
+    locator: Section 5 and conclusions, main PDF pp.6–8, Figure 3 and Table 1
+    relation: supports
+  - source_id: morerio2017supp
+    locator: Sections 2.1–2.3, supplemental PDF pp.6–7, Tables 1–5
+    relation: supports
+evidence_sources:
+- source_id: morerio2017
+  title: Curriculum Dropout
+  authors:
+  - Pietro Morerio
+  - Jacopo Cavazza
+  - Riccardo Volpi
+  - René Vidal
+  - Vittorio Murino
+  persistent_id: CVF:Morerio_Curriculum_Dropout_ICCV_2017
+  version: ICCV 2017 CVF open-access proceedings PDF, nine pages printed 3544–3552. All pages visually
+    inspected, including Equations 1–9, Figures 1–4, Table 1, footnotes and 34 references. Other versions
+    and author implementation not inspected.
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2017/papers/Morerio_Curriculum_Dropout_ICCV_2017_paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:01:45Z'
+  sha256: b1bc92e4b045330a5d67f8664a6d2b5c1ca4d1192a3de6259a880466ea9ff79d
+- source_id: morerio2017supp
+  title: Supplementary Material to Curriculum Dropout
+  authors:
+  - Pietro Morerio
+  - Jacopo Cavazza
+  - Riccardo Volpi
+  - René Vidal
+  - Vittorio Murino
+  persistent_id: CVF:Morerio_Curriculum_Dropout_ICCV_2017_supplemental
+  version: Official CVF ICCV 2017 supplement, eight pages. All pages visually inspected, including Equations
+    1–27, Figure 1, Tables 1–5 and 15 references. Printed probability/entropy claims and protocol discrepancies
+    are retained as qualified source statements.
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2017/supplemental/Morerio_Curriculum_Dropout_ICCV_2017_supplemental.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:04:16Z'
+  sha256: 78ae00c61a6c79a2e78b15c8ddd7a22c97987046bd8361bf4a2aed001d8e7e2d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:CurriculumLearning
+  relation: related_match
+  rationale: Both schedule training difficulty, but this algorithm changes Bernoulli corruption rather
+    than ordering observed examples. The paper’s formal equivalence proof is qualified; the mapping is
+    related, not an equivalence or subclass claim.
+- target: AIO:DropoutLayer
+  relation: related_match
+  rationale: The procedure schedules dropout masks over training, while the pinned class describes a masking
+    layer with an inverted-scaling implementation comment. A layer does not by itself identify the schedule
+    or its scaling convention.
+limitations:
+- The local identity is the increasing-suppression curriculum procedure, distinct from decreasing-suppression
+  annealed dropout, an abrupt switch schedule, Gaussian fast dropout, ensemble-objective dropout boosting
+  and confidence-based training-signal annealing.
+- The source’s schedule is retained while probability, entropy and curriculum-weight proof problems are
+  explicit. No universal optimization, calibration or generalization guarantee is asserted.
+- Finite endpoint, retention-versus-suppression and mask-rescaling conventions must be distinguished.
+  The planning horizon T is an input to the demonstrated rate heuristic.
+- All nine primary and eight supplementary pages were visually inspected. Author code, other versions,
+  training and empirical replication were not inspected or executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T17:16:51Z'
+  updated_at: '2026-10-13T17:16:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
