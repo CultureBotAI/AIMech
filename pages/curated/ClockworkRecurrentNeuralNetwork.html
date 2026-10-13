@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clockwork recurrent neural network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Clockwork recurrent neural network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Clockwork recurrent neural network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:ClockworkRecurrentNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CW-RNN, Clockwork RNN
+    </div>
+
+  <div class="detail-desc">
+    A recurrent architecture partitioning hidden units into modules with prescribed update periods, copying inactive module states and restricting inter-module recurrence from slower modules to faster modules while retaining recurrence within each module.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 576 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 137, 90, 89 lines. All distinct match contents were read: prior Clockwork RNN frontier entries, the new GF-RNN comparison and discovery/search context, rather than an existing Clockwork record. Semantic matching inspected 63 AIO and145 native definitions, with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. RecurrentNeuralNetwork is the broader architecture mapping. LongShortTermMemory uses a different gated memory formulation; SimpleRNNLayer is a component-level, fully connected recurrent layer rather than this modular clocked architecture; EchoStateNetwork describes reservoir/training constraints not entailed by prescribed module clocks. Fixed clock periods and copied inactive states differ from GF-RNN input-dependent pair gates, SCRN continuous decaying context, identity initialization and Zoneout stochastic state preservation. Period schedules and proposed input-buffer/phase variants do not establish separate supported concept identities here.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#scheduled-transition-and-topology</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For module i with period T_i, the baseline updates its hidden state when t modulo T_i equals zero, using the current input and permitted previous hidden states; otherwise it retains the previous module state. Modules are internally recurrent. With modules ordered by increasing period, the recurrent matrix has an upper-triangular block structure: an active faster destination receives recurrent state from slower source modules, and slower modules do not receive faster-module state. The paper uses exponentially spaced periods in its experiments, while the general description allows other prescribed period sets.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Section 3 directed-connection text and Equations 1–4, PDF pp. 3–4; Figures 1–2, pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#inactive-carry-and-active-jacobian</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Inactive modules copy their prior activations, and the corresponding direct state derivative is identity. The source backward-pass description copies their error contributions backward through skipped updates. Zeroed computational blocks in Equation 4 indicate which transitions are evaluated; they do not mean replacing inactive states by zero. At active steps learned recurrent matrices and nonlinearities still affect the Jacobian, so copying between ticks does not guarantee permanent gradient preservation, contraction or convergence for the complete network.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Equation 4, retained outputs and backward-pass paragraphs, PDF p. 4; curator derivative consequence</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#sampling-and-input-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A slow module directly reads an input only on its update ticks and has no faster-to-slower recurrent path in this baseline. Inputs arriving between its ticks can therefore fail to affect that slow module. This does not mean the entire network ignores them, since faster modules can respond. The authors propose phase offsets, input buffers or transformations as possible responses, and discuss learning periods as future work. Those proposals are not assumed to be implemented baseline features or a general anti-aliasing guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Future Work, PDF pp. 7–8; Section 3 connection restrictions, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#recurrent-parameter-count</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For g equally sized modules of k hidden units with the stated triangular connectivity, n=g*k and the recurrent weight count is k^2*g*(g+1)/2, giving ratio (g+1)/(2*g) relative to a fully connected n-by-n recurrence. The approximately one-half ratio is a large-g statement about recurrent weights, not an exact halving of all parameters including input/output weights or biases. Unequal module sizes require their own block counts.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Appendix parameter-count derivation, PDF p. 8; unequal-size discussion, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#average-operation-count-and-remainder</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With periods 2^i for i=0,...,g-1 and equally sized modules, the mean recurrent matrix-product count over a complete clock cycle is k^2*sum_i (g-i)/2^i. The exact finite sum equals k^2*(2*g-2+2^(1-g)); the positive final term is missing from the Appendix intermediate upper bound k^2*(2*g-2). The record uses the exact sum and does not adopt that intermediate inequality. Per-step work varies with phase, and common-multiple ticks activate every module. These recurrence counts exclude other network operations and do not certify a hardware-independent wall-clock speedup.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Appendix operation-count derivation, PDF p. 8; curator finite-sum and schedule calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#conditional-evaluation-and-run-selection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates input-free memorization of selected audio sequences, a selected 25-word TIMIT classification task and bidirectional CTC handwriting recognition with chosen capacities, clocks and training settings. Handwriting results depend on network size: the reported small clockwork model is worse than the simple RNN, the larger one improves on it, and LSTM is better at every reported size. The first two experiments use many random initializations; the handwriting experiment uses three runs and excludes premature poor local optima before reporting averages. These comparisons do not establish universal superiority, a complete TIMIT recognizer or independently reproduced performance; no numerical benchmark is curated here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-koutnik2014">A Clockwork RNN</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Tables 1–3 and Figures 3–5, PDF pp. 4–7; Discussion, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Prescribed clock periods and copied inactive states differ from input-dependent learned gates or stochastic state-preservation regularizers.</li>
+      <li>Slow modules can miss inputs between ticks. Proposed offsets, buffering, transformations and learned periods are not imported as tested baseline features.</li>
+      <li>Identity carry on inactive steps does not constrain every active-step Jacobian or certify whole-network memory and gradient stability.</li>
+      <li>Recurrent parameter and cycle-average operation counts have explicit equal-size and exponential-period assumptions. The finite remainder is retained instead of the Appendix intermediate bound.</li>
+      <li>Reported handwriting outcomes and excluded poor runs qualify the performance evidence; no universal LSTM advantage, current ranking or independent benchmark is asserted.</li>
+      <li>All nine primary conference-paper pages were read, including the Appendix. No author implementation, training, runtime audit or empirical replication was inspected.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a recurrent sequence architecture with prescribed module clocks and constrained inter-module connectivity; the target is the broader recurrent architecture category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-koutnik2014">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">koutnik2014</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v32/koutnik14.pdf" target="_blank" rel="noopener">A Clockwork RNN</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jan Koutník, Klaus Greff, Faustino Gomez, Jürgen Schmidhuber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a991ba1c812d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T05:44:06Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T05:44:06Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ClockworkRecurrentNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ClockworkRecurrentNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

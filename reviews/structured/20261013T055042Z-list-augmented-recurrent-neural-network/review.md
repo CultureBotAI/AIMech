@@ -1,0 +1,547 @@
+# Scientific author self-review of List RNN
+
+- Review: 20261013T055042Z-list-augmented-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T05:44:10Z
+- Finished UTC: 2026-10-13T05:50:42Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain List RNN as a distinct DRAFT architecture with a broader recurrent-network mapping. All six claims and fields have support with explicit head-centered topology, soft-state, finite-window assumption and evaluation boundaries. No actionable record defect found; no List RNN implementation or training execution occurred.
+
+## Scope And Provenance
+
+All fields of the maintained List RNN and complete primary conference paper.
+
+Selection: Exact maintained ID: AIMech:ListAugmentedRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ad51f25aadec1d16f60d1fb225a41e7e47a76ce2.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ListAugmentedRecurrentNeuralNetwork | data/curated/ListAugmentedRecurrentNeuralNetwork.yaml | maintained | List-augmented recurrent neural network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ListAugmentedRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 144.14s (0:02:24)<br>Checked 442 record(s); 0 failed.<br>Checked 577 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 233 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 231,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ListAugmentedRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ListAugmentedRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ListAugmentedRecurrentNeuralNetwork | Exited 0 without output. |
+| Constructed list-memory boundaries | passed | True | AIMech:ListAugmentedRecurrentNeuralNetwork | {"inserted": {"-2": 0.2, "-1": 0.3, "0": 0.9, "1": 0.4, "2": 0.5}, "right_head": 0.4, "finite_window_roundtrip": {"-2": -1.0, "-1": 0.2, "0": 0.3, "1": 0.4, "2": 0.5}, "mixed_head": 0.30000000000000004, "nonlinear_from_mean": 0.9525741268224334, "mean_nonlinear": 0.9314054340078954, "caveat": "Finite window and -1 boundary are curator assumptions, not a verified List RNN implementation."} |
+
+## Scientific And Domain Assessments
+
+### Neural recurrent controller with movable-head list operations
+
+identity: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Retain List RNN as a distinct DRAFT architecture.
+
+No normalized maintained identity matched. Ignored-inclusive matches were read and classified. The source explicitly names List RNN separately from Stack RNN: bidirectional head movement and insertion differ from fixed-end push/pop. Soft versus one-hot controls are configurations, not duplicate identities.
+
+### Broader recurrent architecture
+
+grounding: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+The broader mapping is supported.
+
+The recurrent controller and evolving list memory fit the pinned recurrent architecture definition. Layer stacking, large-language-model memory and the pinned NTM description do not establish exact equivalence or an appropriate alternative broader mapping.
+
+### head-centered-list-transition
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+The displayed piecewise p5 update uses old i+1 for RIGHT, old i-1 for LEFT, and an insertion branch split at HEAD. The record treats fixed HEAD as a coordinate convention and preserves the optional no-op rather than denying logical head motion.
+
+### insertion-topology
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+One-hot insertion writes a new head, moves the former head and lower-index side left, and retains the higher-index side. Bidirectional adjacent access differs from stack push/pop. Symbolic descriptions require represented neighboring positions; finite truncation is not silently ignored.
+
+### soft-state-is-not-discrete-history
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+Action-weighted updates are deterministic mixtures, not sampled trajectories. A mean of candidate states is not a guarantee of a single discrete list/head, and nonlinear controller evolution need not equal an expectation over discrete histories. No trained-controller one-hot guarantee is imported.
+
+### controller-and-memory-scope
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+Figure1(b) connects list input to hidden control/action/value computation. The paper says hidden recurrence R is omitted for clarity, so an undrawn arrow does not forbid hidden recurrence. Identity is the reusable memory/controller topology, not a particular trained instance.
+
+### memory-and-implementation-boundaries
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+The record distinguishes the paper expandable-memory abstraction from a curator finite-window counterexample. The sentinel and truncation are declared assumptions, not certified List RNN code. No StackRNN.h allocation or backward implementation is transferred to List RNN.
+
+### training-and-evaluation-scope
+
+evidence: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Supported with list-topology and evidence-scope qualifications.
+
+Optimization and implementation paragraphs cover SGD/truncated BPTT and controller difficulty/restarts. Table2 and Figure2 report selected counting/memorization settings and sequence lengths. No universal algorithm learning, unrestricted exact memory or independent numerical benchmark follows.
+
+### Head insertion, finite shift loss and nonlinear blending
+
+consistency: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+Constructed algebra confirms the stated distinctions.
+
+Insertion yields the former head at index-1 and a new value at0 while preserving the positive side. Pure RIGHT reads the former right neighbor. With declared finite-window/-1 assumptions, a right-left round trip loses one boundary value. No-op preserves the state; nonlinear processing of a blend differs from the mean of branch outputs. These are curator constructions, not implementation or training evidence.
+
+### Complete maintained record and source-scope accounting
+
+provenance: supported. Targets: AIMech:ListAugmentedRecurrentNeuralNetwork.
+
+All maintained fields inspected; DRAFT remains.
+
+Read ID/name/alias, architecture kind, definition/citation, identity context, six claims and locators, primary source identity/version/access/hash, AIO pin, mapping, five limitations and actual curation times. Source/context/capture hashes and exact report mirror agree. Full-paper reading is distinguished from uninspected List RNN implementation and supplement. No actionable record defect identified.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T054154Z-list-augmented-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 574 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 30, 0, 0 lines. Matches were inspected as shared paper citations, Stack RNN comparison text, prior review evidence and discovery leads rather than an existing List RNN record. Semantic matching inspected 54 AIO and135 native definitions, with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. StackedRNNCellsLayer describes layer composition, not movable-head memory; MemoryAugmentedLLM requires large-language-model scope not inherent to List RNN; the pinned NeuralTuringMachineNetwork feedforward/spiking description does not establish this list topology. None supplies exact equivalence or a suitable broader mapping. RecurrentNeuralNetwork supplies the broader architecture mapping. Stack RNN defines top push/pop updates with a leading-entry readout, whereas List RNN defines bidirectional adjacent movement and head insertion. These are explicitly named separate source models. Ensemble stacking, beam-stack search and linear SCRN context have different identities. Soft versus one-hot action configurations stay within List RNN. |
+| mapping | sources/aio/aio.json | supports | Fifty-four AIO and135 native semantic rows read or verified unchanged; four full AIO node/edge/generated contexts and four full native records inspected. RecurrentNeuralNetwork is broader. A stacked-cell layer, LLM memory model and pinned NTM description do not identify movable-head list topology. |
+| joulin2015 | https://proceedings.neurips.cc/paper_files/paper/2015/file/26657d5ff9020d2abefe558796b99584-Paper.pdf; Complete nine-page conference paper visually read; Figure1, list update and evaluation pp4–6 reread after capture. | supports | NeurIPS2015 proceedings, volume28. All nine printed/PDF pages, Figures1–3, Tables1–4, Equations1–6 and references visually inspected. |
+| calculation | research/discovery/list-rnn-boundaries.py | supports | Constructed head-centered insertion, directional access, no-op, finite-window shift loss and nonlinear mean propagation. The finite window and sentinel are explicit curator assumptions, not an inspected List RNN implementation. No source execution, training or benchmark replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- The three-record batch shares one complete repository gate run; this does not represent three independent gate executions.
+- One new DRAFT concept, yielding 575 native and 442 unchanged generated records. The 760-entry main frontier retains 482 pending and 57 partly addressed cohorts; discovery is incomplete.
+- Published capacities, task settings, sequence lengths and tuning limit the evaluation claims. No universal algorithm-learning or unlimited exact-memory guarantee follows.
+- All nine conference-paper pages were read, with list method and evaluation locations reread. No supplement, List RNN implementation, compilation, training or empirical replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T055042Z-list-augmented-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of List RNN
+started_at: '2026-10-13T05:44:10Z'
+finished_at: '2026-10-13T05:50:42Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged stack/list identity, head-centered indexing,
+    soft versus discrete semantics, recurrence scope, constructed finite-window assumptions
+    and conditional evaluation. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain List RNN as a distinct DRAFT architecture with a broader recurrent-network
+  mapping. All six claims and fields have support with explicit head-centered topology,
+  soft-state, finite-window assumption and evaluation boundaries. No actionable record
+  defect found; no List RNN implementation or training execution occurred.
+source:
+  git_revision: ad51f25aadec1d16f60d1fb225a41e7e47a76ce2
+  state: working_tree
+  inputs:
+  - path: data/aio/MemoryAugmentedLLM.yaml
+    sha256: 8727073cb355b965f54a2f0e58997f862f6b734c9143511008c26f9d31a965fd
+    role: context
+  - path: data/aio/NeuralTuringMachineNetwork.yaml
+    sha256: bb483a9f90d767bcae50856c6084f31fe855d510d352419a5130fa4fc036be79
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/BeamStackSearch.yaml
+    sha256: 161a74d1afbe844b276989df5e068268ffa239e62799523221b56a626b4f4861
+    role: context
+  - path: data/curated/ListAugmentedRecurrentNeuralNetwork.yaml
+    sha256: d0ae4afbb09ca9e76259fc4d75d1025b2233f06ac529acb401d198deede309b8
+    role: target
+  - path: data/curated/StackAugmentedRecurrentNeuralNetwork.yaml
+    sha256: f544aaabf56c79e2d2a66c37c3e357854ee751d00e05f890a4324f366e52055d
+    role: context
+  - path: data/curated/Stacking.yaml
+    sha256: 5271ce4094a5beec8dc87500e64d9c779ec4aec9bbcb20d0efcc22d26e62706b
+    role: context
+  - path: data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml
+    sha256: 03df44109ede633bd0f41cf2b7b355ac0708ff53411e5ef1a9f69d131380f6bc
+    role: context
+  - path: research/discovery/20261013T054154Z-list-augmented-recurrent-neural-network.json
+    sha256: 97775632e02d4a0b72f53470119de63963b6f35bbf4cc94af74a0df749ddbf55
+    role: context
+  - path: research/discovery/list-rnn-boundaries.py
+    sha256: eb1a136299e030104870793d850176016c2baacc53937ec4a1492f66ac390aa9
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ListAugmentedRecurrentNeuralNetwork
+  path: data/curated/ListAugmentedRecurrentNeuralNetwork.yaml
+  label: List-augmented recurrent neural network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ListAugmentedRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained List RNN and complete primary conference
+    paper.
+  selection: 'Exact maintained ID: AIMech:ListAugmentedRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Supplement, List RNN implementation and dependencies
+    reason: No List RNN code, allocator, boundary convention or runtime inspected;
+      Stack RNN code is not transferred to this topology.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 144.14s (0:02:24)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 577 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 233 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 231,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed list-memory boundaries
+  command: python3 research/discovery/list-rnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"inserted": {"-2": 0.2, "-1": 0.3, "0": 0.9, "1": 0.4, "2": 0.5}, "right_head":
+    0.4, "finite_window_roundtrip": {"-2": -1.0, "-1": 0.2, "0": 0.3, "1": 0.4, "2":
+    0.5}, "mixed_head": 0.30000000000000004, "nonlinear_from_mean": 0.9525741268224334,
+    "mean_nonlinear": 0.9314054340078954, "caveat": "Finite window and -1 boundary
+    are curator assumptions, not a verified List RNN implementation."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T054154Z-list-augmented-recurrent-neural-network.json
+  accessed_at: '2026-10-13T05:44:10Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 574 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    30, 0, 0 lines. Matches were inspected as shared paper citations, Stack RNN comparison
+    text, prior review evidence and discovery leads rather than an existing List RNN
+    record. Semantic matching inspected 54 AIO and135 native definitions, with unchanged
+    preceding rows verified and new matches read. Four full annotated AIO node/edge/generated
+    contexts and four full native records were inspected. StackedRNNCellsLayer describes
+    layer composition, not movable-head memory; MemoryAugmentedLLM requires large-language-model
+    scope not inherent to List RNN; the pinned NeuralTuringMachineNetwork feedforward/spiking
+    description does not establish this list topology. None supplies exact equivalence
+    or a suitable broader mapping. RecurrentNeuralNetwork supplies the broader architecture
+    mapping. Stack RNN defines top push/pop updates with a leading-entry readout,
+    whereas List RNN defines bidirectional adjacent movement and head insertion. These
+    are explicitly named separate source models. Ensemble stacking, beam-stack search
+    and linear SCRN context have different identities. Soft versus one-hot action
+    configurations stay within List RNN.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T05:44:10Z'
+  support: supports
+  summary: Fifty-four AIO and135 native semantic rows read or verified unchanged;
+    four full AIO node/edge/generated contexts and four full native records inspected.
+    RecurrentNeuralNetwork is broader. A stacked-cell layer, LLM memory model and
+    pinned NTM description do not identify movable-head list topology.
+- evidence_id: joulin2015
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2015/file/26657d5ff9020d2abefe558796b99584-Paper.pdf
+  locator: Complete nine-page conference paper visually read; Figure1, list update
+    and evaluation pp4–6 reread after capture.
+  accessed_at: '2026-10-13T04:41:24Z'
+  snapshot_sha256: 8c9bbbbf4e919d877a24b48b0859a13bcdc36ac8ecad3d8cd502c510a08a8f40
+  support: supports
+  summary: NeurIPS2015 proceedings, volume28. All nine printed/PDF pages, Figures1–3,
+    Tables1–4, Equations1–6 and references visually inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/list-rnn-boundaries.py
+  accessed_at: '2026-10-13T05:44:32Z'
+  snapshot_sha256: eb1a136299e030104870793d850176016c2baacc53937ec4a1492f66ac390aa9
+  support: supports
+  summary: Constructed head-centered insertion, directional access, no-op, finite-window
+    shift loss and nonlinear mean propagation. The finite window and sentinel are
+    explicit curator assumptions, not an inspected List RNN implementation. No source
+    execution, training or benchmark replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Neural recurrent controller with movable-head list operations
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - joulin2015
+  summary: Retain List RNN as a distinct DRAFT architecture.
+  details: 'No normalized maintained identity matched. Ignored-inclusive matches were
+    read and classified. The source explicitly names List RNN separately from Stack
+    RNN: bidirectional head movement and insertion differ from fixed-end push/pop.
+    Soft versus one-hot controls are configurations, not duplicate identities.'
+- assessment_id: mapping
+  area: grounding
+  topic: Broader recurrent architecture
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - joulin2015
+  summary: The broader mapping is supported.
+  details: The recurrent controller and evolving list memory fit the pinned recurrent
+    architecture definition. Layer stacking, large-language-model memory and the pinned
+    NTM description do not establish exact equivalence or an appropriate alternative
+    broader mapping.
+- assessment_id: head-centered-list-transition
+  area: evidence
+  topic: head-centered-list-transition
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: The displayed piecewise p5 update uses old i+1 for RIGHT, old i-1 for LEFT,
+    and an insertion branch split at HEAD. The record treats fixed HEAD as a coordinate
+    convention and preserves the optional no-op rather than denying logical head motion.
+- assessment_id: insertion-topology
+  area: evidence
+  topic: insertion-topology
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: One-hot insertion writes a new head, moves the former head and lower-index
+    side left, and retains the higher-index side. Bidirectional adjacent access differs
+    from stack push/pop. Symbolic descriptions require represented neighboring positions;
+    finite truncation is not silently ignored.
+- assessment_id: soft-state-is-not-discrete-history
+  area: evidence
+  topic: soft-state-is-not-discrete-history
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: Action-weighted updates are deterministic mixtures, not sampled trajectories.
+    A mean of candidate states is not a guarantee of a single discrete list/head,
+    and nonlinear controller evolution need not equal an expectation over discrete
+    histories. No trained-controller one-hot guarantee is imported.
+- assessment_id: controller-and-memory-scope
+  area: evidence
+  topic: controller-and-memory-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: Figure1(b) connects list input to hidden control/action/value computation.
+    The paper says hidden recurrence R is omitted for clarity, so an undrawn arrow
+    does not forbid hidden recurrence. Identity is the reusable memory/controller
+    topology, not a particular trained instance.
+- assessment_id: memory-and-implementation-boundaries
+  area: evidence
+  topic: memory-and-implementation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: The record distinguishes the paper expandable-memory abstraction from a
+    curator finite-window counterexample. The sentinel and truncation are declared
+    assumptions, not certified List RNN code. No StackRNN.h allocation or backward
+    implementation is transferred to List RNN.
+- assessment_id: training-and-evaluation-scope
+  area: evidence
+  topic: training-and-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Supported with list-topology and evidence-scope qualifications.
+  details: Optimization and implementation paragraphs cover SGD/truncated BPTT and
+    controller difficulty/restarts. Table2 and Figure2 report selected counting/memorization
+    settings and sequence lengths. No universal algorithm learning, unrestricted exact
+    memory or independent numerical benchmark follows.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Head insertion, finite shift loss and nonlinear blending
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - joulin2015
+  - calculation
+  summary: Constructed algebra confirms the stated distinctions.
+  details: Insertion yields the former head at index-1 and a new value at0 while preserving
+    the positive side. Pure RIGHT reads the former right neighbor. With declared finite-window/-1
+    assumptions, a right-left round trip loses one boundary value. No-op preserves
+    the state; nonlinear processing of a blend differs from the mean of branch outputs.
+    These are curator constructions, not implementation or training evidence.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and source-scope accounting
+  outcome: supported
+  target_ids:
+  - AIMech:ListAugmentedRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - joulin2015
+  - calculation
+  summary: All maintained fields inspected; DRAFT remains.
+  details: Read ID/name/alias, architecture kind, definition/citation, identity context,
+    six claims and locators, primary source identity/version/access/hash, AIO pin,
+    mapping, five limitations and actual curation times. Source/context/capture hashes
+    and exact report mirror agree. Full-paper reading is distinguished from uninspected
+    List RNN implementation and supplement. No actionable record defect identified.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- The three-record batch shares one complete repository gate run; this does not represent
+  three independent gate executions.
+- One new DRAFT concept, yielding 575 native and 442 unchanged generated records.
+  The 760-entry main frontier retains 482 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- Published capacities, task settings, sequence lengths and tuning limit the evaluation
+  claims. No universal algorithm-learning or unlimited exact-memory guarantee follows.
+- All nine conference-paper pages were read, with list method and evaluation locations
+  reread. No supplement, List RNN implementation, compilation, training or empirical
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- recurrent-architectures
+- self-review
+- discovery-ongoing
+```
