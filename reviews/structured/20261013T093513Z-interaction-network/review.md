@@ -1,0 +1,543 @@
+# Scientific author self-review of Interaction Network
+
+- Review: 20261013T093513Z-interaction-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T09:30:30Z
+- Finished UTC: 2026-10-13T09:35:13Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Interaction Network as a DRAFT architecture broadly mapped to ArtificialNeuralNetwork. Six scoped claims preserve direction/order, aggregation and physical-evaluation boundaries; adversarial author self-review found no actionable defect.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:InteractionNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 173128ca575a0f26129f1908d26f3b2ff4871a0e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:InteractionNetwork | data/curated/InteractionNetwork.yaml | maintained | Interaction Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:InteractionNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 138.01s (0:02:18)<br>Checked 442 record(s); 0 failed.<br>Checked 599 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 259 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 258,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:InteractionNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:InteractionNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:InteractionNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:InteractionNetwork | {"effects": [13, 34, 18, 13], "receiver_sums": [0, 60, 18], "object_outputs": [1, 65, 27], "without_duplicate": [1, 52, 27], "reversed_edges": [57, 5, 40], "shifted_absolute_features": [11, 225, 87], "edge_orderings_checked": 24, "node_permutations_checked": 6, "sum_collision": [[1, 3], [2, 2]], "relation_call_counts": [{"objects": 3, "complete_directed_edges": 6, "bidirectional_chain_edges": 4}, {"objects": 6, "complete_directed_edges": 30, "bidirectional_chain_edges": 10}, {"objects": 12, "complete_directed_edges": 132, "bidirectional_chain_edges": 22}], "scope": "Tiny chosen linear functions verify routing and algebra only; no author code, learned physical model, runtime benchmark or universal generalization proof."} |
+
+## Scientific And Domain Assessments
+
+### Interaction Network
+
+identity: supported. Targets: AIMech:InteractionNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain the named shared relation/object architecture, distinct from VAIN and GAT/GIN/GraphSAGE. The binary supplied graph is not a graph inferred from observations, and the optional abstract readout does not change the identity of the core.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:InteractionNetwork.
+
+The declared broad AIO mapping is supported.
+
+Four complete annotated AIO nodes, incident edges and generated YAMLs were inspected. ArtificialNeuralNetwork is a broader class for these learned MLP components. Named GCN equivalence, temporal recurrence and a probabilistic graphical-model task are not forced mappings.
+
+### directed-relational-object-factorization
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section2Eqs1-2 and Figure1 define supplied directed attributed relations, shared edge effects and shared object updates. Incoming effects are aggregated by receiver. No raw-observation graph inference or unrestricted higher-order relation claim is adopted.
+
+### receiver-first-matrix-convention
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+The p4 concatenation O R_r then O R_s matches Figure1. Earlier p3 ordering language is inconsistent; the record selects the explicit matrix convention. The chosen arithmetic examples change when edge directions are reversed and retain duplicate edges.
+
+### permutation-and-aggregation-boundaries
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Shared functions and sum commute with consistent relabeling; per-object outputs reorder. All24edgeorders and6nodelabelings check the chosen fixture. Different effect multisets can sum equally; experimental relative-state features are needed for the described absolute-position invariance. None proves generalization accuracy.
+
+### edge-count-and-global-readout
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+The paper applies f_R once per edge and f_O once per object; counts follow the supplied graph. Global abstraction sums object outputs before another model. Dense incidence execution is not confused with an optimized sparse implementation.
+
+### physical-experiment-scope
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Read pp4-5 domain inputs/counts and Figure2rollouts. Supplied physical states and relations, next velocities and position updates differ from learned raw-image scene parsing. Training/test graph-size examples are evidence within these simulated tasks.
+
+### evaluation-and-conservation-limits
+
+evidence: supported. Targets: AIMech:InteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Table1 reports.25,.0020,.0011MSE for distinctdomains. The main paper reports preprocessing, selected architectures and independent simulated data splits; its trajectory-divergence caveat limits visual rollouts. Estimating potential energy does not constrain conservation. Supplement/code access limits remain explicit.
+
+### directed receiver routing, multigraph aggregation, permutation equivariance, global readout and simulated-physics evidence
+
+consistency: supported. Targets: AIMech:InteractionNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Chosen linear relation/object functions verify receiver routing, duplicate-edge contributions, all24edgeorderings and6noderelabelings. Reversed edges, sum collisions and dependence on absolute features bound the claims. Counts distinguish supplied edges from all-pairs graphs. No author code, training or physics replication.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:InteractionNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the complete maintained record and all four mapping YAMLs after capture. Reread graph inputs, explicit receiver-first implementation, aggregation symmetry, optional global output and scoped experimental claims. Checked source placeholders against primary metadata and recomputed the tiny routing examples.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T092934Z-interaction-network.json | supports | Compared all 442 pinned AIO and 597 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 331, 176, 174 lines. All distinct match contents were inspected. Semantic matching covered 24 AIO and 50 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. The named 2016 Interaction Network separately models supplied directed relation effects and object updates. It is distinct from VAIN learned-address communication and the maintained GAT, GIN and GraphSAGE constructions. The source matrix convention fixes receiver/sender ordering explicitly. The generic ANN target is a justified broad mapping; a shared graph vocabulary does not establish a named GCN identity. |
+| mapping | sources/aio/aio.json | supports | Four complete annotated AIO nodes, incident edges and generated YAMLs were inspected. ArtificialNeuralNetwork is a broader class for these learned MLP components. Named GCN equivalence, temporal recurrence and a probabilistic graphical-model task are not forced mappings. |
+| battaglia2016 | https://proceedings.neurips.cc/paper/2016/file/3147da8ab4a0437c15ef51a5cc7f2dc4-Paper.pdf; All nine main-paper PDF pages read before curation; selected method and evaluation pages reread after capture. Supplement, other versions and author code not inspected. No training or experimental replication. | supports | Nine-page PDF served by the primary NIPS2016 proceedings site, all pages visually read. The PDF retains anonymous author placeholders, submission line numbers and a submission footer. Authorship and proceedings identity are supplied by the primary landing metadata. Locators use PDF pages and printed line numbers. Supplement, other versions and author code not inspected. |
+| calculation | research/discovery/interaction-network-boundaries.py | supports | Chosen linear relation/object functions verify receiver routing, duplicate-edge contributions, all24edgeorderings and6noderelabelings. Reversed edges, sum collisions and dependence on absolute features bound the claims. Counts distinguish supplied edges from all-pairs graphs. No author code, training or physics replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 598 native and 442 unchanged generated records. The 782-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All nine main-paper pages read including figures,tables,formulas and references; supplement and author code not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T093513Z-interaction-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Interaction Network
+started_at: '2026-10-13T09:30:30Z'
+finished_at: '2026-10-13T09:35:13Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged directed receiver routing, multigraph
+    aggregation, permutation equivariance, global readout and simulated-physics evidence.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Interaction Network as a DRAFT architecture broadly mapped to ArtificialNeuralNetwork.
+  Six scoped claims preserve direction/order, aggregation and physical-evaluation
+  boundaries; adversarial author self-review found no actionable defect.
+source:
+  git_revision: 173128ca575a0f26129f1908d26f3b2ff4871a0e
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/GraphConvolutionalNetwork.yaml
+    sha256: 644b6187436c10693cb547dbaa809b8c00c97ad198db201342e5bc0780c78d44
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/curated/GraphAttentionNetwork.yaml
+    sha256: d0c81e5f4484619861b11d40a48c4ddd2a1b677b6ad8f01b2e92ba80648af860
+    role: context
+  - path: data/curated/GraphIsomorphismNetwork.yaml
+    sha256: 936adcfec43e2cbea451d38c894be8ad2ad8e3a9c5554843880880f8e6fc3ad2
+    role: context
+  - path: data/curated/GraphSAGE.yaml
+    sha256: e0dbe2987c5f44d0a9a0c13460e6db9a673322a652ea4d732380b2e4b843adfe
+    role: context
+  - path: data/curated/InteractionNetwork.yaml
+    sha256: 4d20b7990c1854c6d10b0a35d95d81095b2842c94af14b3cee7fe3c198e7b3d0
+    role: target
+  - path: data/curated/VertexAttentionInteractionNetwork.yaml
+    sha256: 2bb93bb8bc9f67a49a58fd62a87702e5989192466aa1ebffda0d8192b84b7317
+    role: context
+  - path: research/discovery/20261013T092934Z-interaction-network.json
+    sha256: 0c4c34e4b3fddff6410c851f3fd779115b79d927b6c12aef83c4975300df8ce5
+    role: context
+  - path: research/discovery/interaction-network-boundaries.py
+    sha256: f61ca1bbbef85f4eb78581ab7de45f931107d7c427017b644926d36ee8556773
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:InteractionNetwork
+  path: data/curated/InteractionNetwork.yaml
+  label: Interaction Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/InteractionNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:InteractionNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:InteractionNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All nine main-paper PDF pages read before curation; selected method and
+      evaluation pages reread after capture. Supplement, other versions and author
+      code not inspected. No training or experimental replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 138.01s (0:02:18)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 599 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 259 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 258,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/interaction-network-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:InteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"effects": [13, 34, 18, 13], "receiver_sums": [0, 60, 18], "object_outputs":
+    [1, 65, 27], "without_duplicate": [1, 52, 27], "reversed_edges": [57, 5, 40],
+    "shifted_absolute_features": [11, 225, 87], "edge_orderings_checked": 24, "node_permutations_checked":
+    6, "sum_collision": [[1, 3], [2, 2]], "relation_call_counts": [{"objects": 3,
+    "complete_directed_edges": 6, "bidirectional_chain_edges": 4}, {"objects": 6,
+    "complete_directed_edges": 30, "bidirectional_chain_edges": 10}, {"objects": 12,
+    "complete_directed_edges": 132, "bidirectional_chain_edges": 22}], "scope": "Tiny
+    chosen linear functions verify routing and algebra only; no author code, learned
+    physical model, runtime benchmark or universal generalization proof."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T092934Z-interaction-network.json
+  accessed_at: '2026-10-13T09:30:30Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 597 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    331, 176, 174 lines. All distinct match contents were inspected. Semantic matching
+    covered 24 AIO and 50 native definitions, with every matched definition read.
+    4 full annotated AIO node/edge/generated contexts and 4 full native records were
+    inspected. The named 2016 Interaction Network separately models supplied directed
+    relation effects and object updates. It is distinct from VAIN learned-address
+    communication and the maintained GAT, GIN and GraphSAGE constructions. The source
+    matrix convention fixes receiver/sender ordering explicitly. The generic ANN target
+    is a justified broad mapping; a shared graph vocabulary does not establish a named
+    GCN identity.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T09:30:30Z'
+  support: supports
+  summary: Four complete annotated AIO nodes, incident edges and generated YAMLs were
+    inspected. ArtificialNeuralNetwork is a broader class for these learned MLP components.
+    Named GCN equivalence, temporal recurrence and a probabilistic graphical-model
+    task are not forced mappings.
+- evidence_id: battaglia2016
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2016/file/3147da8ab4a0437c15ef51a5cc7f2dc4-Paper.pdf
+  locator: All nine main-paper PDF pages read before curation; selected method and
+    evaluation pages reread after capture. Supplement, other versions and author code
+    not inspected. No training or experimental replication.
+  accessed_at: '2026-10-13T09:04:13Z'
+  snapshot_sha256: 942fe7e7e5f7ca2b46036d4ec4821f066c1836f9f6cbbd3f90d7d17e55eb1ea2
+  support: supports
+  summary: Nine-page PDF served by the primary NIPS2016 proceedings site, all pages
+    visually read. The PDF retains anonymous author placeholders, submission line
+    numbers and a submission footer. Authorship and proceedings identity are supplied
+    by the primary landing metadata. Locators use PDF pages and printed line numbers.
+    Supplement, other versions and author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/interaction-network-boundaries.py
+  accessed_at: '2026-10-13T09:31:36Z'
+  snapshot_sha256: f61ca1bbbef85f4eb78581ab7de45f931107d7c427017b644926d36ee8556773
+  support: supports
+  summary: Chosen linear relation/object functions verify receiver routing, duplicate-edge
+    contributions, all24edgeorderings and6noderelabelings. Reversed edges, sum collisions
+    and dependence on absolute features bound the claims. Counts distinguish supplied
+    edges from all-pairs graphs. No author code, training or physics replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Interaction Network
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - identity
+  - battaglia2016
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain the named shared relation/object architecture, distinct from VAIN
+    and GAT/GIN/GraphSAGE. The binary supplied graph is not a graph inferred from
+    observations, and the optional abstract readout does not change the identity of
+    the core.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - mapping
+  - battaglia2016
+  summary: The declared broad AIO mapping is supported.
+  details: Four complete annotated AIO nodes, incident edges and generated YAMLs were
+    inspected. ArtificialNeuralNetwork is a broader class for these learned MLP components.
+    Named GCN equivalence, temporal recurrence and a probabilistic graphical-model
+    task are not forced mappings.
+- assessment_id: directed-relational-object-factorization
+  area: evidence
+  topic: directed-relational-object-factorization
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section2Eqs1-2 and Figure1 define supplied directed attributed relations,
+    shared edge effects and shared object updates. Incoming effects are aggregated
+    by receiver. No raw-observation graph inference or unrestricted higher-order relation
+    claim is adopted.
+- assessment_id: receiver-first-matrix-convention
+  area: evidence
+  topic: receiver-first-matrix-convention
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The p4 concatenation O R_r then O R_s matches Figure1. Earlier p3 ordering
+    language is inconsistent; the record selects the explicit matrix convention. The
+    chosen arithmetic examples change when edge directions are reversed and retain
+    duplicate edges.
+- assessment_id: permutation-and-aggregation-boundaries
+  area: evidence
+  topic: permutation-and-aggregation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Shared functions and sum commute with consistent relabeling; per-object
+    outputs reorder. All24edgeorders and6nodelabelings check the chosen fixture. Different
+    effect multisets can sum equally; experimental relative-state features are needed
+    for the described absolute-position invariance. None proves generalization accuracy.
+- assessment_id: edge-count-and-global-readout
+  area: evidence
+  topic: edge-count-and-global-readout
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The paper applies f_R once per edge and f_O once per object; counts follow
+    the supplied graph. Global abstraction sums object outputs before another model.
+    Dense incidence execution is not confused with an optimized sparse implementation.
+- assessment_id: physical-experiment-scope
+  area: evidence
+  topic: physical-experiment-scope
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Read pp4-5 domain inputs/counts and Figure2rollouts. Supplied physical
+    states and relations, next velocities and position updates differ from learned
+    raw-image scene parsing. Training/test graph-size examples are evidence within
+    these simulated tasks.
+- assessment_id: evaluation-and-conservation-limits
+  area: evidence
+  topic: evaluation-and-conservation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Table1 reports.25,.0020,.0011MSE for distinctdomains. The main paper reports
+    preprocessing, selected architectures and independent simulated data splits; its
+    trajectory-divergence caveat limits visual rollouts. Estimating potential energy
+    does not constrain conservation. Supplement/code access limits remain explicit.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: directed receiver routing, multigraph aggregation, permutation equivariance,
+    global readout and simulated-physics evidence
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - battaglia2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen linear relation/object functions verify receiver routing, duplicate-edge
+    contributions, all24edgeorderings and6noderelabelings. Reversed edges, sum collisions
+    and dependence on absolute features bound the claims. Counts distinguish supplied
+    edges from all-pairs graphs. No author code, training or physics replication.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:InteractionNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - battaglia2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the complete maintained record and all four
+    mapping YAMLs after capture. Reread graph inputs, explicit receiver-first implementation,
+    aggregation symmetry, optional global output and scoped experimental claims. Checked
+    source placeholders against primary metadata and recomputed the tiny routing examples.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 598 native and 442 unchanged generated records.
+  The 782-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All nine main-paper pages read including figures,tables,formulas and references;
+  supplement and author code not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

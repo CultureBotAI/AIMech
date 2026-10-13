@@ -1,0 +1,143 @@
+id: AIMech:CommunicationNeuralNetwork
+name: Communication Neural Network
+aliases:
+- CommNet
+- Communication Neural Net
+- CommNets
+concept_kind: architecture
+definition: A neural architecture for cooperative multi-agent tasks that alternates shared per-agent hidden-state
+  updates with continuous communication formed by averaging other agents’ hidden states, allowing task
+  losses to train communication and agent computation together.
+identity_notes: Compared all 442 pinned AIO and 598 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 8, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 24 AIO and 51 native definitions, with every matched definition
+  read. 4 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. CommNet
+  is the named Communication Neural Net with shared agent modules and exclude-self mean communication.
+  It differs from VAIN learned-distance weights, Interaction Network pair-specific learned effects, and
+  the maintained GAT, GIN and GraphSAGE constructions. The neural architecture maps broadly to ANN; recurrence
+  and local connectivity are extensions, not essential identity conditions.
+definition_evidence:
+- source_id: sukhbaatar2016
+  locator: Sections 1–2.1, PDF pp. 1–2, Equations 1–2; Figure 1, p. 3
+  relation: supports
+claims:
+- claim_id: continuous-exclude-self-communication
+  kind: mechanism
+  statement: Encode each agent state-view into an initial hidden vector. At communication step i, a module
+    shared across agents updates each hidden state from its own previous state and communication vector;
+    the next communication vector is the arithmetic mean of the other agents’ updated hidden states. The
+    default initial communication is zero. After K steps, the base controller decodes per-agent action
+    distributions and samples actions. Parameters may differ between communication steps; sharing across
+    agents does not require sharing across steps.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Section 2.1, PDF p. 2, Equations 1–2 and encoder/decoder description; Figure 1, p. 3
+    relation: supports
+- claim_id: mean-and-empty-neighborhood-boundaries
+  kind: limitation
+  statement: The broadcast mean excludes self and divides by J-1. It differs from a sum and from a mean
+    including self; different multisets can produce the same mean. The displayed formula is undefined
+    for J=1 without an additional convention. The local-connectivity extension averages only over N(j)
+    and is likewise undefined for an empty neighborhood as written. No author implementation was inspected
+    to establish its handling of these cases.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Section 2.1, Equation 2, PDF p. 2; Section 2.2, Equation 3, p. 3; exact constructed mean
+      examples
+    relation: supports
+- claim_id: permutation-and-computation-boundaries
+  kind: scope
+  statement: With shared agent modules, a consistent permutation of agent inputs permutes the corresponding
+    per-agent output distributions. This is equivariance, not an unchanged ordered output array; the paper
+    describes its block-structured communication matrix as permutation invariant. All broadcast means
+    can be computed by one shared total followed by a per-agent subtraction and division, using linear
+    aggregation arithmetic for fixed feature width. This algebra does not establish physical communication
+    cost, total distributed-system latency or implementation behavior.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Section 2.1, Equation 2 and block matrix T, PDF p. 2; Figure 1, p. 3; direct permutation
+      and arithmetic-count examples
+    relation: supports
+- claim_id: extensions-and-training-boundaries
+  kind: scope
+  statement: Local connectivity replaces the broadcast mean with a neighborhood mean; skip connections
+    supply the initial agent encoding to later modules. A temporal variant shares the module across time
+    and may use recurrent or LSTM modules, but the basic finite-step feedforward construction need not
+    reach a recurrent fixed point. Continuous inter-agent vectors allow backpropagation through communication;
+    supervised losses or an outer reinforcement-learning procedure supply training signals. Discrete environment-action
+    sampling is not thereby made directly differentiable, and the discrete-symbol baseline is a separate
+    construction.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Sections 1–2.2, PDF pp. 1–3, Equations 3–4; Related Work and discrete baseline, p. 4, Equations
+      5–6
+    relation: supports
+- claim_id: cooperative-task-evaluation
+  kind: scope
+  statement: The paper assumes fully cooperating agents with a shared reward. It evaluates lever assignment,
+    simulated traffic and combat, and a sentence-agent question-answering variant. The lever experiment
+    selects five agents from a pool of five hundred and reports distinct-lever coverage, while traffic
+    reports failure rates and combat reports win rates for specified MLP/RNN/LSTM variants. These task-specific
+    metrics and selected seeds do not demonstrate general coordination, safety or superiority in arbitrary
+    environments.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Introduction, PDF p. 1; Sections 4.2–4.3, pp. 4–7, Tables 1–3; Section 4.4, p. 8
+    relation: supports
+- claim_id: global-answer-variant-and-evidence-limits
+  kind: limitation
+  statement: The bAbI variant treats story sentences as agents, sums final hidden states after two communication
+    steps and uses a global answer decoder instead of the base per-agent action heads. On the reported
+    10K tasks, Table 4 gives CommNet mean error 7.1%, compared with 4.2% for MemN2N and 2.8% for DMN+,
+    so the results do not support universal superiority. Communication-vector PCA and braking associations
+    are illustrative observations, not general causal explanations. Very large populations and heterogeneous
+    agent types are left for further work.
+  evidence:
+  - source_id: sukhbaatar2016
+    locator: Section 4.3.2 and Figure 3, PDF pp. 6–7; Sections 4.4–5 and Table 4, p. 8
+    relation: supports
+evidence_sources:
+- source_id: sukhbaatar2016
+  title: Learning Multiagent Communication with Backpropagation
+  authors:
+  - Sainbayar Sukhbaatar
+  - Arthur Szlam
+  - Rob Fergus
+  persistent_id: https://papers.neurips.cc/paper_files/paper/2016/hash/55b1927fdafef39c48e5b73b5d61ea60-Abstract.html
+  version: NIPS2016 proceedings PDF, nine pages, all visually read including equations, figures, tables
+    and references. Authors and proceedings identity agree with the primary landing page. Locators are
+    PDF/printed pages1–9. Supplement, other manuscript versions and author code not inspected.
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/6398-learning-multiagent-communication-with-backpropagation.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T09:04:13Z'
+  sha256: db09430a0aeb9c17de8dbd3409ce30804de20b3f31a3e289c7da2eb1da8aa354
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Shared learned per-agent modules, continuous hidden communication and output decoders form
+    a particular artificial neural architecture. The target is broader; the basic architecture does not
+    require temporal recurrence, the named GCN operator, a probabilistic graphical-model task or learned
+    attention weights.
+limitations:
+- The named identity is Sukhbaatar, Szlam and Fergus’s Communication Neural Net (CommNet), not every communication
+  network or language-model agent system.
+- The broadcast equations assume at least two agents; the local formula requires a nonempty chosen neighborhood.
+  No author-code audit supplies omitted edge-case conventions.
+- Per-agent output distributions are permutation equivariant under consistent relabeling. The global question-answering
+  variant has a different final readout; the two are not interchangeable.
+- All nine main-paper pages were read. Supplementary material, author code and other versions were not
+  inspected. Tiny exact calculations check pooling identities only; no training, hardware experiment or
+  benchmark replication was performed. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T09:30:19Z'
+  updated_at: '2026-10-13T09:30:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
