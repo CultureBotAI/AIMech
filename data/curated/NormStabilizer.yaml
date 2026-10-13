@@ -1,0 +1,149 @@
+id: AIMech:NormStabilizer
+name: Norm-stabilizer
+aliases:
+- Norm stabilization regularization
+- Norm-stabilizer regularization
+concept_kind: algorithm
+definition: A recurrent-network regularization procedure that adds a penalty on the average squared change
+  in Euclidean norm between successive selected activation or state vectors during training.
+identity_notes: Compared all 442 pinned AIO and 570 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 131, 91, 90 lines. The repeated historical main-frontier
+  candidate Norm-stabilizer regularization and source references were identified as an existing uncurated
+  lead, not an existing maintained record. Matching contents were deduplicated for inspection; current
+  added query/lead occurrences were read separately. Semantic search covered 21 AIO rows and 111 native
+  definitions, verifying the preceding 21 AIO and108 native rows unchanged and reading the new regularizer
+  and two orthogonal-regression definitions. Orthogonal least-squares feature selection and matching pursuit
+  concern selected predictor spans, not recurrent-state norms. Five full annotated AIO node/edge/generated
+  contexts were read or hash-verified from prior inspection; the complete native Zoneout, vanishing-gradient
+  regularizer and gradient norm clipping records provide adjacent identities. This activation-norm penalty
+  differs from stochastic state retention, backward-error directional norm gain, gradient clipping, direct
+  normalization, and temporal coherence based on full state-vector differences. RNN/TrainingStrategy are
+  contextual related matches; layer classes are not asserted as algorithm superclasses.
+definition_evidence:
+- source_id: krueger2016
+  locator: Introduction, displayed unnumbered penalty and following definition, printed/PDF p. 1; state
+    choices in Section 2.1, p. 2
+  relation: supports
+claims:
+- claim_id: successive-norm-cost
+  kind: mechanism
+  statement: For a selected sequence of vectors h_0,...,h_T, the paper adds beta/T times the sum from
+    t=1 to T of (norm2(h_t)-norm2(h_(t-1)))^2 to the training cost. Beta is the regularization-strength
+    hyperparameter; for beta>=0 the penalty is nonnegative. It penalizes changes of norms, rather than
+    the norm of each state difference, and does not directly divide states by their norms, project them
+    onto a sphere or clip them to a hard maximum. Initial-state inclusion, sequence length and reduction
+    conventions must be specified.
+  evidence:
+  - source_id: krueger2016
+    locator: Introduction, displayed penalty and comparison with temporal coherence, printed/PDF p. 1
+    relation: supports
+- claim_id: direction-and-radius-boundaries
+  kind: limitation
+  statement: Equal norms over all included pairs give zero penalty even if the state direction changes.
+    A constant large norm also has zero cost when the included initial state has that same norm; with
+    a zero initial state, the first nonzero transition contributes a penalty. The objective does not select
+    one universal target radius. A finite small mean squared norm increment can permit cumulative drift
+    across a long sequence, so it is not a hard bound on every state magnitude.
+  evidence:
+  - source_id: krueger2016
+    locator: Introduction penalty, p. 1; alternative penalties in Section 2.1.1, p. 3; curator algebraic
+      consequences
+    relation: supports
+- claim_id: scaling-and-derivative-boundaries
+  kind: mechanism
+  statement: Rescaling every included state by a common scalar c multiplies this penalty by c^2. The paper
+    contrasts a relative-error alternative that cannot be reduced merely by shrinking all states. For
+    a nonzero interior state h_t, its direct local penalty derivative is 2*beta/T*(2*r_t-r_(t-1)-r_(t+1))*h_t/r_t,
+    where r_s=norm2(h_s); training through a recurrent computation also includes its other dependencies.
+    Norm factors at zero can require an implementation derivative convention, which this source-only record
+    does not infer.
+  evidence:
+  - source_id: krueger2016
+    locator: Introduction penalty, p. 1; Section 2.1.1 scale discussion, p. 3; curator differentiation
+    relation: supports
+- claim_id: boundary-from-gradient-and-orthogonal-methods
+  kind: scope
+  statement: The penalty follows forward activation norms, including the effects of inputs and nonlinearities,
+    rather than explicitly preserving norm in the current backward cost-gradient direction as in vanishing-gradient
+    regularization. It is distinct from gradient norm clipping and from hard orthogonality of recurrent
+    weights. Norm preservation for every vector by a linear input-free map implies orthogonality, but
+    preservation along a selected observed trajectory alone does not; no such all-vector condition is
+    enforced by this empirical soft penalty.
+  evidence:
+  - source_id: krueger2016
+    locator: Introduction and related-method comparison, pp. 1–2; Section 2.4 and Figure 6, pp. 5–7; algebraic
+      qualification
+    relation: supports
+- claim_id: state-selection-and-architecture
+  kind: scope
+  statement: For LSTMs the authors examine applying the penalty to either memory-cell vectors or hidden-state
+    vectors. Their PennTreebank hidden-state experiments remove the output tanh, whereas their TIMIT experiments
+    retain the standard output tanh. The regularizer therefore does not denote one fixed recurrent architecture
+    or make hidden-state and memory-cell configurations interchangeable. The selected state, activation
+    convention and other training settings are part of the method configuration.
+  evidence:
+  - source_id: krueger2016
+    locator: Section 2.1 and Table 1, p. 2; Section 2.2, p. 4
+    relation: supports
+- claim_id: stability-and-evaluation-limits
+  kind: limitation
+  statement: The paper reports conditional language-modeling, phoneme-recognition and synthetic adding-task
+    experiments. Its later visualization discussion explicitly says that the penalty delayed but did not
+    completely eradicate activation explosions in a Wikipedia-sequence experiment, qualifying stronger
+    prevention wording elsewhere. Tanh-RNN results did not show a universal gain, and some weight-noise
+    plus norm-stabilizer settings failed to train and were omitted from a comparison. These observations
+    do not prove stability, convergence or generalization beyond every training horizon. No numerical
+    benchmark, current best performance or independent replication is asserted.
+  evidence:
+  - source_id: krueger2016
+    locator: Sections 2.1–2.4, pp. 2–6; Figure 5, p. 6; conclusion, p. 7
+    relation: supports
+evidence_sources:
+- source_id: krueger2016
+  title: Regularizing RNNs by Stabilizing Activations
+  authors:
+  - David Krueger
+  - Roland Memisevic
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.08400v7
+  persistent_id: arXiv:1511.08400v7
+  version: April26,2016 v7; published-as-ICLR2016 header. All nine printed/PDF pages, including complete
+    method, six figures, five tables and references, visually inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T04:03:33Z'
+  sha256: 17516c840f5bf1442acbfdd0910a9873da947a9b0529204e7ae6477d5b13e041
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: related_match
+  rationale: The penalty regularizes sequences of recurrent states. The target denotes the architecture
+    context rather than this training procedure.
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: The procedure adds a cost during model training. The pinned target has a preprocessing genus,
+    so the mapping expresses related training context rather than equivalence or subclass membership.
+limitations:
+- The penalty is on successive norm differences, not full state differences or a hard state-norm constraint.
+  The selected initial state and sequence reduction affect its value.
+- The squared absolute penalty is sensitive to activation scaling. Its zero set does not by itself determine
+  a fixed radius or constrain all Jacobian directions.
+- The stated direct derivative assumes a nonzero interior state; zero-norm and automatic-differentiation
+  conventions require a specified implementation.
+- Hidden-state versus memory-cell choices and output-tanh conventions differ across the inspected experiments;
+  no single architecture or training recipe is implied.
+- The complete nine-page v7 paper was visually read. No author code, framework dependencies, training
+  or numerical benchmark reproduction was performed.
+- Reported improvements and long-horizon behavior are conditional. The source also documents delayed rather
+  than eliminated explosions and unfavorable regularizer combinations; no universal guarantee or independent
+  approval is claimed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T04:26:45Z'
+  updated_at: '2026-10-13T04:26:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
