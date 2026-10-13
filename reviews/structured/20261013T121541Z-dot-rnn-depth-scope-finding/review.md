@@ -1,0 +1,264 @@
+# DOT-RNN combinable depth scope finding
+
+- Review: 20261013T121541Z-dot-rnn-depth-scope-finding
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T12:10:26Z
+- Finished UTC: 2026-10-13T12:15:41Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+One minor scope wording finding; the DOT architecture identity and two-map mechanism remain supported.
+
+## Scope And Provenance
+
+Combinable depth wording in the DOT-RNN draft.
+
+Selection: Exact maintained ID AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+Coverage: partial; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7790076626bda6cfbbe062064085c36db2632290.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DeepOutputTransitionRecurrentNeuralNetwork | data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml | maintained | Deep Output-Transition Recurrent Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Corrected-input publication gates | skipped | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | Corrected inputs do not yet exist; pre-correction checks do not validate them. |
+
+## Scientific And Domain Assessments
+
+### Transition and output depth combination
+
+scope: concern. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Replace the unqualified exclusion with the supported composable design choices.
+
+The shortcut-and-state-scope claim says DT-RNN deepens the transition only and DO-RNN deepens the output only. Without restricting this to the separately compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2 define combinable depth choices and explicitly name their combination DOT-RNN. Clarify that DT and DO refer to the transition and output choices and that DOT combines them. The DOT definition and mechanism remain supported.
+
+## Findings
+
+### F1: Clarify combinable transition and output depth
+
+minor / open / confirmed; issue key: dot-rnn-combinable-depth-scope.
+
+The shortcut-and-state-scope claim says DT-RNN deepens the transition only and DO-RNN deepens the output only. Without restricting this to the separately compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2 define combinable depth choices and explicitly name their combination DOT-RNN. Clarify that DT and DO refer to the transition and output choices and that DOT combines them. The DOT definition and mechanism remain supported.
+
+## Recommended Actions And Acceptance Checks
+
+### A1
+
+Clarify the claim, synchronize the discovery report, append history, recapture and reassess.
+
+- DT and DO are described as respective transition and output depth choices.
+- The claim explicitly identifies DOT as their combination.
+- Corrected-input gates and a successor review pass.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| record | data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml | supports | Complete maintained record read after capture, including the two unqualified only statements. |
+| paper | https://arxiv.org/pdf/1312.6026v5; Sections 3.2.3 and 3.3.1–3.3.2, PDF pp. 4–5, Figure 2(c) and unnumbered MLP formulas. | supports | Pages 4–5 visually reread after capture. Transition and output depth are defined by their respective maps; DOT combines both. The complete 13-page paper was read before curation. |
+
+## Limits And Additional Notes
+
+- Partial author self-review; DRAFT remains.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T121541Z-dot-rnn-depth-scope-finding
+kind: record
+repository: CultureBotAI/AIMech
+title: DOT-RNN combinable depth scope finding
+started_at: '2026-10-13T12:10:26Z'
+finished_at: '2026-10-13T12:15:41Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author compared maintained fields with the primary paper; not
+    independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One minor scope wording finding; the DOT architecture identity and two-map
+  mechanism remain supported.
+source:
+  git_revision: 7790076626bda6cfbbe062064085c36db2632290
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    sha256: 6bd2e3814a8dc4f8ed29d0022764f84c1985d2c9e24e80f88999912c1803849a
+    role: target
+  - path: data/curated/DepthGatedLSTM.yaml
+    sha256: 6491c6cd0be472f8ddc4f65ba6e3c699f63b04a7a199a93a3ab2c343fca929f9
+    role: context
+  - path: data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml
+    sha256: 7b26adbe3234f94c69012c3be72a9d3ca0e63ee1652caf7f2030e47566fc943b
+    role: context
+  - path: research/discovery/20261013T120935Z-deep-output-transition-recurrent-neural-network.json
+    sha256: befbd2271ad2202523be6e6e927e783d211b8b1063b467b5511feb12cbdb41d2
+    role: context
+  - path: research/discovery/deep-output-transition-rnn-boundaries.py
+    sha256: 53dc24209561d1eb7d0edff09a4d00cdf0d35941ea56a68f864dccb071f48b49
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+  label: Deep Output-Transition Recurrent Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: Combinable depth wording in the DOT-RNN draft.
+  selection: Exact maintained ID AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exclusions:
+  - target: Corrected-input complete scientific review
+    reason: Pending correction and final gates.
+checks:
+- check_id: corrected-publication
+  name: Corrected-input publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  summary: Corrected inputs do not yet exist; pre-correction checks do not validate
+    them.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+  accessed_at: '2026-10-13T12:15:41Z'
+  snapshot_sha256: 6bd2e3814a8dc4f8ed29d0022764f84c1985d2c9e24e80f88999912c1803849a
+  support: supports
+  summary: Complete maintained record read after capture, including the two unqualified
+    only statements.
+- evidence_id: paper
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1312.6026v5
+  accessed_at: '2026-10-13T11:58:05Z'
+  snapshot_sha256: 2d517627b4b6284f46939a99463c501d23c108513c8b39ca64cfe13408236cc4
+  support: supports
+  locator: Sections 3.2.3 and 3.3.1–3.3.2, PDF pp. 4–5, Figure 2(c) and unnumbered
+    MLP formulas.
+  summary: Pages 4–5 visually reread after capture. Transition and output depth are
+    defined by their respective maps; DOT combines both. The complete 13-page paper
+    was read before curation.
+assessments:
+- assessment_id: depth-scope
+  area: scope
+  topic: Transition and output depth combination
+  outcome: concern
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - record
+  - paper
+  summary: Replace the unqualified exclusion with the supported composable design
+    choices.
+  details: 'The shortcut-and-state-scope claim says DT-RNN deepens the transition
+    only and DO-RNN deepens the output only. Without restricting this to the separately
+    compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2
+    define combinable depth choices and explicitly name their combination DOT-RNN.
+    Clarify that DT and DO refer to the transition and output choices and that DOT
+    combines them. The DOT definition and mechanism remain supported.'
+findings:
+- finding_id: F1
+  issue_key: dot-rnn-combinable-depth-scope
+  category: scope
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Clarify combinable transition and output depth
+  description: 'The shortcut-and-state-scope claim says DT-RNN deepens the transition
+    only and DO-RNN deepens the output only. Without restricting this to the separately
+    compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2
+    define combinable depth choices and explicitly name their combination DOT-RNN.
+    Clarify that DT and DO refer to the transition and output choices and that DOT
+    combines them. The DOT definition and mechanism remain supported.'
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  field_paths:
+  - claims[claim_id=shortcut-and-state-scope].statement
+  evidence_ids:
+  - record
+  - paper
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Clarify the claim, synchronize the discovery report, append history,
+    recapture and reassess.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+  acceptance_checks:
+  - DT and DO are described as respective transition and output depth choices.
+  - The claim explicitly identifies DOT as their combination.
+  - Corrected-input gates and a successor review pass.
+limitations:
+- Partial author self-review; DRAFT remains.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- scope-boundaries
+```
