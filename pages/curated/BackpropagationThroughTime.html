@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backpropagation through time · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Backpropagation through time</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Backpropagation through time</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BackpropagationThroughTime</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BPTT
+    </div>
+
+  <div class="detail-desc">
+    A reverse differentiation algorithm that computes derivatives of a finite dynamic-system objective by propagating adjoints backward through its time-unfolded computation and accumulating contributions for shared parameters.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 581 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 66, 27, 27 lines. All distinct match contents were inspected. Semantic matching covered 75 AIO and 166 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Matches are source mentions, existing architecture training descriptions, prior derivative reviews and the pending nested lead. BPTT differentiates a temporally unfolded computation in reverse order. RTRL propagates parameter sensitivities forward; the same fixed objective can have the same gradient without making the algorithms identical. SGD and Rprop consume gradient information to update parameters and do not define its temporal computation. Full finite-horizon BPTT is distinguished from detached-boundary approximations. TrainingStrategy supplies a contextual relationship because its preprocessing genus does not establish an algorithm superclass.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#temporal-reverse-differentiation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluate the dynamic system forward over the selected finite interval, then apply the chain rule in reverse computational order, including reverse time. A recurrent parameter reused at many steps receives the sum of contributions from those uses. Within-time computations must also respect their dependency order. Unfolding is a derivative representation of a shared-parameter dynamic system; it does not create independently trainable parameters for every time position.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Section II.D, ordered derivatives, Equations7–8, PDF pp.3–4; Sections III.B–D, Equations15–18 and pseudocode, pp.5–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adjoint-and-direct-terms</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the first-order specialization h_t=F_t(h_(t-1),theta) and L=sum_(t=1..T) ell_t(h_t,theta), use column-vector adjoints lambda_t=partial_h ell_t+(partial_h F_(t+1))^T*lambda_(t+1), with the future term omitted at T. The shared-parameter gradient is sum_t[partial_theta ell_t+(partial_theta F_t)^T*lambda_t], plus (partial_theta h_0)^T*lambda_0 when initialization depends on theta; lambda_0=(partial_h F_1)^T*lambda_1. Partial derivatives hold the displayed state arguments fixed. This is a chain-rule restatement of the source for a first-order recurrence, including direct loss and initialization terms, not a verbatim transcription of its lag-two example.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Sections II.C–E, Equations6–12, PDF pp.3–4; Section III.C, Equations16–18 and initial-state discussion, p.6; curator forward/reverse and finite-difference check</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#objective-and-boundary-conditions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The complete finite-trajectory derivative assumes the same parameter values define its forward trajectory and backward calculation. Fixed external inputs and targets are treated as constants; parameter-dependent supplied signals require their additional derivative paths. A zero future adjoint expresses that the chosen objective has no later terms, not that an ongoing physical process ends. A missing direct loss at one time does not remove gradients arriving through later states. Initial states may be specified or learned and must use the corresponding derivative boundary.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Section III.C–D, finite interval, zero future adjoints and initial states, PDF pp.6–7; selective output errors, p.7; chain-rule conditions, Section II.D, pp.3–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#storage-and-detached-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The displayed full reverse pass retains intermediate trajectory information and processes complete strings before their weight updates. In a constructed recurrence, carrying an intermediate state numerically while treating it as independent of parameters drops its earlier derivative contribution. Such a detached-boundary derivative need not equal the full-trajectory gradient, even when the forward states match. This boundary observation does not prescribe or validate a particular truncated-BPTT schedule. Storage and work depend on the computation and its implementation; no fixed hardware cost or universal memory lower bound is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Sections III.D and IV.C, PDF pp.7,9–10; full chain rule in Section II.D, pp.3–4; curator terminal-loss detached-boundary example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#gradient-versus-optimization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    BPTT supplies derivatives that an optimizer can use. The source illustrates gradient descent and discusses alternative optimization methods, but a particular learning rate, update rule, minimum or convergence rate is not part of the derivative algorithm identity. Exact differentiation of the stated smooth finite objective does not imply exact floating-point arithmetic, successful optimization or generalization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Section III.D, PDF p.7; Section IV.D–E, optimization and local-minimum discussion with Table1, p.10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#applications-and-implementation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The treatment discusses recurrent pattern recognition, dynamic-system identification and control objectives, including differentiation through model and action networks. These application descriptions do not establish a reproduced benchmark, universal control performance or correct identification under arbitrary noise. The author explicitly says the printed code was not tested and presents it to explain the equations; this record does not certify that pseudocode or a modern library implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-werbos1990">Backpropagation Through Time: What It Does and How to Do It</a></span>
+        <span>· <strong>Locator:</strong> Untested-code statement, PDF p.5 / printed1554; Sections IV.A–B, model/action/utility example and Figure6, pp.7–9; Sections IV.C–E and summary, pp.9–10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record covers full differentiation of a specified finite differentiable trajectory. Nonsmooth choices require a derivative convention, and stochastic expectation gradients require additional assumptions and estimators.</li>
+      <li>A detached intermediate boundary changes the derivative problem unless its omitted contribution is zero. Particular truncation, checkpointing, reversible or online implementations require separate evidence.</li>
+      <li>The initial-state and direct-parameter terms in the generalized formula are required by the chain rule. The source’s simple pseudocode uses fixed zero initial states and must not be generalized by silently dropping those terms.</li>
+      <li>All eleven scanned journal pages were read. Earlier historical-priority sources, executable author code, modern library code and empirical performance were not inspected or reproduced.</li>
+      <li>Constructed rational and finite-difference calculations check stated derivative boundaries only. No model training, paid service, hardware measurement or numerical benchmark was run.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            BPTT supplies gradients used in training dynamic models. The pinned target has a preprocessing genus rather than a derivative-algorithm definition; this is a contextual training relationship, not exact identity or an is-a assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-werbos1990">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">werbos1990</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://zenodo.org/records/1262035/files/article.pdf" target="_blank" rel="noopener">Backpropagation Through Time: What It Does and How to Do It</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul J. Werbos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/5.58337</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2ba859accf7b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T06:43:42Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T06:43:42Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BackpropagationThroughTime.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BackpropagationThroughTime.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
