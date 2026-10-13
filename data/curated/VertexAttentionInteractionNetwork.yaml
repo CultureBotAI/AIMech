@@ -1,0 +1,141 @@
+id: AIMech:VertexAttentionInteractionNetwork
+name: Vertex Attention Interaction Network
+aliases:
+- VAIN
+concept_kind: architecture
+definition: A neural architecture for multi-agent predictive modeling that encodes each agent separately,
+  aggregates communication vectors using learned attention-address distances, and combines the aggregate
+  with singleton features for per-agent prediction.
+identity_notes: Compared all 442 pinned AIO and 596 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 299, 177, 175 lines. All distinct match contents
+  were inspected. Semantic matching covered 23 AIO and 49 native definitions, with every matched definition
+  read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. VAIN
+  denotes Hoshen’s learned-address multi-agent architecture, with per-agent communication vectors and
+  separate singleton features. The source’s agents are modeled objects, not LLM agents. Its negative-distance
+  architectural convention, literal self-mask order and physical aggregation variant are explicit. Generic
+  graph attention, GAT/GATv2, Set Transformer and PointNet are distinct; AIO ArtificialNeuralNetwork provides
+  a justified broad mapping.
+definition_evidence:
+- source_id: hoshen2017
+  locator: Introduction, p. 2; Model Architecture, pp. 4–5, Figure 1 and Equations 6–11
+  relation: supports
+claims:
+- claim_id: per-agent-factorization
+  kind: mechanism
+  statement: For each modeled agent, a shared singleton encoder produces its own-feature representation,
+    and a shared communication encoder produces a communication vector and an attention address. Pool
+    other agents’ communication vectors using address-dependent weights, concatenate that pooled vector
+    with the singleton encoding, and apply a shared decoder. Regression returns per-agent outputs; a selection
+    task can apply softmax across per-agent scalar decoder outputs. The curated single-hop architecture
+    does not require a supplied interaction graph.
+  evidence:
+  - source_id: hoshen2017
+    locator: Sections 2–3, pp. 3–5, Figure 1 and Equations 6–11
+    relation: supports
+- claim_id: negative-distance-source-convention
+  kind: scope
+  statement: The architectural Figure 1 and Equation 8 use scores equal to negative squared Euclidean
+    distance between attention addresses. Nearer addresses therefore receive larger unnormalized weights.
+    The informal factorization Equations 3–5 instead print a positive exponent, which would reverse that
+    distance preference. This record selects the explicit architectural negative-distance convention and
+    preserves the conflicting notation rather than treating the two formulas as equivalent.
+  evidence:
+  - source_id: hoshen2017
+    locator: Section 3, Figure 1 and Equation 8, p. 4; Section 4.3, Equation 12, p. 7
+    relation: supports
+  - source_id: hoshen2017
+    locator: Section 2, p. 3, Equations 3–5 print positive squared-distance exponents, conflicting with
+      the selected negative-distance architectural equations
+    relation: contradicts
+- claim_id: self-mask-and-normalization
+  kind: limitation
+  statement: 'Read literally, Equation 8 first applies row-wise softmax across address scores and then
+    multiplies by a zero-diagonal mask, with no displayed renormalization. Under that convention, remaining
+    weights generally sum to less than one: with three identical addresses the row sum is two-thirds.
+    Excluding self before softmax would instead normalize over the other agents and gives a different
+    pooled vector. The paper does not fully resolve implementation order, and no author code was inspected;
+    the record does not assert that a trained implementation uses the literal convention.'
+  evidence:
+  - source_id: hoshen2017
+    locator: Figure 1 caption and Equation 8, p. 4; direct normalization comparison
+    relation: supports
+- claim_id: physical-aggregation-variant
+  kind: mechanism
+  statement: For the bouncing-balls experiment, Equation 12 replaces normalized attention by exp(-squared
+    address distance) minus the diagonal indicator. This gives zero self-weight and unnormalized additive
+    communication. The raw off-diagonal kernel is symmetric, whereas row-normalized weights need not be
+    symmetric. The physical variant is explicitly distinct from the normalized social/chess formulation,
+    not an interchangeable rewrite.
+  evidence:
+  - source_id: hoshen2017
+    locator: Section 4.3, p. 7, Equation 12; direct kernel comparison
+    relation: supports
+- claim_id: computation-boundary
+  kind: limitation
+  statement: Encoding each agent once uses a linear number of full neural encoder evaluations for fixed
+    architecture, avoiding a separate neural encoder call for every interaction pair. Exact dense address
+    scoring and communication aggregation still use quadratic pairwise work for fixed feature widths;
+    materializing all weights requires quadratic storage. Section 3 acknowledges this cost and suggests
+    nearest-neighbor restriction when appropriate. Finite softmax is not exactly sparse, so that suggestion
+    does not establish exact linear total complexity for arbitrary inputs.
+  evidence:
+  - source_id: hoshen2017
+    locator: Section 2, p. 3; Section 3, pp. 4–5; conclusion, p. 9; direct operation counts
+    relation: supports
+- claim_id: evaluation-and-representation-limits
+  kind: scope
+  statement: The source studies next-moving-piece identity in chess, soccer-player future positions from
+    sensor features, and next-step displacement/velocity for 50 simulated bouncing balls. Chess prediction
+    is not optimal-move selection; the soccer table contains ties and small aggregate differences. The
+    physical experiment uses the unnormalized variant and compares adjusted network widths at selected
+    computation budgets. Section 4.4 identifies limitations for interactions that are neither sparse nor
+    well approximated by a mean field. Selected attention visualizations and these benchmarks do not establish
+    causal explanations, universal superiority or exact recovery of arbitrary interaction laws.
+  evidence:
+  - source_id: hoshen2017
+    locator: Sections 4.1–4.4, pp. 5–8, Tables 1–3 and Figures 2–3; implementation and Figure 4, p. 9
+    relation: supports
+evidence_sources:
+- source_id: hoshen2017
+  title: 'VAIN: Attentional Multi-agent Predictive Modeling'
+  authors:
+  - Yedid Hoshen
+  persistent_id: https://papers.nips.cc/paper_files/paper/2017/hash/748ba69d3e8d1af87f84fee909eef339-Abstract.html
+  version: NIPS 2017 proceedings PDF, 11 pages, all visually read including equations, figures, tables
+    and references. Locators are PDF/printed pages 1–11. The selected architectural negative-distance
+    convention differs from the positive exponent printed in informal Equations 3–5. Author code and other
+    manuscript versions not inspected.
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper/6863-vain-attentional-multi-agent-predictive-modeling.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T08:49:50Z'
+  sha256: 0eed9ed9c19f9e0002b01fdf2a97e5f2612237f9a5d6844fa3df751f25da500e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Shared learned encoders, attention-weighted communication and a learned decoder make VAIN
+    a particular artificial neural architecture; the generic AIO target is broader. No equivalence to
+    a named GCN, Transformer or individual attention layer is asserted.
+limitations:
+- Agents here are modeled objects or players with supplied features; the paper does not describe autonomous
+  language-model agents. Neural-network widths, address dimension and training details are experimental
+  configurations.
+- The selected formal architecture uses negative distances and singleton-encoding concatenation. Informal
+  positive-exponent formulas and prose referring to original features are inconsistent with those formal
+  choices; no implementation audit resolves the differences.
+- The normalized masking order is reported as a literal equation interpretation, with the alternative
+  distinguished explicitly. The unnormalized physical variant is separately scoped.
+- No author code, training, benchmark or hardware timing was executed. The constructed calculations inspect
+  formula boundaries on tiny chosen inputs, and the record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T09:03:27Z'
+  updated_at: '2026-10-13T09:03:27Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
