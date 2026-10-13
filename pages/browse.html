@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1008</strong> artificial intelligence concepts, comprising <strong>566</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1009</strong> artificial intelligence concepts, comprising <strong>567</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1008)</option>
-        <option value="curated">Curated AIMech (566)</option>
+        <option value="all">All Origins (1009)</option>
+        <option value="curated">Curated AIMech (567)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (381)</option>
+          <option value="algorithm">Algorithms (382)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
           <option value="mathematical_method">Mathematical Methods (36)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1008</span> of <span id="totalCount">1008</span>
+      Showing <span id="matchCount">1009</span> of <span id="totalCount">1009</span>
     </div>
   </div>
 </div>
@@ -16321,6 +16321,30 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="novograd novograd aimech:novograd algorithms algorithm a stochastic gradient optimizer that rescales each parameter block gradient by a scalar running second moment of that block gradient norm before accumulating momentum, with an optional weight-decay contribution added after gradient normalization. compared all 442 pinned aio and 566 native ids, names, aliases and scoped synonyms; no normalized identity match. ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original documents checkouts returned 21, 0, 0 lines. all matching lines were read and identify the pending novograd lead or comparisons in the lamb record, report, review and rendered pages, not a separate existing record. an expanded semantic search covered ten aio rows and 90 native definitions: the preceding ten aio and 88 native rows were verified unchanged, and the two additional amsgrad and lamb definitions were read. three complete aio node/edge/generated contexts were verified unchanged; eight full native context records were read or verified against prior full readings. novograd uses scalar block second moments to normalize each fresh gradient before momentum; adam/rmsprop use coordinate scales, lamb normalizes a moment-scaled combined update, and lars/clars use different gradient norm rules. a running-maximum novograd variant is not identical to coordinate-wise amsgrad. shared layer-wise adaptive moments wording in the earlier paper title is not a lamb alias. in the published sgd-style convention, each layer or chosen parameter block has a scalar v_t=beta2*v_(t-1)+(1-beta2)*norm(g_t)^2 for the raw minibatch gradient, where norm is l2. after initialization, q_t=g_t/(sqrt(v_t)+epsilon) and m_t=beta1*m_(t-1)+q_t+d*w_t, followed by w_(t+1)=w_t-alpha_t*m_t. here epsilon&gt;0, alpha_t is the global rate, d is weight decay and 0&lt;=beta1,beta2&lt;1. normalization occurs before momentum accumulation; normalizing an already accumulated raw-gradient momentum generally differs. this uses one second-moment scalar per block, not an adam coordinate-wise second moment or a lamb parameter-norm trust ratio. in the stated basic recurrence, d*w is excluded from the raw-gradient second-moment estimate and its normalization, then included in momentum. calling this decay decoupled does not mean that it is algebraically identical to independent parameter shrinkage outside momentum. the paper also permits that alternative and an adam-style variant multiplying the normalized-gradient-plus-decay contribution by (1-beta1). those choices require matching initialization and rate conventions; they are not interchangeable under an arbitrary common schedule. the paper initializes the scalar second moment from the first squared gradient norm and gives a corresponding normalized first-gradient momentum, rather than ordinary zero-start ema bias correction. its initialization formulas omit epsilon, so an all-zero first gradient is undefined as printed. algorithm 1 also leaves weight/time indexing details implicit, and equation 5 prints a minus-weight term that conflicts with equation 6 and the algorithm. this record follows the explicit plus-d*w rule of equation 6 and requires a specified initialization and zero-gradient policy instead of treating every printed formula as consistent. for a subsequent step with nonnegative previous scalar state, 0&lt;=beta2&lt;1 and epsilon&gt;=0 on a defined denominator, the fresh normalized-gradient norm is at most 1/sqrt(1-beta2). this bound does not constrain accumulated momentum or the complete decay-containing update to that same norm, and is not a parameter-relative trust bound or a convergence theorem. with beta2=0, unit gradient normalization requires the ideal epsilon=0 nonzero-gradient case; arbitrary momentum and decay still remain. positive rescaling of an entire prescribed gradient history cancels in the ideal zero-epsilon normalization with consistently scaled second-moment initialization, but positive epsilon and other implementation choices can change that invariance. the inspected tensorflow addons dense path initializes v from the squared gradient norm at global optimizer iteration zero, uses sqrt(v)+epsilon even then, adds decay after normalization, and optionally averages the contribution after the first iteration. it calls resourceapplykerasmomentum with nesterov disabled. the inspected tensorflow api defines its velocity recurrence as a_t=beta1*a_(t-1)-alpha_t*q_t followed by w+=a_t, with q_t here denoting the complete supplied contribution. this rate-inside-velocity convention can differ from the paper current-rate-outside-momentum convention when the schedule changes. parameter tensors define the implementation blocks; sparse behavior, exclusions, helper dependencies and runtime require separate assessment. for n scalar parameters partitioned into l blocks, the basic mathematical state uses n first-moment entries and l scalar second moments, compared with adam two n-sized moment arrays. at equal precision this is (n+l)/(2n) of that moment storage, approximately half only when l is much smaller than n. it is not a claim about total training memory or every library variant. the paper proposes a running-maximum second-moment variant; a nonincreasing effective rate additionally requires a suitable global rate schedule, and this is not an unconditional convergence guarantee. the basic method is discussed as admitting stochastic convex counterexamples. the paper evaluates selected image classification, speech recognition, machine translation and language-modeling configurations. schedules, decay, dropout, hardware and accumulation settings vary, and some configurations explicitly use warm-up. these experiments do not establish a universal no-warm-up rule, memory reduction for a whole training system, or performance advantage across tasks. this record imports no numerical benchmark and makes no training reproduction claim. training deep networks with stochastic gradient normalized by layerwise adaptive second moments tensorflow addons novograd optimizer implementation tensorflow resourceapplykerasmomentum api reference boris ginsburg patrice castonguay oleksii hrinchuk oleksii kuchaiev ryan leary vitaly lavrukhin jason li huyen nguyen yang zhang jonathan m. cohen the tensorflow authors the tensorflow authors">
+        <td>
+          <a href="curated/NovoGrad.html" style="font-weight: 600; font-size: 1rem;">NovoGrad</a>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A stochastic gradient optimizer that rescales each parameter block gradient by a scalar running second moment of that block gradient norm be…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:NovoGrad</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="7 claims curated">7 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
