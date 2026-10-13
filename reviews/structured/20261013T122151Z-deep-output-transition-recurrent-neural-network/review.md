@@ -1,0 +1,600 @@
+# Scientific author self-review of Deep Output-Transition Recurrent Neural Network
+
+- Review: 20261013T122151Z-deep-output-transition-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T12:16:32Z
+- Finished UTC: 2026-10-13T12:21:51Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain DOT-RNN as a DRAFT two-map recurrent architecture. The minor combinable-depth wording finding is corrected and explicitly resolved. All six claims, identity and AIO mapping assessments are supported within the inspected source and constructed mathematical limits; no independent review or empirical replication.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7790076626bda6cfbbe062064085c36db2632290.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DeepOutputTransitionRecurrentNeuralNetwork | data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml | maintained | Deep Output-Transition Recurrent Neural Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 149.21s (0:02:29)<br>Checked 442 record(s); 0 failed.<br>Checked 615 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 285 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 281,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:DeepOutputTransitionRecurrentNeuralNetwork | {"character_dot_minus_cited_lstm": 0.1459999999999999, "intermediate": 0.43819931483276775, "music_dot_minus_shallow": [-0.010000000000000231, 0.0990000000000002, -0.017000000000000348], "output": 0.3193522541269063, "plus_forward": 0.7615941559557649, "plus_swapped": 0.8853516482022625, "shortcut_derivative_at_zero": 8.343274530454858e-14, "state": 0.4821941185241143, "word_perplexity_rnn_minus_dot": 10.200000000000003} |
+
+## Scientific And Domain Assessments
+
+### Deep Output-Transition Recurrent Neural Network
+
+identity: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain DOT-RNN as the conjunction of deep transition and deep output maps. Those properties can combine with each other and stacking; they are not disjoint exclusive families. DOT(S) adds transition shortcuts. DGLSTM current-cell carry and GF-RNN delayed gated feedback are different mechanisms. DT-only and DO-only denote configurations, not a restriction on the respective general design choices.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+The declared AIO mapping is supported.
+
+RNN is broader than this specific recurrent architecture. DeepFeedForwardNetwork, whose pinned synonyms include MLP, is related as the family of internal maps rather than a whole-network is-a. ANN is redundant, LSTM gating is not defining, and StackedRNNCellsLayer has separately recurrent states at a different abstraction. Five full annotated AIO node/edge/generated contexts were read.
+
+### two-deep-maps
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3.3.1 defines f_h as an MLP of x_t and h_(t-1); Section3.3.2 defines f_o as an MLP of h_t. Figure2(c) has one intermediate layer in each map. This within-step depth differs from temporal unfolding.
+
+### shortcut-and-state-scope
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+The corrected wording now treats DT and DO as respective transition and output depth choices, explicitly combined as DOT. Sections3.2.3/3.3 distinguish intermediate feedforward computations, transition shortcuts and separately recurrent stacked states. The chosen scalar shortcut example has a zero full derivative despite its direct path; this bounds a guarantee, not a training observation.
+
+### learned-neural-operator-boundary
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section4 introduces learned plus and predict and proposes, rather than evaluates, commuting regularization. The chosen tanh(2x+h) map is nonlinear and noncommutative, establishing that the notation alone supplies no arithmetic law.
+
+### training-and-capacity
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections5.1–5.2 specify finite validation choices, unequal parameter counts, gradient clipping and task-dependent initialization/regularization. The pretraining paragraph uses tenfold smaller rates for transferred parameters. Table1 widths identify state and intermediate dimensions rather than three recurrent layers.
+
+### music-comparison-boundary
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Table2 supports the retained counterexample: DOT8.437 exceeds shallow8.338 on JSB. The starred setting simultaneously changes transition/output units, regularization and pretraining, as stated on pages8–9. No output-depth-only causal claim follows.
+
+### language-model-comparison-boundary
+
+evidence: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Table3 has DOT1.386bpc and107.5ppl below the three directly compared models, but cited LSTM1.24bpc is lower. Section5.3.2 and footnotes distinguish dynamic evaluation. Historical reported values and finite comparisons are not a current ranking or replication.
+
+### combinable map-depth choices, intermediate versus recurrent states, shortcut and learned-operator limits, and finite unequal-protocol comparisons
+
+consistency: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Chosen one-state nonlinear maps distinguish transition intermediates from recurrent state and output. A learned plus operator need not commute and a shortcut derivative can cancel. Source-table differences are arithmetic, not training or significance tests.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:DeepOutputTransitionRecurrentNeuralNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Complete corrected maintained YAML and selected mapping YAMLs read after capture. Rechecked Figure2, Sections3.2.3/3.3.1–3.3.2, unnumbered formulas, Tables2–3 and adjacent training, starred-setting and dynamic-evaluation passages. Constructed checks and synchronized report mirror inspected; exact hashes agree. The pre-correction wording finding is retained in its immutable initial review and explicitly resolved by this successor.
+
+## Findings
+
+### F1: Clarify combinable transition and output depth
+
+minor / resolved / confirmed; issue key: dot-rnn-combinable-depth-scope.
+
+The shortcut-and-state-scope claim says DT-RNN deepens the transition only and DO-RNN deepens the output only. Without restricting this to the separately compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2 define combinable depth choices and explicitly name their combination DOT-RNN. Clarify that DT and DO refer to the transition and output choices and that DOT combines them. The DOT definition and mechanism remain supported.
+
+Disposition: The corrected wording now treats DT and DO as respective transition and output depth choices, explicitly combined as DOT. Sections3.2.3/3.3 distinguish intermediate feedforward computations, transition shortcuts and separately recurrent stacked states. The chosen scalar shortcut example has a zero full derivative despite its direct path; this bounds a guarantee, not a training observation. Report mirror synchronized and append-only EDIT history saved; corrected-input gates pass.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T120935Z-deep-output-transition-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 613 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 22 AIO and 26 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. DOT-RNN combines an MLP transition with an MLP output map. DT-only, DO-only, separately stacked recurrent states and the DOT(S) shortcut variant are explicitly distinguished. Direct LSTM cell carries and delayed gated feedback do not define this architecture. |
+| mapping | sources/aio/aio.json | supports | RNN is broader than this specific recurrent architecture. DeepFeedForwardNetwork, whose pinned synonyms include MLP, is related as the family of internal maps rather than a whole-network is-a. ANN is redundant, LSTM gating is not defining, and StackedRNNCellsLayer has separately recurrent states at a different abstraction. Five full annotated AIO node/edge/generated contexts were read. |
+| pascanu2014 | https://arxiv.org/pdf/1312.6026v5; All 13 pages of arXiv:1312.6026v5 inspected; no other version, author code, model fitting or empirical replication. | supports | arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed page numbers coincide; nested transition/output formulas on page 5 are unnumbered. Author implementation and other versions not inspected. |
+| calculation | research/discovery/deep-output-transition-rnn-boundaries.py | supports | Chosen one-state nonlinear maps distinguish transition intermediates from recurrent state and output. A learned plus operator need not commute and a shortcut derivative can cancel. Source-table differences are arithmetic, not training or significance tests. |
+| corrected-record | data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml | supports | Complete corrected record read after capture; transition and output design choices explicitly combine as DOT. |
+| predecessor | reviews/structured/20261013T121541Z-dot-rnn-depth-scope-finding/review.yaml | supports | Immutable partial author self-review retains the original minor wording finding. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 614 native and 442 unchanged generated records. The 798-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All 13 PDF pages visually read, including figures, formulas, tables, references and any appendices. No author code, training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T122151Z-deep-output-transition-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Deep Output-Transition Recurrent Neural Network
+started_at: '2026-10-13T12:16:32Z'
+finished_at: '2026-10-13T12:21:51Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged combinable map-depth choices, intermediate
+    versus recurrent states, shortcut and learned-operator limits, and finite unequal-protocol
+    comparisons. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain DOT-RNN as a DRAFT two-map recurrent architecture. The minor combinable-depth
+  wording finding is corrected and explicitly resolved. All six claims, identity and
+  AIO mapping assessments are supported within the inspected source and constructed
+  mathematical limits; no independent review or empirical replication.
+source:
+  git_revision: 7790076626bda6cfbbe062064085c36db2632290
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/StackedRNNCellsLayer.yaml
+    sha256: e2fdefc9152c3607a8bfc70334431ce65a3d82ad75760fd0f747c42b5c47eee9
+    role: context
+  - path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    sha256: e5db3b375b27e78f1a02df4034024b07f1584d21bb945eb0c0e15c4ea9051d4e
+    role: target
+  - path: data/curated/DepthGatedLSTM.yaml
+    sha256: 6491c6cd0be472f8ddc4f65ba6e3c699f63b04a7a199a93a3ab2c343fca929f9
+    role: context
+  - path: data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml
+    sha256: 7b26adbe3234f94c69012c3be72a9d3ca0e63ee1652caf7f2030e47566fc943b
+    role: context
+  - path: research/discovery/20261013T120935Z-deep-output-transition-recurrent-neural-network.json
+    sha256: 5121cdf27792c293fc48e1e3d9fc32ae6fb7100441be7c735a4aceb5db76579e
+    role: context
+  - path: research/discovery/deep-output-transition-rnn-boundaries.py
+    sha256: 53dc24209561d1eb7d0edff09a4d00cdf0d35941ea56a68f864dccb071f48b49
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+  label: Deep Output-Transition Recurrent Neural Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:DeepOutputTransitionRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All 13 pages of arXiv:1312.6026v5 inspected; no other version, author
+      code, model fitting or empirical replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 149.21s (0:02:29)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 615 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 285 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 281,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/deep-output-transition-rnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"character_dot_minus_cited_lstm": 0.1459999999999999, "intermediate":
+    0.43819931483276775, "music_dot_minus_shallow": [-0.010000000000000231, 0.0990000000000002,
+    -0.017000000000000348], "output": 0.3193522541269063, "plus_forward": 0.7615941559557649,
+    "plus_swapped": 0.8853516482022625, "shortcut_derivative_at_zero": 8.343274530454858e-14,
+    "state": 0.4821941185241143, "word_perplexity_rnn_minus_dot": 10.200000000000003}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T120935Z-deep-output-transition-recurrent-neural-network.json
+  accessed_at: '2026-10-13T12:16:32Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 613 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    7, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    22 AIO and 26 native definitions, with every matched definition read. 5 full annotated
+    AIO node/edge/generated contexts and 2 full native records were inspected. DOT-RNN
+    combines an MLP transition with an MLP output map. DT-only, DO-only, separately
+    stacked recurrent states and the DOT(S) shortcut variant are explicitly distinguished.
+    Direct LSTM cell carries and delayed gated feedback do not define this architecture.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T12:16:32Z'
+  support: supports
+  summary: RNN is broader than this specific recurrent architecture. DeepFeedForwardNetwork,
+    whose pinned synonyms include MLP, is related as the family of internal maps rather
+    than a whole-network is-a. ANN is redundant, LSTM gating is not defining, and
+    StackedRNNCellsLayer has separately recurrent states at a different abstraction.
+    Five full annotated AIO node/edge/generated contexts were read.
+- evidence_id: pascanu2014
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1312.6026v5
+  locator: All 13 pages of arXiv:1312.6026v5 inspected; no other version, author code,
+    model fitting or empirical replication.
+  accessed_at: '2026-10-13T11:58:05Z'
+  snapshot_sha256: 2d517627b4b6284f46939a99463c501d23c108513c8b39ca64cfe13408236cc4
+  support: supports
+  summary: arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports
+    ICLR 2014 conference-track acceptance. All pages visually read. PDF and printed
+    page numbers coincide; nested transition/output formulas on page 5 are unnumbered.
+    Author implementation and other versions not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/deep-output-transition-rnn-boundaries.py
+  accessed_at: '2026-10-13T12:21:22Z'
+  snapshot_sha256: 53dc24209561d1eb7d0edff09a4d00cdf0d35941ea56a68f864dccb071f48b49
+  support: supports
+  summary: Chosen one-state nonlinear maps distinguish transition intermediates from
+    recurrent state and output. A learned plus operator need not commute and a shortcut
+    derivative can cancel. Source-table differences are arithmetic, not training or
+    significance tests.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+  accessed_at: '2026-10-13T12:21:22Z'
+  snapshot_sha256: e5db3b375b27e78f1a02df4034024b07f1584d21bb945eb0c0e15c4ea9051d4e
+  support: supports
+  summary: Complete corrected record read after capture; transition and output design
+    choices explicitly combine as DOT.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T121541Z-dot-rnn-depth-scope-finding/review.yaml
+  accessed_at: '2026-10-13T12:21:22Z'
+  support: supports
+  summary: Immutable partial author self-review retains the original minor wording
+    finding.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Deep Output-Transition Recurrent Neural Network
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - pascanu2014
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain DOT-RNN as the conjunction of deep transition and deep output maps.
+    Those properties can combine with each other and stacking; they are not disjoint
+    exclusive families. DOT(S) adds transition shortcuts. DGLSTM current-cell carry
+    and GF-RNN delayed gated feedback are different mechanisms. DT-only and DO-only
+    denote configurations, not a restriction on the respective general design choices.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - pascanu2014
+  summary: The declared AIO mapping is supported.
+  details: RNN is broader than this specific recurrent architecture. DeepFeedForwardNetwork,
+    whose pinned synonyms include MLP, is related as the family of internal maps rather
+    than a whole-network is-a. ANN is redundant, LSTM gating is not defining, and
+    StackedRNNCellsLayer has separately recurrent states at a different abstraction.
+    Five full annotated AIO node/edge/generated contexts were read.
+- assessment_id: two-deep-maps
+  area: evidence
+  topic: two-deep-maps
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3.3.1 defines f_h as an MLP of x_t and h_(t-1); Section3.3.2 defines
+    f_o as an MLP of h_t. Figure2(c) has one intermediate layer in each map. This
+    within-step depth differs from temporal unfolding.
+- assessment_id: shortcut-and-state-scope
+  area: evidence
+  topic: shortcut-and-state-scope
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The corrected wording now treats DT and DO as respective transition and
+    output depth choices, explicitly combined as DOT. Sections3.2.3/3.3 distinguish
+    intermediate feedforward computations, transition shortcuts and separately recurrent
+    stacked states. The chosen scalar shortcut example has a zero full derivative
+    despite its direct path; this bounds a guarantee, not a training observation.
+- assessment_id: learned-neural-operator-boundary
+  area: evidence
+  topic: learned-neural-operator-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section4 introduces learned plus and predict and proposes, rather than
+    evaluates, commuting regularization. The chosen tanh(2x+h) map is nonlinear and
+    noncommutative, establishing that the notation alone supplies no arithmetic law.
+- assessment_id: training-and-capacity
+  area: evidence
+  topic: training-and-capacity
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections5.1–5.2 specify finite validation choices, unequal parameter counts,
+    gradient clipping and task-dependent initialization/regularization. The pretraining
+    paragraph uses tenfold smaller rates for transferred parameters. Table1 widths
+    identify state and intermediate dimensions rather than three recurrent layers.
+- assessment_id: music-comparison-boundary
+  area: evidence
+  topic: music-comparison-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: 'Table2 supports the retained counterexample: DOT8.437 exceeds shallow8.338
+    on JSB. The starred setting simultaneously changes transition/output units, regularization
+    and pretraining, as stated on pages8–9. No output-depth-only causal claim follows.'
+- assessment_id: language-model-comparison-boundary
+  area: evidence
+  topic: language-model-comparison-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Table3 has DOT1.386bpc and107.5ppl below the three directly compared models,
+    but cited LSTM1.24bpc is lower. Section5.3.2 and footnotes distinguish dynamic
+    evaluation. Historical reported values and finite comparisons are not a current
+    ranking or replication.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: combinable map-depth choices, intermediate versus recurrent states, shortcut
+    and learned-operator limits, and finite unequal-protocol comparisons
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - pascanu2014
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen one-state nonlinear maps distinguish transition intermediates from
+    recurrent state and output. A learned plus operator need not commute and a shortcut
+    derivative can cancel. Source-table differences are arithmetic, not training or
+    significance tests.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - pascanu2014
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Complete corrected maintained YAML and selected
+    mapping YAMLs read after capture. Rechecked Figure2, Sections3.2.3/3.3.1–3.3.2,
+    unnumbered formulas, Tables2–3 and adjacent training, starred-setting and dynamic-evaluation
+    passages. Constructed checks and synchronized report mirror inspected; exact hashes
+    agree. The pre-correction wording finding is retained in its immutable initial
+    review and explicitly resolved by this successor.
+findings:
+- finding_id: F1
+  issue_key: dot-rnn-combinable-depth-scope
+  category: scope
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Clarify combinable transition and output depth
+  description: 'The shortcut-and-state-scope claim says DT-RNN deepens the transition
+    only and DO-RNN deepens the output only. Without restricting this to the separately
+    compared configurations, only overstates an exclusion: Sections 3.2.3 and 3.3.1–3.3.2
+    define combinable depth choices and explicitly name their combination DOT-RNN.
+    Clarify that DT and DO refer to the transition and output choices and that DOT
+    combines them. The DOT definition and mechanism remain supported.'
+  target_ids:
+  - AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+  field_paths:
+  - claims[claim_id=shortcut-and-state-scope].statement
+  evidence_ids:
+  - pascanu2014
+  - corrected-record
+  - predecessor
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/272
+  disposition_reason: The corrected wording now treats DT and DO as respective transition
+    and output depth choices, explicitly combined as DOT. Sections3.2.3/3.3 distinguish
+    intermediate feedforward computations, transition shortcuts and separately recurrent
+    stacked states. The chosen scalar shortcut example has a zero full derivative
+    despite its direct path; this bounds a guarantee, not a training observation.
+    Report mirror synchronized and append-only EDIT history saved; corrected-input
+    gates pass.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T121541Z-dot-rnn-depth-scope-finding
+    finding_id: F1
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 614 native and 442 unchanged generated records.
+  The 798-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All 13 PDF pages visually read, including figures, formulas, tables, references
+  and any appendices. No author code, training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T121541Z-dot-rnn-depth-scope-finding
+  relationship: Resolves the explicitly linked combinable-depth scope finding.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

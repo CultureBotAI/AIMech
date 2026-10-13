@@ -1,0 +1,146 @@
+id: AIMech:SimNet
+name: SimNet
+aliases:
+- SimNets
+concept_kind: architecture
+definition: A neural architecture family built from learned template-similarity operations and MEX log-mean-exp
+  operations that combine shifted similarity responses, with local sharing and pooling available in image-processing
+  configurations.
+identity_notes: Compared all 442 pinned AIO and 614 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 30 AIO and 55 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. SimNet
+  denotes Cohen and Shashua’s architecture family composed from similarity and MEX operators. It is not
+  SimSiam similarity-based representation learning, a dynamic generated-kernel layer, a generic Siamese
+  network or every network with a similarity score. The generic phrase similarity network was searched
+  for ambiguity but is not asserted as an unqualified exact alias.
+definition_evidence:
+- source_id: cohen2014
+  locator: Section 2, PDF pp. 2–3, Equations 1–2; Figure 1, p. 4
+  relation: supports
+claims:
+- claim_id: similarity-and-template-sharing
+  kind: mechanism
+  statement: The similarity operator computes a weighted sum of coordinatewise matches between input and
+    template, using nonnegative weights. The paper uses either coordinate products or negative absolute
+    differences raised to a positive power. Unit weights with the product form recover an inner product;
+    shared templates applied to image patches give the convolutional special case. The general powered-distance
+    form is not automatically a metric or a positive-semidefinite kernel.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 2, PDF pp. 2–3; Section 3.1, pp. 3 and 5; Figure 1, p. 4
+    relation: supports
+- claim_id: mex-limits-and-collapse
+  kind: scope
+  statement: For nonzero parameter xi, MEX is log(mean(exp(xi times input)))/xi. Its continuous zero-parameter
+    limit is the arithmetic mean, while the positive and negative infinite-parameter limits are maximum
+    and minimum. Finite MEX is a scalar smooth aggregate, not a softmax probability vector or an exact
+    maximum. The stated nested collapse uses the same parameter and equal-sized groups. ReLU recovery
+    also needs a zero constant and the maximum limit; it is not an identity for every finite setting.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 2, PDF pp. 2–3, Equations 1–2 and ReLU/pooling constructions; constructed limiting
+      and grouping examples
+    relation: supports
+- claim_id: kernel-interpretation-scope
+  kind: scope
+  statement: The kernel interpretation is derived for fixed positive MEX parameter, unit similarity weights,
+    and either product similarity or powered-distance similarity with fixed power at most two and greater
+    than zero. Gaussian and Laplacian kernels are special cases. This is a representation of the relevant
+    scores or multiclass decision rule, not proof that training the network equals solving a maximum-margin
+    SVM objective. The general learned weighted-distance case does not inherit that derivation; the paper’s
+    no-representation theorem concerns its stated universal kernel identity, not every possible kernel
+    approximation of a trained network.
+  evidence:
+  - source_id: cohen2014
+    locator: Sections 3.1–3.2, PDF pp. 3 and 5–7, Equations 3–10 and Theorem 1; Appendices A–B, pp. 16–19
+    relation: supports
+- claim_id: initialization-and-supervision
+  kind: scope
+  statement: A generalized-Gaussian-mixture model of unlabeled input patches supplies an initialization
+    interpretation for template locations, nonnegative coordinate weights and distance powers. The similarity
+    score then corresponds to a component log-joint score up to a component-dependent constant, rather
+    than a normalized posterior. In the evaluated network, mixture initialization uses training images
+    without labels, followed by supervised softmax-loss optimization. This does not make the entire classifier
+    unsupervised or guarantee a semantic or probabilistic interpretation after training.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 5 and start of Section 6, PDF pp. 8–9; initialization comparison, pp. 12–13
+    relation: supports
+- claim_id: patch-labeling-instantiation
+  kind: mechanism
+  statement: The evaluated CIFAR-10 patch-labeling configuration uses six-by-six RGB patches with unit
+    stride, a similarity layer with power fixed to one or two, a MEX layer with parameter one and offsets
+    shared within spatial regions, and final spatial averaging as the second MEX parameter tends to zero.
+    It combines real class scores across patches. The paper’s majority-voting description is an intuition;
+    averaging those scores need not equal a hard vote over each patch’s highest-scoring class. These chosen
+    parameters and patch sizes do not define every SimNet.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 4, PDF p. 8; Section 6, p. 9; Figure 3(a), p. 10; constructed score-averaging counterexample
+    relation: supports
+- claim_id: evaluation-and-parameter-limits
+  kind: limitation
+  statement: The reported cross-validation comparisons reach 77.1 percent for a weighted squared-distance
+    SimNet with four hundred templates, versus 76.2 percent for the selected convolutional comparator
+    with 6,400 templates and 78.3 percent for the larger selected triangle-coding comparator. The paper
+    reports substantial parameter savings, but the curves are cross-validation accuracy, not held-out
+    test results or measured latency. Preprocessing, optimization and initialization differ across comparisons.
+    Random initialization hurts selected small networks, while deeper evaluation is left to future work
+    in this version. The body explicitly says these accuracies are not state of the art for the dataset,
+    qualifying the abstract’s broader wording.
+  evidence:
+  - source_id: cohen2014
+    locator: Section 6 and Figure 3, PDF pp. 9–10; Figures 4–5 and Sections 6.1–6.3, pp. 11–13; Discussion,
+      pp. 13–14
+    relation: supports
+evidence_sources:
+- source_id: cohen2014
+  title: 'SimNets: A Generalization of Convolutional Networks'
+  authors:
+  - Nadav Cohen
+  - Amnon Shashua
+  persistent_id: arXiv:1410.0781v3
+  version: arXiv:1410.0781v3, 7 December 2014, 19 PDF pages including Appendices A–B; all pages visually
+    read. PDF/printed page numbers coincide. No journal acceptance, author implementation or empirical
+    replication inferred. The later Deep SimNets paper was encountered as an abstract-only followup, not
+    used as claim evidence.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1410.0781v3
+  access_level: full_text
+  accessed_at: '2026-10-13T11:58:05Z'
+  sha256: 91119773f55d79557a02212c71a3c49d491223229b5354b24610eb0d3e89de26
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: SimNet is a specific learned neural architecture family; the pinned generic artificial-neural-network
+    target is broader.
+- target: AIO:DeepConvolutionalNetwork
+  relation: related_match
+  rationale: The family generalizes convolutional constructions using similarity and MEX operations. Generic
+    members need not use the pinned convolutional components or image-specific scope, so the relationship
+    is recorded without equivalence or a forced subclass direction.
+limitations:
+- SimNet here denotes the original similarity/MEX architecture family; SimSiam and generic similarity-based
+  methods are different concepts. The later Deep SimNets full paper remains an uninspected followup.
+- MEX limits, nested-collapse conditions and optional constants matter. A powered distance and a weighted
+  template response are not automatically kernels or posterior probabilities.
+- The specific kernel constructions do not establish identical training objectives, arbitrary learned-weight
+  kernel equivalence or universal expressivity/performance dominance.
+- Original experiments use a shallow patch-labeling configuration and cross-validation comparisons; parameter
+  savings are not hardware-speed measurements, and initialization effects remain protocol-dependent.
+- All 19 primary PDF pages visually read, including mathematical appendices. Constructed calculations
+  illustrate boundaries; no independent formal-proof certification, author code, training or benchmark
+  replication. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T12:10:13Z'
+  updated_at: '2026-10-13T12:10:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
