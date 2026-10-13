@@ -1,0 +1,572 @@
+# Scientific author self-review of Karmarkar–Karp differencing
+
+- Review: 20261013T075819Z-karmarkar-karp-differencing
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T07:52:37Z
+- Finished UTC: 2026-10-13T07:58:19Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain two-way Karmarkar–Karp differencing as a distinct DRAFT algorithm with an explicit AIO no-match assessment. All six claims remain within inspected source, arithmetic and empirical limits; author self-review found no actionable defect.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:KarmarkarKarpDifferencing
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 056887d7fc59bb465711037151f4a208338908cd.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:KarmarkarKarpDifferencing | data/curated/KarmarkarKarpDifferencing.yaml | maintained | Karmarkar–Karp differencing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:KarmarkarKarpDifferencing | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 166.43s (0:02:46)<br>Checked 442 record(s); 0 failed.<br>Checked 589 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 248 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 247,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:KarmarkarKarpDifferencing | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:KarmarkarKarpDifferencing | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:KarmarkarKarpDifferencing | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:KarmarkarKarpDifferencing | {"scope": "Eight constructed exact-integer fixtures and one scale check; not a statistical performance experiment.", "results": [{"values": [8, 7, 6, 5, 4], "exhaustive_optimum": 0, "residue": 2, "signs": [-1, 1, -1, 1, 1], "trace": [[8, 7, 6, 5, 4], [6, 5, 4, 1], [4, 1, 1], [3, 1], [2]]}, {"values": [73, 40, 30, 20, 13, 6, 3], "exhaustive_optimum": 1, "residue": 1, "signs": [1, -1, -1, 1, -1, -1, -1], "trace": [[73, 40, 30, 20, 13, 6, 3], [33, 30, 20, 13, 6, 3], [20, 13, 6, 3, 3], [7, 6, 3, 3], [3, 3, 1], [1, 0], [1]]}, {"values": [5, 5, 5, 5], "exhaustive_optimum": 0, "residue": 0, "signs": [1, -1, -1, 1], "trace": [[5, 5, 5, 5], [5, 5, 0], [0, 0], [0]]}, {"values": [0, 0, 0], "exhaustive_optimum": 0, "residue": 0, "signs": [-1, 1, 1], "trace": [[0, 0, 0], [0, 0], [0]]}, {"values": [9], "exhaustive_optimum": 9, "residue": 9, "signs": [1], "trace": [[9]]}, {"values": [10, 3, 2], "exhaustive_optimum": 5, "residue": 5, "signs": [1, -1, -1], "trace": [[10, 3, 2], [7, 2], [5]]}, {"values": [3, 2, 2], "exhaustive_optimum": 1, "residue": 1, "signs": [-1, 1, 1], "trace": [[3, 2, 2], [2, 1], [1]]}, {"values": [4, 3, 3, 2], "exhaustive_optimum": 0, "residue": 0, "signs": [1, -1, -1, 1], "trace": [[4, 3, 3, 2], [3, 2, 1], [1, 1], [0]]}]} |
+
+## Scientific And Domain Assessments
+
+### Karmarkar–Karp differencing
+
+identity: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Retain this distinct DRAFT algorithm.
+
+The two-way largest-pair heuristic is distinct from source AlgorithmB, randomized-compaction schemes, complete CKK and existing generic search-order records. Karmarkar–Karp heuristic is the source’s named variant; broad multiway identity is explicitly excluded.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Explicit no-match assessment is supported.
+
+All six complete AIO nodes, edges and generated YAMLs were inspected. None denotes this nonlearning number-partitioning procedure. The explicit aio_no_match preserves each rejection rationale rather than asserting a function, task or language-model equivalence.
+
+### largest-pair-reduction
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Original AlgorithmA and Korf Section2.6 agree on two-largest differencing. Nonnegative multiset and indexed duplicate semantics are explicit; the algorithm does not use greedy item-to-bin placement.
+
+### relative-orientation-reconstruction
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+The original backtracking instruction and Korf two-color tree support relative orientation. The constructed expression-tree recursion flips whole subtrees and verifies the signed sum for every original index, including duplicate and zero values.
+
+### heap-and-arithmetic-cost
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Korf states the heap and linear reconstruction/storage bounds. The record correctly limits them to operation and stored-item counts, with numeric precision costs separate; no performance measurement is implied.
+
+### heuristic-not-certificate
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+The primary trace and constructed enumeration both yield KK2 versus optimum0. Feasible residue is correctly identified as an upper bound for this minimization; no equal-cardinality constraint is imposed.
+
+### distinct-randomized-theorem-algorithm
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+The original pages clearly separate AlgorithmA, AlgorithmB and the interval-randomized method. Its asymptotic analysis is not transferred to bare largest differencing. The record does not certify the full probabilistic proof.
+
+### reported-empirical-scope
+
+evidence: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Figure2 averages random uniform integer trials; ten-digit precision and distribution dependence remain. Complete-search gains are attributed to CKK rather than guaranteed for the heuristic.
+
+### relative subpartition orientation, nonoptimal residues, unit-cost complexity and the distinct randomized theorem algorithm
+
+consistency: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Constructed calculations support the stated distinctions.
+
+Eight exact-integer examples check indexed reconstruction including duplicates and zero values, the2-versus0 counterexample, the original report residue1, and positive scaling. Exhaustive sign enumeration is limited to these constructed fixtures; no statistical performance or runtime replication.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:KarmarkarKarpDifferencing.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read the entire maintained record and six examined-target YAMLs after capture. Reread the original AlgorithmA/AlgorithmB/randomized theorem statements and Korf’s KK reconstruction, complexity and experiment pages. All30 original-report and31 Korf pages were read before curation. Exact indexed reconstruction, duplicate items, zero weights and the suboptimality example were checked.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T075119Z-karmarkar-karp-differencing.json | supports | Compared all 442 pinned AIO and 587 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 172, 120, 119 lines. All distinct match contents were inspected. Semantic matching covered 67 AIO and 94 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The repeated text matches are a pending combined KK/CKK frontier entry, not existing records. The identity here is the two-way largest-pair differencing heuristic, AlgorithmA in the original report and KK in Korf Section2.6. It is distinct from AlgorithmB, interval-based random differencing, complete Karmarkar–Karp search, and generic DFS or discrepancy ordering. Multiway variants remain explicit separate leads. The inspected AIO graph has no suitable counterpart; no forced related mapping is asserted. |
+| mapping | sources/aio/aio.json | supports | All six complete AIO nodes, edges and generated YAMLs were inspected. None denotes this nonlearning number-partitioning procedure. The explicit aio_no_match preserves each rejection rationale rather than asserting a function, task or language-model equivalence. |
+| karmarkar-karp-report | https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/CSD-83-113.pdf; Complete30-page Berkeley report and31-page1997 Korf manuscript read. Selected identity/mechanism/evaluation pages reread after capture. Final1998 journal text and author code not inspected; no empirical replication. | supports | Complete30-page Berkeley archive PDF catalogued UCB/CSD-83-113(1983); all pages read. The PDF opening has no printed year; Korf cites a1982 UCB/CSD82/113 report. No claim resolving first-publication priority; author spelling follows printed PDF rather than landing-page typos. |
+| korf1997 | https://web.cecs.pdx.edu/bart/cs510cs/papers/korf-ckk.pdf; Complete30-page Berkeley report and31-page1997 Korf manuscript read. Selected identity/mechanism/evaluation pages reread after capture. Final1998 journal text and author code not inspected; no empirical replication. | supports | University-hosted31-page manuscript dated27June1997, read in full. DOI identifies the later1998 Artificial Intelligence106(2):181–203 publication; its final typeset text was not inspected. Locators refer to manuscript PDF/printed pages1–31. |
+| calculation | research/discovery/karmarkar-karp-differencing-boundaries.py | supports | Eight exact-integer examples check indexed reconstruction including duplicates and zero values, the2-versus0 counterexample, the original report residue1, and positive scaling. Exhaustive sign enumeration is limited to these constructed fixtures; no statistical performance or runtime replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 588 native and 442 unchanged generated records. The 772-entry main frontier retains 480 pending and 58 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All30 Berkeley-report pages and all31 Korf manuscript pages visually read. No author code, final journal text, training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T075819Z-karmarkar-karp-differencing
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Karmarkar–Karp differencing
+started_at: '2026-10-13T07:52:37Z'
+finished_at: '2026-10-13T07:58:19Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged relative subpartition orientation, nonoptimal
+    residues, unit-cost complexity and the distinct randomized theorem algorithm.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain two-way Karmarkar–Karp differencing as a distinct DRAFT algorithm
+  with an explicit AIO no-match assessment. All six claims remain within inspected
+  source, arithmetic and empirical limits; author self-review found no actionable
+  defect.
+source:
+  git_revision: 056887d7fc59bb465711037151f4a208338908cd
+  state: working_tree
+  inputs:
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/curated/DepthFirstSearch.yaml
+    sha256: 060134862e6bb35089311a0fc2b1c7cd91f408556660f856d11e8bc4762ab6a6
+    role: context
+  - path: data/curated/ImprovedLimitedDiscrepancySearch.yaml
+    sha256: 93689aa911171cdd85f4c0e8b9517414532037295fe7e084189d51d4e174a6ad
+    role: context
+  - path: data/curated/KarmarkarKarpDifferencing.yaml
+    sha256: 3bfbfa6fc45fe53b3bda3c61ace7e2beb7d39b8dec3ee93b360d5cfe0d6afdfc
+    role: target
+  - path: data/curated/LimitedDiscrepancySearch.yaml
+    sha256: 144d2daed4c13fdca8e6b1251fa64c4c486354ac6d80c2c5e51b828b0cabbee1
+    role: context
+  - path: research/discovery/20261013T075119Z-karmarkar-karp-differencing.json
+    sha256: 08e7b60233979f9b236e59fcb0ff73494bea7985a9e3b5bc836c435477fd22b7
+    role: context
+  - path: research/discovery/karmarkar-karp-differencing-boundaries.py
+    sha256: 006738ccbf970d2ea5ee2714d9cd0a088ea0af44d4b4cba1a5ef658d0d8598e8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:KarmarkarKarpDifferencing
+  path: data/curated/KarmarkarKarpDifferencing.yaml
+  label: Karmarkar–Karp differencing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/KarmarkarKarpDifferencing.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:KarmarkarKarpDifferencing'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete30-page Berkeley report and31-page1997 Korf manuscript read. Selected
+      identity/mechanism/evaluation pages reread after capture. Final1998 journal
+      text and author code not inspected; no empirical replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 166.43s (0:02:46)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 589 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 248 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 247,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/karmarkar-karp-differencing-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Eight constructed exact-integer fixtures and one scale check;
+    not a statistical performance experiment.", "results": [{"values": [8, 7, 6, 5,
+    4], "exhaustive_optimum": 0, "residue": 2, "signs": [-1, 1, -1, 1, 1], "trace":
+    [[8, 7, 6, 5, 4], [6, 5, 4, 1], [4, 1, 1], [3, 1], [2]]}, {"values": [73, 40,
+    30, 20, 13, 6, 3], "exhaustive_optimum": 1, "residue": 1, "signs": [1, -1, -1,
+    1, -1, -1, -1], "trace": [[73, 40, 30, 20, 13, 6, 3], [33, 30, 20, 13, 6, 3],
+    [20, 13, 6, 3, 3], [7, 6, 3, 3], [3, 3, 1], [1, 0], [1]]}, {"values": [5, 5, 5,
+    5], "exhaustive_optimum": 0, "residue": 0, "signs": [1, -1, -1, 1], "trace": [[5,
+    5, 5, 5], [5, 5, 0], [0, 0], [0]]}, {"values": [0, 0, 0], "exhaustive_optimum":
+    0, "residue": 0, "signs": [-1, 1, 1], "trace": [[0, 0, 0], [0, 0], [0]]}, {"values":
+    [9], "exhaustive_optimum": 9, "residue": 9, "signs": [1], "trace": [[9]]}, {"values":
+    [10, 3, 2], "exhaustive_optimum": 5, "residue": 5, "signs": [1, -1, -1], "trace":
+    [[10, 3, 2], [7, 2], [5]]}, {"values": [3, 2, 2], "exhaustive_optimum": 1, "residue":
+    1, "signs": [-1, 1, 1], "trace": [[3, 2, 2], [2, 1], [1]]}, {"values": [4, 3,
+    3, 2], "exhaustive_optimum": 0, "residue": 0, "signs": [1, -1, -1, 1], "trace":
+    [[4, 3, 3, 2], [3, 2, 1], [1, 1], [0]]}]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T075119Z-karmarkar-karp-differencing.json
+  accessed_at: '2026-10-13T07:52:37Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 587 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    172, 120, 119 lines. All distinct match contents were inspected. Semantic matching
+    covered 67 AIO and 94 native definitions, with every matched definition read.
+    6 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. The repeated text matches are a pending combined KK/CKK frontier entry,
+    not existing records. The identity here is the two-way largest-pair differencing
+    heuristic, AlgorithmA in the original report and KK in Korf Section2.6. It is
+    distinct from AlgorithmB, interval-based random differencing, complete Karmarkar–Karp
+    search, and generic DFS or discrepancy ordering. Multiway variants remain explicit
+    separate leads. The inspected AIO graph has no suitable counterpart; no forced
+    related mapping is asserted.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T07:52:37Z'
+  support: supports
+  summary: All six complete AIO nodes, edges and generated YAMLs were inspected. None
+    denotes this nonlearning number-partitioning procedure. The explicit aio_no_match
+    preserves each rejection rationale rather than asserting a function, task or language-model
+    equivalence.
+- evidence_id: karmarkar-karp-report
+  kind: primary_source
+  reference: https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/CSD-83-113.pdf
+  locator: Complete30-page Berkeley report and31-page1997 Korf manuscript read. Selected
+    identity/mechanism/evaluation pages reread after capture. Final1998 journal text
+    and author code not inspected; no empirical replication.
+  accessed_at: '2026-10-13T07:27:28Z'
+  snapshot_sha256: f6ca1d4198d45609dd6da8c24693c797b5a6244d4f6374aea94db96084d386de
+  support: supports
+  summary: Complete30-page Berkeley archive PDF catalogued UCB/CSD-83-113(1983); all
+    pages read. The PDF opening has no printed year; Korf cites a1982 UCB/CSD82/113
+    report. No claim resolving first-publication priority; author spelling follows
+    printed PDF rather than landing-page typos.
+- evidence_id: korf1997
+  kind: primary_source
+  reference: https://web.cecs.pdx.edu/bart/cs510cs/papers/korf-ckk.pdf
+  locator: Complete30-page Berkeley report and31-page1997 Korf manuscript read. Selected
+    identity/mechanism/evaluation pages reread after capture. Final1998 journal text
+    and author code not inspected; no empirical replication.
+  accessed_at: '2026-10-13T07:27:28Z'
+  snapshot_sha256: 00751dfacfb610eaca973274764704476ecef22865526b9528eb88e07dc09074
+  support: supports
+  summary: University-hosted31-page manuscript dated27June1997, read in full. DOI
+    identifies the later1998 Artificial Intelligence106(2):181–203 publication; its
+    final typeset text was not inspected. Locators refer to manuscript PDF/printed
+    pages1–31.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/karmarkar-karp-differencing-boundaries.py
+  accessed_at: '2026-10-13T07:53:45Z'
+  snapshot_sha256: 006738ccbf970d2ea5ee2714d9cd0a088ea0af44d4b4cba1a5ef658d0d8598e8
+  support: supports
+  summary: Eight exact-integer examples check indexed reconstruction including duplicates
+    and zero values, the2-versus0 counterexample, the original report residue1, and
+    positive scaling. Exhaustive sign enumeration is limited to these constructed
+    fixtures; no statistical performance or runtime replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Karmarkar–Karp differencing
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - identity
+  - karmarkar-karp-report
+  - korf1997
+  summary: Retain this distinct DRAFT algorithm.
+  details: The two-way largest-pair heuristic is distinct from source AlgorithmB,
+    randomized-compaction schemes, complete CKK and existing generic search-order
+    records. Karmarkar–Karp heuristic is the source’s named variant; broad multiway
+    identity is explicitly excluded.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - mapping
+  - karmarkar-karp-report
+  - korf1997
+  summary: Explicit no-match assessment is supported.
+  details: All six complete AIO nodes, edges and generated YAMLs were inspected. None
+    denotes this nonlearning number-partitioning procedure. The explicit aio_no_match
+    preserves each rejection rationale rather than asserting a function, task or language-model
+    equivalence.
+- assessment_id: largest-pair-reduction
+  area: evidence
+  topic: largest-pair-reduction
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - karmarkar-karp-report
+  - korf1997
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Original AlgorithmA and Korf Section2.6 agree on two-largest differencing.
+    Nonnegative multiset and indexed duplicate semantics are explicit; the algorithm
+    does not use greedy item-to-bin placement.
+- assessment_id: relative-orientation-reconstruction
+  area: evidence
+  topic: relative-orientation-reconstruction
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - karmarkar-karp-report
+  - korf1997
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The original backtracking instruction and Korf two-color tree support relative
+    orientation. The constructed expression-tree recursion flips whole subtrees and
+    verifies the signed sum for every original index, including duplicate and zero
+    values.
+- assessment_id: heap-and-arithmetic-cost
+  area: evidence
+  topic: heap-and-arithmetic-cost
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - korf1997
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Korf states the heap and linear reconstruction/storage bounds. The record
+    correctly limits them to operation and stored-item counts, with numeric precision
+    costs separate; no performance measurement is implied.
+- assessment_id: heuristic-not-certificate
+  area: evidence
+  topic: heuristic-not-certificate
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - korf1997
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The primary trace and constructed enumeration both yield KK2 versus optimum0.
+    Feasible residue is correctly identified as an upper bound for this minimization;
+    no equal-cardinality constraint is imposed.
+- assessment_id: distinct-randomized-theorem-algorithm
+  area: evidence
+  topic: distinct-randomized-theorem-algorithm
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - karmarkar-karp-report
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The original pages clearly separate AlgorithmA, AlgorithmB and the interval-randomized
+    method. Its asymptotic analysis is not transferred to bare largest differencing.
+    The record does not certify the full probabilistic proof.
+- assessment_id: reported-empirical-scope
+  area: evidence
+  topic: reported-empirical-scope
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - korf1997
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Figure2 averages random uniform integer trials; ten-digit precision and
+    distribution dependence remain. Complete-search gains are attributed to CKK rather
+    than guaranteed for the heuristic.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: relative subpartition orientation, nonoptimal residues, unit-cost complexity
+    and the distinct randomized theorem algorithm
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - karmarkar-karp-report
+  - korf1997
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Eight exact-integer examples check indexed reconstruction including duplicates
+    and zero values, the2-versus0 counterexample, the original report residue1, and
+    positive scaling. Exhaustive sign enumeration is limited to these constructed
+    fixtures; no statistical performance or runtime replication.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:KarmarkarKarpDifferencing
+  evidence_ids:
+  - identity
+  - mapping
+  - karmarkar-karp-report
+  - korf1997
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read the entire maintained record and six examined-target
+    YAMLs after capture. Reread the original AlgorithmA/AlgorithmB/randomized theorem
+    statements and Korf’s KK reconstruction, complexity and experiment pages. All30
+    original-report and31 Korf pages were read before curation. Exact indexed reconstruction,
+    duplicate items, zero weights and the suboptimality example were checked.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 588 native and 442 unchanged generated records.
+  The 772-entry main frontier retains 480 pending and 58 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All30 Berkeley-report pages and all31 Korf manuscript pages visually read. No author
+  code, final journal text, training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
