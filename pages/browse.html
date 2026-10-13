@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1014</strong> artificial intelligence concepts, comprising <strong>572</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1015</strong> artificial intelligence concepts, comprising <strong>573</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1014)</option>
-        <option value="curated">Curated AIMech (572)</option>
+        <option value="all">All Origins (1015)</option>
+        <option value="curated">Curated AIMech (573)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -52,7 +52,7 @@
         <option value="all">All Kinds</option>
           <option value="algorithm">Algorithms (386)</option>
           <option value="model_family">Model Families (87)</option>
-          <option value="architecture">Architectures (39)</option>
+          <option value="architecture">Architectures (40)</option>
           <option value="mathematical_method">Mathematical Methods (36)</option>
           <option value="layer">Layers &amp; Modules (11)</option>
           <option value="evaluation_criterion">Evaluation Criteria (5)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1014</span> of <span id="totalCount">1014</span>
+      Showing <span id="matchCount">1015</span> of <span id="totalCount">1015</span>
     </div>
   </div>
 </div>
@@ -22061,6 +22061,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="structurally constrained recurrent neural network structurallyconstrainedrecurrentneuralnetwork aimech:structurallyconstrainedrecurrentneuralnetwork architectures architecture a recurrent sequence architecture coupling a nonlinear recurrent hidden state with a separate linear context state whose recurrence is constrained to a scalar or diagonal decay, with context-to-hidden connections and no hidden-to-context feedback. compared all 442 pinned aio and 572 native ids, names, aliases and scoped synonyms; no normalized identity match. ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original documents checkouts returned 7, 0, 0 lines. the current matches were inspected as the preceding irnn report’s scrn source/lead notes and one semantic-search expression, not an existing maintained record. the semantic search covers 47 aio rows and 128 native definitions; preceding 44 aio and118 native rows were verified unchanged and the additional three activation-function rows plus ten native definitions read. sigmoid-based belief networks, diagonal state-space models and unrelated diagonal clustering/representation objectives do not match this coupled recurrent architecture. four full annotated aio node/edge/generated contexts and four full adjacent native records were inspected. recurrentneuralnetwork is the broader architecture category and sigmoidfunction is a related component. simplernnlayer lacks this coupled context structure; echostatenetwork’s sparse recurrent/output-learning definition does not establish equivalence or a superclass relation for jointly learned fast/input/context-output parameters. unlike irnn initialization, scrn retains structural zero and diagonal context blocks. fixed and adaptive per-unit decay configurations are preserved within the record, as are current-versus-lagged context conventions. scrn scrnn for the fixed-decay paper formulation, s_t=(1-alpha)*b*x_t+alpha*s_(t-1), with 0&lt;alpha&lt;1; its nonlinear state is h_t=sigma(p*s_t+a*x_t+r*h_(t-1)), and output probabilities are obtained from softmax(u*h_t+v*s_t). the context update has no activation nonlinearity and no feedback from h. the fast-state recurrent matrix r is learned without imposing the same diagonal decay constraint. these are the paper equations; the pinned implementation uses a lagged context input to h. the zero hidden-to-context block and diagonal context recurrence are structural restrictions, rather than a dense matrix initialized near identity and then freely trained. the paper also proposes q=diag(sigmoid(beta_j)) in place of alpha*i, with s_t=(i-q)*b*x_t+q*s_(t-1). in ideal real arithmetic finite beta gives per-unit decays in (0,1); these are learned parameters shared over time, not input-dependent lstm-style gates. the fixed and adaptive context forms remain configurations of this architecture. for fixed scalar alpha, the linear context expands to alpha^t*s_0+(1-alpha)*sum from j=1 to t of alpha^(t-j)*b*x_j. its direct carry derivative over k steps is alpha^k*i, which tends to zero for 0&lt;alpha&lt;1; slower forgetting does not mean permanent gradient preservation. this is a recency-weighted summary and is not generally invariant to permuting tokens. with uniformly bounded embedded inputs the scalar-decay context stays bounded by the larger of the initial-state and input norm bounds, but this does not bound the fast-state jacobian or establish stability of the whole trained system. equation 5 feeds current s_t to the fast state, but mfactory.lua feeds prev_hid_slow even though its nearby comment describes current c_t. a simultaneous transition using the paper equation 7 block [r,p;0,alpha*i] also feeds the previous context. substituting equation 4 into equation 5 instead gives the effective recurrent coupling alpha*p and effective input matrix a+(1-alpha)*p*b. these formulations can be reparameterized for nonzero alpha, but are not identical with unchanged raw parameters, initialization or optimization. the record preserves the paper and pinned-code conventions separately. in the inspected fresh code setup, util.initscrnn initializes the slow recurrent matrix to (1-semb_scale)*i with zero off-diagonal entries. the builder scales the slow input embedding by semb_scale, and scrnn.zerosomegradients zeroes the slow recurrent weight gradient before the parameter update. the shown sgd or momentum update, starting with the zero momentum buffer created by scrnn, therefore preserves this slow matrix under that path. this static reading does not certify arbitrary loaded optimizer state, external mutation, library behavior or an implementation of the paper adaptive-q variant. the paper evaluates language modeling on penn treebank and text8 under selected hidden/context sizes, output parameterizations, backpropagation horizons and learning-rate choices. text8 performance uses the reported development split, and context-weight learning helps some capacity settings more than others. the authors explicitly acknowledge limits of finite-capacity recurrent memory. these comparisons do not establish universal superiority to lstm, arbitrary-length exact storage, or equivalence between the paper and historical code training runs. no numerical benchmark or independent reproduction is asserted. learning longer memory in recurrent neural networks author scrnns implementation: mfactory.lua author scrnns implementation: util.lua author scrnns implementation: scrnn.lua author scrnns implementation: rnn.lua tomas mikolov armand joulin sumit chopra michael mathieu marc’aurelio ranzato tomas mikolov armand joulin sumit chopra michael mathieu marc’aurelio ranzato tomas mikolov armand joulin sumit chopra michael mathieu marc’aurelio ranzato tomas mikolov armand joulin sumit chopra michael mathieu marc’aurelio ranzato tomas mikolov armand joulin sumit chopra michael mathieu marc’aurelio ranzato">
+        <td>
+          <a href="curated/StructurallyConstrainedRecurrentNeuralNetwork.html" style="font-weight: 600; font-size: 1rem;">Structurally constrained recurrent neural network</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SCRN, SCRNN            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A recurrent sequence architecture coupling a nonlinear recurrent hidden state with a separate linear context state whose recurrence is const…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:StructurallyConstrainedRecurrentNeuralNetwork</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="6 claims curated">6 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">5 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
