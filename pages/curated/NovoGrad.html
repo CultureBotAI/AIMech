@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NovoGrad · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>NovoGrad</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">NovoGrad</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NovoGrad</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A stochastic gradient optimizer that rescales each parameter block gradient by a scalar running second moment of that block gradient norm before accumulating momentum, with an optional weight-decay contribution added after gradient normalization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 566 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 21, 0, 0 lines. All matching lines were read and identify the pending NovoGrad lead or comparisons in the LAMB record, report, review and rendered pages, not a separate existing record. An expanded semantic search covered ten AIO rows and 90 native definitions: the preceding ten AIO and 88 native rows were verified unchanged, and the two additional AMSGrad and LAMB definitions were read. Three complete AIO node/edge/generated contexts were verified unchanged; eight full native context records were read or verified against prior full readings. NovoGrad uses scalar block second moments to normalize each fresh gradient before momentum; Adam/RMSprop use coordinate scales, LAMB normalizes a moment-scaled combined update, and LARS/CLARS use different gradient norm rules. A running-maximum NovoGrad variant is not identical to coordinate-wise AMSGrad. Shared layer-wise adaptive moments wording in the earlier paper title is not a LAMB alias.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#scalar-second-moment-before-momentum</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the published SGD-style convention, each layer or chosen parameter block has a scalar v_t=beta2*v_(t-1)+(1-beta2)*norm(g_t)^2 for the raw minibatch gradient, where norm is L2. After initialization, q_t=g_t/(sqrt(v_t)+epsilon) and m_t=beta1*m_(t-1)+q_t+d*w_t, followed by w_(t+1)=w_t-alpha_t*m_t. Here epsilon&gt;0, alpha_t is the global rate, d is weight decay and 0&lt;=beta1,beta2&lt;1. Normalization occurs before momentum accumulation; normalizing an already accumulated raw-gradient momentum generally differs. This uses one second-moment scalar per block, not an Adam coordinate-wise second moment or a LAMB parameter-norm trust ratio.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Algorithm 1, Equations 4 and 6, and parameter update, PDF pp. 2–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decay-and-averaging-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the stated basic recurrence, d*w is excluded from the raw-gradient second-moment estimate and its normalization, then included in momentum. Calling this decay decoupled does not mean that it is algebraically identical to independent parameter shrinkage outside momentum. The paper also permits that alternative and an Adam-style variant multiplying the normalized-gradient-plus-decay contribution by (1-beta1). Those choices require matching initialization and rate conventions; they are not interchangeable under an arbitrary common schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Equation 6 and footnote 2, PDF p. 2; first-moment averaging variant, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#initialization-and-source-notation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper initializes the scalar second moment from the first squared gradient norm and gives a corresponding normalized first-gradient momentum, rather than ordinary zero-start EMA bias correction. Its initialization formulas omit epsilon, so an all-zero first gradient is undefined as printed. Algorithm 1 also leaves weight/time indexing details implicit, and Equation 5 prints a minus-weight term that conflicts with Equation 6 and the algorithm. This record follows the explicit plus-d*w rule of Equation 6 and requires a specified initialization and zero-gradient policy instead of treating every printed formula as consistent.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1 and Equations 5–6, PDF p. 2; initialization formulas, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#normalization-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a subsequent step with nonnegative previous scalar state, 0&lt;=beta2&lt;1 and epsilon&gt;=0 on a defined denominator, the fresh normalized-gradient norm is at most 1/sqrt(1-beta2). This bound does not constrain accumulated momentum or the complete decay-containing update to that same norm, and is not a parameter-relative trust bound or a convergence theorem. With beta2=0, unit gradient normalization requires the ideal epsilon=0 nonzero-gradient case; arbitrary momentum and decay still remain. Positive rescaling of an entire prescribed gradient history cancels in the ideal zero-epsilon normalization with consistently scaled second-moment initialization, but positive epsilon and other implementation choices can change that invariance.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Equations 4 and 6, PDF p. 2, and Notes 1–2, p. 3; algebraic consequences under the stated conditions</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#implementation-rate-and-zero-policy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected TensorFlow Addons dense path initializes v from the squared gradient norm at global optimizer iteration zero, uses sqrt(v)+epsilon even then, adds decay after normalization, and optionally averages the contribution after the first iteration. It calls ResourceApplyKerasMomentum with Nesterov disabled. The inspected TensorFlow API defines its velocity recurrence as a_t=beta1*a_(t-1)-alpha_t*q_t followed by w+=a_t, with q_t here denoting the complete supplied contribution. This rate-inside-velocity convention can differ from the paper current-rate-outside-momentum convention when the schedule changes. Parameter tensors define the implementation blocks; sparse behavior, exclusions, helper dependencies and runtime require separate assessment.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tfaddons">TensorFlow Addons NovoGrad optimizer implementation</a></span>
+        <span>· <strong>Locator:</strong> _create_slots, _resource_apply_dense and _resource_apply_sparse; full file read statically</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-tfmomentum">TensorFlow ResourceApplyKerasMomentum API reference</a></span>
+        <span>· <strong>Locator:</strong> API signature and displayed momentum recurrence, use_nesterov=False</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#state-memory-and-running-max</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For N scalar parameters partitioned into L blocks, the basic mathematical state uses N first-moment entries and L scalar second moments, compared with Adam two N-sized moment arrays. At equal precision this is (N+L)/(2N) of that moment storage, approximately half only when L is much smaller than N. It is not a claim about total training memory or every library variant. The paper proposes a running-maximum second-moment variant; a nonincreasing effective rate additionally requires a suitable global rate schedule, and this is not an unconditional convergence guarantee. The basic method is discussed as admitting stochastic convex counterexamples.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, PDF p. 2; running-maximum discussion and Notes 3, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#applications-and-evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates selected image classification, speech recognition, machine translation and language-modeling configurations. Schedules, decay, dropout, hardware and accumulation settings vary, and some configurations explicitly use warm-up. These experiments do not establish a universal no-warm-up rule, memory reduction for a whole training system, or performance advantage across tasks. This record imports no numerical benchmark and makes no training reproduction claim.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ginsburg2020">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.1–4.6, Tables 1–7 and Figures 1–2, PDF pp. 3–5; conclusion, pp. 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The v3 PDF title differs from the arXiv landing title. Its Equation 5, initialization and loop indexing contain inconsistencies or omissions; the identity follows Section 3 Equation 6 with explicit convention boundaries.</li>
+      <li>Basic SGD-style momentum, the averaged variant and direct shrinkage alternatives differ unless rate and state conventions are reconciled. The later TensorFlow Addons dense implementation invokes a rate-inside-velocity kernel.</li>
+      <li>The theoretical fresh-gradient normalization bound is not a bound on full momentum, decay or parameter-relative displacement and does not establish convergence or generalization.</li>
+      <li>The approximate half-memory comparison concerns mathematical moment arrays with few blocks and equal precision, excluding parameters, gradients, activations and other training storage. Implementation variants can allocate other state.</li>
+      <li>The complete seven-page v3 preprint, complete pinned TensorFlow Addons optimizer file and the cited TensorFlow API section were inspected. The library revision postdates the paper; dependency helpers, compiled kernels and runtime were not executed or fully audited, and sparse behavior is not claimed equivalent to dense updates.</li>
+      <li>Experiments use differing configurations and include warm-up; source table/rate differences remain in the discovery notes. No benchmark values, universal superiority, independent proof certification or training result are imported.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html" style="font-weight: 600;"><code>AIO:TrainingStrategy</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">TrainingStrategy</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            NovoGrad directly controls machine-learning parameter training, the central context named by TrainingStrategy. The pinned target has a preprocessing genus and learning-task examples, so contextual relatedness does not assert optimizer equivalence, subclass membership or that the algorithm is preprocessing.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-ginsburg2020">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ginsburg2020</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1905.11286v3" target="_blank" rel="noopener">Training Deep Networks with Stochastic Gradient Normalized by Layerwise Adaptive Second Moments</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Boris Ginsburg, Patrice Castonguay, Oleksii Hrinchuk, Oleksii Kuchaiev, Ryan Leary, Vitaly Lavrukhin, Jason Li, Huyen Nguyen, Yang Zhang, Jonathan M. Cohen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1905.11286v3</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6c554ab644b3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-tfaddons">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tfaddons</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://github.com/tensorflow/addons/blob/d208d752e98c310280938efa939117bf635a60a8/tensorflow_addons/optimizers/novograd.py" target="_blank" rel="noopener">TensorFlow Addons NovoGrad optimizer implementation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            The TensorFlow Authors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> tensorflow/addons@d208d752e98c310280938efa939117bf635a60a8:tensorflow_addons/optimizers/novograd.py</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a8852c9d2541…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-tfmomentum">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">tfmomentum</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.tensorflow.org/api_docs/python/tf/raw_ops/ResourceApplyKerasMomentum" target="_blank" rel="noopener">TensorFlow ResourceApplyKerasMomentum API reference</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            The TensorFlow Authors
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3dc5cef573ef…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T03:28:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T03:28:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NovoGrad.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NovoGrad.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,631 @@
+# Scientific author self-review of NovoGrad
+
+- Review: 20261013T033406Z-novograd
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T03:28:13Z
+- Finished UTC: 2026-10-13T03:34:06Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain NovoGrad as a distinct DRAFT optimizer related to AIO TrainingStrategy. All seven claims and maintained fields have support with explicit notation, initialization, state, decay, normalization, memory and implementation boundaries. No actionable record defect found; no framework execution or training occurred.
+
+## Scope And Provenance
+
+All fields of the exact maintained NovoGrad record, its complete primary paper and cited static optimizer/API evidence.
+
+Selection: Exact maintained ID: AIMech:NovoGrad
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 56ef0d4e51a85a994bbf264ac0fe51f7cbcea78a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:NovoGrad | data/curated/NovoGrad.yaml | maintained | NovoGrad |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:NovoGrad | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 133.14s (0:02:13)<br>Checked 442 record(s); 0 failed.<br>Checked 567 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 221 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 221,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:NovoGrad | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:NovoGrad | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:NovoGrad | Exited 0 without output. |
+| Constructed NovoGrad state and normalization boundaries | passed | True | AIMech:NovoGrad | {"first": {"v": 1.0, "normalized": [1.0, 0.0], "m": [1.0, 0.0], "step": [0.1, 0.0], "w": [2.9, 4.0]}, "second": {"v": 3.25, "normalized": [0.0, 1.1094003924504583], "m": [0.9, 1.1094003924504583], "step": [0.09000000000000001, 0.11094003924504584], "w": [2.81, 3.8890599607549543]}, "normalize_after_momentum": [0.49923017660270624, 1.1094003924504583], "positive_history_rescaling_invariant_in_ideal_case": true, "fresh_norm": 1.1094003924504583, "fresh_bound": 1.1547005383792517, "momentum_norm": 1.4285549449598467, "positive_epsilon_beta2_zero": [0.09090909090909091, 0.0], "first_zero": "undefined without numerical offset", "positive_epsilon_zero_gradient": {"v": 0.0, "normalized": [0.0, 0.0], "m": [0.30000000000000004, 0.4], "step": [0.030000000000000006, 0.04000000000000001], "w": [2.97, 3.96]}, "decay_placement": {"inside": [0.2457, 0.0756], "outside": [0.2187, 0.03960000000000001]}, "scheduled_rate_paper": [0.009000000000000001, 0.01], "scheduled_rate_keras": [0.09000000000000001, 0.01], "gradient_averaging_second_step": [0.09000000000000001, 0.011094003924504582], "increasing_rate_with_running_max": [0.05, 0.1], "moment_state_ratio": 0.50005, "one_scalar_per_coordinate_ratio": 1.0} |
+
+## Scientific And Domain Assessments
+
+### Scalar block gradient normalization before momentum
+
+identity: supported. Targets: AIMech:NovoGrad.
+
+Retain NovoGrad as a distinct DRAFT algorithm.
+
+Full paper method and pinned official code identify NovoGrad. Its scalar gradient-norm history and normalization order differ from Adam/RMSprop coordinate moments, LAMB block normalization of a moment-scaled direction, and LARS/CLARS norm ratios. A running-max variant is not identical to coordinate-wise AMSGrad. All 21 ignored-inclusive text matches were read; they identify the preceding LAMB comparison or lead rather than an existing NovoGrad record. The primary PDF title differs from the landing title but the version identity is explicit.
+
+### Direct training context at a qualified abstraction level
+
+grounding: supported. Targets: AIMech:NovoGrad.
+
+Related TrainingStrategy mapping is supported.
+
+NovoGrad controls model parameter updates during training. The pinned AIO target uses a preprocessing genus, so the record asserts contextual relatedness without an is-a or equivalence claim. RegularizationLayer describes a loss-penalty layer and SupervisedLearning a learning task; neither defines this optimizer.
+
+### scalar-second-moment-before-momentum
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+Equation 4 defines a scalar squared block-gradient norm history, and Equation 6 normalizes the fresh gradient before it enters momentum. A constructed two-step example differs from normalization of already accumulated raw-gradient momentum. The definition preserves this order rather than assigning a layer trust-ratio identity.
+
+### decay-and-averaging-conventions
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+Equation 6 adds decay after gradient normalization and before momentum; footnote 2 mentions the independent-shrink alternative. The page 3 averaged variant changes the new contribution. Constructed examples show these choices differ under a shared unadjusted schedule and state convention.
+
+### initialization-and-source-notation
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+The printed first-gradient initialization omits epsilon and leaves all-zero gradients undefined. Algorithm 1 has implicit/inconsistent weight and loop indexing, and Equation 5 visibly prints a minus-weight term. The record expressly follows Equation 6 and does not pretend the pseudocode is an unambiguous executable initialization.
+
+### normalization-boundaries
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+The denominator inequality gives the fresh-gradient bound for nonnegative prior state and beta2 below one. Momentum and decay can exceed that fresh bound. The beta2-zero unit-norm limit additionally needs zero epsilon and nonzero gradient; scaling the complete gradient history requires consistent state scaling. The claims are algebraic conditions, not convergence guarantees.
+
+### implementation-rate-and-zero-policy
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+The pinned dense path uses global iteration zero for scalar-state initialization, a positive offset, post-normalization decay and optional averaging after the first step. Its kernel call is paired with the explicit official API velocity recurrence. A changing-rate two-step example distinguishes that convention from the paper current-rate-outside-momentum form; sparse/runtime equivalence is not asserted.
+
+### state-memory-and-running-max
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+One vector first moment plus one scalar second moment per block gives N+L values, compared with Adam 2N at equal precision. The comparison excludes total training storage and variant allocations. The running-max discussion does not control an increasing global rate by itself and does not prove unconditional convergence; source counterexample caveats are retained.
+
+### applications-and-evaluation-scope
+
+evidence: supported. Targets: AIMech:NovoGrad.
+
+Supported with explicit source and mathematical conditions.
+
+The complete paper includes the listed tasks and explicitly uses warm-up and differing configurations in some experiments. The record imports no numerical benchmark and makes no universal no-warm-up, performance or whole-system memory claim.
+
+### Order, decay, scheduled rates and memory units
+
+consistency: supported. Targets: AIMech:NovoGrad.
+
+Constructed examples confirm the stated distinctions.
+
+With first gradient [1,0], second [0,2] and beta2=.25, scalar v2=3.25. The normalized-momentum first coordinate is .9, whereas normalizing a raw-gradient momentum gives about .49923. The fresh norm 1.10940 is below 1/sqrt(.75), while total momentum norm 1.42855 exceeds it. Second-step decay contributions differ inside versus outside momentum. For supplied orthogonal contributions and rates .1 then .01, the paper step is [.009,.01] and documented Keras velocity gives [.09,.01]. Positive epsilon resolves the constructed all-zero initial denominator, and storage with N=1,000,000 and L=100 is .50005 of Adam moment elements. These are constructed arithmetic checks, not framework or training results.
+
+### Complete maintained record and versioned evidence
+
+provenance: supported. Targets: AIMech:NovoGrad.
+
+All fields were inspected; DRAFT remains.
+
+Read stable ID and label, kind, narrow definition and citation, complete search context, seven claim statements and locators, three source identities/access/version/hash fields, AIO pin and qualified mapping, six limitations and actual UTC curation. Source/capture/context hashes and exact report mirror agree. Full seven-page paper and optimizer-file coverage is distinguished from the bounded official API section and unaudited dependencies/runtime. No actionable record defect was identified.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T032802Z-novograd.json | supports | Compared all 442 pinned AIO and 566 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 21, 0, 0 lines. All matching lines were read and identify the pending NovoGrad lead or comparisons in the LAMB record, report, review and rendered pages, not a separate existing record. An expanded semantic search covered ten AIO rows and 90 native definitions: the preceding ten AIO and 88 native rows were verified unchanged, and the two additional AMSGrad and LAMB definitions were read. Three complete AIO node/edge/generated contexts were verified unchanged; eight full native context records were read or verified against prior full readings. NovoGrad uses scalar block second moments to normalize each fresh gradient before momentum; Adam/RMSprop use coordinate scales, LAMB normalizes a moment-scaled combined update, and LARS/CLARS use different gradient norm rules. A running-maximum NovoGrad variant is not identical to coordinate-wise AMSGrad. Shared layer-wise adaptive moments wording in the earlier paper title is not a LAMB alias. |
+| mapping | sources/aio/aio.json | supports | An expanded semantic search covers ten AIO rows and 90 native definitions. Ten AIO and 88 native rows verify unchanged from the preceding reading; AMSGrad and LAMB definitions were read. Three complete annotated AIO nodes, incident edges and generated YAML were reread, and eight full native records provide identity context. TrainingStrategy YAML reread after capture. Its model-training context supports related_match while its preprocessing genus prevents an optimizer superclass assertion. |
+| ginsburg2020 | https://arxiv.org/pdf/1905.11286v3; Entire seven-page v3 preprint; especially Section 3 Algorithm 1 and Equations 4–6 on p. 2, initialization and variants on p. 3; pp. 2–3 reread after capture | supports | February 6, 2020 preprint; all seven PDF pages inspected. PDF title differs from the arXiv landing title Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks. |
+| tfaddons | https://github.com/tensorflow/addons/blob/d208d752e98c310280938efa939117bf635a60a8/tensorflow_addons/optimizers/novograd.py; Complete pinned NovoGrad optimizer file read before capture; lines 122–212 reread after capture | supports | Git commit d208d752e98c310280938efa939117bf635a60a8 (April 15, 2024), archived repository; complete optimizer file read statically. Later than the paper, not asserted to reproduce its experiment configurations or momentum convention. |
+| tfmomentum | https://www.tensorflow.org/api_docs/python/tf/raw_ops/ResourceApplyKerasMomentum; ResourceApplyKerasMomentum API signature, recurrence, argument and return sections; displayed recurrence excerpt reread from hashed HTML after capture | supports | TensorFlow v2.16.1 reference; page last updated April 26, 2024. Inspected recurrence and API section only, not navigation links or runtime. |
+| calculation | research/discovery/novograd-state-boundaries.py | supports | Constructed vectors check normalization before versus after momentum, whole-history rescaling, fresh versus accumulated bounds, zero initialization, decay placement, rate-inside versus rate-outside velocity, gradient averaging and moment-state storage. These are algebraic examples, not TensorFlow execution or training. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- One new DRAFT concept, yielding 567 native and 442 unchanged generated records. The 752-entry main frontier retains 483 pending and 57 partly addressed cohorts; discovery is incomplete.
+- Experiments use differing configurations and include warm-up; source table/rate differences remain in the discovery notes. No benchmark values, universal superiority, independent proof certification or training result are imported.
+- All seven primary PDF pages, one complete pinned official optimizer file and the cited momentum API section were read. Dependency helpers, compiled kernels and runtime were not fully audited or executed. No training or empirical performance replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T033406Z-novograd
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of NovoGrad
+started_at: '2026-10-13T03:28:13Z'
+finished_at: '2026-10-13T03:34:06Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity, mapping, scalar moment and normalization
+    order, source notation and initialization, decay, fresh-step bounds, memory units
+    and versioned momentum-rate conventions. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain NovoGrad as a distinct DRAFT optimizer related to AIO TrainingStrategy.
+  All seven claims and maintained fields have support with explicit notation, initialization,
+  state, decay, normalization, memory and implementation boundaries. No actionable
+  record defect found; no framework execution or training occurred.
+source:
+  git_revision: 56ef0d4e51a85a994bbf264ac0fe51f7cbcea78a
+  state: working_tree
+  inputs:
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AMSGrad.yaml
+    sha256: cea17d1eed28932058c4a0c194673d3500cff0344cc3ca4ee4b282386bce4d95
+    role: context
+  - path: data/curated/Adam.yaml
+    sha256: b28d5f93f73b80005b3ef7b98d306b5b548f3d2aa77362592c497404e0ea944a
+    role: context
+  - path: data/curated/AdamW.yaml
+    sha256: 5a851955d9435629b76cb28e95d84ab6c1db16aa35df9b485254c9c76c025948
+    role: context
+  - path: data/curated/CompleteLayerWiseAdaptiveRateScaling.yaml
+    sha256: d0d787a30b38bcf874ccd4f1cd3f4a7df9dab9169ff7b195bd705977529f92ed
+    role: context
+  - path: data/curated/LayerWiseAdaptiveMoments.yaml
+    sha256: 276830afda084c3fecd2b3c2628c22b07a32421ae2ee66aae75f8637ff6586e3
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: context
+  - path: data/curated/NovoGrad.yaml
+    sha256: fab7b24fc418d1044fae44ddf7dcc028c0b3a2088f286b31deec7b9927f9783f
+    role: target
+  - path: data/curated/RMSprop.yaml
+    sha256: 25fe81add637f0323634a0860a706a201a5927826afd6783738aca2c80a7c49d
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: research/discovery/20261013T032802Z-novograd.json
+    sha256: 9e1868d941aef2f15b43e1171bb24a986d40bedbc522d629be92e09f7da4ac1a
+    role: context
+  - path: research/discovery/novograd-state-boundaries.py
+    sha256: ed6f2b064333e7ef82a5a4e8a2abcef3744645247362a265f8fa9405e983be26
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:NovoGrad
+  path: data/curated/NovoGrad.yaml
+  label: NovoGrad
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/NovoGrad.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained NovoGrad record, its complete primary
+    paper and cited static optimizer/API evidence.
+  selection: 'Exact maintained ID: AIMech:NovoGrad'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:NovoGrad
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Framework dependencies, compiled kernels and sparse runtime
+    reason: Only the complete declared optimizer file and relevant API documentation
+      section were inspected; no complete dependency or runtime audit.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NovoGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 133.14s (0:02:13)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 567 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 221 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 221,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NovoGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NovoGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NovoGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed NovoGrad state and normalization boundaries
+  command: python3 research/discovery/novograd-state-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:NovoGrad
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"first": {"v": 1.0, "normalized": [1.0, 0.0], "m": [1.0, 0.0], "step":
+    [0.1, 0.0], "w": [2.9, 4.0]}, "second": {"v": 3.25, "normalized": [0.0, 1.1094003924504583],
+    "m": [0.9, 1.1094003924504583], "step": [0.09000000000000001, 0.11094003924504584],
+    "w": [2.81, 3.8890599607549543]}, "normalize_after_momentum": [0.49923017660270624,
+    1.1094003924504583], "positive_history_rescaling_invariant_in_ideal_case": true,
+    "fresh_norm": 1.1094003924504583, "fresh_bound": 1.1547005383792517, "momentum_norm":
+    1.4285549449598467, "positive_epsilon_beta2_zero": [0.09090909090909091, 0.0],
+    "first_zero": "undefined without numerical offset", "positive_epsilon_zero_gradient":
+    {"v": 0.0, "normalized": [0.0, 0.0], "m": [0.30000000000000004, 0.4], "step":
+    [0.030000000000000006, 0.04000000000000001], "w": [2.97, 3.96]}, "decay_placement":
+    {"inside": [0.2457, 0.0756], "outside": [0.2187, 0.03960000000000001]}, "scheduled_rate_paper":
+    [0.009000000000000001, 0.01], "scheduled_rate_keras": [0.09000000000000001, 0.01],
+    "gradient_averaging_second_step": [0.09000000000000001, 0.011094003924504582],
+    "increasing_rate_with_running_max": [0.05, 0.1], "moment_state_ratio": 0.50005,
+    "one_scalar_per_coordinate_ratio": 1.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T032802Z-novograd.json
+  accessed_at: '2026-10-13T03:28:13Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 566 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    21, 0, 0 lines. All matching lines were read and identify the pending NovoGrad
+    lead or comparisons in the LAMB record, report, review and rendered pages, not
+    a separate existing record. An expanded semantic search covered ten AIO rows and
+    90 native definitions: the preceding ten AIO and 88 native rows were verified
+    unchanged, and the two additional AMSGrad and LAMB definitions were read. Three
+    complete AIO node/edge/generated contexts were verified unchanged; eight full
+    native context records were read or verified against prior full readings. NovoGrad
+    uses scalar block second moments to normalize each fresh gradient before momentum;
+    Adam/RMSprop use coordinate scales, LAMB normalizes a moment-scaled combined update,
+    and LARS/CLARS use different gradient norm rules. A running-maximum NovoGrad variant
+    is not identical to coordinate-wise AMSGrad. Shared layer-wise adaptive moments
+    wording in the earlier paper title is not a LAMB alias.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T03:28:13Z'
+  support: supports
+  summary: An expanded semantic search covers ten AIO rows and 90 native definitions.
+    Ten AIO and 88 native rows verify unchanged from the preceding reading; AMSGrad
+    and LAMB definitions were read. Three complete annotated AIO nodes, incident edges
+    and generated YAML were reread, and eight full native records provide identity
+    context. TrainingStrategy YAML reread after capture. Its model-training context
+    supports related_match while its preprocessing genus prevents an optimizer superclass
+    assertion.
+- evidence_id: ginsburg2020
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1905.11286v3
+  locator: Entire seven-page v3 preprint; especially Section 3 Algorithm 1 and Equations
+    4–6 on p. 2, initialization and variants on p. 3; pp. 2–3 reread after capture
+  accessed_at: '2026-10-13T03:07:28Z'
+  snapshot_sha256: 6c554ab644b32d386113c39281a93832035ad8a373a678882bb2bcb45a975ff7
+  support: supports
+  summary: February 6, 2020 preprint; all seven PDF pages inspected. PDF title differs
+    from the arXiv landing title Stochastic Gradient Methods with Layer-wise Adaptive
+    Moments for Training of Deep Networks.
+- evidence_id: tfaddons
+  kind: primary_source
+  reference: https://github.com/tensorflow/addons/blob/d208d752e98c310280938efa939117bf635a60a8/tensorflow_addons/optimizers/novograd.py
+  locator: Complete pinned NovoGrad optimizer file read before capture; lines 122–212
+    reread after capture
+  accessed_at: '2026-10-13T03:10:04Z'
+  snapshot_sha256: a8852c9d2541f10920c135c702f1ce14870f788ec905c0cc2460836a8f85957f
+  support: supports
+  summary: Git commit d208d752e98c310280938efa939117bf635a60a8 (April 15, 2024), archived
+    repository; complete optimizer file read statically. Later than the paper, not
+    asserted to reproduce its experiment configurations or momentum convention.
+- evidence_id: tfmomentum
+  kind: primary_source
+  reference: https://www.tensorflow.org/api_docs/python/tf/raw_ops/ResourceApplyKerasMomentum
+  locator: ResourceApplyKerasMomentum API signature, recurrence, argument and return
+    sections; displayed recurrence excerpt reread from hashed HTML after capture
+  accessed_at: '2026-10-13T03:15:07Z'
+  snapshot_sha256: 3dc5cef573effb084c5cb6ba88b00e842996816921f82b7c075a143272465e41
+  support: supports
+  summary: TensorFlow v2.16.1 reference; page last updated April 26, 2024. Inspected
+    recurrence and API section only, not navigation links or runtime.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/novograd-state-boundaries.py
+  accessed_at: '2026-10-13T03:30:30Z'
+  snapshot_sha256: ed6f2b064333e7ef82a5a4e8a2abcef3744645247362a265f8fa9405e983be26
+  support: supports
+  summary: Constructed vectors check normalization before versus after momentum, whole-history
+    rescaling, fresh versus accumulated bounds, zero initialization, decay placement,
+    rate-inside versus rate-outside velocity, gradient averaging and moment-state
+    storage. These are algebraic examples, not TensorFlow execution or training.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Scalar block gradient normalization before momentum
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - identity
+  - ginsburg2020
+  - tfaddons
+  - calculation
+  summary: Retain NovoGrad as a distinct DRAFT algorithm.
+  details: Full paper method and pinned official code identify NovoGrad. Its scalar
+    gradient-norm history and normalization order differ from Adam/RMSprop coordinate
+    moments, LAMB block normalization of a moment-scaled direction, and LARS/CLARS
+    norm ratios. A running-max variant is not identical to coordinate-wise AMSGrad.
+    All 21 ignored-inclusive text matches were read; they identify the preceding LAMB
+    comparison or lead rather than an existing NovoGrad record. The primary PDF title
+    differs from the landing title but the version identity is explicit.
+- assessment_id: mapping
+  area: grounding
+  topic: Direct training context at a qualified abstraction level
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - mapping
+  - ginsburg2020
+  summary: Related TrainingStrategy mapping is supported.
+  details: NovoGrad controls model parameter updates during training. The pinned AIO
+    target uses a preprocessing genus, so the record asserts contextual relatedness
+    without an is-a or equivalence claim. RegularizationLayer describes a loss-penalty
+    layer and SupervisedLearning a learning task; neither defines this optimizer.
+- assessment_id: scalar-second-moment-before-momentum
+  area: evidence
+  topic: scalar-second-moment-before-momentum
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: Equation 4 defines a scalar squared block-gradient norm history, and Equation
+    6 normalizes the fresh gradient before it enters momentum. A constructed two-step
+    example differs from normalization of already accumulated raw-gradient momentum.
+    The definition preserves this order rather than assigning a layer trust-ratio
+    identity.
+- assessment_id: decay-and-averaging-conventions
+  area: evidence
+  topic: decay-and-averaging-conventions
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: Equation 6 adds decay after gradient normalization and before momentum;
+    footnote 2 mentions the independent-shrink alternative. The page 3 averaged variant
+    changes the new contribution. Constructed examples show these choices differ under
+    a shared unadjusted schedule and state convention.
+- assessment_id: initialization-and-source-notation
+  area: evidence
+  topic: initialization-and-source-notation
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: The printed first-gradient initialization omits epsilon and leaves all-zero
+    gradients undefined. Algorithm 1 has implicit/inconsistent weight and loop indexing,
+    and Equation 5 visibly prints a minus-weight term. The record expressly follows
+    Equation 6 and does not pretend the pseudocode is an unambiguous executable initialization.
+- assessment_id: normalization-boundaries
+  area: evidence
+  topic: normalization-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: The denominator inequality gives the fresh-gradient bound for nonnegative
+    prior state and beta2 below one. Momentum and decay can exceed that fresh bound.
+    The beta2-zero unit-norm limit additionally needs zero epsilon and nonzero gradient;
+    scaling the complete gradient history requires consistent state scaling. The claims
+    are algebraic conditions, not convergence guarantees.
+- assessment_id: implementation-rate-and-zero-policy
+  area: evidence
+  topic: implementation-rate-and-zero-policy
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - tfaddons
+  - tfmomentum
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: The pinned dense path uses global iteration zero for scalar-state initialization,
+    a positive offset, post-normalization decay and optional averaging after the first
+    step. Its kernel call is paired with the explicit official API velocity recurrence.
+    A changing-rate two-step example distinguishes that convention from the paper
+    current-rate-outside-momentum form; sparse/runtime equivalence is not asserted.
+- assessment_id: state-memory-and-running-max
+  area: evidence
+  topic: state-memory-and-running-max
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - calculation
+  summary: Supported with explicit source and mathematical conditions.
+  details: One vector first moment plus one scalar second moment per block gives N+L
+    values, compared with Adam 2N at equal precision. The comparison excludes total
+    training storage and variant allocations. The running-max discussion does not
+    control an increasing global rate by itself and does not prove unconditional convergence;
+    source counterexample caveats are retained.
+- assessment_id: applications-and-evaluation-scope
+  area: evidence
+  topic: applications-and-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  summary: Supported with explicit source and mathematical conditions.
+  details: The complete paper includes the listed tasks and explicitly uses warm-up
+    and differing configurations in some experiments. The record imports no numerical
+    benchmark and makes no universal no-warm-up, performance or whole-system memory
+    claim.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Order, decay, scheduled rates and memory units
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - ginsburg2020
+  - tfaddons
+  - tfmomentum
+  - calculation
+  summary: Constructed examples confirm the stated distinctions.
+  details: With first gradient [1,0], second [0,2] and beta2=.25, scalar v2=3.25.
+    The normalized-momentum first coordinate is .9, whereas normalizing a raw-gradient
+    momentum gives about .49923. The fresh norm 1.10940 is below 1/sqrt(.75), while
+    total momentum norm 1.42855 exceeds it. Second-step decay contributions differ
+    inside versus outside momentum. For supplied orthogonal contributions and rates
+    .1 then .01, the paper step is [.009,.01] and documented Keras velocity gives
+    [.09,.01]. Positive epsilon resolves the constructed all-zero initial denominator,
+    and storage with N=1,000,000 and L=100 is .50005 of Adam moment elements. These
+    are constructed arithmetic checks, not framework or training results.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and versioned evidence
+  outcome: supported
+  target_ids:
+  - AIMech:NovoGrad
+  evidence_ids:
+  - identity
+  - mapping
+  - ginsburg2020
+  - tfaddons
+  - tfmomentum
+  - calculation
+  summary: All fields were inspected; DRAFT remains.
+  details: Read stable ID and label, kind, narrow definition and citation, complete
+    search context, seven claim statements and locators, three source identities/access/version/hash
+    fields, AIO pin and qualified mapping, six limitations and actual UTC curation.
+    Source/capture/context hashes and exact report mirror agree. Full seven-page paper
+    and optimizer-file coverage is distinguished from the bounded official API section
+    and unaudited dependencies/runtime. No actionable record defect was identified.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- One new DRAFT concept, yielding 567 native and 442 unchanged generated records.
+  The 752-entry main frontier retains 483 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- Experiments use differing configurations and include warm-up; source table/rate
+  differences remain in the discovery notes. No benchmark values, universal superiority,
+  independent proof certification or training result are imported.
+- All seven primary PDF pages, one complete pinned official optimizer file and the
+  cited momentum API section were read. Dependency helpers, compiled kernels and runtime
+  were not fully audited or executed. No training or empirical performance replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- adaptive-moments
+- self-review
+- discovery-ongoing
+```
