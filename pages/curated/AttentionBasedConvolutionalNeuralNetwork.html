@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attention-Based Convolutional Neural Network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Attention-Based Convolutional Neural Network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Attention-Based Convolutional Neural Network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:AttentionBasedConvolutionalNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ABCNN
+    </div>
+
+  <div class="detail-desc">
+    A sentence-pair neural architecture that uses cross-sentence distance affinities to add attention feature channels before convolution, reweight local pooling after convolution, or combine both stages when deriving pair-dependent sentence representations.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 608 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 104 AIO and 66 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This is Yin and colleagues’ named sentence-pair ABCNN, using reciprocal-distance affinities with input-feature and pooling attention variants. It is not the bilinear/max/softmax Attentive Pooling Network, CBAM channel/spatial refinement, PointNet set pooling, ABC-CNN visual QA or every later model reusing the acronym. ABCNN-1, -2 and -3 remain explicitly different variants.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#shared-sentence-convolution</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The sentence-pair backbone shares convolutional parameters across the two inputs. Wide zero-padded convolution with tanh produces local feature maps; window pooling returns a sequence of features for another block, and global average pooling supplies sentence representations used for similarity features. The formal presentation pads sentences to a common maximum length, while diagrams also illustrate unequal sentence lengths. This is an order-sensitive sentence encoder rather than an unordered set representation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 3–4, Figures 1–2; Section 4, pp. 5–7, Figure 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#input-attention-variant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ABCNN-1 computes cross-sentence affinities between input feature columns, using the reported reciprocal-one-plus-Euclidean-distance match function. Learned projections of the affinity matrix and its transpose produce attention feature maps. Each is stacked with its sentence representation as an extra convolution input channel. Although the notation uses W0 and W1, footnote 1 says their weights are shared in the implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 4–6, Equation 1, Figure 3(a) and footnote 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pool-attention-and-combined-variants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ABCNN-2 computes affinities after convolution, sums each row or column to obtain per-unit weights, and uses these in local weighted-sum pooling. The displayed formula includes no softmax or division by the sum of weights, despite the attention-based average-pooling terminology. Duplicating fixed counterpart feature columns can therefore scale the other sentence’s weights and pooled values. ABCNN-3 combines the input-attention and pooling-attention stages. The printed square s-by-s affinity shape in the ABCNN-2 paragraph does not match the expanded convolution lengths shown in Figure 3; this record follows the dimensions of the compared feature maps and width-w pooling, without asserting uninspected code conventions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 5–7, Figures 3(b)–3(c) and unnumbered attention-pooling formula; constructed sum and dimension examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#staged-training-and-feature-heads</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported experiments keep pretrained word embeddings fixed, train convolution-pooling blocks layerwise while freezing preceding blocks, and collect similarity features from multiple representation levels. Depending on the task, a separately trained linear SVM or logistic regression classifier uses these neural features together with specified linguistic features. This staged, feature-augmented protocol is not a claim that every reported result comes from one jointly trained neural head or from word embeddings alone.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF pp. 7–10, Common Training Setup and Layerwise Training; task-specific setups in Sections 5.1–5.3 and Table 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#task-specific-comparison-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    WikiQA answer selection, MSRP paraphrase identification and SICK textual entailment have different splits, filters, metrics and feature sets. WikiQA keeps questions with a correct answer and truncates long answers; MSRP uses swapped-pair augmentation, and SICK uses original and non-overlapping sentence versions. The strongest tabulated variants use extra features, and corresponding feature-removal results are weaker. The reported MSRP improvement over its comparator is not statistically significant, and additional depth is not uniformly better on every metric. These experiments do not establish universal architectural superiority or unanswerable-question detection.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Sections 5.1–5.3, PDF pp. 8–10, Tables 2–6 and footnotes 4, 6 and 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#attention-and-scope-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The attention values express cross-sentence similarity and feature weighting, not a normalized one-to-one word alignment. Feature maps depend on the counterpart sentence, so the construction does not guarantee independently precomputable sentence embeddings. The selected entailment visualization illustrates learned responses but does not prove causal explanation or general coreference resolution. ABCNN-1, ABCNN-2 and ABCNN-3 are variants of this named sentence-pair architecture; similarly named visual-question-answering or later attention-CNN systems are not automatically the same concept.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-yin2018">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 5–7; Section 5.3 and Figure 4, pp. 10–11; Conclusions, pp. 11–12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record denotes Yin and colleagues’ named sentence-pair ABCNN, not every attention-based CNN. Its three numbered variants are not interchangeable aliases.</li>
+      <li>Printed attention-matrix shapes and pooling-index notation are interpreted using the declared feature dimensions and window width. No author implementation was inspected to settle edge conventions.</li>
+      <li>Training stages, feature augmentation, task-specific splits and non-significant comparisons limit empirical conclusions; attention visualization is not causal validation.</li>
+      <li>All fourteen pages of arXiv1512.05193v4 were visually read, including figures, tables, footnotes and references. No author code, training, benchmark replication or other source version was inspected. DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Shared learned convolutional sentence encoders and attention-dependent feature computations form a specific neural architecture; the target is broader.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ConvolutionalLayer.html" style="font-weight: 600;"><code>AIO:ConvolutionalLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Convolutional Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Learned local convolutional filters are components of the architecture, not an equivalent sentence-pair model.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-yin2018">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">yin2018</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1512.05193v4" target="_blank" rel="noopener">ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Wenpeng Yin, Hinrich Schütze, Bing Xiang, Bowen Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1512.05193v4</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:46b9425267ae…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T11:11:55Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T11:14:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AttentionBasedConvolutionalNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AttentionBasedConvolutionalNeuralNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
