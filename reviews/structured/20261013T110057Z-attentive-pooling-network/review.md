@@ -1,0 +1,626 @@
+# Scientific author self-review of Attentive Pooling Network
+
+- Review: 20261013T110057Z-attentive-pooling-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T10:54:12Z
+- Finished UTC: 2026-10-13T11:00:57Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the named attentive pooling architecture as DRAFT with a broad ANN mapping. Six claims preserve dimensional interpretations, pair-conditioned behavior, encoder variants and evaluation limits. Author self-review resolves its confirmed Issue265 finding, preserving the immutable initial observation.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:AttentivePoolingNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 5f5966223a21ece5924450317e72c926b42cdaed.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AttentivePoolingNetwork | data/curated/AttentivePoolingNetwork.yaml | maintained | Attentive Pooling Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AttentivePoolingNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 233.45s (0:03:53)<br>Checked 442 record(s); 0 failed.<br>Checked 607 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 273 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 269,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AttentivePoolingNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AttentivePoolingNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AttentivePoolingNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:AttentivePoolingNetwork | {"base": {"question": [0.507756171183249, 0.9844876576335019], "answer": [0.9999999999999999, 0.670131771154941], "score": 0.8755490545374748, "question_weights": [0.507756171183249, 0.49224382881675094], "answer_weights": [0.3402635423098821, 0.3298682288450589, 0.3298682288450589]}, "paired_column_permutation_equal": true, "swapped_pair_score": 0.8568963148483892, "duplicate_question_read": [0.6735255751396126, 0.6529488497207746], "question_read_for_changed_answer": [0.5, 1.0], "unscaled_tanh_weight_ratio_bound": 7.38905609893065, "limits": "Nonempty chosen vectors with nonzero cosine norms; no encoder, training, max-tie gradient convention or empirical evaluation."} |
+
+## Scientific And Domain Assessments
+
+### Attentive Pooling Network
+
+identity: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain the named 2016 sentence-pair architecture. AP-CNN and AP-biLSTM are variants; generic later attention pooling, independent global max pooling and key-value retrieval are not exact identities.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+The declared AIO mapping is supported.
+
+Seven annotated AIO contexts support broad ANN across the encoder variants. The pinned AttentionLayer, spatial pooling concepts, visual CNN target, recurrence and OrdinalLLM do not cover the complete construction as equivalent/broader concepts.
+
+### pair-conditioned-alignment
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Eq13 bilinear/tanh interaction matrix feeds independent row and column maxima, separate softmax vectors and weighted input sums. This is neither an independent sentence embedding nor a stochastic one-to-one alignment matrix.
+
+### notation-and-reduction-boundaries
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+G is M by L, so row maxima range over L and column maxima over M. Printed swapped bounds and strict endpoints are noted rather than repeated as an implementation. Scores bounded by tanh imply a weight-ratio upper bound exp2 without a temperature multiplier.
+
+### encoder-and-ranking-variants
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Convolutional and bidirectional-LSTM variants share encoders within each pair, use cosine and a margin loss with sampled hardest negatives. A nonsymmetric U can yield different swapped-pair scores even though cosine itself is symmetric.
+
+### fixed-representation-pooling-limits
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Constructed fixed-column permutations preserve weighted representations, but duplicating a column changes its read and changing the answer changes the question read. These formula examples imply no invariance of the original word encoders.
+
+### filtered-answer-selection-evaluation
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section5 splits and filters bound answer-selection metrics. Table2 differs in filters and hyperparameters; the runtime claim is scoped to its implementation/hardware and cannot certify generic complexity.
+
+### comparison-and-explanation-boundaries
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+InsuranceQA favors AP-biLSTM over AP-CNN on test accuracy; WikiQA footnote6 gives a stronger feature-augmented comparator. Figures3–4 are cumulative threshold curves; Figures5–6 selected correct cases do not establish causal interpretation.
+
+### matrix-reduction dimensions, pair-conditioned pooling, encoded-column versus word-order invariance, score asymmetry and evaluation comparators
+
+consistency: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Chosen fixed vectors test pair-conditioned reads, permutation of encoded columns, duplicate sensitivity, asymmetric scoring under an unconstrained interaction matrix and the unscaled tanh/softmax weight-ratio bound. No word encoder, training or benchmark is implemented.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Full maintained record and seven mapping YAMLs reread after capture; primary methods, formula bounds, evaluation tables, footnote and visualizations reread against initial captured bytes; corrected equation locators reread after recapture. Constructed pair conditioning, permutation, duplication, asymmetry and ratio-bound checks recomputed.
+
+### Issue265 evidence accuracy correction
+
+evidence: supported. Targets: AIMech:AttentivePoolingNetwork.
+
+Confirmed evidence-accuracy finding resolved.
+
+The affected benchmark comparison or equation locators now match the primary evidence, with explicit predecessor lineage.
+
+## Findings
+
+### F2: Correct Attentive Pooling Network evidence accuracy
+
+minor / resolved / confirmed; issue key: attentive-pooling-equation-range.
+
+The definition evidence and two claim locators cite Equations13–19, but the primary method ends at Equation18 on PDFp4. Correct all three ranges to13–18; the mechanism itself is supported.
+
+Disposition: Corrected the DMN+ VQA-number comparator or the three Attentive Pooling equation ranges, as applicable. Full corrected record, exact report mirror, EDIT history and corrected-input checks establish resolution.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T104521Z-attentive-pooling-network.json | supports | Compared all 442 pinned AIO and 606 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 8, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 104 AIO and 64 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This is the named 2016 sentence-pair attentive pooling architecture, not every later method called attention pooling. AP-CNN and AP-biLSTM are instantiations rather than equivalent aliases of each other. The bilinear interaction/max/softmax construction differs from memory-key addressing, recurrent episodes and PointNet independent max pooling. |
+| mapping | sources/aio/aio.json | supports | Seven annotated AIO contexts support broad ANN across the encoder variants. The pinned AttentionLayer, spatial pooling concepts, visual CNN target, recurrence and OrdinalLLM do not cover the complete construction as equivalent/broader concepts. |
+| santos2016 | https://arxiv.org/pdf/1602.03609v1; All ten pages of arXiv1602.03609v1 visually read before curation; pages2–9 reread after the initial capture; the correction evidence reread after the corrected capture. Other versions, author code, training, max-tie handling and hardware benchmarks not inspected. | supports | arXiv 1602.03609v1, 11 February 2016, ten PDF pages. All pages visually read, including equations, tables, heatmaps and references. Locators use PDF page order. Other versions and author code not inspected. |
+| calculation | research/discovery/attentive-pooling-boundaries.py | supports | Chosen fixed vectors test pair-conditioned reads, permutation of encoded columns, duplicate sensitivity, asymmetric scoring under an unconstrained interaction matrix and the unscaled tanh/softmax weight-ratio bound. No word encoder, training or benchmark is implemented. |
+| predecessor | reviews/structured/20261013T105057Z-dmn-plus-attentive-pooling-findings/review.yaml | supports | Immutable initial review preserves the confirmed DMN+ benchmark comparison and Attentive Pooling locator findings. |
+| corrected-record | data/curated/AttentivePoolingNetwork.yaml | supports | Full corrected maintained record, synchronized report and EDIT history inspected. Table3 confirms the corrected comparison; Section3 ends at Equation18. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 607 native and 442 unchanged generated records. The 791-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All ten PDF pages visually inspected across the continued session, including equations, tables, both heatmaps and references.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T110057Z-attentive-pooling-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Attentive Pooling Network
+started_at: '2026-10-13T10:54:12Z'
+finished_at: '2026-10-13T11:00:57Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged matrix-reduction dimensions, pair-conditioned
+    pooling, encoded-column versus word-order invariance, score asymmetry and evaluation
+    comparators. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the named attentive pooling architecture as DRAFT with a broad ANN
+  mapping. Six claims preserve dimensional interpretations, pair-conditioned behavior,
+  encoder variants and evaluation limits. Author self-review resolves its confirmed
+  Issue265 finding, preserving the immutable initial observation.
+source:
+  git_revision: 5f5966223a21ece5924450317e72c926b42cdaed
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AttentionLayer.yaml
+    sha256: ace47f724bab8a1aec9f963f7d8121f148134e5bbcce7c23a3a1f62c9c83619b
+    role: context
+  - path: data/aio/DeepConvolutionalNetwork.yaml
+    sha256: b2be73a895ae3890ca0ba464c1d0de55e41960f33ec53dcab4547abfe1159c62
+    role: context
+  - path: data/aio/GlobalMaxPooling1DLayer.yaml
+    sha256: 6265a7dc4f89cc5c18b438f911be33f0ce1c863a0aff5220bac050c04fc64721
+    role: context
+  - path: data/aio/OrdinalLLM.yaml
+    sha256: 2bbb482a7007dd95f6e644863e264f646f7cc40e3debc05273bdb7ac96160d4b
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/curated/AttentivePoolingNetwork.yaml
+    sha256: c2c9abe6d2c5f19926cca4cf6a06203bd6c3f285cf7558fd56983d278aded52d
+    role: target
+  - path: data/curated/DynamicMemoryNetwork.yaml
+    sha256: 0affc6bdf4fd1c02c6d423d8560b53d357f5eca0ec8d93d29176375da25636fe
+    role: context
+  - path: data/curated/KeyValueMemoryNetwork.yaml
+    sha256: 7c1c576ad0b4626e66cdcafbba48877a7058c145b07c55fb2a9317d789ad2831
+    role: context
+  - path: data/curated/PointNet.yaml
+    sha256: b2292a45d360ee989f143838b4ca9008033e69d63c5b578e7e2ab45fb6ee80dd
+    role: context
+  - path: research/discovery/20261013T104521Z-attentive-pooling-network.json
+    sha256: 3457e05bdae5e9176d531bfe24a1825e7e3f5070133ba5ee5973f78992cfa5f5
+    role: context
+  - path: research/discovery/attentive-pooling-boundaries.py
+    sha256: 948b6b4d9a73011d06006d1731b2ec0675788c7de3ce996337a1ad5f6aea38dc
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AttentivePoolingNetwork
+  path: data/curated/AttentivePoolingNetwork.yaml
+  label: Attentive Pooling Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AttentivePoolingNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:AttentivePoolingNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All ten pages of arXiv1602.03609v1 visually read before curation; pages2–9
+      reread after the initial capture; the correction evidence reread after the corrected
+      capture. Other versions, author code, training, max-tie handling and hardware
+      benchmarks not inspected.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 233.45s (0:03:53)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 607 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 273 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 269,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/attentive-pooling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"base": {"question": [0.507756171183249, 0.9844876576335019], "answer":
+    [0.9999999999999999, 0.670131771154941], "score": 0.8755490545374748, "question_weights":
+    [0.507756171183249, 0.49224382881675094], "answer_weights": [0.3402635423098821,
+    0.3298682288450589, 0.3298682288450589]}, "paired_column_permutation_equal": true,
+    "swapped_pair_score": 0.8568963148483892, "duplicate_question_read": [0.6735255751396126,
+    0.6529488497207746], "question_read_for_changed_answer": [0.5, 1.0], "unscaled_tanh_weight_ratio_bound":
+    7.38905609893065, "limits": "Nonempty chosen vectors with nonzero cosine norms;
+    no encoder, training, max-tie gradient convention or empirical evaluation."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T104521Z-attentive-pooling-network.json
+  accessed_at: '2026-10-13T10:54:12Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 606 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    8, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    104 AIO and 64 native definitions, with every matched definition read. 7 full
+    annotated AIO node/edge/generated contexts and 3 full native records were inspected.
+    This is the named 2016 sentence-pair attentive pooling architecture, not every
+    later method called attention pooling. AP-CNN and AP-biLSTM are instantiations
+    rather than equivalent aliases of each other. The bilinear interaction/max/softmax
+    construction differs from memory-key addressing, recurrent episodes and PointNet
+    independent max pooling.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T10:54:12Z'
+  support: supports
+  summary: Seven annotated AIO contexts support broad ANN across the encoder variants.
+    The pinned AttentionLayer, spatial pooling concepts, visual CNN target, recurrence
+    and OrdinalLLM do not cover the complete construction as equivalent/broader concepts.
+- evidence_id: santos2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1602.03609v1
+  locator: All ten pages of arXiv1602.03609v1 visually read before curation; pages2–9
+    reread after the initial capture; the correction evidence reread after the corrected
+    capture. Other versions, author code, training, max-tie handling and hardware
+    benchmarks not inspected.
+  accessed_at: '2026-10-13T10:24:38Z'
+  snapshot_sha256: 16f2cd4db2b02c261e27fa9fbff1fb666ebe09957bc0ae8deed4d1cd677d3e71
+  support: supports
+  summary: arXiv 1602.03609v1, 11 February 2016, ten PDF pages. All pages visually
+    read, including equations, tables, heatmaps and references. Locators use PDF page
+    order. Other versions and author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/attentive-pooling-boundaries.py
+  accessed_at: '2026-10-13T10:55:25Z'
+  snapshot_sha256: 948b6b4d9a73011d06006d1731b2ec0675788c7de3ce996337a1ad5f6aea38dc
+  support: supports
+  summary: Chosen fixed vectors test pair-conditioned reads, permutation of encoded
+    columns, duplicate sensitivity, asymmetric scoring under an unconstrained interaction
+    matrix and the unscaled tanh/softmax weight-ratio bound. No word encoder, training
+    or benchmark is implemented.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T105057Z-dmn-plus-attentive-pooling-findings/review.yaml
+  accessed_at: '2026-10-13T10:55:25Z'
+  snapshot_sha256: 8fcc472e17c5e34087a2693393b74f52d2fa03ed32e1ac53c8759f029a39af99
+  support: supports
+  summary: Immutable initial review preserves the confirmed DMN+ benchmark comparison
+    and Attentive Pooling locator findings.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/AttentivePoolingNetwork.yaml
+  accessed_at: '2026-10-13T10:55:25Z'
+  snapshot_sha256: c2c9abe6d2c5f19926cca4cf6a06203bd6c3f285cf7558fd56983d278aded52d
+  support: supports
+  summary: Full corrected maintained record, synchronized report and EDIT history
+    inspected. Table3 confirms the corrected comparison; Section3 ends at Equation18.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Attentive Pooling Network
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - identity
+  - santos2016
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain the named 2016 sentence-pair architecture. AP-CNN and AP-biLSTM
+    are variants; generic later attention pooling, independent global max pooling
+    and key-value retrieval are not exact identities.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - mapping
+  - santos2016
+  summary: The declared AIO mapping is supported.
+  details: Seven annotated AIO contexts support broad ANN across the encoder variants.
+    The pinned AttentionLayer, spatial pooling concepts, visual CNN target, recurrence
+    and OrdinalLLM do not cover the complete construction as equivalent/broader concepts.
+- assessment_id: pair-conditioned-alignment
+  area: evidence
+  topic: pair-conditioned-alignment
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Eq13 bilinear/tanh interaction matrix feeds independent row and column
+    maxima, separate softmax vectors and weighted input sums. This is neither an independent
+    sentence embedding nor a stochastic one-to-one alignment matrix.
+- assessment_id: notation-and-reduction-boundaries
+  area: evidence
+  topic: notation-and-reduction-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: G is M by L, so row maxima range over L and column maxima over M. Printed
+    swapped bounds and strict endpoints are noted rather than repeated as an implementation.
+    Scores bounded by tanh imply a weight-ratio upper bound exp2 without a temperature
+    multiplier.
+- assessment_id: encoder-and-ranking-variants
+  area: evidence
+  topic: encoder-and-ranking-variants
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Convolutional and bidirectional-LSTM variants share encoders within each
+    pair, use cosine and a margin loss with sampled hardest negatives. A nonsymmetric
+    U can yield different swapped-pair scores even though cosine itself is symmetric.
+- assessment_id: fixed-representation-pooling-limits
+  area: evidence
+  topic: fixed-representation-pooling-limits
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Constructed fixed-column permutations preserve weighted representations,
+    but duplicating a column changes its read and changing the answer changes the
+    question read. These formula examples imply no invariance of the original word
+    encoders.
+- assessment_id: filtered-answer-selection-evaluation
+  area: evidence
+  topic: filtered-answer-selection-evaluation
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section5 splits and filters bound answer-selection metrics. Table2 differs
+    in filters and hyperparameters; the runtime claim is scoped to its implementation/hardware
+    and cannot certify generic complexity.
+- assessment_id: comparison-and-explanation-boundaries
+  area: evidence
+  topic: comparison-and-explanation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: InsuranceQA favors AP-biLSTM over AP-CNN on test accuracy; WikiQA footnote6
+    gives a stronger feature-augmented comparator. Figures3–4 are cumulative threshold
+    curves; Figures5–6 selected correct cases do not establish causal interpretation.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: matrix-reduction dimensions, pair-conditioned pooling, encoded-column versus
+    word-order invariance, score asymmetry and evaluation comparators
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - santos2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen fixed vectors test pair-conditioned reads, permutation of encoded
+    columns, duplicate sensitivity, asymmetric scoring under an unconstrained interaction
+    matrix and the unscaled tanh/softmax weight-ratio bound. No word encoder, training
+    or benchmark is implemented.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - santos2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Full maintained record and seven mapping YAMLs
+    reread after capture; primary methods, formula bounds, evaluation tables, footnote
+    and visualizations reread against initial captured bytes; corrected equation locators
+    reread after recapture. Constructed pair conditioning, permutation, duplication,
+    asymmetry and ratio-bound checks recomputed.
+- assessment_id: review-remediation
+  area: evidence
+  topic: Issue265 evidence accuracy correction
+  outcome: supported
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  evidence_ids:
+  - predecessor
+  - corrected-record
+  - santos2016
+  summary: Confirmed evidence-accuracy finding resolved.
+  details: The affected benchmark comparison or equation locators now match the primary
+    evidence, with explicit predecessor lineage.
+findings:
+- finding_id: F2
+  issue_key: attentive-pooling-equation-range
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct Attentive Pooling Network evidence accuracy
+  description: The definition evidence and two claim locators cite Equations13–19,
+    but the primary method ends at Equation18 on PDFp4. Correct all three ranges to13–18;
+    the mechanism itself is supported.
+  target_ids:
+  - AIMech:AttentivePoolingNetwork
+  field_paths:
+  - definition_evidence
+  - claims[claim_id=pair-conditioned-alignment].evidence
+  - claims[claim_id=fixed-representation-pooling-limits].evidence
+  evidence_ids:
+  - predecessor
+  - corrected-record
+  - santos2016
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AttentivePoolingNetwork.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T105057Z-dmn-plus-attentive-pooling-findings
+    finding_id: F2
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/265
+  disposition_reason: Corrected the DMN+ VQA-number comparator or the three Attentive
+    Pooling equation ranges, as applicable. Full corrected record, exact report mirror,
+    EDIT history and corrected-input checks establish resolution.
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 607 native and 442 unchanged generated records.
+  The 791-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All ten PDF pages visually inspected across the continued session, including equations,
+  tables, both heatmaps and references.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T105057Z-dmn-plus-attentive-pooling-findings
+  relationship: Resolves only the explicitly linked evidence-accuracy finding for
+    this record; companion review addresses the other record.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
