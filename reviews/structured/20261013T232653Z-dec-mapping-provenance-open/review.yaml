@@ -1,0 +1,247 @@
+schema_version: 1.0.0
+review_id: 20261013T232653Z-dec-mapping-provenance-open
+kind: record
+repository: CultureBotAI/AIMech
+title: Scoped author self-review of DEC mapping rationale provenance
+started_at: '2026-10-13T23:23:07Z'
+finished_at: '2026-10-13T23:26:53Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author checks the copied mapping text and its correction;
+    this is not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: needs_curation
+scientific_review: false
+summary: Confirmed a minor unrelated IMSAT qualifier in DEC mapping rationale.
+source:
+  git_revision: 1377423f6aa0f01ab39d7726bc87b2c14a8a6c23
+  state: working_tree
+  inputs:
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/DeepEmbeddedClustering.yaml
+    sha256: 7b90073cfb13c3433ec9df68e542ca7a7c90375a466312d9f06a3840a8f02531
+    role: target
+  - path: data/curated/InformationMaximizingSelfAugmentedTraining.yaml
+    sha256: cd1a3bf10ff09203c9ac3271d82257aeb14ec0bb43064e5a604a0e5eef47196a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DeepEmbeddedClustering
+  path: data/curated/DeepEmbeddedClustering.yaml
+  label: Deep embedded clustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepEmbeddedClustering.yaml
+    role: maintained
+scope:
+  description: Mapping rationale provenance only; literature support not reassessed.
+  selection: Exact maintained ID AIMech:DeepEmbeddedClustering
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exclusions:
+  - target: DEC literature, implementation, mechanism and empirical claims
+    reason: No new scientific review or source revision inspection in this correction.
+  - target: IMSAT and other records
+    reason: Identity context only; no full review or curation.
+checks:
+- check_id: required-0
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-1
+  name: uv run --locked aimech validate
+  command: uv run --locked aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 442 record(s); 0 failed.
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech validate-curated
+  command: uv run --locked aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Checked 658 curated concept record(s); 0 error(s).
+
+    '
+- check_id: required-3
+  name: uv run --locked aimech seed --check
+  command: uv run --locked aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'AIO: 442 records; 0 missing, 0 changed, 0 unexpected.
+
+    '
+- check_id: required-4
+  name: /private/tmp/aimech-recovery-venv/bin/python scripts/record_review.py check
+  command: /private/tmp/aimech-recovery-venv/bin/python scripts/record_review.py check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 338,\n\
+    \  \"coverage\": \"declared_scopes_only\"\n}\ntopClass is deprecated - use top_class\n"
+- check_id: lineage-and-scope
+  name: Same-defect lineage and bounded change verification
+  command: /private/tmp/aimech-recovery-venv/bin/python /private/tmp/aimech-dec-round266.py
+    review open
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Traversed all structured YAML bundles including hidden/ignored paths for
+    the exact same-defect keys; verified initial absence or the sole predecessor with
+    the complete affected target set. For the successor, compared the entire parsed
+    record with the initial captured record.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/DeepEmbeddedClustering.yaml
+  locator: id, identity_notes, definition, aio_mappings/0
+  accessed_at: '2026-10-13T23:23:49Z'
+  snapshot_sha256: 7b90073cfb13c3433ec9df68e542ca7a7c90375a466312d9f06a3840a8f02531
+  support: supports
+  summary: Read the complete record for internal context; scientifically reassessed
+    no literature claim. The provenance defect is the misplaced IMSAT qualifier.
+- evidence_id: aio-context
+  kind: record_content
+  reference: sources/aio/aio.json
+  locator: CLASS https://w3id.org/aio/UnsupervisedClustering and incident is_a edge
+    to Clustering
+  accessed_at: '2026-10-13T23:23:49Z'
+  snapshot_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+  support: supports
+  summary: The pinned target defines an unlabeled clustering task; its annotation
+    does not concern IMSAT categorical or binary configurations.
+- evidence_id: imsat-context
+  kind: record_content
+  reference: data/curated/InformationMaximizingSelfAugmentedTraining.yaml
+  locator: id, definition, aio_mappings/0
+  accessed_at: '2026-10-13T23:23:49Z'
+  snapshot_sha256: cd1a3bf10ff09203c9ac3271d82257aeb14ec0bb43064e5a604a0e5eef47196a
+  support: supports
+  summary: The separate IMSAT record supplies the actual identity/configuration context
+    of the copied qualifier. This contextual reading is not a full review of IMSAT.
+assessments:
+- assessment_id: owner-and-target
+  area: ownership
+  topic: Maintained DEC owner and related AIO task
+  outcome: supported
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  evidence_ids:
+  - record
+  - aio-context
+  summary: The local algorithm record owns the rationale; the pinned AIO target and
+    related_match direction are retained.
+- assessment_id: mapping-wording
+  area: provenance
+  topic: Unrelated IMSAT configuration text
+  outcome: concern
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  evidence_ids:
+  - record
+  - aio-context
+  - imsat-context
+  summary: The IMSAT sentence does not belong in the DEC rationale.
+findings:
+- finding_id: unrelated-imsat-text
+  issue_key: aimech-deep-embedded-clustering-unrelated-imsat-mapping-rationale
+  category: provenance
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Remove unrelated IMSAT qualifier from DEC mapping rationale
+  description: The DEC record contains an IMSAT-specific categorical-versus-binary-hashing
+    qualifier in its AIO mapping rationale. DEC identity and the mapped task do not
+    introduce IMSAT configuration scope.
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  field_paths:
+  - aio_mappings/0/rationale
+  evidence_ids:
+  - record
+  - aio-context
+  - imsat-context
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepEmbeddedClustering.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/319
+actions:
+- action_id: remove-unrelated-qualifier
+  description: Remove only the IMSAT-specific sentence, retain the related task mapping
+    and append actual EDIT history; regenerate the page and save a linked successor
+    review.
+  finding_ids:
+  - unrelated-imsat-text
+  target_ids:
+  - AIMech:DeepEmbeddedClustering
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DeepEmbeddedClustering.yaml
+    role: maintained
+  acceptance_checks:
+  - Only the mapping rationale and actual updated_at may change in the record.
+  - Retain all scientific claims, evidence, source versions, AIO target/relation and
+    DRAFT status.
+  - Run just check and just vendored-check, and explicitly resolve the saved finding
+    after reinspection.
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- This is a partial provenance review. Literature support, implementation behavior
+  and other scientific fields were not reassessed.
+related_reviews: []
+links:
+- https://github.com/CultureBotAI/AIMech/issues/319
+tags:
+- native-concepts
+- self-review
+- provenance-correction
