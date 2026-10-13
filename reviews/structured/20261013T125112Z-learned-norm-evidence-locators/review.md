@@ -1,0 +1,262 @@
+# Learned-norm primary section locator finding
+
+- Review: 20261013T125112Z-learned-norm-evidence-locators
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T12:48:59Z
+- Finished UTC: 2026-10-13T12:51:12Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+One minor evidence-locator finding affecting two section references; the definition and qualified claims remain supported.
+
+## Scope And Provenance
+
+Section references in two learned-norm claim evidence locators.
+
+Selection: Exact maintained ID AIMech:LearnedNormPoolingUnit
+Coverage: partial; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base d7487520d6fbc6e9c415d3aea32da0870966016d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LearnedNormPoolingUnit | data/curated/LearnedNormPoolingUnit.yaml | maintained | Learned-Norm Pooling Unit |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Corrected-input publication gates | skipped | True | AIMech:LearnedNormPoolingUnit | Corrected inputs do not yet exist; pre-correction checks do not validate them. |
+
+## Scientific And Domain Assessments
+
+### Primary source section references
+
+evidence: concern. Targets: AIMech:LearnedNormPoolingUnit.
+
+Correct the two source section references.
+
+The geometry claim cites Sections3.1–3.3, but the paper’s geometry discussion is Section4, beginning on page5. The evaluation claim cites Sections3.4 and4, but recurrent application is Section5 and experiments are Section6. The cited page ranges and underlying qualified claims remain supported. Replace those section labels with the actual headings in the inspected v7 PDF.
+
+## Findings
+
+### F1: Correct learned-norm paper section locators
+
+minor / open / confirmed; issue key: learned-norm-primary-section-locators.
+
+The geometry claim cites Sections3.1–3.3, but the paper’s geometry discussion is Section4, beginning on page5. The evaluation claim cites Sections3.4 and4, but recurrent application is Section5 and experiments are Section6. The cited page ranges and underlying qualified claims remain supported. Replace those section labels with the actual headings in the inspected v7 PDF.
+
+## Recommended Actions And Acceptance Checks
+
+### A1
+
+Correct locators, synchronize the discovery report, append history, recapture and reassess.
+
+- Geometry locator identifies Sections3.1 and4.
+- Application/evaluation locator identifies Sections5–6.
+- Corrected-input gates and successor review pass.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| record | data/curated/LearnedNormPoolingUnit.yaml | supports | Complete maintained record read after capture; two locators contain incorrect section numbers. |
+| paper | https://arxiv.org/pdf/1311.1780v7; PDF p.5, Section4 heading; p.10, Section5 heading; pp.11–14, Section6 and Section6.5 headings. | supports | Primary pages visually inspected; geometric interpretation is Section4, recurrent application Section5, and experiments Section6. The complete17-page source was read before curation. |
+
+## Limits And Additional Notes
+
+- Partial author self-review; DRAFT remains.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T125112Z-learned-norm-evidence-locators
+kind: record
+repository: CultureBotAI/AIMech
+title: Learned-norm primary section locator finding
+started_at: '2026-10-13T12:48:59Z'
+finished_at: '2026-10-13T12:51:12Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author compared maintained evidence locators with primary-page
+    headings; not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One minor evidence-locator finding affecting two section references; the
+  definition and qualified claims remain supported.
+source:
+  git_revision: d7487520d6fbc6e9c415d3aea32da0870966016d
+  state: working_tree
+  inputs:
+  - path: data/aio/ActivationLayer.yaml
+    sha256: 3b7d6dfd59e913373ceec1986f4210636d894f9ad3396d0d65284f5167bf2a1c
+    role: context
+  - path: data/aio/LPPool1DLayer.yaml
+    sha256: 5ffd0db4838efd447eebc325435b5712dfd9c4f81706aa895cc652087f098819
+    role: context
+  - path: data/aio/LPPool2DLayer.yaml
+    sha256: c5dc28f53ee24d6668e48f99d9013117914608ee01761d7fc1a4139d9cbdf9c8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/curated/DeepOutputTransitionRecurrentNeuralNetwork.yaml
+    sha256: e5db3b375b27e78f1a02df4034024b07f1584d21bb945eb0c0e15c4ea9051d4e
+    role: context
+  - path: data/curated/LearnedNormPoolingUnit.yaml
+    sha256: 7d5e9eff5613e28820dd5466fad9e83e1d7094d33ace84beb923916b9158079a
+    role: target
+  - path: data/curated/NoisyRectifier.yaml
+    sha256: fb65c10663835e61629f05d55866248e00aed07a28cc00eb444499d0f4936f28
+    role: context
+  - path: research/discovery/20261013T124810Z-learned-norm-pooling-unit.json
+    sha256: a80a2c05d8fc7c40e4a387e839ccee99bc56f72b43be5070d6835d252cfd0cae
+    role: context
+  - path: research/discovery/learned-norm-pooling-boundaries.py
+    sha256: abdc5cccb49277987e7c137eaf82af91575af8eab45f6b178471dadcf861caa8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LearnedNormPoolingUnit
+  path: data/curated/LearnedNormPoolingUnit.yaml
+  label: Learned-Norm Pooling Unit
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LearnedNormPoolingUnit.yaml
+    role: maintained
+scope:
+  description: Section references in two learned-norm claim evidence locators.
+  selection: Exact maintained ID AIMech:LearnedNormPoolingUnit
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LearnedNormPoolingUnit
+  exclusions:
+  - target: Corrected-input complete scientific review
+    reason: Pending correction and final gates.
+checks:
+- check_id: corrected-publication
+  name: Corrected-input publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:LearnedNormPoolingUnit
+  summary: Corrected inputs do not yet exist; pre-correction checks do not validate
+    them.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: data/curated/LearnedNormPoolingUnit.yaml
+  accessed_at: '2026-10-13T12:51:12Z'
+  snapshot_sha256: 7d5e9eff5613e28820dd5466fad9e83e1d7094d33ace84beb923916b9158079a
+  support: supports
+  summary: Complete maintained record read after capture; two locators contain incorrect
+    section numbers.
+- evidence_id: paper
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1311.1780v7
+  accessed_at: '2026-10-13T12:26:34Z'
+  snapshot_sha256: 78be80b3efeb98d442921ba5f7f71a8f33fd0285f17732a1664942da74015ff9
+  support: supports
+  locator: PDF p.5, Section4 heading; p.10, Section5 heading; pp.11–14, Section6 and
+    Section6.5 headings.
+  summary: Primary pages visually inspected; geometric interpretation is Section4,
+    recurrent application Section5, and experiments Section6. The complete17-page
+    source was read before curation.
+assessments:
+- assessment_id: section-locators
+  area: evidence
+  topic: Primary source section references
+  outcome: concern
+  target_ids:
+  - AIMech:LearnedNormPoolingUnit
+  evidence_ids:
+  - record
+  - paper
+  summary: Correct the two source section references.
+  details: The geometry claim cites Sections3.1–3.3, but the paper’s geometry discussion
+    is Section4, beginning on page5. The evaluation claim cites Sections3.4 and4,
+    but recurrent application is Section5 and experiments are Section6. The cited
+    page ranges and underlying qualified claims remain supported. Replace those section
+    labels with the actual headings in the inspected v7 PDF.
+findings:
+- finding_id: F1
+  issue_key: learned-norm-primary-section-locators
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Correct learned-norm paper section locators
+  description: The geometry claim cites Sections3.1–3.3, but the paper’s geometry
+    discussion is Section4, beginning on page5. The evaluation claim cites Sections3.4
+    and4, but recurrent application is Section5 and experiments are Section6. The
+    cited page ranges and underlying qualified claims remain supported. Replace those
+    section labels with the actual headings in the inspected v7 PDF.
+  target_ids:
+  - AIMech:LearnedNormPoolingUnit
+  field_paths:
+  - claims[claim_id=geometry-and-differentiability-boundaries].evidence[0].locator
+  - claims[claim_id=finite-network-evaluation-scope].evidence[0].locator
+  evidence_ids:
+  - record
+  - paper
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LearnedNormPoolingUnit.yaml
+    role: maintained
+actions:
+- action_id: A1
+  description: Correct locators, synchronize the discovery report, append history,
+    recapture and reassess.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:LearnedNormPoolingUnit
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LearnedNormPoolingUnit.yaml
+    role: maintained
+  acceptance_checks:
+  - Geometry locator identifies Sections3.1 and4.
+  - Application/evaluation locator identifies Sections5–6.
+  - Corrected-input gates and successor review pass.
+limitations:
+- Partial author self-review; DRAFT remains.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- evidence-locators
+```

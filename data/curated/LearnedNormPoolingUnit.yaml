@@ -1,0 +1,123 @@
+id: AIMech:LearnedNormPoolingUnit
+name: Learned-Norm Pooling Unit
+aliases:
+- Lp unit
+- Learned-norm pooling
+concept_kind: mathematical_method
+definition: A parameterized neural unit that pools a group of learned linear projections by the power
+  mean of their absolute deviations from learned centers, with a trainable norm order for each unit.
+identity_notes: Compared all 442 pinned AIO and 617 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 11, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 93 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. This
+  record denotes the learned centered Lp pooling unit of Gulcehre and colleagues, including its trainable
+  projection weights, centers and norm order. It is a parameterized neural computation, not the complete
+  MLP or RNN using it, generic fixed-power spatial pooling, a normalization layer or deterministic signed
+  maxout. The alias Lp unit is scoped to this primary construction.
+definition_evidence:
+- source_id: gulcehre2014
+  locator: Section 3.1, PDF pp. 3–4, Equation 3 and Figure 1
+  relation: supports
+claims:
+- claim_id: learned-centered-power-mean
+  kind: mechanism
+  statement: For a group of N projections a_i=w_i^T x, the unit outputs (sum_i |a_i-c_i|^p / N)^(1/p).
+    Projection weights, centers c_i and order p are learned. The implementation described in the paper
+    uses p=1+log(1+exp(rho)), which is strictly greater than one for finite real rho and approaches one
+    as rho tends to negative infinity. Within a layer, the described construction divides projections
+    into equal-sized nonoverlapping groups, giving each unit its own filters. This grouping is over learned
+    projections and need not be spatial pooling.
+  evidence:
+  - source_id: gulcehre2014
+    locator: Section 3.1, PDF pp. 3–4, Equation 3, projection definition and order reparameterization
+    relation: supports
+- claim_id: absolute-response-and-limit-scope
+  kind: mechanism
+  statement: With zero centers, order one gives the mean absolute response, order two gives root-mean-square
+    response, and the positive infinite-order limit gives the maximum absolute response. Signed mean or
+    signed maximum is not generally recovered; nonnegative responses are a sufficient condition for those
+    equalities. A finite learned order is not the exact maximum limit. One projection reduces to the absolute
+    centered response independently of its order. These distinctions qualify the paper’s simplified mean/maxout
+    comparisons.
+  evidence:
+  - source_id: gulcehre2014
+    locator: Section 3.2, PDF p. 5, special-case formulas; Equation 3, pp. 3–4; direct constructed power-mean
+      calculations
+    relation: supports
+- claim_id: geometry-and-differentiability-boundaries
+  kind: limitation
+  statement: For fixed parameters and order at least one, sublevel sets of the norm applied to an affine
+    projection are convex. This does not make every multilayer classifier boundary convex. Learned centers
+    generally prevent the resulting function from being a norm of the original input, and rank-deficient
+    projections can produce unbounded level sets. The absolute-value construction is continuous; it can
+    be nondifferentiable at zero residual, as a scalar example demonstrates. The page-four footnote’s
+    discontinuity wording is not adopted as a mathematical claim.
+  evidence:
+  - source_id: gulcehre2014
+    locator: Sections 3.1 and 4, PDF pp. 3–9, Figure 2 and page-four footnote; direct constructed centered-scalar
+      and rank-deficient examples
+    relation: supports
+- claim_id: finite-network-evaluation-scope
+  kind: limitation
+  statement: The paper evaluates networks containing these units on feedforward classification tasks and
+    polyphonic music modeling. Learned orders vary by task and unit. The recurrent experiments combine
+    Lp transition units with a bounding tanh stage, maxout output and dropout, so their results do not
+    isolate learning the order as the sole cause. Bounded hidden values do not guarantee stable recurrent
+    derivatives. Table 2 reports 31.85 percent Pentomino classification error while nearby prose gives
+    31.38 percent; the source discrepancy is retained rather than silently reconciled. No universal superiority
+    or replicated performance is asserted.
+  evidence:
+  - source_id: gulcehre2014
+    locator: Sections 5–6, PDF pp. 10–15, Tables 1–4 and feedforward/recurrent experimental descriptions
+    relation: supports
+evidence_sources:
+- source_id: gulcehre2014
+  title: Learned-Norm Pooling for Deep Feedforward and Recurrent Neural Networks
+  authors:
+  - Caglar Gulcehre
+  - Kyunghyun Cho
+  - Razvan Pascanu
+  - Yoshua Bengio
+  persistent_id: arXiv:1311.1780v7
+  version: arXiv:1311.1780v7, 2 September 2014, 17 PDF pages; primary metadata identifies ECML/PKDD 2014.
+    All pages visually read, including figures, tables, footnotes and references. PDF and printed page
+    numbers agree. Author implementation and other versions not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1311.1780v7
+  access_level: full_text
+  accessed_at: '2026-10-13T12:26:34Z'
+  sha256: 78be80b3efeb98d442921ba5f7f71a8f33fd0285f17732a1664942da74015ff9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: broad_match
+  rationale: For fixed learned parameters this unit supplies a defined scalar function of its inputs;
+    the pinned mathematical-function class is broader.
+- target: AIO:LPPool1DLayer
+  relation: related_match
+  rationale: Both use a power-pooling computation. The local learned projection/center/order unit is not
+    restricted to one-dimensional pooling and is not asserted equivalent to this layer.
+- target: AIO:LPPool2DLayer
+  relation: related_match
+  rationale: Both use a power-pooling computation, but the local unit learns its projections, centers
+    and order and is not restricted to two-dimensional spatial pooling.
+limitations:
+- The source’s Lp unit terminology is scoped to this learned centered projection construction. A unit
+  computation, its containing layer and a complete MLP or recurrent architecture are distinct.
+- Special cases require their stated centers, sign conditions and limits. Centered affine responses need
+  not define a norm of the original input; continuity does not imply differentiability everywhere.
+- The Pentomino table/prose discrepancy is preserved. Experimental evidence concerns finite configured
+  networks, not an isolated causal ablation of learned order.
+- One complete 17-page versioned paper was visually inspected. No author implementation or model training
+  was executed; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T12:48:10Z'
+  updated_at: '2026-10-13T12:53:53Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
