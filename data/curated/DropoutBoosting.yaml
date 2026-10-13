@@ -1,0 +1,130 @@
+id: AIMech:DropoutBoosting
+name: Dropout Boosting
+aliases: []
+concept_kind: algorithm
+definition: A dropout-mask training procedure proposed to optimize the likelihood of a normalized geometric
+  ensemble, updating through a selected shared-parameter subnetwork while approximating the ensemble prediction
+  by weight scaling.
+identity_notes: Compared all 442 pinned AIO and 621 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 23, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 8 AIO and 8 native definitions, with every matched definition read.
+  4 full annotated AIO node/edge/generated contexts and 6 full native records were inspected. Dropout
+  boosting is the specific ensemble-likelihood training proposal in Warde-Farley and colleagues’ Section7.
+  Its shared-parameter masked-subnetwork update is distinct from adding separate weak learners, error-reweighted
+  AdaBoost, gradient tree boosting, independent bagging and Gaussian-approximated fast dropout. LogarithmicOpinionPool
+  describes its aggregation rule without specifying this training procedure. The source’s printed gradient
+  error is retained explicitly rather than used to invent a new algorithm.
+definition_evidence:
+- source_id: wardefarley2014
+  locator: Section 7, PDF p. 7, proposed ensemble objective, selected-subnetwork update and weight-scaling
+    approximation
+  relation: supports
+claims:
+- claim_id: ensemble-likelihood-objective
+  kind: mechanism
+  statement: For a finite set of equally weighted masks with positive predictive probabilities, write
+    s(y)=mean_m log p_m(y) and q(y)=exp(s(y))/sum_c exp(s(c)). The proposed objective for an observed
+    label is log q(y), whereas ordinary dropout trains the average individual log likelihood. The two
+    objectives generally have different gradients despite using the same mask noise. This is a normalized
+    geometric ensemble, not an arithmetic mixture or a sequence of separately fitted weak learners.
+  evidence:
+  - source_id: wardefarley2014
+    locator: Sections 2 and 7, PDF pp. 2–3 and 7; normalized geometric ensemble definition; direct algebra
+      with explicitly defined mask averaging
+    relation: supports
+- claim_id: selected-mask-and-proxy
+  kind: mechanism
+  statement: The procedure selects a masked subnetwork and uses an ensemble-likelihood update that accounts
+    for predictions from other subnetworks. Parameters are shared, so an update can affect other members
+    containing those parameters. The exact ensemble prediction is generally intractable and the paper
+    replaces it by the weight-scaled network prediction. This proxy can bias the resulting update; exact
+    model averaging in special affine settings does not establish exactness for arbitrary nonlinear networks.
+  evidence:
+  - source_id: wardefarley2014
+    locator: Section 7, PDF p. 7, selected-subnetwork rule and final paragraph; Section 2.2, p. 3; direct
+      constructed nonlinear proxy example
+    relation: supports
+- claim_id: normalizer-gradient-source-caveat
+  kind: limitation
+  statement: Differentiating the normalized objective gives grad log q(y)=grad s(y)-sum_c q(c)*grad s(c).
+    The paper’s displayed selected-member update instead prints a plus sign before the ensemble-weighted
+    score term, inconsistent with differentiating its log normalization. This record uses the subtraction
+    as direct curator algebra and preserves the printed discrepancy; it does not certify which sign an
+    uninspected implementation used. With shared parameters, the full gradient includes contributions
+    from all dependent masks. Sampling a suitably scaled contribution can be unbiased if the exact ensemble
+    term is available; replacing that term by weight scaling generally loses that assurance.
+  evidence:
+  - source_id: wardefarley2014
+    locator: Section 7, PDF p. 7, ensemble normalization and displayed update; direct differentiation
+      and finite-difference calculations
+    relation: supports
+- claim_id: finite-mnist-comparison
+  kind: limitation
+  statement: The dropout-boosting experiment reuses fifty hyperparameter configurations from dropout-trained
+    two-hidden-layer rectifier networks on multiclass MNIST, then trains matched dropout-boosting and
+    ordinary stochastic-gradient models. Dropout boosting shows no significant Wilcoxon difference from
+    ordinary training in these trials, while ordinary dropout improves in the displayed comparisons. The
+    nonsignificant result is not proof of equivalence or a universal absence of regularization, and transferring
+    dropout-selected settings limits causal interpretation.
+  evidence:
+  - source_id: wardefarley2014
+    locator: Sections 6–7, PDF pp. 6–8, hyperparameter selection and Figure 4
+    relation: supports
+- claim_id: untied-ensemble-context
+  kind: scope
+  statement: The separate fixed-mask ensemble experiment trains independently parameterized bootstrap
+    networks and combines their predictions geometrically. It is contextual evidence about shared parameters,
+    not the dropout-boosting algorithm itself. The paper acknowledges fewer ensemble members and hyperparameters
+    selected under dropout as confounds, so the comparison does not isolate weight sharing as the sole
+    cause of performance differences.
+  evidence:
+  - source_id: wardefarley2014
+    locator: Section 6, PDF pp. 6–7, Figure 3 and explicit comparison limitations
+    relation: supports
+evidence_sources:
+- source_id: wardefarley2014
+  title: An empirical analysis of dropout in piecewise linear networks
+  authors:
+  - David Warde-Farley
+  - Ian J. Goodfellow
+  - Aaron Courville
+  - Yoshua Bengio
+  persistent_id: arXiv:1312.6197v2
+  version: arXiv1312.6197v2,2January2014,tenPDFpages including acknowledgements/references. All pages
+    visually read. Earlier versions and author implementation not inspected; printed gradient-sign/normalization
+    caveats retained.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1312.6197v2
+  access_level: full_text
+  accessed_at: '2026-10-13T13:27:35Z'
+  sha256: 3abb59a2fbd09fb040702221a322865376ff1e27504b7855e04acbf4e9aec457
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DropoutLayer
+  relation: related_match
+  rationale: The algorithm uses dropout masks but changes the training objective and ensemble update.
+    A masking layer alone does not specify this method.
+- target: AIO:EnsembleLearning
+  relation: related_match
+  rationale: The method optimizes a shared-parameter ensemble likelihood. The pinned target denotes a
+    learning task and an improvement aim, not this algorithm or a performance guarantee.
+limitations:
+- The name is scoped to Warde-Farley and colleagues’ proposal. It is not AdaBoost, gradient tree boosting,
+  independent bagging, Gaussian fast dropout or the probability-pooling operator by itself.
+- The printed update sign and mask-count exponent notation require care. Explicit finite-mask mean notation
+  is used here; corrected algebra is not attributed to author implementation.
+- Mask sampling and the weight-scaled ensemble proxy are separate approximations. Shared weights require
+  accounting for every dependent path when deriving an exact full gradient.
+- One complete ten-page versioned primary paper was visually inspected. Constructed algebra examples do
+  not reproduce the experiments, inspect author code or establish convergence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T13:41:42Z'
+  updated_at: '2026-10-13T13:41:42Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
