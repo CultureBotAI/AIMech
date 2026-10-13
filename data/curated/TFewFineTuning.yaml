@@ -1,0 +1,145 @@
+id: AIMech:TFewFineTuning
+name: T-Few Fine-Tuning
+aliases:
+- T-Few
+concept_kind: algorithm
+definition: A few-shot classification fine-tuning recipe that adapts a pretrained T0 model through IA3
+  activation vectors, multitask pretraining of those vectors and combined language-modeling, unlikelihood
+  and length-normalized candidate objectives, with documented task-specific exceptions.
+identity_notes: Compared all 442 pinned AIO and 632 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 153, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 40 AIO and 92 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  the composite T-Few recipe, separately from IA3 activation scaling, Adafactor optimization, generic
+  few-shot fine-tuning, gradient-free in-context learning and a trained T0 checkpoint.
+definition_evidence:
+- source_id: liu2022ia3
+  locator: Sections 3.2–3.5, main PDF pp. 5–7
+  relation: supports
+- source_id: liu2022ia3supp
+  locator: Appendix G, supplemental PDF p. 2/printed 18
+  relation: supports
+claims:
+- claim_id: adaptation-stages
+  kind: mechanism
+  statement: The recipe begins with a pretrained T0 backbone, adds IA3 key/value/feedforward scaling vectors
+    and pretrains the added vectors on the T0 multitask mixture for 100,000 steps with batch size 16.
+    Downstream task adaptation trains the added parameters for 1000 steps with batch size 8 using Adafactor,
+    a learning-rate setting of 3e-3, linear decay and 60 warmup steps. The base weights are frozen during
+    this parameter-efficient adaptation; the pretrained backbone itself required earlier training.
+  evidence:
+  - source_id: liu2022ia3
+    locator: Sections 3.3–3.5, main PDF pp. 6–7
+    relation: supports
+- claim_id: token-level-unlikelihood
+  kind: mechanism
+  statement: The unlikelihood term averages negative log(1-p) over tokens of all incorrect candidate strings,
+    with each conditional token probability evaluated under that incorrect string’s preceding tokens and
+    the input. It is not negative log of one minus the probability of an entire incorrect sequence. A
+    token shared by a correct and an incorrect candidate can receive opposing language-model and unlikelihood
+    contributions.
+  evidence:
+  - source_id: liu2022ia3
+    locator: Section 3.2, main PDF p. 5, Equation 1; constructed token/sequence example
+    relation: supports
+- claim_id: length-normalized-candidate-objective
+  kind: mechanism
+  statement: For each candidate string, beta is its mean conditional token log probability. A softmax
+    over beta scores produces a candidate classification loss for the correct string. Exponentiating beta
+    gives a geometric mean of token probabilities, not a normalized whole-sequence probability. The ordinary
+    correct-string language-model loss, token unlikelihood loss and length-normalized candidate loss are
+    summed with unit coefficients in the stated general recipe.
+  evidence:
+  - source_id: liu2022ia3
+    locator: Section 3.2, main PDF p. 5, Equation 2 and following paragraph; constructed ranking and derivative
+      example
+    relation: supports
+- claim_id: banking77-exception
+  kind: limitation
+  statement: The supplemental RAFT protocol turns off the unlikelihood term on Banking77 because its 77
+    classes cause memory issues. It also includes all labels in that task’s input and replaces periods
+    in labels with commas. These documented changes qualify the main paper’s broad description of a recipe
+    used without task-specific modifications; an unchanged three-loss recipe for every reported task is
+    not supported.
+  evidence:
+  - source_id: liu2022ia3supp
+    locator: Appendix G, supplemental PDF p. 2/printed 18
+    relation: supports
+- claim_id: evaluation-and-cost-boundaries
+  kind: scope
+  statement: The recipe was designed using T0-3B and evaluated with a larger T0 backbone on configured
+    few-shot classification and RAFT tasks. Comparisons use sampled subsets and prompts; imported GPT-3
+    results do not use the same known training examples or the same backbone. Reported aggregate accuracy,
+    adaptation FLOPs and historical hardware costs do not imply superiority on every task, universal latency
+    savings or current service prices. Generative tasks are identified as future work.
+  evidence:
+  - source_id: liu2022ia3
+    locator: Sections 3.1 and 4–5, main PDF pp. 4–5 and 8–10
+    relation: supports
+  - source_id: liu2022ia3supp
+    locator: Appendices E–G and Tables 8–11, supplemental PDF pp. 2 and 7–8/printed 18 and 23–24
+    relation: supports
+evidence_sources:
+- source_id: liu2022ia3
+  title: Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning
+  authors: &id001
+  - Haokun Liu
+  - Derek Tam
+  - Mohammed Muqeeth
+  - Jay Mohta
+  - Tenghao Huang
+  - Mohit Bansal
+  - Colin Raffel
+  persistent_id: doi:10.52202/068431-0142
+  version: NeurIPS 2022 proceedings main paper, sixteen PDF pages. Complete paper visually read, including
+    Equations 1–2, three figures, Tables 1–3, 81 references and checklist. Proceedings metadata and arXiv
+    2205.05638 abstract identity verified; the arXiv full text and author implementation were not inspected.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T15:02:01Z'
+  sha256: 9c107aa36f127ca0eabb6fd139a3b4e050601a0f1e4c14783cdfa8525a9af3ed
+- source_id: liu2022ia3supp
+  title: Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary
+    Material
+  authors: *id001
+  persistent_id: doi:10.52202/068431-0142
+  version: NeurIPS 2022 proceedings supplemental PDF, eight pages numbered17–24. All pages visually read,
+    including Appendices A–G and Tables 4–11. The main-paper checklist mentions Appendix H, which is not
+    present in this downloaded supplement; no unseen appendix is claimed inspected.
+  source_type: primary_paper
+  url: https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T15:03:59Z'
+  sha256: 0da202641e4028e8ac62a65d0538438bb921af6b0d86bf6e0190cc55c7648d92
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:KnowledgeTransfer
+  relation: related_match
+  rationale: The recipe reuses a pretrained multitask representation and adaptation initialization for
+    a new task; the generic transfer strategy is related context rather than an equivalent recipe.
+- target: AIO:DeepTransferLearning
+  relation: related_match
+  rationale: T-Few adapts a deep language-model representation. The pinned target denotes a network category,
+    so it is not asserted to be an algorithm superclass.
+limitations:
+- T-Few is a composite training and prediction recipe. IA3 parameterization, Adafactor optimization, the
+  T0 checkpoint and gradient-free in-context learning are distinct identities.
+- The documented Banking77 exception must be retained alongside the default objective. The source’s broad
+  unchanged-recipe wording does not override its detailed protocol.
+- Candidate length normalization alters rankings and training gradients; it does not remove all prompt,
+  tokenization, class-count or label-string effects.
+- Complete sixteen-page main paper and eight-page supplement visually inspected. All empirical results
+  are source reports; no author code, model fitting, paid provider, hardware timing or benchmark replication
+  was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T16:41:55Z'
+  updated_at: '2026-10-13T16:41:55Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

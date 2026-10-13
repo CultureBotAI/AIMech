@@ -1,0 +1,544 @@
+# Scientific author self-review of T-Few Fine-Tuning
+
+- Review: 20261013T164716Z-t-few-fine-tuning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T16:41:57Z
+- Finished UTC: 2026-10-13T16:47:16Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain T-Few Fine-Tuning as a DRAFT native algorithm with related AIO mappings. All maintained fields were assessed against complete primary evidence and constructed objective checks, preserving the source-internal Banking77 exception. No actionable maintained-record defect identified; author self-review only.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:TFewFineTuning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a69cbc76e5600f0696cb5cd02d018eb28c781c6a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TFewFineTuning | data/curated/TFewFineTuning.yaml | maintained | T-Few Fine-Tuning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:TFewFineTuning | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 147.54s (0:02:27)<br>Checked 442 record(s); 0 failed.<br>Checked 633 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 309 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 306,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:TFewFineTuning | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:TFewFineTuning | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:TFewFineTuning | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:TFewFineTuning | {"beta_gradient": [-0.4545454545454546, 0.45454545454545453], "candidate_softmax": [0.5454545454545454, 0.45454545454545453], "finite_difference": [-0.45454545454237655, 0.45454545454237655], "geometric_mean_token_scores": [0.6, 0.5], "illustrative_shared_prefix_derivatives": {"lm": -1.25, "ul": 5.000000000000001}, "joint_candidate_probabilities": [0.36, 0.5], "length_normalized_loss": 0.6061358035703156, "token_average_unlikelihood": 0.8419095481027519, "whole_sequence_unlikelihood": 0.43375028385236153} |
+
+## Scientific And Domain Assessments
+
+### T-Few Fine-Tuning
+
+identity: supported. Targets: AIMech:TFewFineTuning.
+
+Retain this distinct DRAFT algorithm.
+
+Retain the composite T-Few recipe. Its IA3 parameterization, Adafactor optimizer and pretrained T0 backbone are components rather than equivalent identities. Gradient-free in-context learning is a distinct procedure. Existing neighboring records are identity context, not newly reviewed here.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:TFewFineTuning.
+
+The declared AIO mapping is supported.
+
+KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts. Seven complete AIO node/edge/YAML contexts and three full native neighbors were inspected. Broad model categories and task abstractions are not direct superclasses or equivalent identities for this training recipe.
+
+### adaptation-stages
+
+evidence: supported. Targets: AIMech:TFewFineTuning.
+
+Supported within the stated primary-source and mathematical scope.
+
+The inspected recipe pretrains added IA3 vectors on the T0 mixture for 100,000 steps at batch size 16, then adapts them for 1,000 steps at batch size 8 using the specified Adafactor schedule and 60 warmup steps. Earlier backbone training is distinguished from frozen-base adaptation.
+
+### token-level-unlikelihood
+
+evidence: supported. Targets: AIMech:TFewFineTuning.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation 1 averages negative log complements at individual incorrect-candidate tokens under their own teacher-forced prefixes. It is not sequence-level unlikelihood. A constructed example separates the losses and demonstrates opposing correct/incorrect shared-prefix contributions.
+
+### length-normalized-candidate-objective
+
+evidence: supported. Targets: AIMech:TFewFineTuning.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation 2 uses mean token log probabilities as candidate logits; their exponentials are geometric means. The three default losses have unit coefficients. Finite differences verify candidate-score gradients, and a ranking example distinguishes normalized scores from joint sequence probabilities.
+
+### banking77-exception
+
+evidence: supported. Targets: AIMech:TFewFineTuning.
+
+Supported within the stated primary-source and mathematical scope.
+
+Supplemental Appendix G explicitly disables UL for Banking77 memory constraints and changes input labels and punctuation. This qualifies the main paper’s unchanged-recipe wording and is preserved in the definition, claim and limitations.
+
+### evaluation-and-cost-boundaries
+
+evidence: supported. Targets: AIMech:TFewFineTuning.
+
+Supported within the stated primary-source and mathematical scope.
+
+The finite classification and RAFT setting, different sampled examples/backbones and imported GPT-3 results constrain comparison. Historical FLOPs and hardware estimates are not universal latency or current-price guarantees; generative tasks remain future work.
+
+### token-level unlikelihood, candidate length normalization, adaptation stages and documented task exceptions
+
+consistency: supported. Targets: AIMech:TFewFineTuning.
+
+Constructed calculations support the stated distinctions.
+
+Constructed objectives distinguish token-level from sequence-level unlikelihood and geometric-mean candidate scoring from joint sequence probability. Finite differences verify candidate-logit derivatives; a shared-prefix example shows opposing objective contributions. No language model or empirical benchmark is executed.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:TFewFineTuning.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed every maintained field, objective and claim-specific source locator. Challenged token-versus-sequence unlikelihood, length-normalized score semantics, shared-prefix conflicts, adaptation-stage scope, the Banking77 exception, imported baseline comparability and historical cost claims.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T164155Z-t-few-fine-tuning.json | supports | Compared all 442 pinned AIO and 632 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 153, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 40 AIO and 92 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the composite T-Few recipe, separately from IA3 activation scaling, Adafactor optimization, generic few-shot fine-tuning, gradient-free in-context learning and a trained T0 checkpoint. |
+| mapping | sources/aio/aio.json | supports | KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts. Seven complete AIO node/edge/YAML contexts and three full native neighbors were inspected. Broad model categories and task abstractions are not direct superclasses or equivalent identities for this training recipe. |
+| liu2022ia3 | https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf; Complete sixteen-page NeurIPS 2022 main paper and eight-page supplement, printed 17–24, visually inspected, including all equations, figures, Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author code, paid providers and empirical replication excluded. | supports | NeurIPS 2022 proceedings main paper, sixteen PDF pages. Complete paper visually read, including Equations 1–2, three figures, Tables 1–3, 81 references and checklist. Proceedings metadata and arXiv 2205.05638 abstract identity verified; the arXiv full text and author implementation were not inspected. |
+| liu2022ia3supp | https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf; Complete sixteen-page NeurIPS 2022 main paper and eight-page supplement, printed 17–24, visually inspected, including all equations, figures, Tables 1–11, 81 references and checklist. Other versions, unseen Appendix H, author code, paid providers and empirical replication excluded. | supports | NeurIPS 2022 proceedings supplemental PDF, eight pages numbered17–24. All pages visually read, including Appendices A–G and Tables 4–11. The main-paper checklist mentions Appendix H, which is not present in this downloaded supplement; no unseen appendix is claimed inspected. |
+| calculation | research/discovery/tfew-boundaries.py | supports | Constructed objectives distinguish token-level from sequence-level unlikelihood and geometric-mean candidate scoring from joint sequence probability. Finite differences verify candidate-logit derivatives; a shared-prefix example shows opposing objective contributions. No language model or empirical benchmark is executed. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 633 native and 442 unchanged generated records. The 818-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All16 pages of the NeurIPS2022 main paper and all8 supplemental PDF pages (printed17–24) visually read, including equations, all3figures, Tables1–11,81references and author checklist. No code inspected or executed; no training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T164716Z-t-few-fine-tuning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of T-Few Fine-Tuning
+started_at: '2026-10-13T16:41:57Z'
+finished_at: '2026-10-13T16:47:16Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged token-level unlikelihood, candidate length
+    normalization, adaptation stages and documented task exceptions. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain T-Few Fine-Tuning as a DRAFT native algorithm with related AIO mappings.
+  All maintained fields were assessed against complete primary evidence and constructed
+  objective checks, preserving the source-internal Banking77 exception. No actionable
+  maintained-record defect identified; author self-review only.
+source:
+  git_revision: a69cbc76e5600f0696cb5cd02d018eb28c781c6a
+  state: working_tree
+  inputs:
+  - path: data/aio/DeepTransferLearning.yaml
+    sha256: 642bd64f7e13092ffc855f2d44afa5822aa2714996a000f21e092b697725dc08
+    role: context
+  - path: data/aio/KnowledgeTransfer.yaml
+    sha256: d9c3efd84c05da8efb7b8eb46e15d64a1ea18fd0816c96cba9bcad85619c57bb
+    role: context
+  - path: data/aio/PromptbasedFineTuningLLM.yaml
+    sha256: 4ffa2464ddadfb694c14539ad80e63df7c8c76a2e44fca99d7d7dfb4e19e7bb4
+    role: context
+  - path: data/aio/RescalingLayer.yaml
+    sha256: d819303cefc3a220baf09d788a6d39505e53d21b63242e5874b7abd5084ea6d8
+    role: context
+  - path: data/aio/SparseLLM.yaml
+    sha256: e6f5067b109d2353bba40a3f9d66b2f66c54e30b36f53ba4ff4140848fe8a7b2
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/aio/TransferLearningLLM.yaml
+    sha256: 2394d2f50f424d43bbbfd4d707af25c1f4ecdd2d1b3d54cd893a2de8b0baa099
+    role: context
+  - path: data/curated/Adafactor.yaml
+    sha256: c247b6b34b342fa3d8e87696462dbfd1812b65030371f9cb2d58349429e05721
+    role: context
+  - path: data/curated/IA3ActivationRescaling.yaml
+    sha256: cfcae527209b4bca9ac7b705ad23405ecd52f07850684cd5c90b474f0baeae7d
+    role: context
+  - path: data/curated/LoRA.yaml
+    sha256: 8642959e7dd4ca6630720e78771b6e7b825336c967f0663f125c1a23aee7ae49
+    role: context
+  - path: data/curated/TFewFineTuning.yaml
+    sha256: 05edec68c64302dc6f57d462a319396299fa71ac4f5dd4afd0e6bbb6aba034ac
+    role: target
+  - path: research/discovery/20261013T164155Z-t-few-fine-tuning.json
+    sha256: 77121cefd4ade09c9bebad5b231b31ac49a0edc353cb74717729d52e1a1076d4
+    role: context
+  - path: research/discovery/tfew-boundaries.py
+    sha256: 8d973d3894ee5a65eeb732adcaaeabdf2a23009c69df0b2ffcfb4905ee81b201
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TFewFineTuning
+  path: data/curated/TFewFineTuning.yaml
+  label: T-Few Fine-Tuning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TFewFineTuning.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:TFewFineTuning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:TFewFineTuning
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete sixteen-page NeurIPS 2022 main paper and eight-page supplement,
+      printed 17–24, visually inspected, including all equations, figures, Tables
+      1–11, 81 references and checklist. Other versions, unseen Appendix H, author
+      code, paid providers and empirical replication excluded.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TFewFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 147.54s (0:02:27)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 633 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 309 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 306,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TFewFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TFewFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TFewFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/tfew-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TFewFineTuning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"beta_gradient": [-0.4545454545454546, 0.45454545454545453], "candidate_softmax":
+    [0.5454545454545454, 0.45454545454545453], "finite_difference": [-0.45454545454237655,
+    0.45454545454237655], "geometric_mean_token_scores": [0.6, 0.5], "illustrative_shared_prefix_derivatives":
+    {"lm": -1.25, "ul": 5.000000000000001}, "joint_candidate_probabilities": [0.36,
+    0.5], "length_normalized_loss": 0.6061358035703156, "token_average_unlikelihood":
+    0.8419095481027519, "whole_sequence_unlikelihood": 0.43375028385236153}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T164155Z-t-few-fine-tuning.json
+  accessed_at: '2026-10-13T16:41:57Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 632 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    153, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 40 AIO and 92 native definitions, with every matched definition read.
+    7 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Retain the composite T-Few recipe, separately from IA3 activation scaling,
+    Adafactor optimization, generic few-shot fine-tuning, gradient-free in-context
+    learning and a trained T0 checkpoint.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T16:41:57Z'
+  support: supports
+  summary: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts. Seven complete AIO node/edge/YAML contexts and three full native neighbors
+    were inspected. Broad model categories and task abstractions are not direct superclasses
+    or equivalent identities for this training recipe.
+- evidence_id: liu2022ia3
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf
+  locator: Complete sixteen-page NeurIPS 2022 main paper and eight-page supplement,
+    printed 17–24, visually inspected, including all equations, figures, Tables 1–11,
+    81 references and checklist. Other versions, unseen Appendix H, author code, paid
+    providers and empirical replication excluded.
+  accessed_at: '2026-10-13T15:02:01Z'
+  snapshot_sha256: 9c107aa36f127ca0eabb6fd139a3b4e050601a0f1e4c14783cdfa8525a9af3ed
+  support: supports
+  summary: NeurIPS 2022 proceedings main paper, sixteen PDF pages. Complete paper
+    visually read, including Equations 1–2, three figures, Tables 1–3, 81 references
+    and checklist. Proceedings metadata and arXiv 2205.05638 abstract identity verified;
+    the arXiv full text and author implementation were not inspected.
+- evidence_id: liu2022ia3supp
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf
+  locator: Complete sixteen-page NeurIPS 2022 main paper and eight-page supplement,
+    printed 17–24, visually inspected, including all equations, figures, Tables 1–11,
+    81 references and checklist. Other versions, unseen Appendix H, author code, paid
+    providers and empirical replication excluded.
+  accessed_at: '2026-10-13T15:03:59Z'
+  snapshot_sha256: 0da202641e4028e8ac62a65d0538438bb921af6b0d86bf6e0190cc55c7648d92
+  support: supports
+  summary: NeurIPS 2022 proceedings supplemental PDF, eight pages numbered17–24. All
+    pages visually read, including Appendices A–G and Tables 4–11. The main-paper
+    checklist mentions Appendix H, which is not present in this downloaded supplement;
+    no unseen appendix is claimed inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/tfew-boundaries.py
+  accessed_at: '2026-10-13T16:42:32Z'
+  snapshot_sha256: 8d973d3894ee5a65eeb732adcaaeabdf2a23009c69df0b2ffcfb4905ee81b201
+  support: supports
+  summary: Constructed objectives distinguish token-level from sequence-level unlikelihood
+    and geometric-mean candidate scoring from joint sequence probability. Finite differences
+    verify candidate-logit derivatives; a shared-prefix example shows opposing objective
+    contributions. No language model or empirical benchmark is executed.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: T-Few Fine-Tuning
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - identity
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain the composite T-Few recipe. Its IA3 parameterization, Adafactor
+    optimizer and pretrained T0 backbone are components rather than equivalent identities.
+    Gradient-free in-context learning is a distinct procedure. Existing neighboring
+    records are identity context, not newly reviewed here.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - mapping
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: The declared AIO mapping is supported.
+  details: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts. Seven complete AIO node/edge/YAML contexts and three full native neighbors
+    were inspected. Broad model categories and task abstractions are not direct superclasses
+    or equivalent identities for this training recipe.
+- assessment_id: adaptation-stages
+  area: evidence
+  topic: adaptation-stages
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The inspected recipe pretrains added IA3 vectors on the T0 mixture for
+    100,000 steps at batch size 16, then adapts them for 1,000 steps at batch size
+    8 using the specified Adafactor schedule and 60 warmup steps. Earlier backbone
+    training is distinguished from frozen-base adaptation.
+- assessment_id: token-level-unlikelihood
+  area: evidence
+  topic: token-level-unlikelihood
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation 1 averages negative log complements at individual incorrect-candidate
+    tokens under their own teacher-forced prefixes. It is not sequence-level unlikelihood.
+    A constructed example separates the losses and demonstrates opposing correct/incorrect
+    shared-prefix contributions.
+- assessment_id: length-normalized-candidate-objective
+  area: evidence
+  topic: length-normalized-candidate-objective
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation 2 uses mean token log probabilities as candidate logits; their
+    exponentials are geometric means. The three default losses have unit coefficients.
+    Finite differences verify candidate-score gradients, and a ranking example distinguishes
+    normalized scores from joint sequence probabilities.
+- assessment_id: banking77-exception
+  area: evidence
+  topic: banking77-exception
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3supp
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Supplemental Appendix G explicitly disables UL for Banking77 memory constraints
+    and changes input labels and punctuation. This qualifies the main paper’s unchanged-recipe
+    wording and is preserved in the definition, claim and limitations.
+- assessment_id: evaluation-and-cost-boundaries
+  area: evidence
+  topic: evaluation-and-cost-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The finite classification and RAFT setting, different sampled examples/backbones
+    and imported GPT-3 results constrain comparison. Historical FLOPs and hardware
+    estimates are not universal latency or current-price guarantees; generative tasks
+    remain future work.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: token-level unlikelihood, candidate length normalization, adaptation stages
+    and documented task exceptions
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - liu2022ia3
+  - liu2022ia3supp
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Constructed objectives distinguish token-level from sequence-level unlikelihood
+    and geometric-mean candidate scoring from joint sequence probability. Finite differences
+    verify candidate-logit derivatives; a shared-prefix example shows opposing objective
+    contributions. No language model or empirical benchmark is executed.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:TFewFineTuning
+  evidence_ids:
+  - identity
+  - mapping
+  - liu2022ia3
+  - liu2022ia3supp
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed every maintained field, objective and claim-specific
+    source locator. Challenged token-versus-sequence unlikelihood, length-normalized
+    score semantics, shared-prefix conflicts, adaptation-stage scope, the Banking77
+    exception, imported baseline comparability and historical cost claims.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 633 native and 442 unchanged generated records.
+  The 818-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All16 pages of the NeurIPS2022 main paper and all8 supplemental PDF pages (printed17–24)
+  visually read, including equations, all3figures, Tables1–11,81references and author
+  checklist. No code inspected or executed; no training or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
