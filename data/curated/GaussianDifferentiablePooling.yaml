@@ -1,0 +1,134 @@
+id: AIMech:GaussianDifferentiablePooling
+name: Gaussian Differentiable Pooling
+aliases: []
+concept_kind: layer
+definition: A spatial pooling and unpooling component whose nonnegative, unit-L2 weights are square-root
+  normalized axis-aligned Gaussian samples, with each region’s location and precision inferred jointly
+  with image-specific features under a reconstruction objective.
+identity_notes: Compared all 442 pinned AIO and 624 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 10, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 32 AIO and 54 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  the specific Zeiler–Fergus2012 spatial Gaussian pooling component. Its inferred location/precision and
+  unit-L2 weights distinguish it from power-mean channel units, activation-proportional random location
+  selection, saved discrete switches, fixed average/max pooling and complete deconvolutional architectures.
+  Generic differentiable pooling and Gaussian pooling search terms are not asserted as unrestricted aliases.
+  Acoustic adaptation and visual Gaussian-readout search leads require separate identity/primary evidence
+  assessment.
+definition_evidence:
+- source_id: zeiler2012
+  locator: Sections 2.1–2.5, PDF pp. 2–3, Equations 2–9 and Figure 1
+  relation: supports
+claims:
+- claim_id: gaussian-weights-and-spatial-limits
+  kind: mechanism
+  statement: For positive Gaussian samples a_i in a region, w_i=sqrt(a_i/sum_j a_j), so squared weights
+    sum to one; the weights themselves are not generally probabilities. Gaussian means and precisions
+    parameterize spatial locations and spread. Zero precision gives w_i=1/sqrt(n), making pooling a scaled
+    sum rather than an arithmetic mean. High precision can select a unique nearest spatial location to
+    the mean; this is not inherently an activation-maximum rule, and equal-distance ties need not collapse
+    to one location.
+  evidence:
+  - source_id: zeiler2012
+    locator: Section 2.5, PDF pp. 3–4, Equations 8–9 and stated precision limits; direct normalization
+      and limiting examples
+    relation: supports
+- claim_id: conditional-unpooling-and-projection
+  kind: mechanism
+  statement: With fixed region weights, unpooling maps a scalar p to z_i=w_i*p and weighted pooling applies
+    the transpose. For the paper’s nonoverlapping regions, unit-norm columns ensure pooling recovers a
+    scalar from its own unpooling. Unpooling an arbitrary pooled region generally yields a projection,
+    not the original region. Unit column norms alone do not establish the same inverse property for overlapping
+    regions. Equation 3 prints a repeated z_b(j) index; its accompanying footnote supports the dimensionally
+    consistent weighted sum over z_b(i).
+  evidence:
+  - source_id: zeiler2012
+    locator: Section 2.1, PDF p. 2, Equations 2–3 and footnote 2; direct scalar recovery, projection and
+      overlapping-column examples
+    relation: supports
+- claim_id: image-specific-inference-and-training
+  kind: mechanism
+  statement: In the demonstrated deconvolutional architecture, pooling parameters and top-layer features
+    are inferred for each image while convolution filters are shared. The reconstruction chain uses all
+    layers, with a squared-error term and a sparsity penalty on top features; Gaussian parameters are
+    updated through reconstruction gradients. The preferred experimental schedule pretrains the first
+    layer and then keeps its filters fixed while adapting lower pooling variables and higher features.
+    Joint inference therefore does not imply simultaneous optimization of every filter or a single feedforward
+    evaluation.
+  evidence:
+  - source_id: zeiler2012
+    locator: Sections 2.3–2.7 and 3–5, PDF pp. 3–6, Equations 5–7, Algorithm 1 and Section 4.1
+    relation: supports
+- claim_id: normalization-gradient-discrepancy
+  kind: limitation
+  statement: Differentiating Equation 8 for positive samples gives dw_i/da_j=(w_i/2)*(delta_ij/a_i-1/sum_k
+    a_k). The off-diagonal derivative is negative. The printed off-diagonal Equation 19 has a positive
+    value, and Equation 20 also does not equal the diagonal derivative of Equation 8. Algebra and finite
+    differences expose this discrepancy in the inspected version. The general chain-rule approach is retained,
+    but the printed normalization derivatives are not endorsed as correct; this finding does not establish
+    what the authors implemented.
+  evidence:
+  - source_id: zeiler2012
+    locator: Section 2.5, PDF p. 3, Equation 8; Section 3.2, PDF p. 5, Equations 17–20; direct derivative
+      and finite-difference checks
+    relation: supports
+- claim_id: optimization-and-empirical-boundaries
+  kind: scope
+  statement: The demonstrated sparse reconstruction model uses nonnegative features and filters, finite
+    iterative updates, and different training and inference sparsity settings. Parameter changes and sublinear
+    sparsity penalties make the full optimization nonconvex; finite updates and resets do not certify
+    a global optimum or unique representation. The MNIST example uses raw 28x28 inputs, two layers with
+    16 and 48 maps, 5x5 filters and 2x2 nonoverlapping pooling, followed by a separately trained linear
+    SVM on processed feature maps. Results and visualizations concern this configured architecture; they
+    do not establish universal gains, exact image recovery, semantic disentanglement, or unconditional
+    translation and scale invariance.
+  evidence:
+  - source_id: zeiler2012
+    locator: Sections 2.6–2.7 and 3–7, PDF pp. 4–12, Algorithm 1, Tables 1–5 and Figures 2–9
+    relation: supports
+evidence_sources:
+- source_id: zeiler2012
+  title: Differentiable Pooling for Hierarchical Feature Learning
+  authors:
+  - Matthew D. Zeiler
+  - Rob Fergus
+  persistent_id: arXiv:1207.0151v1
+  version: arXiv:1207.0151v1, 30 June 2012, twelve pages. All pages visually inspected including equations,
+    Algorithm1, figures, tables, footnotes and references. PDF and printed page numbers agree; other versions
+    and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1207.0151v1
+  access_level: full_text
+  accessed_at: '2026-10-13T14:08:37Z'
+  sha256: ab91fb2534c305d11b02f0ad505cef9750584b6422613808aea3f5f619e1f290
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PoolingLayer
+  relation: broad_match
+  rationale: The component reduces spatial regions through weighted aggregation, with a paired conditional
+    unpooling operation. The pinned generic pooling layer has broader scope.
+- target: AIO:DeconvolutionalNetwork
+  relation: related_match
+  rationale: The complete deconvolutional sparse-reconstruction architecture is the demonstrated context
+    for this pooling component, not an equivalent layer identity or a superclass assertion.
+limitations:
+- The local name specifies the 2012 Zeiler–Fergus Gaussian spatial method. It is not a blanket identity
+  for graph differentiable pooling, Gaussian receptive-field readouts or all differentiable aggregation
+  methods.
+- The inverse relation is conditional on fixed nonoverlapping unit-norm unpooling columns and applies
+  to generated unpoolings. It does not invert an arbitrary image or convolutional network.
+- The inspected source has normalization-derivative and indexing discrepancies. No implementation, precision-domain
+  safeguards, optimizer edge-case handling, other source version or empirical replication was inspected.
+- The complete twelve-page arXiv1207.0151v1 paper was visually inspected; constructed calculations test
+  stated mathematical boundaries without training a model.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T14:36:56Z'
+  updated_at: '2026-10-13T14:36:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
