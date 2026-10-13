@@ -1,0 +1,140 @@
+id: AIMech:KeyValueMemoryNetwork
+name: Key-Value Memory Network
+aliases:
+- KV-MemNN
+- Key-Value Memory Networks
+concept_kind: architecture
+definition: A neural memory architecture that answers a query by attending to keys and reading corresponding
+  values from supplied key-value memory pairs, with repeated query updates and a learned candidate-answer
+  scorer.
+identity_notes: Compared all 442 pinned AIO and 603 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 6, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 65 AIO and 87 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. KV-MemNN
+  separates supplied key and value content, not merely two embeddings of the same sentence. It differs
+  from ordinary key-value storage, original hard-retrieval MemNN and the maintained MemN2N configurations.
+  Shared memory terminology does not identify it with an LLM, internal memory cell or NTM read/write controller.
+definition_evidence:
+- source_id: miller2016
+  locator: Section 3.1, PDF pp. 3–4 and Figure 1
+  relation: supports
+claims:
+- claim_id: key-addressing-value-reading
+  kind: mechanism
+  statement: 'Represent supplied memory as pairs of keys and values. Embed a question with A*Phi_X, score
+    each selected key by its dot product with the query and normalize with softmax. Read the weighted
+    sum of A*Phi_V(value). A is shared in the displayed equations, but key and value feature maps and
+    underlying contents can differ: the representation used to locate information need not be the representation
+    returned. This is soft retrieval, not exact symbolic dictionary lookup.'
+  evidence:
+  - source_id: miller2016
+    locator: Section 3.1, PDF pp. 3–4, Figure 1 and key-addressing/value-reading equations
+    relation: supports
+- claim_id: query-hops-and-output
+  kind: scope
+  statement: After a read o, update the query as R_j*(q+o) with a hop-specific learned matrix, and repeat
+    addressing and reading for a fixed number of hops. Score candidate answers with the final query and
+    B*Phi_Y(answer); B may optionally equal A. The source describes cross-entropy training with backpropagation
+    while displaying a hard argmax as the selected answer. Training the answer probabilities does not
+    imply differentiating through that discrete argmax.
+  evidence:
+  - source_id: miller2016
+    locator: Section 3.1, PDF p. 4, query update, candidate answer and training descriptions
+    relation: supports
+- claim_id: initial-hash-restriction
+  kind: limitation
+  statement: The optional initial key-hashing step selects memories sharing a question word whose corpus
+    frequency is below the stated threshold. The subsequent hops repeat addressing and value reading,
+    not hashing. Consequently later queries cannot recover a memory excluded from the initial candidate
+    set in this construction. The source does not establish an empty-set convention here. Softmax weights
+    normalize over the selected slots; duplicating an unmasked slot can change the readout.
+  evidence:
+  - source_id: miller2016
+    locator: Section 3.1, PDF pp. 3–4, key hashing and repeated-hop descriptions; direct constructed examples
+    relation: supports
+- claim_id: representation-variants
+  kind: scope
+  statement: For knowledge-base triples, a key can encode the subject and relation while the value encodes
+    the object; inverse triples use distinct inverse-relation tokens. Document variants use an entire
+    sentence as both key and value, or a word window as key and its center entity as value. Center encoding
+    distinguishes center-word features, while the window-plus-title construction adds title-valued slots
+    and type features. These are engineered representation choices, not a universal learned memory-write
+    procedure. Setting key and value content equal recovers the ordinary memory representation under compatible
+    parameter choices, not every original MemN2N configuration.
+  evidence:
+  - source_id: miller2016
+    locator: Section 3.2, PDF pp. 4–5; Section 3.1, p. 4, relation to end-to-end Memory Networks
+    relation: supports
+- claim_id: wikimovies-evaluation-boundary
+  kind: limitation
+  statement: WikiMovies compares knowledge-base, extracted-triple and document memories in a movie-domain
+    benchmark with question identities separated between splits and a filtered knowledge base intended
+    to align answerability with text. Reported hits-at-one selects one correct answer even when multiple
+    answers exist; it is not recall of all correct answers. Development-set ablations and test results
+    use different reported numbers and representation settings. These comparisons do not establish universal
+    superiority, entity-disjoint generalization or a representation-only causal effect across arbitrary
+    document collections.
+  evidence:
+  - source_id: miller2016
+    locator: Sections 4 and 5.1, PDF pp. 5–8, Tables 2–5
+    relation: supports
+- claim_id: wikiqa-is-a-separate-protocol
+  kind: scope
+  statement: The WikiQA experiment ranks preselected answer sentences and reports MAP and MRR, rather
+    than WikiMovies entity hits-at-one. Its configuration omits hashing, uses window keys with whole-sentence
+    values, and includes next-sentence pretraining on Wikipedia, exact-match features and tuned word dropout.
+    The selected results evaluate this combined pipeline; they do not isolate key-value separation as
+    the sole cause of improvement. Other domains and dialogue are proposed extensions.
+  evidence:
+  - source_id: miller2016
+    locator: Section 5.2, PDF p. 8, Table 6; Section 6, p. 9
+    relation: supports
+evidence_sources:
+- source_id: miller2016
+  title: Key-Value Memory Networks for Directly Reading Documents
+  authors:
+  - Alexander H. Miller
+  - Adam Fisch
+  - Jesse Dodge
+  - Amir-Hossein Karimi
+  - Antoine Bordes
+  - Jason Weston
+  persistent_id: arXiv:1606.03126v2
+  version: arXiv 1606.03126v2, 10 October 2016, ten PDF pages. All pages visually read, including equations,
+    figures, tables and references. Locators use PDF page order. Other versions and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1606.03126v2
+  access_level: full_text
+  accessed_at: '2026-10-13T10:02:13Z'
+  sha256: 466043a5722431ced489c44027372d1cf28f4ef35352409b6723f89ae4c23cb8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned embeddings, soft attention, query transforms and answer scoring define a particular
+    artificial neural architecture; the AIO target is broader.
+- target: AIO:AttentionLayer
+  relation: related_match
+  rationale: Key addressing uses dot-product soft attention. This relates one component to the pinned
+    layer concept without equating the complete architecture with a software layer or asserting an inspected
+    API implementation.
+limitations:
+- The named architecture is distinct from generic key-value storage, original Memory Networks and the
+  original MemN2N parameterizations.
+- Supplied representations, initial candidate selection and output candidates bound the system; arbitrary
+  writable memory, exact retrieval and unlimited context are not established.
+- WikiMovies and WikiQA differ in memory construction, metrics and training enhancements. No author code,
+  training or benchmark replication was performed.
+- All ten pages of arXiv1606.03126v2 were visually read. Other versions and author code were not inspected;
+  constructed examples illustrate boundaries only. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T10:29:26Z'
+  updated_at: '2026-10-13T10:29:26Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

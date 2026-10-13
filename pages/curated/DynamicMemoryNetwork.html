@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dynamic Memory Network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>Dynamic Memory Network</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Dynamic Memory Network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:DynamicMemoryNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DMN, Dynamic Memory Networks
+    </div>
+
+  <div class="detail-desc">
+    A recurrent neural architecture that encodes an input and a question, repeatedly forms question-conditioned episodes from input facts to update a memory state, and generates an answer from that state.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 604 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 22, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 65 AIO and 88 native definitions, with every matched definition read. 8 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The original DMN has contextual recurrent input facts, question-conditioned episodic gates, memory updates and an answer module. This is distinct from original Memory Networks, MemN2N soft key/value reads and KV-MemNN supplied key/value representations. DMN+ is a later successor requiring separate primary inspection; the inherited broad discovery lead remains partly addressed.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#input-question-and-memory-modules</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The architecture combines input, question, episodic-memory and answer modules. Its text input RNN encodes a word stream; for a multi-sentence input, hidden states at end-of-sentence tokens become fact representations. The question has a separate recurrent encoder sharing word embeddings, and its final vector initializes episodic memory. These contextual sentence states differ from independently embedded bag-of-words memories. The experiments use GRUs and also report trying LSTMs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.3, PDF pp. 2–3 and Figure 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#episodic-gates-and-recurrent-scan</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each pass, a two-layer gating function scores a fact using the question and previous memory, their elementwise interactions, absolute differences and bilinear terms. The default sigmoid gates are not a softmax-normalized distribution over facts. Equation 7 interpolates a GRU update with the previous scan state using each gate; the last scan state forms an episode, and another GRU updates episodic memory. The ordered fact scan and repeated memory passes are separate recurrences. The source GRU convention weights the old state by z and applies its reset gate after the recurrent projection in Equation 3.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1 and 2.3, PDF pp. 2–4, Equations 1–8 and memory update description</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#qa-aggregation-and-supervision</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The bAbI experiment uses labeled supporting facts to supervise attention, initially training the gate loss alone and then combining gate and answer losses. It also reports a QA-specific alternative that replaces the recurrent episode with a softmax-weighted fact sum using the pre-sigmoid gate scores. This normalized-sum variant differs from the default gated recurrent scan. Despite the abstract describing only input-question-answer triplets, these QA results do not establish answer-only training or general unsupervised reasoning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 2.5, PDF p. 4; Section 4.1, p. 6; contrast with Abstract, p. 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#answer-and-stopping-variants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The answer GRU starts from the final memory and conditions subsequent outputs on the previous generated output and question. For sequence tagging, an answer is triggered at each word and the partial episodic scan state replaces the final scan state. A special end-of-passes representation is described for deciding when to stop memory iterations, while experiments without explicit gate supervision use a maximum number of iterations. This does not establish an unlimited adaptive reasoning procedure or inspected implementation details of discrete feedback and stopping.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.3–2.4, PDF p. 4, Equations 7–10 and stopping description</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#separate-task-evaluation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported language tasks are trained independently using task-specific input/output choices, pretrained word vectors and selected hyperparameters. The experiments cover synthetic bAbI QA, root-level Stanford Sentiment Treebank sentiment evaluation and WSJ part-of-speech tagging. QA uses supporting-fact labels; the reported POS test score in Table 3 uses an ensemble of four selected models. These protocols do not demonstrate one jointly trained multitask model, universal superiority or zero-extra-supervision transfer.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp. 5–7, Sections 4.1–4.3 and Tables 1–3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#passes-and-attention-interpretation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Additional memory passes help selected question-answering tasks but do not improve every reported setting monotonically; Table 4 shows lower sentiment accuracy with three passes than with two. Attention examples illustrate selected behavior and even include a mistaken focus in Figure 3; they are not a proof of a correct reasoning chain or causal attribution. Multitask and multimodal extensions are proposed future work in this source, distinct from the later DMN+ architecture.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-kumar2016">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a></span>
+        <span>· <strong>Locator:</strong> Figure 3, PDF p. 3; Section 4.4 and Table 4, p. 7; Section 5 and Figures 4–5, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record describes the original DMN from the inspected arXiv version, not the later DMN+ architecture.</li>
+      <li>The default recurrent episode and the support-supervised QA softmax-sum variant are distinct; end-to-end differentiability does not remove the reported gate supervision.</li>
+      <li>Task-specific experiments, selected attention examples and finite iteration counts do not establish general reasoning or universal benefits from more passes.</li>
+      <li>All ten pages of arXiv1506.07285v5 were visually read. Its title-page author list differs from current arXiv and PMLR metadata, as recorded in the source version note. Author code, other paper versions and training were not inspected. DRAFT remains.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The architecture recurrently encodes word sequences and uses recurrent episodic and answer states. The pinned recurrent-network concept is broader than this specific arrangement.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GatedRecurrentUnit.html" style="font-weight: 600;"><code>AIO:GatedRecurrentUnit</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Gated Recurrent Unit</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GRUs implement modules of the reported architecture. This is a component relation, not an equivalence between the complete DMN and one gating unit; the source-specific update convention is preserved.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-kumar2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">kumar2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1506.07285v5" target="_blank" rel="noopener">Ask Me Anything: Dynamic Memory Networks for Natural Language Processing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ankit Kumar, Peter Ondruska, Mohit Iyyer, James Bradbury, Ishaan Gulrajani, Victor Zhong, Romain Paulus, Richard Socher
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1506.07285v5</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ff3ac481ffdc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T10:30:02Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T10:30:02Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DynamicMemoryNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DynamicMemoryNetwork.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
