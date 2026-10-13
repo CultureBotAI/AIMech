@@ -1,0 +1,229 @@
+id: AIMech:MultipleTestingNodeConflictDiagnostic
+name: Multiple-testing node conflict diagnostic
+aliases: []
+concept_kind: algorithm
+definition: A Bayesian evidence-synthesis diagnostic that partitions information at replicated separator
+  nodes, stacks declared contrasts between transformed copies, and uses their joint covariance and a multivariate
+  reference distribution to assess global and multiplicity-adjusted local conflict. Its single-step max-absolute-statistic
+  adjustment accounts for correlation within an explicitly selected family of comparisons.
+identity_notes: 'No normalized identity match for the proposed multiple-testing conflict, INLA group-conflict
+  and general parametric maxT candidates among all 442 pinned AIO and 559 maintained IDs, labels, aliases
+  and scoped synonyms. Ignored- and hidden-inclusive searches of the recovery, older discovery and original
+  Documents checkouts returned 132, 0 and 0 lines: 39 identical previous lines reused, 90 new short rows
+  read, two identical generated separator-record search rows checked and read, and one previous query
+  row verified exact against its earlier reading. Hits concern existing diagnostics, mirrors, metadata
+  and pending leads. Assessed 61 semantic AIO rows and 213 native names/definitions: 55 and 203 prior
+  rows verified equal, all 6 and 10 additions read. Ten full AIO nodes, annotations, incident edges and
+  generated records plus seven native context records were read or verified unchanged. This identity adds
+  a joint contrast family and multiplicity adjustment to general separator splitting. It is not generic
+  maxT inference for arbitrary estimators, a single unit-level conflict score, Gaussian-message screening,
+  INLA fitting, or every method called node splitting.'
+definition_evidence:
+- source_id: presanis2017
+  locator: Sections 3.2–3.4, PDF pp. 6–7; discussion, pp. 12–13
+  relation: supports
+- source_id: hothorn2008
+  locator: Sections 2–3, PDF pp. 4–7 / printed pp. 2–5
+  relation: supports
+claims:
+- claim_id: partition-family
+  kind: scope
+  statement: Specify the data partitions, separator copies, common parameter transformations and family
+    of comparisons before interpreting adjusted conflict. The source partitions the evidence into Q submodels
+    and compares separator quantities informed by more than one partition. Proper partition posteriors
+    are required to define these distributions. Poor identification can make comparisons prior-driven
+    or uninformative even when a score is computable; calibrated testing requires the separately stated
+    regularity and sampling assumptions. Weak data and reference priors can materially determine the result.
+    Multiarm trial information must retain its joint structure. Separate observed data subsets do not
+    by themselves ensure independent fitted partitions when latent or estimated nuisance quantities are
+    shared.
+  evidence:
+  - source_id: presanis2017
+    locator: Sections 2–3.2, PDF pp. 2–6; network meta-analysis, pp. 8–9; discussion, pp. 12–13
+    relation: supports
+- claim_id: signed-contrasts
+  kind: mechanism
+  statement: 'Let phi stack the declared separator copies, u=h(phi), and K be a fixed matrix whose rows
+    encode comparisons. Define Delta=K*u; a pairwise difference row contains +1 and -1. K may be rectangular
+    and pairwise comparisons may be redundant. From joint draws of u, compute m=E(Delta) and S=Cov(Delta)=K*Cov(u)*K^T.
+    Block-diagonal partition covariance requires justified independence. If instead applying a local delta
+    approximation on the original phi scale, include the transformation Jacobian J: S approximately equals
+    K*J*Cov(phi)*J^T*K^T. A plug-in K*h(E(phi)) approximates, rather than generally equals, E(Delta).'
+  evidence:
+  - source_id: presanis2017
+    locator: Sections 3.2–3.3, PDF pp. 6–7; Appendix B, p. 28
+    relation: supports
+  - source_id: hothorn2008
+    locator: Section 2, PDF pp. 4–5 / printed pp. 2–3; redundant Tukey contrasts, PDF p. 9 / printed p.
+      7
+    relation: supports
+- claim_id: standardization-and-support
+  kind: mechanism
+  statement: For a p-component contrast vector with positive finite diagonal variances, set D=diag(S),
+    T=D^(-1/2)*m and R=D^(-1/2)*S*D^(-1/2). Correlation R may be singular because comparisons are redundant.
+    Zero-variance or deterministic contrasts require an explicit support check and separate handling;
+    they cannot be standardized by division by zero. A null vector outside the posterior affine support
+    is not rescued by a pseudoinverse. Numerical rank thresholds and covariance approximation affect the
+    resulting diagnostics.
+  evidence:
+  - source_id: presanis2017
+    locator: Sections 3.3–3.4, PDF p. 7; Appendix B, p. 28
+    relation: supports
+  - source_id: hothorn2008
+    locator: Sections 2–3, PDF pp. 4–7 / printed pp. 2–5
+    relation: supports
+- claim_id: wald-global-score
+  kind: mechanism
+  statement: One global option is W=m^T*S^+*m, equivalently T^T*R^+*T when the mean lies in the covariance
+    range, with + denoting the Moore–Penrose pseudoinverse. Under a justified Gaussian null reference
+    on an r-dimensional contrast subspace, use the upper chi-square_r tail, where r is the covariance
+    rank. This quadratic global assessment differs from max-absolute-statistic testing and does not itself
+    identify the inconsistent component. Its reference law needs support and calibration assumptions beyond
+    computing a posterior mean and covariance.
+  evidence:
+  - source_id: presanis2017
+    locator: Section 3.4, PDF p. 7
+    relation: supports
+  - source_id: hothorn2008
+    locator: Section 3, PDF pp. 5–6 / printed pp. 3–4
+    relation: supports
+- claim_id: single-step-maxt
+  kind: mechanism
+  statement: For a centered joint normal reference Z with covariance R, define M=max_j |Z_j| and G_R(c)=P(-c<=Z_j<=c
+    for all j). The global maxT score is 1-G_R(max_j |T_j|); a single-step adjusted score for component
+    j is 1-G_R(|T_j|), using the same declared comparison family. This is an absolute maximum for two-sided
+    tests, not the maximum of signed components. The rectangle probability incorporates correlation and
+    can accommodate redundant coordinates under a valid singular normal law. Under the same continuous
+    reference, each adjusted score is at least its corresponding marginal two-sided normal tail. This
+    comparison does not automatically hold between differently approximated or sampled raw and adjusted
+    scores.
+  evidence:
+  - source_id: presanis2017
+    locator: Section 3.4, PDF p. 7; distinct adjustment families in Table 2, PDF p. 19
+    relation: supports
+  - source_id: hothorn2008
+    locator: Section 3, PDF pp. 6–7 / printed pp. 4–5
+    relation: supports
+- claim_id: error-control-conditions
+  kind: limitation
+  statement: The joint reference construction targets familywise error, not a false-discovery-rate guarantee.
+    Exact or asymptotic repeated-data control requires a valid joint null law for the true-null comparisons,
+    an appropriately estimated covariance and a declared testing family; posterior Gaussianity alone is
+    insufficient. Hothorn and colleagues state a multivariate sampling limit and consistent covariance
+    estimation for their general parametric procedure. Applying that reasoning to split Bayesian summaries
+    requires verifying the relevant regularity and prior-dominance conditions, rather than assuming every
+    split satisfies them. Adaptive partition searches, incompatible priors, shared nuisance fitting, weak
+    identification and nonnormal posteriors need further assessment.
+  evidence:
+  - source_id: presanis2017
+    locator: Sections 3.4 and 5, PDF pp. 7 and 12–13; Appendix B, p. 28
+    relation: supports
+  - source_id: hothorn2008
+    locator: Sections 2–3, PDF pp. 4–7 / printed pp. 2–5
+    relation: supports
+- claim_id: interpretation-and-source-boundaries
+  kind: limitation
+  statement: An adjusted continuous tail is not the posterior probability that two quantities are exactly
+    equal. The choice of split, reference prior, scale and testing family changes the diagnostic; masking
+    can remain, and a small score does not establish which source is wrong or authorize its exclusion.
+    The record uses signed contrast matrices, proper normalized posteriors, explicit transformation Jacobians
+    and max-absolute tails. It does not import the 2017 source expressions that apply a second two-tail
+    transform to an already two-sided density-level score, describe difference matrices with only 1s and
+    0s, or require an invertible contrast matrix. These qualifications preserve the method without treating
+    source notation as a general theorem.
+  evidence:
+  - source_id: presanis2017
+    locator: Section 3.1, PDF p. 6; Sections 3.2–3.4, pp. 6–7; examples/discussion, pp. 9–13; Appendix
+      B, p. 28
+    relation: supports
+  - source_id: presanis2013
+    locator: Section 3.2.2, PDF p. 9
+    relation: supports
+  - source_id: hothorn2008
+    locator: Sections 2–3, PDF pp. 4–7 / printed pp. 2–5
+    relation: supports
+evidence_sources:
+- source_id: presanis2017
+  title: Conflict diagnostics for evidence synthesis in a multiple testing framework
+  authors:
+  - Anne M. Presanis
+  - David Ohlssen
+  - Kai Cui
+  - Magdalena Rosińska
+  - Daniela De Angelis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1702.07304v2
+  persistent_id: https://arxiv.org/abs/1702.07304v2
+  version: arXiv:1702.07304v2, margin dated 2017-09-13; title page separately dated July 9, 2021. Complete
+    28-page PDF including main/supplementary figures, tables, references and Appendix B read; the date
+    discrepancy is retained without an assumed explanation.
+  access_level: full_text
+  accessed_at: '2026-10-13T00:45:28Z'
+  sha256: 20326bded40d625b46b8f0b00e071ab3beedb6ace2bae6a8cecc6889bcbc1db9
+- source_id: hothorn2008
+  title: Simultaneous Inference in General Parametric Models
+  authors:
+  - Torsten Hothorn
+  - Frank Bretz
+  - Peter Westfall
+  source_type: primary_paper
+  url: https://epub.ub.uni-muenchen.de/2120/1/tr019.pdf
+  persistent_id: https://doi.org/10.5282/ubm/epub.2120
+  version: 'LMU Technical Report 019, title page dated February 15, 2008. All 25 PDF pages read: repository
+    cover, title/abstract and printed pp. 1–23. Printed page n is PDF page n+2; this is not an assumed
+    identical journal PDF.'
+  access_level: full_text
+  accessed_at: '2026-10-13T00:56:46Z'
+  sha256: e5a1a1e1790b11db29fc18c435f83c9bdf69e1fd01eb504d16e61dedbf28f3f1
+- source_id: presanis2013
+  title: Conflict Diagnostics in Directed Acyclic Graphs, with Applications in Bayesian Evidence Synthesis
+  authors:
+  - Anne M. Presanis
+  - David Ohlssen
+  - David J. Spiegelhalter
+  - Daniela De Angelis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1310.0628v1
+  persistent_id: https://doi.org/10.1214/13-STS426
+  version: arXiv:1310.0628v1, 2013-10-02; complete 22-page electronic reprint of Statistical Science 28(3):376–397
+    read, including Figures 1–16, Table 1 and references. Locators use PDF pages 1–22, not an assumed
+    journal-page offset.
+  access_level: full_text
+  accessed_at: '2026-10-13T00:33:39Z'
+  sha256: 9cff5092b47d7ba20f9ae654b6ea63bd4fdf75ea8ccfdb663427ccab36f3d3a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:BayesianNetwork
+  relation: related_match
+  rationale: The algorithm forms joint conflict comparisons from separator copies in Bayesian directed
+    acyclic evidence-synthesis graphs. BayesianNetwork supplies this representation context; it is not
+    the diagnostic or its simultaneous testing procedure, so this is relatedness rather than equivalence
+    or subclass membership.
+limitations:
+- Only a specified collection of partitions and contrasts is assessed. Broad exploratory searches, dependence
+  introduced by shared nuisance estimates, and changes in the selected family require separate validity
+  analysis.
+- A singular covariance due to redundant contrasts differs from a zero-variance coordinate or a null outside
+  the affine support. Positive diagonal variances, support, numerical rank and the joint reference law
+  must be assessed explicitly.
+- The source contains density-score, contrast-sign, rank and normalization ambiguities; the record states
+  its mathematical convention and uses the earlier node-splitting paper and primary simultaneous-inference
+  report for clarification. No universal frequentist control follows from a normal-looking posterior.
+- The inspected arXiv v2 margin is dated 13 September 2017 while its title page says July 9, 2021; both
+  observations are retained without explaining the discrepancy. The Hothorn source is the February 15,
+  2008 LMU technical report, not an assumed identical journal PDF.
+- All 28 pages of the multiple-testing paper, all 25 PDF pages of the technical report and all 22 pages
+  of the earlier general diagnostic paper were read. No multcomp/OpenBUGS implementation, original application
+  fit, MCMC, benchmark or repeated-data calibration experiment was run. Constructed Gaussian contrasts
+  check rank, covariance, correlation-adjusted tails and support boundaries; they do not reproduce the
+  source applications.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T01:15:37Z'
+  updated_at: '2026-10-13T01:21:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
