@@ -1,0 +1,604 @@
+# Scientific author self-review of layer-wise adaptive rate scaling
+
+- Review: 20261013T024148Z-layer-wise-adaptive-rate-scaling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T02:30:23Z
+- Finished UTC: 2026-10-13T02:41:48Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the expanded LARS optimizer as a distinct DRAFT algorithm related to AIO TrainingStrategy. All six claims and full maintained fields are supported with explicit norm, momentum, zero-case, source-notation and implementation limits. No actionable defect was found; no training or source-code audit occurred.
+
+## Scope And Provenance
+
+All fields of the exact maintained LARS optimizer record and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:LayerWiseAdaptiveRateScaling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b6ffea691b1233de7da867cade6b0edca7f9e8cc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LayerWiseAdaptiveRateScaling | data/curated/LayerWiseAdaptiveRateScaling.yaml | maintained | Layer-wise adaptive rate scaling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LayerWiseAdaptiveRateScaling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 204.79s (0:03:24)<br>Checked 442 record(s); 0 failed.<br>Checked 564 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 218 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 218,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:LayerWiseAdaptiveRateScaling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:LayerWiseAdaptiveRateScaling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:LayerWiseAdaptiveRateScaling | Exited 0 without output. |
+| Constructed LARS update boundaries | passed | True | AIMech:LayerWiseAdaptiveRateScaling | {"no_decay_increment": [0.06, 0.08000000000000002], "no_decay_norm": 0.1, "positive_gradient_rescaling_same_increment": [0.06, 0.08], "second_fresh_norm": 0.098, "second_momentum_displacement_norm": 0.18800000000000003, "coupled_decay_increment_norm": 0.03333333333333334, "norm_of_combined_direction_alternative": 0.10000000000000002, "zero_gradient_with_positive_decay": [0.06000000000000001, 0.08000000000000002], "zero_weight_nonzero_gradient": [0.0, 0.0], "zero_denominator": "undefined in the primary formula", "interpretation": "Algebra on constructed two-dimensional states using Equation6 and a consistently indexed momentum recurrence. No source code, fitted model, training or empirical performance was executed."} |
+
+## Scientific And Domain Assessments
+
+### Expanded optimizer identity and acronym collision
+
+identity: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Retain the expanded optimizer as a distinct DRAFT algorithm.
+
+The bare LARS alias already names least-angle regression and is deliberately absent. Current block weight/gradient norm scaling differs from ordinary SGD and coordinatewise running moments, AdamW decoupled decay and Muon matrix orthogonalization. Later LARC/LAMB variants and implementation-specific choices are not silently assigned this identity.
+
+### Training context without a preprocessing or layer subtype assertion
+
+grounding: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+The qualified related TrainingStrategy mapping is supported.
+
+Neural-network parameter optimization is central to the primary method. The pinned target explicitly names model training but has a preprocessing genus, so only contextual relatedness is asserted. The definition and rationale do not call this method a preprocessing step, regularization layer or supervised-learning task.
+
+### block-scalar-adaptation
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+For a selected layer or parameter block with nonzero weight and gradient L2 norms, the basic local multiplier is lambda_t=eta*norm(w_t)/norm(g_t), where g_t is the current minibatch objective gradient and eta is a positive trust coefficient. A global learning-rate schedule gamma_t supplies the fresh descent increment gamma_t*lambda_t*g_t. This is one scalar per chosen block, rather than a coordinate-wise accumulated gradient-moment denominator or a new network layer.
+
+### coupled-decay-extension
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+For nonnegative coupled weight decay beta, Equation 6 uses lambda_t=eta*norm(w_t)/(norm(g_t)+beta*norm(w_t)) and scales the combined direction g_t+beta*w_t. The denominator is the sum of two norms with the decay coefficient, not norm(g_t+beta*w_t). Decay therefore participates in the adaptive multiplier and momentum direction; this is not an independent decoupled shrinkage step.
+
+### momentum-and-schedule
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+A consistently indexed momentum composition is v_(t+1)=m*v_t+gamma_t*lambda_t*(g_t+beta*w_t), followed by w_(t+1)=w_t-v_(t+1), starting with zero velocity. Here gamma_t denotes the schedule value applied to the current update. This record retains eta from Equations 5–6: Algorithm 1 lists eta but omits it from its local-multiplier line, computes gamma_t but uses gamma_(t+1), and omits an explicit loop-counter increment. Polynomial decay and warm-up are schedule choices in the examples, not the identity of the norm-ratio adaptation.
+
+### relative-increment-boundary
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+With no decay, nonzero norms and nonnegative gamma_t, the fresh increment has norm gamma_t*eta*norm(w_t) and is unchanged by multiplying g_t by a positive scalar. With beta&gt;=0 and a positive denominator, the triangle inequality bounds the fresh combined-direction increment by that same quantity. These are algebraic properties of the stated formula, not a bound on the whole accumulated momentum displacement, a general stability theorem, or a solution of a trust-region subproblem.
+
+### zero-norm-and-implementation-boundaries
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+The primary formula leaves a zero denominator undefined and supplies no epsilon or fallback policy. At zero weight norm with a positive denominator it gives zero fresh increment; existing momentum can still move the block. Bias/normalization exclusions, parameter grouping, clipping and zero-norm handling must be specified by a concrete implementation and cannot be inferred from the method name. The source discusses weights and biases separately, but does not establish a universal exclusion rule.
+
+### scope-and-evidence-limits
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Supported with the stated construction and limitations.
+
+The primary study targets large-batch convolutional-network training with synchronous minibatch gradients, global schedules, momentum and model-specific experimental settings. Its reported accuracy depends on architecture, batch size, schedule and training duration. The norm-ratio rule does not by itself guarantee convergence, eliminate every vanishing/exploding-gradient problem, preserve accuracy at arbitrary batch size, or establish distributed speedup. This record curates the mechanism without importing a numerical benchmark or claiming a source training reproduction.
+
+### Algebraic bounds and zero cases
+
+consistency: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+The record limits its bound to the fresh increment.
+
+For weights [3,4], gradient [.6,.8], eta .1 and gamma .2, the fresh increment [.06,.08] has norm .1 and is unchanged by positive gradient scaling. In a second constant-gradient step, fresh norm .098 coexists with momentum displacement .188. Opposing coupled-decay directions give norm .0333333 with the source sum-of-norms denominator, versus .1 with a norm-of-sum variant. With zero gradient and positive decay the beta magnitude cancels; zero weights with positive denominator yield zero fresh increment. The all-zero denominator is deliberately undefined. These are constructed formula checks, not training outcomes.
+
+### Primary notation and empirical scope
+
+consistency: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+Source inconsistencies are preserved without treating them as guarantees.
+
+Equations 5–6 supply eta although Algorithm 1 omits it in the local multiplier; the record explicitly repairs current-update indexing rather than asserting a literal transcription. Table 2 conv5.w ratio and the reported large-batch accuracy prose do not support unqualified numerical claims. Warm-up, polynomial schedules, bias/group exclusions and zero handling are not promoted into universal algorithm identity. Neither convergence nor distributed speedup follows solely from the norm rule.
+
+### Full maintained record and exact primary version
+
+provenance: supported. Targets: AIMech:LayerWiseAdaptiveRateScaling.
+
+All maintained fields are consistent; DRAFT remains.
+
+Read stable ID, name, empty aliases, kind, definition and evidence, identity notes, six claims and their locators, source author/title/version/access/hash, pinned related mapping, six limitations and actual UTC curation. Verified source, capture/context and report-entry bytes; reran the constructed calculation. The September 2017 preprint is not assumed identical to later Berkeley/ICLR versions or author code. No actionable record defect was found.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T023020Z-layer-wise-adaptive-rate-scaling.json | supports | Compared all 442 pinned AIO and 563 maintained IDs, names, aliases and scoped synonyms. The initial bare LARS candidate alias matched AIMech:LeastAngleRegression; its complete record and proposal context establish an unrelated equiangular regression algorithm. Removed that ambiguous alias. The expanded optimizer identity then had no normalized match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 330, 262 and 267 lines, including the original ignored virtual environment. Canonical hits identify the regression acronym, author surnames and pending optimizer leads; long historical reports and generated mirrors were classified but not all reread. Read all ten semantic AIO rows and 85 native definitions, three complete annotated AIO nodes with incident edges and generated YAML, and six full native context records. Layer-wise weight/gradient-norm scaling differs from ordinary SGD, coordinate-wise Adam/RMSprop moments, decoupled AdamW decay, matrix-orthogonalized Muon and least-angle regression. This record does not assign the same identity to every later LARS/LARC/LAMB implementation. |
+| mapping | sources/aio/aio.json | supports | Read ten semantic AIO rows, 85 native definitions, three full AIO nodes with annotations/incident edges/generated YAML, and six full native context records. TrainingStrategy names the direct training context, but its preprocessing genus is unsuitable as an optimizer superclass. RegularizationLayer is not an update algorithm, and SupervisedLearning is a task setting. The related_match deliberately makes neither an exact nor an is-a claim. Full TrainingStrategy YAML reread after capture. |
+| primary | https://arxiv.org/pdf/1708.03888v3; Complete eight-page v3 technical report; Section 4, Equations 4–6 and Algorithm 1, p. 4; Section 5, p. 5; training setup and Sections 6–7, p. 7 | supports | Read all eight pages, five figures, five tables and Algorithm 1 before capture. Visually reread pp. 4,5,7 after capture. The record retains eta from Equations 5–6, uses a consistently indexed current schedule, distinguishes fresh increments from whole momentum displacements, and does not infer missing zero-norm policies. Printed ratio, accuracy and figure-setting inconsistencies remain in discovery notes. No benchmark or source implementation reproduction is claimed. |
+| calculation | research/discovery/lars-update-boundaries.py | supports | Constructed vectors verify gradient-rescaling invariance without decay, the fresh-step norm, a two-step zero-initialized momentum displacement exceeding the current fresh-step bound, sum-of-norms versus norm-of-sum decay, and undefined zero-denominator behavior. These are algebraic checks, not source training or empirical validation. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue was manufactured for a clean review.
+- One new DRAFT concept, yielding 564 native and 442 unchanged generated records. The 749-entry main frontier retains 483 pending and 57 partly addressed cohorts; discovery is incomplete.
+- The complete eight-page September 13, 2017 technical-report preprint was inspected. Later Berkeley/ICLR versions and the linked author implementation were not treated as identical evidence. No training, source software execution or empirical evaluation occurred.
+- The eight-page source was read fully in text and rendered pages. Unqualified abstract/conclusion outcomes and inconsistent pseudocode/table values are not imported as guarantees.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T024148Z-layer-wise-adaptive-rate-scaling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of layer-wise adaptive rate scaling
+started_at: '2026-10-13T02:30:23Z'
+finished_at: '2026-10-13T02:41:48Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged the acronym collision, algorithm distinctness,
+    mapping, coupled-decay denominator, fresh versus accumulated updates, zero cases,
+    source notation and empirical scope. This is adversarial author self-review, not
+    independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the expanded LARS optimizer as a distinct DRAFT algorithm related
+  to AIO TrainingStrategy. All six claims and full maintained fields are supported
+  with explicit norm, momentum, zero-case, source-notation and implementation limits.
+  No actionable defect was found; no training or source-code audit occurred.
+source:
+  git_revision: b6ffea691b1233de7da867cade6b0edca7f9e8cc
+  state: working_tree
+  inputs:
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/Adam.yaml
+    sha256: b28d5f93f73b80005b3ef7b98d306b5b548f3d2aa77362592c497404e0ea944a
+    role: context
+  - path: data/curated/AdamW.yaml
+    sha256: 5a851955d9435629b76cb28e95d84ab6c1db16aa35df9b485254c9c76c025948
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: target
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/Muon.yaml
+    sha256: 144f28dd1ef6b61afe6182227e9cdd21aee1fe9182fb161a6b7904269a0b41f1
+    role: context
+  - path: data/curated/RMSprop.yaml
+    sha256: 25fe81add637f0323634a0860a706a201a5927826afd6783738aca2c80a7c49d
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: research/discovery/20261013T023020Z-layer-wise-adaptive-rate-scaling.json
+    sha256: b0a2c59190de7ca6707b429a44211f9b1c7b072b6363d03823203bd32b8315e2
+    role: context
+  - path: research/discovery/lars-update-boundaries.py
+    sha256: 3687c9826e2d44cf8182969addc9a4ccbe3961476c391c60d097f5d430ddfb80
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LayerWiseAdaptiveRateScaling
+  path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+  label: Layer-wise adaptive rate scaling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained LARS optimizer record and its primary
+    evidence.
+  selection: 'Exact maintained ID: AIMech:LayerWiseAdaptiveRateScaling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exclusions:
+  - target: Neighboring AIO and native concepts
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: CLARS, LAMB and later LARS/LARC implementations
+    reason: Separate follow-up identities and source versions pending review.
+  - target: Source implementation and model training
+    reason: No author-code execution, model training, benchmark reproduction or empirical
+      generalization claim.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 204.79s (0:03:24)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 564 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 218 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 218,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed LARS update boundaries
+  command: python3 research/discovery/lars-update-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"no_decay_increment": [0.06, 0.08000000000000002], "no_decay_norm": 0.1,
+    "positive_gradient_rescaling_same_increment": [0.06, 0.08], "second_fresh_norm":
+    0.098, "second_momentum_displacement_norm": 0.18800000000000003, "coupled_decay_increment_norm":
+    0.03333333333333334, "norm_of_combined_direction_alternative": 0.10000000000000002,
+    "zero_gradient_with_positive_decay": [0.06000000000000001, 0.08000000000000002],
+    "zero_weight_nonzero_gradient": [0.0, 0.0], "zero_denominator": "undefined in
+    the primary formula", "interpretation": "Algebra on constructed two-dimensional
+    states using Equation6 and a consistently indexed momentum recurrence. No source
+    code, fitted model, training or empirical performance was executed."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T023020Z-layer-wise-adaptive-rate-scaling.json
+  accessed_at: '2026-10-13T02:30:23Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 563 maintained IDs, names, aliases and
+    scoped synonyms. The initial bare LARS candidate alias matched AIMech:LeastAngleRegression;
+    its complete record and proposal context establish an unrelated equiangular regression
+    algorithm. Removed that ambiguous alias. The expanded optimizer identity then
+    had no normalized match. Ignored- and hidden-inclusive fixed-string searches of
+    the recovery, older discovery and original Documents checkouts returned 330, 262
+    and 267 lines, including the original ignored virtual environment. Canonical hits
+    identify the regression acronym, author surnames and pending optimizer leads;
+    long historical reports and generated mirrors were classified but not all reread.
+    Read all ten semantic AIO rows and 85 native definitions, three complete annotated
+    AIO nodes with incident edges and generated YAML, and six full native context
+    records. Layer-wise weight/gradient-norm scaling differs from ordinary SGD, coordinate-wise
+    Adam/RMSprop moments, decoupled AdamW decay, matrix-orthogonalized Muon and least-angle
+    regression. This record does not assign the same identity to every later LARS/LARC/LAMB
+    implementation.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T02:30:23Z'
+  support: supports
+  summary: Read ten semantic AIO rows, 85 native definitions, three full AIO nodes
+    with annotations/incident edges/generated YAML, and six full native context records.
+    TrainingStrategy names the direct training context, but its preprocessing genus
+    is unsuitable as an optimizer superclass. RegularizationLayer is not an update
+    algorithm, and SupervisedLearning is a task setting. The related_match deliberately
+    makes neither an exact nor an is-a claim. Full TrainingStrategy YAML reread after
+    capture.
+- evidence_id: primary
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1708.03888v3
+  locator: Complete eight-page v3 technical report; Section 4, Equations 4–6 and Algorithm
+    1, p. 4; Section 5, p. 5; training setup and Sections 6–7, p. 7
+  accessed_at: '2026-10-13T02:17:04Z'
+  snapshot_sha256: 8012e213ce51d5a1540bdb194353cc568eccec63bec875e5469c84f99a1377d7
+  support: supports
+  summary: Read all eight pages, five figures, five tables and Algorithm 1 before
+    capture. Visually reread pp. 4,5,7 after capture. The record retains eta from
+    Equations 5–6, uses a consistently indexed current schedule, distinguishes fresh
+    increments from whole momentum displacements, and does not infer missing zero-norm
+    policies. Printed ratio, accuracy and figure-setting inconsistencies remain in
+    discovery notes. No benchmark or source implementation reproduction is claimed.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/lars-update-boundaries.py
+  accessed_at: '2026-10-13T02:36:29Z'
+  snapshot_sha256: 3687c9826e2d44cf8182969addc9a4ccbe3961476c391c60d097f5d430ddfb80
+  support: supports
+  summary: Constructed vectors verify gradient-rescaling invariance without decay,
+    the fresh-step norm, a two-step zero-initialized momentum displacement exceeding
+    the current fresh-step bound, sum-of-norms versus norm-of-sum decay, and undefined
+    zero-denominator behavior. These are algebraic checks, not source training or
+    empirical validation.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Expanded optimizer identity and acronym collision
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - identity
+  - primary
+  summary: Retain the expanded optimizer as a distinct DRAFT algorithm.
+  details: The bare LARS alias already names least-angle regression and is deliberately
+    absent. Current block weight/gradient norm scaling differs from ordinary SGD and
+    coordinatewise running moments, AdamW decoupled decay and Muon matrix orthogonalization.
+    Later LARC/LAMB variants and implementation-specific choices are not silently
+    assigned this identity.
+- assessment_id: mapping
+  area: grounding
+  topic: Training context without a preprocessing or layer subtype assertion
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - mapping
+  - primary
+  summary: The qualified related TrainingStrategy mapping is supported.
+  details: Neural-network parameter optimization is central to the primary method.
+    The pinned target explicitly names model training but has a preprocessing genus,
+    so only contextual relatedness is asserted. The definition and rationale do not
+    call this method a preprocessing step, regularization layer or supervised-learning
+    task.
+- assessment_id: block-scalar-adaptation
+  area: evidence
+  topic: block-scalar-adaptation
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: For a selected layer or parameter block with nonzero weight and gradient
+    L2 norms, the basic local multiplier is lambda_t=eta*norm(w_t)/norm(g_t), where
+    g_t is the current minibatch objective gradient and eta is a positive trust coefficient.
+    A global learning-rate schedule gamma_t supplies the fresh descent increment gamma_t*lambda_t*g_t.
+    This is one scalar per chosen block, rather than a coordinate-wise accumulated
+    gradient-moment denominator or a new network layer.
+- assessment_id: coupled-decay-extension
+  area: evidence
+  topic: coupled-decay-extension
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: For nonnegative coupled weight decay beta, Equation 6 uses lambda_t=eta*norm(w_t)/(norm(g_t)+beta*norm(w_t))
+    and scales the combined direction g_t+beta*w_t. The denominator is the sum of
+    two norms with the decay coefficient, not norm(g_t+beta*w_t). Decay therefore
+    participates in the adaptive multiplier and momentum direction; this is not an
+    independent decoupled shrinkage step.
+- assessment_id: momentum-and-schedule
+  area: evidence
+  topic: momentum-and-schedule
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: 'A consistently indexed momentum composition is v_(t+1)=m*v_t+gamma_t*lambda_t*(g_t+beta*w_t),
+    followed by w_(t+1)=w_t-v_(t+1), starting with zero velocity. Here gamma_t denotes
+    the schedule value applied to the current update. This record retains eta from
+    Equations 5–6: Algorithm 1 lists eta but omits it from its local-multiplier line,
+    computes gamma_t but uses gamma_(t+1), and omits an explicit loop-counter increment.
+    Polynomial decay and warm-up are schedule choices in the examples, not the identity
+    of the norm-ratio adaptation.'
+- assessment_id: relative-increment-boundary
+  area: evidence
+  topic: relative-increment-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: With no decay, nonzero norms and nonnegative gamma_t, the fresh increment
+    has norm gamma_t*eta*norm(w_t) and is unchanged by multiplying g_t by a positive
+    scalar. With beta>=0 and a positive denominator, the triangle inequality bounds
+    the fresh combined-direction increment by that same quantity. These are algebraic
+    properties of the stated formula, not a bound on the whole accumulated momentum
+    displacement, a general stability theorem, or a solution of a trust-region subproblem.
+- assessment_id: zero-norm-and-implementation-boundaries
+  area: evidence
+  topic: zero-norm-and-implementation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Supported with the stated construction and limitations.
+  details: The primary formula leaves a zero denominator undefined and supplies no
+    epsilon or fallback policy. At zero weight norm with a positive denominator it
+    gives zero fresh increment; existing momentum can still move the block. Bias/normalization
+    exclusions, parameter grouping, clipping and zero-norm handling must be specified
+    by a concrete implementation and cannot be inferred from the method name. The
+    source discusses weights and biases separately, but does not establish a universal
+    exclusion rule.
+- assessment_id: scope-and-evidence-limits
+  area: evidence
+  topic: scope-and-evidence-limits
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  summary: Supported with the stated construction and limitations.
+  details: The primary study targets large-batch convolutional-network training with
+    synchronous minibatch gradients, global schedules, momentum and model-specific
+    experimental settings. Its reported accuracy depends on architecture, batch size,
+    schedule and training duration. The norm-ratio rule does not by itself guarantee
+    convergence, eliminate every vanishing/exploding-gradient problem, preserve accuracy
+    at arbitrary batch size, or establish distributed speedup. This record curates
+    the mechanism without importing a numerical benchmark or claiming a source training
+    reproduction.
+- assessment_id: norm-and-momentum
+  area: consistency
+  topic: Algebraic bounds and zero cases
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: The record limits its bound to the fresh increment.
+  details: For weights [3,4], gradient [.6,.8], eta .1 and gamma .2, the fresh increment
+    [.06,.08] has norm .1 and is unchanged by positive gradient scaling. In a second
+    constant-gradient step, fresh norm .098 coexists with momentum displacement .188.
+    Opposing coupled-decay directions give norm .0333333 with the source sum-of-norms
+    denominator, versus .1 with a norm-of-sum variant. With zero gradient and positive
+    decay the beta magnitude cancels; zero weights with positive denominator yield
+    zero fresh increment. The all-zero denominator is deliberately undefined. These
+    are constructed formula checks, not training outcomes.
+- assessment_id: source-notation
+  area: consistency
+  topic: Primary notation and empirical scope
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - primary
+  - calculation
+  summary: Source inconsistencies are preserved without treating them as guarantees.
+  details: Equations 5–6 supply eta although Algorithm 1 omits it in the local multiplier;
+    the record explicitly repairs current-update indexing rather than asserting a
+    literal transcription. Table 2 conv5.w ratio and the reported large-batch accuracy
+    prose do not support unqualified numerical claims. Warm-up, polynomial schedules,
+    bias/group exclusions and zero handling are not promoted into universal algorithm
+    identity. Neither convergence nor distributed speedup follows solely from the
+    norm rule.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Full maintained record and exact primary version
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateScaling
+  evidence_ids:
+  - identity
+  - mapping
+  - primary
+  - calculation
+  summary: All maintained fields are consistent; DRAFT remains.
+  details: Read stable ID, name, empty aliases, kind, definition and evidence, identity
+    notes, six claims and their locators, source author/title/version/access/hash,
+    pinned related mapping, six limitations and actual UTC curation. Verified source,
+    capture/context and report-entry bytes; reran the constructed calculation. The
+    September 2017 preprint is not assumed identical to later Berkeley/ICLR versions
+    or author code. No actionable record defect was found.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue was
+  manufactured for a clean review.
+- One new DRAFT concept, yielding 564 native and 442 unchanged generated records.
+  The 749-entry main frontier retains 483 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- The complete eight-page September 13, 2017 technical-report preprint was inspected.
+  Later Berkeley/ICLR versions and the linked author implementation were not treated
+  as identical evidence. No training, source software execution or empirical evaluation
+  occurred.
+- The eight-page source was read fully in text and rendered pages. Unqualified abstract/conclusion
+  outcomes and inconsistent pseudocode/table values are not imported as guarantees.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- layer-wise-adaptation
+- self-review
+- discovery-ongoing
+```
