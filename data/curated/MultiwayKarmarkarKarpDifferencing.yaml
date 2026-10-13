@@ -1,0 +1,176 @@
+id: AIMech:MultiwayKarmarkarKarpDifferencing
+name: Multiway Karmarkar–Karp differencing
+aliases: []
+concept_kind: algorithm
+definition: A multiway number-partitioning heuristic that represents partial partitions by normalized
+  bin-load vectors and repeatedly combines two selected subpartitions by pairing their largest and smallest
+  bin loads, retaining one composition until a full partition remains.
+identity_notes: Compared all 442 pinned AIO and 590 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 50, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 97 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. This
+  record scopes the k>=3 vector-subpartition generalization of KK, with opposing-rank bin composition
+  and normalization. The two-way scalar identity remains in KarmarkarKarpDifferencing. Complete CKK explores
+  alternate compositions, while CGA assigns original items directly. Existing hits are source references
+  and a pending combined multiway lead; no suitable AIO class denotes the procedure.
+definition_evidence:
+- source_id: korf1997
+  locator: Section 7.3, manuscript PDF/printed pp. 20–21
+  relation: supports
+claims:
+- claim_id: partial-bin-representation
+  kind: mechanism
+  statement: 'For a fixed k>=3 and a finite nonempty multiset of nonnegative weights, initialize one k-bin
+    subpartition per original item: its weight occupies one bin and the other bins are empty. Each subpartition
+    represents disjoint original items already assigned to relative bins. Subtracting its minimum load
+    from every coordinate preserves all within-subpartition load differences. Original memberships require
+    bookkeeping beyond the normalized numbers.'
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.3, pp. 20–21; original-index reconstruction interpretation
+    relation: supports
+- claim_id: opposing-rank-composition
+  kind: mechanism
+  statement: Select two subpartitions with the largest normalized maximum loads. Order the bins of one
+    by decreasing load and the other by increasing load, merge corresponding bin memberships and add their
+    loads, then subtract the new minimum and reinsert the result. This pairs large with small components
+    within the two chosen subpartitions; it is not global placement of each next raw item in the lightest
+    existing bin. Tie policy must be specified to reproduce a particular trace or membership output.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.3, pp. 20–21
+    relation: supports
+- claim_id: normalization-and-reconstruction
+  kind: scope
+  statement: A normalized zero denotes a minimum relative load, which may belong to a nonempty subset.
+    Merge the stored original-index groups according to each selected bin permutation; their final sums
+    recover the actual loads, differing from the normalized vector by a common offset. In the source example
+    8,7,6,5,4 with three bins, successive combined normalized vectors are (8,7,0), (2,1,0), (5,4,0), then
+    (3,3,0). The final actual loads are 11,11,8, so the normalized zero is not an empty bin.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7.3 worked example and reconstruction, pp. 20–21; constructed indexed arithmetic
+    relation: supports
+- claim_id: heuristic-not-complete
+  kind: limitation
+  statement: Only one opposing-rank composition is retained at each merge. This yields a feasible partition
+    but is not guaranteed to minimize range. In a constructed run with declared deterministic tie handling
+    on weights 2,2,2,3,3,5, the heuristic gives loads (7,5,5), range 2; exhaustive assignment admits (6,6,5),
+    range 1. The source’s complete multiway CKK instead explores alternate relative bin permutations.
+    This counterexample is a curator calculation, not a reported author experiment.
+  evidence:
+  - source_id: korf1997
+    locator: Sections 7.3–7.4, pp. 20–24; constructed seven-fixture calculation and exhaustive assignment
+      comparison
+    relation: supports
+- claim_id: range-objective-boundary
+  kind: limitation
+  statement: The normalized maximum equals the final load range, not the absolute largest bin load. Range
+    minimization and makespan minimization can select different solutions for k>=3. On weights 4,4,4,6,6,9,
+    the constructed heuristic returns loads (13,10,10) with globally minimum range 3, while a maximum
+    load of 12 is possible with (12,12,9). The source’s opening claim that minimizing range also minimizes
+    the largest load is therefore not adopted as a guarantee for the returned partition.
+  evidence:
+  - source_id: korf1997
+    locator: Section 7 opening objective, p. 19; Section 7.3 normalization, pp. 20–21; constructed exhaustive
+      load-set counterexample
+    relation: supports
+  - source_id: korf1997
+    locator: 'Section 7 opening, p. 19: claimed range/largest-load equivalence; contradicted by the constructed
+      objective example'
+    relation: contradicts
+- claim_id: variant-and-evaluation-scope
+  kind: scope
+  statement: This vector-subpartition record covers k>=3; the two-way scalar heuristic has its own maintained
+    identity. The one-composition rule differs from complete multiway CKK and from randomized cyclic-differencing
+    and compaction schemes in the original report. Korf’s three-way search experiments concern complete
+    algorithms, so their node counts and runtime comparisons are not standalone validation of this heuristic
+    across distributions, bin counts or precisions.
+  evidence:
+  - source_id: korf1997
+    locator: Sections 2.6 and 7.3–7.5, pp. 8–11 and 20–25; original report Section 3 was separately inspected
+      as variant context
+    relation: supports
+  - source_id: karmarkar-karp-report
+    locator: Section 3, PDF/printed pp. 16–30; binary and cyclic operations pp. 18–20 and randomized cyclic
+      algorithm pp. 20–23
+    relation: supports
+evidence_sources:
+- source_id: korf1997
+  title: A Complete Anytime Algorithm for Number Partitioning
+  authors:
+  - Richard E. Korf
+  persistent_id: https://doi.org/10.1016/S0004-3702(98)00086-1
+  version: University-hosted31-page manuscript dated27June1997, read in full. DOI identifies the later1998
+    Artificial Intelligence106(2):181–203 publication; its final typeset text was not inspected. Locators
+    refer to manuscript PDF/printed pages1–31.
+  source_type: primary_paper
+  url: https://web.cecs.pdx.edu/bart/cs510cs/papers/korf-ckk.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: 00751dfacfb610eaca973274764704476ecef22865526b9528eb88e07dc09074
+- source_id: karmarkar-karp-report
+  title: The Differencing Method of Set Partitioning
+  authors:
+  - Narendra Karmarkar
+  - Richard M. Karp
+  persistent_id: UCB/CSD-83-113
+  version: Complete30-page Berkeley archive PDF catalogued UCB/CSD-83-113(1983); all pages read. The PDF
+    opening has no printed year; Korf cites a1982 UCB/CSD82/113 report. No claim resolving first-publication
+    priority; author spelling follows printed PDF rather than landing-page typos.
+  source_type: primary_paper
+  url: https://www2.eecs.berkeley.edu/Pubs/TechRpts/1983/CSD-83-113.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T07:27:28Z'
+  sha256: f6ca1d4198d45609dd6da8c24693c797b5a6244d4f6374aea94db96084d386de
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 590 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 50, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 67 AIO and 97 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    This record scopes the k>=3 vector-subpartition generalization of KK, with opposing-rank bin composition
+    and normalization. The two-way scalar identity remains in KarmarkarKarpDifferencing. Complete CKK
+    explores alternate compositions, while CGA assigns original items directly. Existing hits are source
+    references and a pending combined multiway lead; no suitable AIO class denotes the procedure.
+  rationale: No inspected AIO class denotes normalized arithmetic subpartition composition. A shared graph,
+    heuristic or partitioning word does not identify a learned model, learning task or function entity.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- The scope is unconstrained range partitioning into k>=3 interchangeable bins. Equal cardinality, nonempty-bin
+  requirements and bin-dependent restrictions are not imposed.
+- Tie choices can affect the constructed trace or memberships. The curator calculation declares its policy
+  and does not assert identity with an uninspected author implementation.
+- Normalization preserves differences but discards an absolute common offset unless separate membership
+  or offset data are retained. A zero component need not denote an unused bin.
+- A heuristic result is not an optimality certificate, and even a range optimum need not be a minimum-makespan
+  partition.
+- All 31 pages of the Korf manuscript and all 30 pages of the original report were read; constructed exact-integer
+  examples do not establish typical performance or replace complete search.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T08:11:33Z'
+  updated_at: '2026-10-13T08:11:33Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
