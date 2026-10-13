@@ -1,0 +1,537 @@
+# Scientific author self-review of Adaptive Deconvolutional Network
+
+- Review: 20261013T142659Z-adaptive-deconvolutional-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T14:21:49Z
+- Finished UTC: 2026-10-13T14:26:59Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the adaptive deconvolutional architecture as a DRAFT native concept with explicit mappings. Complete fields and primary sources were assessed, including the already-existing2010multilevel inference and conditional algebra. No actionable record defect identified in this author self-review; implementation and empirical replication remain excluded.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:AdaptiveDeconvolutionalNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 14a3d0357f2b1a921fa2127578299a95b02d82fb.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:AdaptiveDeconvolutionalNetwork | data/curated/AdaptiveDeconvolutionalNetwork.yaml | maintained | Adaptive Deconvolutional Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:AdaptiveDeconvolutionalNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 137.55s (0:02:17)<br>Checked 442 record(s); 0 failed.<br>Checked 624 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 299 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 296,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:AdaptiveDeconvolutionalNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:AdaptiveDeconvolutionalNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:AdaptiveDeconvolutionalNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:AdaptiveDeconvolutionalNetwork | {"duplicate_atom_minimizers": [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]], "equal_optimal_objectives": [1.5, 1.5, 1.5], "finite_difference": [0.2000000000057511, -0.2000000000057511], "fixed_switch_adjoint_pair": [1.15, 1.15], "projection_of_sum": [3.0, 0.0], "reconstruction_gradient": [0.19999999999999996, -0.19999999999999996], "signed_absolute_max_projection": [-3.0, 0.0], "sum_of_projections": [3.0, 2.0]} |
+
+## Scientific And Domain Assessments
+
+### Adaptive Deconvolutional Network
+
+identity: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Retain this distinct DRAFT architecture.
+
+Retain a distinct adaptive2011 architecture under the broader AIO family. The2010 paper already has multilevel original-image inference; adaptive pooling switches and the layer-training objective provide the narrower distinction. The exact scoped identity search includes ignored and hidden files.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+The declared AIO mapping is supported.
+
+AIO DeconvolutionalNetwork is broader by its unsupervised image-hierarchy definition. SparseLearning is methodologically related, not asserted equivalent. The generated pooling-component relation is preserved with a separate upstream-context lead, not silently endorsed. SparseAutoEncoder, DeepBeliefNetwork and MaxUnpool2DLayer are rejected as identity/superclass alternatives. Five full AIO contexts and BasisPursuit were inspected.
+
+### original-image-layer-objective
+
+evidence: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+The2011 loss penalizes original-image reconstruction at each trained layer. The2010 source trains layers against preceding maps but already includes original-image multilevel inference in Section3.3; the record preserves that qualification.
+
+### signed-pooling-and-partial-unpooling
+
+evidence: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Figure3 and text select absolute maximum across spatial and feature-map neighborhoods while retaining sign. Fixed P and P-transpose lose unselected values; the changing selection is nonlinear. Direct examples verify both boundaries.
+
+### conditional-reconstruction-and-inference
+
+evidence: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations4–7, footnote1 and Algorithm1 support the conditional reconstruction chain, transpose residual propagation, signed threshold and pool/unpool projection. An adjoint is not generally an inverse, and intermediate maps lack separate sparsity terms.
+
+### finite-optimization-and-nonuniqueness
+
+evidence: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Finite inference/CG and normalization do not establish a global optimum. Duplicate unit atoms furnish a direct counterexample to unconditional uniqueness under squared-error-plus-L1, with a scalar lower bound proving the shared minimum.
+
+### classification-and-evaluation-boundaries
+
+evidence: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3 projects strongest high-layer activations separately to first-layer maps for averaged spatial-pyramid descriptors. Configured Caltech experiments, transfer, qualitative features and historical timings are not universal causal or invertibility results; no numerical performance estimate is asserted.
+
+### architecture identity, historical reconstruction scope, signed switches, conditional adjoints, nonuniqueness and finite evaluation
+
+consistency: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Constructed examples distinguish absolute-maximum signed projection from ordinary maximum and from an inverse, demonstrate nonlinearity of changing selections, verify fixed-switch adjoint/gradient algebra and exhibit multiple optimal coefficient splits for a duplicate-atom squared-error-plus-L1 objective. No author implementation or fitting.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:AdaptiveDeconvolutionalNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. All five claims, locators, definition, identity/kind, sources/access/hashes, mapping direction/pin, limitations and curation fields assessed. Historical training-versus-inference distinction, signed absolute-max selection, fixed-switch adjoints, sparse-objective nonuniqueness and finite classifier evidence were challenged. Constructed examples were inspected and rerun.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T142138Z-adaptive-deconvolutional-network.json | supports | Compared all 442 pinned AIO and 623 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 12 AIO and 21 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 1 full native records were inspected. Retain the named adaptive2011 architecture as a narrower member of the AIO DeconvolutionalNetwork family. Its spatial/cross-map switches and original-image layer-training objective distinguish it from the2010 layerwise-trained architecture. The latter already performs multilevel image reconstruction at inference, which is not asserted novel here. The local concept is not a generic sparse-learning identity, fixed-dictionary basis-pursuit optimization, sparse autoencoder, deep belief network or unpooling layer. |
+| mapping | sources/aio/aio.json | supports | AIO DeconvolutionalNetwork is broader by its unsupervised image-hierarchy definition. SparseLearning is methodologically related, not asserted equivalent. The generated pooling-component relation is preserved with a separate upstream-context lead, not silently endorsed. SparseAutoEncoder, DeepBeliefNetwork and MaxUnpool2DLayer are rejected as identity/superclass alternatives. Five full AIO contexts and BasisPursuit were inspected. |
+| zeiler2011 | https://mit6874.github.io/assets/misc/zeiler.pdf; Both complete eight-page PDFs inspected. The2011bytes are from an MIT course mirror after author-host DNS failure; byte equivalence unverified. No other versions, author code, training or empirical replication. | supports | Eight-page author-style primary paper, cited as ICCV2011 by the inspected Stochastic Pooling paper. Inspected bytes came from the MIT course mirror; author-site byte equivalence unverified. All pages visually read; use PDFpage locators. |
+| zeiler2010 | https://dilipkay.wordpress.com/wp-content/uploads/2015/03/cvpr10.pdf; Both complete eight-page PDFs inspected. The2011bytes are from an MIT course mirror after author-host DNS failure; byte equivalence unverified. No other versions, author code, training or empirical replication. | supports | Eight-page coauthor-hosted primary PDF linked as CVPR2010 on Dilip Krishnan’s publication list. All pages visually read; PDF and printed page numbers agree. Other versions and author code not inspected. |
+| calculation | research/discovery/adaptive-deconvolution-boundaries.py | supports | Constructed examples distinguish absolute-maximum signed projection from ordinary maximum and from an inverse, demonstrate nonlinearity of changing selections, verify fixed-switch adjoint/gradient algebra and exhibit multiple optimal coefficient splits for a duplicate-atom squared-error-plus-L1 objective. No author implementation or fitting. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 624 native and 442 unchanged generated records. The 809-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Both complete eight-page primary PDFs visually inspected, including equations, algorithms, figures, tables, footnotes and references. Original access and reading times retained. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T142659Z-adaptive-deconvolutional-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Adaptive Deconvolutional Network
+started_at: '2026-10-13T14:21:49Z'
+finished_at: '2026-10-13T14:26:59Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged architecture identity, historical reconstruction
+    scope, signed switches, conditional adjoints, nonuniqueness and finite evaluation.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the adaptive deconvolutional architecture as a DRAFT native concept
+  with explicit mappings. Complete fields and primary sources were assessed, including
+  the already-existing2010multilevel inference and conditional algebra. No actionable
+  record defect identified in this author self-review; implementation and empirical
+  replication remain excluded.
+source:
+  git_revision: 14a3d0357f2b1a921fa2127578299a95b02d82fb
+  state: working_tree
+  inputs:
+  - path: data/aio/DeconvolutionalNetwork.yaml
+    sha256: 9349bc41b53f8948ed116ee0b4ce856ac2dbc21b193bb461a9e86b230ce82654
+    role: context
+  - path: data/aio/DeepBeliefNetwork.yaml
+    sha256: e6912732493adbfea3b48e01184d33682ad262dd73801757c094a2b160046a58
+    role: context
+  - path: data/aio/MaxUnpool2DLayer.yaml
+    sha256: 61e107019616856102104138e50afeb2b9f1ae1789992a0d92a8add0450992a6
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/curated/AdaptiveDeconvolutionalNetwork.yaml
+    sha256: ca2d67e06444f8ad2fd4028ecf96f746f9dc212db2d13e8f0abeb832a0127244
+    role: target
+  - path: data/curated/BasisPursuit.yaml
+    sha256: 962cb52fb514105bea0b9296ad29569b0857a9fe8ecf437894dc1c1426010730
+    role: context
+  - path: research/discovery/20261013T142138Z-adaptive-deconvolutional-network.json
+    sha256: 95f54efcc84a3a35d3a34d1458567a7facbdac2609c558d53a8dc76dad411239
+    role: context
+  - path: research/discovery/adaptive-deconvolution-boundaries.py
+    sha256: c27d8ef6bf769e6466b26c47679897458cc88ac156f9e5bc672279e1d7b1624e
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:AdaptiveDeconvolutionalNetwork
+  path: data/curated/AdaptiveDeconvolutionalNetwork.yaml
+  label: Adaptive Deconvolutional Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/AdaptiveDeconvolutionalNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:AdaptiveDeconvolutionalNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Both complete eight-page PDFs inspected. The2011bytes are from an MIT
+      course mirror after author-host DNS failure; byte equivalence unverified. No
+      other versions, author code, training or empirical replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 137.55s (0:02:17)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 624 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 299 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 296,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/adaptive-deconvolution-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"duplicate_atom_minimizers": [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]], "equal_optimal_objectives":
+    [1.5, 1.5, 1.5], "finite_difference": [0.2000000000057511, -0.2000000000057511],
+    "fixed_switch_adjoint_pair": [1.15, 1.15], "projection_of_sum": [3.0, 0.0], "reconstruction_gradient":
+    [0.19999999999999996, -0.19999999999999996], "signed_absolute_max_projection":
+    [-3.0, 0.0], "sum_of_projections": [3.0, 2.0]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T142138Z-adaptive-deconvolutional-network.json
+  accessed_at: '2026-10-13T14:21:49Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 623 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    12 AIO and 21 native definitions, with every matched definition read. 5 full annotated
+    AIO node/edge/generated contexts and 1 full native records were inspected. Retain
+    the named adaptive2011 architecture as a narrower member of the AIO DeconvolutionalNetwork
+    family. Its spatial/cross-map switches and original-image layer-training objective
+    distinguish it from the2010 layerwise-trained architecture. The latter already
+    performs multilevel image reconstruction at inference, which is not asserted novel
+    here. The local concept is not a generic sparse-learning identity, fixed-dictionary
+    basis-pursuit optimization, sparse autoencoder, deep belief network or unpooling
+    layer.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T14:21:49Z'
+  support: supports
+  summary: AIO DeconvolutionalNetwork is broader by its unsupervised image-hierarchy
+    definition. SparseLearning is methodologically related, not asserted equivalent.
+    The generated pooling-component relation is preserved with a separate upstream-context
+    lead, not silently endorsed. SparseAutoEncoder, DeepBeliefNetwork and MaxUnpool2DLayer
+    are rejected as identity/superclass alternatives. Five full AIO contexts and BasisPursuit
+    were inspected.
+- evidence_id: zeiler2011
+  kind: primary_source
+  reference: https://mit6874.github.io/assets/misc/zeiler.pdf
+  locator: Both complete eight-page PDFs inspected. The2011bytes are from an MIT course
+    mirror after author-host DNS failure; byte equivalence unverified. No other versions,
+    author code, training or empirical replication.
+  accessed_at: '2026-10-13T13:51:51Z'
+  snapshot_sha256: 1d067ef699647e3785b850556837302b5c82c0d322c242ac30abb6658302fca4
+  support: supports
+  summary: Eight-page author-style primary paper, cited as ICCV2011 by the inspected
+    Stochastic Pooling paper. Inspected bytes came from the MIT course mirror; author-site
+    byte equivalence unverified. All pages visually read; use PDFpage locators.
+- evidence_id: zeiler2010
+  kind: primary_source
+  reference: https://dilipkay.wordpress.com/wp-content/uploads/2015/03/cvpr10.pdf
+  locator: Both complete eight-page PDFs inspected. The2011bytes are from an MIT course
+    mirror after author-host DNS failure; byte equivalence unverified. No other versions,
+    author code, training or empirical replication.
+  accessed_at: '2026-10-13T13:56:52Z'
+  snapshot_sha256: bcdfa0bbc7a593a29439b3a737ef32f6a5c20991ce3316f202e2df256ba3a92c
+  support: supports
+  summary: Eight-page coauthor-hosted primary PDF linked as CVPR2010 on Dilip Krishnan’s
+    publication list. All pages visually read; PDF and printed page numbers agree.
+    Other versions and author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/adaptive-deconvolution-boundaries.py
+  accessed_at: '2026-10-13T14:22:36Z'
+  snapshot_sha256: c27d8ef6bf769e6466b26c47679897458cc88ac156f9e5bc672279e1d7b1624e
+  support: supports
+  summary: Constructed examples distinguish absolute-maximum signed projection from
+    ordinary maximum and from an inverse, demonstrate nonlinearity of changing selections,
+    verify fixed-switch adjoint/gradient algebra and exhibit multiple optimal coefficient
+    splits for a duplicate-atom squared-error-plus-L1 objective. No author implementation
+    or fitting.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Adaptive Deconvolutional Network
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - identity
+  - zeiler2011
+  - zeiler2010
+  summary: Retain this distinct DRAFT architecture.
+  details: Retain a distinct adaptive2011 architecture under the broader AIO family.
+    The2010 paper already has multilevel original-image inference; adaptive pooling
+    switches and the layer-training objective provide the narrower distinction. The
+    exact scoped identity search includes ignored and hidden files.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - mapping
+  - zeiler2011
+  - zeiler2010
+  summary: The declared AIO mapping is supported.
+  details: AIO DeconvolutionalNetwork is broader by its unsupervised image-hierarchy
+    definition. SparseLearning is methodologically related, not asserted equivalent.
+    The generated pooling-component relation is preserved with a separate upstream-context
+    lead, not silently endorsed. SparseAutoEncoder, DeepBeliefNetwork and MaxUnpool2DLayer
+    are rejected as identity/superclass alternatives. Five full AIO contexts and BasisPursuit
+    were inspected.
+- assessment_id: original-image-layer-objective
+  area: evidence
+  topic: original-image-layer-objective
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  - zeiler2010
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The2011 loss penalizes original-image reconstruction at each trained layer.
+    The2010 source trains layers against preceding maps but already includes original-image
+    multilevel inference in Section3.3; the record preserves that qualification.
+- assessment_id: signed-pooling-and-partial-unpooling
+  area: evidence
+  topic: signed-pooling-and-partial-unpooling
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Figure3 and text select absolute maximum across spatial and feature-map
+    neighborhoods while retaining sign. Fixed P and P-transpose lose unselected values;
+    the changing selection is nonlinear. Direct examples verify both boundaries.
+- assessment_id: conditional-reconstruction-and-inference
+  area: evidence
+  topic: conditional-reconstruction-and-inference
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations4–7, footnote1 and Algorithm1 support the conditional reconstruction
+    chain, transpose residual propagation, signed threshold and pool/unpool projection.
+    An adjoint is not generally an inverse, and intermediate maps lack separate sparsity
+    terms.
+- assessment_id: finite-optimization-and-nonuniqueness
+  area: evidence
+  topic: finite-optimization-and-nonuniqueness
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Finite inference/CG and normalization do not establish a global optimum.
+    Duplicate unit atoms furnish a direct counterexample to unconditional uniqueness
+    under squared-error-plus-L1, with a scalar lower bound proving the shared minimum.
+- assessment_id: classification-and-evaluation-boundaries
+  area: evidence
+  topic: classification-and-evaluation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3 projects strongest high-layer activations separately to first-layer
+    maps for averaged spatial-pyramid descriptors. Configured Caltech experiments,
+    transfer, qualitative features and historical timings are not universal causal
+    or invertibility results; no numerical performance estimate is asserted.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: architecture identity, historical reconstruction scope, signed switches,
+    conditional adjoints, nonuniqueness and finite evaluation
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - zeiler2011
+  - zeiler2010
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Constructed examples distinguish absolute-maximum signed projection from
+    ordinary maximum and from an inverse, demonstrate nonlinearity of changing selections,
+    verify fixed-switch adjoint/gradient algebra and exhibit multiple optimal coefficient
+    splits for a duplicate-atom squared-error-plus-L1 objective. No author implementation
+    or fitting.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:AdaptiveDeconvolutionalNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - zeiler2011
+  - zeiler2010
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. All five claims, locators, definition, identity/kind,
+    sources/access/hashes, mapping direction/pin, limitations and curation fields
+    assessed. Historical training-versus-inference distinction, signed absolute-max
+    selection, fixed-switch adjoints, sparse-objective nonuniqueness and finite classifier
+    evidence were challenged. Constructed examples were inspected and rerun.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 624 native and 442 unchanged generated records.
+  The 809-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Both complete eight-page primary PDFs visually inspected, including equations, algorithms,
+  figures, tables, footnotes and references. Original access and reading times retained.
+  No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
