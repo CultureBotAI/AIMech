@@ -1,0 +1,158 @@
+id: AIMech:CompleteBalancedLargestDifferencing
+name: Complete balanced largest differencing
+aliases:
+- Complete BLDM
+concept_kind: algorithm
+definition: A complete anytime two-way number-partitioning search that carries signed effective cardinalities
+  through difference and sum branches, uses paired initialization before largest-residual branching, and
+  prunes against a prescribed subset-size difference while retaining the best valid partition.
+identity_notes: Compared all 442 pinned AIO and 594 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 101 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Complete
+  BLDM is the named Mertens two-phase search with signed effective-cardinality state and pruning. It explores
+  same-side alternatives to initial adjacent pairs as well as later largest-residual pairs. Balanced targets
+  obtain the BLDM first solution; the same source pseudocode handles other feasible absolute cardinality
+  targets. This is distinct from the BLDM heuristic, PDM and unconstrained CKK. The pending lead and neighboring
+  mentions are not prior maintained identities.
+definition_evidence:
+- source_id: mertens1999
+  locator: Section 2.3, PDF/printed pp. 6–7, including Figure 2
+  relation: supports
+claims:
+- claim_id: signed-residual-state
+  kind: mechanism
+  statement: Represent each residual by its nonnegative value, a signed effective cardinality and reconstructible
+    original-item groups. Original items start with effective cardinality 1. For ordered a>=b, the opposite-side
+    branch has value a-b and count ma-mb; the same-side branch has value a+b and count ma+mb. Effective
+    counts must retain their sign until tested by absolute value. A zero residual can still carry nonzero
+    effective cardinality or nonempty groups and cannot simply be discarded.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.3, p. 6, Equation 8; Figure 1 effective counts, p. 5; direct state interpretation
+    relation: supports
+- claim_id: two-phase-complete-branching
+  kind: mechanism
+  statement: The first floor(n/2) branching decisions use disjoint adjacent pairs from the sorted original
+    list, appending each merged residual without reordering the still-unpaired originals. Thereafter the
+    algorithm selects the two largest residuals at each step. Visit difference before sum in both phases.
+    To remain complete, explore same-side alternatives to initial paired differences as well as alternatives
+    in the later phase; irrevocably applying a paired round before starting CKK explores only a restricted
+    set of partitions.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.3, pp. 6–7 and Figure 2; constructed restricted-first-round comparison
+    relation: supports
+- claim_id: necessary-cardinality-bounds
+  kind: mechanism
+  statement: 'Let q be the desired absolute subset-cardinality difference, M=sum(abs(mi)) over current
+    residuals, and mmax=max(abs(mi)). Every descendant satisfies max(0,2*mmax-M)<=q<=M, so a target outside
+    that interval permits pruning. The interval is necessary, not sufficient: effective-cardinality magnitudes
+    2,2,2 allow target 0 through the interval test, but their possible signed absolute totals are only
+    2 or 6. At the root, a valid target also satisfies 0<=q<=n and has the same parity as n; balanced
+    targets use q=n mod 2.'
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.3, p. 6, Equation 9 and Figure 2, p. 7; direct parity and signed-sum counterexample
+    relation: supports
+- claim_id: load-bound-and-incumbent
+  kind: mechanism
+  statement: Maintain an incumbent only from complete partitions satisfying the requested cardinality
+    difference. For residual values with largest value xmax and total S, max(0,2*xmax-S) is a lower bound
+    on final sum difference; a branch cannot improve an incumbent at or below that bound. This unconstrained
+    load bound remains safe under the added cardinality restriction, but an unconstrained completion must
+    not be assumed cardinality-feasible. Exact arithmetic or conservative bounds are needed for certification.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.2, p. 5; Section 2.3 and Figure 2, pp. 6–7; direct restriction interpretation
+    relation: supports
+- claim_id: anytime-and-complete-scope
+  kind: limitation
+  statement: For balanced targets, the first preferred path gives the BLDM solution; other feasible cardinality
+    targets need not obtain a valid BLDM first result. Full finite search with sound pruning certifies
+    the best valid residue, whereas an interrupted run retains only its feasible incumbent unless it attains
+    a proven lower bound. In a constructed balanced example 8,7,6,5,4, a one-node run retains residue
+    2 without certification, full search attains 0, and permanently fixed initial pairs cannot improve
+    below 2. The search remains exponential in the worst case.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.2–2.3, pp. 4–7; constructed complete, interrupted and restricted searches
+    relation: supports
+- claim_id: reported-experiments
+  kind: scope
+  statement: The source evaluates exact, heuristic and anytime behavior on uniformly sampled finite-precision
+    integers. Its 25-bit experiment averages 100 instances per point, and the high-precision anytime experiment
+    uses 100-item, 150-bit instances with variable improvement across runs. Node counts, arithmetic cost
+    and historical hardware affect the comparisons. Practical claims about twelve-digit inputs are not
+    adopted as universal guarantees, and the statement that finite random inputs have no perfect partitions
+    with probability one is not used as a theorem.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 3, pp. 7–10, Figures 3 and 5; conclusions, p. 11
+    relation: supports
+evidence_sources:
+- source_id: mertens1999
+  title: A complete anytime algorithm for balanced number partitioning
+  authors:
+  - Stephan Mertens
+  persistent_id: https://arxiv.org/abs/cs/9903011v1
+  version: All 12 pages of the arXiv cs/9903011v1 PDF read. The margin and primary abstract identify submission
+    on 11 March 1999; the downloaded PDF footer says 26 November 2024. The footer is not treated as the
+    original publication date. Locators are PDF/printed pages 1–12; no later journal version or author
+    implementation inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/cs/9903011v1
+  access_level: full_text
+  accessed_at: '2026-10-13T08:05:53Z'
+  sha256: fe0bcf132782ff8d59c7888b6ea0a7aae195bc3df69dddc728cc842a8258ecd3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 594 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 39, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 67 AIO and 101 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    Complete BLDM is the named Mertens two-phase search with signed effective-cardinality state and pruning.
+    It explores same-side alternatives to initial adjacent pairs as well as later largest-residual pairs.
+    Balanced targets obtain the BLDM first solution; the same source pseudocode handles other feasible
+    absolute cardinality targets. This is distinct from the BLDM heuristic, PDM and unconstrained CKK.
+    The pending lead and neighboring mentions are not prior maintained identities.
+  rationale: No inspected AIO target denotes this complete cardinality-constrained residual search; unconstrained
+    partition search and learned-model categories are not equivalent identities.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- The source’s named Complete BLDM procedure handles feasible absolute cardinality targets; its fast BLDM
+  first-solution guarantee is limited to balanced targets. Bins are interchangeable and the scope is two-way
+  partitioning.
+- Necessary cardinality bounds do not certify a feasible completion. Signed effective counts, zero-valued
+  residuals and original memberships must remain consistent.
+- The constructed implementation checks 23 valid targets on eight fixed instances, not all possible inputs.
+  Its copying and sorting choices are not assertions about author-code memory or timing.
+- All 12 primary preprint pages were read. Author code, later journal versions and empirical performance
+  were not inspected or replicated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T08:45:16Z'
+  updated_at: '2026-10-13T08:45:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

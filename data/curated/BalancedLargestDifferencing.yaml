@@ -1,0 +1,152 @@
+id: AIMech:BalancedLargestDifferencing
+name: Balanced largest differencing method
+aliases:
+- BLDM
+- Balanced LDM
+concept_kind: algorithm
+definition: A two-way number-partitioning heuristic that first differences disjoint adjacent pairs in
+  the sorted original list, then repeatedly differences the two largest residuals, preserving subset cardinalities
+  that differ by at most one.
+identity_notes: Compared all 442 pinned AIO and 593 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 54, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 67 AIO and 100 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. BLDM
+  fixes one initial round of adjacent sorted pairs, then uses largest-residual differencing. This differs
+  from PDM whole rounds throughout, unconstrained LDM/KK, and complete balanced or unconstrained search.
+  Existing text hits are prior records and pending leads, not an existing identity. The fully inspected
+  AIO contexts have no suitable counterpart.
+definition_evidence:
+- source_id: mertens1999
+  locator: Section 2.1, PDF/printed pp. 3–4; Section 2.3 cardinality explanation, p. 6
+  relation: supports
+claims:
+- claim_id: paired-initialization
+  kind: mechanism
+  statement: Sort a finite nonempty multiset of nonnegative weights. Difference the first and second largest
+    original weights, the third and fourth, and so on, carrying the smallest unpaired original weight
+    when the input size is odd. Only this first round uses fixed adjacent pairs. Then use largest differencing
+    on the resulting residual list, reordering after each pair, rather than continuing PDM’s whole-round
+    processing.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.1, pp. 3–4
+    relation: supports
+- claim_id: cardinality-invariant
+  kind: scope
+  statement: Each initial paired residual has signed effective cardinality difference 0, because its two
+    original items are committed to opposite sides. An odd unpaired item contributes the only signed unit.
+    Later residual differencing adds or subtracts these effective differences, giving final absolute cardinality
+    difference 0 for even input size and 1 for odd size. This invariant includes zero-valued original
+    items; it does not guarantee equal subset sums.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1 and 2.3, pp. 4 and 6; direct invariant and indexed fixtures
+    relation: supports
+- claim_id: largest-phase-and-reconstruction
+  kind: mechanism
+  statement: For each largest-residual step with a>=b, replace the pair by a-b and combine their represented
+    original groups with opposite orientations. Store merge history or memberships to reconstruct the
+    final subsets. A zero residual is still a represented group. On the constructed list 200,100,90,80,70,61,50,42,
+    the first round produces 100,10,9,8. BLDM continues to residue 73, whereas PDM’s additional paired
+    rounds give 89; both outputs satisfy cardinality balance. This demonstrates distinct procedures, not
+    universal BLDM dominance.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1–2.3, pp. 3–6; constructed indexed comparison
+    relation: supports
+- claim_id: not-an-optimality-certificate
+  kind: limitation
+  statement: BLDM follows one sequence of pair differences and does not explore alternatives to the initial
+    opposite-side commitments. On the constructed list 8,7,6,5,4 it returns balanced loads 16 and 14,
+    while a balanced partition with loads 15 and 15 exists. A feasible heuristic result alone does not
+    certify minimum residue; the separately named complete BLDM must explore discarded choices.
+  evidence:
+  - source_id: mertens1999
+    locator: Sections 2.1–2.3, pp. 4–7; constructed exhaustive balanced-assignment example
+    relation: supports
+- claim_id: resource-cost
+  kind: scope
+  statement: Initial sorting, one linear paired round and repeated largest-residual operations can be
+    implemented in O(n log n) unit-cost comparison/arithmetic work, with O(n) storage for residuals and
+    a merge tree. These bounds assume a suitable ordered or heap representation and exclude free arbitrary-precision
+    arithmetic. The supplied indexed examples are not an author-code or resource-use replication.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 2.1 complexity statement, p. 4; direct implementation interpretation
+    relation: supports
+- claim_id: empirical-evidence-scope
+  kind: scope
+  statement: The source studies its BLDM implementation on random integer inputs. Its high-precision heuristic
+    experiment uses 2n-bit integers, rescales residues to the unit interval and averages 1000 instances
+    per plotted point; the fitted expression is presented as a conjecture. Such measurements do not establish
+    a universal finite-input error bound. The original Yakir proof cited by the source was not inspected,
+    so no asymptotic expected-residue guarantee is adopted here.
+  evidence:
+  - source_id: mertens1999
+    locator: Section 3, pp. 8–9 and Figure 4; source reference 14, p. 12
+    relation: supports
+evidence_sources:
+- source_id: mertens1999
+  title: A complete anytime algorithm for balanced number partitioning
+  authors:
+  - Stephan Mertens
+  persistent_id: https://arxiv.org/abs/cs/9903011v1
+  version: All 12 pages of the arXiv cs/9903011v1 PDF read. The margin and primary abstract identify submission
+    on 11 March 1999; the downloaded PDF footer says 26 November 2024. The footer is not treated as the
+    original publication date. Locators are PDF/printed pages 1–12; no later journal version or author
+    implementation inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/cs/9903011v1
+  access_level: full_text
+  accessed_at: '2026-10-13T08:05:53Z'
+  sha256: fe0bcf132782ff8d59c7888b6ea0a7aae195bc3df69dddc728cc842a8258ecd3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 593 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 54, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 67 AIO and 100 native definitions, with every matched definition
+    read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+    BLDM fixes one initial round of adjacent sorted pairs, then uses largest-residual differencing. This
+    differs from PDM whole rounds throughout, unconstrained LDM/KK, and complete balanced or unconstrained
+    search. Existing text hits are prior records and pending leads, not an existing identity. The fully
+    inspected AIO contexts have no suitable counterpart.
+  rationale: No inspected AIO class denotes this deterministic two-phase arithmetic heuristic or its cardinality
+    invariant.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph-structured language modeling is distinct from arithmetic subpartition manipulation.
+  - target: AIO:ReasoningLLM
+    rejection_reason: A language model with explicit reasoning is not a number-partitioning algorithm.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: A neural-symbolic language-model architecture is not this nonlearning search or
+      heuristic.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Balancing a given multiset does not learn a method from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: An algorithm evaluating differences and choosing a partition is distinct from the
+      mathematical functions it uses.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: There is no reward-based learned policy or exploration/exploitation learning in
+      the curated deterministic procedure.
+limitations:
+- The guarantee concerns balanced cardinalities in two interchangeable bins, not arbitrary prescribed
+  size differences or multiway partitioning.
+- Tie choices can affect memberships or traces; the constructed calculation uses stable ordering and does
+  not claim an author implementation match.
+- The primary Mertens preprint was read in full and supplies method and experiment evidence. Yakir publisher
+  metadata and abstract were inspected, but the public PDF returned HTTP403 and its full proof was not
+  read.
+- No average-case experiment, fitted scaling or hardware timing was independently replicated. The record
+  remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T08:44:39Z'
+  updated_at: '2026-10-13T08:44:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
